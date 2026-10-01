@@ -278,6 +278,27 @@ extern "C" {
 
   ini_data * TwoPunctures_make_initial_data();
 
+  /* Physical sampling API. Parameters are process-global: keep exactly one
+     live solve and do not change its physical/spectral parameters before
+     TwoPunctures_finalise. This interface is not thread-safe.
+     xyz is row-major [npoints,3]; gamma6 and K6 are [npoints,6] in the order
+     xx,xy,xz,yy,yz,zz. psi_full includes the solved correction u. gamma6 and
+     K6 are physical covariant ADM tensors, irrespective of conformal_state.
+     lapse follows the selected legacy initial_lapse gauge; psin uses the
+     static puncture factor p, not psi_full. No lapse determines a shift.
+     Returns 0 on success, -1 on invalid input/context, -2 at an unsmoothed
+     puncture or for unsupported/invalid parameters. Output buffers must not
+     alias input or each other. A failed call may have written earlier rows. */
+  int TwoPunctures_sample_points(ini_data *data, int npoints,
+      const double *xyz, double *lapse, double *psi_full,
+      double *gamma6, double *K6);
+
+  /* Final collocation equation residual (max absolute F), ADM mass at outer
+     infinity, and internal-end ADM masses [plus,minus]. These are not
+     apparent-horizon masses. All three output pointers are required. */
+  int TwoPunctures_diagnostics(ini_data *data, double *residual_linf,
+      double *adm_mass, double *puncture_masses2);
+
   void TwoPunctures_Cartesian_interpolation
   (ini_data *data,     // struct containing the previously calculated solution
    int *imin,         // min, max idxs of Cartesian Grid in the three directions

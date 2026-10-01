@@ -12,11 +12,13 @@ LIBNAME=TwoPunctures
 EXE=$(NAME).x
 SRC=$(wildcard $(SRCD)/*.c)
 OBJ=$(patsubst $(SRCD)/%.c,$(OBJD)/%.o,$(SRC))
-INC=$(wildcard $(INCD)/*.c)
+LIBOBJ=$(filter-out $(OBJD)/TwoPuncturesRun.o,$(OBJ))
+INC=$(wildcard $(INCD)/*.h)
 INC_PARAMS=$(foreach d, $(INCD), -I$d)
 
-OBJ2=$(wildcard $(OBJD)/*.o)
 LIB=$(LIBD)/lib$(LIBNAME).so
+STATIC_LIB=$(LIBD)/lib$(LIBNAME).a
+TEST_EXE=$(BASE)/tests/test_physical_api.x
 
 
 # mandatory flags
@@ -36,7 +38,7 @@ CFLAGS += -O3
 ##LFLAGS=`gsl-config --libs`
 
 
-all: $(EXE) $(LIB)
+all: $(EXE) $(LIB) $(STATIC_LIB)
 	@echo "All done"
 
 $(EXE): $(OBJ)
@@ -48,7 +50,7 @@ $(EXE): $(OBJ)
 #	# this doesn't need to be a shared object
 #	@rm $(OBJD)/TwoPuncturesRun.o > /dev/null 2>&1
 
-$(OBJD)/%.o: $(SRCD)/%.c
+$(OBJD)/%.o: $(SRCD)/%.c $(INC)
 	@echo "Building objects ..."
 	@echo
 
@@ -56,21 +58,31 @@ $(OBJD)/%.o: $(SRCD)/%.c
 #	@echo "Compiling $< ... -> $@"
 	$(CC) $(CFLAGS) $(INC_PARAMS) -c $< -o $@
 
-$(LIB): $(OBJ)
+$(LIB): $(LIBOBJ) Makefile
 	@echo "Making libraries... "
 	@echo
 
 	@mkdir -p $(LIBD)
-	$(CC) $(CFLAGS) $(LFLAGS) -shared $(OBJ) -o $(LIBD)/lib$(LIBNAME).so
+	$(CC) $(CFLAGS) -shared $(LIBOBJ) $(LFLAGS) -o $@
 
-	$(AR) rcs $(LIBD)/libTwoPunctures.a $(OBJ)
+$(STATIC_LIB): $(LIBOBJ) Makefile
+	@mkdir -p $(LIBD)
+	@rm -f $@
+	$(AR) rcs $@ $(LIBOBJ)
 #	$(AR) rcs $(LIBD)/libTwoPunctures_static.a $@ $^
+
+$(TEST_EXE): $(BASE)/tests/test_physical_api.c $(STATIC_LIB) $(INC)
+	$(CC) $(CFLAGS) $(INC_PARAMS) $< $(STATIC_LIB) $(LFLAGS) -o $@
+
+test: $(TEST_EXE)
+	$(TEST_EXE)
 
 clean:
 	@echo "Cleaning ..."
 	@rm -rf $(OBJD)
 	@rm -rf $(LIBD)
 	@rm -rf $(EXE)
+	@rm -f $(TEST_EXE)
 	@echo "... done"
 
-.PHONY: all clean
+.PHONY: all clean test

@@ -4,3 +4,4 @@ lib
 *.x
 *.o
 *.dat
+/tests/*.log

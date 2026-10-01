@@ -7,6 +7,8 @@
 
 /* Manage memory internally */
 static int allocated_params = 0;
+static ini_data *live_data = NULL;
+static int live_npoints[3];
 
 static void _alloc_params_mem_if_req(){
   if(!allocated_params){
@@ -153,6 +155,10 @@ ini_data* TwoPunctures_make_initial_data() {
   /* Prepare initial data based on internal settings 
      This alloc the mem */
 
+  if (live_data != NULL) {
+    fprintf(stderr, "TwoPunctures: finalise the current solve before another solve.\n");
+    return NULL;
+  }
   const int verbose = params_get_int("verbose");
 
   char outdir[STRLEN];
@@ -205,13 +211,13 @@ ini_data* TwoPunctures_make_initial_data() {
 #if (0)
   int percent10 = 0;
 #endif
-  static double *F = NULL;
-  static derivs *u, *v, *cf_v;
+  double *F = NULL;
+  derivs *u, *v, *cf_v;
 
-  if (! F) {
+  {
     double up, um;
 
-    /* Solve only when called for the first time */
+    /* Every solve owns fresh allocations, including after finalise. */
     F = dvector (0, ntotal - 1);
     allocate_derivs (&u, ntotal);
     allocate_derivs (&v, ntotal);
@@ -381,8 +387,120 @@ ini_data* TwoPunctures_make_initial_data() {
   data->v = v;
   data->cf_v = cf_v;
   data->ntotal = ntotal;
+  live_data = data;
+  live_npoints[0] = n1;
+  live_npoints[1] = n2;
+  live_npoints[2] = n3;
   
   return data;
+}
+
+/* Physical parameters remain process-global and must be fixed during a solve.
+   Check the spectral shape before indexing the arrays owned by this context. */
+static int valid_context(ini_data *data) {
+  return data != NULL && data == live_data &&
+    live_npoints[0] == params_get_int("npoints_A") &&
+    live_npoints[1] == params_get_int("npoints_B") &&
+    live_npoints[2] == params_get_int("npoints_phi");
+}
+
+int TwoPunctures_diagnostics(ini_data *data, double *residual_linf,
+    double *adm_mass, double *puncture_masses2) {
+  if (!valid_context(data) || residual_linf == NULL || adm_mass == NULL ||
+      puncture_masses2 == NULL) return -1;
+  const int n1 = live_npoints[0], n2 = live_npoints[1], n3 = live_npoints[2];
+  const double b = params_get_real("par_b");
+  const double mp = params_get_real("par_m_plus");
+  const double mm = params_get_real("par_m_minus");
+  if (!(b > 0.0)) return -2;
+  double maximum = 0.0;
+  for (int i = 0; i < data->ntotal; ++i) {
+    if (!isfinite(data->F[i])) return -2;
+    maximum = fmax(maximum, fabs(data->F[i]));
+  }
+  const double up = PunctIntPolAtArbitPosition(0, 1, n1, n2, n3,
+      data->v, b, 0.0, 0.0);
+  const double um = PunctIntPolAtArbitPosition(0, 1, n1, n2, n3,
+      data->v, -b, 0.0, 0.0);
+  *residual_linf = maximum;
+  *adm_mass = mp + mm - 4.0*b*PunctEvalAtArbitPosition(data->v->d0,
+      0, 1.0, 0.0, 0.0, 1, n1, n2, n3);
+  puncture_masses2[0] = (1.0 + up)*mp + mp*mm/(4.0*b);
+  puncture_masses2[1] = (1.0 + um)*mm + mp*mm/(4.0*b);
+  return 0;
+}
+
+static double puncture_inverse_radius(double radius, double extend) {
+  if (extend > 0.0 && radius < extend) {
+    return 3.0/8.0*pow(radius,4)/pow(extend,5)
+      - 5.0/4.0*pow(radius,2)/pow(extend,3) + 15.0/8.0/extend;
+  }
+  return 1.0/radius;
+}
+
+int TwoPunctures_sample_points(ini_data *data, int npoints,
+    const double *xyz, double *lapse, double *psi_full,
+    double *gamma6, double *K6) {
+  if (!valid_context(data) || npoints < 0) return -1;
+  if (npoints == 0) return 0;
+  if (xyz == NULL || lapse == NULL || psi_full == NULL ||
+      gamma6 == NULL || K6 == NULL) return -1;
+  const int n1 = live_npoints[0], n2 = live_npoints[1], n3 = live_npoints[2];
+  const int method = params_get_int("grid_setup_method");
+  const int lapse_method = params_get_int("initial_lapse");
+  const int swap_xz = params_get_int("swap_xz");
+  const double b = params_get_real("par_b");
+  const double mp = params_get_real("par_m_plus");
+  const double mm = params_get_real("par_m_minus");
+  const double epsilon = params_get_real("TP_epsilon");
+  const double tiny = params_get_real("TP_Tiny");
+  const double extend = params_get_real("TP_Extend_Radius");
+  const double exponent = params_get_real("initial_lapse_psi_exponent");
+  const double offset[3] = {params_get_real("center_offset1"),
+    params_get_real("center_offset2"), params_get_real("center_offset3")};
+  if (!(b > 0.0) || epsilon < 0.0 || tiny < 0.0 || extend < 0.0 ||
+      method < taylor_expansion || method > evaluation ||
+      lapse_method < antisymmetric || lapse_method >= N_lapse_opt ||
+      params_get_int("multiply_old_lapse")) return -2;
+
+  for (int i = 0; i < npoints; ++i) {
+    double x = xyz[3*i] - offset[0];
+    const double y = xyz[3*i+1] - offset[1];
+    double z = xyz[3*i+2] - offset[2];
+    if (!isfinite(x) || !isfinite(y) || !isfinite(z)) return -1;
+    if (swap_xz) SWAP(x,z);
+    double rp = sqrt((x-b)*(x-b) + y*y + z*z);
+    double rm = sqrt((x+b)*(x+b) + y*y + z*z);
+    rp = fmax(pow(pow(rp,4) + pow(epsilon,4),0.25),tiny);
+    rm = fmax(pow(pow(rm,4) + pow(epsilon,4),0.25),tiny);
+    if (rp == 0.0 || rm == 0.0) return -2;
+    const double p = 1.0 + 0.5*mp*puncture_inverse_radius(rp,extend)
+      + 0.5*mm*puncture_inverse_radius(rm,extend);
+    const double correction = method == evaluation ?
+      PunctIntPolAtArbitPositionFast(0, 1, n1, n2, n3, data->cf_v, x,y,z) :
+      PunctTaylorExpandAtArbitPosition(0, 1, n1, n2, n3, data->v, x,y,z);
+    const double full = p + correction;
+    if (!(full > 0.0) || !isfinite(full)) return -2;
+    psi_full[i] = full;
+    switch (lapse_method) {
+      case antisymmetric: lapse[i] = (2.0-p)/p; break;
+      case averaged: lapse[i] = 1.0/p; break;
+      case psin: lapse[i] = pow(p,exponent); break;
+      case brownsville: lapse[i] = 2.0/(1.0+pow(p,exponent)); break;
+    }
+    for (int q = 0; q < 6; ++q) gamma6[6*i+q] = 0.0;
+    gamma6[6*i] = gamma6[6*i+3] = gamma6[6*i+5] = pow(full,4);
+    double A[3][3];
+    BY_Aijofxyz(x,y,z,A);
+    if (swap_xz) {
+      SWAP(A[0][0],A[2][2]);
+      SWAP(A[0][1],A[1][2]);
+    }
+    const int row[6] = {0,0,0,1,1,2};
+    const int col[6] = {0,1,2,1,2,2};
+    for (int q = 0; q < 6; ++q) K6[6*i+q] = A[row[q]][col[q]]/(full*full);
+  }
+  return 0;
 }
 
 void TwoPunctures_Cartesian_interpolation
@@ -760,15 +878,13 @@ void TwoPunctures_finalise(ini_data *data){
   /*
     Clean up all internally allocated objects.
   */
-  _dealloc_params_mem_if_req();
-
-  if (data) {
+  if (data != NULL && data == live_data) {
     if (data->F) free(data->F);
     if (data->u) free_derivs(data->u);
     if (data->v) free_derivs(data->v);
     if (data->cf_v) free_derivs(data->cf_v);
     free(data);
+    live_data = NULL;
+    _dealloc_params_mem_if_req();
   }
 }
-
-

@@ -4,7 +4,7 @@ Create initial data for two puncture black holes using a single domain
 spectral method following
 
 ```
-Marcus Ansorg, Bernd Brügmann, Wolfgang Tichy,
+Marcus Ansorg, Bernd BrÃ¼gmann, Wolfgang Tichy,
 "A single-domain spectral method for black hole puncture data",
 PRD 70, 064011 (2004), arXiv:gr-qc/0404056.
 ```
@@ -36,6 +36,9 @@ Please cite the [original paper](https://arxiv.org/abs/gr-qc/0404056) and [this 
  * Additional flags may be similarily passed (see `Makefile`).
 
 Shared library will automatically be generated.
+
+This fork also provides [physical ADM sampling and measured solve diagnostics](PHYSICAL_API.md).
+Run `make test` for exact rest-puncture, boost/spin, and sequential-solve controls.
  
 ## Interface with GR-Athena++
 
