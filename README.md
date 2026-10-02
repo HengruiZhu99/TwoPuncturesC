@@ -48,6 +48,9 @@ Bowen–York backend; published high-boost reproduction and high-parameter
 binary horizon-enclosure qualification remain incomplete. The current
 moderate binary passes its preliminary enclosure checks.
  
+Both equation systems support selectable GMRES and BiCGStab through a shared
+linear engine. See [interfaces, preservation controls and measured limits](docs/KRYLOV_BACKENDS.md).
+
 ## Interface with GR-Athena++
 
 Use the `Makefile` here- as is.

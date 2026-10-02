@@ -268,3 +268,10 @@ regularity: solved-axis Hamiltonian tests can scale as h^-2. The manufactured
 axis control passes, but does not remove this solved-data limitation. This
 needs resolution characterization or a regular basis before a uniform
 continuum accuracy claim. Point-only sampling changes do not repair it.
+
+GMRES and BiCGStab are now independently selectable for HiSpID and BY through
+one shared matrix-free linear engine. See [the interfaces](KRYLOV_BACKENDS.md)
+and [four-way measurements](KRYLOV_MATRIX_RESULTS.md). Existing defaults are
+preserved bitwise. All four moderate binary solves converge at the common
+computational stopping norm; Hi cross-backend auxiliary-field/coefficient
+preservation remains failed, so this adds no physical binary acceptance.

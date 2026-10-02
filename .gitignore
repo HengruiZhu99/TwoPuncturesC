@@ -9,6 +9,7 @@ reference/
 build-hispid/
 /build-hispid-*/
 /build-by-modal*/
+/build-krylov*/
 __pycache__/
 .venv/
 validation/raw/

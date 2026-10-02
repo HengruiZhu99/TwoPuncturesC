@@ -34,7 +34,7 @@ Fields cartesian_polynomial(const HiSpID_Data&s,const double*x){
 }
 // A coupled Navier inverse control complements the scalar Laplace controls.
 // RHS Hessians come directly from the Cartesian distance expression.
-bool flat_vector_inverse(bool anisotropic=false,int restart=32,int max_krylov=300,bool difficult_only=false,bool asymptotic=false){
+bool flat_vector_inverse(bool anisotropic=false,int restart=32,int max_krylov=300,bool difficult_only=false,bool asymptotic=false,int method=PK_GMRES){
  bool passed=true;
  for(int N:difficult_only?std::vector<int>{32}:std::vector<int>{8,16,32}){
   HiSpID_Config cfg;HiSpID_default_config(&cfg);cfg.n[0]=cfg.n[1]=N;cfg.n[2]=16;
@@ -71,7 +71,7 @@ bool flat_vector_inverse(bool anisotropic=false,int restart=32,int max_krylov=30
    for(int p=mode*N*N;p<(mode+1)*N*N;p++)known[4*p+component]=amplitude;
    jvp(*s,known.data(),action.data());for(int p=0;p<s->ntotal;p++)difference[p]=rhs[p]-action[p];
    const double exact_floor=norm2v(difference)/norm2v(rhs);const int before=s->diag.krylov_iterations;
-   bool converged=gmres(*s,M,rhs,solution,1e-11);
+   bool converged=linear_solve(*s,M,rhs,solution,1e-11,method);
    jvp(*s,solution.data(),action.data());for(int p=0;p<s->ntotal;p++)difference[p]=rhs[p]-action[p];
    const double final_error=norm2v(difference)/norm2v(rhs);s->values=solution;s->coefficients_valid=false;
    double field_error=0;const double points[3][3]={{.7,.8,.4},{s->b+.003,.005,.002},{-s->b+.003,.006,.001}};
@@ -100,6 +100,8 @@ bool flat_vector_inverse(bool anisotropic=false,int restart=32,int max_krylov=30
  }return passed;
 }
 int main(int argc,char**argv){
+ if(argc>1&&std::string(argv[1])=="--bicgstab-vector")return flat_vector_inverse(false,64,2000,false,false,PK_BICGSTAB)?0:1;
+
  std::cout<<std::unitbuf;
  if(argc>1&&std::string(argv[1])=="--vector-only")return flat_vector_inverse()?0:1;
  if(argc>1&&std::string(argv[1])=="--anisotropic-vector-only")return flat_vector_inverse(true)?0:1;

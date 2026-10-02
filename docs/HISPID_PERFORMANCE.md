@@ -451,3 +451,9 @@ one CPU. Fine lmax16 expansion stalls above the strict threshold, with
 angular variance near2.32e-7. Fixed-order quadrature/higher-order checks
 remain pending. See validation/spin95_local_horizons.json. No new parallel
 or accelerator work is justified by these timings alone.
+
+The equation/Krylov separation and complete 2×2 binary comparison are recorded
+in [KRYLOV_MATRIX_RESULTS.md](KRYLOV_MATRIX_RESULTS.md). Both defaults are
+bitwise preserved. Hi BiCGStab reduces RSS but fails strict saved auxiliary-field
+and coefficient equivalence; physical agreement is reported separately and the
+backend remains opt-in.

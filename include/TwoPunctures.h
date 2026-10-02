@@ -279,7 +279,17 @@ extern "C" {
   void TP_solver_get_statistics(TP_SolverStats *);
 
   // set default parameters
+  /* Linear backend parameters (set before make_initial_data):
+     TP_krylov_solver: 0 GMRES, 1 BiCGStab (default);
+     TP_krylov_maxit: 100 default, TP_krylov_restart: 64 default;
+     TP_preconditioner: 0 inherited lines, 1 modal;
+     TP_linear_relative: 1 uses true RHS-relative L2 TP_linear_rtol.
+     Explicit GMRES or modal/relative paths fail closed on linear failure.
+     The inherited default retains its original stopping/update behavior. */
   void TwoPunctures_params_set_default();
+  /* Release an unowned parameter table, including after failed setup.
+     Returns -1 if a live solve owns it; never invalidates live data. */
+  int TwoPunctures_params_reset(void);
 
   // set based on input file
   void TwoPunctures_params_set_inputfile(char *inputfile);

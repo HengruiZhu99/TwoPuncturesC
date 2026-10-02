@@ -6,9 +6,9 @@ Requires NumPy. Use ``Backend('/absolute/path/build-hispid/libHiSpID.so')``.
 from __future__ import annotations
 import ctypes as C
 import hashlib
-import sys
 from pathlib import Path
 import numpy as np
+from native_loader import verify_image,validate_krylov
 
 D3=C.c_double*3
 D9=C.c_double*9
@@ -40,6 +40,9 @@ class Diagnostics(C.Structure):
         return {k:list(getattr(self,k)) if isinstance(getattr(self,k),C.Array)
                 else getattr(self,k) for k,_ in self._fields_}
 
+class SolveOptions(C.Structure):
+    _fields_=[('struct_size',C.c_int),('krylov',C.c_int),('linear_rtol',C.c_double)]
+
 PTR=C.POINTER(C.c_double)
 def ptr(a):return a.ctypes.data_as(PTR)
 def unpack(out):
@@ -48,34 +51,12 @@ def unpack(out):
             for name,_ in Point._fields_}
 
 class Backend:
-    _loaded_builds = {}
     def __init__(self,library):
         path=Path(library)
         if not path.is_absolute():raise ValueError('native library path must be absolute')
         self.path=path.resolve(strict=True)
         self.lib=C.CDLL(str(self.path))
-        # dyld identifies copied libraries by their embedded install name.
-        # Loading two archived builds in one process can silently reuse the
-        # first image. Check the function's actual image before any API call.
-        address=C.cast(self.lib.HiSpID_default_config,C.c_void_p).value
-        if sys.platform=='darwin' or sys.platform.startswith('linux'):
-            class DlInfo(C.Structure):
-                _fields_=[('filename',C.c_char_p),('base',C.c_void_p),
-                          ('symbol',C.c_char_p),('symbol_address',C.c_void_p)]
-            dladdr=C.CDLL(None).dladdr
-            dladdr.argtypes=[C.c_void_p,C.POINTER(DlInfo)];dladdr.restype=C.c_int
-            info=DlInfo()
-            if not dladdr(address,C.byref(info)) or not info.filename:
-                raise ValueError('cannot verify loaded native library image')
-            actual=Path(info.filename.decode()).resolve(strict=True)
-            if actual!=self.path:
-                raise ValueError(f'native loader reused {actual}; compare distinct builds in separate processes')
-        digest=hashlib.sha256(self.path.read_bytes()).hexdigest()
-        previous=self._loaded_builds.get(address)
-        if previous is not None and previous!=(self.path,digest):
-            raise ValueError('loaded native library differs from on-disk build; start a fresh process')
-        self._loaded_builds[address]=(self.path,digest)
-        self.loaded_sha256=digest
+        self.loaded_sha256=verify_image(self.lib,'HiSpID_default_config',self.path)
         api={'HiSpID_default_config':(None,[C.POINTER(Config)]),
              'HiSpID_create':(C.c_void_p,[C.POINTER(Config)]),
              'HiSpID_solve':(C.c_int,[C.c_void_p]),
@@ -95,6 +76,8 @@ class Backend:
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
         optional={'HiSpID_work_statistics':(C.c_int,[C.c_void_p,C.POINTER(C.c_int)]),
+                  'HiSpID_default_solve_options':(None,[C.POINTER(SolveOptions)]),
+                  'HiSpID_solve_with_options':(C.c_int,[C.c_void_p,C.POINTER(SolveOptions)]),
                   'HiSpID_linear_history':(C.c_int,[C.c_void_p,C.c_int,PTR]),
                   'HiSpID_solve_with_forcing':(C.c_int,[C.c_void_p,C.c_double]),
                   'HiSpID_unknown_parameterization':(C.c_char_p,[]),
@@ -161,12 +144,18 @@ class Solution:
     def __del__(self):self.close()
     def _check(self):
         if not self.context:raise ValueError('closed HiSpID context')
-    def solve(self,linear_rtol=None):
+    def solve(self,linear_rtol=None,krylov=None):
         self._check()
-        if linear_rtol is None:r=self.backend.lib.HiSpID_solve(self.context)
+        validate_krylov(krylov,linear_rtol)
+        if krylov is not None:
+            if not hasattr(self.backend.lib,'HiSpID_solve_with_options'):raise ValueError('library lacks selectable Krylov API')
+            options=SolveOptions(C.sizeof(SolveOptions),0 if krylov=='gmres' else 1,0 if linear_rtol is None else float(linear_rtol))
+            r=self.backend.lib.HiSpID_solve_with_options(self.context,C.byref(options))
+        elif linear_rtol is None:r=self.backend.lib.HiSpID_solve(self.context)
         else:
             if not hasattr(self.backend.lib,'HiSpID_solve_with_forcing'):raise ValueError('library lacks fixed forcing API')
             r=self.backend.lib.HiSpID_solve_with_forcing(self.context,float(linear_rtol))
+        self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal')
         d=self.diagnostics();d['status']=r;d['error']=self.backend.error() if r else '';return d
     def work_statistics(self):
         self._check()

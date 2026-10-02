@@ -1,0 +1,9 @@
+{
+  "scope": "Equation-system versus Krylov-backend separation; four binary solve combinations, no new physical binary acceptance",
+  "baseline_commit": "708fbec94bca5e7f86f206a80debc97b8de4f07a",
+  "default_preservation": "Archived Hi GMRES and BY BiCGStab default full states, counts and BY traces remain bit-identical; default forcing/row weights/line preconditioner stay unchanged",
+  "matrix_case": {"grid": [40,80,16], "configuration": "moderate generic unequal .6/.4 masses, centers +/-3, same published JSON inputs from prior common_stopping experiment", "initial_guess": "zero", "threads": 1, "repeats": 2, "outer": "max_component max_node |sin^3(alpha) sin^3(beta) F_raw| <=1e-12", "linear": "true spectral RHS-relative L2 <=1e-3", "preconditioners": "fixed current modal preconditioner for each system, identical between that system's two Krylov methods", "gmres_restart": 64, "max_iterations": 2000},
+  "within_system_data_acceptance": {"native_recomputed_weighted_residual_max": 1e-12, "linear_failures": 0, "core_unknowns_values_coefficients_and_physical_gamma_K_psi_lapse_max_difference_divided_by_one_plus_abs_reference": 1e-10, "charges_scaled_difference": 1e-10, "physical_H_M_difference": "max(1e-7, 5*largest corresponding finite-difference step variation)", "all_retained_arrays": "finite; raw native near-puncture derivative arrays remain diagnostics outside core equivalence bounds"},
+  "independent_linear_controls": "known nonsymmetric full dense matrices, identity/exact diagonal M, zero/nonzero guesses, zero RHS, happy breakdown, restart/exhaustion, singular/breakdown, callback failures and malformed options; true residual always independently recomputed",
+  "limits": "No comparison equates different BY/HiSpID physical data or accuracy. Default and cross-backend failures remain retained; no silent fallback. One numerical worker at a time."
+}

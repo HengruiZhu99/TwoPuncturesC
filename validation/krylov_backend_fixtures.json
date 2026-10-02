@@ -1,0 +1,1791 @@
+{
+  "passed": true,
+  "records": {
+    "moderate_small": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.6511426850122871,
+          0.4387898329748013
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "491b038ced083b410ccaea5e809dc1d4d8af2d95f39508f76d95557e3ce6cb65",
+        "residual_linf": 6.5551373807872634e-15,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 4,
+          "krylov_iterations": 14,
+          "jvp_applications": 34,
+          "preconditioner_applications": 26,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 4,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 1.6676937755129466e-14,
+          "last_true_linear_residual": 1.269731163556756e-14,
+          "last_relative_linear_residual": 0.00012886925005823772
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 6.3545529338974006e-15
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 3.826114612288599e-16
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 1.0476503370321317e-13
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 1.2172744352715898e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 1.316886705597421e-13
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 1.982530046834611e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 8.184095871118569e-12
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 9.937503494197123e-12
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 2.0453751159383075e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 1.144033364797264e-10
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 1.9384679121140893e-10
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 2.4188947329340476e-16
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 6.270303732340769e-15
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 1.8168970547430788e-15
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 1.018111634550839e-17
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 1.2831673700456553e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 3.2063908166824304e-14
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 4.674739039986735e-16
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 7.795389085091121e-14
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 1.337225966184061e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 5.994170969414266e-17
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 2.766480412509903e-16
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 6.3545529338974006e-15
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 1.6763766132966874e-16
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 7.71636690210474e-17
+        },
+        "state": "validation/raw/krylov_backend_fixtures/moderate_small_bicgstab.npz",
+        "log": "validation/raw/krylov_backend_fixtures/moderate_small_bicgstab.log",
+        "log_sha256": "33bbd48e43a55644972924648a9817002ff6fe4ae99968075158e56b6f3934fd",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/moderate_small_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/moderate_small_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/moderate_small_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.6511426850122867,
+          0.4387898329748013
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "cba34e385105156393a733747ad7acccd0ad7b7bae07cce0648b398a5857c304",
+        "residual_linf": 4.391016223442581e-15,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 4,
+          "krylov_iterations": 24,
+          "jvp_applications": 32,
+          "preconditioner_applications": 24,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 4,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 1.4646297492086836e-14,
+          "last_true_linear_residual": 1.3117052410735347e-14,
+          "last_relative_linear_residual": 0.0002584011168877002
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 6.599940537542564e-15
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 1.0422863943820666e-15
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 1.0785050794125209e-13
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 1.6118994923505404e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 2.3385336744557034e-13
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 3.0262621603728724e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 1.3779210765237862e-11
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 5.0405577583764865e-12
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 5.1959560738109305e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 2.6680063316950362e-11
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 2.586857232674326e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 5.342582772832311e-16
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 5.086917562334957e-15
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 5.832673040239258e-15
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 3.3119380204833795e-17
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 1.1432235376473394e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 2.5743614808128026e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 1.3715672385684674e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 3.6749168766066933e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 1.6560339614997874e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 7.451795883464426e-17
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 9.952856099286464e-16
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 6.599940537542564e-15
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 5.699680485208738e-16
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 3.3619838997042665e-16
+        },
+        "state": "validation/raw/krylov_backend_fixtures/moderate_small_gmres.npz",
+        "log": "validation/raw/krylov_backend_fixtures/moderate_small_gmres.log",
+        "log_sha256": "ec744259b415c44641b9a8f0c08178162089a8da571c9ffb4ccf93a2f6eb93ac",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/moderate_small_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/moderate_small_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/moderate_small_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres"
+        ]
+      }
+    },
+    "target_mass": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.5434050862103595,
+          0.35877591685819743
+        ],
+        "internal_end_adm_masses": [
+          0.6000000000109579,
+          0.4000000000030903
+        ],
+        "target_mass_errors": [
+          1.0957901253050295e-11,
+          3.090250277892892e-12
+        ],
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "95e7974bd4cfb53fe70ab4098ffeaf9062ddd233840b212e6a4df14a898a09ac",
+        "residual_linf": 1.5011579644623918e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 16,
+          "krylov_iterations": 65,
+          "jvp_applications": 156,
+          "preconditioner_applications": 124,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 16,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 4.3629032831782464e-14,
+          "last_true_linear_residual": 3.6942547785988657e-14,
+          "last_relative_linear_residual": 0.00023558272029588925
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722,
+          "target_M_plus": 0.6,
+          "target_M_minus": 0.4,
+          "adm_tol": 1e-10
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 0,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 1.8598063657436498e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 3.5658814904176506e-15
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 2.0990374237438956e-13
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 8.528462731381686e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 8.831902695783206e-13
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 2.6669911501761103e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 1.8196067961931327e-11
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 1.3297345303032883e-11
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 9.672017197244528e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 1.0442457780500761e-10
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 5.538467142534161e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 1.8530812639866584e-15
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 7.86894712137421e-15
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 1.3277068818665365e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 6.745614558107017e-17
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 2.3844089120870593e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 1.1031093213502523e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 2.031414366093531e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 5.919696583733531e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 2.3208318632348712e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 1.2526137740809715e-16
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 2.1684971611216373e-15
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 1.8598063657436498e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 1.6428756377709715e-15
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 2.445733992618875e-15,
+          "internal_end_adm_masses": 1.2490009026947487e-15
+        },
+        "state": "validation/raw/krylov_backend_fixtures/target_mass_bicgstab.npz",
+        "log": "validation/raw/krylov_backend_fixtures/target_mass_bicgstab.log",
+        "log_sha256": "df20e236b9b9277619c245d42997903b04f33178a118c80f7e1fc228dba2be64",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/target_mass_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/target_mass_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/target_mass_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab",
+          "--target-mass"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.5434050862103807,
+          0.35877591685819693
+        ],
+        "internal_end_adm_masses": [
+          0.6000000000109766,
+          0.4000000000030904
+        ],
+        "target_mass_errors": [
+          1.097666402216646e-11,
+          3.0903613001953545e-12
+        ],
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "14f1cc4d300fac7dd8d71e9e2632adafd0482d9902c170b0f9264bf3a2f67e2b",
+        "residual_linf": 1.1871081725575682e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 16,
+          "krylov_iterations": 96,
+          "jvp_applications": 128,
+          "preconditioner_applications": 96,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 16,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 4.3714409547038156e-14,
+          "last_true_linear_residual": 1.6419426713656915e-14,
+          "last_relative_linear_residual": 0.00010455183208477606
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722,
+          "target_M_plus": 0.6,
+          "target_M_minus": 0.4,
+          "adm_tol": 1e-10
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 0,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 2.194922934817433e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 1.1737911232459291e-14
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 1.1156840437463371e-13
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 4.788266840558373e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 4.105371617816583e-13
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 4.06840814784106e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 1.1801145430853743e-11
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 1.246976233936209e-11
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 3.5506753654602623e-10
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 1.1434436286170898e-10
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 3.411743340140564e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 6.338382179950604e-15
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 1.0914442301669423e-14
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 1.4493923585477036e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 4.3434068539255395e-16
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 1.2269062713761826e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 2.215187603463321e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 6.533537676709603e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 2.7822748582660633e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 5.358391213645218e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 8.536505945525448e-16
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 7.539309897388018e-15
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 2.194922934817433e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 6.299898110968524e-15
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 1.6185004362919027e-14,
+          "internal_end_adm_masses": 1.2975731600217668e-14
+        },
+        "state": "validation/raw/krylov_backend_fixtures/target_mass_gmres.npz",
+        "log": "validation/raw/krylov_backend_fixtures/target_mass_gmres.log",
+        "log_sha256": "a2d2c0aa0d84217ce13107236089501eff47f24f562149ce189dd9b9b0062a32",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/target_mass_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/target_mass_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/target_mass_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres",
+          "--target-mass"
+        ]
+      }
+    },
+    "bl": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.62,
+          0.42000000000000004
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "0eb016bba18a100d4038b9a04ff886b98f0cf7fa0a35e6aa89b598456a5244b0",
+        "residual_linf": 0.0,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 1,
+          "krylov_iterations": 0,
+          "jvp_applications": 2,
+          "preconditioner_applications": 0,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 1,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 0.0,
+          "last_true_linear_residual": 0.0,
+          "last_relative_linear_residual": 0.0
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.0,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.0
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 0.0
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 0.0
+        },
+        "state": "validation/raw/krylov_backend_fixtures/bl_bicgstab.npz",
+        "log": "validation/raw/krylov_backend_fixtures/bl_bicgstab.log",
+        "log_sha256": "e0e45c51feffd4da0d349ac40cf89794231b37564a94bdfea9053dfca4b47429",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/bl_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/bl_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/bl_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.62,
+          0.42000000000000004
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "0eb016bba18a100d4038b9a04ff886b98f0cf7fa0a35e6aa89b598456a5244b0",
+        "residual_linf": 0.0,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 1,
+          "krylov_iterations": 0,
+          "jvp_applications": 0,
+          "preconditioner_applications": 0,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 1,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 0.0,
+          "last_true_linear_residual": 0.0,
+          "last_relative_linear_residual": 0.0
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.0,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.0
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 0.0
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 0.0
+        },
+        "state": "validation/raw/krylov_backend_fixtures/bl_gmres.npz",
+        "log": "validation/raw/krylov_backend_fixtures/bl_gmres.log",
+        "log_sha256": "bc7e98a62eea0127952c2da837966e881101c7c2818fb48c243ea6be9c095647",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/bl_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/bl_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/bl_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres"
+        ]
+      }
+    },
+    "spin95": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.5,
+          0.5
+        ],
+        "internal_end_adm_masses": [
+          0.621684606951735,
+          0.6216846069517352
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "bd6609d7bc18baff124f67b9094316958e437204a3f53541409d2a318a31acdb",
+        "residual_linf": 7.124221089733579e-15,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 5,
+          "krylov_iterations": 19,
+          "jvp_applications": 45,
+          "preconditioner_applications": 35,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 5,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 4.7981718778458355e-15,
+          "last_true_linear_residual": 2.5963220443213694e-15,
+          "last_relative_linear_residual": 0.00011194607971436268
+        },
+        "real_parameters": {
+          "par_b": 6.0,
+          "par_m_plus": 0.5,
+          "par_m_minus": 0.5,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.2375,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.2375
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 4.683828768578604e-15
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 1.0952213080324916e-15
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 2.3872266043320545e-14
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 1.614620888453942e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 1.259849081691675e-13
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 1.0935963085467066e-13
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 2.747011597943785e-10
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 2.74739055606723e-10
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 6.229198665325704e-12
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 6.070976816238933e-10
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 7.919100063236194e-12
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 7.608870031192889e-15
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 9.091568527451201e-14
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 3.2207531006704376e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 9.439678722316487e-17
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 7.389681052996281e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 6.464157289867571e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 2.079175978311915e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 5.275354820456442e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 4.9531705841514845e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 2.71602942512534e-16
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 8.940776729549926e-15
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 4.683828768578604e-15
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 8.596851042251953e-16
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 2.0538328227312318e-16
+        },
+        "state": "validation/raw/krylov_backend_fixtures/spin95_bicgstab.npz",
+        "log": "validation/raw/krylov_backend_fixtures/spin95_bicgstab.log",
+        "log_sha256": "fd3f922edfc358a61bcef07231d1ebc3f5d7b7ad2e3eba605e536aa579fb481b",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/spin95_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/spin95_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/spin95_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.5,
+          0.5
+        ],
+        "internal_end_adm_masses": [
+          0.6216846069517356,
+          0.6216846069517357
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+        "state_sha256": "058e1573fef5ebdf6a6975730afc3c88977dc2a04f31db933b712a3c41bffec0",
+        "residual_linf": 7.013511193663245e-15,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 5,
+          "krylov_iterations": 31,
+          "jvp_applications": 41,
+          "preconditioner_applications": 31,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 5,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 1.2009373268937032e-15,
+          "last_true_linear_residual": 6.658514770002638e-16,
+          "last_relative_linear_residual": 0.00011045519099316631
+        },
+        "real_parameters": {
+          "par_b": 6.0,
+          "par_m_plus": 0.5,
+          "par_m_minus": 0.5,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.2375,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.2375
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 9.6675939705939e-15
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 1.378867068554314e-15
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 2.5549776630148486e-14
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 2.9627085688100835e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 1.4892232549007075e-13
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 8.923745877741126e-14
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 1.7079719849132286e-10
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 3.31190118891135e-10
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 1.1144954229509097e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 2.5899543599121684e-09
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 2.3241686765006744e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 7.718894360609144e-15
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 9.124524996196774e-14
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 3.2197491569752815e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 5.1677392493063814e-17
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 7.421519403073832e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 6.05307953558532e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 1.8795928588341536e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 5.18681794672126e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 6.4056837848615625e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 1.291262965129933e-16
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 1.0188854699410956e-14
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 9.6675939705939e-15
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 1.204912980725077e-15
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 4.792276586372874e-16
+        },
+        "state": "validation/raw/krylov_backend_fixtures/spin95_gmres.npz",
+        "log": "validation/raw/krylov_backend_fixtures/spin95_gmres.log",
+        "log_sha256": "0700aa239e371b17e783ea794502b56819ca9b88b24392ae29120733dd4e74b6",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-krylov-final/lib/libTwoPunctures.so",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/spin95_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/spin95_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/krylov_backend_fixtures/spin95_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres"
+        ]
+      }
+    }
+  },
+  "library_sha256": "4a155c4d3a732c981143444c95714e9e5ef98a78334e2cdd6833ea20bea4e920",
+  "script_sha256": "1185eb47fc01c69225e4522c59dd9885965d559ce3fcdba0359193170379cc9f",
+  "original_commit": "ec563aeb672235b9443c330f9cde65f7246e8ea4",
+  "note": "Native outer/linear stopping retained; modal M with both methods; not physical binary acceptance."
+}

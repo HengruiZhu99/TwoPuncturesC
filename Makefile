@@ -97,7 +97,7 @@ HISPID_FLAGS = -std=c++17 -O3 -fPIC -Wall -Wextra $(shell gsl-config --cflags)
 HISPID_FLAGS += $(HISPID_MAP_FLAGS)
 HISPID_FLAGS += $(HISPID_EXPERIMENT_FLAGS)
 
-$(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp $(SRCD)/HiSpID_axis.hpp
+$(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(INCD)/PunctureKrylov.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp $(SRCD)/HiSpID_axis.hpp
 	@mkdir -p $(HISPID_DIR)
 	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) -c $< -o $@
 
@@ -162,3 +162,13 @@ test-by-modal: $(HISPID_DIR)/test_by_modal.x
 
 test-hispid: test-by-modal
 .PHONY: test-by-modal
+
+$(HISPID_DIR)/test_krylov.x: tests/test_krylov.c $(SRCD)/PunctureKrylov.c $(INCD)/PunctureKrylov.h
+	@mkdir -p $(HISPID_DIR)
+	$(CC) $(CFLAGS) $(INC_PARAMS) tests/test_krylov.c $(SRCD)/PunctureKrylov.c -lm -o $@
+
+test-krylov: $(HISPID_DIR)/test_krylov.x
+	$(HISPID_DIR)/test_krylov.x
+
+test-hispid: test-krylov $(LIB)
+.PHONY: test-krylov

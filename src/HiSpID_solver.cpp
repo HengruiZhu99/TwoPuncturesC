@@ -1,5 +1,6 @@
 #include "HiSpID_internal.hpp"
 #include "HiSpID_axis.hpp"
+#include "PunctureKrylov.h"
 #include <algorithm>
 #include <chrono>
 #include <cstring>
@@ -194,7 +195,7 @@ struct ModalBlock {
    }
   }
  }
- void solve(std::vector<double>&x,int mode,int component)const{
+ void solve(double*x,int mode,int component)const{
   std::vector<double>f(na*nb);
   for(int j=0;j<nb;j++){
    for(int i=0;i<na;i++)f[j*na+i]=x[4*(i+na*(j+nb*mode))+component]-(j?lower[j*na+i]*f[(j-1)*na+i]:0);
@@ -208,6 +209,7 @@ struct ModalBlock {
   }
   for(int j=0;j<nb;j++)for(int i=0;i<na;i++)x[4*(i+na*(j+nb*mode))+component]=f[j*na+i];
  }
+ void solve(std::vector<double>&x,int mode,int component)const{solve(x.data(),mode,component);}
 };
 struct Sparse {
  std::vector<std::vector<int>>col;
@@ -271,8 +273,8 @@ struct Sparse {
   const int half=modal->n[2]/2;cache.resize(half+1);
   for(int mode=0;mode<=half;mode++)cache[mode]=std::move(blocks[2*mode+1]);
  }
- void solve(const std::vector<double>&b,std::vector<double>&x)const{
-  int n=col.size();x=b;
+ void solve(const double*b,double*x)const{
+  int n=col.size();std::copy(b,b+n,x);
   if(modal){
    const int N=modal->n[2],stride=modal->n[0]*modal->n[1];
    for(int line=0;line<stride;line++)for(int v=0;v<4;v++){
@@ -292,6 +294,7 @@ struct Sparse {
   for(int i=0;i<n;i++)for(int k=0;k<diag[i];k++)x[i]-=val[i][k]*x[col[i][k]];
   for(int i=n-1;i>=0;i--){for(size_t k=diag[i]+1;k<col[i].size();k++)x[i]-=val[i][k]*x[col[i][k]];x[i]/=val[i][diag[i]];}
  }
+ void solve(const std::vector<double>&b,std::vector<double>&x)const{x.resize(b.size());solve(b.data(),x.data());}
 };
 // Modal flat-Laplacian block preconditioner for the regular P unknowns.
 // B_rm follows the analytic prolate Laplacian. Curved coefficients are
@@ -344,42 +347,29 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
  }
  mat.factor(vector_cache);return mat;
 }
-bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol, bool eager=false){
- int n=s.ntotal,m=s.local.krylov_restart;x.assign(n,0);
- std::vector<double>Ax(n),r(n),w(n);double target=rtol*norm2v(rhs),beta=norm2v(rhs);
- s.last_gmres_relative=beta==0?0:INFINITY;
- if(beta<=target)return true;
- // Retain visited columns across restarts, including zero-initialized breakdown columns.
- // The eager path is a private equivalence control; the public solve always grows lazily.
- std::vector<std::vector<double>>V(m+1),Z(m);V[0].resize(n);
- if(eager){for(auto&v:V)v.resize(n);for(auto&z:Z)z.resize(n);}
- std::vector<std::vector<double>>H(m+1,std::vector<double>(m));std::vector<double>cs(m),sn(m),g(m+1),y(m);
- int total=0;while(total<s.local.max_krylov){
-  jvp(s,x.data(),Ax.data());for(int a=0;a<n;a++)r[a]=rhs[a]-Ax[a];beta=norm2v(r);
-  s.last_gmres_relative=beta/norm2v(rhs);
-  if(beta<=target)return true;if(!std::isfinite(beta))return false;
-  for(int a=0;a<n;a++)V[0][a]=r[a]/beta;std::fill(g.begin(),g.end(),0);g[0]=beta;
-  for(auto &h:H)std::fill(h.begin(),h.end(),0);
-  int used=0;
-  for(int k=0;k<m&&total<s.local.max_krylov;k++){
-   if(Z[k].empty())Z[k].resize(n);if(V[k+1].empty())V[k+1].resize(n);
-   s.preconditioner_applications++;M.solve(V[k],Z[k]);jvp(s,Z[k].data(),w.data());
-   /* Two-pass modified Gram-Schmidt limits loss of orthogonality. */
-   for(int pass=0;pass<2;pass++)for(int j=0;j<=k;j++){
-    double a=dot(w,V[j]);H[j][k]+=a;for(int q=0;q<n;q++)w[q]-=a*V[j][q];
-   }
-   H[k+1][k]=norm2v(w);if(H[k+1][k]>0)for(int q=0;q<n;q++)V[k+1][q]=w[q]/H[k+1][k];
-   for(int j=0;j<k;j++){double a=cs[j]*H[j][k]+sn[j]*H[j+1][k];H[j+1][k]=-sn[j]*H[j][k]+cs[j]*H[j+1][k];H[j][k]=a;}
-   double dd=std::hypot(H[k][k],H[k+1][k]);if(!(dd>0))return false;
-   cs[k]=H[k][k]/dd;sn[k]=H[k+1][k]/dd;H[k][k]=dd;H[k+1][k]=0;
-   g[k+1]=-sn[k]*g[k];g[k]*=cs[k];used=k+1;total++;s.diag.krylov_iterations++;
-   if(std::abs(g[k+1])<=target)break;
-  }
-  for(int j=used-1;j>=0;j--){y[j]=g[j];for(int k=j+1;k<used;k++)y[j]-=H[j][k]*y[k];y[j]/=H[j][j];}
-  for(int j=0;j<used;j++)for(int q=0;q<n;q++)x[q]+=Z[j][q]*y[j];
- }
- jvp(s,x.data(),Ax.data());for(int a=0;a<n;a++)r[a]=rhs[a]-Ax[a];
- s.last_gmres_relative=norm2v(r)/norm2v(rhs);return norm2v(r)<=target;
+struct HiLinearContext { HiSpID_Data&data;const Sparse&preconditioner; };
+int hi_linear_action(void*context,const double*input,double*output){
+ auto&c=*static_cast<HiLinearContext*>(context);
+ try{jvp(c.data,input,output);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}
+}
+int hi_linear_precondition(void*context,const double*input,double*output){
+ auto&c=*static_cast<HiLinearContext*>(context);c.data.preconditioner_applications++;
+ try{c.preconditioner.solve(input,output);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}
+}
+bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
+                  std::vector<double>&x,double rtol,int method,bool eager=false){
+ x.assign(s.ntotal,0);HiLinearContext context{s,M};
+ PK_Options options{method,s.local.max_krylov,s.local.krylov_restart,1,0,int(eager),rtol*norm2v(rhs),nullptr,nullptr};
+ PK_Result result{};int status=PK_solve(s.ntotal,rhs.data(),x.data(),&options,
+                                     hi_linear_action,hi_linear_precondition,&context,nullptr,nullptr,&result);
+ s.diag.krylov_iterations+=result.iterations;s.last_gmres_relative=result.relative_residual;
+ if(status!=PK_SUCCESS&&!(status==PK_CALLBACK&&!hispid::last_error.empty()))
+   hispid::last_error=PK_status_string(status);
+ return status==PK_SUCCESS;
+}
+// Private compatibility facade used by the existing manufactured controls.
+bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol,bool eager=false){
+ return linear_solve(s,M,rhs,x,rtol,PK_GMRES,eager);
 }
 void update_diag(HiSpID_Data&s,const std::vector<double>&res){
  for(int k=0;k<4;k++)s.diag.scaled_linf[k]=s.diag.unscaled_linf[k]=0;
@@ -555,7 +545,7 @@ static bool sampling_context(HiSpID_Data*s){
  if(s&&s->sampler_only){hispid::last_error="sampling-only context cannot evaluate or solve collocation equations";return true;}
  return false;
 }
-static int solve_context(HiSpID_Data*s,double fixed_forcing){
+static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES){
  if(sampling_context(s))return -1;
  if(!s)return -1;hispid::last_error.clear();auto start=std::chrono::steady_clock::now();
  s->diag={};s->diag.npoints=s->npt;s->coefficients_valid=false;
@@ -574,9 +564,9 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing){
    Sparse M=preconditioner(*s,&vector_cache);for(int i=0;i<s->ntotal;i++)rhs[i]=-r[i];
    double forcing=fixed_forcing>0?fixed_forcing:std::min(.05,std::max(1e-5,std::sqrt(err)));
    const int krylov_before=s->diag.krylov_iterations;
-   const bool linear_ok=gmres(*s,M,rhs,step,forcing);M.retain_vectors(vector_cache);
+   const bool linear_ok=linear_solve(*s,M,rhs,step,forcing,method);M.retain_vectors(vector_cache);
    s->linear_history.push_back({double(it),forcing,s->last_gmres_relative,double(s->diag.krylov_iterations-krylov_before)});
-   if(!linear_ok){hispid::last_error="Krylov iteration limit";break;}
+   if(!linear_ok)break;
    bool accepted=false;double old=norm2v(r);
    for(double damping=1;damping>=1.0/1024;damping*=.5){
     for(int i=0;i<s->ntotal;i++)trial[i]=s->values[i]+damping*step[i];
@@ -595,6 +585,12 @@ int HiSpID_solve(HiSpID_Data*s){return solve_context(s,0);}
 int HiSpID_solve_with_forcing(HiSpID_Data*s,double rtol){
  if(!std::isfinite(rtol)||rtol<=0||rtol>=1){hispid::last_error="invalid fixed relative linear tolerance";return -1;}
  return solve_context(s,rtol);
+}
+void HiSpID_default_solve_options(HiSpID_SolveOptions*out){if(out)*out={int(sizeof(*out)),PK_GMRES,0};}
+int HiSpID_solve_with_options(HiSpID_Data*s,const HiSpID_SolveOptions*o){
+ if(!o||o->struct_size!=sizeof(*o)||(o->krylov!=PK_GMRES&&o->krylov!=PK_BICGSTAB)||
+    !std::isfinite(o->linear_rtol)||o->linear_rtol<0||o->linear_rtol>=1){hispid::last_error="invalid linear solve options";return -1;}
+ return solve_context(s,o->linear_rtol,o->krylov);
 }
 int HiSpID_work_statistics(const HiSpID_Data*s,int*out){
  if(!s||!out)return -1;out[0]=s->jvp_applications;out[1]=s->preconditioner_applications;return 0;

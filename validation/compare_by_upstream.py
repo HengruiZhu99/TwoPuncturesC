@@ -19,6 +19,7 @@ def main():
     p.add_argument('--state',required=True);p.add_argument('--output',required=True)
     p.add_argument('--target-mass',action='store_true')
     p.add_argument('--by-preconditioner',type=int,choices=(0,1),default=0)
+    p.add_argument('--krylov',choices=('gmres','bicgstab'))
     args=p.parse_args();path=Path(args.library).resolve(strict=True);expected_sha=digest(path);lib=C.CDLL(str(path));verify_image(lib,'TwoPunctures_make_initial_data',path)
     record=json.loads(Path(args.parameters).read_text());reals=record['by_real_parameters'].copy();integers=record['by_integer_parameters'].copy()
     integers['verbose']=1
@@ -30,6 +31,9 @@ def main():
     lib.TwoPunctures_params_set_default()
     if hasattr(lib,'TP_solver_get_statistics'):integers['TP_preconditioner']=args.by_preconditioner
     elif args.by_preconditioner:raise RuntimeError('reference image lacks modal option')
+    if args.krylov is not None:
+        if not hasattr(lib,'PK_solve'):raise RuntimeError('library lacks selectable Krylov API')
+        integers.update(TP_krylov_solver=int(args.krylov=='bicgstab'),TP_krylov_maxit=2000,TP_krylov_restart=64)
     for k,v in reals.items():lib.TwoPunctures_params_set_Real(k.encode(),v)
     for k,v in integers.items():lib.TwoPunctures_params_set_Int(k.encode(),v)
     pointer=lib.TwoPunctures_make_initial_data()

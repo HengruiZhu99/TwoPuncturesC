@@ -21,20 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SAMPLE_POINTS = np.array([[0.,2.,1.], [3.2,.1,.15], [-3.2,.1,.15],
                           [1.,-2.,.7], [10.,4.,-3.], [40.,30.,20.]])
 
-class Derivs(C.Structure):
-    _fields_ = [('size', C.c_int)] + [(name, C.POINTER(C.c_double)) for name in
-                ('d0','d1','d2','d3','d11','d12','d13','d22','d23','d33')]
-
-
-class SolverStats(C.Structure):
-    _fields_ = [(key,C.c_int) for key in ('newton_iterations','krylov_iterations',
-                'jvp_applications','preconditioner_applications','relaxation_sweeps',
-                'modal_factorizations','linear_failures','modal_failures')] + [
-                (key,C.c_double) for key in ('last_linear_target','last_true_linear_residual','last_relative_linear_residual')]
-
-class InitialData(C.Structure):
-    _fields_ = [('F', C.POINTER(C.c_double))] + [(name, C.POINTER(Derivs)) for name in
-                ('u','v','cf_v')] + [('ntotal', C.c_int)]
+from bowen_york import Derivs,SolverStats,InitialData
+from native_loader import verify_image
 
 
 def save_by_state(lib, pointer, grid, filename, include_physical=True):
@@ -104,23 +92,6 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def verify_image(lib, symbol, expected):
-    if sys.platform != 'darwin' and not sys.platform.startswith('linux'):
-        raise RuntimeError('loaded image verification requires dladdr')
-    class DlInfo(C.Structure):
-        _fields_ = [('filename', C.c_char_p), ('base', C.c_void_p),
-                    ('symbol', C.c_char_p), ('symbol_address', C.c_void_p)]
-    dladdr = C.CDLL(None).dladdr
-    dladdr.argtypes = [C.c_void_p, C.POINTER(DlInfo)]
-    dladdr.restype = C.c_int
-    info = DlInfo()
-    address = C.cast(getattr(lib, symbol), C.c_void_p).value
-    if not dladdr(address, C.byref(info)) or not info.filename:
-        raise RuntimeError('cannot identify loaded benchmark library')
-    if Path(info.filename.decode()).resolve(strict=True) != expected:
-        raise RuntimeError('benchmark native loader reused a different image')
-
-
 def configuration(backend, case, grid, tolerance):
     if case == 'moderate':
         config = moderate(backend, grid[0], grid[2]); config.far_radius = 0
@@ -145,7 +116,7 @@ def worker(args):
         start = time.monotonic()
         with backend.create(config) as data:
             created = time.monotonic()
-            diagnostics = data.solve(linear_rtol=args.linear_rtol)
+            diagnostics = data.solve(linear_rtol=args.linear_rtol,krylov=args.krylov)
             finished = time.monotonic()
             data.sample([[0., 2., 1.]])
             ready = time.monotonic()
@@ -154,13 +125,15 @@ def worker(args):
             values=data.unknowns();residual=data.residual(values)
             computational_norms=residual_norms(residual,args.grid,3 if backend.residual_scaling()=='sin3_alpha_beta' else 6)
             physical=physical_check(data.sample) if args.physical_check else None
+            charges=data.charges(100,ntheta=24,nphi=48).tolist() if args.krylov else None
             if args.state_output:
                 samples = data.sample_with_derivatives(SAMPLE_POINTS)
+                if args.krylov:samples['lapse']=samples['psi']**-2
                 np.savez(args.state_output, unknowns=values, residual=residual, **samples)
         result = dict(config=as_dict(config), diagnostics=diagnostics,
                       work_statistics=work_statistics,linear_history=linear_history,physical_check=physical,computational_norms=computational_norms,
                       residual_scaling=backend.residual_scaling(),linear_rtol=args.linear_rtol,
-                      creation_seconds=created-start,
+                      charges=charges,creation_seconds=created-start,
                       setup_and_solve_seconds=finished-start,
                       solve_seconds=diagnostics['seconds'],
                       first_sample_seconds=ready-finished,
@@ -220,6 +193,10 @@ def worker(args):
             reals['TP_linear_rtol']=args.linear_rtol if args.linear_rtol is not None else 1e-3
         elif args.by_preconditioner or args.linear_rtol is not None:
             raise RuntimeError('BY image lacks requested solver options')
+        if args.krylov is not None or args.krylov_maxit is not None:
+            if not hasattr(lib,'PK_solve'):raise RuntimeError('BY image lacks selectable Krylov backend')
+            integers.update(TP_krylov_solver=0 if args.krylov=='gmres' else 1,
+                            TP_krylov_maxit=args.krylov_maxit or 100,TP_krylov_restart=64)
         for name, value in reals.items():
             lib.TwoPunctures_params_set_Real(name.encode(), value)
         for name, value in integers.items():
@@ -250,7 +227,7 @@ def worker(args):
             lib.TP_solver_get_statistics.argtypes=[C.POINTER(SolverStats)];lib.TP_solver_get_statistics.restype=None
             stats=SolverStats();lib.TP_solver_get_statistics(C.byref(stats))
             work_statistics={key:getattr(stats,key) for key,_ in stats._fields_}
-            if not args.by_preconditioner and args.linear_rtol is None:
+            if not args.by_preconditioner and args.linear_rtol is None and args.krylov!='gmres':
                 work_statistics['last_true_linear_residual']=work_statistics['last_relative_linear_residual']=None
         lib.TwoPunctures_finalise(data)
         linear_ok=not work_statistics or not (work_statistics['linear_failures'] or work_statistics['modal_failures'])
@@ -278,6 +255,7 @@ def worker(args):
                       sample_method='spectral',
                       verbose_inside_timer=args.by_verbose)
     result.update(case=args.case, cpu_threads=1, initial_guess='zero',
+                  krylov=args.krylov or ('gmres' if args.mode=='hispid' else 'bicgstab'),
                   max_rss_bytes=measured_rss
                   * (1 if sys.platform == 'darwin' else 1024))
     if args.mode == 'hispid':
@@ -302,6 +280,8 @@ def main():
     parser.add_argument('--physical-check', action='store_true')
     parser.add_argument('--by-preconditioner', type=int, choices=(0,1),default=0)
     parser.add_argument('--linear-rtol', type=float,help='Fixed RHS-relative L2 forcing for both backends')
+    parser.add_argument('--krylov',choices=('gmres','bicgstab'))
+    parser.add_argument('--krylov-maxit',type=int)
     parser.add_argument('--state-output', help='Optional worker-only state snapshot, after RSS/timing capture')
     args = parser.parse_args()
     if len(args.grid) != 3 or min(args.grid) < 4 or args.grid[2] % 2:

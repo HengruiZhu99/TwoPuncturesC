@@ -1,5 +1,6 @@
 #ifndef HISPID_H
 #define HISPID_H
+#include "PunctureKrylov.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -56,6 +57,12 @@ int HiSpID_solve(HiSpID_Data *);
 /* Optional fixed RHS-relative L2 forcing, 0<rtol<1. The default entry point
  * retains its adaptive forcing. Residual row scaling is fixed by the build. */
 int HiSpID_solve_with_forcing(HiSpID_Data *, double rtol);
+/* ABI-safe options separate the linear backend from the equation-system config.
+ * krylov: PK_GMRES=0 or PK_BICGSTAB=1 (PunctureKrylov.h).
+ * rtol=0 retains adaptive forcing; positive rtol selects fixed relative L2. */
+typedef struct { int struct_size,krylov; double linear_rtol; } HiSpID_SolveOptions;
+void HiSpID_default_solve_options(HiSpID_SolveOptions *);
+int HiSpID_solve_with_options(HiSpID_Data *, const HiSpID_SolveOptions *);
 /* Work counters [spectral JVP calls, preconditioner applies]. */
 int HiSpID_work_statistics(const HiSpID_Data *, int out[2]);
 /* Solves: rows [Newton index, requested relative L2 target,

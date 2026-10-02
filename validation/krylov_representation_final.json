@@ -1,0 +1,45 @@
+{
+  "evidence": "validation/krylov_matrix_moderate_40_final.json",
+  "evidence_sha256": "548a8962ea1f9e312aaf081ec0a8abd36adc0488bc0e12d4a58320e52f196a18",
+  "script_sha256": "5643440b5cb182f20e1d3ce579d1c14474dc50fe6b01b70f874429a2713b4b2d",
+  "unknown_gate_passed": false,
+  "coefficient_gate_passed": false,
+  "max_deltaP_node": {
+    "mode_index_B_A_component": [
+      6,
+      0,
+      0,
+      2
+    ],
+    "reference": 0.00022595104741990582,
+    "candidate": 0.0002509890108452948,
+    "scaled_difference": 2.5032307349324055e-05,
+    "physical_modal_factor": -3.800581809228107e-17,
+    "physical_modal_delta": -9.515882833465199e-22
+  },
+  "modal_max_scaled_differences": [
+    1.0390608134568745e-14,
+    1.4379543830256375e-13,
+    2.2975721408825054e-11,
+    1.5683144730281269e-09,
+    8.012108776381783e-06,
+    4.016401751750078e-09,
+    2.5032307349324055e-05,
+    1.610390484684974e-09,
+    5.26309631888414e-06,
+    1.0741226075350323e-13,
+    2.2784432768624255e-11,
+    8.750863374919725e-10,
+    1.1195273754629337e-06,
+    1.7103015233046347e-09,
+    1.0198975656789859e-05,
+    1.566580739020607e-09
+  ],
+  "maximum_physical_correction_value_difference_over_all_collocation_nodes": [
+    9.663066160984177e-16,
+    3.3924689079358517e-13,
+    1.752188610721534e-13,
+    1.9478487525802291e-13
+  ],
+  "limits": "Values-only algebraic reconstruction with fixed maps/basis. No gradient/Hessian, off-grid or exact-nullspace certification. Does not waive failed1e-10 auxiliary/coefficient gates."
+}

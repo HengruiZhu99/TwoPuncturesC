@@ -77,6 +77,12 @@ void TwoPunctures_params_set_inputfile(char* inputfile){
   }
 }
 
+int TwoPunctures_params_reset(void){
+  if(live_data!=NULL)return -1;
+  _dealloc_params_mem_if_req();
+  return 0;
+}
+
 void TwoPunctures_params_set_default(){
   /*
     Set default parameters.
@@ -114,6 +120,9 @@ void TwoPunctures_params_set_default(){
   params_add_int("TP_preconditioner",0); // 0: inherited line sweeps, 1: modal block inverse
   params_add_int("TP_linear_relative",0); // 0: inherited dmax*rtol, 1: RHS-relative L2
   params_add_real("TP_linear_rtol",1e-3);
+  params_add_int("TP_krylov_solver",1); // PK_BICGSTAB; PK_GMRES=0
+  params_add_int("TP_krylov_maxit",100);
+  params_add_int("TP_krylov_restart",64);
   params_add_int("Newton_maxit",5); // Maximum number of Newton iterations
 
   params_add_real("TP_epsilon",0.);  // A small number to smooth out singularities at the puncture locations
@@ -165,9 +174,11 @@ ini_data* TwoPunctures_make_initial_data() {
   const int preconditioner = params_get_int("TP_preconditioner");
   const int relative = params_get_int("TP_linear_relative");
   const double linear_rtol = params_get_real("TP_linear_rtol");
+  const int method=params_get_int("TP_krylov_solver"),maxit=params_get_int("TP_krylov_maxit"),restart=params_get_int("TP_krylov_restart");
   if ((preconditioner != 0 && preconditioner != 1) ||
       (relative != 0 && relative != 1) || !isfinite(linear_rtol) ||
-      linear_rtol <= 0 || linear_rtol >= 1) {
+      linear_rtol <= 0 || linear_rtol >= 1 || method<0 || method>1 ||
+      maxit<1 || maxit>100000 || restart<1 || restart>4096) {
     fprintf(stderr, "TwoPunctures: invalid linear solver options.\n");
     return NULL;
   }
