@@ -7,6 +7,7 @@ from configs import moderate,as_dict
 from physical import extrapolate
 from run_validation import ROOT,REPORT,RAW,points
 from prolong import prolong
+from checkpoints import restore
 
 TENSORS=('gamma','Kij','conformal_metric','Atilde')
 
@@ -33,11 +34,11 @@ def errors(a,b):
 def run(backend,levels,label='moderate'):
     saved=json.loads(REPORT.read_text()).get(label,{})
     if not saved.get('passed'):raise ValueError('moderate physical convergence gate has not passed')
+    sha=backend.library_sha256()
+    if not saved.get('records') or any(r.get('library_sha256')!=sha for r in saved['records']):raise ValueError('moderate gate library SHA mismatch')
     def config_for(n,nphi):
-        c=moderate(backend,n,nphi)
         rec=next(r for r in saved['records'] if r['resolution']==[n,n,nphi])
-        c.far_radius=rec['config']['far_radius'];c.tolerance=rec['config']['tolerance']
-        return c
+        return restore(backend,rec)[0]
     axis=np.array([1.,2.,3.]);axis/=np.linalg.norm(axis);angle=.73
     W=np.array([[0,-axis[2],axis[1]],[axis[2],0,-axis[0]],[-axis[1],axis[0],0]])
     Q=np.eye(3)+np.sin(angle)*W+(1-np.cos(angle))*(W@W);offset=np.array([.7,-.2,.4])
@@ -60,8 +61,8 @@ def run(backend,levels,label='moderate'):
             base_record=next(r for r in saved['records'] if r['resolution']==[n,n,nphi])
             base_charge=np.array(base_record['charges_extrapolated']);expected=np.r_[base_charge[0],Q@base_charge[1:4],Q@base_charge[4:]]
             origin_expected=expected.copy();origin_expected[4:]+=np.cross(offset,expected[1:4])
-            RAW.mkdir(exist_ok=True);np.savez_compressed(RAW/f'covariance_{n}_{nphi}.npz',points=x,**{'base_'+k:v for k,v in original.items()},**{'rotated_'+k:v for k,v in rotated.items()})
-        rec=dict(resolution=[n,n,nphi],library_sha256=hashlib.sha256(backend.path.read_bytes()).hexdigest(),rotation=Q.tolist(),offset=offset.tolist(),config=as_dict(prime),diagnostics=diagnostic,
+            RAW.mkdir(exist_ok=True);np.savez_compressed(RAW/f'covariance_{label}_{n}_{nphi}.npz',points=x,**{'base_'+k:v for k,v in original.items()},**{'rotated_'+k:v for k,v in rotated.items()})
+        rec=dict(resolution=[n,n,nphi],library_sha256=backend.library_sha256(),rotation=Q.tolist(),offset=offset.tolist(),config=as_dict(prime),diagnostics=diagnostic,
                  relative_errors=err,rotated_EPJ=qrot.tolist(),global_origin_EPJ=qglobal.tolist(),expected_EPJ=expected.tolist(),
                  charge_error=np.abs(qrot-expected).tolist(),origin_charge_error=np.abs(qglobal-origin_expected).tolist(),seconds=time.monotonic()-start)
         records.append(rec);print(json.dumps(rec),flush=True)

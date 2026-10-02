@@ -31,6 +31,32 @@ def highboost(backend,n=32,nphi=8,momentum_over_rest_mass=2):
     # original discontinuous stuffing, and d/M_ADM=100--400.
     return c
 
+def spin95(backend,n=32,nphi=16):
+    c=hs99uu(backend,n,nphi)
+    for hole in c.hole:hole.spin[:]=[0,0,.95*hole.mass**2]
+    return c
+
+def target_binary(backend,n=32,nphi=16,speed=.885,spin=.0,generic=False):
+    """Revised local target: actual correction operators and a wider g window.
+
+    The g-ball uses the contracted Kerr throat as a screen only. Actual
+    enclosure is checked with the finder; it is not implied by these inputs.
+    """
+    if not 0<=speed<1 or not 0<=spin<1:raise ValueError('invalid target speed/spin')
+    c=backend.config();c.n[:]=[n,n,nphi];c.tolerance=1e-14
+    axes=[np.array([.2,.3,.4]),np.array([.4,-.2,.3])]
+    boosts=[np.array([-1.,.23,.11]),np.array([1.,-.17,.19])]
+    for h in range(2):
+        spin_axis=axes[h]/np.linalg.norm(axes[h]) if generic else np.array([0,0,1.])
+        boost_axis=boosts[h]/np.linalg.norm(boosts[h]) if generic else np.array([-1. if h==0 else 1.,0,0])
+        c.hole[h]=Hole(.5,(6 if h==0 else -6,0,0),.25*spin*spin_axis,speed*boost_axis)
+    c.conformal_choice=0;c.omega[:]=[1,1];c.attenuation_power=4
+    radius=.25*np.sqrt(1-spin*spin)*np.sqrt(1-speed*speed)
+    c.inner_min[:]=[.2*radius]*2;c.inner_max[:]=[.8*radius]*2
+    c.inner_flatten=0;c.far_radius=0
+    c.krylov_restart=80;c.max_krylov=2400;c.max_newton=24
+    return c
+
 def as_dict(config):
     return {name:[as_dict(h) for h in value] if name=='hole'
             else list(value) if hasattr(value,'_length_') else value

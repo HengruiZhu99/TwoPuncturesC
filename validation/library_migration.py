@@ -1,0 +1,108 @@
+"""Compare byte-bound replay in separate native processes.
+
+dyld can coalesce copied libraries with the same embedded install name. Each
+worker verifies its loaded image. The coordinator loads no native library.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import numpy as np
+from hispid import Backend
+from checkpoints import ROOT, library_sha, restore_payload, select_record
+from physical import constraints, norms
+from run_validation import points
+
+
+def worker(library, source_sha, cases, output, axis):
+    backend = Backend(library)
+    arrays, reports = {}, []
+    for label in cases:
+        record = select_record(label)
+        if record['library_sha256'] != source_sha:
+            raise ValueError('source checkpoint/build mismatch')
+        cfg, unknowns = restore_payload(record, backend.config())
+        xyz, near, bulk = points(cfg, record['horizon_scaled'])
+        xyz = xyz[:near+bulk]
+        create = backend.create_sampler if hasattr(backend.lib, 'HiSpID_create_sampler') else backend.create
+        with create(cfg) as solution:
+            solution.set_unknowns(unknowns)
+            for name, values in solution.sample(xyz).items(): arrays[label+'__'+name] = values
+            details = dict(case=label, resolution=record['resolution'],
+                           original_evidence_sha=record['library_sha256'])
+            if axis:
+                center = .5*(np.array(cfg.hole[0].center)+np.array(cfg.hole[1].center))
+                half = .5*(np.array(cfg.hole[0].center)-np.array(cfg.hole[1].center))
+                locations = center+np.array([-2., -.7, 0, .7, 2.])[:, None]*half
+                checks = []
+                for step in (.008, .004, .002, .001):
+                    residual = constraints(solution.sample, locations, step)
+                    checks.append(dict(step=step, norms=norms(residual),
+                                       H=residual['H'].tolist(), M=residual['M'].tolist(),
+                                       g=residual['attenuation'].tolist()))
+                details.update(axis_points=locations.tolist(), axis_checks=checks)
+        reports.append(details)
+    record = select_record('moderate_far0_stable', 24, 12)
+    if record['library_sha256'] != source_sha: raise ValueError('equation checkpoint/build mismatch')
+    cfg, unknowns = restore_payload(record, backend.config())
+    direction = np.random.default_rng(14108607).normal(0, 1e-4, len(unknowns))
+    with backend.create(cfg) as solution:
+        arrays['residual'] = solution.residual(unknowns)
+        arrays['jvp'] = solution.jvp(unknowns, direction)
+    np.savez_compressed(output, **arrays)
+    output.with_suffix('.json').write_text(json.dumps(dict(
+        loaded_library=str(backend.path), library_sha256=library_sha(backend),
+        cases=reports), indent=2)+'\n')
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--old-library'); parser.add_argument('--new-library')
+    parser.add_argument('--cases', default='moderate_far0_stable,highspin_stable')
+    parser.add_argument('--output', default='validation/axis_api_migration.json')
+    parser.add_argument('--worker-library'); parser.add_argument('--source-sha')
+    parser.add_argument('--worker-output'); parser.add_argument('--axis', action='store_true')
+    args = parser.parse_args(); cases = args.cases.split(',')
+    if args.worker_library:
+        worker(args.worker_library, args.source_sha, cases, Path(args.worker_output), args.axis)
+        return 0
+    if not args.old_library or not args.new_library: parser.error('both native libraries are required')
+    paths = [Path(args.old_library).resolve(strict=True), Path(args.new_library).resolve(strict=True)]
+    hashes = [hashlib.sha256(path.read_bytes()).hexdigest() for path in paths]
+    if hashes[0] == hashes[1]: raise ValueError('migration requires distinct binaries')
+    temporary = ROOT/'validation/raw/axis_api_migration'; temporary.mkdir(parents=True, exist_ok=True)
+    env = os.environ.copy(); env.update(OMP_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1', VECLIB_MAXIMUM_THREADS='1')
+    files = []
+    for side, path in zip(('old', 'new'), paths):
+        output = temporary/(side+'.npz'); files.append(output)
+        command = [sys.executable, str(Path(__file__).resolve()), '--worker-library', str(path),
+                   '--source-sha', hashes[0], '--worker-output', str(output), '--cases', args.cases]
+        if side == 'new': command.append('--axis')
+        subprocess.run(command, cwd=ROOT, env=env, check=True, timeout=1200)
+    reports = [json.loads(path.with_suffix('.json').read_text()) for path in files]
+    if [report['library_sha256'] for report in reports] != hashes: raise ValueError('worker build mismatch')
+    result = dict(old_library_sha256=hashes[0], new_library_sha256=hashes[1],
+                  isolated_processes=True, loaded_images_verified=True,
+                  change='axis value convention, sampling-only context and physical metric-gradient API',
+                  cases=reports[1]['cases'], passed_off_axis_and_equations=False)
+    with np.load(files[0]) as old, np.load(files[1]) as new:
+        if set(old.files) != set(new.files): raise ValueError('worker array inventory differs')
+        for case in result['cases']:
+            label = case['case']
+            case['off_axis_absolute_differences'] = {
+                name.split('__', 1)[1]: float(np.max(abs(new[name]-old[name])))
+                for name in old.files if name.startswith(label+'__')}
+        result['equation_residual_absolute_difference'] = float(np.max(abs(new['residual']-old['residual'])))
+        result['jvp_absolute_difference'] = float(np.max(abs(new['jvp']-old['jvp'])))
+    result['passed_off_axis_and_equations'] = (
+        all(max(case['off_axis_absolute_differences'].values()) == 0 for case in result['cases'])
+        and result['equation_residual_absolute_difference'] == 0 and result['jvp_absolute_difference'] == 0)
+    (ROOT/args.output).write_text(json.dumps(result, indent=2)+'\n')
+    print(json.dumps(result, indent=2), flush=True)
+    return 0 if result['passed_off_axis_and_equations'] else 1
+
+
+if __name__ == '__main__': raise SystemExit(main())

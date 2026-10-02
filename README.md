@@ -39,6 +39,13 @@ Shared library will automatically be generated.
 
 This fork also provides [physical ADM sampling and measured solve diagnostics](PHYSICAL_API.md).
 Run `make test` for exact rest-puncture, boost/spin, and sequential-solve controls.
+
+An experimental curved four-field HiSpID backend is built separately with
+`make -j1 hispid`. See [the formulation and interface](docs/HISPID.md),
+[validation evidence](docs/VALIDATION.md), and [milestone status](docs/HISPID_STATUS.md)
+before using it. Its quantitative validation limits differ from the
+Bowen–York backend; published high-boost reproduction and binary horizon
+enclosure remain incomplete.
  
 ## Interface with GR-Athena++
 

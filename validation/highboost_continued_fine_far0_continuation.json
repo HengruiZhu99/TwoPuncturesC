@@ -1,0 +1,502 @@
+{
+  "label": "highboost_continued_fine_far0",
+  "library_sha256": "79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6",
+  "stages": [
+    {
+      "case": "highboost_continued_fine_far0_velocity0",
+      "resolution": [
+        48,
+        48,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.86,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.86,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          48,
+          48,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 1,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.02551470164434615,
+          0.02551470164434615
+        ],
+        "inner_max": [
+          0.0510294032886923,
+          0.0510294032886923
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 80,
+        "memory_limit_mib": 2048
+      },
+      "library_sha256": "79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6",
+      "unknown_parameterization": "u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))",
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 0,
+        "krylov_iterations": 0,
+        "npoints": 18432,
+        "scaled_linf": [
+          1.3962130155869426e-15,
+          2.1036853897976e-15,
+          1.8421605851512907e-15,
+          1.745520807077244e-15
+        ],
+        "unscaled_linf": [
+          0.014923970891686622,
+          0.042751476534136246,
+          0.004134198998258637,
+          0.008286791475088227
+        ],
+        "seconds": 0.029480958,
+        "status": 0,
+        "error": ""
+      },
+      "velocity": 0.86,
+      "seconds": 0.5937297089840285
+    },
+    {
+      "case": "highboost_continued_fine_far0_velocity1",
+      "resolution": [
+        48,
+        48,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.8699999999999999,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.8699999999999999,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          48,
+          48,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 1,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0246525860712421,
+          0.0246525860712421
+        ],
+        "inner_max": [
+          0.0493051721424842,
+          0.0493051721424842
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 80,
+        "memory_limit_mib": 2048
+      },
+      "library_sha256": "79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6",
+      "unknown_parameterization": "u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))",
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 5,
+        "krylov_iterations": 592,
+        "npoints": 18432,
+        "scaled_linf": [
+          7.259441368801508e-17,
+          2.374197162594246e-16,
+          6.472682930356327e-17,
+          6.64406892343172e-17
+        ],
+        "unscaled_linf": [
+          0.0005446067343655159,
+          0.015352187026171787,
+          0.00013651583000147201,
+          5.699810694760863e-05
+        ],
+        "seconds": 17.684191291,
+        "status": 0,
+        "error": ""
+      },
+      "velocity": 0.87,
+      "seconds": 18.248098374984693
+    },
+    {
+      "case": "highboost_continued_fine_far0_velocity2",
+      "resolution": [
+        48,
+        48,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.88,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.88,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          48,
+          48,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 1,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.023748684174075833,
+          0.023748684174075833
+        ],
+        "inner_max": [
+          0.047497368348151665,
+          0.047497368348151665
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 80,
+        "memory_limit_mib": 2048
+      },
+      "library_sha256": "79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6",
+      "unknown_parameterization": "u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))",
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 7,
+        "krylov_iterations": 1174,
+        "npoints": 18432,
+        "scaled_linf": [
+          7.587939486915688e-17,
+          4.1623873841408884e-16,
+          7.551216203925127e-17,
+          8.215892129489889e-17
+        ],
+        "unscaled_linf": [
+          2.0292456611059606e-05,
+          0.001564174063832103,
+          1.2363152365999695e-05,
+          2.17841052182072e-05
+        ],
+        "seconds": 33.340640334,
+        "status": 0,
+        "error": ""
+      },
+      "velocity": 0.88,
+      "seconds": 33.900514625012875
+    },
+    {
+      "case": "highboost_continued_fine_far0_velocity3",
+      "resolution": [
+        48,
+        48,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.8850000000000001,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.8850000000000001,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          48,
+          48,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 1,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.02327955111251074,
+          0.02327955111251074
+        ],
+        "inner_max": [
+          0.04655910222502148,
+          0.04655910222502148
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 80,
+        "memory_limit_mib": 2048
+      },
+      "library_sha256": "79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6",
+      "unknown_parameterization": "u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))",
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 8,
+        "krylov_iterations": 1003,
+        "npoints": 18432,
+        "scaled_linf": [
+          1.3959165368932912e-16,
+          5.138380363291312e-16,
+          9.092280735338434e-17,
+          6.9923172741369e-17
+        ],
+        "unscaled_linf": [
+          0.0006720481906086206,
+          0.0026683689682598373,
+          3.183371049016517e-05,
+          6.508761607693272e-05
+        ],
+        "seconds": 29.956049375,
+        "status": 0,
+        "error": ""
+      },
+      "velocity": 0.885,
+      "seconds": 30.529984958004206
+    },
+    {
+      "case": "highboost_continued_fine_far0_velocity4",
+      "resolution": [
+        48,
+        48,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.89,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.89,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          48,
+          48,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 1,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.022798026230355997,
+          0.022798026230355997
+        ],
+        "inner_max": [
+          0.045596052460711994,
+          0.045596052460711994
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 80,
+        "memory_limit_mib": 2048
+      },
+      "library_sha256": "79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6",
+      "unknown_parameterization": "u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))",
+      "diagnostics": {
+        "converged": 0,
+        "newton_iterations": 24,
+        "krylov_iterations": 8520,
+        "npoints": 18432,
+        "scaled_linf": [
+          1.0304940457621211e-05,
+          3.390850975354844e-05,
+          1.55310683653778e-05,
+          1.54653846050188e-05
+        ],
+        "unscaled_linf": [
+          34619975.91841356,
+          4956440875.958367,
+          34570850.29790184,
+          20152044.84282082
+        ],
+        "seconds": 223.739262833,
+        "status": 1,
+        "error": "Newton iteration limit"
+      },
+      "velocity": 0.89,
+      "seconds": 224.29493533296045
+    }
+  ],
+  "complete": false
+}

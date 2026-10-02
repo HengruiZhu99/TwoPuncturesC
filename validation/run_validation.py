@@ -57,7 +57,7 @@ def seeds(backend):
         expectedJ=G*spin-(G*G/(G+1))*(vel@spin)*vel
         expected=np.r_[G*h.mass,G*h.mass*vel,expectedJ];err=np.abs(fit-expected)
         passed=seq[-1]['norms']['H_rms']<1e-7 and seq[-1]['norms']['M_rms']<1e-7 and np.max(err)<2e-5
-        records.append(dict(case=label,hole=as_dict(h),library_sha256=hashlib.sha256(backend.path.read_bytes()).hexdigest(),step_sequence=seq,radii=radii,charges=q,
+        records.append(dict(case=label,hole=as_dict(h),library_sha256=backend.library_sha256(),step_sequence=seq,radii=radii,charges=q,
                             extrapolated=fit.tolist(),expected=expected.tolist(),charge_error=err.tolist(),
                             seconds=time.monotonic()-start,passed=bool(passed)))
         print(label,seq[-1]['norms'],'charge error',err,flush=True)
@@ -68,20 +68,20 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
     previous_values=None;previous_shape=None;previous_config=None
     if records or initial_record:
         last=records[-1] if records else initial_record
-        if last['library_sha256']!=hashlib.sha256(backend.path.read_bytes()).hexdigest():
+        if last['library_sha256']!=backend.library_sha256():
             raise ValueError('resume requires the same native library SHA')
-        previous_shape=last['resolution'];previous_config=dict(last['config']);previous_config.pop('n')
+        previous_shape=last['resolution'];previous_config=dict(last['config']);previous_config.pop('n');previous_config.pop('memory_limit_mib',None)
         n,_,np_=previous_shape
         previous_values=np.load(RAW/f"{last['case']}_{n}_{np_}.npz")['unknowns']
     for n,nphi in levels:
         cfg=factory(backend,n,nphi);x,near,bulk=points(cfg,horizon_scaled);start=time.monotonic()
         step=np.minimum(.002,.001*np.min([np.linalg.norm(x-np.array(h.center),axis=1) for h in cfg.hole if h.mass>0],axis=0)) if adaptive_steps else np.full(len(x),.002)
         rec=dict(case=label,config=as_dict(cfg),resolution=[n,n,nphi],verifier_order=4,verifier_step=.002,
-                 library_sha256=hashlib.sha256(backend.path.read_bytes()).hexdigest(),
+                 library_sha256=backend.library_sha256(),
                  near_sample_count=near,bulk_sample_count=bulk,attenuation_sample_count=len(x)-near-bulk,
                  horizon_scaled=horizon_scaled,verifier_steps=step.tolist(),unknown_parameterization='u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))')
         with backend.create(cfg) as s:
-            comparable=as_dict(cfg);comparable.pop('n')
+            comparable=as_dict(cfg);comparable.pop('n');comparable.pop('memory_limit_mib',None)
             if previous_values is not None and comparable==previous_config:
                 s.set_unknowns(prolong(previous_values,previous_shape,list(cfg.n)))
                 rec['initial_guess_from_resolution']=previous_shape
@@ -125,14 +125,22 @@ def main():
     parser.add_argument('--levels',default=None,help='e.g. 12:8,20:12,28:16')
     parser.add_argument('--far-radius',type=float,default=None);parser.add_argument('--label',default=None)
     parser.add_argument('--resume',action='store_true',help='append grids to the same case and warm-start from its last compatible checkpoint')
+    parser.add_argument('--evaluate-only',action='store_true',help='with --resume, recompute summary gates without another solve')
     parser.add_argument('--initial-from',help='warm-start a separate diagnostic case from the last compatible saved grid of this case')
     parser.add_argument('--memory-mib',type=int,default=None,help='explicit per-context allocation budget (default2048,max8192)')
     args=parser.parse_args()
+    if args.evaluate_only and (not args.resume or args.stage=='seeds'):
+        parser.error('--evaluate-only requires a binary stage and --resume')
     backend=Backend(args.library);report=json.loads(REPORT.read_text()) if REPORT.exists() else {}
-    if args.stage!='seeds' and not report.get('seeds',{}).get('passed'):raise SystemExit('single-seed gate has not passed')
+    sha=backend.library_sha256()
+    def gate(label):
+        result=report.get(label,{})
+        return bool(result.get('passed') and result.get('records') and all(r.get('library_sha256')==sha for r in result['records']))
+    if args.stage!='seeds' and not gate('seeds'):raise SystemExit('single-seed gate for this library has not passed')
     if args.stage in ('highspin','highboost'):
-        if not any(report.get(k,{}).get('passed') for k in ('moderate','moderate_far0')):raise SystemExit('moderate convergence gate has not passed')
-        if not report.get('covariance',{}).get('passed'):raise SystemExit('solved coordinate covariance gate has not passed')
+        moderate_labels=set(('moderate','moderate_far0','moderate_far0_stable'))|{k for k,v in report.items() if isinstance(v,dict) and v.get('stage')=='moderate'}
+        if not any(gate(k) for k in moderate_labels):raise SystemExit('moderate convergence gate for this library has not passed')
+        if not gate('covariance') or not gate(report['covariance'].get('source_case','')):raise SystemExit('solved coordinate covariance gate for this library has not passed')
     if args.stage=='seeds':result=seeds(backend);label='seeds'
     else:
         label=args.label or args.stage;selected={'moderate':moderate,'highspin':hs99uu,'highboost':highboost}[args.stage]
@@ -142,8 +150,9 @@ def main():
             if args.memory_mib is not None:config.memory_limit_mib=args.memory_mib
             return config
         levels=args.levels or ('24:12,40:20,56:28' if args.stage=='moderate' else '24:8,40:12,56:16')
-        levels=[tuple(map(int,v.split(':'))) for v in levels.split(',')]
+        levels=[] if args.evaluate_only else [tuple(map(int,v.split(':'))) for v in levels.split(',')]
         previous=report.get(label,{}).get('records') if args.resume else None
+        if args.evaluate_only and not previous:raise ValueError('no saved records to evaluate')
         initial=report[args.initial_from]['records'][-1] if args.initial_from else None
         result=solve_case(backend,factory,levels,label,horizon_scaled=args.stage in ('highspin','highboost'),adaptive_steps=args.stage in ('highspin','highboost'),previous_records=previous,initial_record=initial)
         if args.stage=='highspin':
@@ -151,11 +160,14 @@ def main():
             result['reference_comparison']=dict(source='thesis Table3.1 HS99UU',ADM_energy=.980124,absolute_tolerance=2e-4,energy_error=error,energy_agreement=bool(error<2e-4),exact_historical_reproduction=False,departure='modern superposed-metric trace projection; horizon mass/spin unmeasured')
         elif args.stage=='highboost':
             result['reference_comparison']=dict(source='specified local Gamma=sqrt5 benchmark',exact_historical_reproduction=False,departure='thesis Table4.3 lacks complete bare inputs and uses historical step stuffing')
+        if args.stage in ('highspin','highboost'):
+            result['accepted_high_regime']=bool(result['passed_strict'] and (args.stage!='highspin' or result['reference_comparison']['energy_agreement']))
+    result['stage']=args.stage
     report=json.loads(REPORT.read_text()) if REPORT.exists() else report
-    report[label]=result;report['metadata']=dict(library=str(backend.path),library_sha256=hashlib.sha256(backend.path.read_bytes()).hexdigest(),
+    report[label]=result;report['metadata']=dict(library=str(backend.path),library_sha256=backend.library_sha256(),
         numpy_version=np.__version__,python_version=sys.version,cpu_threads=1,date='2026-10-01',horizon_enclosure_verified=False)
     REPORT.write_text(json.dumps(report,indent=2)+'\n')
-    accepted=result.get('passed_strict',False) if args.stage in ('highspin','highboost') else result['passed']
+    accepted=result.get('accepted_high_regime',False) if args.stage in ('highspin','highboost') else result['passed']
     return 0 if accepted else 1
 
 if __name__=='__main__':raise SystemExit(main())
