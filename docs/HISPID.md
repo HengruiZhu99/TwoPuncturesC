@@ -203,7 +203,9 @@ controls are available through `build-hispid/test_solver.x
 separate diagnostics from the default passing native suite. Compensated Fourier projection removes
 the row mean from nonzero modes; exact Fourier rows have zero sum, so this
 changes neither equations nor retained modes. Residual rows are multiplied
-by `(sin(alpha) sin(beta))^6` as in the inherited solver. Both weighted and
+by `(sin(alpha) sin(beta))^6`. The original Bowen–York solver uses
+`(sin(alpha) sin(beta))^3`, so their numeric stopping tolerances do
+not define the same norm. Both weighted and
 raw conformal extrema are exposed. Neither replaces physical validation.
 
 The required horizon-enclosure check concerns `g<1` and the optional modified

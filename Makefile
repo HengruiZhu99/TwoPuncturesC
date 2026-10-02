@@ -137,3 +137,18 @@ clean-hispid:
 	rm -rf $(HISPID_DIR)
 
 .PHONY: hispid test-hispid-native test-hispid clean-hispid
+
+$(HISPID_DIR)/test_krylov_memory.x: tests/test_hispid_krylov_memory.cpp $(SRCD)/HiSpID_solver.cpp $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB)
+	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB) $(LFLAGS) -o $@
+
+$(HISPID_DIR)/test_by_line_cache.x: tests/test_by_line_cache.c $(SRCD)/TP_Newton.c $(INC) $(STATIC_LIB)
+	$(CC) $(CFLAGS) $(INC_PARAMS) $< $(filter-out $(OBJD)/TP_Newton.o,$(LIBOBJ)) $(LFLAGS) -o $@
+
+test-solver-efficiency: $(HISPID_DIR)/test_by_line_cache.x $(HISPID_DIR)/test_krylov_memory.x
+	$(HISPID_DIR)/test_by_line_cache.x
+	$(HISPID_DIR)/test_krylov_memory.x
+
+.PHONY: test-solver-efficiency
+
+# Include exact optimization controls in the normal complete suite.
+test-hispid: test-solver-efficiency

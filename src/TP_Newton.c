@@ -1,6 +1,7 @@
 /* TP_Newton.c */
 
 #include "TwoPunctures.h"
+#include "TP_LineCache.h"
 
 static int
 bicgstab (int const nvar, int const n1, int const n2, int const n3,
@@ -16,7 +17,7 @@ relax (double * restrict const dv,
        double const * restrict const rhs,
        int * ncols,
        int ** cols,
-       double ** JFD);
+       double ** JFD, TP_LineCache *cache);
 static void
 resid (double * restrict const res,
        int const ntotal,
@@ -216,7 +217,7 @@ relax (double * restrict const dv,
        double const * restrict const rhs,
        int * ncols,
        int ** cols,
-       double ** JFD)
+       double ** JFD, TP_LineCache *cache)
 {
   int i, j, k, n;
 
@@ -228,22 +229,26 @@ relax (double * restrict const dv,
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (i = 2; i < n1; i = i + 2)
-	LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->be + nvar*(i+n1*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
 #ifdef TP_OMP
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (i = 1; i < n1; i = i + 2)
-	LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->be + nvar*(i+n1*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
 #ifdef TP_OMP
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (j = 1; j < n2; j = j + 2)
-	LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->al + nvar*(j+n2*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
 #ifdef TP_OMP
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (j = 0; j < n2; j = j + 2)
-	LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->al + nvar*(j+n2*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
     }
   }
   for (k = 1; k < n3; k = k + 2)
@@ -254,22 +259,26 @@ relax (double * restrict const dv,
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (i = 0; i < n1; i = i + 2)
-	LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->be + nvar*(i+n1*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
 #ifdef TP_OMP
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (i = 1; i < n1; i = i + 2)
-	LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->be + nvar*(i+n1*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_be (dv, i, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
 #ifdef TP_OMP
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (j = 1; j < n2; j = j + 2)
-	LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->al + nvar*(j+n2*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
 #ifdef TP_OMP
 #pragma omp parallel for schedule(dynamic)
 #endif
       for (j = 0; j < n2; j = j + 2)
-	LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
+	if (cache) TP_line_solve(cache->al + nvar*(j+n2*k), nvar, dv, rhs, ncols, cols, JFD);
+        else LineRelax_al (dv, j, k, nvar, n1, n2, n3, rhs, ncols, cols, JFD);
     }
   }
 }
@@ -295,6 +304,8 @@ TestRelax (int nvar, int n1, int n2, int n3, derivs *v,
   F_of_v (nvar, n1, n2, n3, v, F, u);
 
   SetMatrix_JFD (nvar, n1, n2, n3, u, ncols, cols, JFD);
+  /* Factors belong to this fixed JFD only; no reuse across Newton steps. */
+  TP_LineCache *cache = TP_cache_create(nvar, n1, n2, n3, ncols, cols, JFD);
 
   for (j = 0; j < ntotal; j++)
     dv[j] = 0;
@@ -303,7 +314,7 @@ TestRelax (int nvar, int n1, int n2, int n3, derivs *v,
   fflush(stdout);
   for (j = 0; j < NRELAX; j++)
   {
-    relax (dv, nvar, n1, n2, n3, F, ncols, cols, JFD);	/* solves JFD*sh = s*/
+    relax (dv, nvar, n1, n2, n3, F, ncols, cols, JFD, cache);	/* solves JFD*sh = s*/
     if (j % Step_Relax == 0)
     {
       resid (res, ntotal, dv, F, ncols, cols, JFD);
@@ -320,6 +331,7 @@ TestRelax (int nvar, int n1, int n2, int n3, derivs *v,
   free_dvector (res, 0, ntotal - 1);
   free_derivs (u);
 
+  TP_cache_destroy(cache);
   free_dmatrix (JFD, 0, ntotal - 1, 0, maxcol - 1);
   free_imatrix (cols, 0, ntotal - 1, 0, maxcol - 1);
   free_ivector (ncols, 0, ntotal - 1);
@@ -351,6 +363,8 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
 
   F_of_v (nvar, n1, n2, n3, v, F, u);
   SetMatrix_JFD (nvar, n1, n2, n3, u, ncols, cols, JFD);
+  /* Factors belong to this fixed JFD only; no reuse across Newton steps. */
+  TP_LineCache *cache = TP_cache_create(nvar, n1, n2, n3, ncols, cols, JFD);
 
   /* temporary storage */
   r = dvector (0, ntotal - 1);
@@ -422,7 +436,7 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
 	  ph->d0[j] = 0;
 	
 	for (int j = 0; j < NRELAX; j++)	/* solves JFD*ph = p by relaxation */
-	  relax (ph->d0, nvar, n1, n2, n3, p, ncols, cols, JFD);
+	  relax (ph->d0, nvar, n1, n2, n3, p, ncols, cols, JFD, cache);
 	
 	J_times_dv (nvar, n1, n2, n3, ph, vv, u);	/* vv=J*ph */
 	alpha = rho / scalarproduct (rt, vv, ntotal);
@@ -457,7 +471,7 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
 	for (int j = 0; j < ntotal; j++)
 	  sh->d0[j] = 0;
 	for (int j = 0; j < NRELAX; j++)	/* solves JFD*sh = s by relaxation */
-	  relax (sh->d0, nvar, n1, n2, n3, s, ncols, cols, JFD);
+	  relax (sh->d0, nvar, n1, n2, n3, s, ncols, cols, JFD, cache);
 	
 	J_times_dv (nvar, n1, n2, n3, sh, t, u);	/* t=J*sh */
 	omega = scalarproduct (t, s, ntotal) / scalarproduct (t, t, ntotal);
@@ -504,6 +518,7 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
   free_dvector (F, 0, ntotal - 1);
   free_derivs (u);
   
+  TP_cache_destroy(cache);
   free_dmatrix (JFD, 0, ntotal - 1, 0, maxcol - 1);
   free_imatrix (cols, 0, ntotal - 1, 0, maxcol - 1);
   free_ivector (ncols, 0, ntotal - 1);

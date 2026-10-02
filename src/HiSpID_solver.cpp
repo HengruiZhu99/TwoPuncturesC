@@ -336,11 +336,14 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
  }
  mat.factor(vector_cache);return mat;
 }
-bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol){
+bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol, bool eager=false){
  int n=s.ntotal,m=s.local.krylov_restart;x.assign(n,0);
- std::vector<double>Ax(n),r(n),z(n),w(n);double target=rtol*norm2v(rhs),beta=norm2v(rhs);
+ std::vector<double>Ax(n),r(n),w(n);double target=rtol*norm2v(rhs),beta=norm2v(rhs);
  if(beta<=target)return true;
- std::vector<std::vector<double>>V(m+1,std::vector<double>(n)),Z(m,std::vector<double>(n));
+ // Retain visited columns across restarts, including zero-initialized breakdown columns.
+ // The eager path is a private equivalence control; the public solve always grows lazily.
+ std::vector<std::vector<double>>V(m+1),Z(m);V[0].resize(n);
+ if(eager){for(auto&v:V)v.resize(n);for(auto&z:Z)z.resize(n);}
  std::vector<std::vector<double>>H(m+1,std::vector<double>(m));std::vector<double>cs(m),sn(m),g(m+1),y(m);
  int total=0;while(total<s.local.max_krylov){
   jvp(s,x.data(),Ax.data());for(int a=0;a<n;a++)r[a]=rhs[a]-Ax[a];beta=norm2v(r);
@@ -349,6 +352,7 @@ bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vecto
   for(auto &h:H)std::fill(h.begin(),h.end(),0);
   int used=0;
   for(int k=0;k<m&&total<s.local.max_krylov;k++){
+   if(Z[k].empty())Z[k].resize(n);if(V[k+1].empty())V[k+1].resize(n);
    M.solve(V[k],Z[k]);jvp(s,Z[k].data(),w.data());
    /* Two-pass modified Gram-Schmidt limits loss of orthogonality. */
    for(int pass=0;pass<2;pass++)for(int j=0;j<=k;j++){
