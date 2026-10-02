@@ -119,11 +119,15 @@ $(HISPID_DIR)/test_solver.x: tests/test_hispid_solver.cpp $(SRCD)/HiSpID_solver.
 $(HISPID_DIR)/test_charge_rings.x: tests/test_hispid_charge_rings.cpp $(SRCD)/HiSpID_solver.cpp $(SRCD)/HiSpID_axis.hpp $(SRCD)/HiSpID_spectral.hpp $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB)
 	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB) $(LFLAGS) -o $@
 
-test-hispid-native: $(HISPID_DIR)/test_geometry.x $(HISPID_DIR)/test_axis.x $(HISPID_DIR)/test_solver.x $(HISPID_DIR)/test_charge_rings.x
+$(HISPID_DIR)/test_preconditioner_reuse.x: tests/test_hispid_preconditioner_reuse.cpp $(SRCD)/HiSpID_solver.cpp $(SRCD)/HiSpID_axis.hpp $(SRCD)/HiSpID_spectral.hpp $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB)
+	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB) $(LFLAGS) -o $@
+
+test-hispid-native: $(HISPID_DIR)/test_geometry.x $(HISPID_DIR)/test_axis.x $(HISPID_DIR)/test_solver.x $(HISPID_DIR)/test_charge_rings.x $(HISPID_DIR)/test_preconditioner_reuse.x
 	$(HISPID_DIR)/test_geometry.x
 	$(HISPID_DIR)/test_axis.x
 	$(HISPID_DIR)/test_solver.x
 	$(HISPID_DIR)/test_charge_rings.x
+	$(HISPID_DIR)/test_preconditioner_reuse.x
 
 PYTHON ?= python3
 test-hispid: test-hispid-native

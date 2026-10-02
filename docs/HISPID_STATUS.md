@@ -1,19 +1,25 @@
 # HiSpID milestone status
 
 Current status (2026-10-02): **exact single-hole targets pass; the moderate binary passes
-preliminary constraints, charges and coordinate covariance**. Rest spin chi=.95 and lab speed v=.885 pass separately
+preliminary constraints, charges, coordinate covariance and horizon enclosure**. Rest spin chi=.95 and lab speed v=.885 pass separately
 and combined with generic directions. AthenaK's current isolated consumer
 passes their initial-time FastFlow and three-level mesh constraint controls.
-No evolution steps are taken. Solved-binary horizons and attenuation enclosure
-have not yet been checked. Stronger accuracy and high-parameter binary
+No evolution steps are taken. Both current moderate-binary horizons and
+inner modified-region enclosure pass their refinement checks. Stronger accuracy and high-parameter binary
 validation remain incomplete.
 
-The previous native checkpoint is45bda9d. Default9cbf1108… uses regular
-modal P and exact modal FD block preconditioning. The current experimental
-charge/memory-only build126300dc… passes all native controls and17 Python
+The preserved physical producer comes from45bda9d. Default9cbf1108… uses regular
+modal P and exact modal FD block preconditioning. The qualified
+charge/memory-only producer126300dc… passes all native controls and17 Python
 tests; separate-process fields, residuals and JVPs are bit-identical to9cb.
-The default residual norm is unchanged. The sibling AthenaK consumer remains
-bound to9cb; its current replay evidence is docs/hispid-current-controls.json.
+The subsequent experimentalb96ee4b1… reuses exact per-call angular averages
+and per-solve vector factors. All native/17Python controls pass; a fresh
+matched solve is1.082x faster with bit-identical final fields/residual/iterate
+and identical Newton/Krylov counts. All saved ordinary fields and tested
+operators remain bit-identical. Original acceptance still binds126300dc.
+The default residual norm is unchanged. The preserved exact-seed AthenaK consumer remains bound to9cb. A separate
+moderate consumer binds exactly126300dc, with evidence in sibling
+docs/hispid-moderate-binary.json.
 
 The matched80×80→80×160×28 polar refinement improves fixed bulk physical
 momentum RMS5.79x (.002435→.000421) and identical-grid g1 momentum RMS5.51x,
@@ -25,8 +31,8 @@ iterations, process peak7.83GB. Refined angular charges now pass1e-7 at
 allthree levels; finest extrapolated EPJ change is2.33e-7. The preliminary
 physical/charge gate passes. Fresh three-grid solved coordinate covariance
 also passes: finest metric/K rotation errors3.92e-11/2.84e-6, translation
-errors<3.5e-13, fixed-origin charge error1.99e-4. Stronger accuracy and binary
-horizon/enclosure checks remain pending.
+errors<3.5e-13, fixed-origin charge error1.99e-4. Both binary horizons and g/operator-ball enclosure now pass AthenaK
+refinement. Stronger accuracy and high-parameter binary checks remain pending.
 See validation/polar_sequence_plan.json. Every failed result remains retained.
 
 ADM integration has been sped up12.20x using tested analytic metric gradients.
@@ -71,7 +77,8 @@ one CPU thread; builds use `make -j1`. No merges into the main project.
   preliminary passes are historical and cannot satisfy the current gate.
 - D: preliminary current off-grid convergence, refined centered charges and
   solved rotation/translation covariance pass. Stronger physical accuracy,
-  refined fixed-origin charges and solved-binary horizon enclosure are pending.
+  refined fixed-origin charges and revised high-parameter binaries are pending.
+  Current moderate component horizons and inner-ball enclosure pass.
   Historical checks retain their source fingerprints.
 - E: HS99UU160²×24 passes the finest-grid local strict physical thresholds
   and the declared energy comparison. Its original all-norms monotonic gate
@@ -98,12 +105,15 @@ one CPU thread; builds use `make -j1`. No merges into the main project.
   by8.44e-15 relative and expansion RMS by3.61e-12. The original alpha1
   combined run fails and is retained. Boost-only fixed-lmax
   quadrature to ntheta74 also passes: relative area
-  change1.44e-15, RMS change1.79e-12. Binary enclosure remains pending.
+  change1.44e-15, RMS change1.79e-12. Revised high-parameter binary enclosure remains pending.
   These controls use exact isolated seed data. Independent generic target
   seeds pass near/bulk constraint RMS<1.4e-8 and charge error<2.3e-7 after
   extraction-radius refinement to10240; short-radius failures are retained.
-- Horizon verification of binary attenuation: not yet established; no
-  exterior-vacuum claim for a binary is warranted.
+- Moderate binary horizon/enclosure: lmax8/12/16 and fixed-order ntheta32/48
+  checks pass at initial time. Finest expansion RMS9.38e-8/6.09e-8; continuous
+  inner-ball margins after observed refinement buffer.176225M/.115817M.
+  Components are distinct. Stronger exterior constraints remain failed;
+  noncompact f/F tails and generic AKV spin are separate requirements.
 
 ## Acceptance gates (declared before binary/high-parameter runs)
 

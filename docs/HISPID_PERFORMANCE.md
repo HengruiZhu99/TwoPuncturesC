@@ -4,8 +4,8 @@ The solver and the AthenaK importer are implemented in isolated branches.
 Exact isolated chi=.95 and v=.885 controls, separately and combined, pass
 independent physical checks and AthenaK initial-time horizon controls.
 The current regular-basis moderate binary passes preliminary physical and
-refined charge and solved coordinate-covariance gates. Stronger accuracy and binary
-horizon/enclosure checks remain pending. Its high-spin/boost range is
+refined charge, solved coordinate-covariance and direct AthenaK horizon/enclosure
+gates. Stronger accuracy and revised high-parameter binaries remain pending. Its high-spin/boost range is
 unvalidated; do not use these binary outputs as validated production data.
 
 ## Measured improvements
@@ -38,6 +38,21 @@ unvalidated; do not use these binary outputs as validated production data.
   first-gradient, translated/rotated-frame and changed-unknown controls
   pass; independent centered/off-center FD fluxes agree within5.82e-11.
   Off-center spheres retain ordinary interpolation.
+
+A subsequent exact serial reuse removes repeated azimuthal averaging per
+Fourier row and moves the vector LU/transfer bank between Newton steps.
+Scalar potential/factors and every row scale still rebuild. On a matched
+fresh rotated80×160×28 solve, time falls59.97s→55.44s (1.082x in one paired
+measurement), with identical4Newton/45Krylov counts and bit-identical final
+unknowns, physical fields and residuals. Peak RSS is recorded per worker.
+The rectangular private control proves bitwise matrix/factor/random-RHS
+equivalence, changing scalar potential, first/second factor counts7+7/7+0,
+malformed-cache rejection and direct modal inverse error5.9e-18. A scaled
+Fourier round-trip fixture failed identically in cached/uncached paths at
+6.5e-10; that first diagnostic remains retained. Separate-process field
+checks on allthree saved grids and80×160 residual/JVP checks are bitwise.
+All native and17Python controls pass. These source changes do not relabel
+the original binary acceptance records.
 
 On the current80×160/104×208/128×256×28 moderate sequence, all near/bulk
 physical H/M RMS values improve monotonically. The finest nearH/M are
@@ -84,14 +99,21 @@ seed tests to native9cbf1108… source provenance. Direct native-geometry
 finder controls and independently refined mesh-constraint checks are
 reported separately. These controls take zero evolution steps.
 
-With the preliminary moderate convergence/charge/covariance gates passed,
-export the checked checkpoint with `examples/export_athenak.py`, rebuild the
-isolated AthenaK consumer against its exact native source, and run the
-finder on both holes. Measure horizon mass/spin and verify that the full
-modified g/operator regions are enclosed. The noncompact f/F tails are
-free-data attenuation and require exterior constraint checks; they cannot
-be described as entirely inside a finite horizon. No solved-binary
-horizon or enclosure result currently exists.
+The checked128×256×28 moderate checkpoint has now been exported and tested
+with the separate exact-source AthenaK consumer. Both component surfaces pass
+expansion RMS1e-7 at lmax16,ntheta32/48. Fixed-order area changes are<7e-12
+relative. Real-harmonic coefficient bounds certify complete inner g/operator
+balls on the retained surfaces, with margins.176225M/.115817M after an
+empirical refinement allowance. Upper-radius bounds certify distinct
+components. The mesh import round-trip error is4.1e-16; no evolution steps
+are taken. See validation/polar_sequence_horizons.json and the sibling
+AthenaK docs/hispid-moderate-binary.json for source/consumer fingerprints.
+
+This direct-geometry finder check is separate from mesh-resolved finder
+accuracy. The noncompact f/F attenuation tails require exterior constraint
+checks and cannot be described as entirely inside a finite horizon. Reported
+coordinate spin is not a generic approximate-Killing-vector spin. Stronger
+physical accuracy and revised high-spin/boost binaries remain unvalidated.
 
 No merges, pushes, shared installations, main-project branch changes or
 production evolutions have been performed. GPU work remains last priority.

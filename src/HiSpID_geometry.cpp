@@ -298,7 +298,9 @@ bool valid(const HiSpID_Config&c,bool sampler_only){
  const double npt=(double)c.n[0]*c.n[1]*c.n[2];
  // Sampler: values, coefficients and SpecCoef's two padded scalar scratch
  // arrays/pointer tables, with headroom for the smallest allowed grids.
- const double bytes_per_point=sampler_only?128:3192+4*(5*12+48)+32*(2*c.krylov_restart+30);
+ // One16-byte azimuthal average per meridional point. Newton vector reuse
+ // moves the existing factor bank and does not allocate a second bank.
+ const double bytes_per_point=sampler_only?128:3192+4*(5*12+48)+32*(2*c.krylov_restart+30)+16.0/c.n[2];
  // Two dense matrices per radial block, scalar/vector factor groups, shared
  // by real-Fourier partners. Add permutations/diagonal couplings explicitly.
  const double block_bytes=sampler_only?0:2.0*(c.n[2]/2+1)*c.n[1]*(16.0*c.n[0]*c.n[0]+24.0*c.n[0]);

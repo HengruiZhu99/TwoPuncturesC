@@ -1,0 +1,25 @@
+{
+  "library_sha256": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+  "all_native_controls_passed": true,
+  "python_tests": 17,
+  "python_passed": true,
+  "private_preconditioner_controls": {
+    "first_later_matrix_factors_random_RHS_bitwise": true,
+    "scalar_refreshed": true,
+    "second_scalar_vector_factorizations": [
+      7,
+      0
+    ],
+    "direct_modal_inverse_absolute_error": 5.85469e-18,
+    "direct_modal_inverse_bound": 1e-10,
+    "incomplete_cache_rejected": true,
+    "scaled_Fourier_roundtrip_error": 6.53663e-10,
+    "scaled_Fourier_uncached_error": 6.53663e-10,
+    "scaled_Fourier_solutions_bitwise": true
+  },
+  "cpu_threads": 1,
+  "whole_seconds": 21.83,
+  "max_rss_bytes": 728498176,
+  "log": "build-hispid/preconditioner-reuse-full-tests-v2.log",
+  "retained_first_fixture_failure": "validation/preconditioner_reuse_initial_fixture_failure.json"
+}

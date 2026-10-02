@@ -1,0 +1,210 @@
+{
+  "old": {
+    "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+    "loaded_image_verified": true,
+    "config": {
+      "hole": [
+        {
+          "mass": 0.6,
+          "center": [
+            2.990128692246425,
+            1.5132666320265882,
+            -0.5055539854332003
+          ],
+          "spin": [
+            0.07245061245403309,
+            0.07783552869702787,
+            0.09195944338397039
+          ],
+          "velocity": [
+            -0.0028849839121088345,
+            0.06552139491369172,
+            0.01728073136157513
+          ]
+        },
+        {
+          "mass": 0.4,
+          "center": [
+            -1.5901286922464248,
+            -1.913266632026588,
+            1.3055539854332003
+          ],
+          "spin": [
+            -0.04176855766040945,
+            0.019883999308421225,
+            0.038000186347855666
+          ],
+          "velocity": [
+            0.029888742318408983,
+            -0.07040593357461611,
+            0.00864104161027441
+          ]
+        }
+      ],
+      "n": [
+        80,
+        160,
+        28
+      ],
+      "conformal_choice": 1,
+      "inner_flatten": 1,
+      "omega": [
+        0.5,
+        0.5
+      ],
+      "attenuation_power": 4,
+      "inner_min": [
+        0.045,
+        0.03
+      ],
+      "inner_max": [
+        0.09,
+        0.06
+      ],
+      "far_radius": 0.0,
+      "tolerance": 1e-14,
+      "max_newton": 24,
+      "max_krylov": 2000,
+      "krylov_restart": 64,
+      "memory_limit_mib": 8192
+    },
+    "diagnostics": {
+      "converged": 1,
+      "newton_iterations": 4,
+      "krylov_iterations": 45,
+      "npoints": 358400,
+      "scaled_linf": [
+        1.1227768000728914e-16,
+        3.51273531417835e-16,
+        3.5253490567145117e-16,
+        1.0243481458254442e-15
+      ],
+      "unscaled_linf": [
+        1.0594243537997983e-10,
+        2.2680635515456515e-10,
+        4.752841615837427e-10,
+        8.397816471311573e-10
+      ],
+      "seconds": 59.971775916,
+      "status": 0,
+      "error": ""
+    },
+    "whole_seconds": 69.79580970900133,
+    "max_rss_bytes": 3485581312,
+    "initial_guess": "zero",
+    "cpu_threads": 1
+  },
+  "new": {
+    "library_sha256": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+    "loaded_image_verified": true,
+    "config": {
+      "hole": [
+        {
+          "mass": 0.6,
+          "center": [
+            2.990128692246425,
+            1.5132666320265882,
+            -0.5055539854332003
+          ],
+          "spin": [
+            0.07245061245403309,
+            0.07783552869702787,
+            0.09195944338397039
+          ],
+          "velocity": [
+            -0.0028849839121088345,
+            0.06552139491369172,
+            0.01728073136157513
+          ]
+        },
+        {
+          "mass": 0.4,
+          "center": [
+            -1.5901286922464248,
+            -1.913266632026588,
+            1.3055539854332003
+          ],
+          "spin": [
+            -0.04176855766040945,
+            0.019883999308421225,
+            0.038000186347855666
+          ],
+          "velocity": [
+            0.029888742318408983,
+            -0.07040593357461611,
+            0.00864104161027441
+          ]
+        }
+      ],
+      "n": [
+        80,
+        160,
+        28
+      ],
+      "conformal_choice": 1,
+      "inner_flatten": 1,
+      "omega": [
+        0.5,
+        0.5
+      ],
+      "attenuation_power": 4,
+      "inner_min": [
+        0.045,
+        0.03
+      ],
+      "inner_max": [
+        0.09,
+        0.06
+      ],
+      "far_radius": 0.0,
+      "tolerance": 1e-14,
+      "max_newton": 24,
+      "max_krylov": 2000,
+      "krylov_restart": 64,
+      "memory_limit_mib": 8192
+    },
+    "diagnostics": {
+      "converged": 1,
+      "newton_iterations": 4,
+      "krylov_iterations": 45,
+      "npoints": 358400,
+      "scaled_linf": [
+        1.1227768000728914e-16,
+        3.51273531417835e-16,
+        3.5253490567145117e-16,
+        1.0243481458254442e-15
+      ],
+      "unscaled_linf": [
+        1.0594243537997983e-10,
+        2.2680635515456515e-10,
+        4.752841615837427e-10,
+        8.397816471311573e-10
+      ],
+      "seconds": 55.4367625,
+      "status": 0,
+      "error": ""
+    },
+    "whole_seconds": 65.36505625001155,
+    "max_rss_bytes": 3485696000,
+    "initial_guess": "zero",
+    "cpu_threads": 1
+  },
+  "array_absolute_differences": {
+    "unknowns": 0.0,
+    "residual": 0.0,
+    "gamma": 0.0,
+    "Kij": 0.0,
+    "psi": 0.0,
+    "conformal_metric": 0.0,
+    "Atilde": 0.0,
+    "mean_curvature": 0.0,
+    "correction": 0.0,
+    "attenuation": 0.0
+  },
+  "iteration_counts_identical": true,
+  "solve_speedup": 1.08180516342382,
+  "isolated_processes": true,
+  "loaded_images_verified": true,
+  "passed": true,
+  "note": "Same full free data/grid/tolerance/restart, zero initial guesses, one thread. Compare final iterates, physical fields and residual bitwise, and Newton/Krylov counts. Original binary acceptance records remain unchanged."
+}

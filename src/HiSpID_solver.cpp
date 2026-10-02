@@ -208,12 +208,25 @@ struct Sparse {
  const hispid::AxisDerivatives*modal=nullptr;
  std::vector<double>row_scale;
  std::vector<ModalBlock>blocks;
- void factor(){
+ int scalar_factorizations=0,vector_factorizations=0;
+ void factor(std::vector<ModalBlock>*vector_cache=nullptr){
+  scalar_factorizations=vector_factorizations=0;
   if(modal){
    const int na=modal->n[0],nb=modal->n[1],half=modal->n[2]/2;
    blocks.resize(2*(half+1));
+   const bool reuse=vector_cache&&!vector_cache->empty();
+   if(reuse&&vector_cache->size()!=size_t(half+1))throw std::runtime_error("Invalid modal vector cache");
+   if(reuse)for(const auto&B:*vector_cache)
+    if(B.na!=na||B.nb!=nb||B.lu.size()!=size_t(na*na*nb)||B.transfer.size()!=size_t(na*na*nb)||
+       B.lower.size()!=size_t(na*nb)||B.upper.size()!=size_t(na*nb)||B.permutation.size()!=size_t(na*nb))
+     throw std::runtime_error("Incomplete modal vector cache");
    for(int mode=0;mode<=half;mode++)for(int v=0;v<2;v++){
     auto&B=blocks[2*mode+v];B.na=na;B.nb=nb;
+    if(v&&reuse){
+     B=std::move((*vector_cache)[mode]);
+     if(B.na!=na||B.nb!=nb)throw std::runtime_error("Modal vector cache grid mismatch");
+     continue;
+    }
     B.lu.assign(na*na*nb,0);B.transfer.assign(na*na*nb,0);
     B.lower.assign(na*nb,0);B.upper.assign(na*nb,0);B.permutation.resize(na*nb);
     for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
@@ -227,7 +240,9 @@ struct Sparse {
      }
     }
     B.factor();
+    if(v)vector_factorizations++;else scalar_factorizations++;
    }
+   if(vector_cache)vector_cache->clear();
    return;
   }
   int n=col.size();diag.resize(n);
@@ -242,6 +257,11 @@ struct Sparse {
    }
    if(!std::isfinite(vv[di])||std::abs(vv[di])<1e-30)throw std::runtime_error("ILU singular pivot");
   }
+ }
+ void retain_vectors(std::vector<ModalBlock>&cache){
+  if(!modal)throw std::runtime_error("Vector reuse requires modal blocks");
+  const int half=modal->n[2]/2;cache.resize(half+1);
+  for(int mode=0;mode<=half;mode++)cache[mode]=std::move(blocks[2*mode+1]);
  }
  void solve(const std::vector<double>&b,std::vector<double>&x)const{
   int n=col.size();x=b;
@@ -268,21 +288,32 @@ struct Sparse {
 // Modal flat-Laplacian block preconditioner for the regular P unknowns.
 // B_rm follows the analytic prolate Laplacian. Curved coefficients are
 // represented by their azimuthal average; the vector block uses4/3 Delta.
-Sparse preconditioner(HiSpID_Data&s){
+struct AzimuthalAverage { double mu=0,potential=0; };
+AzimuthalAverage azimuthal_average(const HiSpID_Data&s,int i,int j){
+ AzimuthalAverage out;const int np=s.local.n[2];
+ for(int phi=0;phi<np;phi++){
+  int q=pindex(s,i,j,phi);const auto&g=s.geometry[q];const auto&u=s.basefields[q];double A[9];
+  for(int x=0;x<9;x++){A[x]=g.M[x];for(int v=0;v<3;v++)for(int d=0;d<4;d++)A[x]+=g.L[x][v][d]*u[v+1][d];}
+  const double psi=g.psi+u[0][0];out.mu+=(g.inv[0]+g.inv[4]+g.inv[8])/(3*np);
+  out.potential+=g.g*(-g.R/8-5*std::pow(psi,4)*g.K*g.K/12-7*contraction(g,A,A)/(8*std::pow(psi,8)))/np;
+ }
+ return out;
+}
+Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr,bool share_averages=true){
  Sparse mat;mat.col.resize(s.ntotal);mat.val.resize(s.ntotal);mat.row_scale.resize(s.ntotal);mat.modal=&s.derivatives;
  const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],half=np/2;
  const double ha=Pi/na,hb=Pi/nb;
+ std::vector<AzimuthalAverage>averages;
+ if(share_averages){
+  averages.resize(na*nb);
+  for(int j=0;j<nb;j++)for(int i=0;i<na;i++)averages[i+na*j]=azimuthal_average(s,i,j);
+ }
  for(int k=0;k<np;k++)for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
   const int mode=k<=half?k:k-half,r=hispid::AxisDerivatives::exponent(mode),p=pindex(s,i,j,k);
   const double a=.5*(s.derivatives.coordinate[0][i]+1),t=a*a,B=s.derivatives.coordinate[1][j],eta=-2*B/(1+B*B),s2=1-eta*eta,h2=4*t/((1-t)*(1-t)),D=s.b*s.b*(h2+s2);
   const double c=-2*(1-t)*std::pow(a*std::sqrt(s2),r),weight=s.geometry[pindex(s,i,j,0)].weight;
-  double mu=0,potential=0;
-  for(int phi=0;phi<np;phi++){
-   int q=pindex(s,i,j,phi);const auto&g=s.geometry[q];const auto&u=s.basefields[q];double A[9];
-   for(int x=0;x<9;x++){A[x]=g.M[x];for(int v=0;v<3;v++)for(int d=0;d<4;d++)A[x]+=g.L[x][v][d]*u[v+1][d];}
-   const double psi=g.psi+u[0][0];mu+=(g.inv[0]+g.inv[4]+g.inv[8])/(3*np);
-   potential+=g.g*(-g.R/8-5*std::pow(psi,4)*g.K*g.K/12-7*contraction(g,A,A)/(8*std::pow(psi,8)))/np;
-  }
+  const auto average=share_averages?averages[i+na*j]:azimuthal_average(s,i,j);
+  const double mu=average.mu,potential=average.potential;
   const double ctt=t*(1-t)*(1-t),ct=(1-t)*((r+1)*(1-t)-2*t),cee=s2,ce=-2*(r+1)*eta;
   const double c0=-(r+1)*(r+1-t)+(r*r-mode*mode)*(1/h2+1/s2);
   std::map<int,double>stencil;
@@ -303,7 +334,7 @@ Sparse preconditioner(HiSpID_Data&s){
    }
   }
  }
- mat.factor();return mat;
+ mat.factor(vector_cache);return mat;
 }
 bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol){
  int n=s.ntotal,m=s.local.krylov_restart;x.assign(n,0);
@@ -513,15 +544,20 @@ int HiSpID_solve(HiSpID_Data*s){
  if(!s)return -1;hispid::last_error.clear();auto start=std::chrono::steady_clock::now();
  s->diag={};s->diag.npoints=s->npt;s->coefficients_valid=false;
  std::vector<double>r(s->ntotal),rhs(s->ntotal),step,trial(s->ntotal),rt(s->ntotal);
+ // The normalized vector FD matrices depend only on this solve's fixed
+ // map/grid/mode. Move their factors between Newton steps; scalar factors
+ // are rebuilt from the current nonlinear potential at every step.
+ std::vector<ModalBlock>vector_cache;
  try{
   residual(*s,s->values.data(),r.data());
   for(int it=0;it<=s->local.max_newton;it++){
    update_diag(*s,r);double err=norminf(r);if(err<=s->local.tolerance){s->diag.converged=1;break;}
    if(it==s->local.max_newton)break;
    s->diag.newton_iterations++;
-   Sparse M=preconditioner(*s);for(int i=0;i<s->ntotal;i++)rhs[i]=-r[i];
+   Sparse M=preconditioner(*s,&vector_cache);for(int i=0;i<s->ntotal;i++)rhs[i]=-r[i];
    double forcing=std::min(.05,std::max(1e-5,std::sqrt(err)));
-   if(!gmres(*s,M,rhs,step,forcing)){hispid::last_error="Krylov iteration limit";break;}
+   const bool linear_ok=gmres(*s,M,rhs,step,forcing);M.retain_vectors(vector_cache);
+   if(!linear_ok){hispid::last_error="Krylov iteration limit";break;}
    bool accepted=false;double old=norm2v(r);
    for(double damping=1;damping>=1.0/1024;damping*=.5){
     for(int i=0;i<s->ntotal;i++)trial[i]=s->values[i]+damping*step[i];

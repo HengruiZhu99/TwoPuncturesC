@@ -28402,17 +28402,19 @@
     "passed_strict": false,
     "converges": true,
     "charge_stable": true,
-    "horizon_enclosure_verified": false,
+    "horizon_enclosure_verified": true,
     "stage": "moderate",
     "charge_angular_verified": true,
     "binary_validation_complete": false,
-    "note": "Preliminary physical, independently refined centered charges and solved coordinate covariance pass. Stronger accuracy, refined fixed-origin charges and binary horizons/enclosure remain pending. Historical failed flags and coarse summaries remain retained.",
+    "note": "Current regular-basis moderate data pass preliminary physical, refined centered charges, independently solved coordinate covariance and direct AthenaK horizon/enclosure checks. Stronger exterior accuracy and revised high-spin/boost binaries remain unvalidated. Historical/coarse failed flags remain unchanged.",
     "initial_guess_source_case": "moderate_default_polar2_r128",
     "initial_guess_source_library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
     "initial_guess_compatibility_proof": "validation/budget_operator_equivalence.json",
     "charge_angular_evidence": "validation/polar_sequence_refined_charges.json",
     "refined_physical_and_charge_gate": true,
     "covariance_verified": true,
-    "covariance_evidence": "validation/polar_sequence_covariance.json"
+    "covariance_evidence": "validation/polar_sequence_covariance.json",
+    "horizon_evidence": "validation/polar_sequence_horizons.json",
+    "preliminary_moderate_binary_verified": true
   }
 }

@@ -2024,7 +2024,7 @@ Analytic metric gradients reduce matched charge integration from13.657s to1.120s
 
 The optional sin6/(1-t)^6 positive row scaling fails its declared exact-seed far-source floor1e-14: the finest boosted/generic controls reach1.89e-13. No binary has been solved in that norm. The failed artifact is retained. Correcting the stale76-point allocation estimate to the current five-point stencil preserves fields/residual/JVP bit-for-bit and keeps the2048MiB default and8192MiB cap.
 
-The three-grid moderate polar sequence subsequently passes the preliminary physical, refined centered charge and solved coordinate-covariance gates. Stronger accuracy and binary horizon/enclosure remain unverified. Centered extraction uses2Npolar/3Npolar and phi64/128; angular/fit changes are<1.8e-13, and the two finest extrapolated EPJ vectors differ2.33e-7. Ring reuse gives another21.12x speedup on matched64×64 extraction, with differences<5.6e-13; all-mode first-gradient, frame, invalidation and independent centered/off-center FD controls pass.
+The three-grid moderate polar sequence subsequently passes the preliminary physical, refined centered charge and solved coordinate-covariance gates. Current moderate direct AthenaK horizons and inner-ball enclosure also pass; stronger accuracy and revised high-parameter binaries remain unverified. Centered extraction uses2Npolar/3Npolar and phi64/128; angular/fit changes are<1.8e-13, and the two finest extrapolated EPJ vectors differ2.33e-7. Ring reuse gives another21.12x speedup on matched64×64 extraction, with differences<5.6e-13; all-mode first-gradient, frame, invalidation and independent centered/off-center FD controls pass.
 
 The covariance fixed-global-origin charges still use coarse12×24 integration: finest error1.99e-4 passes the preliminary.005 bound and is not a stronger quadrature claim. Its process peak is10.32GB over sequential contexts. See docs/HISPID_PERFORMANCE.md for measured serial speedups and the isolated integration handoff.
 
@@ -2049,6 +2049,11 @@ The covariance fixed-global-origin charges still use coarse12×24 integration: f
 - `validation/charge_rings_private_controls.json`: control flag=True; binary acceptance is not implied.
 - `validation/charge_rings_full_tests.json`: control flag=True; binary acceptance is not implied.
 - `validation/polar_sequence_refined_charges.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/polar_sequence_horizons.json`: control flag=True; binary acceptance is not implied.
+- `validation/preconditioner_reuse_initial_fixture_failure.json`: control flag=False; binary acceptance is not implied.
+- `validation/preconditioner_reuse_full_tests.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/preconditioner_reuse_operator_equivalence.json`: control flag=True; binary acceptance is not implied.
+- `validation/preconditioner_reuse_benchmark.json`: control flag=True; binary acceptance is not implied.
 - `validation/highboost_seed_controls.json`: passed=True.
 - `validation/failed_highboost_seed_charge_resolution.json`: passed=False.
 - `validation/target_seed_controls.json`: passed=True.
@@ -2096,8 +2101,8 @@ Current executable/source fingerprints and replay records are in the sibling Ath
 - The far40 moderate source remains unsupported by the three-grid physical gate (`failed_moderate_filtered_after_split.json`). The original high-spin source suffered singular seed-divergence cancellation; failed H/M trends are retained. The analytic seed momentum identity repaired that source and restored symmetric charges and decreasing momentum norms.
 - Direct Gamma=sqrt5 binary solves failed the nonlinear/Krylov and physical gates; `highboost_far0` retains all three resolutions. Continuation records distinguish solver convergence from independent physical validation. No boost interval is inferred from a few successful Newton stages.
 - The declared preliminary moderate threshold is RMS 1e-4 with three converging fine grids and <0.5% charge stability. The stronger near/bulk threshold is RMS 1e-6 and max 1e-4. They are reported separately. Neither certifies production or publication accuracy.
-- AthenaK horizon controls pass for exact isolated seeds, but solved-binary horizons, mass/spin measurements and attenuation enclosure remain unverified. Isolated seed radii only screen binary window sizes.
-- Historical unconstrained nodal-V fields violate Cartesian axis regularity. Current mapped modal-P fields enforce C2 axis limits and pass independent scalar/vector Cartesian manufactured checks. Fresh moderate binaries still fail physical/charge acceptance; regularity, small internal residuals and future enclosure alone do not establish exterior vacuum accuracy.
+- Exact isolated seed and current moderate-binary direct horizon controls pass. Moderate inner g/operator balls are enclosed by continuous retained-surface bounds with empirical refinement allowance. Generic AKV spin, stronger exterior accuracy and high-parameter binary horizons remain unverified.
+- Historical unconstrained nodal-V fields violate Cartesian axis regularity. Current mapped modal-P fields enforce C2 axis limits and pass independent scalar/vector Cartesian manufactured checks. The current polar sequence passes preliminary physical/charge/covariance/horizon gates. Its stronger physical gate still fails; regularity and small internal residuals do not establish production exterior accuracy.
 - Exact punctures remain excluded. Regular signed-lapse graph formulas support the QI throat and pass independent seed/derivative checks there; high-regime binary accuracy and arbitrary-precision arithmetic remain separate questions.
 - Thesis historical step stuffing differs from modern smooth Eq.26, and boosted thesis spin conventions differ from this rest-spin API. Published high-boost head-on descriptions omit bare masses and companion-attenuation widths. No original parameter files were recovered. Fully specified local benchmarks must not be called exact table reproduction; milestone E remains incomplete.
 

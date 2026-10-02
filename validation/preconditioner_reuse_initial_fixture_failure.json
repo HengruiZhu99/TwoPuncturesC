@@ -1,0 +1,19 @@
+{
+  "library_sha256": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+  "first_later_matrix_factor_random_rhs_bitwise": true,
+  "scalar_refreshed": true,
+  "second_factor_counts": [
+    7,
+    0
+  ],
+  "scaled_fourier_known_vector_bound": 1e-10,
+  "reused_error": 6.53663e-10,
+  "uncached_error": 6.53663e-10,
+  "incomplete_cache_rejected": true,
+  "passed": false,
+  "note": "First fixture gate failed identically in fresh uncached and reused paths. Retained without altering physical gates. A separate direct modal FD inverse control and bitwise Fourier-path control replace the conflated fixture in the current test.",
+  "logs": [
+    "build-hispid/preconditioner-reuse-full-tests.log",
+    "build-hispid/preconditioner-reuse-diagnostic.log"
+  ]
+}
