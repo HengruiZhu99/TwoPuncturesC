@@ -10,6 +10,96 @@ unvalidated; do not use these binary outputs as validated production data.
 
 ## Measured improvements
 
+### Behavior-preserving memory and line-solve changes (2026-10-02)
+
+Two alternating fresh-process measurements per version use the same lower-spin
+unequal-mass configuration, 40×80×16 counts, zero guess, one CPU thread and
+native tolerance 1e-12 on the Apple M5 Pro. The following are medians;
+MB means 1,000,000 bytes and memory is whole-process peak RSS captured before
+verification snapshots. Timing includes identical full-precision BY logging.
+
+| Backend | Solve before → after | Peak RAM before → after | Result |
+|---|---:|---:|---|
+| HiSpID | 3.332s → 3.315s | 496.45MB → 338.35MB | 31.8% less RAM; speed essentially unchanged |
+| Bowen–York | 57.338s → 26.988s | 86.28MB → 91.62MB | 2.12× faster; cache costs 6.2% more RAM |
+
+Setup through first sample changes from 4.590s to 4.579s for HiSpID and
+57.477s to 27.129s for BY (2.12× faster). Two repeats establish the observed
+workload cost, not a scaling law or a statistically significant HiSpID speedup.
+
+HiSpID allocates GMRES V/Z columns only when visited, keeps them across restarts,
+and removes an unused full-size scratch vector. Restart64, iteration limits,
+zero initialization, orthogonalization, update order and stopping rules are
+unchanged. Savings depend on the largest visited Krylov bank; a solve using
+all restart columns will retain nearly the previous history storage. The
+conservative worst-case context memory guard is retained.
+
+BY caches nonsymmetric tridiagonal factors and off-line entry masks for each
+fixed finite-difference Jacobian. Each line owns its mutable RHS/solution
+workspace. Factors are rebuilt for every new Newton/BiCGStab call, including
+the target-mass loop. The implementation keeps GSL's division and elimination
+expressions, stencil subtraction order, reflected endpoint assignments,
+plane/color/line update order, all 200 relaxation sweeps, and the spectral
+Newton/BiCGStab operations. Unsupported pivots, oversized row masks or failed
+cache allocation select the inherited GSL path.
+
+The baseline BY equations, coordinates, spectral operations, Newton and
+BiCGStab source match original standalone TwoPunctures commit
+`ec563aeb672235b9443c330f9cde65f7246e8ea4`. A fresh build of that commit gives
+bit-identical v/u/cf_v arrays, stored and recomputed F, and Cartesian spectral
+correction samples at the full benchmark grid. Four additional 12×18×8
+controls cover generic spin/momentum, target ADM masses, a zero-source binary,
+and the spin95 BY input. All reach the native tolerance and match the original
+state exactly. Target-mass final bare masses and internal-end ADM masses also
+match exactly. This checks the first fresh solve; the fork's existing explicit
+ownership/lifecycle guards intentionally differ from upstream static reuse.
+
+Both baseline and optimized full-grid BY runs have identical full-precision
+Newton/BiCGStab traces, 37 snapshot arrays, ADM diagnostics and physical samples.
+HiSpID's unknowns, recomputed residual, physical metric/curvature/gradient
+samples and Newton/Krylov counts are bit-identical. Separate controls include
+2,056 BY checks, comparing legacy-GSL/cached results after every step of 800 relaxation
+sweeps on refreshed rectangular-grid Jacobians, and 18 eager/lazy GMRES cases.
+The final complete native suite, 30 Python tests and physical API/sequential
+lifecycle regression pass. The sole formulation reviewer found no defect.
+
+BY retains its original max-absolute Newton residual weighted by
+`sin^3(alpha) sin^3(beta)`, and the unnormalized L2 BiCGStab tolerance
+`1e-3 * Newton_max_residual` with cap100. HiSpID uses
+`sin^6(alpha) sin^6(beta)` with its GMRES forcing and damped Newton rules.
+The numeric tolerance does not represent the same stopping norm or physical
+accuracy between backends. Neither set of criteria was changed here.
+
+The implementation is commit `a4fbd5f`. Evidence is
+`validation/solver_efficiency_moderate_40.json` and the stronger
+retained-record checks in `validation/solver_efficiency_verification.json`.
+They record explicit library hashes, configuration/diagnostic equality,
+array shape/dtype/bit checks, trace hashes, source hashes and original-code
+controls. Raw states/logs are retained in the ignored validation/raw directory.
+Old producer libraries/checkpoints and failed physical gates remain bound to
+their original hashes; these performance tests confer no new binary physical
+acceptance.
+
+For a fresh serial build and all controls, use fresh output directories:
+
+```sh
+make -j1 test-hispid test \
+  HISPID_DIR="$PWD/build-efficiency-replay" \
+  OBJD="$PWD/build-efficiency-replay/obj" \
+  LIBD="$PWD/build-efficiency-replay/lib" \
+  TEST_EXE="$PWD/build-efficiency-replay/test_physical_api.x"
+```
+
+`validation/benchmark_solver_efficiency.py` runs one numerical worker at a time,
+alternates before/after order and requires explicit frozen libraries. Supply
+both a pre-change snapshot (commit c4158cb) and current libraries, a fresh
+`--output`, and `--grid 40:80:16 --case moderate --tolerance 1e-12 --repeats 2`.
+The timing wrappers replace TP_Newton.o and alter only printf precision, as
+specified in the verification provenance. `validation/compare_by_upstream.py`
+uses only original-compatible symbols. `validation/verify_solver_efficiency.py`
+rechecks retained arrays, configurations, diagnostics and traces without
+re-solving or overwriting evidence.
+
 ### Cold comparison with the local Bowen–York backend
 
 The lower-spin unequal-mass case uses masses.6/.4, centers(±3,0,0),
@@ -30,7 +120,7 @@ properties. No binary acceptance is inferred.
 | 1e-12 | 3.359s | 56.833s | 4.633s | 56.972s | Yes |
 | 1e-14 | 3.661s | 202.666s | 4.964s | 202.819s | No: BY residual2.37e-13 |
 
-The current-source1e-12 pair makes HiSpID16.9× faster for the elliptic solve
+The archived pre-optimization1e-12 pair makes HiSpID16.9× faster for the elliptic solve
 and12.3× faster through setup and first sampling. Peak process RSS is
 495.94MB versus85.54MB, about5.8× higher. The1e-10 row uses qualified
 producer126300dc; the1e-12/1e-14 rows use the later exact-reuse sourceb96ee4b1.
@@ -54,7 +144,7 @@ initial-data call; HiSpID's lazy coefficient construction is included by
 the first-sample metric. Verification, ADM extraction and horizon searches
 are excluded. All failed and interrupted records remain separate.
 
-For a replay, link the timing wrapper instead of the legacy Newton object;
+For a fresh measurement of the current source, link the timing wrapper instead of the legacy Newton object;
 it includes the original Newton source without changing its mathematics:
 
 ```sh
@@ -147,7 +237,8 @@ step. Perlmutter SSH access is available; no allocation has been made.
 ## Review and replay
 
 Native branch `codex/hispid` lives in the sibling `TwoPuncturesC` worktree,
-based on68287742f4920f4ea39b7dac1571c81eefe2ff8f. The BY sources are untouched.
+based on68287742f4920f4ea39b7dac1571c81eefe2ff8f. BY equations remain
+unchanged; TP_Newton now caches fixed-JFD line factors as tested above.
 `docs/HISPID.md` contains build, ABI, conventions and replay instructions;
 `docs/VALIDATION.md` and retained JSON give configurations and failed gates.
 Always supply an absolute native-library path. A checkpoint is bound to its

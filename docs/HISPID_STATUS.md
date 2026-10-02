@@ -1,5 +1,13 @@
 # HiSpID milestone status
 
+The latest serial optimization preserves the tested solution bit-for-bit.
+On repeated 40×80×16 lower-spin solves, lazy HiSpID GMRES storage reduces peak
+RSS by31.8% (496.45→338.35MB), while fixed-JFD BY line-factor reuse gives2.12×
+speedup (57.34→26.99s) for6.2% extra BY RAM. Fresh original standalone BY,
+target-mass and full iteration/state controls pass. Stopping rules are
+unchanged; BY's cubic and HiSpID's sixth-power residual weights differ.
+See `docs/HISPID_PERFORMANCE.md` and the solver_efficiency JSON records.
+
 Current status (2026-10-02): **exact single-hole targets pass; the moderate binary passes
 preliminary constraints, charges, coordinate covariance and horizon enclosure**. Rest spin chi=.95 and lab speed v=.885 pass separately
 and combined with generic directions. AthenaK's current isolated consumer

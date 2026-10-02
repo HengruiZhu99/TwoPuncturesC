@@ -1,0 +1,2501 @@
+{
+  "case": "moderate",
+  "grid": [
+    40,
+    80,
+    16
+  ],
+  "tolerance": 1e-12,
+  "repeats": 2,
+  "records": {
+    "hispid": {
+      "before": [
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "diagnostics": {
+            "converged": 1,
+            "newton_iterations": 4,
+            "krylov_iterations": 43,
+            "npoints": 51200,
+            "scaled_linf": [
+              3.894066753868869e-17,
+              3.8741192052220917e-16,
+              4.550445396739908e-16,
+              3.881377527018557e-16
+            ],
+            "unscaled_linf": [
+              9.343220641611083e-13,
+              4.9368002830002245e-11,
+              1.28645870599519e-10,
+              6.358719383063834e-11
+            ],
+            "seconds": 3.32024,
+            "status": 0,
+            "error": ""
+          },
+          "creation_seconds": 1.2465910830069333,
+          "setup_and_solve_seconds": 4.566900999983773,
+          "solve_seconds": 3.32024,
+          "first_sample_seconds": 0.005125625000800937,
+          "ready_to_sample_seconds": 4.572026624984574,
+          "converged": true,
+          "library_sha256": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+          "loaded_image_verified": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 496369664,
+          "sample_method": "spectral",
+          "state": "validation/raw/solver_efficiency_moderate_40/hispid_before_0.npz",
+          "state_sha256": "c2e6af60d7a1dfeb4f32628d0525ed69fc853563887dac8733fa5f41e09573af",
+          "log": "validation/raw/solver_efficiency_moderate_40/hispid_before_0.log",
+          "log_sha256": "8f2adad4ec022d477702850a8b9c92a881acffbf8e3d004f10917be5e88016a8",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-preconditioner-reuse/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/baseline/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "hispid",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_before_0.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_before_0.npz"
+          ]
+        },
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "diagnostics": {
+            "converged": 1,
+            "newton_iterations": 4,
+            "krylov_iterations": 43,
+            "npoints": 51200,
+            "scaled_linf": [
+              3.894066753868869e-17,
+              3.8741192052220917e-16,
+              4.550445396739908e-16,
+              3.881377527018557e-16
+            ],
+            "unscaled_linf": [
+              9.343220641611083e-13,
+              4.9368002830002245e-11,
+              1.28645870599519e-10,
+              6.358719383063834e-11
+            ],
+            "seconds": 3.343394667,
+            "status": 0,
+            "error": ""
+          },
+          "creation_seconds": 1.2603205000050366,
+          "setup_and_solve_seconds": 4.603787333006039,
+          "solve_seconds": 3.343394667,
+          "first_sample_seconds": 0.005169957992620766,
+          "ready_to_sample_seconds": 4.60895729099866,
+          "converged": true,
+          "library_sha256": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+          "loaded_image_verified": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 496533504,
+          "sample_method": "spectral",
+          "state": "validation/raw/solver_efficiency_moderate_40/hispid_before_1.npz",
+          "state_sha256": "c2e6af60d7a1dfeb4f32628d0525ed69fc853563887dac8733fa5f41e09573af",
+          "log": "validation/raw/solver_efficiency_moderate_40/hispid_before_1.log",
+          "log_sha256": "55fe872e54928f6ea871aec4d4c5472ec2780479f6ccb0e2e55ca48467023f8a",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-preconditioner-reuse/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/baseline/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "hispid",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_before_1.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_before_1.npz"
+          ]
+        }
+      ],
+      "after": [
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "diagnostics": {
+            "converged": 1,
+            "newton_iterations": 4,
+            "krylov_iterations": 43,
+            "npoints": 51200,
+            "scaled_linf": [
+              3.894066753868869e-17,
+              3.8741192052220917e-16,
+              4.550445396739908e-16,
+              3.881377527018557e-16
+            ],
+            "unscaled_linf": [
+              9.343220641611083e-13,
+              4.9368002830002245e-11,
+              1.28645870599519e-10,
+              6.358719383063834e-11
+            ],
+            "seconds": 3.321611625,
+            "status": 0,
+            "error": ""
+          },
+          "creation_seconds": 1.252903165994212,
+          "setup_and_solve_seconds": 4.574575415987056,
+          "solve_seconds": 3.321611625,
+          "first_sample_seconds": 0.005112042010296136,
+          "ready_to_sample_seconds": 4.579687457997352,
+          "converged": true,
+          "library_sha256": "f83ffcba799b64e0f409765f4ac15ff9d4f6cf323a17b14d79a23df33bf35f30",
+          "loaded_image_verified": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 338362368,
+          "sample_method": "spectral",
+          "state": "validation/raw/solver_efficiency_moderate_40/hispid_after_0.npz",
+          "state_sha256": "c2e6af60d7a1dfeb4f32628d0525ed69fc853563887dac8733fa5f41e09573af",
+          "log": "validation/raw/solver_efficiency_moderate_40/hispid_after_0.log",
+          "log_sha256": "f0c9a73d22f24bb9795f4d893ebda5f98509699e0ec63caa033adc40024e4a9d",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-memory/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/optimized/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "hispid",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_after_0.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_after_0.npz"
+          ]
+        },
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "diagnostics": {
+            "converged": 1,
+            "newton_iterations": 4,
+            "krylov_iterations": 43,
+            "npoints": 51200,
+            "scaled_linf": [
+              3.894066753868869e-17,
+              3.8741192052220917e-16,
+              4.550445396739908e-16,
+              3.881377527018557e-16
+            ],
+            "unscaled_linf": [
+              9.343220641611083e-13,
+              4.9368002830002245e-11,
+              1.28645870599519e-10,
+              6.358719383063834e-11
+            ],
+            "seconds": 3.309312875,
+            "status": 0,
+            "error": ""
+          },
+          "creation_seconds": 1.2638535829610191,
+          "setup_and_solve_seconds": 4.573240750003606,
+          "solve_seconds": 3.309312875,
+          "first_sample_seconds": 0.005120124958921224,
+          "ready_to_sample_seconds": 4.578360874962527,
+          "converged": true,
+          "library_sha256": "f83ffcba799b64e0f409765f4ac15ff9d4f6cf323a17b14d79a23df33bf35f30",
+          "loaded_image_verified": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 338329600,
+          "sample_method": "spectral",
+          "state": "validation/raw/solver_efficiency_moderate_40/hispid_after_1.npz",
+          "state_sha256": "c2e6af60d7a1dfeb4f32628d0525ed69fc853563887dac8733fa5f41e09573af",
+          "log": "validation/raw/solver_efficiency_moderate_40/hispid_after_1.log",
+          "log_sha256": "acebb324dd5eb5b8830527ac1ee4e97dc16a9e32d6a4acfb8b6e34563e611280",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-memory/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/optimized/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "hispid",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_after_1.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/hispid_after_1.npz"
+          ]
+        }
+      ]
+    },
+    "by": {
+      "before": [
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "by_real_parameters": {
+            "par_b": 3.0,
+            "par_m_plus": 0.6,
+            "par_m_minus": 0.4,
+            "Newton_tol": 1e-12,
+            "par_P_plus1": 0.018041543379727906,
+            "par_S_plus1": 0.07206863688824611,
+            "par_P_plus2": 0.03608308675945581,
+            "par_S_plus2": 0.05392955687785267,
+            "par_P_plus3": 0.006013847793242636,
+            "par_S_plus3": 0.10821674806814562,
+            "par_P_minus1": -0.008023805839587412,
+            "par_S_minus1": -0.032118526965034366,
+            "par_P_minus2": -0.028083320438555943,
+            "par_S_minus2": 0.048061272414127935,
+            "par_P_minus3": 0.010029757299484264,
+            "par_S_minus3": 0.016076741187530722
+          },
+          "by_integer_parameters": {
+            "npoints_A": 40,
+            "npoints_B": 80,
+            "npoints_phi": 16,
+            "Newton_maxit": 24,
+            "give_bare_mass": 1,
+            "use_external_initial_guess": 0,
+            "solve_momentum_constraint": 0,
+            "grid_setup_method": 1,
+            "verbose": 1
+          },
+          "by_momenta": [
+            [
+              0.018041543379727906,
+              0.03608308675945581,
+              0.006013847793242636
+            ],
+            [
+              -0.008023805839587412,
+              -0.028083320438555943,
+              0.010029757299484264
+            ]
+          ],
+          "by_lab_intrinsic_spins": [
+            [
+              0.07206863688824611,
+              0.05392955687785267,
+              0.10821674806814562
+            ],
+            [
+              -0.032118526965034366,
+              0.048061272414127935,
+              0.016076741187530722
+            ]
+          ],
+          "solve_seconds": 57.24948299990501,
+          "setup_and_solve_seconds": 57.3880065419944,
+          "first_sample_seconds": 7.329200161620975e-05,
+          "ready_to_sample_seconds": 57.38807983399602,
+          "diagnostics": {
+            "status": 0,
+            "residual_linf": 3.082457907224647e-13,
+            "adm_energy": 1.0480742019437799,
+            "puncture_masses": [
+              0.6512023888739645,
+              0.4389371971934785
+            ]
+          },
+          "converged": true,
+          "library_sha256": "6457517934d85b0f9d91cadc530ac494ea77a1ab67078eae300e27b46e9bca75",
+          "loaded_image_verified": true,
+          "sample_method": "spectral",
+          "verbose_inside_timer": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 86671360,
+          "state": "validation/raw/solver_efficiency_moderate_40/by_before_0.npz",
+          "state_sha256": "ab7a8f66b0b410bfb8f95dedd20b874e0697c367546ffafd406e5fd66f0e9500",
+          "log": "validation/raw/solver_efficiency_moderate_40/by_before_0.log",
+          "log_sha256": "cbdefe9b5623ba0b5670b46a063ca98fbee6a5b63c6eb72289c2b67358edcc63",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-preconditioner-reuse/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/baseline/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "by",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_before_0.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_before_0.npz",
+            "--input",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/input.json",
+            "--by-verbose"
+          ]
+        },
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "by_real_parameters": {
+            "par_b": 3.0,
+            "par_m_plus": 0.6,
+            "par_m_minus": 0.4,
+            "Newton_tol": 1e-12,
+            "par_P_plus1": 0.018041543379727906,
+            "par_S_plus1": 0.07206863688824611,
+            "par_P_plus2": 0.03608308675945581,
+            "par_S_plus2": 0.05392955687785267,
+            "par_P_plus3": 0.006013847793242636,
+            "par_S_plus3": 0.10821674806814562,
+            "par_P_minus1": -0.008023805839587412,
+            "par_S_minus1": -0.032118526965034366,
+            "par_P_minus2": -0.028083320438555943,
+            "par_S_minus2": 0.048061272414127935,
+            "par_P_minus3": 0.010029757299484264,
+            "par_S_minus3": 0.016076741187530722
+          },
+          "by_integer_parameters": {
+            "npoints_A": 40,
+            "npoints_B": 80,
+            "npoints_phi": 16,
+            "Newton_maxit": 24,
+            "give_bare_mass": 1,
+            "use_external_initial_guess": 0,
+            "solve_momentum_constraint": 0,
+            "grid_setup_method": 1,
+            "verbose": 1
+          },
+          "by_momenta": [
+            [
+              0.018041543379727906,
+              0.03608308675945581,
+              0.006013847793242636
+            ],
+            [
+              -0.008023805839587412,
+              -0.028083320438555943,
+              0.010029757299484264
+            ]
+          ],
+          "by_lab_intrinsic_spins": [
+            [
+              0.07206863688824611,
+              0.05392955687785267,
+              0.10821674806814562
+            ],
+            [
+              -0.032118526965034366,
+              0.048061272414127935,
+              0.016076741187530722
+            ]
+          ],
+          "solve_seconds": 57.42690500000026,
+          "setup_and_solve_seconds": 57.56640445801895,
+          "first_sample_seconds": 7.820798782631755e-05,
+          "ready_to_sample_seconds": 57.56648266600678,
+          "diagnostics": {
+            "status": 0,
+            "residual_linf": 3.082457907224647e-13,
+            "adm_energy": 1.0480742019437799,
+            "puncture_masses": [
+              0.6512023888739645,
+              0.4389371971934785
+            ]
+          },
+          "converged": true,
+          "library_sha256": "6457517934d85b0f9d91cadc530ac494ea77a1ab67078eae300e27b46e9bca75",
+          "loaded_image_verified": true,
+          "sample_method": "spectral",
+          "verbose_inside_timer": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 85884928,
+          "state": "validation/raw/solver_efficiency_moderate_40/by_before_1.npz",
+          "state_sha256": "ab7a8f66b0b410bfb8f95dedd20b874e0697c367546ffafd406e5fd66f0e9500",
+          "log": "validation/raw/solver_efficiency_moderate_40/by_before_1.log",
+          "log_sha256": "181c7add33148308b63f22005a1af18752478fcc0a05c77cf6d71d396a5a0d3b",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-preconditioner-reuse/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/baseline/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "by",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_before_1.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_before_1.npz",
+            "--input",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/input.json",
+            "--by-verbose"
+          ]
+        }
+      ],
+      "after": [
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "by_real_parameters": {
+            "par_b": 3.0,
+            "par_m_plus": 0.6,
+            "par_m_minus": 0.4,
+            "Newton_tol": 1e-12,
+            "par_P_plus1": 0.018041543379727906,
+            "par_S_plus1": 0.07206863688824611,
+            "par_P_plus2": 0.03608308675945581,
+            "par_S_plus2": 0.05392955687785267,
+            "par_P_plus3": 0.006013847793242636,
+            "par_S_plus3": 0.10821674806814562,
+            "par_P_minus1": -0.008023805839587412,
+            "par_S_minus1": -0.032118526965034366,
+            "par_P_minus2": -0.028083320438555943,
+            "par_S_minus2": 0.048061272414127935,
+            "par_P_minus3": 0.010029757299484264,
+            "par_S_minus3": 0.016076741187530722
+          },
+          "by_integer_parameters": {
+            "npoints_A": 40,
+            "npoints_B": 80,
+            "npoints_phi": 16,
+            "Newton_maxit": 24,
+            "give_bare_mass": 1,
+            "use_external_initial_guess": 0,
+            "solve_momentum_constraint": 0,
+            "grid_setup_method": 1,
+            "verbose": 1
+          },
+          "by_momenta": [
+            [
+              0.018041543379727906,
+              0.03608308675945581,
+              0.006013847793242636
+            ],
+            [
+              -0.008023805839587412,
+              -0.028083320438555943,
+              0.010029757299484264
+            ]
+          ],
+          "by_lab_intrinsic_spins": [
+            [
+              0.07206863688824611,
+              0.05392955687785267,
+              0.10821674806814562
+            ],
+            [
+              -0.032118526965034366,
+              0.048061272414127935,
+              0.016076741187530722
+            ]
+          ],
+          "solve_seconds": 26.942948000039905,
+          "setup_and_solve_seconds": 27.084191458998248,
+          "first_sample_seconds": 7.766601629555225e-05,
+          "ready_to_sample_seconds": 27.084269125014544,
+          "diagnostics": {
+            "status": 0,
+            "residual_linf": 3.082457907224647e-13,
+            "adm_energy": 1.0480742019437799,
+            "puncture_masses": [
+              0.6512023888739645,
+              0.4389371971934785
+            ]
+          },
+          "converged": true,
+          "library_sha256": "ea40fa135c3718ea4df27fe3df2dbedb0a070f392a67624a6e65395749af92d8",
+          "loaded_image_verified": true,
+          "sample_method": "spectral",
+          "verbose_inside_timer": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 91996160,
+          "state": "validation/raw/solver_efficiency_moderate_40/by_after_0.npz",
+          "state_sha256": "ab7a8f66b0b410bfb8f95dedd20b874e0697c367546ffafd406e5fd66f0e9500",
+          "log": "validation/raw/solver_efficiency_moderate_40/by_after_0.log",
+          "log_sha256": "811806c26ca6d1fdcd2a6ccbaad10be1d8c0941eb250c4bca44f3b47859533b1",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-memory/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/optimized/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "by",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_after_0.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_after_0.npz",
+            "--input",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/input.json",
+            "--by-verbose"
+          ]
+        },
+        {
+          "config": {
+            "hole": [
+              {
+                "mass": 0.6,
+                "center": [
+                  3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  0.072,
+                  0.054,
+                  0.108
+                ],
+                "velocity": [
+                  0.03,
+                  0.06,
+                  0.01
+                ]
+              },
+              {
+                "mass": 0.4,
+                "center": [
+                  -3.0,
+                  0.0,
+                  0.0
+                ],
+                "spin": [
+                  -0.032,
+                  0.048,
+                  0.016
+                ],
+                "velocity": [
+                  -0.02,
+                  -0.07,
+                  0.025
+                ]
+              }
+            ],
+            "n": [
+              40,
+              80,
+              16
+            ],
+            "conformal_choice": 1,
+            "inner_flatten": 1,
+            "omega": [
+              0.5,
+              0.5
+            ],
+            "attenuation_power": 4,
+            "inner_min": [
+              0.045,
+              0.03
+            ],
+            "inner_max": [
+              0.09,
+              0.06
+            ],
+            "far_radius": 0.0,
+            "tolerance": 1e-12,
+            "max_newton": 24,
+            "max_krylov": 2000,
+            "krylov_restart": 64,
+            "memory_limit_mib": 8192
+          },
+          "by_real_parameters": {
+            "par_b": 3.0,
+            "par_m_plus": 0.6,
+            "par_m_minus": 0.4,
+            "Newton_tol": 1e-12,
+            "par_P_plus1": 0.018041543379727906,
+            "par_S_plus1": 0.07206863688824611,
+            "par_P_plus2": 0.03608308675945581,
+            "par_S_plus2": 0.05392955687785267,
+            "par_P_plus3": 0.006013847793242636,
+            "par_S_plus3": 0.10821674806814562,
+            "par_P_minus1": -0.008023805839587412,
+            "par_S_minus1": -0.032118526965034366,
+            "par_P_minus2": -0.028083320438555943,
+            "par_S_minus2": 0.048061272414127935,
+            "par_P_minus3": 0.010029757299484264,
+            "par_S_minus3": 0.016076741187530722
+          },
+          "by_integer_parameters": {
+            "npoints_A": 40,
+            "npoints_B": 80,
+            "npoints_phi": 16,
+            "Newton_maxit": 24,
+            "give_bare_mass": 1,
+            "use_external_initial_guess": 0,
+            "solve_momentum_constraint": 0,
+            "grid_setup_method": 1,
+            "verbose": 1
+          },
+          "by_momenta": [
+            [
+              0.018041543379727906,
+              0.03608308675945581,
+              0.006013847793242636
+            ],
+            [
+              -0.008023805839587412,
+              -0.028083320438555943,
+              0.010029757299484264
+            ]
+          ],
+          "by_lab_intrinsic_spins": [
+            [
+              0.07206863688824611,
+              0.05392955687785267,
+              0.10821674806814562
+            ],
+            [
+              -0.032118526965034366,
+              0.048061272414127935,
+              0.016076741187530722
+            ]
+          ],
+          "solve_seconds": 27.032183000002988,
+          "setup_and_solve_seconds": 27.17360599996755,
+          "first_sample_seconds": 7.325003389269114e-05,
+          "ready_to_sample_seconds": 27.17367925000144,
+          "diagnostics": {
+            "status": 0,
+            "residual_linf": 3.082457907224647e-13,
+            "adm_energy": 1.0480742019437799,
+            "puncture_masses": [
+              0.6512023888739645,
+              0.4389371971934785
+            ]
+          },
+          "converged": true,
+          "library_sha256": "ea40fa135c3718ea4df27fe3df2dbedb0a070f392a67624a6e65395749af92d8",
+          "loaded_image_verified": true,
+          "sample_method": "spectral",
+          "verbose_inside_timer": true,
+          "case": "moderate",
+          "cpu_threads": 1,
+          "initial_guess": "zero",
+          "max_rss_bytes": 91242496,
+          "state": "validation/raw/solver_efficiency_moderate_40/by_after_1.npz",
+          "state_sha256": "ab7a8f66b0b410bfb8f95dedd20b874e0697c367546ffafd406e5fd66f0e9500",
+          "log": "validation/raw/solver_efficiency_moderate_40/by_after_1.log",
+          "log_sha256": "bd588f67f233d76f1a7892c2a7567975fb7a15a7423bf7befb8417f38fae0efa",
+          "command": [
+            "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/benchmark_bowen_york.py",
+            "--hispid-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-memory/libHiSpID.so",
+            "--by-library",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency/optimized/libTwoPuncturesTimed.so",
+            "--case",
+            "moderate",
+            "--grid",
+            "40:80:16",
+            "--tolerance",
+            "1e-12",
+            "--output",
+            "validation/solver_efficiency_moderate_40.json",
+            "--mode",
+            "by",
+            "--worker-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_after_1.json",
+            "--state-output",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/by_after_1.npz",
+            "--input",
+            "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/solver_efficiency_moderate_40/input.json",
+            "--by-verbose"
+          ]
+        }
+      ]
+    }
+  },
+  "invariance": {
+    "hispid": {
+      "passed": true,
+      "checks": [
+        {
+          "version": "before",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "unknowns": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "residual": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Kij": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "conformal_metric": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Atilde": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "mean_curvature": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "correction": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 24
+            },
+            "attenuation": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "dgamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 162
+            }
+          },
+          "by_iteration_trace_bitwise_equal": null,
+          "hispid_iteration_counts_equal": true
+        },
+        {
+          "version": "before",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "unknowns": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "residual": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Kij": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "conformal_metric": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Atilde": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "mean_curvature": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "correction": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 24
+            },
+            "attenuation": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "dgamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 162
+            }
+          },
+          "by_iteration_trace_bitwise_equal": null,
+          "hispid_iteration_counts_equal": true
+        },
+        {
+          "version": "after",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "unknowns": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "residual": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Kij": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "conformal_metric": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Atilde": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "mean_curvature": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "correction": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 24
+            },
+            "attenuation": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "dgamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 162
+            }
+          },
+          "by_iteration_trace_bitwise_equal": null,
+          "hispid_iteration_counts_equal": true
+        },
+        {
+          "version": "after",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "unknowns": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "residual": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 204800
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Kij": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "conformal_metric": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "Atilde": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 54
+            },
+            "mean_curvature": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "correction": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 24
+            },
+            "attenuation": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "dgamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 162
+            }
+          },
+          "by_iteration_trace_bitwise_equal": null,
+          "hispid_iteration_counts_equal": true
+        }
+      ]
+    },
+    "by": {
+      "passed": true,
+      "checks": [
+        {
+          "version": "before",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "recomputed_F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "spectral_v_samples": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "lapse": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            },
+            "K": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            }
+          },
+          "by_iteration_trace_bitwise_equal": true,
+          "hispid_iteration_counts_equal": null
+        },
+        {
+          "version": "before",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "recomputed_F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "spectral_v_samples": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "lapse": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            },
+            "K": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            }
+          },
+          "by_iteration_trace_bitwise_equal": true,
+          "hispid_iteration_counts_equal": null
+        },
+        {
+          "version": "after",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "recomputed_F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "spectral_v_samples": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "lapse": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            },
+            "K": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            }
+          },
+          "by_iteration_trace_bitwise_equal": true,
+          "hispid_iteration_counts_equal": null
+        },
+        {
+          "version": "after",
+          "converged": true,
+          "same_arrays": true,
+          "arrays": {
+            "F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "u_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d0": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d1": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d2": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d3": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d11": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d12": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d13": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d22": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d23": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "cf_v_d33": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "recomputed_F": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 51200
+            },
+            "spectral_v_samples": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "lapse": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "psi": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 6
+            },
+            "gamma": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            },
+            "K": {
+              "bitwise_equal": true,
+              "max_absolute_difference": 0.0,
+              "finite": true,
+              "elements": 36
+            }
+          },
+          "by_iteration_trace_bitwise_equal": true,
+          "hispid_iteration_counts_equal": null
+        }
+      ]
+    }
+  },
+  "performance": {
+    "hispid": {
+      "medians": {
+        "before": {
+          "solve_seconds": 3.3318173335,
+          "ready_to_sample_seconds": 4.590491957991617,
+          "max_rss_bytes": 496451584.0
+        },
+        "after": {
+          "solve_seconds": 3.31546225,
+          "ready_to_sample_seconds": 4.57902416647994,
+          "max_rss_bytes": 338345984.0
+        }
+      },
+      "solve_speedup": 1.0049329723178118,
+      "ready_speedup": 1.002504418211117,
+      "peak_rss_reduction_fraction": 0.3184713375796179
+    },
+    "by": {
+      "medians": {
+        "before": {
+          "solve_seconds": 57.33819399995264,
+          "ready_to_sample_seconds": 57.4772812500014,
+          "max_rss_bytes": 86278144.0
+        },
+        "after": {
+          "solve_seconds": 26.987565500021446,
+          "ready_to_sample_seconds": 27.128974187507993,
+          "max_rss_bytes": 91619328.0
+        }
+      },
+      "solve_speedup": 2.1246152788367323,
+      "ready_speedup": 2.118667696490633,
+      "peak_rss_reduction_fraction": -0.06190657045195591
+    }
+  },
+  "cpu_threads": 1,
+  "isolated_sequential_workers": true,
+  "platform": "macOS-26.7-arm64-arm-64bit",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "note": "Native weights differ: BY sin^3(alpha)sin^3(beta), HiSpID sin^6(alpha)sin^6(beta). Both criteria unchanged before/after. State capture occurs after timing/RSS. Full-precision BY stdout trace is enabled identically in both builds. These tests do not inherit binary physical acceptance."
+}

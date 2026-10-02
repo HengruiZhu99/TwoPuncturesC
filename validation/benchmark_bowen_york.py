@@ -18,6 +18,40 @@ from configs import as_dict, moderate, target_binary
 from hispid import Backend
 
 ROOT = Path(__file__).resolve().parents[1]
+SAMPLE_POINTS = np.array([[0.,2.,1.], [3.2,.1,.15], [-3.2,.1,.15],
+                          [1.,-2.,.7], [10.,4.,-3.], [40.,30.,20.]])
+
+class Derivs(C.Structure):
+    _fields_ = [('size', C.c_int)] + [(name, C.POINTER(C.c_double)) for name in
+                ('d0','d1','d2','d3','d11','d12','d13','d22','d23','d33')]
+
+class InitialData(C.Structure):
+    _fields_ = [('F', C.POINTER(C.c_double))] + [(name, C.POINTER(Derivs)) for name in
+                ('u','v','cf_v')] + [('ntotal', C.c_int)]
+
+
+def save_by_state(lib, pointer, grid, filename, include_physical=True):
+    data = C.cast(pointer, C.POINTER(InitialData)).contents
+    arrays = {'F': np.ctypeslib.as_array(data.F, (data.ntotal,)).copy()}
+    for name in ('u','v','cf_v'):
+        field = getattr(data, name).contents
+        for derivative, _ in Derivs._fields_[1:]:
+            arrays[name+'_'+derivative] = np.ctypeslib.as_array(getattr(field, derivative), (data.ntotal,)).copy()
+    recomputed = np.empty(data.ntotal)
+    lib.F_of_v.restype = None
+    lib.F_of_v.argtypes = [C.c_int]*4 + [C.POINTER(Derivs), C.POINTER(C.c_double), C.POINTER(Derivs)]
+    lib.F_of_v(1, *grid, data.v, recomputed.ctypes.data_as(C.POINTER(C.c_double)), data.u)
+    arrays['recomputed_F'] = recomputed
+    lib.PunctIntPolAtArbitPositionFast.argtypes = [C.c_int]*5 + [C.POINTER(Derivs)] + [C.c_double]*3
+    lib.PunctIntPolAtArbitPositionFast.restype = C.c_double
+    arrays['spectral_v_samples'] = np.array([lib.PunctIntPolAtArbitPositionFast(0,1,*grid,data.cf_v,*point) for point in SAMPLE_POINTS])
+    if include_physical and hasattr(lib,'TwoPunctures_sample_points'):
+        count=len(SAMPLE_POINTS); lapse=np.empty(count);psi=np.empty(count);gamma=np.empty((count,6));K=np.empty((count,6))
+        ptr=lambda a:a.ctypes.data_as(C.POINTER(C.c_double))
+        if lib.TwoPunctures_sample_points(pointer,count,ptr(SAMPLE_POINTS),ptr(lapse),ptr(psi),ptr(gamma),ptr(K)):raise RuntimeError('state sampling failed')
+        arrays.update(lapse=lapse,psi=psi,gamma=gamma,K=K)
+    np.savez(filename, **arrays)
+
 
 
 def digest(path):
@@ -69,6 +103,11 @@ def worker(args):
             finished = time.monotonic()
             data.sample([[0., 2., 1.]])
             ready = time.monotonic()
+            measured_rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            if args.state_output:
+                values = data.unknowns()
+                samples = data.sample_with_derivatives(SAMPLE_POINTS)
+                np.savez(args.state_output, unknowns=values, residual=data.residual(values), **samples)
         result = dict(config=as_dict(config), diagnostics=diagnostics,
                       creation_seconds=created-start,
                       setup_and_solve_seconds=finished-start,
@@ -137,11 +176,14 @@ def worker(args):
         gamma, curvature = (C.c_double*6)(), (C.c_double*6)()
         sample_status = lib.TwoPunctures_sample_points(data, 1, xyz, lapse, psi, gamma, curvature)
         ready = time.monotonic()
+        measured_rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         if sample_status:
             raise RuntimeError('BY first sampling failed')
         residual, energy = C.c_double(), C.c_double()
         masses = (C.c_double*2)()
         status = lib.TwoPunctures_diagnostics(data, C.byref(residual), C.byref(energy), masses)
+        if args.state_output:
+            save_by_state(lib,data,config['n'],args.state_output)
         lib.TwoPunctures_finalise(data)
         if digest(path) != expected_sha:
             raise RuntimeError('BY library changed on disk during benchmark')
@@ -160,7 +202,7 @@ def worker(args):
                       sample_method='spectral',
                       verbose_inside_timer=args.by_verbose)
     result.update(case=args.case, cpu_threads=1, initial_guess='zero',
-                  max_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+                  max_rss_bytes=measured_rss
                   * (1 if sys.platform == 'darwin' else 1024))
     if args.mode == 'hispid':
         result['sample_method'] = 'spectral'
@@ -181,6 +223,7 @@ def main():
     parser.add_argument('--input')
     parser.add_argument('--worker-output')
     parser.add_argument('--by-verbose', action='store_true')
+    parser.add_argument('--state-output', help='Optional worker-only state snapshot, after RSS/timing capture')
     args = parser.parse_args()
     if len(args.grid) != 3 or min(args.grid) < 4 or args.grid[2] % 2:
         parser.error('grid needs three sizes >=4 and an even Fourier size')
