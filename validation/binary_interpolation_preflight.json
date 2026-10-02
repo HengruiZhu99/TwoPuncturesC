@@ -1,0 +1,14 @@
+{
+  "source_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "grid": [
+    128,
+    256,
+    28
+  ],
+  "initial_points": 3,
+  "initial_seconds": 0.43664320796960965,
+  "steady_points": 30,
+  "steady_seconds": 0.05192762496881187,
+  "steady_seconds_per_point": 0.0017309208322937289,
+  "finite": true
+}

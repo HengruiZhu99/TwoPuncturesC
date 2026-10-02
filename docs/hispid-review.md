@@ -1178,3 +1178,151 @@ $$
 $$
 
 It vanishes at g1; for inner_flatten0 it is (1−g)Δ_h W, whereas the literal inner_flatten1 connection is opGamma=g Gamma_h and needs its own contraction. This can avoid a later cancellation between Δ_op W and g Δ_h Ψ_F, but requires consistent correction-field conventions throughout cached, point and sample paths. It is deliberately deferred from the first implementation. The original fixed-W convention remains the basis of the required initial raw-oracle proof.
+
+**Asymptotic source, kernel and origin-covariance audit, 2026-10-02.** This is a theory derivation and a diagnostic proposal, not new solver or charge acceptance. The parent reports that matched 80×80 and80×160 angular refinement, with the same default maps/free data/windows and restart128, reduces common-grid g1 momentum RMS by5.51 and independent bulk M RMS by5.79. The current moderate 128×256 result passes preliminary RMS/charge criteria, but its stronger bulk M criterion still fails at about8.0e-5. That failed strong flag remains open. Reported fixed-global-origin charge differences .00415→.00049 at80/104 still need joint quadrature/radius interpretation; they are not silently promoted to a covariance pass.
+
+Assume far_radius0, exact Lorentz-Kerr seeds, fixed finite seed centers, f→1 exponentially and g=1 outside its compact balls. At large r from the map origin,
+
+$$
+p_s-1,\ h_s-\delta=O(r^{-1}),\quad
+\Gamma_s=O(r^{-2}),\quad
+K_s,\ A_s=O(r^{-2}).
+$$
+
+The O(r^−2) extrinsic terms allow generic boosts; unboosted spin terms can decay faster. Seed Δ_s p_s and p_s R_s/8 have cancelling O(r^−3) terms. Their metric inverse/connection changes acquire an extra1/r; the actual total curvature's flat-linear O(r^−3) term is additive in the seed metric perturbations. Nonlinear curvature, K², A² and cross-seed terms begin at O(r^−4). Hence the complete scalar background intercept begins at O(r^−4), although its separately rounded geometric summands need not display that cancellation.
+
+The complete momentum bracket also begins at O(r^−4). Each exact seed obeys Div_s A_s=(2/3)p_s^6 grad_s K_s. Changes in inverse metric/connection, the total trace projection and Ψ^6−p_s^6 all add a factor1/r to the individually O(r^−3) terms. For correction fields u,b=O(r^−1), actual curved coefficients change the leading flat Laplace/Navier operator only at O(r^−4): a metric change O(r^−1) multiplies a Hessian O(r^−3), and connection terms have the same order. This conclusion assumes smooth angular asymptotics and exact vacuum identities; it is not inferred from a small weighted collocation residual.
+
+Write a leading scalar correction u=c(n)/r. Since Δu=r^−3 Δ_S c, the leading equation requires Δ_S c=0, and a smooth function on the sphere has constant c. Thus the scalar 1/r correction is an angular monopole. This does not require the individual boosted seed p_s−1 coefficients to be monopoles; their angular dependence is already paired with the seed conformal metric curvature.
+
+The vector conclusion is different. For b=B(n)/r, write div b=d(n)/r². Divergence of the flat Navier equation gives
+
+$$
+\frac43\Delta(\operatorname{div}b)=0,
+\qquad
+(\Delta_S+2)d=0 .
+$$
+
+Hence d=D·n for a constant vector D. The componentwise angular equation and its general smooth solution are
+
+$$
+\Delta_S B=-\frac13\left[D-3n(D\cdot n)\right],
+\qquad
+B=C-\frac16n(D\cdot n),
+$$
+
+because Δ_S[n(D·n)]=2[D−3n(D·n)] and the componentwise sphere-Laplacian kernel contains only constants. Taking the divergence again gives d=(−C−D/6)·n, forcing C=−7D/6. With δP=2D/3, the complete smooth leading family is
+
+$$
+b^i=-\frac{7\delta P^i+n^i(\delta P\cdot n)}{4r}+o(r^{-1}).
+$$
+
+There are exactly three free leading vector parameters. Its Cartesian components contain both l0 and l2 angular pieces; a pure constant vector divided by r is not Navier-harmonic. This sign yields
+
+$$
+(Lb)_{ij}=\frac{3}{2r^2}
+\left[\delta P_i n_j+\delta P_j n_i
+-(\delta_{ij}-n_i n_j)(\delta P\cdot n)\right],
+$$
+
+whose ADM momentum flux is δP in the current K/L convention. The scalar monopole changes the ADM energy by δE=2c. These are correction contributions; the actual charge also includes the free seed geometry. The solved binary's E/P must not be assumed to equal the seed input sum merely because the seed charges are individually known.
+
+A useful independent far diagnostic samples x=origin+R n at generic directions and several radii. It fits R u to a single c and R b to the three-parameter expression above, rather than demanding that every component of R b be angularly constant. The first gradients must approach
+
+$$
+\begin{aligned}
+R^2\partial_j u&\longrightarrow-c n_j,\\
+R^2\partial_j b_i&\longrightarrow
+-\frac14\left[
+-7\delta P_i n_j+\delta_{ij}q+n_i\delta P_j
+-3n_i n_j q\right],
+\qquad q=\delta P\cdot n .
+\end{aligned}
+$$
+
+The leading scalar/vector limits are even under n→−n. Subtract them before inspecting R²(u−c/R) and R²(b−B/R); otherwise the large leading branch hides the subleading errors. A residual leading angular component outside the derived kernel is a concrete asymptotic defect. These diagnostics have not been run by the reviewer.
+
+Angular momentum requires the next order. The spin-carrying homogeneous branch is
+
+$$
+b_J=\frac{n\times\delta J}{r^2}
+=-\frac{\delta J\times n}{r^2},\qquad
+(Lb_J)_{ij}=\frac3{r^3}
+\left[n_i(\delta J\times n)_j+n_j(\delta J\times n)_i\right],
+$$
+
+with ADM flux δJ. The general homogeneous r^−2 Navier family is nine-dimensional: derivatives of the leading Kelvin tensor, decomposed into a trace scalar, an antisymmetric spin vector and five symmetric trace-free components. Source-forced and curved-metric subleading terms also occur. Consequently fitting only b_J to the entire subleading coefficient is not a complete diagnostic.
+
+For the Lorentz-Kerr leading parity, the leading metric/scalar coefficients are even and the leading extrinsic stress is odd. The potentially O(R) contribution of that stress to the angular-momentum integral cancels in an exact angular integral. Finite spin/orbital J depends on the appropriate even part of the subleading stress. A spurious leading mode or angular aliasing can corrupt this delicate cancellation. Inspect the full physical stress T_ij=K_ij−Kγ_ij: R²T gives its leading momentum structure, while the leading-subtracted R³T contains the finite spin/orbital information. It is insufficient to inspect b alone or one quadrature sequence.
+
+Translations explicitly need subleading fields. For a translated correction u'(x)=u(x−a), its scalar dipole coefficient becomes U2'=U2+c(a·n). If G_ij=lim R² partial_j b_i, the vector subleading coefficient becomes B2'=B2−a_j G_ij. Its antisymmetric dipole produces the orbital a×δP. Leading 1/r information cannot verify this transformation. Higher-order source resonances can require logarithmic terms, so a chosen polynomial radial extrapolation still requires a measured radius study rather than following from principal infinity equilibration.
+
+Origin covariance must separate a lever-origin change from a surface change. On one fixed integration surface, changing the lever origin from O to O+a gives exactly J_(O+a)=J_O−a×P. Under a rigid transformation x'=Qx+a with the corresponding transformed field and sphere, E'=E, P'=QP and J about the transformed sphere center is QJ. However the current charge center parameter changes both the sphere's surface center and its lever origin. Comparing fixed-global-origin spheres after translating the data therefore compares different finite-radius surfaces. The relation J'_0→QJ_0+a×QP is asymptotic and can retain finite-R error even with fully converged quadrature. Joint theta/phi refinement and radial/extrapolation stability are needed before assigning the current discrepancy solely to quadrature or to a tensor-covariance defect.
+
+The limiting infinity operator has the scalar monopole and three momentum branches in its kernel. Their amplitudes are fixed by the global problem; principal row equilibration alone does not determine them. It constrains the subleading spin/dipole coefficients even less directly. Such equilibration therefore cannot alone certify E/P/J, origin covariance or the currently failed strong physical constraint gate.
+
+**Read-only FastFlow interface and proposed continuous enclosure check.** No AthenaK source, geometry evaluation or numerical job is changed by this review. The current FastFlow surface is a star-shaped radial graph X(n)=c_H+R(n)n. Its public center[] may change in InitialGuess through puncture tracking or a weighted-center setting after the pgen's initial seed-center assignment; the iteration loop itself does not recenter. Record the actual center after Find, not merely the requested input/seed center. Both horizons must be identified with their corresponding active seed and use the original checkpoint's lab-coordinate seed centers.
+
+The shape file stores iteration/time and 17-digit a0/ac/as coefficients, but no center, lmax, quadrature size or normalization tag. The historical verbose center uses only six decimal places. The parent has now added 17-digit actual center output after Find, and the proposed binary runner associates that output with the written shape. This supplies the required center provenance without modifying the shape representation. The private coefficient arrays prevent direct pgen access without a read-only accessor or parsing the written shape; public rr_min is only the angular-node minimum. A successful cycle0 shape, its actual center, source/checkpoint SHA, finder settings, expansion RMS and area should remain bound together.
+
+Source inspection confirms that Y0 is the normalized m0 harmonic, Yc=sqrt(2)ReY_lm and Ys=sqrt(2)ImY_lm. These are real orthonormal harmonics. For the actual written FastFlow coefficients define
+
+$$
+A_l^2=a_{l0}^2+\sum_{m=1}^l(a_{lm,c}^2+a_{lm,s}^2),
+\qquad \lambda_l=l(l+1).
+$$
+
+There is no factor2 in this real-coefficient norm. The earlier positive-m complex-coefficient formula is a different storage convention and must not be applied to these files. The addition theorem and sphere Bochner identity give conservative global bounds
+
+$$
+B_0=\sum_l A_l\sqrt{\frac{2l+1}{4\pi}},\quad
+B_1=\sum_l A_l\sqrt{\frac{(2l+1)\lambda_l}{4\pi}},\quad
+B_2=\sum_l A_l\sqrt{\frac{(2l+1)\lambda_l(\lambda_l-1)}{4\pi}}
+$$
+
+for |R|, |grad_S R| and the Frobenius norm of Hess_S R, respectively. The actual mean plus a signed treatment of l0 can sharpen B0 if needed. For a sorted theta grid and uniform Nphi azimuths, a conservative geodesic cover radius is
+
+$$
+\delta_{\rm cover}=\sqrt{\delta_\theta^2+(\pi/N_\phi)^2},\quad
+\delta_\theta=\max\left(\theta_{\rm first},\pi-\theta_{\rm last},
+\tfrac12\max_i(\theta_{i+1}-\theta_i)\right).
+$$
+
+At the true minimum of the represented smooth R its sphere gradient vanishes. Therefore
+
+$$
+R_{\min,\mathrm{true}}\ \ge\
+\min_{\rm samples}R-\tfrac12B_2\delta_{\rm cover}^2-\epsilon_{\rm eval}.
+$$
+
+The sample grid can be refined cheaply from the stored coefficients without resampling spacetime geometry. Include declared coefficient, center and shape-evaluation rounding margins; a floating-point implementation must not call an unpadded numerical estimate a rigorous interval certificate.
+
+The native g and optional operator modifications have support in the union of coordinate balls B(s_h,r_g,h), with r_g,h=inner_max[h]. The smooth-window saturation makes this an upper bound on the actual support. Rotating the native map frame preserves these Euclidean radii. A conservative sufficient test for each matched horizon is
+
+$$
+r_{g,h}+|s_h-c_{H,h}|+\epsilon_{\rm center}
+\ <\ R_{\min,\mathrm{true}}-\epsilon_{\rm surface}.
+$$
+
+This accounts for horizon-center movement rather than forbidding it. Passing proves that the entire modified ball lies within the represented radial surface, not merely that the seed lies inside or that every sampled radius exceeds r_g. Failure of this sufficient bound can be inconclusive because it discards directional shape information. It must not be converted into a physical failure without a sharper enclosure test.
+
+A sharper optional continuous test uses the squared boundary distance
+
+$$
+F(n)=|c_H+R(n)n-s_h|^2-r_g^2
+=R^2-2R(d\cdot n)+|d|^2-r_g^2,\qquad d=s_h-c_H.
+$$
+
+With D=|d|, an upper bound on its sphere Hessian is
+
+$$
+B_{2,F}=2B_1^2+2(B_0+D)B_2+4DB_1+2DB_0.
+$$
+
+Thus min_true F is bounded below by min_sample F−B_(2,F)delta_cover²/2 minus a declared evaluation margin. If this lower bound is positive and the seed center is independently inside the star-shaped surface (D<R(d/D), or trivially D0 with R globally positive), then the connected entire ball is inside without a boundary intersection. This test is also only proposed; it is not an executed certificate. Shape values at poles can use exact harmonic endpoint identities rather than the currently GL-tested derivative recurrence.
+
+Require successful independent expansion/area checks and angular/shape refinement before interpreting either bound as an apparent-horizon enclosure. Check the two component surfaces are distinct and correspond to their seeds; for widely separated components, disjoint containing spheres provide an inexpensive sufficient separation test. The certificate concerns the represented numerical surfaces; include a conservative refinement-based surface allowance and report its margin. The noncompact exponential f/F free-data tails cannot be enclosed by finite balls or finite horizons. This enclosure requirement concerns g/operator equation modifications, together with verified exterior physical vacuum constraints; the full profile interpretation remains explicit.
+
+Read-only inspection of the newly proposed AthenaK runner tst/test_suite/z4c/check_hispid_binary.py verifies an even simpler sufficient bound: R_lower=a00/sqrt(4pi)−sum_(l>=1) A_l sqrt((2l+1)/(4pi)). The coefficient slices l²:(l+1)² exactly match FastFlow's written l blocks. This lower bound applies continuously to the retained finite harmonic surface without a sample-cover estimate. Subtracting |center−seedcenter| and inner_max is the correct whole-ball test. The proposed schedule is l8/12/16 with ntheta2l, then fixed l16/ntheta48; its finer records require expansion RMS below1e-7, area/shape refinement and positive enclosure margin after an empirical2×observed shape-change allowance. No executed result is credited in this review. The runner explicitly leaves stronger_binary_validation_complete false and labels that allowance an empirical truncation check, not a rigorous exact-PDE horizon error bound.
+
+The runner's current shape_change compares coefficients alone. If actual centers move between runs, add their displacement norm to this bound on physical surface change, or explicitly prove the centers equal. Current tracker-disabled/weighted-center-disabled seed-center settings are expected to fix them, but the center values must be checked rather than inferred. A conservative component-disjointness test uses R_upper=a00/sqrt(4pi)+sum_(l>=1) A_l sqrt((2l+1)/(4pi)) and |center0−center1|>R_upper0+R_upper1. A small explicit arithmetic margin should accompany the double-evaluated enclosure bounds. These are review requirements for interpretation; they have not been implemented or numerically checked by the reviewer. Intentionally looser coarse finder tolerances and their retained row flags must remain separate from the fine/quadrature strict gates.
