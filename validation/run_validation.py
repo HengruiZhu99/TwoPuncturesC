@@ -63,9 +63,16 @@ def seeds(backend):
         print(label,seq[-1]['norms'],'charge error',err,flush=True)
     return {'records':records,'passed':all(r['passed'] for r in records)}
 
-def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None):
+def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None,initial_record=None):
     records=list(previous_records or [])
     previous_values=None;previous_shape=None;previous_config=None
+    if records or initial_record:
+        last=records[-1] if records else initial_record
+        if last['library_sha256']!=hashlib.sha256(backend.path.read_bytes()).hexdigest():
+            raise ValueError('resume requires the same native library SHA')
+        previous_shape=last['resolution'];previous_config=dict(last['config']);previous_config.pop('n')
+        n,_,np_=previous_shape
+        previous_values=np.load(RAW/f"{last['case']}_{n}_{np_}.npz")['unknowns']
     for n,nphi in levels:
         cfg=factory(backend,n,nphi);x,near,bulk=points(cfg,horizon_scaled);start=time.monotonic()
         step=np.minimum(.002,.001*np.min([np.linalg.norm(x-np.array(h.center),axis=1) for h in cfg.hole if h.mass>0],axis=0)) if adaptive_steps else np.full(len(x),.002)
@@ -117,6 +124,9 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--library',required=True);parser.add_argument('--stage',choices=['seeds','moderate','highspin','highboost'],required=True)
     parser.add_argument('--levels',default=None,help='e.g. 12:8,20:12,28:16')
     parser.add_argument('--far-radius',type=float,default=None);parser.add_argument('--label',default=None)
+    parser.add_argument('--resume',action='store_true',help='append grids to the same case and warm-start from its last compatible checkpoint')
+    parser.add_argument('--initial-from',help='warm-start a separate diagnostic case from the last compatible saved grid of this case')
+    parser.add_argument('--memory-mib',type=int,default=None,help='explicit per-context allocation budget (default2048,max8192)')
     args=parser.parse_args()
     backend=Backend(args.library);report=json.loads(REPORT.read_text()) if REPORT.exists() else {}
     if args.stage!='seeds' and not report.get('seeds',{}).get('passed'):raise SystemExit('single-seed gate has not passed')
@@ -129,14 +139,23 @@ def main():
         def factory(backend,n,nphi):
             config=selected(backend,n,nphi)
             if args.far_radius is not None:config.far_radius=args.far_radius
+            if args.memory_mib is not None:config.memory_limit_mib=args.memory_mib
             return config
         levels=args.levels or ('24:12,40:20,56:28' if args.stage=='moderate' else '24:8,40:12,56:16')
         levels=[tuple(map(int,v.split(':'))) for v in levels.split(',')]
-        result=solve_case(backend,factory,levels,label,horizon_scaled=args.stage in ('highspin','highboost'),adaptive_steps=args.stage in ('highspin','highboost'))
+        previous=report.get(label,{}).get('records') if args.resume else None
+        initial=report[args.initial_from]['records'][-1] if args.initial_from else None
+        result=solve_case(backend,factory,levels,label,horizon_scaled=args.stage in ('highspin','highboost'),adaptive_steps=args.stage in ('highspin','highboost'),previous_records=previous,initial_record=initial)
+        if args.stage=='highspin':
+            error=abs(result['records'][-1]['charges_extrapolated'][0]-.980124)
+            result['reference_comparison']=dict(source='thesis Table3.1 HS99UU',ADM_energy=.980124,absolute_tolerance=2e-4,energy_error=error,energy_agreement=bool(error<2e-4),exact_historical_reproduction=False,departure='modern superposed-metric trace projection; horizon mass/spin unmeasured')
+        elif args.stage=='highboost':
+            result['reference_comparison']=dict(source='specified local Gamma=sqrt5 benchmark',exact_historical_reproduction=False,departure='thesis Table4.3 lacks complete bare inputs and uses historical step stuffing')
     report=json.loads(REPORT.read_text()) if REPORT.exists() else report
     report[label]=result;report['metadata']=dict(library=str(backend.path),library_sha256=hashlib.sha256(backend.path.read_bytes()).hexdigest(),
         numpy_version=np.__version__,python_version=sys.version,cpu_threads=1,date='2026-10-01',horizon_enclosure_verified=False)
     REPORT.write_text(json.dumps(report,indent=2)+'\n')
-    return 0 if result['passed'] else 1
+    accepted=result.get('passed_strict',False) if args.stage in ('highspin','highboost') else result['passed']
+    return 0 if accepted else 1
 
 if __name__=='__main__':raise SystemExit(main())

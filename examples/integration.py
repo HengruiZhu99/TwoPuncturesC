@@ -7,9 +7,10 @@ from configs import moderate,as_dict
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--library',required=True)
-    p.add_argument('--n',type=int,default=40);p.add_argument('--nphi',type=int,default=20)
+    p.add_argument('--n',type=int,default=56);p.add_argument('--nphi',type=int,default=28)
+    p.add_argument('--far-radius',type=float,default=0,help='0 selects the validated preliminary moderate case')
     p.add_argument('--output',default='validation/raw/integration.npz');a=p.parse_args()
-    b=Backend(a.library);c=moderate(b,a.n,a.nphi)
+    b=Backend(a.library);c=moderate(b,a.n,a.nphi);c.far_radius=a.far_radius
     x=np.array([[3.5,.3,.2],[-2.5,-.3,.2],[8.,1.,-.7]])
     with b.create(c) as s:
         d=s.solve();fields=s.sample(x)

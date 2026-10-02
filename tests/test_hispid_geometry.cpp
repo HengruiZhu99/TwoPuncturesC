@@ -4,7 +4,7 @@
 #include <cstdlib>
 using namespace hispid;
 static void close(double a,double b,double tol,const char*label){
- if(std::abs(a-b)>tol){std::fprintf(stderr,"%s: %.17g vs %.17g\n",label,a,b);std::exit(1);}
+ if(!std::isfinite(a)||!std::isfinite(b)||std::abs(a-b)>tol){std::fprintf(stderr,"%s: %.17g vs %.17g\n",label,a,b);std::exit(1);}
 }
 int main(){
  const int shape[3]={12,10,8},size=4*shape[0]*shape[1]*shape[2];
@@ -50,5 +50,28 @@ int main(){
    close(ddg,s.physical[i][j].h[d+1][d+1],1e-8,"seed metric AD Hessian");
   }
  }
- std::puts("manufactured curvature/scalar/vector operators and independent seed derivatives passed");return 0;
+ HiSpID_Config config;HiSpID_default_config(&config);
+ config.hole[0].spin[0]=.1;config.hole[0].spin[1]=.08;config.hole[0].spin[2]=.06;
+ config.hole[1].spin[0]=-.04;config.hole[1].spin[1]=.05;config.hole[1].spin[2]=.07;
+ config.hole[0].velocity[0]=.08;config.hole[0].velocity[1]=.02;config.hole[0].velocity[2]=-.03;
+ config.hole[1].velocity[0]=-.07;config.hole[1].velocity[1]=.01;config.hole[1].velocity[2]=.05;
+ for(int choice=0;choice<2;choice++)for(double far:{0.,8.}){
+  config.conformal_choice=choice;config.far_radius=far;
+  for(const auto& p:std::array<std::array<double,3>,2>{{{{.9,.6,-.4}},{{3.05,.08,.09}}}}){
+   Background b;background(config,p.data(),b);double direct[3];divergence(b.inv,b.C,b.M,direct);
+   for(int i=0;i<3;i++)close(b.divM[i],direct[i],2e-9*std::max(1.,std::abs(direct[i])),"stable seed sum versus direct tensor divergence");
+  }
+ }
+ HiSpID_default_config(&config);config.hole[0]={};config.hole[0].mass=1;config.hole[0].spin[2]=.99;
+ config.hole[1].mass=0;config.far_radius=0;config.inner_max[0]=0;
+ for(int choice=0;choice<2;choice++)for(double radius:{.01,.0001,.000001}){
+  config.conformal_choice=choice;double p[3]={radius*.3,radius*-.5,radius*.8};
+  Background b;background(config,p,b);
+  close(b.K.v,0,0,"unboosted Kerr slice is exactly maximal");
+  for(int i=0;i<3;i++){
+   close(b.K.d[i+1],0,0,"unboosted Kerr mean-curvature gradient");
+   close(b.divM[i],0,1e-15,"isolated Kerr conformal momentum identity near puncture");
+  }
+ }
+ std::puts("manufactured operators, seed derivatives and stable singular momentum identities passed");return 0;
 }

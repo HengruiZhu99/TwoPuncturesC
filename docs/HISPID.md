@@ -20,7 +20,8 @@ make -j1 test-hispid PYTHON=python3
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1
 export PYTHONPATH="$PWD/python:$PWD/validation:$PWD/examples"
 python3 validation/run_validation.py --library "$PWD/build-hispid/libHiSpID.so" --stage seeds
-python3 validation/run_validation.py --library "$PWD/build-hispid/libHiSpID.so" --stage moderate
+python3 validation/run_validation.py --library "$PWD/build-hispid/libHiSpID.so" --stage moderate --far-radius 0 --label moderate_far0
+python3 validation/check_covariance.py --library "$PWD/build-hispid/libHiSpID.so" --case moderate_far0
 ```
 
 On the development host the explicitly used NumPy runtime is
@@ -30,8 +31,10 @@ only the new backend's build products. Existing BY targets and C sources are
 unchanged; the new library reuses their mapping/spectral routines through
 the static library, without changing the BY global parameters.
 
-High-regime validation fails closed unless the saved seed and moderate gates
-pass. `--levels 24:12,40:20,56:28` means `(N_A,N_B,N_phi)` of
+High-regime validation fails closed unless the saved seed, moderate and solved
+coordinate covariance gates pass. The unfiltered moderate case above is the
+validated preliminary example; the optional far40 variant currently fails its
+three-level physical convergence gate. `--levels 24:12,40:20,56:28` means `(N_A,N_B,N_phi)` of
 `(24,24,12)`, `(40,40,20)`, `(56,56,28)`. Results are saved incrementally;
 failed iterates and physical samples remain in ignored `validation/raw/`.
 Only one numerical job should run at a time on the shared host.
@@ -84,6 +87,16 @@ Kij = psi^-2 Atildeij + gammaij K/3
 
 Projection uses the superposed metric before raising indices; all derivatives
 of the projection are included. Covariant A is never multiplied by f or F.
+The source evaluation uses each exact seed's vacuum momentum identity,
+`Div_seed A_seed=(2/3) psi_seed^6 grad_seed K_seed`. Metric and raised-tensor
+differences are formed before differentiation, and the corresponding
+connection difference is evaluated covariantly. The trace is computed from
+the inverse-metric difference, using the exact seed trace-free identity.
+This is algebraically the same superposed projection/divergence and avoids
+cancelling singular isolated terms in floating-point arithmetic. Unboosted
+QI Kerr has exactly K=0, which is imposed before forming A. Native direct
+divergence comparisons and independent raw physical momentum checks verify
+the reformulation.
 Companion `f_h=1-exp[-(r_other/omega_h)^p]`; far
 `F_h=exp[-(r_same/far_radius)^4]`. Nonpositive widths/radii disable them.
 The equation attenuation g is the product of the published C-infinity
@@ -119,8 +132,11 @@ are allowed a 1/r term when the net correction momentum is nonzero.
 
 An exact change of scalar variable removes the known far-filter shell:
 `u=W+(Acompact-1)V0`,
-`W=sum((1-F)(psi_seed-1))`. W and its first/second derivatives are analytic
-jets; W is O(r³) at a puncture and O(1/r) at infinity. It is added to base
+`W=sum((1-F)(psi_seed-1))`. W and its first/second derivatives are computed by
+automatic jets; W is O(r³) at a puncture and O(1/r) at infinity. Its puncture
+extension is C2, with vanishing first and second derivatives, but need not be
+analytic or C-infinity. This variable change alone does not establish
+exponential spectral convergence. It is added to base
 fields and omitted from JVP directions. The full `Delta_op W` is retained
 even when g<1. This changes neither Eq. (26), free data, nor boundary
 conditions. Finer validation grids can start from tensor-product
@@ -136,7 +152,11 @@ FD ILU(0) preconditioner and a damped line search. Residual rows are multiplied
 by `(sin(alpha) sin(beta))^6` as in the inherited solver. Both weighted and
 raw conformal extrema are exposed. Neither replaces physical validation.
 Allocation is rejected if a conservative cache/ILU/Krylov estimate exceeds
-2 GiB. Sampling differentiates the coefficient basis directly, including
+the per-context `memory_limit_mib` (default2048, accepted range16--8192).
+High-spin refinement beyond the initial grids explicitly uses4096 MiB;
+only one context/job is active during those large solves. Match the native
+header, adapter and library when using this experimental ABI. Sampling
+differentiates the coefficient basis directly, including
 the off-grid cosine Nyquist derivative. Map-axis derivatives use the
 four-transverse-point limit described in thesis Sec. 2.4.2, with offset
 `max(1e-4 sum(m),1e-8 b)`; this is a finite-offset approximation.
@@ -166,6 +186,7 @@ from configs import moderate
 
 backend = Backend('/absolute/worktree/build-hispid/libHiSpID.so')
 config = moderate(backend, 40, 20)
+config.far_radius = 0
 with backend.create(config) as solution:
     diagnostic = solution.solve()
     physical = solution.sample([[1.1, .2, .3], [8., 1., -.7]])

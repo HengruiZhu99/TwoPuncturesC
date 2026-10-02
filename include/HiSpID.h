@@ -22,6 +22,7 @@ typedef struct {
   double far_radius;    /* <=0 disables F */
   double tolerance;
   int max_newton, max_krylov, krylov_restart;
+  int memory_limit_mib; /* conservative allocation budget; default2048, max8192 */
 } HiSpID_Config;
 typedef struct {
   double gamma[9], Kij[9], psi, conformal_metric[9], Atilde[9];

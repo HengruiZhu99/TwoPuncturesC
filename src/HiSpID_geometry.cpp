@@ -115,6 +115,9 @@ void seed(const HiSpID_Hole&hole,int choice,const double *point,Seed&s){
    s.extrinsic[i][j]=s.extrinsic[i][j]+Jet(B[aidx+1][i+1]*B[b+1][j+1])*(Kgraph[aidx][b]+Kgraph[b][aidx])/Jet(2);
   s.K=s.K+inv[i][j]*s.extrinsic[i][j];
  }
+ /* A stationary unboosted QI Kerr slice is exactly maximal. Retaining
+  * a roundoff trace here would amplify its gradient by psi^6 at a puncture. */
+ if(v2==0)s.K=0;
  s.psi=choice?power(determinant(s.physical),1.0L/12):psiQI;
  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
   s.metric[i][j]=s.physical[i][j]/power(s.psi,4);
@@ -135,6 +138,53 @@ static Jet inner(const Jet&r,double lo,double hi){
   * precision avoids spurious 0*infinity in its jet derivatives. */
  if(z.v<.01L)return 0;if(z.v>.99L)return 1;
  return (Jet(1)+tanh(tan(Jet(acosl(-1.0L)/2)*(Jet(-1)+Jet(2)*z))))/Jet(2);
+}
+
+/* Cancel each isolated seed's singular momentum identity analytically.
+ * All connections here are Levi-Civita connections of the actual metrics;
+ * the modified interior correction connection is never used for the source. */
+static void seed_sum_source(const HiSpID_Config&cfg,const Seed s[2],
+                            const Jet f[2],const Jet F[2],const Background&b,
+                            Jet&trace,double out[3]){
+ long double div[3]={};trace=0;
+ for(int h=0;h<2;h++)if(cfg.hole[h].mass>0){
+  Jet si[3][3],SC[3][3][3],dh[3][3],di[3][3],up[3][3],du[3][3];
+  invert(s[h].metric,si);connection(s[h].metric,si,SC);
+  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+   dh[i][j]=(f[h]*F[h]-Jet(1))*(s[h].metric[i][j]-Jet(i==j?1:0));
+   for(int other=0;other<2;other++)if(other!=h&&cfg.hole[other].mass>0)
+    dh[i][j]=dh[i][j]+f[other]*F[other]*(s[other].metric[i][j]-Jet(i==j?1:0));
+  }
+  /* h^-1-hseed^-1 = -h^-1 (h-hseed) hseed^-1. */
+  for(int i=0;i<3;i++)for(int j=0;j<3;j++)
+   for(int k=0;k<3;k++)for(int l=0;l<3;l++)di[i][j]=di[i][j]-b.inv[i][k]*dh[k][l]*si[l][j];
+  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+   trace=trace+di[i][j]*s[h].A[i][j]; // trace_seed Aseed is identically zero
+   for(int k=0;k<3;k++)for(int l=0;l<3;l++){
+    up[i][j]=up[i][j]+b.inv[i][k]*b.inv[j][l]*s[h].A[k][l];
+    du[i][j]=du[i][j]+(di[i][k]*b.inv[j][l]+si[i][k]*di[j][l])*s[h].A[k][l];
+   }
+  }
+  long double Dh[3][3][3]={},DC[3][3][3]={};
+  for(int d=0;d<3;d++)for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+   Dh[d][i][j]=dh[i][j].d[d+1];
+   for(int k=0;k<3;k++)Dh[d][i][j]-=SC[k][d][i].v*dh[k][j].v+SC[k][d][j].v*dh[i][k].v;
+  }
+  for(int i=0;i<3;i++)for(int j=0;j<3;j++)for(int k=0;k<3;k++)
+   for(int l=0;l<3;l++)DC[i][j][k]+=.5L*b.inv[i][l].v*(Dh[j][k][l]+Dh[k][j][l]-Dh[l][j][k]);
+  for(int i=0;i<3;i++){
+   for(int j=0;j<3;j++){
+    div[i]+=2.0L/3*std::pow(s[h].psi.v,6)*si[i][j].v*s[h].K.d[j+1];
+    div[i]+=du[i][j].d[j+1];
+    for(int k=0;k<3;k++)div[i]+=SC[i][j][k].v*du[k][j].v+SC[j][j][k].v*du[i][k].v
+      +DC[i][j][k]*up[k][j].v+DC[j][j][k]*up[i][k].v;
+   }
+  }
+ }
+ for(int i=0;i<3;i++){
+  for(int j=0;j<3;j++)div[i]-=b.inv[i][j].v*trace.d[j+1]/3;
+  out[i]=(double)div[i];
+ }
 }
 
 void background(const HiSpID_Config&cfg,const double*x,Background&b){
@@ -161,11 +211,10 @@ void background(const HiSpID_Config&cfg,const double*x,Background&b){
  }
  for(int h=0;h<2;h++)if(cfg.hole[h].mass>0)b.K=b.K+f[h]*F[h]*s[h].K;
  invert(b.metric,b.inv);connection(b.metric,b.inv,b.C);
- Jet trace=0;for(int i=0;i<3;i++)for(int j=0;j<3;j++)trace=trace+b.inv[i][j]*b.M[i][j];
+ Jet trace;seed_sum_source(cfg,s,f,F,b,trace,b.divM);
  for(int i=0;i<3;i++)for(int j=0;j<3;j++)b.M[i][j]=b.M[i][j]-b.metric[i][j]*trace/Jet(3);
  b.R=(double)curvature(b.inv,b.C);
  b.lapPsi=laplacian(b.inv,b.C,b.psi);
- divergence(b.inv,b.C,b.M,b.divM);
  if(cfg.inner_flatten){
   for(int i=0;i<3;i++)for(int j=0;j<3;j++)
    b.opmetric[i][j]=Jet(i==j?1:0)+b.g*(b.metric[i][j]-Jet(i==j?1:0));
@@ -243,11 +292,12 @@ bool valid(const HiSpID_Config&c){
  if(c.conformal_choice<0||c.conformal_choice>1||c.attenuation_power<2||c.attenuation_power%2)return false;
  if(!std::isfinite(c.far_radius)||!std::isfinite(c.tolerance)||c.tolerance<=0||c.max_newton<0||c.max_krylov<1||c.krylov_restart<2||c.krylov_restart>200)return false;
  for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>256||(k==2&&c.n[k]%2))return false;
- /* Bound the compact cache, four-field ILU stencil and Krylov basis to a
-  * conservative 2 GiB estimate before allocating publication-sized grids. */
+ /* Bound the compact cache, four-field ILU stencil and Krylov basis before
+  * allocation. Larger grids require an explicit per-context budget. */
+ if(c.memory_limit_mib<16||c.memory_limit_mib>8192)return false;
  const double npt=(double)c.n[0]*c.n[1]*c.n[2];
  const double bytes_per_point=3000+4*(76*12+48)+32*(2*c.krylov_restart+30);
- if(npt*bytes_per_point>2.0*1024*1024*1024)return false;
+ if(npt*bytes_per_point>(double)c.memory_limit_mib*1024*1024)return false;
  bool active=false;for(int h=0;h<2;h++){
   const auto&v=c.hole[h];if(!std::isfinite(v.mass)||v.mass<0)return false;
   for(int k=0;k<3;k++)if(!std::isfinite(v.center[k])||!std::isfinite(v.spin[k])||!std::isfinite(v.velocity[k]))return false;
@@ -267,6 +317,7 @@ void HiSpID_default_config(HiSpID_Config*c){
  c->omega[0]=c->omega[1]=.5;c->attenuation_power=4;
  for(int h=0;h<2;h++){c->inner_min[h]=.05;c->inner_max[h]=.1;}
  c->far_radius=40;c->tolerance=1e-10;c->max_newton=12;c->max_krylov=600;c->krylov_restart=40;
+ c->memory_limit_mib=2048;
 }
 int HiSpID_seed(const HiSpID_Hole*h,int choice,int count,const double*xyz,HiSpID_Point*out){
  if(!h||!xyz||!out||count<0||!(h->mass>0)||choice<0||choice>1)return -1;

@@ -3,8 +3,9 @@
 #include <cmath>
 #include <stdexcept>
 namespace hispid {
-/* Second-order forward jets. Long double protects the signed-lapse
- * cancellations near the QI throat. No finite differences in seed geometry. */
+/* Second-order forward jets. Long double follows the platform precision;
+ * analytical identities remove throat/puncture cancellation where possible.
+ * No finite differences in seed geometry. */
 struct Jet {
   long double v, d[4], h[4][4];
   Jet(long double x=0):v(x),d{},h{} {}

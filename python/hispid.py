@@ -22,7 +22,7 @@ class Config(C.Structure):
               ('attenuation_power',C.c_int),('inner_min',C.c_double*2),
               ('inner_max',C.c_double*2),('far_radius',C.c_double),
               ('tolerance',C.c_double),('max_newton',C.c_int),
-              ('max_krylov',C.c_int),('krylov_restart',C.c_int)]
+              ('max_krylov',C.c_int),('krylov_restart',C.c_int),('memory_limit_mib',C.c_int)]
 
 class Point(C.Structure):
     _fields_=[('gamma',D9),('Kij',D9),('psi',C.c_double),('conformal_metric',D9),
