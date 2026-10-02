@@ -10,11 +10,12 @@ from pathlib import Path
 import numpy as np
 from hispid import Backend,Hole
 from physical import constraints,norms,charges,extrapolate
-from configs import moderate,hs99uu,highboost,as_dict
+from configs import moderate,hs99uu,highboost,target_binary,as_dict
 from prolong import for_backend
 
 ROOT=Path(__file__).resolve().parents[1]
 SOLVER_CONTROLS=('n','memory_limit_mib','tolerance','max_newton','max_krylov','krylov_restart')
+HIGH_STAGES=('highspin','highboost','spin95','boost885','spin95_boost885')
 def free_data(config):
     return {k:v for k,v in as_dict(config).items() if k not in SOLVER_CONTROLS}
 
@@ -68,13 +69,27 @@ def seeds(backend):
         print(label,seq[-1]['norms'],'charge error',err,flush=True)
     return {'records':records,'passed':all(r['passed'] for r in records)}
 
-def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None,initial_record=None):
+def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None,initial_record=None,initial_guess=None):
     records=list(previous_records or [])
     previous_values=None;previous_shape=None;previous_config=None
+    if initial_guess is not None and (records or initial_record):raise ValueError('remapped guess cannot be combined with checkpoint warm starts')
+    if initial_guess is not None:
+        if (REPORT.exists() and label in json.loads(REPORT.read_text())) or any(
+                (RAW/f'{label}_{n}_{nphi}{suffix}.npz').exists() for n,nphi in levels for suffix in ('','_collocation')):
+            raise ValueError('remapped initial guess requires a new label without existing report/raw evidence')
+        from remapped_guess import load_guess,validate_config
+        guess_payload,guess_values=load_guess(initial_guess,backend)
+        if not levels:raise ValueError('remapped initial guess requires a fresh solve')
+        validate_config(guess_payload,factory(backend,*levels[0]))
     if records or initial_record:
         last=records[-1] if records else initial_record
-        if last['library_sha256']!=backend.library_sha256() or last.get('unknown_parameterization_id')!=backend.parameterization():
-            raise ValueError('resume requires the same native library SHA')
+        for stored in records or [last]:
+            if (stored['library_sha256']!=backend.library_sha256() or stored.get('unknown_parameterization_id')!=backend.parameterization()
+                    or stored.get('collocation_maps')!=backend.parameterization_maps()
+                    or stored.get('unknown_parameterization')!=backend.parameterization_description()):
+                raise ValueError('resume requires the same native library SHA, continuous basis and maps')
+            if records and {k:v for k,v in stored['config'].items() if k not in SOLVER_CONTROLS}!=free_data(factory(backend,stored['resolution'][0],stored['resolution'][2])):
+                raise ValueError('stored sequence physical free data do not match the selected factory')
         previous_shape=last['resolution'];previous_config={k:v for k,v in last['config'].items() if k not in SOLVER_CONTROLS}
         n,_,np_=previous_shape
         previous_values=np.load(RAW/f"{last['case']}_{n}_{np_}.npz")['unknowns']
@@ -87,6 +102,11 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                  horizon_scaled=horizon_scaled,verifier_steps=step.tolist(),unknown_parameterization=backend.parameterization_description(),unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps())
         with backend.create(cfg) as s:
             comparable=free_data(cfg)
+            if initial_guess is not None and not records:
+                s.set_unknowns(guess_values)
+                rec['remapped_initial_guess']=dict(metadata_file=str(Path(initial_guess).resolve()),
+                    vector_sha256=guess_payload['vector_sha256'],source_library_sha256=guess_payload['source']['record']['library_sha256'],
+                    source_resolution=guess_payload['source']['record']['resolution'],source_maps=guess_payload['source']['record']['collocation_maps'],acceptance_inherited=False)
             if previous_values is not None and comparable==previous_config:
                 s.set_unknowns(for_backend(backend,previous_values,previous_shape,list(cfg.n)))
                 rec['initial_guess_from_resolution']=previous_shape
@@ -123,44 +143,63 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
     best=records[-1];fine=records[-3:]
     converges=len(fine)>=3 and all(fine[i+1][k][q]<fine[i][k][q] for i in range(2) for k in ('near','bulk') for q in ('H_rms','M_rms'))
     charge_stable=len(records)>=2 and max(abs(np.array(records[-1]['charges_extrapolated'])-np.array(records[-2]['charges_extrapolated'])))<.005
-    return dict(records=records,acceptance_resolutions=[r['resolution'] for r in fine],passed=bool(best['passed_local'] and converges and charge_stable),passed_strict=bool(best['passed_strict'] and converges and charge_stable),converges=bool(converges),charge_stable=bool(charge_stable),horizon_enclosure_verified=False)
+    compatible=all(r['library_sha256']==best['library_sha256'] and r.get('collocation_maps')==best.get('collocation_maps')
+        and r.get('unknown_parameterization_id')==best.get('unknown_parameterization_id')
+        and r['config']['n']==r['resolution']
+        and {k:v for k,v in r['config'].items() if k not in SOLVER_CONTROLS}=={k:v for k,v in best['config'].items() if k not in SOLVER_CONTROLS} for r in fine)
+    solved=all(r['diagnostics']['status']==0 and r['min_metric_eigenvalue']>0 for r in fine)
+    refines=len(fine)>=3 and all(all(b>=a for a,b in zip(old['resolution'],new['resolution'])) and old['resolution']!=new['resolution'] for old,new in zip(fine,fine[1:]))
+    return dict(records=records,acceptance_resolutions=[r['resolution'] for r in fine],passed=bool(best['passed_local'] and converges and charge_stable and compatible and solved and refines),passed_strict=bool(best['passed_strict'] and converges and charge_stable and compatible and solved and refines),converges=bool(converges),charge_stable=bool(charge_stable),sequence_compatible=bool(compatible),all_acceptance_solves_converged=bool(solved),resolution_refines=bool(refines),horizon_enclosure_verified=False)
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--library',required=True);parser.add_argument('--stage',choices=['seeds','moderate','highspin','highboost'],required=True)
+    parser=argparse.ArgumentParser();parser.add_argument('--library',required=True);parser.add_argument('--stage',choices=['seeds','moderate',*HIGH_STAGES],required=True)
     parser.add_argument('--levels',default=None,help='e.g. 12:8,20:12,28:16')
     parser.add_argument('--far-radius',type=float,default=None);parser.add_argument('--label',default=None)
     parser.add_argument('--resume',action='store_true',help='append grids to the same case and warm-start from its last compatible checkpoint')
     parser.add_argument('--evaluate-only',action='store_true',help='with --resume, recompute summary gates without another solve')
     parser.add_argument('--initial-from',help='warm-start a separate diagnostic case from the last compatible saved grid of this case')
+    parser.add_argument('--initial-guess',help='explicit changed-map initial-guess JSON; fresh solve and checks required')
     parser.add_argument('--initial-compatibility-proof',help='bitwise field/operator witness for an API-only initial-guess migration; fresh solves and gates are still required')
     parser.add_argument('--memory-mib',type=int,default=None,help='explicit per-context allocation budget (default2048,max8192)')
     parser.add_argument('--krylov-restart',type=int);parser.add_argument('--max-krylov',type=int);parser.add_argument('--max-newton',type=int)
     parser.add_argument('--inner-flatten',type=int,choices=[0,1],help='separately labeled interior-operator experiment')
     parser.add_argument('--inner-throat-window',help='lo:hi fractions of the minimum contracted isolated Kerr throat; a screen, not horizon enclosure')
-    parser.add_argument('--angular-ratio',type=float,default=1.,help='N_polar=ceil(ratio*N_radial); applies to every saved level')
+    polar=parser.add_mutually_exclusive_group()
+    polar.add_argument('--angular-ratio',type=float,default=1.,help='N_polar=ceil(ratio*N_radial); applies to every saved level')
+    polar.add_argument('--polar-points',type=int,help='fixed polar dimension for directional refinement experiments')
     args=parser.parse_args()
     if not np.isfinite(args.angular_ratio) or not 1<=args.angular_ratio<=4:
         parser.error('--angular-ratio must be finite and in[1,4]')
+    if args.polar_points is not None and not 4<=args.polar_points<=256:
+        parser.error('--polar-points must lie in[4,256]')
     if args.evaluate_only and (not args.resume or args.stage=='seeds'):
         parser.error('--evaluate-only requires a binary stage and --resume')
     if args.initial_compatibility_proof and not args.initial_from:
         parser.error('--initial-compatibility-proof requires --initial-from')
+    if args.initial_guess and (args.resume or args.initial_from or args.stage=='seeds'):
+        parser.error('--initial-guess requires a new binary case without checkpoint warm starts')
     backend=Backend(args.library);report=json.loads(REPORT.read_text()) if REPORT.exists() else {}
+    if args.resume and report.get(args.label or args.stage,{}).get('stage') not in (None,args.stage):
+        raise ValueError('resume/evaluate-only cannot relabel evidence from another stage')
     sha=backend.library_sha256()
     def gate(label):
         result=report.get(label,{})
         return bool(result.get('passed') and result.get('records') and all(r.get('library_sha256')==sha for r in result['records']))
-    if args.stage!='seeds' and not gate('seeds'):raise SystemExit('single-seed gate for this library has not passed')
-    if args.stage in ('highspin','highboost'):
+    if args.stage!='seeds' and not any(gate(k) for k,v in report.items() if k=='seeds' or isinstance(v,dict) and v.get('stage')=='seeds'):
+        raise SystemExit('single-seed gate for this library has not passed')
+    if args.stage in HIGH_STAGES:
         moderate_labels=set(('moderate','moderate_far0','moderate_far0_stable'))|{k for k,v in report.items() if isinstance(v,dict) and v.get('stage')=='moderate'}
         if not any(gate(k) for k in moderate_labels):raise SystemExit('moderate convergence gate for this library has not passed')
         if not gate('covariance') or not gate(report['covariance'].get('source_case','')):raise SystemExit('solved coordinate covariance gate for this library has not passed')
-    if args.stage=='seeds':result=seeds(backend);label='seeds'
+    if args.stage=='seeds':result=seeds(backend);label=args.label or 'seeds'
     else:
-        label=args.label or args.stage;selected={'moderate':moderate,'highspin':hs99uu,'highboost':highboost}[args.stage]
+        label=args.label or args.stage;selected={'moderate':moderate,'highspin':hs99uu,'highboost':highboost,
+            'spin95':lambda b,n,p:target_binary(b,n,p,speed=0,spin=.95),
+            'boost885':lambda b,n,p:target_binary(b,n,p,speed=.885,spin=0),
+            'spin95_boost885':lambda b,n,p:target_binary(b,n,p,speed=.885,spin=.95,generic=True)}[args.stage]
         def factory(backend,n,nphi):
             config=selected(backend,n,nphi)
-            config.n[1]=int(np.ceil(args.angular_ratio*n))
+            config.n[1]=args.polar_points if args.polar_points is not None else int(np.ceil(args.angular_ratio*n))
             if args.far_radius is not None:config.far_radius=args.far_radius
             if args.memory_mib is not None:config.memory_limit_mib=args.memory_mib
             if args.inner_flatten is not None:config.inner_flatten=args.inner_flatten
@@ -187,7 +226,7 @@ def main():
             initial=copy.deepcopy(initial)
             initial['initial_guess_source_library_sha256']=initial['library_sha256']
             initial['library_sha256']=sha
-        result=solve_case(backend,factory,levels,label,horizon_scaled=args.stage in ('highspin','highboost'),adaptive_steps=args.stage in ('highspin','highboost'),previous_records=previous,initial_record=initial)
+        result=solve_case(backend,factory,levels,label,horizon_scaled=args.stage in HIGH_STAGES,adaptive_steps=args.stage in HIGH_STAGES,previous_records=previous,initial_record=initial,initial_guess=args.initial_guess)
         if args.initial_compatibility_proof:
             result.update(initial_guess_source_case=args.initial_from,
                 initial_guess_source_library_sha256=initial['initial_guess_source_library_sha256'],
@@ -197,14 +236,21 @@ def main():
             result['reference_comparison']=dict(source='thesis Table3.1 HS99UU',ADM_energy=.980124,absolute_tolerance=2e-4,energy_error=error,energy_agreement=bool(error<2e-4),exact_historical_reproduction=False,departure='modern superposed-metric trace projection; horizon mass/spin unmeasured')
         elif args.stage=='highboost':
             result['reference_comparison']=dict(source='specified local Gamma=sqrt5 benchmark',exact_historical_reproduction=False,departure='thesis Table4.3 lacks complete bare inputs and uses historical step stuffing')
-        if args.stage in ('highspin','highboost'):
+        if args.stage in ('spin95','boost885','spin95_boost885'):
+            result['reference_comparison']=dict(source='fully specified revised local user target',exact_historical_reproduction=False,
+                departure='spin95/boost885 are separate from published HS99UU/Gamma=sqrt5 benchmarks; seed parameters are not measured charges or horizon quantities')
+        if args.stage in HIGH_STAGES:
             result['accepted_high_regime']=bool(result['passed_strict'] and (args.stage!='highspin' or result['reference_comparison']['energy_agreement']))
+        if args.stage in ('spin95','boost885','spin95_boost885'):
+            result.update(passed_strong_physical_sequence=result['passed_strict'],accepted_high_regime=False,
+                charge_quadrature_verified=False,coordinate_covariance_verified=False,horizon_enclosure_verified=False,
+                binary_validation_complete=False,qualification_note='Fresh strong physical sequence is only one gate; separate refined charges, solved covariance and two component horizons/enclosure are required for the revised binary target.')
     result['stage']=args.stage
     report=json.loads(REPORT.read_text()) if REPORT.exists() else report
     report[label]=result;report['metadata']=dict(library=str(backend.path),library_sha256=backend.library_sha256(),
         numpy_version=np.__version__,python_version=sys.version,cpu_threads=1,date=datetime.now(timezone.utc).isoformat(),horizon_enclosure_verified=False)
     REPORT.write_text(json.dumps(report,indent=2)+'\n')
-    accepted=result.get('accepted_high_regime',False) if args.stage in ('highspin','highboost') else result['passed']
+    accepted=result.get('accepted_high_regime',False) if args.stage in HIGH_STAGES else result['passed']
     return 0 if accepted else 1
 
 if __name__=='__main__':raise SystemExit(main())

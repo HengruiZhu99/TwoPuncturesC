@@ -1,0 +1,114 @@
+{
+  "case": "spin95_local_sequence",
+  "source_resolution": [
+    104,
+    208,
+    20
+  ],
+  "evaluation_resolution": [
+    104,
+    208,
+    40
+  ],
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "unknown_parameterization_id": "modal_P_C2prolate_mapped_v2",
+  "collocation_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "source_diagnostics": {
+    "converged": 1,
+    "newton_iterations": 5,
+    "krylov_iterations": 75,
+    "npoints": 432640,
+    "scaled_linf": [
+      8.461837851513914e-17,
+      4.1130037986231626e-18,
+      1.9477312012802165e-18,
+      2.0208701787196646e-18
+    ],
+    "unscaled_linf": [
+      2.038871294018918e-10,
+      6.51233142705774e-15,
+      1.454489670207669e-14,
+      2.4609755571121207e-15
+    ],
+    "seconds": 90.029268875,
+    "status": 0,
+    "error": ""
+  },
+  "groups": {
+    "g0": {
+      "count": 4240,
+      "raw_conformal_linf": [
+        6.094693159042208e-07,
+        6.839191935434414e-08,
+        2.014061633963259e-07,
+        1.3547819582783034e-06
+      ],
+      "physical_equivalent_rms": [
+        1.3569278876972656e-11,
+        6.750496514982788e-18,
+        2.1241358109640955e-17,
+        1.853418809226947e-16
+      ],
+      "physical_equivalent_linf": [
+        1.73658428987437e-10,
+        5.784074448326801e-17,
+        2.7002857861983867e-16,
+        2.326461693405616e-15
+      ]
+    },
+    "transition": {
+      "count": 11360,
+      "raw_conformal_linf": [
+        2.3426840489352686e-05,
+        5.161994486726769e-07,
+        1.1921360583038245e-06,
+        5.909231951067966e-06
+      ],
+      "physical_equivalent_rms": [
+        3.3166207104767444e-08,
+        1.614333018691244e-13,
+        3.7101533650001796e-13,
+        2.217452723694347e-12
+      ],
+      "physical_equivalent_linf": [
+        2.574984429519045e-07,
+        1.3962714212417175e-12,
+        4.6981404931391264e-12,
+        2.8660259757155288e-11
+      ]
+    },
+    "g1": {
+      "count": 849680,
+      "raw_conformal_linf": [
+        1.3700340530220512e-05,
+        4.779740263830164e-07,
+        1.052778229687374e-06,
+        4.857907755086876e-06
+      ],
+      "physical_equivalent_rms": [
+        1.4026616066688284e-08,
+        3.5662937365037905e-11,
+        7.948126314135345e-12,
+        8.239814837703556e-11
+      ],
+      "physical_equivalent_linf": [
+        3.0290189116091347e-07,
+        6.09609867077928e-10,
+        1.0502480285354053e-10,
+        4.986965186376268e-10
+      ]
+    }
+  },
+  "solve_performed": false,
+  "acceptance": false,
+  "note": "The same continuous retained modal polynomial is prolonged without solving. The denser native equations measure interpolation/PDE aliasing separately from an independent Cartesian finite-difference verifier. Modified interior equations do not establish physical vacuum. Native g1 H RMS1.40e-8 falls between the predeclared diagnostic thresholds; g1 H maximum3.03e-7 remains far below fixed off-grid bulk H.002269. This does not implicate phi as the dominant scalar error.",
+  "plan": "validation/spin95_phi40_plan.json",
+  "g1_H_RMS": 1.4026616066688284e-08,
+  "diagnostic_conclusion": "inconclusive",
+  "real_seconds": 23.44,
+  "max_rss_bytes": 2640445440,
+  "cpu_threads": 1
+}

@@ -1,0 +1,82 @@
+{
+  "case": "spin95_local_sequence",
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "cpu_threads": 1,
+  "runs": [
+    {
+      "log": "build-hispid/spin95-local-80-104.log",
+      "real_seconds": 156.05,
+      "user_seconds": 155.01,
+      "sys_seconds": 0.85,
+      "max_rss_bytes": 5329879040
+    },
+    {
+      "log": "build-hispid/spin95-local-128.log",
+      "real_seconds": 266.6,
+      "user_seconds": 265.22,
+      "sys_seconds": 1.03,
+      "max_rss_bytes": 6744375296
+    }
+  ],
+  "accepted_high_regime": false,
+  "binary_validation_complete": false,
+  "note": "All three independent physical H/M norms decrease. Finest strong H near/bulk and bulk M fail; solver convergence and current horizon measurements remain separate.",
+  "replay_commands": [
+    [
+      "env",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "VECLIB_MAXIMUM_THREADS=1",
+      "PYTHONPATH=python:validation:examples",
+      "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "validation/run_validation.py",
+      "--library",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-budget/libHiSpID.so",
+      "--stage",
+      "spin95",
+      "--label",
+      "spin95_local_replay",
+      "--angular-ratio",
+      "2",
+      "--memory-mib",
+      "8192",
+      "--max-newton",
+      "24",
+      "--max-krylov",
+      "2000",
+      "--levels",
+      "80:16,104:20",
+      "--krylov-restart",
+      "64"
+    ],
+    [
+      "env",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "VECLIB_MAXIMUM_THREADS=1",
+      "PYTHONPATH=python:validation:examples",
+      "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "validation/run_validation.py",
+      "--library",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-budget/libHiSpID.so",
+      "--stage",
+      "spin95",
+      "--label",
+      "spin95_local_replay",
+      "--angular-ratio",
+      "2",
+      "--memory-mib",
+      "8192",
+      "--max-newton",
+      "24",
+      "--max-krylov",
+      "2000",
+      "--levels",
+      "128:24",
+      "--krylov-restart",
+      "32",
+      "--resume"
+    ]
+  ],
+  "replay_note": "Equivalent current-runner commands with a fresh label. They preserve failed physical and high-regime flags; returning1 is expected for this dataset."
+}

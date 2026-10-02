@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "python_tests": 30,
+  "original_native_python_tests": 17,
+  "new_remap_provenance_sequence_tests": 13,
+  "native_library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "cpu_threads": 1,
+  "seconds": 0.509,
+  "log": "build-hispid/revised-target-runner-controls-final.log",
+  "log_sha256": "841ad10b37d8402562d570206c6000d0e16959d2cbe802d5cdf8d435f524691c",
+  "command": [
+    "env",
+    "OMP_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "VECLIB_MAXIMUM_THREADS=1",
+    "PYTHONPATH=python:validation:examples",
+    "HISPID_LIBRARY=/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-budget/libHiSpID.so",
+    "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "source_files": {
+    "validation/run_validation.py": "bb51d05f89cebc6a199081a841c86405f65df6217230c4285adc49b57aff5a68",
+    "validation/remapped_guess.py": "4fe4d49b7b4ec15a15036525515a1879cd87b6a87170579b1c4fffa327428db4",
+    "validation/prolong.py": "6b7927dedc543077d0af1fe97d72bd869ad57b6cd9332b1c54e394dd1803cf5f",
+    "tests/test_modal_remap.py": "a6342306a473a2ab7a2a84d154b5442ca880a8f3909a2d34c1477a86b01520bd",
+    "tests/test_remapped_guess.py": "a8904ab58b31e8ac052e4c1380bb7d451993ad069d6ba6b664fa11ea99deabb8"
+  },
+  "controls": [
+    "mapped physical-coordinate polynomial convergence",
+    "same-map bitwise path",
+    "real Fourier zero/Nyquist/sine relocation",
+    "source/target SHA and maps",
+    "finite coefficient count",
+    "physical free-data and target configuration",
+    "new-label/no-overwrite outputs",
+    "failed coarse solve cannot qualify",
+    "mixed physical configurations and repeated grids rejected",
+    "stored stage cannot be relabeled"
+  ],
+  "note": "Guards and remapping controls do not accept a binary; the physical producer remains unchanged."
+}

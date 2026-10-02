@@ -1,0 +1,23 @@
+{
+  "case": "spin95_local_sequence",
+  "source_resolution": [
+    104,
+    208,
+    20
+  ],
+  "evaluation_resolution": [
+    104,
+    208,
+    40
+  ],
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "solve_performed": false,
+  "cpu_threads": 1,
+  "criteria": {
+    "negligible": "native g1 physical-equivalent H RMS<1e-9",
+    "appreciable": "native g1 physical-equivalent H RMS>=1e-6",
+    "inconclusive": "between1e-9 and1e-6"
+  },
+  "note": "Phi-only retained-P replay of the high-spin scalar equation; does not solve, change parameters or validate the failed binary. g<1/g1 separate; physical acceptance thresholds unchanged.",
+  "acceptance": false
+}

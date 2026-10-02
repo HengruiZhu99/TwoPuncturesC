@@ -1,0 +1,26 @@
+{
+  "source_case": "moderate_polar_sequence",
+  "source_resolution": [
+    104,
+    208,
+    28
+  ],
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "evaluation_resolution": [
+    104,
+    208,
+    40
+  ],
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192,
+  "solve_performed": false,
+  "cpu_threads": 1,
+  "free_data": "same source configuration; only Fourier evaluation grid changes; same physical retained P",
+  "criteria": {
+    "negligible": "g1 physical-equivalent Cartesian momentum component RMS norm<1e-9, four orders below fixed bulk error~1.6e-4",
+    "appreciable": "g1 component RMS norm>=1e-6, warranting a fresh matched Fourier-only solve",
+    "inconclusive": "between1e-9 and1e-6; no acceptance claim"
+  },
+  "note": "Directional retained-polynomial PDE-aliasing diagnostic. Thresholds guide follow-up only; physical acceptance criteria remain unchanged. g<1 and g1 are reported separately.",
+  "acceptance": false
+}

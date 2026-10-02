@@ -6,7 +6,7 @@ The independent verifier differentiates physical gamma/K only; g is metadata for
 
 Numerical evidence is tied to each record's native library SHA. Older failed-source cases remain visible. API migration compares fresh, separate native processes with loaded-image checks; checkpoint guards otherwise remain strict. The original same-process comparison was invalid because dyld reused an archived image with an identical install name. It and the affected attempted revalidation are preserved and explicitly withdrawn.
 
-Current Cartesian-regular modal-P binaries remain unaccepted. The leading current source uses mapped Chebyshev coordinates and exact modal FD block elimination; old nodal-V binary results are historical and do not establish axis regularity. All tables retain their own source fingerprints and failed flags.
+The current Cartesian-regular moderate polar sequence passes preliminary physical, refined charge, covariance and horizon-enclosure gates. Stronger physical accuracy and high-parameter binary validation remain incomplete. The leading source uses mapped Chebyshev coordinates and exact modal FD block elimination; old nodal-V results are historical and do not establish axis regularity. All tables retain their own source fingerprints and failed flags.
 
 ## Seed controls
 
@@ -16,6 +16,19 @@ Current Cartesian-regular modal-P binaries remain unaccepted. The leading curren
 | Kerr | 5.16231e-09 | 6.66172e-11 | 2.36267e-07 | True |
 | boosted_Schwarzschild | 1.44699e-08 | 1.42648e-12 | 6.70066e-07 | True |
 | boosted_Kerr | 8.43e-09 | 5.61077e-11 | 2.40416e-06 | True |
+
+### angular3_seeds
+
+Seed gate: **True**.
+
+| Seed | H RMS | M RMS | Maximum charge error | Passed |
+|---|---:|---:|---:|---|
+| Schwarzschild | 3.13143e-09 | 0 | 1.37406e-07 | True |
+| Kerr | 5.16231e-09 | 6.66172e-11 | 2.36267e-07 | True |
+| boosted_Schwarzschild | 1.44699e-08 | 1.42648e-12 | 6.70066e-07 | True |
+| boosted_Kerr | 8.43e-09 | 5.61077e-11 | 2.40416e-06 | True |
+
+Source SHA: `5c14bf20fb0da7aa96bb175f5f0583f3d771b943fa2300695ae4719a9d53f40c`.
 
 ## Revised isolated seed targets
 
@@ -1900,7 +1913,7 @@ Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Fin
 
 ## moderate_polar_sequence
 
-Preliminary gate: **True**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+Preliminary gate: **True**. Stronger gate: **False**. Horizon enclosure: **verified**.
 
 | Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
 |---|---:|---:|---:|---:|---:|---:|
@@ -1989,6 +2002,287 @@ Fully specified finest-grid input:
 
 Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944890684872375, 0.010847096086811357, 0.006521645371321065, 0.019712897840627703, 0.0399894866430717, 0.11610540248197647, 0.3377515433176252]`.
 
+## moderate_angular3_sequence
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 80×160×28 | 1.09346e-05 | 2.56686e-05 | 2.88042e-07 | 0.000398269 | 0.994489 | 69.149 |
+| 104×208×28 | 4.74982e-06 | 1.93641e-05 | 2.65413e-07 | 0.000134909 | 0.994489 | 73.3868 |
+| 128×256×28 | 2.16419e-06 | 8.49551e-06 | 1.14842e-07 | 7.38589e-05 | 0.994489 | 218.883 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 80×160×28 | 0.00137403 | 3.28717e-05 | 6.37247e-05 | 0.00124919 | 1.01412e-13, 2.46162e-15, 1.50831e-14, 8.38131e-15 |
+| 104×208×28 | 0.00137365 | 3.25641e-05 | 2.7435e-05 | 0.000470327 | 1.29953e-13, 6.86483e-15, 2.01174e-14, 7.6461e-15 |
+| 128×256×28 | 0.00137353 | 3.24268e-05 | 1.28365e-05 | 0.000254762 | 1.63637e-13, 6.45249e-15, 3.19396e-14, 1.46803e-14 |
+
+Finest source SHA: `5c14bf20fb0da7aa96bb175f5f0583f3d771b943fa2300695ae4719a9d53f40c`. Unknown basis: `modal_P_C2prolate_map_v3_r0.20000000000000001_k3`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 3.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    128,
+    256,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944890697807066, 0.010847092637450382, 0.006521619727652788, 0.019713193609419286, 0.039989652238310594, 0.11616903291077854, 0.33779324357183405]`.
+
+## moderate_radial_fixed256
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 104×256×28 | 4.53666e-06 | 9.93373e-06 | 8.14204e-08 | 3.60338e-05 | 0.994489 | 170.273 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 104×256×28 | 0.00137366 | 3.25642e-05 | 2.62108e-05 | 9.17949e-05 | 4.10011e-14, 1.6007e-15, 4.68115e-15, 2.94323e-15 |
+
+Finest source SHA: `126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    104,
+    256,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944890679339173, 0.010847072230837649, 0.0065213234739390545, 0.01971297268610878, 0.03998940639653576, 0.11620808275727708, 0.33775361717639524]`.
+
+## spin95_local_sequence
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 80×160×16 | 0.000365654 | 4.78951e-07 | 0.0163734 | 2.60212e-05 | 0.981249 | 28.1653 |
+| 104×208×20 | 8.8641e-05 | 4.3173e-08 | 0.00226917 | 3.05499e-06 | 0.981253 | 90.0293 |
+| 128×256×24 | 3.75706e-05 | 2.64214e-08 | 0.00123944 | 1.31065e-06 | 0.981253 | 219.316 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 80×160×16 | 0.00288591 | 1.73611e-08 | 0.050211 | 5.38792e-05 | 4.11095e-11, 1.44882e-14, 2.72442e-15, 2.73503e-15 |
+| 104×208×20 | 0.00289614 | 1.73973e-08 | 0.00609533 | 8.20279e-06 | 3.62851e-14, 2.43278e-18, 4.21219e-18, 1.40766e-18 |
+| 128×256×24 | 0.00290014 | 1.73962e-08 | 0.00221236 | 3.02511e-06 | 9.9348e-14, 1.26015e-16, 4.10786e-17, 7.34902e-17 |
+
+Finest source SHA: `126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Reference comparison:
+
+```json
+{
+  "source": "fully specified revised local user target",
+  "exact_historical_reproduction": false,
+  "departure": "spin95/boost885 are separate from published HS99UU/Gamma=sqrt5 benchmarks; seed parameters are not measured charges or horizon quantities"
+}
+```
+
+Combined high-regime gate: **False**. Finest local strict gate: **False**. Original three-grid monotonic gate: **True**.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.5,
+      "center": [
+        6.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.0,
+        0.0,
+        0.2375
+      ],
+      "velocity": [
+        -0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mass": 0.5,
+      "center": [
+        -6.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.0,
+        0.0,
+        0.2375
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "n": [
+    128,
+    256,
+    24
+  ],
+  "conformal_choice": 0,
+  "inner_flatten": 0,
+  "omega": [
+    1.0,
+    1.0
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.015612494995995999,
+    0.015612494995995999
+  ],
+  "inner_max": [
+    0.062449979983983994,
+    0.062449979983983994
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9812526191940562, 8.24959021597578e-15, 8.543664173394706e-15, -1.358406960349236e-14, 2.588506905384985e-12, -1.3487545595987349e-11, 0.47497842097592935]`.
+
 ## Solved coordinate covariance
 
 Gate: **True**. Source case: `moderate_polar_sequence`.
@@ -2054,6 +2348,18 @@ The covariance fixed-global-origin charges still use coarse12×24 integration: f
 - `validation/preconditioner_reuse_full_tests.json`: control flag=diagnostic only; binary acceptance is not implied.
 - `validation/preconditioner_reuse_operator_equivalence.json`: control flag=True; binary acceptance is not implied.
 - `validation/preconditioner_reuse_benchmark.json`: control flag=True; binary acceptance is not implied.
+- `validation/angular3_full_tests.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/angular3_sequence_comparison.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/angular3_sequence_resources.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/dense_equations_polar104_phi40.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/radial_fixed256_plan.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/radial_fixed256_comparison.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/spin95_local_plan.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/spin95_local_resources.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/spin95_phi40_plan.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/dense_equations_spin95_104_phi40.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/revised_target_runner_controls.json`: control flag=True; binary acceptance is not implied.
+- `validation/spin95_local_horizons.json`: control flag=False; binary acceptance is not implied.
 - `validation/highboost_seed_controls.json`: passed=True.
 - `validation/failed_highboost_seed_charge_resolution.json`: passed=False.
 - `validation/target_seed_controls.json`: passed=True.
@@ -2085,6 +2391,29 @@ The covariance fixed-global-origin charges still use coarse12×24 integration: f
 - `validation/dense_equations_default_square_r128.json`: independent and refined angular/radial charge evidence.
 - `validation/dense_equations_default_polar2_r128.json`: independent and refined angular/radial charge evidence.
 - `validation/angular_refinement_comparison.json`: independent and refined angular/radial charge evidence.
+
+## Changed-map initial guesses
+
+The separately declared angular-stretch3 sequence passes preliminary physical RMS convergence, but is not promoted: finest bulk momentum improves1.085x while near momentum worsens1.412x, and the stronger gate fails. Refined charges, covariance and enclosure have not been repeated. All native and30 Python controls pass. The default104×208 retained-polynomial phi40 replay has g1 momentum component RMS norm2.80e-12, far below its independent off-grid error; it does not certify a binary.
+
+Explicit source/target-bound remapping and replay instructions are in docs/HISPID.md, with plan/provenance/resource files in validation/angular3_*.json. Every remapped vector is an initial guess requiring a fresh solve and checks. At fixed radial104, polar208→256 lowers bulk M4.49x. At fixed256 polar, radial104→128 instead worsens bulk M2.22x while near norms improve. This is a directional diagnostic; physical acceptance thresholds are unchanged.
+
+## Revised local spin95 binary
+
+The fully specified rest-spin chi=.95, zero-boost binary is separate from HS99UU and any published energy target. Its80×160×16,104×208×20,128×256×24 solves converge internally and all raw near/bulk physical H/M RMS norms decrease. Finest near H3.76e-5, bulk H1.24e-3 and bulk M1.31e-6 still fail the physical accuracy gates. The diagnostic phi40 scalar replay gives g1 H RMS1.40e-8, between the predeclared negligible and appreciable thresholds. Strong physical acceptance, refined charges and solved covariance remain unverified.
+
+The runner requires compatible producer/basis/maps/free data, positive geometry, successful solves and three genuinely refining grids before summarizing acceptance. Thirty Python controls pass, including failed-coarse-solve, mixed-configuration, repeated-grid and stage-relabel rejections. Tiny weighted residuals and converged Newton solves do not replace independent physical checks.
+
+AthenaK import/property measurement confirmed: **True**. Strict horizon/refinement gate: **False**. Input acceptance remains diagnostic. Source/evidence bindings and failed attempts are retained in the cited JSON.
+
+| Component | Area | Christodoulou mass | Irreducible mass | Coordinate spin magnitude | Coordinate chi | Expansion RMS |
+|---|---:|---:|---:|---:|---:|---:|
+| 0 | 8.31354 | 0.500653 | 0.406685 | 0.2375 | 0.947522 | 4.77288e-06 |
+| 1 | 8.31354 | 0.500653 | 0.406685 | 0.2375 | 0.947522 | 4.77288e-06 |
+
+These are direct native-geometry FastFlow measurements of the loaded dataset. The coordinate rotation integral is not an AKV spin. Coarse continuous retained-surface bounds enclose the finite g/operator balls; their strict refined enclosure qualification remains pending. Noncompact f/F tails and exterior constraints remain separate. No evolution steps are taken.
+
+Both lmax12,ntheta24 surfaces pass the coarse1e-5 expansion tolerance. The lmax16,ntheta32 attempt ends at RMS2.35e-7 against1e-7; component1 and the final quadrature control are not reached. The residual angular standard deviation approaches2.32e-7, motivating fixed-order quadrature and higher-order controls. Strict enclosure/refinement is not certified.
 
 ## AthenaK integration
 

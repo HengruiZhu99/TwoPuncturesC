@@ -8,6 +8,24 @@ No evolution steps are taken. Both current moderate-binary horizons and
 inner modified-region enclosure pass their refinement checks. Stronger accuracy and high-parameter binary
 validation remain incomplete.
 
+The revised local rest-spin chi=.95 binary now solves at80×160×16,
+104×208×20 and128×256×24 with the preserved physical producer. All raw
+near/bulk H/M RMS norms decrease, but the physical accuracy gates still fail:
+finest near H3.76e-5, bulk H1.24e-3 and bulk M1.31e-6. No published energy
+comparison is applied to this separate local target. Its phi40 replay is
+inconclusive against the predeclared scalar aliasing thresholds. The native
+runner's30 Python controls pass, including new guards against incompatible
+sequences, failed solves and relabeled evidence. The diagnostic checkpoint
+loads into AthenaK with ADM/Z4c relative error4.11e-16. Both component horizons
+are measured at lmax12,ntheta24: each area8.3135384, Christodoulou mass.5006533,
+irreducible mass.4066849 and coordinate-rotation spin chi.9475223. Their
+expansion RMS4.77e-6 satisfies the coarse1e-5 measurement tolerance. The
+strict lmax16,ntheta32 attempt fails at2.35e-7 versus1e-7; its remaining
+angular RMS is about2.32e-7. Fixed-order quadrature/higher-order controls are
+pending, so strict enclosure/refinement is not certified. Input acceptance
+remains diagnostic. See validation/spin95_local_horizons.json and the sibling
+AthenaK docs/hispid-spin95-binary.json. All checks take zero evolution steps.
+
 The preserved physical producer comes from45bda9d. Default9cbf1108… uses regular
 modal P and exact modal FD block preconditioning. The qualified
 charge/memory-only producer126300dc… passes all native controls and17 Python
@@ -34,6 +52,20 @@ also passes: finest metric/K rotation errors3.92e-11/2.84e-6, translation
 errors<3.5e-13, fixed-origin charge error1.99e-4. Both binary horizons and g/operator-ball enclosure now pass AthenaK
 refinement. Stronger accuracy and high-parameter binary checks remain pending.
 See validation/polar_sequence_plan.json. Every failed result remains retained.
+
+A separate angular-stretch3 sequence passes its preliminary physical RMS
+sequence but is not promoted: finest bulk M improves only1.085x to7.39e-5,
+while near M worsens1.412x to8.50e-6; the stronger gate still fails. Its
+refined charge/covariance/horizon checks have not been repeated. Native and
+30 Python controls pass. A strict source/target-bound remap supplies only
+an initial guess; it never inherits acceptance. The default104×208×28
+retained-polynomial replay at phi40 gives g1 momentum component RMS norm
+2.80e-12, too small to explain the fixed off-grid M error. A fixed256-polar
+radial control improves bulk M4.49x when polar points increase208 to256 at
+fixed radial104. Raising radial104 to128 at fixed256 polar then worsens
+bulk M2.22x; this directional comparison does not establish a new convergence
+sequence. See validation/radial_fixed256_comparison.json and the angular3
+comparison and Fourier diagnostic JSON for preserved evidence.
 
 ADM integration has been sped up12.20x using tested analytic metric gradients.
 The sphere grid now follows the prolate axis: both polar/azimuthal quadrature

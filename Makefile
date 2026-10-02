@@ -131,7 +131,7 @@ test-hispid-native: $(HISPID_DIR)/test_geometry.x $(HISPID_DIR)/test_axis.x $(HI
 
 PYTHON ?= python3
 test-hispid: test-hispid-native
-	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 PYTHONPATH=$(BASE)/python:$(BASE)/validation:$(BASE)/examples HISPID_LIBRARY=$(HISPID_LIB) $(PYTHON) -m unittest discover -s tests -p test_hispid.py -v
+	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 PYTHONPATH=$(BASE)/python:$(BASE)/validation:$(BASE)/examples HISPID_LIBRARY=$(HISPID_LIB) $(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
 
 clean-hispid:
 	rm -rf $(HISPID_DIR)

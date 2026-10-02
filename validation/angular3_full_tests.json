@@ -1,0 +1,53 @@
+{
+  "library_sha256": "5c14bf20fb0da7aa96bb175f5f0583f3d771b943fa2300695ae4719a9d53f40c",
+  "source_commit": "9f85d08264fd04ca30a4d61201c35302d2892765",
+  "basis": "modal_P_C2prolate_map_v3_r0.20000000000000001_k3",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 3.0
+  },
+  "residual_scaling": "sin6_alpha_beta",
+  "all_native_controls_passed": true,
+  "python_tests": 30,
+  "python_passed": true,
+  "cpu_threads": 1,
+  "whole_native_python_seconds": 35.85,
+  "max_rss_bytes": 729989120,
+  "log": "build-hispid/angular3-full-tests.log",
+  "python_remap_log": "build-hispid/angular3-python-final30.log",
+  "private_preconditioner_controls": {
+    "first_later_matrix_factors_random_RHS_bitwise": true,
+    "scalar_refreshed": true,
+    "second_scalar_vector_factorizations": [
+      7,
+      0
+    ],
+    "direct_modal_inverse_absolute_error": 8.45678e-18,
+    "direct_modal_inverse_bound": 1e-10,
+    "incomplete_cache_rejected": true,
+    "scaled_Fourier_roundtrip_error": 1.04897e-08,
+    "scaled_Fourier_uncached_error": 1.04897e-08,
+    "scaled_Fourier_solutions_bitwise": true
+  },
+  "remap_physical_polynomial_errors": [
+    1.4551523642297726e-08,
+    6.13398221105399e-15,
+    1.0408340855860843e-17
+  ],
+  "original_python_tests": 17,
+  "new_remap_provenance_tests": 13,
+  "fresh_python_controls_seconds": 0.425,
+  "python_control_history": [
+    {
+      "python_tests": 27,
+      "seconds": 0.408,
+      "log": "build-hispid/angular3-python-remap-controls.log"
+    },
+    {
+      "python_tests": 30,
+      "seconds": 0.425,
+      "log": "build-hispid/angular3-python-final30.log",
+      "log_sha256": "b7c0618ce604982f9f334cca0cc13e51f0828d567fde9afab1515e2f76037db6"
+    }
+  ]
+}

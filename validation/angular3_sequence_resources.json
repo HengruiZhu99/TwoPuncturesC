@@ -1,0 +1,112 @@
+{
+  "case": "moderate_angular3_sequence",
+  "library_sha256": "5c14bf20fb0da7aa96bb175f5f0583f3d771b943fa2300695ae4719a9d53f40c",
+  "cpu_threads": 1,
+  "runs": [
+    {
+      "grids": [
+        [
+          80,
+          160,
+          28
+        ],
+        [
+          104,
+          208,
+          28
+        ]
+      ],
+      "real_seconds": 195.73,
+      "user_seconds": 194.58,
+      "sys_seconds": 1.04,
+      "max_rss_bytes": 7535755264,
+      "peak_footprint_bytes": 7382227088,
+      "log": "build-hispid/angular3-sequence-80-104.log"
+    },
+    {
+      "grids": [
+        [
+          128,
+          256,
+          28
+        ]
+      ],
+      "real_seconds": 269.88,
+      "user_seconds": 268.73,
+      "sys_seconds": 0.91,
+      "max_rss_bytes": 7828930560,
+      "peak_footprint_bytes": 7818762120,
+      "log": "build-hispid/angular3-sequence-128.log"
+    }
+  ],
+  "note": "One serial context at a time; memory in bytes from macOS time -l. No Perlmutter allocation or accelerator. First two-level runner returns1 because three-grid convergence is unavailable; final runner returns0 for its physical/coarse-charge summary. Final qualification remains false until stronger independent checks.",
+  "binary_validation_complete": false,
+  "replay_commands": [
+    [
+      "env",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "VECLIB_MAXIMUM_THREADS=1",
+      "PYTHONPATH=python:validation:examples",
+      "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "validation/run_validation.py",
+      "--library",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-angular3/libHiSpID.so",
+      "--stage",
+      "moderate",
+      "--far-radius",
+      "0",
+      "--inner-flatten",
+      "1",
+      "--angular-ratio",
+      "2",
+      "--memory-mib",
+      "8192",
+      "--max-newton",
+      "24",
+      "--max-krylov",
+      "2000",
+      "--label",
+      "moderate_angular3_replay",
+      "--levels",
+      "80:28,104:28",
+      "--krylov-restart",
+      "64",
+      "--initial-guess",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/angular3_initial_guess.json"
+    ],
+    [
+      "env",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "VECLIB_MAXIMUM_THREADS=1",
+      "PYTHONPATH=python:validation:examples",
+      "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "validation/run_validation.py",
+      "--library",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-angular3/libHiSpID.so",
+      "--stage",
+      "moderate",
+      "--far-radius",
+      "0",
+      "--inner-flatten",
+      "1",
+      "--angular-ratio",
+      "2",
+      "--memory-mib",
+      "8192",
+      "--max-newton",
+      "24",
+      "--max-krylov",
+      "2000",
+      "--label",
+      "moderate_angular3_replay",
+      "--levels",
+      "128:28",
+      "--krylov-restart",
+      "32",
+      "--resume"
+    ]
+  ],
+  "replay_note": "Equivalent current-runner commands with a fresh label; the first command returns1 because fewer than three grids exist. Fresh solves and checks are mandatory. Seed evidence must bind the exact rebuilt library hash."
+}

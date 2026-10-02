@@ -1,0 +1,224 @@
+{
+  "plan": "validation/radial_fixed256_plan.json",
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "same_physical_free_data": true,
+  "identical_verifier_points_and_steps": true,
+  "records": [
+    {
+      "case": "moderate_polar_sequence",
+      "resolution": [
+        104,
+        208,
+        28
+      ],
+      "near": {
+        "count": 36,
+        "H_rms": 4.228463086687036e-06,
+        "H_max": 2.4125977168054646e-05,
+        "M_rms": 1.605291604789311e-05,
+        "M_max": 6.755889921605052e-05,
+        "M_components_rms": [
+          1.282094842978714e-06,
+          4.9482462698629e-06,
+          6.562549164773877e-06
+        ],
+        "M_components_max": [
+          4.6556261064410666e-06,
+          2.2883299498493088e-05,
+          2.845535867648026e-05
+        ],
+        "normalized_H_max": 0.0011336101854605856,
+        "normalized_M_max": 0.0023037962054367595
+      },
+      "bulk": {
+        "count": 18,
+        "H_rms": 4.778667402867992e-07,
+        "H_max": 1.1226878689615796e-06,
+        "M_rms": 0.0001617433379565167,
+        "M_max": 0.0004350661410045444,
+        "M_components_rms": [
+          1.961867357246811e-05,
+          7.152388546856643e-05,
+          0.00011723630475668842
+        ],
+        "M_components_max": [
+          5.559610570852781e-05,
+          0.00020014289010697778,
+          0.0003326357787299809
+        ],
+        "normalized_H_max": 0.993871356059365,
+        "normalized_M_max": 0.9773925874822559
+      },
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 4,
+        "krylov_iterations": 47,
+        "npoints": 605696,
+        "scaled_linf": [
+          2.0238682208961996e-16,
+          4.899513547817178e-16,
+          1.2524752634137455e-15,
+          4.517814498964204e-16
+        ],
+        "unscaled_linf": [
+          1.8533358181471726e-10,
+          1.486354366323174e-09,
+          2.1145776137113024e-09,
+          9.229866491196362e-10
+        ],
+        "seconds": 96.317320333,
+        "status": 0,
+        "error": ""
+      },
+      "raw_sha256": "6528bfb0def142a6ab3bd71876b9ea27d66d26c0b3ccce986706d55da200b3a7"
+    },
+    {
+      "case": "moderate_radial_fixed256",
+      "resolution": [
+        104,
+        256,
+        28
+      ],
+      "near": {
+        "count": 36,
+        "H_rms": 4.53666036166503e-06,
+        "H_max": 2.6210843075274992e-05,
+        "M_rms": 9.93372896280501e-06,
+        "M_max": 3.678795467668577e-05,
+        "M_components_rms": [
+          4.0269111006956117e-07,
+          2.949064090671815e-06,
+          3.7656434630989803e-06
+        ],
+        "M_components_max": [
+          1.1355272296095933e-06,
+          9.668702002581961e-06,
+          1.8263178176556992e-05
+        ],
+        "normalized_H_max": 0.0006625982563638011,
+        "normalized_M_max": 0.0012568040137022783
+      },
+      "bulk": {
+        "count": 18,
+        "H_rms": 8.142040840322913e-08,
+        "H_max": 2.1576987369009764e-07,
+        "M_rms": 3.603376648979965e-05,
+        "M_max": 9.179487180368549e-05,
+        "M_components_rms": [
+          2.7607306167960392e-06,
+          1.3281742590438648e-05,
+          2.795644679649325e-05
+        ],
+        "M_components_max": [
+          6.4100417075918315e-06,
+          3.917982845558011e-05,
+          8.17376277251834e-05
+        ],
+        "normalized_H_max": 0.3132162725769568,
+        "normalized_M_max": 0.6040729268951409
+      },
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 4,
+        "krylov_iterations": 55,
+        "npoints": 745472,
+        "scaled_linf": [
+          3.11033417868194e-16,
+          7.164073629991366e-16,
+          1.6650260230004077e-15,
+          8.847990312943822e-16
+        ],
+        "unscaled_linf": [
+          4.290230323777955e-10,
+          1.9873539341545586e-09,
+          3.3988402191427563e-09,
+          7.93322503486891e-10
+        ],
+        "seconds": 170.272744,
+        "status": 0,
+        "error": ""
+      },
+      "raw_sha256": "7b99c0b797aca5bb81b04d43be466ec100af0f890b40d700e085784994d1460d"
+    },
+    {
+      "case": "moderate_polar_sequence",
+      "resolution": [
+        128,
+        256,
+        28
+      ],
+      "near": {
+        "count": 36,
+        "H_rms": 1.946975410329487e-06,
+        "H_max": 1.1539961390943931e-05,
+        "M_rms": 6.018862301937777e-06,
+        "M_max": 1.8232878388074538e-05,
+        "M_components_rms": [
+          6.254648246449817e-07,
+          2.498878351841601e-06,
+          1.6493798972304388e-06
+        ],
+        "M_components_max": [
+          2.389754497742534e-06,
+          9.52912851783907e-06,
+          6.6785623159440865e-06
+        ],
+        "normalized_H_max": 3.583209137499761e-05,
+        "normalized_M_max": 0.0007465058832959885
+      },
+      "bulk": {
+        "count": 18,
+        "H_rms": 1.246446547109721e-07,
+        "H_max": 2.882651446028283e-07,
+        "M_rms": 8.012992997598647e-05,
+        "M_max": 0.00020759545000308228,
+        "M_components_rms": [
+          5.768390431077509e-06,
+          2.665496377157802e-05,
+          6.109405978415534e-05
+        ],
+        "M_components_max": [
+          1.2994379647188879e-05,
+          5.7505145903607066e-05,
+          0.0001680402523789621
+        ],
+        "normalized_H_max": 0.9906570329168357,
+        "normalized_M_max": 0.9884995925241996
+      },
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 4,
+        "krylov_iterations": 39,
+        "npoints": 917504,
+        "scaled_linf": [
+          3.9122507458798534e-16,
+          8.98820264929065e-16,
+          2.0196783364073397e-15,
+          9.100024060884744e-16
+        ],
+        "unscaled_linf": [
+          2.1899633495525705e-10,
+          2.5207583876619744e-09,
+          4.272764278161068e-09,
+          4.012888911700411e-09
+        ],
+        "seconds": 209.001197541,
+        "status": 0,
+        "error": ""
+      },
+      "raw_sha256": "6143c2adac0d89c92dd947e6d38c3b3abdcaf0afaaa707d1ef08f44943719056"
+    }
+  ],
+  "polar208_to256_bulk_M_reduction": 4.488660323707837,
+  "radial104_to128_at_fixed256_bulk_M_reduction": 0.44969172568350346,
+  "bulk_M_fine_verifier_step_relative_change": 1.7683148212377375e-07,
+  "diagnostic_conclusion": "weak_radial_effect",
+  "note": "Polar refinement at fixed104 radial improves bulk M4.49x. At fixed256 polar, raising radial104 to128 worsens bulk M2.22x despite lower near norms. This is nonmonotonic fixed-point truncation behavior; no strong or new three-level acceptance.",
+  "acceptance": false,
+  "cpu_threads": 1,
+  "real_seconds": 211.48,
+  "solve_seconds": 170.272744,
+  "max_rss_bytes": 6027558912,
+  "peak_footprint_bytes": 6015456080,
+  "log": "build-hispid/radial-fixed256-104.log"
+}

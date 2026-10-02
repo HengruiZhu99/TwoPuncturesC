@@ -117,3 +117,20 @@ physical accuracy and revised high-spin/boost binaries remain unvalidated.
 
 No merges, pushes, shared installations, main-project branch changes or
 production evolutions have been performed. GPU work remains last priority.
+
+The revised rest-spin chi=.95 binary now has three successful serial Newton
+solves. Its128×256×24 solve takes219.32s with4Newton/54Krylov iterations;
+the whole solve/verifier process peaks at6.74GB. Physical constraints still
+fail, so timing is a diagnostic workload rather than an accepted high-spin
+benchmark. The exact126300dc producer exports the labeled checkpoint and
+AthenaK imports it with ADM/Z4c round-trip error4.11e-16.
+
+Both coarse horizons are measured, with each Christodoulou mass.5006533,
+area8.3135384 and coordinate chi.9475223. A measured-radius initial guess
+reduces the matched coarse search213.69s→44.39s (4.81x), with relative area
+change9.4e-13; this changes the initial guess only. The complete bounded
+measurement/failed-fine-control process takes454.97s and peaks234.11MB on
+one CPU. Fine lmax16 expansion stalls above the strict threshold, with
+angular variance near2.32e-7. Fixed-order quadrature/higher-order checks
+remain pending. See validation/spin95_local_horizons.json. No new parallel
+or accelerator work is justified by these timings alone.

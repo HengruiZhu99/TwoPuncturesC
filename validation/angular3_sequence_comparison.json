@@ -1,0 +1,137 @@
+{
+  "baseline_case": "moderate_polar_sequence",
+  "candidate_case": "moderate_angular3_sequence",
+  "baseline_library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "candidate_library_sha256": "5c14bf20fb0da7aa96bb175f5f0583f3d771b943fa2300695ae4719a9d53f40c",
+  "changed_parameter": "angular_stretch2 to3; radial_stretch.2 unchanged",
+  "rows": [
+    {
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "same_physical_free_data": true,
+      "baseline": {
+        "near": {
+          "H_rms": 1.0310758716411305e-05,
+          "M_rms": 4.879570359288645e-05
+        },
+        "bulk": {
+          "H_rms": 1.7995344795669705e-06,
+          "M_rms": 0.000420865496572993
+        }
+      },
+      "candidate": {
+        "near": {
+          "H_rms": 1.0934614578457616e-05,
+          "M_rms": 2.566861965866992e-05
+        },
+        "bulk": {
+          "H_rms": 2.880420018177057e-07,
+          "M_rms": 0.0003982689528354559
+        }
+      },
+      "error_reduction_factors": {
+        "near": {
+          "H_rms": 0.9429466985260391,
+          "M_rms": 1.9009866616027813
+        },
+        "bulk": {
+          "H_rms": 6.24747248044002,
+          "M_rms": 1.056736894946649
+        }
+      },
+      "candidate_Newton_Krylov": [
+        4,
+        55
+      ]
+    },
+    {
+      "resolution": [
+        104,
+        208,
+        28
+      ],
+      "same_physical_free_data": true,
+      "baseline": {
+        "near": {
+          "H_rms": 4.228463086687036e-06,
+          "M_rms": 1.605291604789311e-05
+        },
+        "bulk": {
+          "H_rms": 4.778667402867992e-07,
+          "M_rms": 0.0001617433379565167
+        }
+      },
+      "candidate": {
+        "near": {
+          "H_rms": 4.749821907880994e-06,
+          "M_rms": 1.936406244153901e-05
+        },
+        "bulk": {
+          "H_rms": 2.6541289349189676e-07,
+          "M_rms": 0.00013490851549948147
+        }
+      },
+      "error_reduction_factors": {
+        "near": {
+          "H_rms": 0.8902361327844924,
+          "M_rms": 0.829005592001038
+        },
+        "bulk": {
+          "H_rms": 1.8004654333094363,
+          "M_rms": 1.1989112574375511
+        }
+      },
+      "candidate_Newton_Krylov": [
+        4,
+        36
+      ]
+    },
+    {
+      "resolution": [
+        128,
+        256,
+        28
+      ],
+      "same_physical_free_data": true,
+      "baseline": {
+        "near": {
+          "H_rms": 1.946975410329487e-06,
+          "M_rms": 6.018862301937777e-06
+        },
+        "bulk": {
+          "H_rms": 1.246446547109721e-07,
+          "M_rms": 8.012992997598647e-05
+        }
+      },
+      "candidate": {
+        "near": {
+          "H_rms": 2.1641933581769814e-06,
+          "M_rms": 8.495513594218025e-06
+        },
+        "bulk": {
+          "H_rms": 1.1484222504430657e-07,
+          "M_rms": 7.385893525542102e-05
+        }
+      },
+      "error_reduction_factors": {
+        "near": {
+          "H_rms": 0.8996309885959224,
+          "M_rms": 0.7084753894142626
+        },
+        "bulk": {
+          "H_rms": 1.085355623011342,
+          "M_rms": 1.0849050246781775
+        }
+      },
+      "candidate_Newton_Krylov": [
+        4,
+        44
+      ]
+    }
+  ],
+  "acceptance": false,
+  "conclusion": "No consistent physical-accuracy improvement: finest bulk momentum improves1.085x while near momentum worsens1.412x. Both stronger gates fail; candidate not promoted."
+}

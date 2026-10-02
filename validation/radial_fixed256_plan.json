@@ -1,0 +1,36 @@
+{
+  "case": "moderate_radial_fixed256",
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "baseline_case": "moderate_polar_sequence",
+  "source_initial_guess_resolution": [
+    128,
+    256,
+    28
+  ],
+  "new_resolution": [
+    104,
+    256,
+    28
+  ],
+  "comparison_resolution": [
+    128,
+    256,
+    28
+  ],
+  "solver_controls": {
+    "tolerance": 1e-14,
+    "max_newton": 24,
+    "max_krylov": 2000,
+    "krylov_restart": 32,
+    "memory_limit_mib": 8192
+  },
+  "cpu_threads": 1,
+  "free_data": "unchanged moderate; original inner windows; far_radius0,inner_flatten1; lambda.2,kappa2,phi28 fixed",
+  "criteria": {
+    "radial_dominance": ">=4x reduction in fixed Cartesian bulk momentum RMS from104 to128 at fixed256 polar",
+    "weak_radial_effect": "reduction<2x; polar truncation/other sources remain implicated",
+    "inconclusive": "reduction between2x and4x; both solves and verifier steps must be sound"
+  },
+  "note": "One directional diagnostic, not a new three-level acceptance sequence. Original128 record retains source SHA and qualified preliminary status. No acceptance thresholds are changed.",
+  "acceptance": false
+}

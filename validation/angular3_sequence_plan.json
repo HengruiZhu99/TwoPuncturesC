@@ -1,0 +1,59 @@
+{
+  "case": "moderate_angular3_sequence",
+  "library": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-angular3/libHiSpID.so",
+  "library_sha256": "5c14bf20fb0da7aa96bb175f5f0583f3d771b943fa2300695ae4719a9d53f40c",
+  "basis": "modal_P_C2prolate_map_v3_r0.20000000000000001_k3",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 3.0
+  },
+  "residual_scaling": "sin6_alpha_beta",
+  "source_case": "moderate_polar_sequence",
+  "source_resolution": [
+    128,
+    256,
+    28
+  ],
+  "source_library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "initial_guess_payload": "validation/angular3_initial_guess.json",
+  "rows": [
+    {
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "krylov_restart": 64
+    },
+    {
+      "resolution": [
+        104,
+        208,
+        28
+      ],
+      "krylov_restart": 64
+    },
+    {
+      "resolution": [
+        128,
+        256,
+        28
+      ],
+      "krylov_restart": 32
+    }
+  ],
+  "controls": {
+    "tolerance": 1e-14,
+    "max_newton": 24,
+    "max_krylov": 2000,
+    "memory_limit_mib": 8192
+  },
+  "free_data": "unchanged examples/configs.py moderate: original inner windows, far_radius0,inner_flatten1; radial stretch .2 unchanged; angular stretch 2 to 3 only",
+  "criteria": {
+    "preliminary": "All finest near/bulk H/M RMS<1e-4, three improving fine grids, angular charges<1e-7 and EPJ stability<.005",
+    "strict": "All finest near/bulk H/M RMS<1e-6 and max<1e-4; same convergence and charge requirements"
+  },
+  "comparison": "Matched physical noncollocation directions/radii and fourth-order Cartesian verifier/step-sensitivity controls; no inherited acceptance or horizon claims.",
+  "acceptance": false,
+  "cpu_threads": 1
+}

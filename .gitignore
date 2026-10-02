@@ -11,6 +11,7 @@ build-hispid/
 __pycache__/
 .venv/
 validation/raw/
+validation/*_initial_guess.npz
 /*.log
 tests/*.log
 validation/*.log

@@ -330,6 +330,85 @@ projection; any charge disagreement must be reported. High-boost tables
 give measured horizon masses and incomplete bare input parameters; local
 benchmarks at the same boost are labeled accordingly.
 
-There is no binary apparent-horizon finder. Seed coordinate horizon-radius
-screening does not verify enclosure in the solved geometry. No horizon
-mass/spin or horizon-contained exterior-vacuum claim is made.
+The isolated AthenaK consumer provides a binary apparent-horizon finder.
+The current moderate binary passes its initial-time direct-geometry surface
+and inner g/operator-ball enclosure checks. Seed coordinate horizon-radius
+screening alone does not verify enclosure in the solved geometry. Measured
+coordinate-rotation spin is separate from a generic AKV spin, and the failed
+stronger exterior constraints still limit a vacuum-accuracy claim.
+
+## Changed-map initial guesses
+
+`validation/angular3_sequence_plan.json` declares a separate moderate-binary
+experiment with radial stretch .2 unchanged and angular stretch increased
+from2 to3. The native build5c14bf20… passes all native controls, its original
+17 Python controls and13 additional remap/provenance/sequence controls. The first
+two grids are80×160×28 and104×208×28 with restart64;128×256×28 uses restart32.
+The physical free data, independent sample points, verifier and preliminary/
+strong thresholds remain unchanged. Source acceptance and horizons are
+never inherited by the candidate.
+
+`validation/remapped_guess.py` interpolates the retained modal P directly.
+For target physical coordinates t and eta, its source cardinal coordinates
+are xi=2t/[lambda_old+(1-lambda_old)t]-1 and
+zeta=atanh[tanh(kappa_old)eta]/kappa_old. Real Fourier amplitudes are rescaled
+for the orthonormal grid convention, including a source Nyquist cosine that
+becomes an ordinary cosine on a larger Fourier grid. No physical-field
+division by a vanishing axis factor occurs. A physical-coordinate polynomial
+control at source radial sizes16/32/64 gives maximum errors
+1.46e-8/6.13e-15/1.04e-17. Equal-map interpolation remains bit-identical
+to the existing prolongation path.
+
+The payload binds the preserved source record, source library/raw hashes,
+target library/basis/maps/full configuration and remapped vector hash.
+Load-time checks reject nonfinite or mis-sized coefficients, incompatible
+source map identifiers, altered physical/frame data, an existing result/raw
+label and colliding metadata/vector output paths. The target's first full
+configuration must exactly match the declaration. Every target level freshly
+solves the coupled equations and recomputes the independent physical gates.
+The JSON and remapping code are committed; large local npz files follow the
+same exclusion as the other raw numerical evidence.
+
+Build with `make -j1 test-hispid HISPID_DIR="$PWD/build-hispid-angular3"`
+and `HISPID_MAP_FLAGS='-DHISPID_RADIAL_STRETCH=.2 -DHISPID_ANGULAR_STRETCH=3.'`.
+Use the explicit bundled Python path, or a Python with NumPy, through the
+Makefile's PYTHON option. Prepare the guess using
+`validation/remapped_guess.py --source-library /absolute/path/build-hispid-budget/libHiSpID.so --target-library /absolute/path/build-hispid-angular3/libHiSpID.so --case moderate_polar_sequence --resolution 128 --nphi 28 --target-shape 80:160:28 --krylov-restart 64 --memory-mib 8192 --output validation/angular3_initial_guess.json`.
+Pass that JSON through `run_validation.py --initial-guess`; this option
+requires a new binary label. Equivalent current-runner replay arguments
+with fresh labels are stored with the experiment's resource record.
+
+## Revised local binary targets
+
+The validation runner has distinct `spin95`, `boost885` and
+`spin95_boost885` stages. These use `target_binary` with actual correction
+operators, omega1/power4, no far filter and inner windows.2/.8 of the minimum
+contracted isolated Kerr throat. Their inputs and reference labels are
+separate from HS99UU and Gamma=sqrt5. Seed rest spin and lab speed do not
+specify measured ADM or horizon quantities. Fresh strong physical, refined
+charge, solved covariance and component-horizon checks are required before
+accepting a revised binary target; earlier isolated-seed or moderate evidence
+is not transferred.
+
+`spin95_local_plan.json` specifies the zero-boost equal-mass binary at
+80×160×16,104×208×20 and128×256×24. All three Newton solves converge and raw
+near/bulk physical H/M RMS norms decrease. The finest physical H still fails
+both the preliminary and stronger gates. The source checkpoint therefore
+exports with `--allow-diagnostic` and remains labeled diagnostic.
+
+The separate AthenaK consumer loads that checkpoint, checks all imported
+active/ghost ADM tensors through the Z4c round trip, and measures both coarse
+horizons. Each has area8.3135384, Christodoulou mass.5006533, irreducible
+mass.4066849 and coordinate chi.9475223. Coarse expansion RMS4.77e-6 satisfies
+the1e-5 measurement tolerance. A stricter lmax16 attempt fails at2.35e-7
+against1e-7; final quadrature/enclosure qualification remains pending.
+Coordinate-rotation spin is separate from AKV spin. No evolution steps are
+taken. `validation/spin95_local_horizons.json` binds the measured dataset and
+consumer evidence in the sibling AthenaK worktree.
+
+Resume/evaluate-only checks require unchanged physical inputs and the same
+producer/basis/maps on every stored level. Acceptance additionally requires
+successful solves, positive geometry and three distinct refining grids.
+Failed coarse solves, mixed configurations, repeated grids and stage
+relabeling are covered by the30-test Python suite. Current equivalent serial
+replay commands with fresh labels are stored in the resource JSON files.

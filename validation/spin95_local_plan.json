@@ -1,0 +1,255 @@
+{
+  "case": "spin95_local_sequence",
+  "stage": "spin95",
+  "library": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-budget/libHiSpID.so",
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "basis": "modal_P_C2prolate_mapped_v2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "residual_scaling": "sin6_alpha_beta",
+  "cpu_threads": 1,
+  "rows": [
+    {
+      "resolution": [
+        80,
+        160,
+        16
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.2375
+            ],
+            "velocity": [
+              -0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.2375
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          80,
+          160,
+          16
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.015612494995995999,
+          0.015612494995995999
+        ],
+        "inner_max": [
+          0.062449979983983994,
+          0.062449979983983994
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 64,
+        "memory_limit_mib": 8192
+      },
+      "allocation_estimate_bytes": 2078105600
+    },
+    {
+      "resolution": [
+        104,
+        208,
+        20
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.2375
+            ],
+            "velocity": [
+              -0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.2375
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          104,
+          208,
+          20
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.015612494995995999,
+          0.015612494995995999
+        ],
+        "inner_max": [
+          0.062449979983983994,
+          0.062449979983983994
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 64,
+        "memory_limit_mib": 8192
+      },
+      "allocation_estimate_bytes": 4558641152
+    },
+    {
+      "resolution": [
+        128,
+        256,
+        24
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.2375
+            ],
+            "velocity": [
+              -0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.2375
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          128,
+          256,
+          24
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.015612494995995999,
+          0.015612494995995999
+        ],
+        "inner_max": [
+          0.062449979983983994,
+          0.062449979983983994
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 32,
+        "memory_limit_mib": 8192
+      },
+      "allocation_estimate_bytes": 6980894720
+    }
+  ],
+  "preceding_evidence": {
+    "moderate": "moderate_polar_sequence",
+    "covariance": "validation/polar_sequence_covariance.json",
+    "horizons": "validation/polar_sequence_horizons.json",
+    "scope": "Qualified preliminary C/D; stronger moderate physical gate remains failed"
+  },
+  "criteria": {
+    "strong_physical_RMS": 1e-06,
+    "strong_physical_maximum": 0.0001,
+    "geometry": "positive physical metric",
+    "convergence": "Three improving raw near/bulk H/M RMS levels; preserve any raw monotonic failure and independently calibrate verifier floors before any additional interpretation",
+    "charges": "Angular and extraction-radius uncertainty<=1e-5 plus finest EPJ change<=.005; do not prescribe seed values as measured charges",
+    "horizons": "Fresh initial-time two-component spectral/quadrature/expansion refinement; continuous retained-surface bounds with actual centers must enclose each g ball",
+    "covariance": "Fresh solved frame checks; do not transfer moderate evidence"
+  },
+  "scope": "Fully specified local spin95 target with actual operators, omega1/power4 and g windows0.2/0.8 of isolated Kerr throat. It is separate from HS99UU. No published energy agreement is asserted. Modified interior and exterior are reported separately.",
+  "accepted_high_regime": false,
+  "binary_validation_complete": false
+}
