@@ -13,7 +13,7 @@ unvalidated; do not use these binary outputs as validated production data.
 ### Cold comparison with the local Bowen–York backend
 
 The lower-spin unequal-mass case uses masses.6/.4, centers(±3,0,0),
-rest seed spins.390512/.374166 and the generic spin/velocity vectors in
+dimensionless rest seed chi=.390512/.374166 and the generic spin/velocity vectors in
 `examples/configs.py:moderate`, with far filtering disabled. Both backends
 start from zero at40×80×16 and use one CPU thread on the Apple M5 Pro,
 with-O3 builds and nominal native weighted-residual stopping tolerances.
@@ -24,7 +24,7 @@ The nodes/maps and geometries differ; this is a comparison of grid counts
 and bare/seed-charge inputs, not equal measured physical accuracy or horizon
 properties. No binary acceptance is inferred.
 
-| Nominal tolerance | HiSpID solve | BY solve | HiSpID setup/first sample | BY setup/first sample | Both reached tolerance? |
+| Nominal tolerance | HiSpID solve | BY solve | HiSpID total to first sample | BY total to first sample | Both reached tolerance? |
 |---|---:|---:|---:|---:|---|
 | 1e-10 | 2.606s | 51.056s | 3.913s | 51.200s | Yes |
 | 1e-12 | 3.359s | 56.833s | 4.633s | 56.972s | Yes |
