@@ -7,6 +7,10 @@
 #include <numeric>
 #include <cstdio>
 #include <gsl/gsl_linalg.h>
+#ifndef HISPID_INFINITY_EQUILIBRATION
+#define HISPID_INFINITY_EQUILIBRATION 0
+#endif
+static_assert(HISPID_INFINITY_EQUILIBRATION==0||HISPID_INFINITY_EQUILIBRATION==1,"infinity equilibration must be0or1");
 extern "C" {
 #include "TwoPunctures.h"
 }
@@ -427,6 +431,9 @@ void sample_fields(HiSpID_Data&s,const double*x,Fields&f){
 }
 }
 extern "C" {
+const char *HiSpID_residual_scaling(){
+ return HISPID_INFINITY_EQUILIBRATION?"sin6_alpha_beta_times_one_minus_t_pow_minus6":"sin6_alpha_beta";
+}
 const char *HiSpID_unknown_parameterization(){
  if constexpr(hispid::AxisDerivatives::radial_stretch==.2&&hispid::AxisDerivatives::angular_stretch==2.)return "modal_P_C2prolate_mapped_v2";
  static const auto identifier=[](){std::array<char,128> value{};
@@ -464,6 +471,10 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only){
    Fields f{};double x[3];transform(*s,i,j,k,f,x);hispid::Background bg;hispid::background(s->local,x,bg);
    int p=pindex(*s,i,j,k);cache(bg,s->geometry[p]);
    double sn=std::sin(Pih*(2*i+1)/c->n[0])*std::sin(Pih*(2*j+1)/c->n[1]);s->geometry[p].weight=std::pow(sn,6);
+   if constexpr(HISPID_INFINITY_EQUILIBRATION){
+    const double a=.5*(s->derivatives.coordinate[0][i]+1);
+    s->geometry[p].weight/=std::pow(1-a*a,6);
+   }
   }
   s->diag.npoints=s->npt;
  }catch(const std::exception&e){hispid::last_error=e.what();HiSpID_destroy(s);return nullptr;}return s;
@@ -573,7 +584,7 @@ int HiSpID_sample_with_derivatives(HiSpID_Data*s,int count,const double*xyz,HiSp
 }
 int HiSpID_charges(HiSpID_Data*s,const double*center,double radius,int nt,int np,double*out){
  if(!s||!center||!out||radius<=0||nt<4||np<8)return -1;
- std::fill(out,out+7,0.0);double delta=radius*1e-4;
+ std::fill(out,out+7,0.0);
  /* Gauss-Legendre cos(theta) and uniform phi. */
  for(int a=0;a<nt;a++){
   double mu=std::cos(Pi*(a+.75)/(nt+.5)),pp=0;
@@ -582,14 +593,16 @@ int HiSpID_charges(HiSpID_Data*s,const double*center,double radius,int nt,int np
    pp=nt*(mu*p1-p0)/(mu*mu-1);double step=p1/pp;mu-=step;if(std::abs(step)<1e-15)break;
   }double weight=2/((1-mu*mu)*pp*pp)*(2*Pi/np)*radius*radius;
   for(int b=0;b<np;b++){
-   double ph=2*Pi*(b+.5)/np,n[3]={std::sqrt(1-mu*mu)*std::cos(ph),std::sqrt(1-mu*mu)*std::sin(ph),mu};
-   double x[3];for(int i=0;i<3;i++)x[i]=center[i]+radius*n[i];HiSpID_Point p;
-   if(HiSpID_sample(s,1,x,&p))return -2;
-   double dg[3][9];for(int d=0;d<3;d++){
-    double xx[12];HiSpID_Point st[4];int offsets[4]={-2,-1,1,2};for(int k=0;k<4;k++)for(int i=0;i<3;i++)xx[3*k+i]=x[i]+(i==d?offsets[k]*delta:0);
-    if(HiSpID_sample(s,4,xx,st))return -2;
-    for(int ij=0;ij<9;ij++)dg[d][ij]=(st[0].gamma[ij]-8*st[1].gamma[ij]+8*st[2].gamma[ij]-st[3].gamma[ij])/(12*delta);
-   }
+   // Align the integration polar axis with the prolate separation axis.
+   // This keeps high meridional polynomial degrees out of the azimuthal
+   // quadrature. Normals/tensors and returned E,P,J remain in the lab frame.
+   double ph=2*Pi*(b+.5)/np,local_normal[3]={mu,std::sqrt(1-mu*mu)*std::cos(ph),std::sqrt(1-mu*mu)*std::sin(ph)},n[3]={};
+   for(int i=0;i<3;i++)for(int j=0;j<3;j++)n[i]+=s->frame[i][j]*local_normal[j];
+   double x[3];for(int i=0;i<3;i++)x[i]=center[i]+radius*n[i];HiSpID_Point p;double dg[3][9];
+   // Reuse the tested analytic physical metric gradient. This evaluates
+   // the retained modal polynomial once rather than at13 FD stencil points.
+   // Independent physical-FD charge comparisons remain validation controls.
+   if(HiSpID_sample_with_derivatives(s,1,x,&p,&dg[0][0]))return -2;
    double E=0,P[3]={};for(int i=0;i<3;i++)for(int j=0;j<3;j++){
     E+=n[i]*(dg[j][3*i+j]-dg[i][3*j+j]);
     P[i]+=(p.Kij[3*i+j]-p.mean_curvature*p.gamma[3*i+j])*n[j];

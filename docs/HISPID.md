@@ -36,7 +36,10 @@ coordinate covariance gates pass for the same library. The moderate command
 above reproduces a current **failed** diagnostic; no regular-basis solved
 binary is yet accepted. Historical preliminary passes used an incompatible
 axis-nonregular representation. `--levels 24:12,40:20,56:28` means `(N_A,N_B,N_phi)` of
-`(24,24,12)`, `(40,40,20)`, `(56,56,28)`. Results are saved incrementally;
+`(24,24,12)`, `(40,40,20)`, `(56,56,28)`. `--angular-ratio 2` doubles
+only the polar size, records the actual nonsquare shape, and prolongs in
+the identical mapped coordinates. Give separate case labels to different
+refinement experiments. Results are saved incrementally;
 failed iterates and physical samples remain in ignored `validation/raw/`.
 Only one numerical job should run at a time on the shared host.
 
@@ -287,8 +290,21 @@ See `examples/integration.py` for a command-line example that saves arrays
 and diagnostics without importing or modifying the Lazarus Python project.
 ADM charges are general physical metric/K surface integrals on finite lab
 spheres, returning `[E,Px,Py,Pz,Jx,Jy,Jz]`. Extrapolate across increasing
-radii and check angular quadrature. J is about the supplied sphere center;
+radii and check both polar and azimuthal quadrature. The integration polar
+axis follows the prolate separation axis; normals, tensors and returned
+charges remain in the lab frame. The energy flux uses the tested analytic
+physical metric gradient, independently checked against Cartesian finite
+differences. This reduces the sampler calls per node from thirteen to one.
+J is about the supplied sphere center;
 changing its origin from 0 to c gives `J_about_c=J_about_0-c cross P`.
+
+`HiSpID_residual_scaling()` reports the actual row norm. The default remains
+`sin6_alpha_beta`. The optional compile flag
+`HISPID_EXPERIMENT_FLAGS=-DHISPID_INFINITY_EQUILIBRATION=1` multiplies it by
+`(1-t)^-6`; this is an unsupported conditioning diagnostic. Its declared
+exact-seed far-source floor fails at up to1.89e-13 versus1e-14. No binary
+has been solved or accepted in that norm. Experimental flags require an
+isolated fresh build directory, never a shared/default library overwrite.
 
 ## Independent validation and reference departures
 

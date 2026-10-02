@@ -1,0 +1,30 @@
+{
+  "row_scaling": "sin(alpha)^6*sin(beta)^6/(1-t)^6",
+  "basis_change": false,
+  "default_9cb_build_preserved": true,
+  "controls_before_binary": {
+    "single_seed_far_source_linf_bound": 1e-14,
+    "grids": [
+      [
+        32,
+        32,
+        16
+      ],
+      [
+        64,
+        64,
+        28
+      ],
+      [
+        80,
+        160,
+        28
+      ]
+    ],
+    "far_minimum_radius": 100,
+    "flat_and_anisotropic_inverse_relative_tolerance": 1e-11,
+    "far_scaled_field_gradient_bound": 1e-09
+  },
+  "binary": "Only after controls pass: matched80\u00d7160\u00d728 moderate with original widths,far0,flatten1,restart128; new SHA requires fresh seed gates and labeled solves.",
+  "note": "At fixedeta both sin(alpha)^6 and Delta(cP) contribute(1-t)^3 at infinity. This positive row equilibration preserves finite-node PDE roots and retains the core weighting. It changes the stopping norm and is an experimental configuration, not automatic binary acceptance."
+}

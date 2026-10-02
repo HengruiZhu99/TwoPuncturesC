@@ -292,13 +292,13 @@ bool valid(const HiSpID_Config&c,bool sampler_only){
  if(c.conformal_choice<0||c.conformal_choice>1||c.attenuation_power<2||c.attenuation_power%2)return false;
  if(!std::isfinite(c.far_radius)||!std::isfinite(c.tolerance)||c.tolerance<=0||c.max_newton<0||c.max_krylov<1||c.krylov_restart<2||c.krylov_restart>200)return false;
  for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>256||(k==2&&c.n[k]%2))return false;
- /* Bound the compact cache, four-field ILU stencil and Krylov basis before
+ /* Bound the compact cache, four-field modal FD stencil and Krylov basis before
   * allocation. Larger grids require an explicit per-context budget. */
  if(c.memory_limit_mib<16||c.memory_limit_mib>8192)return false;
  const double npt=(double)c.n[0]*c.n[1]*c.n[2];
  // Sampler: values, coefficients and SpecCoef's two padded scalar scratch
  // arrays/pointer tables, with headroom for the smallest allowed grids.
- const double bytes_per_point=sampler_only?128:3192+4*(76*12+48)+32*(2*c.krylov_restart+30);
+ const double bytes_per_point=sampler_only?128:3192+4*(5*12+48)+32*(2*c.krylov_restart+30);
  // Two dense matrices per radial block, scalar/vector factor groups, shared
  // by real-Fourier partners. Add permutations/diagonal couplings explicitly.
  const double block_bytes=sampler_only?0:2.0*(c.n[2]/2+1)*c.n[1]*(16.0*c.n[0]*c.n[0]+24.0*c.n[0]);

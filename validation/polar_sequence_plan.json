@@ -1,0 +1,54 @@
+{
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "residual_scaling": "sin6_alpha_beta",
+  "basis": "modal_P_C2prolate_mapped_v2",
+  "case": "moderate_polar_sequence",
+  "initial_guess_case": "moderate_default_polar2_r128",
+  "initial_guess_source_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+  "compatibility_proof": "validation/budget_operator_equivalence.json",
+  "rows": [
+    {
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "krylov_restart": 64,
+      "allocation_estimate_bytes": 3611648000,
+      "allocation_budget_bytes": 8589934592
+    },
+    {
+      "resolution": [
+        104,
+        208,
+        28
+      ],
+      "krylov_restart": 64,
+      "allocation_estimate_bytes": 6352885760,
+      "allocation_budget_bytes": 8589934592
+    },
+    {
+      "resolution": [
+        128,
+        256,
+        28
+      ],
+      "krylov_restart": 32,
+      "allocation_estimate_bytes": 8121745408,
+      "allocation_budget_bytes": 8589934592
+    }
+  ],
+  "free_data": "examples/configs.py moderate; original inner windows; far_radius0,inner_flatten1; radial stretch.2,angular stretch2",
+  "controls": {
+    "tolerance": 1e-14,
+    "max_newton": 24,
+    "max_krylov": 2000,
+    "memory_limit_mib": 8192
+  },
+  "criteria": {
+    "preliminary": "Three improving fine grids; all near/bulk H/M RMS<1e-4 and charge stability<.005 after independent angular checks",
+    "strict": "All near/bulk H/M RMS<1e-6 and max<1e-4; same convergence/charge requirements"
+  },
+  "note": "Criteria unchanged. Every grid is solved/evaluated freshly in the new build. The bitwise API proof authorizes an initial guess only. Coarse run-time charge summaries are not sufficient angular validation. Record process peak RSS separately. No horizon enclosure or high-regime acceptance is implied.",
+  "acceptance": false
+}

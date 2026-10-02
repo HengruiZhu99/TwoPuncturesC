@@ -90,10 +90,16 @@ def norms(r,mask=None):
                 normalized_H_max=float(np.max(r['normalized_H'][mask])),
                 normalized_M_max=float(np.max(r['normalized_M'][mask])))
 
-def charges(sample,radius,center=(0,0,0),ntheta=20,nphi=40):
+def charges(sample,radius,center=(0,0,0),ntheta=20,nphi=40,polar_frame=None):
     """Independent finite-radius ADM integrals of physical fields, flat measure."""
     mu,w=np.polynomial.legendre.leggauss(ntheta);phi=2*np.pi*(np.arange(nphi)+.5)/nphi
     mu,phi=np.meshgrid(mu,phi,indexing='ij');normal=np.stack([np.sqrt(1-mu*mu)*np.cos(phi),np.sqrt(1-mu*mu)*np.sin(phi),mu],axis=-1).reshape(-1,3)
+    if polar_frame is not None:
+        frame=np.asarray(polar_frame,dtype=float)
+        if frame.shape!=(3,3) or not np.allclose(frame.T@frame,np.eye(3),rtol=0,atol=1e-12) or abs(np.linalg.det(frame)-1)>1e-12:
+            raise ValueError('polar_frame must be a proper orthonormal frame')
+        # The first frame column is the polar axis; the other two span phi.
+        normal=normal[:,[2,0,1]]@frame.T
     weight=np.repeat(w,nphi)*2*np.pi/nphi*radius**2
     x=np.asarray(center)+radius*normal;v=sample(x);g=v['gamma'].reshape(-1,3,3);K=v['Kij'].reshape(-1,3,3)
     inv=np.linalg.inv(g);tr=np.einsum('nij,nij->n',inv,K)

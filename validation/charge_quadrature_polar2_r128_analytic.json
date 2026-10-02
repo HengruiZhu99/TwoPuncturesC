@@ -1,0 +1,72 @@
+{
+  "case": "moderate_default_polar2_r128",
+  "resolution": [
+    80,
+    160,
+    28
+  ],
+  "library_sha256": "d5c72f59710ca3d4138cce3f8eb68d814f99a4e3bd7b4ef89c440ce11609b0d8",
+  "unknown_parameterization_id": "modal_P_C2prolate_mapped_v2",
+  "checkpoint_source_library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+  "compatibility_proof": "validation/analytic_charges_operator_equivalence.json",
+  "collocation_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "radii": [
+    200.0
+  ],
+  "records": [
+    {
+      "ntheta": 256,
+      "nphi": 64,
+      "native_EPJ": [
+        [
+          1.001919246788314,
+          0.01077897121290297,
+          0.00651359197729456,
+          0.01959598409575479,
+          0.039813714887465976,
+          0.11614842852649322,
+          0.3298091525575981
+        ]
+      ],
+      "seconds": 11.176872165990062
+    },
+    {
+      "ntheta": 384,
+      "nphi": 64,
+      "native_EPJ": [
+        [
+          1.0019192467883127,
+          0.010778971212978576,
+          0.006513591977296287,
+          0.019595984095743434,
+          0.039813714887476315,
+          0.11614842852164,
+          0.3298091525559521
+        ]
+      ],
+      "seconds": 16.735100459016394,
+      "quadrature_change_EPJ_linf": 4.853228929846409e-12
+    },
+    {
+      "ntheta": 512,
+      "nphi": 64,
+      "native_EPJ": [
+        [
+          1.0019192467883191,
+          0.010778971212979037,
+          0.006513591977295713,
+          0.019595984095743226,
+          0.03981371488751965,
+          0.11614842852154737,
+          0.3298091525559018
+        ]
+      ],
+      "seconds": 22.585318749945145,
+      "quadrature_change_EPJ_linf": 9.262035582935368e-14
+    }
+  ],
+  "acceptance": false
+}

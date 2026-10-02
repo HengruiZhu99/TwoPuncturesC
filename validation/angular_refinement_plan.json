@@ -1,0 +1,38 @@
+{
+  "library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+  "baseline_case": "moderate_default_square_r128",
+  "refined_case": "moderate_default_polar2_r128",
+  "grids": [
+    [
+      80,
+      80,
+      28
+    ],
+    [
+      80,
+      160,
+      28
+    ]
+  ],
+  "comparison_grid": [
+    104,
+    208,
+    28
+  ],
+  "free_data": "examples/configs.py moderate; far_radius0,inner_flatten1, original .045/.09 and .03/.06 inner windows; all masses/spins/boosts/f fixed",
+  "solver_controls": {
+    "tolerance": 1e-14,
+    "krylov_restart": 128,
+    "max_krylov": 2000,
+    "max_newton": 24,
+    "memory_limit_mib": 8192
+  },
+  "experiment": "One matched polar-doubling solve, not a three-level acceptance sequence; refined grid prolongs the converged square iterate within the identical basis/map.",
+  "criteria": {
+    "success": "Both converged plus >=4x reduction of g1 physical-equivalent momentum RMS on the identical comparison grid AND fixed bulk Cartesian physical M RMS.",
+    "failure": "Either momentum norm improves by less than2x, or a growing angular tail; solver failures remain explicit.",
+    "inconclusive": "Improvement between2x and4x, or verifier/solver failure prevents attribution."
+  },
+  "acceptance": false,
+  "note": "Diagnostic thresholds declared before runs. Existing physical/charge/axis/covariance/horizon acceptance thresholds are unchanged. No nonlinear filtering or row-weight changes."
+}

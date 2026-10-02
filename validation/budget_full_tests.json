@@ -1,0 +1,14 @@
+{
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "residual_scaling": "sin6_alpha_beta",
+  "compiler": "AppleClang ARM64 C++17 -O3",
+  "cpu_threads": 1,
+  "command": "make -j1 test-hispid HISPID_DIR=$PWD/build-hispid-budget PYTHON=$PY",
+  "native_geometry_axis_solver_controls_passed": true,
+  "python_tests": 17,
+  "passed": true,
+  "log": "build-hispid/budget-full-tests.log",
+  "log_sha256": "7d3b7e0ad1ab6687f98d184a1b1c09a4aa42b1dca42a5eea814755e953857683",
+  "binary_acceptance": false,
+  "note": "The separate optional strong-anisotropy restart32 audit retains7 failed rows; it is not part of this default suite. All reported source proofs require the exact loaded native SHA."
+}

@@ -1,0 +1,56 @@
+{
+  "library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+  "test_source_sha256": "7484f49cd6e2485ae985f3f9492b8de7f4bc6412d51d88b191e453d40968c804",
+  "test_executable_sha256": "d138e56321714abe62b7ab57ffcfe0a99c85ca5425feef9a8153451077372d8b",
+  "included_solver_source_commit": "f2b08bf",
+  "included_solver_source_sha256": "53ae64ce63588f8ad16591c2c3a0c8a6c21e78399c2925602cb531e1504a64ff",
+  "command": "build-hispid/test_solver.x --asymptotic-inverse-only",
+  "metric_epsilon": 0.4,
+  "resolution": [
+    32,
+    32,
+    16
+  ],
+  "mode": 0,
+  "components": [
+    1,
+    2
+  ],
+  "krylov_restart": 128,
+  "max_krylov": 1024,
+  "linear_relative_tolerance": 1e-11,
+  "ordinary_field_gradient_bound": 1e-11,
+  "radii": [
+    50,
+    200,
+    1000,
+    10000
+  ],
+  "directions": [
+    [
+      0.73,
+      0.31,
+      0.61
+    ],
+    [
+      -0.41,
+      0.82,
+      0.39
+    ],
+    [
+      0.22,
+      -0.51,
+      0.83
+    ]
+  ],
+  "direction_normalization": "unit Euclidean",
+  "far_error_scaling": "R*abs(value error), R^2*abs(gradient error)",
+  "far_error_bound": 1e-09,
+  "far_errors": [
+    5.47934e-10,
+    3.38763e-12
+  ],
+  "passed": true,
+  "binary_acceptance": false,
+  "note": "Extends the previously passing two-row restart128 inverse control to leading asymptotic field/gradient scales; log preserves exact-P floor and true linear residuals."
+}

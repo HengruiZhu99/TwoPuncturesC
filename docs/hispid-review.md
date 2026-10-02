@@ -932,3 +932,249 @@ anisotropic_inverse_default.json binds the original test source SHA 50d3d5c242c9
 anisotropic_inverse_restart128.json is a separate, passing diagnostic of only those first two failed rows, with identical geometry/RHS/PDE/preconditioner/tolerances, restart128 and max1024. Its changed test source SHA is f6376af06e6d510b021bdee632f718fb6a83273149497a96fc2a9113e9ed0c13. bx/by converge in82/85 iterations with independently recomputed true relative residual9.23627e-12/9.89474e-12 and field/gradient error1.46506e-12/5.56348e-15. This demonstrates restart stagnation for these two RHSs; it does not prove all original failed rows pass, full matrix rank, or a binary accuracy improvement. No original failed flag is replaced.
 
 For constant h on a compatible whole-space decaying/regular domain, define Pi_long=grad_h*Delta_h^{-1}*div. Commuting derivatives imply Pi_long²=Pi_long and L_h=Delta_h*(I+Pi_long/3), hence L_h^{-1}=(I-Pi_long/4)*Delta_h^{-1}. This gives a principled coupled Helmholtz preconditioner proposal using scalar anisotropic Poisson inverses plus divergence/gradient operations. In the h inner product the continuum longitudinal/transverse symbol ratio is4/3; epsilon .4 gives metric eigenvalue ratio1.4, so comparison with an exact isotropic scalar inverse has a modest continuum bound of(4/3)*1.4. That bound does not apply to the weighted modal coordinates, approximate FD inverse or finite capped interpolation domain. Discrete derivative/inverse commutation and the regularity/boundary domain must be checked independently before calling a finite implementation exact. The passing larger-restart diagnostic weakens a claimed discrete-nullspace explanation for its tested RHSs; it neither establishes a stable global discretization nor fixes the observed meridional binary defect. No Helmholtz implementation or numerical result is counted here.
+
+**Proposed stable scalar-source grouping, review revision of 2026-10-02.** The derivation below is complete as an algebraic proposal. It has not been implemented, numerically validated or accepted. No source change, solver job or new physical acceptance is attributed to this review. The first proposed implementation retains the original Ψ/F split, the fixed W contribution inside u, and the existing correction operators. The advanced curvature and W reorganizations described later are optional future measures.
+
+The motivation is the retained failed infinity-equilibration control, not a claim that the original physical seed fields fail. In far_source_floor_infinity_equilibrated.json, image SHA 40672d36b1a1d1d3deda9a9fb38ea4f243da05c4dfde4dea30856e651aa58dd4 uses sin6/(1−t)^6 and declares a weighted exact-seed far-source bound of1e-14. At 80×160×28, boost885 and combined_generic reach scalar floors1.8822e-13/1.8412e-13, while their raw physical-equivalent scalar extrema are about3.5e-18. That new-norm gate is false and no binary solve in it is accepted. The original norm and binary gates remain in force. The proposed regrouping must undergo new-SHA controls before any renewed equilibration experiment.
+
+All sums below run over active seeds; there is no branch selecting an isolated seed. Write p_s=ψ_s, h_s for its conformal metric, A_s for its covariant conformal trace-free tensor and K_s for its mean curvature. Set w_s=f_s F_s and use the actual background fields
+
+$$
+h=\delta+\sum_s w_s(h_s-\delta),\qquad
+K=\sum_s w_s K_s,\qquad
+S=\sum_s A_s,\qquad
+\tau=\operatorname{tr}_h S,\qquad
+M=S-\frac13h\tau .
+$$
+
+Indices of a contraction with subscript h are raised twice with h inverse; Q_s=|A_s|²_{h_s}. The seed identity, with the existing curvature and extrinsic-curvature signs, is
+
+$$
+\Delta_s p_s=
+\frac18 p_s R_s+\frac1{12}p_s^5K_s^2
+-\frac1{8p_s^7}Q_s .
+$$
+
+It follows from the exact Kerr seed vacuum Hamiltonian constraint in either supported conformal choice. The construction must retain the actual metric's Levi-Civita connection for every seed and source identity. The optional opGamma=g Gamma is not used in this identity or in the source curvature.
+
+For the first implementation define Z=Ψ=1+sum_s F_s(p_s−1), ψ=Z+u and L=longitudinal_h(b). The current u includes W in all ten scalar field slots; that convention remains unchanged. The complete background intercept to cache is
+
+$$
+C_Z=\Delta_h Z-\frac18 ZR_h-\frac1{12}Z^5K^2
++\frac{|M|_h^2}{8Z^7}.
+$$
+
+Replacing only lapPsi by the seed identity does not solve the problem: the runtime kernel would still subtract its large curvature and seed terms. The complete C_Z is the object to assemble with the following differences.
+
+For each seed form d_s=h−h_s directly from the filter contributions, as in the existing momentum source:
+
+$$
+d_s=(w_s-1)(h_s-\delta)+\sum_{t\ne s}w_t(h_t-\delta),
+\qquad
+e_s=h^{-1}-h_s^{-1}=-h^{-1}d_s h_s^{-1}.
+$$
+
+Form D_s=Gamma_h−Gamma_s stably from d_s, rather than subtracting two rounded connections:
+
+$$
+(D_s)^i{}_{jk}=\frac12h^{il}
+\left[(\nabla_s)_j(d_s)_{kl}
++(\nabla_s)_k(d_s)_{jl}
+-(\nabla_s)_l(d_s)_{jk}\right].
+$$
+
+The exact Laplacian difference on p_s is
+
+$$
+E_s=(\Delta_h-\Delta_s)p_s
+=e_s^{ij}\left[p_{s,ij}-(\Gamma_s)^k{}_{ij}p_{s,k}\right]
+-h^{ij}(D_s)^k{}_{ij}p_{s,k}.
+$$
+
+All F derivative terms in Δ_h Ψ are retained:
+
+$$
+T_F=\sum_s\left[
+2h^{ij}F_{s,i}p_{s,j}+(p_s-1)\Delta_h F_s
+\right],
+\qquad
+\Delta_h Z=\sum_sF_s\left[\Delta_s p_s+E_s\right]+T_F .
+$$
+
+There is no f multiplier in Z or T_F. Derivatives of f enter h, D_s and the actual curvature through w_s; derivatives of F enter those fields and T_F. Multiplying the source brackets by g does not introduce derivatives of g.
+
+The grouped intercept is
+
+$$
+C_Z=T_F+\sum_sF_s E_s+\frac18 C_R+\frac1{12}C_K+\frac18 C_A,
+$$
+
+with exact blocks
+
+$$
+\begin{aligned}
+C_R&=\sum_sF_s p_s(R_s-R_h)+\left(\sum_sF_s-1\right)R_h,\\
+C_K&=\sum_sK_s^2\left[F_sp_s^5-w_s^2Z^5\right]
+-2Z^5\sum_{s<t}w_sw_tK_sK_t .
+\end{aligned}
+$$
+
+For the tensor norm, construct its metric change without subtracting two norms:
+
+$$
+dQ_s=\left(e_s^{ik}h^{jl}+h_s^{ik}e_s^{jl}\right)
+(A_s)_{ij}(A_s)_{kl}.
+$$
+
+Since each seed is analytically trace-free in its own metric, τ=sum_s e_s:A_s is the stable trace already used in the momentum source. Then
+
+$$
+C_A=
+\frac{\sum_s dQ_s+2\sum_{s<t}\langle A_s,A_t\rangle_h-\tau^2/3}{Z^7}
++\sum_sQ_s\left[Z^{-7}-F_sp_s^{-7}\right].
+$$
+
+The −τ²/3 projection term is exact analytically. For closer consistency with a supplied rounded projection tensor, set C=−hτ/3 and replace the cross/projection numerator by
+
+$$
+2\sum_{s<t}\langle A_s,A_t\rangle_h
++2\langle S,C\rangle_h+|C|_h^2.
+$$
+
+This follows from M=S+C and avoids assuming that a freshly computed floating-point trace of S is bitwise τ. Use common contraction helpers/order in the cached and point kernels. Raw trace, inverse and projection discrepancies should be recorded as arithmetic errors; they must not be hidden by weakening a physical gate.
+
+The curvature difference is also formed covariantly. With D_s stored as Jets,
+
+$$
+(\nabla_s)_p D^i{}_{jk}
+=D^i{}_{jk,p}
++(\Gamma_s)^i{}_{pl}D^l{}_{jk}
+-(\Gamma_s)^l{}_{pj}D^i{}_{lk}
+-(\Gamma_s)^l{}_{pk}D^i{}_{jl}.
+$$
+
+The Ricci convention matches the current curvature helper:
+
+$$
+\begin{aligned}
+\delta\operatorname{Ric}_{ij}
+&=(\nabla_s)_kD^k{}_{ij}
+-(\nabla_s)_jD^k{}_{ik}
++D^k{}_{ij}D^l{}_{kl}
+-D^l{}_{ik}D^k{}_{jl},\\
+R_h-R_s&=e_s^{ij}(\operatorname{Ric}_s)_{ij}
++h^{ij}\delta\operatorname{Ric}_{ij}.
+\end{aligned}
+$$
+
+Thus C_R uses the negative of this δR for R_s−R_h. Only first derivatives of D_s are required. Existing metric AD2 and seed connection first derivatives suffice: diff(metric) followed by a connection-difference Jet supplies the needed slots. Its absent or fabricated higher derivatives must not be used. The existing seed_sum_source already forms seed inverse, connection, d_s and e_s, but its current DC stores values only; scalar curvature needs a Jet D_s with first derivatives. Reusing those temporaries is more practical than repeating all seed geometry work.
+
+Power differences must be factored. In particular,
+
+$$
+\begin{aligned}
+F_sp_s^5-w_s^2Z^5
+&=(F_s-w_s^2)p_s^5
+-w_s^2(Z-p_s)\sum_{k=0}^4Z^{4-k}p_s^k,\\
+F_s-w_s^2
+&=F_s\left[(1-F_s)+F_s(1-f_s)(1+f_s)\right],\\
+Z-p_s
+&=(F_s-1)(p_s-1)+\sum_{t\ne s}F_t(p_t-1).
+\end{aligned}
+$$
+
+Also Z^−7−F_s p_s^−7=(1−F_s)p_s^−7+(Z^−7−p_s^−7). The last difference can use the exact factored rational polynomial
+
+$$
+Z^{-7}-p_s^{-7}
+=-\frac{(Z-p_s)\sum_{k=0}^6 Z^{6-k}p_s^k}{Z^7p_s^7},
+$$
+
+or expm1(−7 log1p((Z−p_s)/p_s))/p_s^7 with positive p_s,Z and a suitable overflow-safe ratio evaluation. This is a proposal for stable arithmetic, not a tested choice of implementation. Near-unity filter differences may likewise benefit from expm1, but changing their finite-precision Jet evaluation requires explicit field/derivative comparison; their mathematical definitions do not change.
+
+With C_Z cached, the runtime nonlinear correction increment is
+
+$$
+\begin{aligned}
+I(u,L)
+={}&-\frac18uR_h
+-\frac1{12}K^2\left[(Z+u)^5-Z^5\right]\\
+&+\frac{2\langle M,L\rangle_h+|L|_h^2}{8\psi^7}
++\frac{|M|_h^2}{8}\left[\psi^{-7}-Z^{-7}\right],
+\qquad \psi=Z+u,\\
+F_H={}&\Delta_{\mathrm{op}}u+g\left[C_Z+I(u,L)\right].
+\end{aligned}
+$$
+
+Use (Z+u)^5−Z^5=u sum_(k=0)^4 (Z+u)^(4−k)Z^k and the corresponding inverse-power difference rather than two power evaluations followed by subtraction. The analytic JVP remains the existing one:
+
+$$
+\delta F_H=\Delta_{\mathrm{op}}\delta u
++g\left[
+\left(-\frac18R_h-\frac5{12}\psi^4K^2
+-\frac7{8\psi^8}|A|_h^2\right)\delta u
++\frac{\langle A,L(\delta b)\rangle_h}{4\psi^7}
+\right],\qquad A=M+L.
+$$
+
+The intercept is independent of the correction. Physical ψ, h, K, M, sampling and the optional correction operators retain their existing definitions. In the isolated unfiltered limit, d_s,e_s,D_s,T_F and all coefficient differences vanish, so the complete intercept cancels as a limit of the generic formula. No isolated-seed if branch is needed. This is equality of the continuum PDE; floating-point residuals may change and bitwise old/new residual equivalence must not be claimed.
+
+The required raw-oracle proof explicitly tracks rounded seed identities. Define
+
+$$
+\epsilon_s=\Delta_s p_s-\frac18p_sR_s-\frac1{12}p_s^5K_s^2
++\frac{Q_s}{8p_s^7}.
+$$
+
+In exact algebra, the original direct residual minus the grouped residual is g sum_s F_s ε_s. Floating-point metric/inverse, trace/projection and reassociation errors add to that measured difference. Retain ε_s and verify the discrepancy against this prediction with an independently stated arithmetic bound. A smaller grouped residual alone is not proof: the seed identity sets a known analytic zero, whereas its rounded raw geometric evaluation has a nonzero floor.
+
+Required controls, all still proposed, are:
+
+- Preserve an untouched raw path that computes actual Δ_h Ψ, Ricci/scalar curvature, total projected A and the nonlinear source directly, without the seed vacuum substitution. Verify connection and Ricci differences against that path before testing the complete grouping.
+- Use generic unequal seeds with arbitrary spin/boost directions, both conformal choices, nonzero scalar/vector correction Jets, f/F transition derivatives, g0/transition/g1 and both correction-operator choices. Include ordinary, far, inner-sheet and regular throat points within their valid domains. Compare cached and point kernels with common conventions.
+- Supply a private nonvacuum seed perturbation, such as a controlled change to scalar p_s Jets while retaining a trace-free A_s, and restore the measured ε_s terms in the grouped formula. This negative control must recover the raw source. A mismatch would expose an invalid general algebra or an oracle that merely imposes vacuum.
+- At g1 independently evaluate raw physical geometry and its Hamiltonian constraint, using H_phys=−8ψ^−5 F_H in exact arithmetic. Retain the Cartesian finite-difference seed controls, field/gradient comparisons, correction JVP finite differences and raw geometric error floors. At g<1 distinguish modified equations from physical vacuum constraints.
+- Bind all evidence to the new library/source SHA. Only after the raw-oracle proof passes, rerun the declared infinity far-source gate and the analytic flat/coupled Navier inverse controls in that new norm. Preserve the failed earlier equilibration artifact. No cross-SHA binary acceptance, charge acceptance or relaxed tolerance follows from this derivation.
+
+Two optional future reorganizations may reduce remaining cancellation, but neither is required for the first Ψ/F implementation. First, per-seed R differences can still subtract leading binary far terms. Rewrite
+
+$$
+C_R=\sum_sF_s(p_s-1)(R_s-R_h)+\left(\sum_sF_sR_s-R_h\right).
+$$
+
+For a Cartesian metric h=δ+q define its flat-linear scalar curvature L_flat(q)=partial_i partial_j q_ij−Delta_flat tr(q), and R(h)=L_flat(q)+N(h). Build Gamma_lin=(1/2)δ inverse times the derivative permutations of q and Gamma_nl=(1/2)(h inverse−δ) times those permutations, with h inverse−δ=−h inverse q formed stably. N comprises (h inverse−δ):Ric_lin plus h inverse contracted with the derivatives of Gamma_nl and the full Gamma*Gamma terms. This separates additive O(r^−3) far terms from nonlinear O(r^−4) terms. With q_s=h_s−δ,
+
+$$
+\begin{aligned}
+\sum_sF_sR_s-R_h
+&=\sum_s\left[(F_s-w_s)L_{\rm flat}(q_s)
+-T_{\rm flat}(w_s,q_s)\right]
++\sum_sF_sN(h_s)-N(h),\\
+T_{\rm flat}(w,q)
+&=2w_{,i}\partial_jq_{ij}+w_{,ij}q_{ij}
+-2w_{,i}\partial_i\operatorname{tr}(q)
+-(\Delta_{\rm flat}w)\operatorname{tr}(q).
+\end{aligned}
+$$
+
+For f=F=1, the additive flat-linear terms cancel before floating-point evaluation. This advanced decomposition needs its own direct-curvature proof and seed/binary far-floor measurements; no benefit is asserted as already demonstrated.
+
+Second, the exact fixed-W reparameterization permits Z=Ψ0=1+sum_s(p_s−1), u=W+v and W=sum_s(1−F_s)(p_s−1). The generic intercept formulas then use scalar weights a_s=1 instead of F_s, while metric/mean-curvature weights remain w_s=f_sF_s and the F-product term T is absent. In that split
+
+$$
+F_H=\Delta_{\rm op}v+
+\left(\Delta_{\rm op}-g\Delta_h\right)W
++g\left[C_{\Psi_0}+I(v,L)\right].
+$$
+
+The W defect must be evaluated from coefficient differences:
+
+$$
+\left(\operatorname{opinv}^{ij}-g h^{ij}\right)W_{,ij}
+-\left[
+\operatorname{opinv}^{ij}(\operatorname{opGamma})^k{}_{ij}
+-g h^{ij}(\Gamma_h)^k{}_{ij}
+\right]W_{,k}.
+$$
+
+It vanishes at g1; for inner_flatten0 it is (1−g)Δ_h W, whereas the literal inner_flatten1 connection is opGamma=g Gamma_h and needs its own contraction. This can avoid a later cancellation between Δ_op W and g Δ_h Ψ_F, but requires consistent correction-field conventions throughout cached, point and sample paths. It is deliberately deferred from the first implementation. The original fixed-W convention remains the basis of the required initial raw-oracle proof.

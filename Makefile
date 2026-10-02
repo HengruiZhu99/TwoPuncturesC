@@ -95,6 +95,7 @@ HISPID_OBJ = $(patsubst $(SRCD)/%.cpp,$(HISPID_DIR)/%.o,$(HISPID_CPP))
 HISPID_LIB = $(HISPID_DIR)/libHiSpID.so
 HISPID_FLAGS = -std=c++17 -O3 -fPIC -Wall -Wextra $(shell gsl-config --cflags)
 HISPID_FLAGS += $(HISPID_MAP_FLAGS)
+HISPID_FLAGS += $(HISPID_EXPERIMENT_FLAGS)
 
 $(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp $(SRCD)/HiSpID_axis.hpp
 	@mkdir -p $(HISPID_DIR)

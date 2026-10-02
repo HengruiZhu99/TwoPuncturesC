@@ -95,6 +95,7 @@ class Backend:
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
         optional={'HiSpID_unknown_parameterization':(C.c_char_p,[]),
+                  'HiSpID_residual_scaling':(C.c_char_p,[]),
                   'HiSpID_collocation_maps':(C.c_int,[PTR]),
                   'HiSpID_create_sampler':(C.c_void_p,[C.POINTER(Config)]),
                   'HiSpID_sample_with_derivatives':(C.c_int,[C.c_void_p,C.c_int,PTR,C.POINTER(Point),PTR])}
@@ -105,6 +106,8 @@ class Backend:
         if hasattr(self.lib,'HiSpID_unknown_parameterization'):
             return self.lib.HiSpID_unknown_parameterization().decode('ascii')
         return 'W_plus_Aminus1_V'
+    def residual_scaling(self):
+        return self.lib.HiSpID_residual_scaling().decode('ascii') if hasattr(self.lib,'HiSpID_residual_scaling') else 'sin6_alpha_beta'
     def parameterization_description(self):
         value='u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))'
         if self.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or self.parameterization().startswith('modal_P_C2prolate_map_v3_'):

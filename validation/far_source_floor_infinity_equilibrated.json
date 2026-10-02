@@ -1,0 +1,336 @@
+{
+  "library_sha256": "40672d36b1a1d1d3deda9a9fb38ea4f243da05c4dfde4dea30856e651aa58dd4",
+  "residual_scaling": "sin6_alpha_beta_times_one_minus_t_pow_minus6",
+  "weighted_far_source_bound": 1e-14,
+  "far_radius_minimum": 100.0,
+  "exact_correction": 0.0,
+  "records": [
+    {
+      "case": "Schwarzschild",
+      "resolution": [
+        32,
+        32,
+        16
+      ],
+      "far_node_count": 1024,
+      "far_radius_range": [
+        220.54046803322507,
+        1997.2550446541436
+      ],
+      "weighted_far_source_linf": [
+        3.0130840694512203e-15,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_equivalent_far_linf": [
+        1.1590243038875765e-19,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true,
+      "seconds": 0.30573504097992554
+    },
+    {
+      "case": "spin95",
+      "resolution": [
+        32,
+        32,
+        16
+      ],
+      "far_node_count": 1024,
+      "far_radius_range": [
+        220.54046803322507,
+        1997.2550446541436
+      ],
+      "weighted_far_source_linf": [
+        3.771021529667376e-15,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_equivalent_far_linf": [
+        1.309539862338023e-19,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true,
+      "seconds": 0.2869426249526441
+    },
+    {
+      "case": "boost885",
+      "resolution": [
+        32,
+        32,
+        16
+      ],
+      "far_node_count": 1024,
+      "far_radius_range": [
+        220.54046803322507,
+        1997.2550446541436
+      ],
+      "weighted_far_source_linf": [
+        2.0012512434813707e-14,
+        1.2890065315968472e-17,
+        4.74863571944585e-18,
+        4.353793793332953e-18
+      ],
+      "physical_equivalent_far_linf": [
+        4.931732655071172e-19,
+        3.369974945793416e-22,
+        1.793716398610963e-22,
+        1.5734449574756205e-22
+      ],
+      "passed": false,
+      "seconds": 0.28502100001787767
+    },
+    {
+      "case": "combined_generic",
+      "resolution": [
+        32,
+        32,
+        16
+      ],
+      "far_node_count": 1024,
+      "far_radius_range": [
+        220.54046803322507,
+        1997.2550446541436
+      ],
+      "weighted_far_source_linf": [
+        2.0226914808110954e-14,
+        1.0952025263993644e-17,
+        5.5359687374539044e-18,
+        4.780040553992505e-18
+      ],
+      "physical_equivalent_far_linf": [
+        8.296361267765979e-19,
+        3.9224770066808798e-22,
+        2.0015979098587344e-22,
+        1.3676969210685689e-22
+      ],
+      "passed": false,
+      "seconds": 0.2908206249703653
+    },
+    {
+      "case": "Schwarzschild",
+      "resolution": [
+        64,
+        64,
+        28
+      ],
+      "far_node_count": 8120,
+      "far_radius_range": [
+        100.11950798972279,
+        7973.421988957875
+      ],
+      "weighted_far_source_linf": [
+        1.7035850988942434e-14,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_equivalent_far_linf": [
+        6.44462982852306e-19,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": false,
+      "seconds": 2.184232416038867
+    },
+    {
+      "case": "spin95",
+      "resolution": [
+        64,
+        64,
+        28
+      ],
+      "far_node_count": 8120,
+      "far_radius_range": [
+        100.11950798972279,
+        7973.421988957875
+      ],
+      "weighted_far_source_linf": [
+        1.8855459379398637e-14,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_equivalent_far_linf": [
+        7.276315139137684e-19,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": false,
+      "seconds": 2.1696936250082217
+    },
+    {
+      "case": "boost885",
+      "resolution": [
+        64,
+        64,
+        28
+      ],
+      "far_node_count": 8120,
+      "far_radius_range": [
+        100.11950798972279,
+        7973.421988957875
+      ],
+      "weighted_far_source_linf": [
+        8.186304780922836e-14,
+        1.467125092310553e-17,
+        6.600920569484144e-18,
+        5.189037467565548e-18
+      ],
+      "physical_equivalent_far_linf": [
+        2.3691320567525808e-18,
+        3.572088345048863e-21,
+        1.8150959151424063e-21,
+        1.6476159253234317e-21
+      ],
+      "passed": false,
+      "seconds": 2.182517791981809
+    },
+    {
+      "case": "combined_generic",
+      "resolution": [
+        64,
+        64,
+        28
+      ],
+      "far_node_count": 8120,
+      "far_radius_range": [
+        100.11950798972279,
+        7973.421988957875
+      ],
+      "weighted_far_source_linf": [
+        1.2206714923198254e-13,
+        1.6562518843533352e-17,
+        7.297565990801472e-18,
+        6.572484025526883e-18
+      ],
+      "physical_equivalent_far_linf": [
+        2.6262677377538354e-18,
+        3.408858454319203e-21,
+        1.623991770244345e-21,
+        1.5423799492587316e-21
+      ],
+      "passed": false,
+      "seconds": 2.1742931670160033
+    },
+    {
+      "case": "Schwarzschild",
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "far_node_count": 26880,
+      "far_radius_range": [
+        102.09638604063221,
+        12455.547032496195
+      ],
+      "weighted_far_source_linf": [
+        2.729007104609712e-14,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_equivalent_far_linf": [
+        7.088267251636237e-19,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": false,
+      "seconds": 7.107943665992934
+    },
+    {
+      "case": "spin95",
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "far_node_count": 26880,
+      "far_radius_range": [
+        102.09638604063221,
+        12455.547032496195
+      ],
+      "weighted_far_source_linf": [
+        2.7793271405625072e-14,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_equivalent_far_linf": [
+        7.930933329106986e-19,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": false,
+      "seconds": 7.087011541996617
+    },
+    {
+      "case": "boost885",
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "far_node_count": 26880,
+      "far_radius_range": [
+        102.09638604063221,
+        12455.547032496195
+      ],
+      "weighted_far_source_linf": [
+        1.8822231895375785e-13,
+        1.5930691700124097e-17,
+        6.765727240197719e-18,
+        5.461657991620549e-18
+      ],
+      "physical_equivalent_far_linf": [
+        3.458877636211983e-18,
+        4.353797108434966e-21,
+        2.0340611227670447e-21,
+        1.834365331471751e-21
+      ],
+      "passed": false,
+      "seconds": 7.110478250018787
+    },
+    {
+      "case": "combined_generic",
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "far_node_count": 26880,
+      "far_radius_range": [
+        102.09638604063221,
+        12455.547032496195
+      ],
+      "weighted_far_source_linf": [
+        1.8411760676858217e-13,
+        1.5194151556954704e-17,
+        6.122826381306378e-18,
+        4.8574410509629075e-18
+      ],
+      "physical_equivalent_far_linf": [
+        3.551393079225185e-18,
+        4.484618361080545e-21,
+        1.5942596105238318e-21,
+        1.7483774673378947e-21
+      ],
+      "passed": false,
+      "seconds": 7.143356916960329
+    }
+  ],
+  "passed": false,
+  "acceptance": false,
+  "note": "Exact isolated vacuum seeds with all attenuation disabled; zero corrections. The far source floor is measured before any binary in a new norm. This does not accept a binary."
+}

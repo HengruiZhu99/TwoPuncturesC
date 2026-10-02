@@ -34,7 +34,7 @@ Fields cartesian_polynomial(const HiSpID_Data&s,const double*x){
 }
 // A coupled Navier inverse control complements the scalar Laplace controls.
 // RHS Hessians come directly from the Cartesian distance expression.
-bool flat_vector_inverse(bool anisotropic=false,int restart=32,int max_krylov=300,bool difficult_only=false){
+bool flat_vector_inverse(bool anisotropic=false,int restart=32,int max_krylov=300,bool difficult_only=false,bool asymptotic=false){
  bool passed=true;
  for(int N:difficult_only?std::vector<int>{32}:std::vector<int>{8,16,32}){
   HiSpID_Config cfg;HiSpID_default_config(&cfg);cfg.n[0]=cfg.n[1]=N;cfg.n[2]=16;
@@ -81,9 +81,20 @@ bool flat_vector_inverse(bool anisotropic=false,int restart=32,int max_krylov=30
      field_error=std::max(field_error,std::abs(recovered[c][d]-expected));
     }
    }
+   double far_error=0;
+   if(asymptotic)for(double radius:{50.,200.,1000.,10000.})for(const auto&direction:std::vector<std::array<double,3>>{{.73,.31,.61},{-.41,.82,.39},{.22,-.51,.83}}){
+    double length=std::sqrt(direction[0]*direction[0]+direction[1]*direction[1]+direction[2]*direction[2]),x[3];
+    for(int d=0;d<3;d++)x[d]=radius*direction[d]/length;
+    Fields recovered{};sample_fields(*s,x,recovered);auto v=reference(x);
+    for(int c=0;c<4;c++)for(int d=0;d<4;d++){
+     double expected=c==component?(d?double(v.d[d]):double(v.v)):0;
+     far_error=std::max(far_error,std::abs(recovered[c][d]-expected)*(d?radius*radius:radius));
+    }
+   }
    if(anisotropic)std::cout<<"constant anisotropic metric epsilon"<<epsilon<<" ";
    std::cout<<"exact delta coupled vector inverse N"<<N<<" mode"<<mode<<" component"<<component<<": converged "<<converged<<", Krylov "<<s->diag.krylov_iterations-before<<", exact-P linear floor "<<exact_floor<<", final linear relative residual "<<final_error<<", field/gradient error "<<field_error<<'\n';
-   passed=passed&&converged&&field_error<1e-11;
+   if(asymptotic)std::cout<<"scaled far field/gradient error (R*v,R^2*gradv), bound1e-9: "<<far_error<<'\n';
+   passed=passed&&converged&&field_error<1e-11&&(!asymptotic||far_error<1e-9);
   }
   }HiSpID_destroy(s);
  }return passed;
@@ -93,6 +104,7 @@ int main(int argc,char**argv){
  if(argc>1&&std::string(argv[1])=="--vector-only")return flat_vector_inverse()?0:1;
  if(argc>1&&std::string(argv[1])=="--anisotropic-vector-only")return flat_vector_inverse(true)?0:1;
  if(argc>1&&std::string(argv[1])=="--anisotropic-difficult-only")return flat_vector_inverse(true,128,1024,true)?0:1;
+ if(argc>1&&std::string(argv[1])=="--asymptotic-inverse-only")return flat_vector_inverse(true,128,1024,true,true)?0:1;
  double gradient_error=0;HiSpID_Config cfg;HiSpID_default_config(&cfg);cfg.n[0]=12;cfg.n[1]=13;cfg.n[2]=16;
  cfg.conformal_choice=0;cfg.inner_max[0]=cfg.inner_max[1]=0;cfg.far_radius=0;
  HiSpID_Data*s=HiSpID_create(&cfg);if(!s)return 1;

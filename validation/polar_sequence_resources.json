@@ -1,0 +1,42 @@
+{
+  "case": "moderate_polar_sequence",
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "cpu_threads": 1,
+  "runs": [
+    {
+      "grids": [
+        [
+          80,
+          160,
+          28
+        ],
+        [
+          104,
+          208,
+          28
+        ]
+      ],
+      "real_seconds": 150.73,
+      "user_seconds": 149.66,
+      "max_rss_bytes": 7212400640,
+      "peak_footprint_bytes": 7202035472,
+      "log": "build-hispid/polar-sequence-80-104.log"
+    },
+    {
+      "grids": [
+        [
+          128,
+          256,
+          28
+        ]
+      ],
+      "real_seconds": 260.49,
+      "user_seconds": 259.16,
+      "max_rss_bytes": 7828373504,
+      "peak_footprint_bytes": 7818221424,
+      "log": "build-hispid/polar-sequence-128.log"
+    }
+  ],
+  "note": "macOS/usr/bin/time -l reports process memory in bytes; context budget is not a whole-process RSS limit. No Perlmutter allocation or accelerator was used.",
+  "binary_validation_complete": false
+}

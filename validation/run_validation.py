@@ -4,7 +4,8 @@ Pass --stage seeds|moderate|highspin|highboost. Higher stages require the saved
 preceding gates; all failures and raw sampled data are retained.
 """
 from __future__ import annotations
-import argparse,json,os,sys,time,hashlib
+import argparse,copy,json,os,sys,time,hashlib
+from datetime import datetime,timezone
 from pathlib import Path
 import numpy as np
 from hispid import Backend,Hole
@@ -80,8 +81,8 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
     for n,nphi in levels:
         cfg=factory(backend,n,nphi);x,near,bulk=points(cfg,horizon_scaled);start=time.monotonic()
         step=np.minimum(.002,.001*np.min([np.linalg.norm(x-np.array(h.center),axis=1) for h in cfg.hole if h.mass>0],axis=0)) if adaptive_steps else np.full(len(x),.002)
-        rec=dict(case=label,config=as_dict(cfg),resolution=[n,n,nphi],verifier_order=4,verifier_step=.002,
-                 library_sha256=backend.library_sha256(),
+        rec=dict(case=label,config=as_dict(cfg),resolution=list(cfg.n),verifier_order=4,verifier_step=.002,
+                 library_sha256=backend.library_sha256(),residual_scaling=backend.residual_scaling(),
                  near_sample_count=near,bulk_sample_count=bulk,attenuation_sample_count=len(x)-near-bulk,
                  horizon_scaled=horizon_scaled,verifier_steps=step.tolist(),unknown_parameterization=backend.parameterization_description(),unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps())
         with backend.create(cfg) as s:
@@ -115,7 +116,7 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
             rec['passed_strict']=rec['passed_local'] and all(rec[k][q]<1e-6 for k in ('near','bulk') for q in ('H_rms','M_rms')) and all(rec[k][q]<1e-4 for k in ('near','bulk') for q in ('H_max','M_max'))
             previous_values=s.unknowns();previous_shape=list(cfg.n);previous_config=comparable
         rec['total_seconds']=time.monotonic()-start;records.append(rec)
-        print(label,[n,n,nphi],rec['diagnostics'],rec['near'],rec['bulk'],rec['charges_extrapolated'],flush=True)
+        print(label,rec['resolution'],rec['diagnostics'],rec['near'],rec['bulk'],rec['charges_extrapolated'],flush=True)
         # Preserve progress even if an expensive later run is interrupted.
         previous=json.loads(REPORT.read_text()) if REPORT.exists() else {};previous[label]={'records':records,'passed':False}
         REPORT.write_text(json.dumps(previous,indent=2)+'\n')
@@ -131,13 +132,19 @@ def main():
     parser.add_argument('--resume',action='store_true',help='append grids to the same case and warm-start from its last compatible checkpoint')
     parser.add_argument('--evaluate-only',action='store_true',help='with --resume, recompute summary gates without another solve')
     parser.add_argument('--initial-from',help='warm-start a separate diagnostic case from the last compatible saved grid of this case')
+    parser.add_argument('--initial-compatibility-proof',help='bitwise field/operator witness for an API-only initial-guess migration; fresh solves and gates are still required')
     parser.add_argument('--memory-mib',type=int,default=None,help='explicit per-context allocation budget (default2048,max8192)')
     parser.add_argument('--krylov-restart',type=int);parser.add_argument('--max-krylov',type=int);parser.add_argument('--max-newton',type=int)
     parser.add_argument('--inner-flatten',type=int,choices=[0,1],help='separately labeled interior-operator experiment')
     parser.add_argument('--inner-throat-window',help='lo:hi fractions of the minimum contracted isolated Kerr throat; a screen, not horizon enclosure')
+    parser.add_argument('--angular-ratio',type=float,default=1.,help='N_polar=ceil(ratio*N_radial); applies to every saved level')
     args=parser.parse_args()
+    if not np.isfinite(args.angular_ratio) or not 1<=args.angular_ratio<=4:
+        parser.error('--angular-ratio must be finite and in[1,4]')
     if args.evaluate_only and (not args.resume or args.stage=='seeds'):
         parser.error('--evaluate-only requires a binary stage and --resume')
+    if args.initial_compatibility_proof and not args.initial_from:
+        parser.error('--initial-compatibility-proof requires --initial-from')
     backend=Backend(args.library);report=json.loads(REPORT.read_text()) if REPORT.exists() else {}
     sha=backend.library_sha256()
     def gate(label):
@@ -153,6 +160,7 @@ def main():
         label=args.label or args.stage;selected={'moderate':moderate,'highspin':hs99uu,'highboost':highboost}[args.stage]
         def factory(backend,n,nphi):
             config=selected(backend,n,nphi)
+            config.n[1]=int(np.ceil(args.angular_ratio*n))
             if args.far_radius is not None:config.far_radius=args.far_radius
             if args.memory_mib is not None:config.memory_limit_mib=args.memory_mib
             if args.inner_flatten is not None:config.inner_flatten=args.inner_flatten
@@ -173,7 +181,17 @@ def main():
         previous=report.get(label,{}).get('records') if args.resume else None
         if args.evaluate_only and not previous:raise ValueError('no saved records to evaluate')
         initial=report[args.initial_from]['records'][-1] if args.initial_from else None
+        if initial is not None and args.initial_compatibility_proof:
+            from checkpoints import restore_equivalent
+            restore_equivalent(backend,initial,json.loads(Path(args.initial_compatibility_proof).read_text()))
+            initial=copy.deepcopy(initial)
+            initial['initial_guess_source_library_sha256']=initial['library_sha256']
+            initial['library_sha256']=sha
         result=solve_case(backend,factory,levels,label,horizon_scaled=args.stage in ('highspin','highboost'),adaptive_steps=args.stage in ('highspin','highboost'),previous_records=previous,initial_record=initial)
+        if args.initial_compatibility_proof:
+            result.update(initial_guess_source_case=args.initial_from,
+                initial_guess_source_library_sha256=initial['initial_guess_source_library_sha256'],
+                initial_guess_compatibility_proof=args.initial_compatibility_proof)
         if args.stage=='highspin':
             error=abs(result['records'][-1]['charges_extrapolated'][0]-.980124)
             result['reference_comparison']=dict(source='thesis Table3.1 HS99UU',ADM_energy=.980124,absolute_tolerance=2e-4,energy_error=error,energy_agreement=bool(error<2e-4),exact_historical_reproduction=False,departure='modern superposed-metric trace projection; horizon mass/spin unmeasured')
@@ -184,7 +202,7 @@ def main():
     result['stage']=args.stage
     report=json.loads(REPORT.read_text()) if REPORT.exists() else report
     report[label]=result;report['metadata']=dict(library=str(backend.path),library_sha256=backend.library_sha256(),
-        numpy_version=np.__version__,python_version=sys.version,cpu_threads=1,date='2026-10-01',horizon_enclosure_verified=False)
+        numpy_version=np.__version__,python_version=sys.version,cpu_threads=1,date=datetime.now(timezone.utc).isoformat(),horizon_enclosure_verified=False)
     REPORT.write_text(json.dumps(report,indent=2)+'\n')
     accepted=result.get('accepted_high_regime',False) if args.stage in ('highspin','highboost') else result['passed']
     return 0 if accepted else 1

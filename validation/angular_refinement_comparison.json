@@ -1,0 +1,214 @@
+{
+  "plan": {
+    "library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+    "baseline_case": "moderate_default_square_r128",
+    "refined_case": "moderate_default_polar2_r128",
+    "grids": [
+      [
+        80,
+        80,
+        28
+      ],
+      [
+        80,
+        160,
+        28
+      ]
+    ],
+    "comparison_grid": [
+      104,
+      208,
+      28
+    ],
+    "free_data": "examples/configs.py moderate; far_radius0,inner_flatten1, original .045/.09 and .03/.06 inner windows; all masses/spins/boosts/f fixed",
+    "solver_controls": {
+      "tolerance": 1e-14,
+      "krylov_restart": 128,
+      "max_krylov": 2000,
+      "max_newton": 24,
+      "memory_limit_mib": 8192
+    },
+    "experiment": "One matched polar-doubling solve, not a three-level acceptance sequence; refined grid prolongs the converged square iterate within the identical basis/map.",
+    "criteria": {
+      "success": "Both converged plus >=4x reduction of g1 physical-equivalent momentum RMS on the identical comparison grid AND fixed bulk Cartesian physical M RMS.",
+      "failure": "Either momentum norm improves by less than2x, or a growing angular tail; solver failures remain explicit.",
+      "inconclusive": "Improvement between2x and4x, or verifier/solver failure prevents attribution."
+    },
+    "acceptance": false,
+    "note": "Diagnostic thresholds declared before runs. Existing physical/charge/axis/covariance/horizon acceptance thresholds are unchanged. No nonlinear filtering or row-weight changes."
+  },
+  "records": [
+    {
+      "case": "moderate_default_square_r128",
+      "resolution": [
+        80,
+        80,
+        28
+      ],
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 4,
+        "krylov_iterations": 45,
+        "npoints": 179200,
+        "scaled_linf": [
+          1.2940173900297253e-16,
+          1.758397449787789e-15,
+          1.2264328706237038e-15,
+          1.1508782135882502e-15
+        ],
+        "unscaled_linf": [
+          6.14845674373754e-12,
+          9.64052094164622e-11,
+          2.5212211449989246e-10,
+          1.5054770836064274e-10
+        ],
+        "seconds": 22.796731208,
+        "status": 0,
+        "error": ""
+      },
+      "near": {
+        "count": 36,
+        "H_rms": 2.1327062371364805e-05,
+        "H_max": 7.139208576337208e-05,
+        "M_rms": 0.00024806764026640216,
+        "M_max": 0.00105424863720356,
+        "M_components_rms": [
+          8.397901943261957e-06,
+          8.902754241764105e-05,
+          9.381334255976315e-05
+        ],
+        "M_components_max": [
+          3.32673979044379e-05,
+          0.00039133203024630593,
+          0.0004081996648914237
+        ],
+        "normalized_H_max": 0.010163221626661166,
+        "normalized_M_max": 0.03938037163871857
+      },
+      "bulk": {
+        "count": 18,
+        "H_rms": 2.869357620132894e-05,
+        "H_max": 8.60489285110865e-05,
+        "M_rms": 0.002435482289698235,
+        "M_max": 0.006498382284966048,
+        "M_components_rms": [
+          0.00015671033487813397,
+          0.0014554815147190005,
+          0.0013666069657621825
+        ],
+        "M_components_max": [
+          0.0003432382763292817,
+          0.005198135915002069,
+          0.0037542190424016955
+        ],
+        "normalized_H_max": 0.9998285227077611,
+        "normalized_M_max": 0.9975873642855116
+      },
+      "angular_auxiliary_tails": {
+        "top_degree_fraction": 0.2,
+        "relative_l2_by_variable": [
+          0.00067090034710625,
+          0.011578681437259456,
+          0.03811511278924318,
+          0.04031324190425257
+        ],
+        "raw_checkpoint_sha256": "22f831d23abd26dba01a64be86184688795bff2b1b3661a9b9b22d10d2c594bd",
+        "note": "Raw auxiliary P Chebyshev coefficients; not a physical volume norm or acceptance gate."
+      }
+    },
+    {
+      "case": "moderate_default_polar2_r128",
+      "resolution": [
+        80,
+        160,
+        28
+      ],
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 4,
+        "krylov_iterations": 34,
+        "npoints": 358400,
+        "scaled_linf": [
+          1.3327107171235724e-16,
+          3.123633485565072e-15,
+          2.512469016015794e-15,
+          2.0206653981842794e-15
+        ],
+        "unscaled_linf": [
+          1.7085199574551346e-11,
+          2.7320870646203165e-10,
+          2.9721208128797415e-10,
+          1.9425818105134554e-10
+        ],
+        "seconds": 50.976300292,
+        "status": 0,
+        "error": ""
+      },
+      "near": {
+        "count": 36,
+        "H_rms": 1.0310745858518933e-05,
+        "H_max": 5.83639199513708e-05,
+        "M_rms": 4.879570359359414e-05,
+        "M_max": 0.00014343645764122514,
+        "M_components_rms": [
+          2.1177827397138286e-06,
+          1.720069766053138e-05,
+          1.6301839851879785e-05
+        ],
+        "M_components_max": [
+          7.745141102067262e-06,
+          5.932970919333812e-05,
+          5.71101514337851e-05
+        ],
+        "normalized_H_max": 0.0024248368308491053,
+        "normalized_M_max": 0.004596653400580475
+      },
+      "bulk": {
+        "count": 18,
+        "H_rms": 1.7995152313218617e-06,
+        "H_max": 6.322236598750399e-06,
+        "M_rms": 0.0004208654965763353,
+        "M_max": 0.0010632859459918582,
+        "M_components_rms": [
+          3.198608883778463e-05,
+          0.00023434072686437225,
+          0.0002607464566694851
+        ],
+        "M_components_max": [
+          8.689829929035481e-05,
+          0.0007734959540718742,
+          0.0006657803188664123
+        ],
+        "normalized_H_max": 0.9202956035457907,
+        "normalized_M_max": 0.9935702172635159
+      },
+      "angular_auxiliary_tails": {
+        "top_degree_fraction": 0.2,
+        "relative_l2_by_variable": [
+          4.9748296338159685e-05,
+          0.0011960401108864318,
+          0.005933045734091169,
+          0.006279749617324176
+        ],
+        "raw_checkpoint_sha256": "e52051ccde1bec37cee76972ef530657961083bfd917ba9e002fd56adb2869a6",
+        "note": "Raw auxiliary P Chebyshev coefficients; not a physical volume norm or acceptance gate."
+      }
+    }
+  ],
+  "common_grid_g1_cartesian_momentum_components_rms_norm": [
+    0.0010891426791982968,
+    0.00019752899358512765
+  ],
+  "fixed_bulk_physical_momentum_norm_rms": [
+    0.002435482289698235,
+    0.0004208654965763353
+  ],
+  "reduction_factors": {
+    "common_grid": 5.513837029341805,
+    "bulk": 5.786842374845272
+  },
+  "growing_auxiliary_angular_tail": false,
+  "diagnostic_conclusion": "success",
+  "acceptance": false,
+  "note": "One directional diagnostic, not a convergence sequence. Physical/charge/axis/covariance/horizon acceptance thresholds are unchanged."
+}

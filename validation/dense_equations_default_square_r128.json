@@ -1,0 +1,108 @@
+{
+  "case": "moderate_default_square_r128",
+  "source_resolution": [
+    80,
+    80,
+    28
+  ],
+  "evaluation_resolution": [
+    104,
+    208,
+    28
+  ],
+  "library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+  "unknown_parameterization_id": "modal_P_C2prolate_mapped_v2",
+  "collocation_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "source_diagnostics": {
+    "converged": 1,
+    "newton_iterations": 4,
+    "krylov_iterations": 45,
+    "npoints": 179200,
+    "scaled_linf": [
+      1.2940173900297253e-16,
+      1.758397449787789e-15,
+      1.2264328706237038e-15,
+      1.1508782135882502e-15
+    ],
+    "unscaled_linf": [
+      6.14845674373754e-12,
+      9.64052094164622e-11,
+      2.5212211449989246e-10,
+      1.5054770836064274e-10
+    ],
+    "seconds": 22.796731208,
+    "status": 0,
+    "error": ""
+  },
+  "groups": {
+    "g0": {
+      "count": 13440,
+      "raw_conformal_linf": [
+        0.8696085393478069,
+        39.183082941563775,
+        37.71382735878092,
+        18.621452322921606
+      ],
+      "physical_equivalent_rms": [
+        2.96020507546543e-07,
+        1.743720311334744e-10,
+        4.97210835273624e-10,
+        1.8644149321805952e-10
+      ],
+      "physical_equivalent_linf": [
+        4.771631505489101e-06,
+        2.6541068179743856e-09,
+        9.215303052199687e-09,
+        4.4758286304597355e-09
+      ]
+    },
+    "transition": {
+      "count": 11508,
+      "raw_conformal_linf": [
+        0.017781637499566474,
+        3.0013552205879277,
+        4.395498653625587,
+        2.1465470516952916
+      ],
+      "physical_equivalent_rms": [
+        8.817467853594091e-06,
+        3.280532975198612e-08,
+        6.393987333206739e-08,
+        3.274813764770589e-08
+      ],
+      "physical_equivalent_linf": [
+        8.541856407257575e-05,
+        3.3722867974351656e-07,
+        6.811398374126323e-07,
+        3.7173569888778135e-07
+      ]
+    },
+    "g1": {
+      "count": 580748,
+      "raw_conformal_linf": [
+        0.010184055691799644,
+        0.4263338920975954,
+        1.0405080433861045,
+        0.662382855402555
+      ],
+      "physical_equivalent_rms": [
+        2.452546570991962e-05,
+        6.392690019914461e-05,
+        0.0007690645836900303,
+        0.0007685602079185812
+      ],
+      "physical_equivalent_linf": [
+        0.0003068809487663597,
+        0.0007485789182358085,
+        0.009336403968591412,
+        0.009552426620566523
+      ]
+    }
+  },
+  "solve_performed": false,
+  "acceptance": false,
+  "note": "The same continuous retained modal polynomial is prolonged without solving. The denser native equations measure interpolation/PDE aliasing separately from an independent Cartesian finite-difference verifier. Modified interior equations do not establish physical vacuum."
+}

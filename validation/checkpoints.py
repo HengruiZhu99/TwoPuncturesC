@@ -34,6 +34,26 @@ def restore(backend,record):
         raise ValueError('checkpoint/native continuous basis mismatch')
     return restore_payload(record,backend.config())
 
+def restore_equivalent(backend,record,proof):
+    """Explicit read-only API migration with a matching bitwise witness.
+
+    Normal solve/export replay remains strict. This cannot accept a binary,
+    a different basis/map, or a modified equation/norm implementation.
+    """
+    if not (proof.get('isolated_processes') and proof.get('loaded_images_verified')
+            and proof.get('passed_off_axis_and_equations') and proof.get('equations_bitwise_identical')):
+        raise ValueError('verified bitwise field/operator proof required')
+    if record['library_sha256']!=proof['old_library_sha256'] or library_sha(backend)!=proof['new_library_sha256']:
+        raise ValueError('checkpoint/proof/library SHA mismatch')
+    if not any(r['case']==record['case'] and r['resolution']==record['resolution']
+               and r['original_evidence_sha']==record['library_sha256'] for r in proof['cases']):
+        raise ValueError('checkpoint is outside the migration proof scope')
+    if (record['unknown_parameterization_id']!=backend.parameterization()
+            or record['collocation_maps']!=backend.parameterization_maps()
+            or record['unknown_parameterization']!=backend.parameterization_description()):
+        raise ValueError('different continuous basis/maps cannot be an API migration')
+    return restore_payload(record,backend.config())
+
 def restore_payload(record,cfg):
     """Decode typed payload only; caller must enforce its source SHA explicitly.
 

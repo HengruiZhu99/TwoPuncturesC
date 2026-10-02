@@ -1,0 +1,38 @@
+{
+  "case": "moderate_default_polar2_r128",
+  "resolution": [
+    80,
+    160,
+    28
+  ],
+  "library_sha256": "d5c72f59710ca3d4138cce3f8eb68d814f99a4e3bd7b4ef89c440ce11609b0d8",
+  "unknown_parameterization_id": "modal_P_C2prolate_mapped_v2",
+  "checkpoint_source_library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+  "compatibility_proof": "validation/analytic_charges_operator_equivalence.json",
+  "collocation_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "radii": [
+    200.0
+  ],
+  "records": [
+    {
+      "ntheta": 256,
+      "nphi": 128,
+      "native_EPJ": [
+        [
+          1.0019192313631646,
+          0.010775753157950738,
+          0.006466494515956843,
+          0.01958882122856022,
+          0.03979263924588005,
+          0.11560973141363749,
+          0.3391613263960507
+        ]
+      ],
+      "seconds": 22.11672275001183
+    }
+  ],
+  "acceptance": false
+}
