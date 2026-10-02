@@ -1,0 +1,26 @@
+{
+  "scope": "Opt-in BY modal preconditioner and shared computational stopping convention; no binary physical acceptance inherited",
+  "reference": "Inherited BY spectral equations, zero initial guess and native stopping criteria (sin3 max norm <=1e-12; linear absolute L2 target=dmax*1e-3)",
+  "final_data_acceptance": {
+    "each_recomputed_weighted_residual_max": 1e-12,
+    "linear_failures": 0,
+    "modal_failures": 0,
+    "max_abs_difference_divided_by_one_plus_abs_reference_for_v_u_coefficients_and_physical_samples": 1e-10,
+    "adm_and_puncture_mass_relative_difference": 1e-10,
+    "physical_H_M_difference_bound": "max(1e-7, 5*largest corresponding finite-difference step variation in reference or candidate)"
+  },
+  "independent_projection_inverse_acceptance": {
+    "max_solution_difference": 2e-9,
+    "max_residual_divided_by_max_one_rhs_max": 2e-12,
+    "reference": "Physical-grid even cyclic average of original SetMatrix_JFD; all Fourier partners, rectangular grids, reflected faces/corners, changed current correction and masses"
+  },
+  "matched_stopping_experiment": {
+    "outer": "max_component max_native_node |(sin(alpha)*sin(beta))^3 F_raw| <=1e-12",
+    "linear": "true spectral ||F-Jdv||_2 / ||F||_2 <=1e-3",
+    "initial_guess": "zero",
+    "threads": 1,
+    "physical_check": "Independent fourth-order Cartesian differences at identical six points; g=1 required for every stencil sample; steps .004,.002,.001",
+    "limitation": "Maps, seed geometry, PDEs, component count and finite-resolution accuracy differ. A common computational stopping convention is not equal physical accuracy."
+  },
+  "timing_acceptance": "Only report speedup when both solves and numerical data equivalence pass; fresh processes, sequential CPU workers, two interleaved repeats. Prototype screens are diagnostic."
+}

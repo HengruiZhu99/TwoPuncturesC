@@ -1,0 +1,172 @@
+{
+  "passed": true,
+  "files": {
+    "archived6": {
+      "path": "validation/raw/stopping_row_scaling_controls/archived6.npz",
+      "sha256": "da28bd0fb5fbdc16be48dd82bd8822f1507705e61d2128ecd54028bdb78be7e1",
+      "library_sha256": "c3d67519530999cfdc158f48d9da369f557c89458b692baa53482bc24c3230e9"
+    },
+    "hi6": {
+      "path": "validation/raw/stopping_row_scaling_controls/hi6.npz",
+      "sha256": "da28bd0fb5fbdc16be48dd82bd8822f1507705e61d2128ecd54028bdb78be7e1",
+      "library_sha256": "499502c2af26b91f7da05dec7588e2c26c17cffe412bd3b14e178d822247a248"
+    },
+    "hi3": {
+      "path": "validation/raw/stopping_row_scaling_controls/hi3.npz",
+      "sha256": "e7e6ee6436a8ed8741812ca26baa5b291d481abf731fac2f4f4a0e696ef959cd",
+      "library_sha256": "eb84e6d4d19223e4583308893ba44d4949d32105344810d91374aeb1116c22a5"
+    }
+  },
+  "commands": {
+    "archived6": [
+      "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/check_stopping_scaling.py",
+      "--hi6",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid6/libHiSpID.so",
+      "--hi3",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid3/libHiSpID.so",
+      "--archived6",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency-final/libHiSpID.so",
+      "--output",
+      "validation/stopping_row_scaling_controls.json",
+      "--worker",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency-final/libHiSpID.so",
+      "--state",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/stopping_row_scaling_controls/archived6.npz"
+    ],
+    "hi6": [
+      "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/check_stopping_scaling.py",
+      "--hi6",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid6/libHiSpID.so",
+      "--hi3",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid3/libHiSpID.so",
+      "--archived6",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency-final/libHiSpID.so",
+      "--output",
+      "validation/stopping_row_scaling_controls.json",
+      "--worker",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid6/libHiSpID.so",
+      "--state",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/stopping_row_scaling_controls/hi6.npz"
+    ],
+    "hi3": [
+      "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/check_stopping_scaling.py",
+      "--hi6",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid6/libHiSpID.so",
+      "--hi3",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid3/libHiSpID.so",
+      "--archived6",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-efficiency-final/libHiSpID.so",
+      "--output",
+      "validation/stopping_row_scaling_controls.json",
+      "--worker",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-by-modal-accepted/hispid3/libHiSpID.so",
+      "--state",
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/stopping_row_scaling_controls/hi3.npz"
+    ]
+  },
+  "default6_vs_archived_bitwise": {
+    "residual": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "jvp": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "gamma": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "Kij": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "psi": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "conformal_metric": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "Atilde": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "mean_curvature": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "correction": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "attenuation": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "dgamma": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    }
+  },
+  "cubic_vs_six_physical_fields": {
+    "gamma": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "Kij": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "psi": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "conformal_metric": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "Atilde": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "mean_curvature": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "correction": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "attenuation": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    },
+    "dgamma": {
+      "bitwise_equal": true,
+      "max_difference": 0.0
+    }
+  },
+  "positive_scaling": {
+    "residual": {
+      "max_scaled_difference": 1.0127662742374382e-17,
+      "bound": 2e-13,
+      "passed": true
+    },
+    "jvp": {
+      "max_scaled_difference": 8.644601477176918e-19,
+      "bound": 2e-13,
+      "passed": true
+    }
+  },
+  "grid": [
+    12,
+    18,
+    8
+  ],
+  "fixture_seed": 14108607
+}

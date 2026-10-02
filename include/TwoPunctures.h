@@ -267,6 +267,17 @@ extern "C" {
     int ntotal;
   } ini_data;
 
+  typedef struct {
+    int newton_iterations, krylov_iterations, jvp_applications;
+    int preconditioner_applications, relaxation_sweeps, modal_factorizations;
+    int linear_failures, modal_failures;
+    double last_linear_target, last_true_linear_residual, last_relative_linear_residual;
+  } TP_SolverStats;
+  /* Accumulated over all Newton calls in the live initial-data solve,
+     including the target-mass loop. BY already uses serial global parameters. */
+  void TP_solver_reset_statistics(void);
+  void TP_solver_get_statistics(TP_SolverStats *);
+
   // set default parameters
   void TwoPunctures_params_set_default();
 
@@ -296,6 +307,7 @@ extern "C" {
   /* Final collocation equation residual (max absolute F), ADM mass at outer
      infinity, and internal-end ADM masses [plus,minus]. These are not
      apparent-horizon masses. All three output pointers are required. */
+  /* Returns 1 for retained opt-in linear failure; diagnostics remain available. */
   int TwoPunctures_diagnostics(ini_data *data, double *residual_linf,
       double *adm_mass, double *puncture_masses2);
 

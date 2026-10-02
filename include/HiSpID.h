@@ -53,6 +53,15 @@ HiSpID_Data *HiSpID_create_sampler(const HiSpID_Config *);
 /* 0 converged, 1 iteration/line-search/Krylov failure, -1 invalid context.
  * Failed solves remain sampleable for diagnosis. */
 int HiSpID_solve(HiSpID_Data *);
+/* Optional fixed RHS-relative L2 forcing, 0<rtol<1. The default entry point
+ * retains its adaptive forcing. Residual row scaling is fixed by the build. */
+int HiSpID_solve_with_forcing(HiSpID_Data *, double rtol);
+/* Work counters [spectral JVP calls, preconditioner applies]. */
+int HiSpID_work_statistics(const HiSpID_Data *, int out[2]);
+/* Solves: rows [Newton index, requested relative L2 target,
+ * true relative linear residual, Krylov count]. capacity=0/out=NULL queries
+ * count; return count, or -1 on invalid buffer/context. */
+int HiSpID_linear_history(const HiSpID_Data *, int capacity, double *out);
 int HiSpID_diagnostics(const HiSpID_Data *, HiSpID_Diagnostics *);
 int HiSpID_sample(HiSpID_Data *, int count, const double *xyz, HiSpID_Point *);
 /* Physical lab-frame metric gradients, dgamma[27*p+9*d+3*i+j]=d_d gamma_ij.

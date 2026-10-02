@@ -10,7 +10,7 @@ from pathlib import Path
 import resource
 import sys
 import numpy as np
-from benchmark_bowen_york import InitialData, save_by_state, verify_image, digest
+from benchmark_bowen_york import InitialData, SolverStats, save_by_state, verify_image, digest
 
 
 def main():
@@ -18,6 +18,7 @@ def main():
     p.add_argument('--library',required=True);p.add_argument('--parameters',required=True)
     p.add_argument('--state',required=True);p.add_argument('--output',required=True)
     p.add_argument('--target-mass',action='store_true')
+    p.add_argument('--by-preconditioner',type=int,choices=(0,1),default=0)
     args=p.parse_args();path=Path(args.library).resolve(strict=True);expected_sha=digest(path);lib=C.CDLL(str(path));verify_image(lib,'TwoPunctures_make_initial_data',path)
     record=json.loads(Path(args.parameters).read_text());reals=record['by_real_parameters'].copy();integers=record['by_integer_parameters'].copy()
     integers['verbose']=1
@@ -27,6 +28,8 @@ def main():
     for name,restype,argtypes in [('TwoPunctures_params_set_default',None,[]),('TwoPunctures_params_set_Real',None,[C.c_char_p,C.c_double]),('TwoPunctures_params_set_Int',None,[C.c_char_p,C.c_int]),('TwoPunctures_make_initial_data',C.c_void_p,[])]:
         f=getattr(lib,name);f.restype=restype;f.argtypes=argtypes
     lib.TwoPunctures_params_set_default()
+    if hasattr(lib,'TP_solver_get_statistics'):integers['TP_preconditioner']=args.by_preconditioner
+    elif args.by_preconditioner:raise RuntimeError('reference image lacks modal option')
     for k,v in reals.items():lib.TwoPunctures_params_set_Real(k.encode(),v)
     for k,v in integers.items():lib.TwoPunctures_params_set_Int(k.encode(),v)
     pointer=lib.TwoPunctures_make_initial_data()
@@ -46,11 +49,17 @@ def main():
     um=lib.PunctIntPolAtArbitPosition(0,1,*grid,data.v,-separation,0,0)
     end_masses=[(1+up)*masses[0]+masses[0]*masses[1]/(4*separation),
                 (1+um)*masses[1]+masses[0]*masses[1]/(4*separation)]
+    statistics=None
+    if hasattr(lib,'TP_solver_get_statistics'):
+        stats=SolverStats();lib.TP_solver_get_statistics.argtypes=[C.POINTER(SolverStats)]
+        lib.TP_solver_get_statistics(C.byref(stats));statistics={k:getattr(stats,k) for k,_ in stats._fields_}
+    linear_ok=not statistics or not (statistics['linear_failures'] or statistics['modal_failures'])
     if digest(path)!=expected_sha:raise RuntimeError('reference library changed during solve')
     result=dict(final_bare_masses=masses,internal_end_adm_masses=end_masses,
                 target_mass_errors=[abs(end_masses[0]-.6),abs(end_masses[1]-.4)] if args.target_mass else None,
                 library_sha256=expected_sha,state_sha256=digest(args.state),residual_linf=residual,
-                converged=bool(np.isfinite(residual) and residual<=reals['Newton_tol']),
+                converged=bool(np.isfinite(residual) and residual<=reals['Newton_tol'] and linear_ok),
+                work_statistics=statistics,
                 real_parameters=reals,integer_parameters=integers,loaded_image_verified=True)
     Path(args.output).write_text(json.dumps(result,indent=2)+'\n')
     print('REFERENCE',json.dumps(result),flush=True)

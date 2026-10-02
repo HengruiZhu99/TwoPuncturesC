@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "checks": {
+    "all_experiments_passed": true,
+    "sources_match_numerical_witness": true,
+    "worker_match": true,
+    "criteria_match": true,
+    "all_full40_raw_image_hashes_and_arrays": true,
+    "production_by_image_match": true,
+    "timing_newton_source_match": true,
+    "suite_log_match": true
+  },
+  "records": [
+    {
+      "protocol": "hi_native",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "hi_native",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "hi_cubic_adaptive",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "hi_cubic_adaptive",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "hi_common",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "hi_common",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_native",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_native",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_common_lines",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_common_lines",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_modal_native",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_modal_native",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_common_modal",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    },
+    {
+      "protocol": "by_common_modal",
+      "state_sha_current": true,
+      "log_sha_current": true,
+      "library_sha_current": true,
+      "all_arrays_finite": true
+    }
+  ],
+  "evidence_sha256": {
+    "validation/common_stopping_moderate_40.json": "822cf97bfbecd4effa8ba8156f8cd834ed16dc774aa5177b6955cbbcc811bfd6",
+    "validation/by_modal_verification_v2.json": "5c4631dd1c00e08020a64f3041fcb6ac9387ddf1f20c75a764adcc38330d8723",
+    "validation/stopping_row_scaling_controls.json": "9e8deafdc8d9af3f3d44285b5739dc063bca26b25d67321aede71a908ad68ed4"
+  },
+  "note": "Passive final fingerprints/finite-array verification; no numerical solves rerun or historical witness relabeled."
+}

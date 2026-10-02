@@ -111,6 +111,9 @@ void TwoPunctures_params_set_default(){
   params_add_int("npoints_phi",16); // Number of coefficients in the phi direction
 
   params_add_real("Newton_tol",1e-10); // Tolerance for Newton solver
+  params_add_int("TP_preconditioner",0); // 0: inherited line sweeps, 1: modal block inverse
+  params_add_int("TP_linear_relative",0); // 0: inherited dmax*rtol, 1: RHS-relative L2
+  params_add_real("TP_linear_rtol",1e-3);
   params_add_int("Newton_maxit",5); // Maximum number of Newton iterations
 
   params_add_real("TP_epsilon",0.);  // A small number to smooth out singularities at the puncture locations
@@ -157,6 +160,15 @@ ini_data* TwoPunctures_make_initial_data() {
 
   if (live_data != NULL) {
     fprintf(stderr, "TwoPunctures: finalise the current solve before another solve.\n");
+    return NULL;
+  }
+  const int preconditioner = params_get_int("TP_preconditioner");
+  const int relative = params_get_int("TP_linear_relative");
+  const double linear_rtol = params_get_real("TP_linear_rtol");
+  if ((preconditioner != 0 && preconditioner != 1) ||
+      (relative != 0 && relative != 1) || !isfinite(linear_rtol) ||
+      linear_rtol <= 0 || linear_rtol >= 1) {
+    fprintf(stderr, "TwoPunctures: invalid linear solver options.\n");
     return NULL;
   }
   const int verbose = params_get_int("verbose");
@@ -218,6 +230,7 @@ ini_data* TwoPunctures_make_initial_data() {
     double up, um;
 
     /* Every solve owns fresh allocations, including after finalise. */
+    TP_solver_reset_statistics();
     F = dvector (0, ntotal - 1);
     allocate_derivs (&u, ntotal);
     allocate_derivs (&v, ntotal);
@@ -280,6 +293,10 @@ ini_data* TwoPunctures_make_initial_data() {
         if (verbose) printf ("Bare masses: mp=%.15g, mm=%.15g\n", mp, mm);
         Newton (nvar, n1, n2, n3, v, params_get_real("Newton_tol"), 1);
 
+        TP_SolverStats stats;
+        TP_solver_get_statistics(&stats);
+        if (stats.linear_failures) break;
+
         F_of_v (nvar, n1, n2, n3, v, F, u);
 
         up = PunctIntPolAtArbitPosition(0, nvar, n1, n2, n3, v, par_b, 0., 0.);
@@ -310,10 +327,15 @@ ini_data* TwoPunctures_make_initial_data() {
       } while ( (mp_adm_err > params_get_real("adm_tol")) ||
                 (mm_adm_err > params_get_real("adm_tol")) );
 
-      if (verbose) printf ("Found bare masses.\n");
+      TP_SolverStats stats;
+      TP_solver_get_statistics(&stats);
+      if (verbose && !stats.linear_failures) printf ("Found bare masses.\n");
     }
 
-    Newton (nvar, n1, n2, n3, v, params_get_real("Newton_tol"), params_get_int("Newton_maxit"));
+    TP_SolverStats stats;
+    TP_solver_get_statistics(&stats);
+    if (!stats.linear_failures)
+      Newton (nvar, n1, n2, n3, v, params_get_real("Newton_tol"), params_get_int("Newton_maxit"));
 
     F_of_v (nvar, n1, n2, n3, v, F, u);
 
@@ -427,7 +449,9 @@ int TwoPunctures_diagnostics(ini_data *data, double *residual_linf,
       0, 1.0, 0.0, 0.0, 1, n1, n2, n3);
   puncture_masses2[0] = (1.0 + up)*mp + mp*mm/(4.0*b);
   puncture_masses2[1] = (1.0 + um)*mm + mp*mm/(4.0*b);
-  return 0;
+  TP_SolverStats stats;
+  TP_solver_get_statistics(&stats);
+  return stats.linear_failures ? 1 : 0;
 }
 
 static double puncture_inverse_radius(double radius, double extend) {

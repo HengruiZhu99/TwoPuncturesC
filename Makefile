@@ -152,3 +152,13 @@ test-solver-efficiency: $(HISPID_DIR)/test_by_line_cache.x $(HISPID_DIR)/test_kr
 
 # Include exact optimization controls in the normal complete suite.
 test-hispid: test-solver-efficiency
+
+$(HISPID_DIR)/test_by_modal.x: tests/test_by_modal.c $(STATIC_LIB) $(INC)
+	@mkdir -p $(HISPID_DIR)
+	$(CC) $(CFLAGS) $(INC_PARAMS) $< $(STATIC_LIB) $(LFLAGS) -o $@
+
+test-by-modal: $(HISPID_DIR)/test_by_modal.x
+	$(HISPID_DIR)/test_by_modal.x
+
+test-hispid: test-by-modal
+.PHONY: test-by-modal

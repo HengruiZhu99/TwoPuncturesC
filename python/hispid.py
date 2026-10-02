@@ -94,7 +94,10 @@ class Backend:
         for name,(ret,args) in api.items():
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
-        optional={'HiSpID_unknown_parameterization':(C.c_char_p,[]),
+        optional={'HiSpID_work_statistics':(C.c_int,[C.c_void_p,C.POINTER(C.c_int)]),
+                  'HiSpID_linear_history':(C.c_int,[C.c_void_p,C.c_int,PTR]),
+                  'HiSpID_solve_with_forcing':(C.c_int,[C.c_void_p,C.c_double]),
+                  'HiSpID_unknown_parameterization':(C.c_char_p,[]),
                   'HiSpID_residual_scaling':(C.c_char_p,[]),
                   'HiSpID_collocation_maps':(C.c_int,[PTR]),
                   'HiSpID_create_sampler':(C.c_void_p,[C.POINTER(Config)]),
@@ -158,9 +161,27 @@ class Solution:
     def __del__(self):self.close()
     def _check(self):
         if not self.context:raise ValueError('closed HiSpID context')
-    def solve(self):
-        self._check();r=self.backend.lib.HiSpID_solve(self.context)
+    def solve(self,linear_rtol=None):
+        self._check()
+        if linear_rtol is None:r=self.backend.lib.HiSpID_solve(self.context)
+        else:
+            if not hasattr(self.backend.lib,'HiSpID_solve_with_forcing'):raise ValueError('library lacks fixed forcing API')
+            r=self.backend.lib.HiSpID_solve_with_forcing(self.context,float(linear_rtol))
         d=self.diagnostics();d['status']=r;d['error']=self.backend.error() if r else '';return d
+    def work_statistics(self):
+        self._check()
+        if not hasattr(self.backend.lib,'HiSpID_work_statistics'):return None
+        values=(C.c_int*2)()
+        if self.backend.lib.HiSpID_work_statistics(self.context,values):raise ValueError('work statistics unavailable')
+        return dict(jvp_applications=values[0],preconditioner_applications=values[1])
+    def linear_history(self):
+        self._check()
+        if not hasattr(self.backend.lib,'HiSpID_linear_history'):return None
+        size=self.backend.lib.HiSpID_linear_history(self.context,0,None)
+        if size<0:raise ValueError('linear history unavailable')
+        out=np.empty((size,4))
+        if size and self.backend.lib.HiSpID_linear_history(self.context,size,ptr(out))<0:raise ValueError('linear history unavailable')
+        return out.tolist()
     def diagnostics(self):
         self._check();d=Diagnostics();self.backend.lib.HiSpID_diagnostics(self.context,C.byref(d));return d.as_dict()
     def sample(self,xyz):

@@ -8,6 +8,7 @@ lib
 reference/
 build-hispid/
 /build-hispid-*/
+/build-by-modal*/
 __pycache__/
 .venv/
 validation/raw/

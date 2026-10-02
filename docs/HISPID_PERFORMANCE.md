@@ -10,6 +10,164 @@ unvalidated; do not use these binary outputs as validated production data.
 
 ## Measured improvements
 
+### Shared stopping norms and opt-in BY modal inverse (2026-10-02)
+
+A new opt-in Fourier modal/block-tridiagonal BY preconditioner cuts the median
+40×80×16 moderate-binary solve from **26.780s to 4.579s (5.85×)** while
+retaining the original outer and inner stopping rules. Process peak RSS rises
+from **91.66MB to 102.48MB (11.8%)**. Default BY and HiSpID states remain
+bit-identical to the preceding archived production builds. Modal BY changes
+its Krylov path but converges numerically to the same BY data.
+
+The original criteria are not equivalent. BY stops on
+`max |sin³(alpha) sin³(beta) F_raw|` and its linear absolute L2 target is
+`1e-3 * Newton_max_residual`. HiSpID stops on the sixth-power version and
+uses adaptive RHS-relative GMRES forcing. The old BY linear target in this
+case is only about 4.8e-5–6.2e-5 of the RHS L2 norm, substantially tighter
+than a fixed relative target of1e-3. Changing the outer weight alone also
+changes HiSpID's adaptive forcing because it is computed from that norm.
+
+The controlled comparison uses the SAME computational formula:
+
+- Outer: `max_component max_node |(sin(alpha)sin(beta))³ F_raw,c| <=1e-12`.
+- Inner: TRUE spectral `||F-J step||₂ / ||F||₂ <=1e-3` at every accepted step.
+- Identical counts40×80×16, bare masses .6/.4, centers±3, generic lower spins
+  and velocities, zero guess, serial CPU, restart64 for Hi GMRES and the
+  inherited cap100 for BY BiCGStab. Exact input vectors are saved in the JSON.
+
+Two interleaved fresh-process runs per protocol give these medians. MB is
+1,000,000 bytes; RSS is captured before snapshots/physical verification.
+
+| Protocol | Newton | Krylov | Spectral JVP | M applies | Solve | Ready for sampling | Peak RSS |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Hi native sixth-power/adaptive | 4 | 43 GMRES | 51 | 43 | 3.339s | 4.600s | 338.94MB |
+| Hi cubic/adaptive (outer only matched) | 5 | 50 GMRES | 60 | 50 | 3.926s | 5.188s | 342.21MB |
+| Hi cubic/fixed1e-3 | 4 | 42 GMRES | 50 | 42 | 3.262s | 4.528s | 319.14MB |
+| BY inherited rules/line sweeps | 4 | 36 BiCGStab | 73 | 69 | 26.780s | 26.918s | 91.66MB |
+| BY cubic/fixed1e-3/line sweeps | 4 | 27 BiCGStab | 62 | 54 | 22.582s | 22.718s | 91.55MB |
+| BY inherited rules/modal | 4 | 13 BiCGStab | 32 | 24 | 4.579s | 4.718s | 102.48MB |
+| BY cubic/fixed1e-3/modal | 4 | 10 BiCGStab | 25 | 17 | 3.844s | 3.984s | 102.51MB |
+
+Both fully matched solves need four Newton steps. Krylov iterations are not
+one-for-one comparable: BiCGStab generally uses two preconditioner/JVP pairs
+per iteration, whereas GMRES uses one. BY modal has25 total spectral JVPs
+including initial/true-residual checks, compared with Hi50. The BY core solve
+is now only1.18× the Hi core solve; setup through first sample is0.88× Hi.
+Matching tolerances alone reduces inherited BY iterations36→27 and time
+26.78→22.58s. The similar modal inverse then reduces matched time another5.87×.
+Per-step counts are BY lines7/7/6/7, BY modal2/2/3/3, Hi9/11/11/11.
+All true relative linear residuals meet1e-3 (largest BY modal9.569e-4,
+Hi8.242e-4); histories and native/unweighted max/RMS are saved explicitly.
+
+The modal inverse computes a Fourier average of the POINTWISE current
+potential `(7/8) A_BY² / psi⁸`, keeps full meridional blocks, uses the inherited
+FD Fourier eigenvalue, and folds boundary ghosts exactly as legacy `Index`
+(with no azimuthal parity). Its analytic orthogonal-prolate five-point stencil
+avoids probing every original FD matrix column and analytically cancels mixed
+terms. Factors are equilibrated and rebuilt at every Newton call, including
+bare-mass adjustment. The original spectral F and JVP are unchanged.
+A separate constructor using the stored original JFD remains the independent
+control. Both inverses are checked against a full physical-grid even cyclic
+projection of `SetMatrix_JFD`, including reflected faces/corners, rectangular
+grids, every Fourier partner/Nyquist and refreshed unknowns/masses. Largest
+inverse solution error is3.342e-14; normalized matrix residual1.772e-13.
+
+Measured phase medians explain the speedup: inherited FD setup takes5.26s;
+analytic modal setup takes0.200s. Inherited line preconditioning performs
+13,800 full relaxation sweeps; modal inversion performs24 applications and
+no sweeps. With the original rules, spectral JVP time drops7.67→3.38s through
+fewer Krylov steps. Under matched rules, spectral JVP still takes2.65 of3.84s;
+modal setup/application cost0.199/0.033s. The remaining BY cost is mainly the
+original spectral Jacobian path, not factorization of the elliptic inverse.
+The phase clocks are benchmark-only wrappers; they do not change arithmetic.
+
+For original-rule modal BY, largest scaled nodal V difference is5.885e-15,
+ADM mass differs3.109e-14 absolute, and puncture ADM masses are identical.
+Fixed-forcing modal changes V by1.493e-14 scaled, ADM by7.17e-14 absolute,
+and puncture masses by<=1.23e-14. Recomputed weighted spectral residuals
+remain<=1e-12 in every run, with zero linear/modal failures. Nodal V/u values, scalar coefficients, and
+six-point physical gamma/K/lapse/psi samples pass the predeclared1e-10 bounds.
+All retained arrays are finite. Native Cartesian derivative arrays near the
+punctures amplify roundoff and changed Krylov-path differences: matched modal
+u_d23 differs by2.375e-4 scaled and u_d33 by9.306e-4 absolute. Largest differences occur at distance9.47e-7 from a puncture. Those
+arrays are retained diagnostics, outside the1e-10 core-value/physical-sampling
+gate; complete bitwise-state equivalence is claimed only for inherited defaults.
+Fresh12×18×8 controls against original standalone `ec563aeb` pass for generic
+spin/momentum, target ADM masses, Brill–Lindquist and the spin95 BY INPUT.
+Defaults remain bit-identical to original; target-mass modal converges within
+adm_tol1e-10 with numerically equivalent bare/end masses. These are solver
+behavior controls, not new high-spin binary physical validation.
+
+A common computational norm does NOT equate physical error. The maps,
+seed geometry and one-versus-four PDE components differ. Independent
+fourth-order Cartesian physical constraints use identical six points and
+steps .004/.002/.001, with g=1 enforced for EVERY stencil sample. At step.001,
+matched BY modal Hmax/Mnorm-max are4.055e-8/1.424e-9; matched Hi gives
+7.043e-6/6.606e-3. The BY stencil reaches a differentiation/spectral floor;
+Hi's momentum residual is stable across stencil steps, so this coarse grid
+still has a material physical truncation error. This timing case is not an
+accepted binary accuracy comparison or replacement for resolution sequences.
+The independently computed H/M changes between old and modal BY are within
+the declared FD-floor bounds.
+
+Enable the improvement after setting default parameters:
+
+```c
+TwoPunctures_params_set_Int("TP_preconditioner", 1);
+```
+
+Legacy defaults remain0, with original200-sweep preconditioning and original
+absolute linear gate. Requested modal requires scalar vacuum BY and even
+nphi>=4. Optional `TP_linear_relative=1`, `TP_linear_rtol=1e-3` select the
+matched forcing convention; they are not needed for the5.85× native-rule gain.
+Invalid options, factor failures and failed true linear gates fail closed:
+Newton does not accept the step, target masses are not updated, and a retained
+failure reports diagnostics status1. The modal context and inherited BY global
+parameter API are serial/non-reentrant. No conditioning guarantee is inferred
+from exact-zero pivot checks.
+
+Hi default row power remains6. `HISPID_EXPERIMENT_FLAGS=-DHISPID_ROW_POWER=3`
+builds the explicit cubic experiment (distinct residual-scaling tag).
+`HiSpID_solve_with_forcing` / Python `solve(linear_rtol=.001)` supply fixed
+forcing without changing Config/Diagnostics layouts. New work/history queries
+record adaptive or fixed solves; buffer capacity is validated. The positive
+row-scaling control finds residual/JVP differences1.013e-17/8.645e-19 scaled,
+with physical fields bit-identical between powers3/6 for IDENTICAL INJECTED
+unknowns (not separate solved states), and all default operators
+bit-identical to the archived sixth-power producer.
+
+All native controls,127 modal/invalid/failure checks,2056 line-cache checks,
+24 GMRES/history controls,30 Python tests and physical API/lifecycle regression
+pass. The sole independent formulation reviewer checked the derivation,
+boundaries, signs, guards and validation gates. Evidence:
+`validation/by_modal_acceptance.json`, `validation/common_stopping_moderate_40.json`,
+`validation/stopping_row_scaling_controls.json`, and
+`validation/by_modal_verification_v2.json` and
+`validation/modal_final_fingerprints.json`. Raw states, logs, frozen precision
+sources, object/image fingerprints and failed launch diagnostics are retained
+locally. Prior physical producer hashes and all failed high-parameter gates
+remain unchanged; no AthenaK consumer/evolution change is made here.
+
+Reproduce in fresh absolute build directories, with one CPU worker at a time:
+
+```sh
+TPROOT="$PWD"
+MODAL_BUILD="$TPROOT/build-by-modal-replay"
+make -j1 OBJD="$MODAL_BUILD/obj" LIBD="$MODAL_BUILD/lib" \
+  HISPID_DIR="$MODAL_BUILD/hispid6" test-hispid test \
+  TEST_EXE="$MODAL_BUILD/test_physical_api.x" "$MODAL_BUILD/lib/libTwoPunctures.so"
+make -j1 OBJD="$MODAL_BUILD/obj" LIBD="$MODAL_BUILD/lib" \
+  HISPID_DIR="$MODAL_BUILD/hispid3" HISPID_EXPERIMENT_FLAGS=-DHISPID_ROW_POWER=3 hispid
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1
+export PYTHONPATH="$TPROOT/python:$TPROOT/validation:$TPROOT/examples"
+python3 validation/build_by_solver_timer.py --objects "$MODAL_BUILD/obj" \
+  --output-dir "$MODAL_BUILD/timing"
+python3 validation/benchmark_common_stopping.py \
+  --hi6 "$MODAL_BUILD/hispid6/libHiSpID.so" --hi3 "$MODAL_BUILD/hispid3/libHiSpID.so" \
+  --by-library "$MODAL_BUILD/timing/libTwoPuncturesTimed.so" \
+  --output validation/common_stopping_replay.json
+```
+
 ### Behavior-preserving memory and line-solve changes (2026-10-02)
 
 Two alternating fresh-process measurements per version use the same lower-spin

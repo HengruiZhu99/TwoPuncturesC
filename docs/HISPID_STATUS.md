@@ -1,12 +1,16 @@
 # HiSpID milestone status
 
-The latest serial optimization preserves the tested solution bit-for-bit.
-On repeated 40×80×16 lower-spin solves, lazy HiSpID GMRES storage reduces peak
-RSS by31.8% (496.45→338.35MB), while fixed-JFD BY line-factor reuse gives2.12×
-speedup (57.34→26.99s) for6.2% extra BY RAM. Fresh original standalone BY,
-target-mass and full iteration/state controls pass. Stopping rules are
-unchanged; BY's cubic and HiSpID's sixth-power residual weights differ.
-See `docs/HISPID_PERFORMANCE.md` and the solver_efficiency JSON records.
+The opt-in serial BY modal preconditioner now solves the40×80×16 moderate
+case in4.58s versus26.78s for cached inherited line sweeps (**5.85×**), with
+original stopping rules and equivalent final data (scaled V difference5.9e-15).
+Peak RSS increases91.66→102.48MB. Defaults remain bit-identical. With common
+cubic weighting and fixed relative linear tolerance1e-3, both backends need
+four Newton steps: BY modal10 BiCGStab iterations/3.84s, Hi42 GMRES/3.26s.
+These iteration counts have different work per step. The common computational
+norm does not imply equal physical accuracy; coarse Hi momentum truncation
+error remains. All native/Python, original-code/target-mass and retained-state
+controls pass. See docs/HISPID_PERFORMANCE.md and common_stopping/by_modal
+JSON records. The earlier Hi lazy GMRES improvement still saves31.8% RSS.
 
 Current status (2026-10-02): **exact single-hole targets pass; the moderate binary passes
 preliminary constraints, charges, coordinate covariance and horizon enclosure**. Rest spin chi=.95 and lab speed v=.885 pass separately

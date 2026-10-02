@@ -2,6 +2,11 @@
 
 #include "TwoPunctures.h"
 #include "TP_LineCache.h"
+#include "TP_Modal.h"
+
+static TP_SolverStats solver_stats;
+void TP_solver_reset_statistics(void){memset(&solver_stats,0,sizeof(solver_stats));}
+void TP_solver_get_statistics(TP_SolverStats*out){if(out)*out=solver_stats;}
 
 static int
 bicgstab (int const nvar, int const n1, int const n2, int const n3,
@@ -332,9 +337,9 @@ TestRelax (int nvar, int n1, int n2, int n3, derivs *v,
   free_derivs (u);
 
   TP_cache_destroy(cache);
-  free_dmatrix (JFD, 0, ntotal - 1, 0, maxcol - 1);
-  free_imatrix (cols, 0, ntotal - 1, 0, maxcol - 1);
-  free_ivector (ncols, 0, ntotal - 1);
+  if(JFD)free_dmatrix (JFD, 0, ntotal - 1, 0, maxcol - 1);
+  if(cols)free_imatrix (cols, 0, ntotal - 1, 0, maxcol - 1);
+  if(ncols)free_ivector (ncols, 0, ntotal - 1);
 }
 
 /* --------------------------------------------------------------------------*/
@@ -357,14 +362,20 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
   F = dvector (0, ntotal - 1);
   allocate_derivs (&u, ntotal);
 
-  JFD = dmatrix (0, ntotal - 1, 0, maxcol - 1);
-  cols = imatrix (0, ntotal - 1, 0, maxcol - 1);
-  ncols = ivector (0, ntotal - 1);
+  const int requested_modal=params_get_int("TP_preconditioner");
+  JFD = requested_modal?NULL:dmatrix (0, ntotal - 1, 0, maxcol - 1);
+  cols = requested_modal?NULL:imatrix (0, ntotal - 1, 0, maxcol - 1);
+  ncols = requested_modal?NULL:ivector (0, ntotal - 1);
 
   F_of_v (nvar, n1, n2, n3, v, F, u);
-  SetMatrix_JFD (nvar, n1, n2, n3, u, ncols, cols, JFD);
-  /* Factors belong to this fixed JFD only; no reuse across Newton steps. */
-  TP_LineCache *cache = TP_cache_create(nvar, n1, n2, n3, ncols, cols, JFD);
+  if(!requested_modal)SetMatrix_JFD (nvar, n1, n2, n3, u, ncols, cols, JFD);
+  /* Factors belong to this fixed Newton Jacobian only. */
+  TP_Modal *modal=requested_modal&&nvar==1?TP_modal_create_analytic(n1,n2,n3,u->d0):NULL;
+  TP_LineCache *cache=requested_modal?NULL:TP_cache_create(nvar, n1, n2, n3, ncols, cols, JFD);
+  if(modal)solver_stats.modal_factorizations++;
+  if(requested_modal&&!modal)solver_stats.modal_failures++;
+  int linear_error=requested_modal&&!modal;
+  solver_stats.last_linear_target=tol;
 
   /* temporary storage */
   r = dvector (0, ntotal - 1);
@@ -386,6 +397,7 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
   
   /* compute initial residual rt = r = F - J*dv */
   J_times_dv (nvar, n1, n2, n3, dv, r, u);
+  solver_stats.jvp_applications++;
   
 #ifdef TP_OMP
   /* #pragma omp parallel for */
@@ -401,10 +413,11 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
   
   /* cgs iteration */
   
-  if (*normres > tol) {
+  if (*normres > tol && !linear_error) {
     
     for (ii = 0; ii < itmax; ii++)
       {
+        solver_stats.krylov_iterations++;
 	rho = scalarproduct (rt, r, ntotal);
 	if (fabs (rho) < rhotol)
 	  break;
@@ -435,10 +448,15 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
 	for (int j = 0; j < ntotal; j++)
 	  ph->d0[j] = 0;
 	
-	for (int j = 0; j < NRELAX; j++)	/* solves JFD*ph = p by relaxation */
-	  relax (ph->d0, nvar, n1, n2, n3, p, ncols, cols, JFD, cache);
+        solver_stats.preconditioner_applications++;
+        if(modal){if(TP_modal_solve(modal,p,ph->d0)){linear_error=1;solver_stats.modal_failures++;break;}}
+        else for (int j = 0; j < NRELAX; j++) {
+          relax (ph->d0, nvar, n1, n2, n3, p, ncols, cols, JFD, cache);
+          solver_stats.relaxation_sweeps++;
+        }
 	
-	J_times_dv (nvar, n1, n2, n3, ph, vv, u);	/* vv=J*ph */
+	J_times_dv (nvar, n1, n2, n3, ph, vv, u);
+        solver_stats.jvp_applications++;	/* vv=J*ph */
 	alpha = rho / scalarproduct (rt, vv, ntotal);
 
 #ifdef TP_OMP
@@ -470,10 +488,15 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
 #endif
 	for (int j = 0; j < ntotal; j++)
 	  sh->d0[j] = 0;
-	for (int j = 0; j < NRELAX; j++)	/* solves JFD*sh = s by relaxation */
-	  relax (sh->d0, nvar, n1, n2, n3, s, ncols, cols, JFD, cache);
+        solver_stats.preconditioner_applications++;
+        if(modal){if(TP_modal_solve(modal,s,sh->d0)){linear_error=1;solver_stats.modal_failures++;break;}}
+        else for (int j = 0; j < NRELAX; j++) {
+          relax (sh->d0, nvar, n1, n2, n3, s, ncols, cols, JFD, cache);
+          solver_stats.relaxation_sweeps++;
+        }
 	
-	J_times_dv (nvar, n1, n2, n3, sh, t, u);	/* t=J*sh */
+	J_times_dv (nvar, n1, n2, n3, sh, t, u);
+        solver_stats.jvp_applications++;	/* t=J*sh */
 	omega = scalarproduct (t, s, ntotal) / scalarproduct (t, t, ntotal);
 	
 	/* compute new solution approximation */
@@ -503,6 +526,19 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
     
   } //   if (*normres > tol) 
   
+  /* Diagnostic true linear residual; opt-in protocols require the actual
+   * spectral residual, not only the BiCG recurrence estimate. */
+  if(requested_modal||params_get_int("TP_linear_relative")){
+    J_times_dv(nvar,n1,n2,n3,dv,vv,u);solver_stats.jvp_applications++;
+    for(int j=0;j<ntotal;j++)r[j]=F[j]-vv[j];
+    solver_stats.last_true_linear_residual=norm2(r,ntotal);
+    double rhs_norm=norm2(F,ntotal);
+    solver_stats.last_relative_linear_residual=rhs_norm>0?solver_stats.last_true_linear_residual/rhs_norm:solver_stats.last_true_linear_residual;
+    if(!isfinite(solver_stats.last_true_linear_residual)||solver_stats.last_true_linear_residual>tol)linear_error=1;
+    if(output)printf("linear_true: %.17e relative %.17e target %.17e\n",solver_stats.last_true_linear_residual,solver_stats.last_relative_linear_residual,tol);
+  }
+  if(linear_error)solver_stats.linear_failures++;
+  TP_modal_destroy(modal);
   /* free temporary storage */
   free_dvector (r, 0, ntotal - 1);
   free_dvector (p, 0, ntotal - 1);
@@ -519,10 +555,11 @@ bicgstab (int const nvar, int const n1, int const n2, int const n3,
   free_derivs (u);
   
   TP_cache_destroy(cache);
-  free_dmatrix (JFD, 0, ntotal - 1, 0, maxcol - 1);
-  free_imatrix (cols, 0, ntotal - 1, 0, maxcol - 1);
-  free_ivector (ncols, 0, ntotal - 1);
+  if(JFD)free_dmatrix (JFD, 0, ntotal - 1, 0, maxcol - 1);
+  if(cols)free_imatrix (cols, 0, ntotal - 1, 0, maxcol - 1);
+  if(ncols)free_ivector (ncols, 0, ntotal - 1);
   
+  if(linear_error)return -20;
   if (*normres <= tol)
     return 0;
   
@@ -580,8 +617,13 @@ Newton (int const nvar, int const n1, int const n2, int const n3,
       }
       
       fflush(stdout);
-      ii =
-	bicgstab (nvar, n1, n2, n3, v, dv, verbose, 100, dmax * 1.e-3, &normres);
+      double linear_target=dmax*params_get_real("TP_linear_rtol");
+      if(params_get_int("TP_linear_relative"))linear_target=norm2(F,ntotal)*params_get_real("TP_linear_rtol");
+      ii = bicgstab (nvar, n1, n2, n3, v, dv, verbose, 100, linear_target, &normres);
+      if((params_get_int("TP_preconditioner")||params_get_int("TP_linear_relative"))&&ii<0){
+        if(verbose)printf("Newton linear solve failed: %d\n",ii);break;
+      }
+      solver_stats.newton_iterations++;
 #ifdef TP_OMP
 #pragma omp parallel for
 #endif

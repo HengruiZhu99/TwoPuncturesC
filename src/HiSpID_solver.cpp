@@ -7,6 +7,10 @@
 #include <numeric>
 #include <cstdio>
 #include <gsl/gsl_linalg.h>
+#ifndef HISPID_ROW_POWER
+#define HISPID_ROW_POWER 6
+#endif
+static_assert(HISPID_ROW_POWER==3||HISPID_ROW_POWER==6,"row power must be3or6");
 #ifndef HISPID_INFINITY_EQUILIBRATION
 #define HISPID_INFINITY_EQUILIBRATION 0
 #endif
@@ -121,6 +125,9 @@ struct HiSpID_Data {
  HiSpID_Diagnostics diag{};
  bool coefficients_valid=false;
  bool sampler_only=false;
+ int jvp_applications=0,preconditioner_applications=0;
+ std::vector<std::array<double,4>>linear_history;
+ double last_gmres_relative=0;
 };
 namespace {
 int pindex(const HiSpID_Data&s,int i,int j,int k){return i+s.local.n[0]*(j+s.local.n[1]*k);}
@@ -155,6 +162,7 @@ void residual(HiSpID_Data&s,const double*v,double*r){
  }
 }
 void jvp(HiSpID_Data&s,const double*v,double*r){
+ s.jvp_applications++;
  std::vector<Fields>d;fields(s,v,d,false);for(int p=0;p<s.npt;p++){
   eval(s.geometry[p],s.basefields[p],r+4*p,&d[p]);for(int k=0;k<4;k++)r[4*p+k]*=s.geometry[p].weight;
  }
@@ -339,6 +347,7 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
 bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol, bool eager=false){
  int n=s.ntotal,m=s.local.krylov_restart;x.assign(n,0);
  std::vector<double>Ax(n),r(n),w(n);double target=rtol*norm2v(rhs),beta=norm2v(rhs);
+ s.last_gmres_relative=beta==0?0:INFINITY;
  if(beta<=target)return true;
  // Retain visited columns across restarts, including zero-initialized breakdown columns.
  // The eager path is a private equivalence control; the public solve always grows lazily.
@@ -347,13 +356,14 @@ bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vecto
  std::vector<std::vector<double>>H(m+1,std::vector<double>(m));std::vector<double>cs(m),sn(m),g(m+1),y(m);
  int total=0;while(total<s.local.max_krylov){
   jvp(s,x.data(),Ax.data());for(int a=0;a<n;a++)r[a]=rhs[a]-Ax[a];beta=norm2v(r);
+  s.last_gmres_relative=beta/norm2v(rhs);
   if(beta<=target)return true;if(!std::isfinite(beta))return false;
   for(int a=0;a<n;a++)V[0][a]=r[a]/beta;std::fill(g.begin(),g.end(),0);g[0]=beta;
   for(auto &h:H)std::fill(h.begin(),h.end(),0);
   int used=0;
   for(int k=0;k<m&&total<s.local.max_krylov;k++){
    if(Z[k].empty())Z[k].resize(n);if(V[k+1].empty())V[k+1].resize(n);
-   M.solve(V[k],Z[k]);jvp(s,Z[k].data(),w.data());
+   s.preconditioner_applications++;M.solve(V[k],Z[k]);jvp(s,Z[k].data(),w.data());
    /* Two-pass modified Gram-Schmidt limits loss of orthogonality. */
    for(int pass=0;pass<2;pass++)for(int j=0;j<=k;j++){
     double a=dot(w,V[j]);H[j][k]+=a;for(int q=0;q<n;q++)w[q]-=a*V[j][q];
@@ -368,7 +378,8 @@ bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vecto
   for(int j=used-1;j>=0;j--){y[j]=g[j];for(int k=j+1;k<used;k++)y[j]-=H[j][k]*y[k];y[j]/=H[j][j];}
   for(int j=0;j<used;j++)for(int q=0;q<n;q++)x[q]+=Z[j][q]*y[j];
  }
- jvp(s,x.data(),Ax.data());for(int a=0;a<n;a++)r[a]=rhs[a]-Ax[a];return norm2v(r)<=target;
+ jvp(s,x.data(),Ax.data());for(int a=0;a<n;a++)r[a]=rhs[a]-Ax[a];
+ s.last_gmres_relative=norm2v(r)/norm2v(rhs);return norm2v(r)<=target;
 }
 void update_diag(HiSpID_Data&s,const std::vector<double>&res){
  for(int k=0;k<4;k++)s.diag.scaled_linf[k]=s.diag.unscaled_linf[k]=0;
@@ -490,6 +501,7 @@ void sample_fields(HiSpID_Data&s,const double*x,Fields&f,const MeridionalValues*
 }
 extern "C" {
 const char *HiSpID_residual_scaling(){
+ if constexpr(HISPID_ROW_POWER==3)return HISPID_INFINITY_EQUILIBRATION?"sin3_alpha_beta_times_one_minus_t_pow_minus6":"sin3_alpha_beta";
  return HISPID_INFINITY_EQUILIBRATION?"sin6_alpha_beta_times_one_minus_t_pow_minus6":"sin6_alpha_beta";
 }
 const char *HiSpID_unknown_parameterization(){
@@ -528,7 +540,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only){
   for(int k=0;k<c->n[2];k++)for(int j=0;j<c->n[1];j++)for(int i=0;i<c->n[0];i++){
    Fields f{};double x[3];transform(*s,i,j,k,f,x);hispid::Background bg;hispid::background(s->local,x,bg);
    int p=pindex(*s,i,j,k);cache(bg,s->geometry[p]);
-   double sn=std::sin(Pih*(2*i+1)/c->n[0])*std::sin(Pih*(2*j+1)/c->n[1]);s->geometry[p].weight=std::pow(sn,6);
+   double sn=std::sin(Pih*(2*i+1)/c->n[0])*std::sin(Pih*(2*j+1)/c->n[1]);s->geometry[p].weight=std::pow(sn,HISPID_ROW_POWER);
    if constexpr(HISPID_INFINITY_EQUILIBRATION){
     const double a=.5*(s->derivatives.coordinate[0][i]+1);
     s->geometry[p].weight/=std::pow(1-a*a,6);
@@ -543,10 +555,11 @@ static bool sampling_context(HiSpID_Data*s){
  if(s&&s->sampler_only){hispid::last_error="sampling-only context cannot evaluate or solve collocation equations";return true;}
  return false;
 }
-int HiSpID_solve(HiSpID_Data*s){
+static int solve_context(HiSpID_Data*s,double fixed_forcing){
  if(sampling_context(s))return -1;
  if(!s)return -1;hispid::last_error.clear();auto start=std::chrono::steady_clock::now();
  s->diag={};s->diag.npoints=s->npt;s->coefficients_valid=false;
+ s->jvp_applications=s->preconditioner_applications=0;s->linear_history.clear();
  std::vector<double>r(s->ntotal),rhs(s->ntotal),step,trial(s->ntotal),rt(s->ntotal);
  // The normalized vector FD matrices depend only on this solve's fixed
  // map/grid/mode. Move their factors between Newton steps; scalar factors
@@ -559,8 +572,10 @@ int HiSpID_solve(HiSpID_Data*s){
    if(it==s->local.max_newton)break;
    s->diag.newton_iterations++;
    Sparse M=preconditioner(*s,&vector_cache);for(int i=0;i<s->ntotal;i++)rhs[i]=-r[i];
-   double forcing=std::min(.05,std::max(1e-5,std::sqrt(err)));
+   double forcing=fixed_forcing>0?fixed_forcing:std::min(.05,std::max(1e-5,std::sqrt(err)));
+   const int krylov_before=s->diag.krylov_iterations;
    const bool linear_ok=gmres(*s,M,rhs,step,forcing);M.retain_vectors(vector_cache);
+   s->linear_history.push_back({double(it),forcing,s->last_gmres_relative,double(s->diag.krylov_iterations-krylov_before)});
    if(!linear_ok){hispid::last_error="Krylov iteration limit";break;}
    bool accepted=false;double old=norm2v(r);
    for(double damping=1;damping>=1.0/1024;damping*=.5){
@@ -575,6 +590,21 @@ int HiSpID_solve(HiSpID_Data*s){
  s->diag.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
  if(!s->diag.converged&&hispid::last_error.empty())hispid::last_error="Newton iteration limit";
  return s->diag.converged?0:1;
+}
+int HiSpID_solve(HiSpID_Data*s){return solve_context(s,0);}
+int HiSpID_solve_with_forcing(HiSpID_Data*s,double rtol){
+ if(!std::isfinite(rtol)||rtol<=0||rtol>=1){hispid::last_error="invalid fixed relative linear tolerance";return -1;}
+ return solve_context(s,rtol);
+}
+int HiSpID_work_statistics(const HiSpID_Data*s,int*out){
+ if(!s||!out)return -1;out[0]=s->jvp_applications;out[1]=s->preconditioner_applications;return 0;
+}
+int HiSpID_linear_history(const HiSpID_Data*s,int capacity,double*out){
+ if(!s||capacity<0)return -1;int n=s->linear_history.size();
+ if(!out)return capacity==0?n:-1;
+ if(capacity==0||capacity<n)return -1;
+ if(out)for(int i=0;i<n;i++)for(int j=0;j<4;j++)out[4*i+j]=s->linear_history[i][j];
+ return n;
 }
 int HiSpID_diagnostics(const HiSpID_Data*s,HiSpID_Diagnostics*d){if(!s||!d)return -1;*d=s->diag;return 0;}
 int HiSpID_get_unknowns(const HiSpID_Data*s,double*v,int n){if(!s||!v||n!=s->ntotal)return -1;std::copy(s->values.begin(),s->values.end(),v);return 0;}
