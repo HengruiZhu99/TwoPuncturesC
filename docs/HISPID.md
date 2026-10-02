@@ -153,13 +153,46 @@ by `(sin(alpha) sin(beta))^6` as in the inherited solver. Both weighted and
 raw conformal extrema are exposed. Neither replaces physical validation.
 Allocation is rejected if a conservative cache/ILU/Krylov estimate exceeds
 the per-context `memory_limit_mib` (default2048, accepted range16--8192).
-High-spin refinement beyond the initial grids explicitly uses4096 MiB;
+High-spin refinement beyond the initial grids explicitly uses4096 MiB,
+or6144 MiB for160²×24;
 only one context/job is active during those large solves. Match the native
 header, adapter and library when using this experimental ABI. Sampling
 differentiates the coefficient basis directly, including
 the off-grid cosine Nyquist derivative. Map-axis derivatives use the
 four-transverse-point limit described in thesis Sec. 2.4.2, with offset
 `max(1e-4 sum(m),1e-8 b)`; this is a finite-offset approximation.
+At the exact axis, auxiliary field values use the Fourier zero mode at the
+central map coordinates, avoiding the displaced-value bias. Points with
+transverse radius below1e-10 b use this same axis approximation. Arbitrary
+finite-grid fields need not satisfy axis regularity; the API does not imply
+that constraints on the map axis have the off-axis validation accuracy.
+
+`HiSpID_create_sampler` loads the same saved unknowns without allocating the
+collocation background, derivative workspace or Newton/Krylov work arrays.
+Its allocation screen uses128 bytes per point, including coefficient-transform
+scratch headroom. It rejects solve, residual, JVP and equation-sample calls.
+`HiSpID_sample_with_derivatives` adds physical lab-frame metric first gradients,
+stored as `dgamma[27*p+9*d+3*i+j]`; this includes the fixed analytic far
+correction W and three frame rotations (derivative and both tensor indices).
+Python exposes `Backend.create_sampler` and `Solution.sample_with_derivatives`.
+The adapter checks the loaded symbol image and records its first-load SHA.
+Compare distinct builds in separate processes: macOS can reuse an archived
+image with the same embedded install name. The migration verifier does so
+explicitly, and normal checkpoint replay still requires a matching build.
+Archived libraries remain loadable for explicit migration comparisons; methods
+requiring new symbols fail clearly if those symbols are absent.
+
+The portable AthenaK interchange file is explicit-field text version1, written
+by `examples/export_athenak.py`, with seventeen digit doubles, source-library
+SHA, an acceptance label and a strict unknown count. It never serializes native
+structure padding. The source SHA records evidence provenance; cross-platform
+use additionally requires source/version agreement and validation of the new
+build. The isolated AthenaK pgen imports physical gamma/K directly, checks the
+ADM/Z4c round trip, and can call its finder at time zero. Direct native-geometry
+finder checks and mesh-interpolation checks are reported separately.
+Both map centers must be distinct, including a mass-zero inactive focus,
+so every active puncture remains at a focus. The separate seed API does not
+have this map restriction.
 
 ## C interface and Python use
 
@@ -209,6 +242,10 @@ their physical norm. It reports g<1 and g=1 separately, near and bulk bins,
 and normalized ratios; denominator floors are `1e-8` in the chosen mass
 units. Adaptive high-regime steps are `min(.002,.001 distance_to_puncture)`
 and are refined to assess the verifier floor.
+These are RMS values over fixed off-grid point sets, not volume-integrated
+L2 norms. The cancellation-normalized momentum ratio is uninformative for
+maximal data: with K=0 its denominator is the already-cancelled divergence.
+Absolute physical momentum norms define acceptance.
 
 Equation/page derivations, primary sources, original implementation search,
 source typos and independent review evidence are recorded in

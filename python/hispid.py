@@ -5,6 +5,8 @@ Requires NumPy. Use ``Backend('/absolute/path/build-hispid/libHiSpID.so')``.
 """
 from __future__ import annotations
 import ctypes as C
+import hashlib
+import sys
 from pathlib import Path
 import numpy as np
 
@@ -46,11 +48,34 @@ def unpack(out):
             for name,_ in Point._fields_}
 
 class Backend:
+    _loaded_builds = {}
     def __init__(self,library):
         path=Path(library)
         if not path.is_absolute():raise ValueError('native library path must be absolute')
         self.path=path.resolve(strict=True)
         self.lib=C.CDLL(str(self.path))
+        # dyld identifies copied libraries by their embedded install name.
+        # Loading two archived builds in one process can silently reuse the
+        # first image. Check the function's actual image before any API call.
+        address=C.cast(self.lib.HiSpID_default_config,C.c_void_p).value
+        if sys.platform=='darwin' or sys.platform.startswith('linux'):
+            class DlInfo(C.Structure):
+                _fields_=[('filename',C.c_char_p),('base',C.c_void_p),
+                          ('symbol',C.c_char_p),('symbol_address',C.c_void_p)]
+            dladdr=C.CDLL(None).dladdr
+            dladdr.argtypes=[C.c_void_p,C.POINTER(DlInfo)];dladdr.restype=C.c_int
+            info=DlInfo()
+            if not dladdr(address,C.byref(info)) or not info.filename:
+                raise ValueError('cannot verify loaded native library image')
+            actual=Path(info.filename.decode()).resolve(strict=True)
+            if actual!=self.path:
+                raise ValueError(f'native loader reused {actual}; compare distinct builds in separate processes')
+        digest=hashlib.sha256(self.path.read_bytes()).hexdigest()
+        previous=self._loaded_builds.get(address)
+        if previous is not None and previous!=(self.path,digest):
+            raise ValueError('loaded native library differs from on-disk build; start a fresh process')
+        self._loaded_builds[address]=(self.path,digest)
+        self.loaded_sha256=digest
         api={'HiSpID_default_config':(None,[C.POINTER(Config)]),
              'HiSpID_create':(C.c_void_p,[C.POINTER(Config)]),
              'HiSpID_solve':(C.c_int,[C.c_void_p]),
@@ -68,7 +93,17 @@ class Backend:
              'HiSpID_last_error':(C.c_char_p,[])}
         for name,(ret,args) in api.items():
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
+        # Archived libraries remain loadable for explicit API migration checks.
+        optional={'HiSpID_create_sampler':(C.c_void_p,[C.POINTER(Config)]),
+                  'HiSpID_sample_with_derivatives':(C.c_int,[C.c_void_p,C.c_int,PTR,C.POINTER(Point),PTR])}
+        for name,(ret,args) in optional.items():
+            if hasattr(self.lib,name):
+                f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
     def error(self):return self.lib.HiSpID_last_error().decode()
+    def library_sha256(self):
+        if hashlib.sha256(self.path.read_bytes()).hexdigest()!=self.loaded_sha256:
+            raise ValueError('native library file changed after loading; start a fresh process')
+        return self.loaded_sha256
     def config(self):
         c=Config();self.lib.HiSpID_default_config(C.byref(c));return c
     def seed(self,hole,xyz,choice=1):
@@ -81,11 +116,15 @@ class Backend:
         if self.lib.HiSpID_operators(C.byref(config),ptr(x),ptr(j),ptr(out)):raise ValueError(self.error())
         return out
     def create(self,config):return Solution(self,config)
+    def create_sampler(self,config):return Solution(self,config,sampler_only=True)
 
 class Solution:
-    def __init__(self,backend,config):
+    def __init__(self,backend,config,sampler_only=False):
         self.backend=backend;self.config=Config.from_buffer_copy(config)
-        self.context=backend.lib.HiSpID_create(C.byref(config))
+        self.context=None
+        name='HiSpID_create_sampler' if sampler_only else 'HiSpID_create'
+        if not hasattr(backend.lib,name):raise ValueError('library does not support sampling-only contexts')
+        self.context=getattr(backend.lib,name)(C.byref(config))
         if not self.context:raise ValueError(backend.error())
         self.size=4*int(np.prod(list(config.n)))
     def __enter__(self):return self
@@ -104,6 +143,14 @@ class Solution:
         self._check();x=np.ascontiguousarray(xyz,dtype=float).reshape(-1,3);out=(Point*len(x))()
         if self.backend.lib.HiSpID_sample(self.context,len(x),ptr(x),out):raise ValueError(self.backend.error())
         return unpack(out)
+    def sample_with_derivatives(self,xyz):
+        self._check()
+        if not hasattr(self.backend.lib,'HiSpID_sample_with_derivatives'):
+            raise ValueError('library does not support physical metric gradients')
+        x=np.ascontiguousarray(xyz,dtype=float).reshape(-1,3);out=(Point*len(x))();dg=np.empty((len(x),3,3,3))
+        if self.backend.lib.HiSpID_sample_with_derivatives(self.context,len(x),ptr(x),out,ptr(dg)):
+            raise ValueError(self.backend.error())
+        values=unpack(out);values['dgamma']=dg;return values
     def unknowns(self):
         self._check();out=np.empty(self.size);self.backend.lib.HiSpID_get_unknowns(self.context,ptr(out),self.size);return out
     def set_unknowns(self,values):

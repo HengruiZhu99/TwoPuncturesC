@@ -288,7 +288,7 @@ void equations(const Background&b,const Jet u[4],double out[4],const Jet *du){
  }
 }
 
-bool valid(const HiSpID_Config&c){
+bool valid(const HiSpID_Config&c,bool sampler_only){
  if(c.conformal_choice<0||c.conformal_choice>1||c.attenuation_power<2||c.attenuation_power%2)return false;
  if(!std::isfinite(c.far_radius)||!std::isfinite(c.tolerance)||c.tolerance<=0||c.max_newton<0||c.max_krylov<1||c.krylov_restart<2||c.krylov_restart>200)return false;
  for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>256||(k==2&&c.n[k]%2))return false;
@@ -296,7 +296,9 @@ bool valid(const HiSpID_Config&c){
   * allocation. Larger grids require an explicit per-context budget. */
  if(c.memory_limit_mib<16||c.memory_limit_mib>8192)return false;
  const double npt=(double)c.n[0]*c.n[1]*c.n[2];
- const double bytes_per_point=3000+4*(76*12+48)+32*(2*c.krylov_restart+30);
+ // Sampler: values, coefficients and SpecCoef's two padded scalar scratch
+ // arrays/pointer tables, with headroom for the smallest allowed grids.
+ const double bytes_per_point=sampler_only?128:3000+4*(76*12+48)+32*(2*c.krylov_restart+30);
  if(npt*bytes_per_point>(double)c.memory_limit_mib*1024*1024)return false;
  bool active=false;for(int h=0;h<2;h++){
   const auto&v=c.hole[h];if(!std::isfinite(v.mass)||v.mass<0)return false;

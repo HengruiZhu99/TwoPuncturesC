@@ -36,13 +36,23 @@ typedef struct HiSpID_Data HiSpID_Data;
 
 void HiSpID_default_config(HiSpID_Config *);
 /* No global parameter changes. Contexts own their configuration and caches.
+ * Both map centers must be distinct, even when one mass is zero.
  * Return NULL on invalid configuration/allocation/geometry failure. */
 HiSpID_Data *HiSpID_create(const HiSpID_Config *);
+/* Sampling-only context for loading saved unknowns: no collocation geometry,
+ * derivative workspace, or Newton/Krylov allocation. It supports sampling,
+ * charges and get/set_unknowns, and rejects solve/residual/JVP operations. */
+HiSpID_Data *HiSpID_create_sampler(const HiSpID_Config *);
 /* 0 converged, 1 iteration/line-search/Krylov failure, -1 invalid context.
  * Failed solves remain sampleable for diagnosis. */
 int HiSpID_solve(HiSpID_Data *);
 int HiSpID_diagnostics(const HiSpID_Data *, HiSpID_Diagnostics *);
 int HiSpID_sample(HiSpID_Data *, int count, const double *xyz, HiSpID_Point *);
+/* Physical lab-frame metric gradients, dgamma[27*p+9*d+3*i+j]=d_d gamma_ij.
+ * At the prolate map axis, correction gradients use the documented transverse
+ * limit approximation; the metric values use the exact central zero mode. */
+int HiSpID_sample_with_derivatives(HiSpID_Data *, int count, const double *xyz,
+                                   HiSpID_Point *, double *dgamma);
 int HiSpID_seed(const HiSpID_Hole *, int conformal_choice,
                 int count, const double *xyz, HiSpID_Point *);
 /* Finite-radius PHYSICAL ADM surface integrals E,P[3],J[3] in lab coordinates,

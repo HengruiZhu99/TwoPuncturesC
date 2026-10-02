@@ -1,5 +1,10 @@
 """Fast scientifically meaningful controls. Run with explicit HISPID_LIBRARY."""
 import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
 import unittest
 import numpy as np
 from hispid import Backend,Hole
@@ -11,6 +16,25 @@ class HiSpIDTests(unittest.TestCase):
     def setUpClass(cls):
         cls.b=Backend(os.environ['HISPID_LIBRARY'])
         cls.x=np.array([[1.1,.2,.3],[.7,-.9,.4],[2.7,.5,-1.2]])
+
+    @unittest.skipUnless(sys.platform=='darwin','dyld install-name reuse control')
+    def test_archived_loader_image_guard(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive=Path(directory)/'archived.so'
+            shutil.copyfile(self.b.path,archive)
+            # Reuse is order-dependent: load the archive before its embedded
+            # original install path, in a fresh process with no prior image.
+            code='''import sys
+from hispid import Backend
+Backend(sys.argv[1])
+try:
+    Backend(sys.argv[2])
+except ValueError as error:
+    if "native loader reused" not in str(error): raise
+else:
+    raise AssertionError("dyld reuse was not rejected")
+'''
+            subprocess.run([sys.executable,'-c',code,str(archive),str(self.b.path)],check=True)
 
     def test_schwarzschild_and_conformal_choices(self):
         h=Hole(1);v=self.b.seed(h,self.x);p=1+.5/np.linalg.norm(self.x,axis=1)
@@ -132,6 +156,71 @@ class HiSpIDTests(unittest.TestCase):
             np.testing.assert_allclose(out['psi'],psi,rtol=2e-14)
             np.testing.assert_allclose(out['correction'][:,0],W,atol=2e-14)
 
+    def test_axis_value_and_independent_hessian(self):
+        # A degree-seven V gives a Cartesian-regular u at the interpuncture
+        # axis. Its exact central value is zero and Laplacian is 4*eta/b^2.
+        c=self.b.config();c.n[:]=[10,6,4];c.conformal_choice=0
+        c.hole[0]=Hole(.6,(3,0,0));c.hole[1]=Hole(.4,(-3,0,0))
+        c.far_radius=0;c.omega[:]=[0,0];c.inner_max[:]=[0,0];c.inner_flatten=0
+        A=-np.cos(np.pi*(np.arange(10)+.5)/10);z=A+1;eta=.01
+        u=eta*(z**2+z**4/6+23*z**6/720-49*z**8/1440)
+        values=np.zeros((4,6,10,4));values[:,:,:,0]=u/(A-1)
+        expected=-8*(4*eta/9)/(7/6)**5
+        with self.b.create(c) as s:
+            s.set_unknowns(values.ravel())
+            self.assertLess(abs(s.sample([[0,0,0]])['correction'][0,0]),1e-14)
+            errors=[]
+            for step,tolerance in ((.032,2e-8),(.016,2e-9),(.008,2e-9),(.004,2e-8)):
+                actual=constraints(s.sample,[[0,0,0]],step)
+                errors.append(abs(actual['H'][0]-expected))
+                self.assertLess(errors[-1],tolerance)
+                self.assertLess(norms(actual)['M_rms'],1e-12)
+            self.assertGreater(errors[0]/errors[1],8)
+
+    def test_sampling_context_and_physical_metric_gradient(self):
+        c=self.b.config();c.n[:]=[6,6,4];c.conformal_choice=0
+        c.inner_max[:]=[0,0];c.inner_flatten=0;c.far_radius=40
+        # A rotated/translated Brill-Lindquist solution checks all three
+        # frame factors and the fixed far correction's analytic derivative.
+        c.hole[0]=Hole(.6,(2,1,-.3));c.hole[1]=Hole(.4,(-2,-1,.3))
+        x=np.r_[self.x,[[30,11,-8],[80,-20,17]]]
+        with self.b.create(c) as full,self.b.create_sampler(c) as sampler:
+            self.assertEqual(full.solve()['status'],0)
+            sampler.set_unknowns(full.unknowns())
+            out=sampler.sample_with_derivatives(x);ordinary=full.sample(x)
+            for key in ordinary:np.testing.assert_array_equal(out[key],ordinary[key])
+            psi=np.ones(len(x));dpsi=np.zeros((len(x),3))
+            for hole in c.hole:
+                dx=x-np.array(hole.center);r=np.linalg.norm(dx,axis=1)
+                psi+=hole.mass/(2*r);dpsi-=hole.mass*dx/(2*r[:,None]**3)
+            expected=4*psi[:,None,None,None]**3*dpsi[:,:,None,None]*np.eye(3)
+            np.testing.assert_allclose(out['dgamma'],expected,rtol=2e-12,atol=2e-13)
+            self.assertEqual(sampler.solve()['status'],-1)
+            for operation in (lambda:sampler.residual(sampler.unknowns()),
+                              lambda:sampler.jvp(sampler.unknowns(),np.zeros(sampler.size)),
+                              sampler.equation_samples):
+                with self.assertRaisesRegex(ValueError,'sampling-only'):operation()
+        c.n[:]=[64,64,16];c.memory_limit_mib=16
+        with self.assertRaises(ValueError):self.b.create(c)
+        with self.b.create_sampler(c) as sampler:
+            self.assertTrue(np.all(np.isfinite(sampler.sample(self.x)['gamma'])))
+        c.n[:]=[6,6,4];c.memory_limit_mib=2048
+        # Nonflat boosted/rotated geometry and nonzero correction: compare
+        # analytic gradients with an independent fourth-order value stencil.
+        c.hole[0].spin[:]=[.1,.04,-.06];c.hole[0].velocity[:]=[.1,-.04,.08]
+        c.far_radius=8
+        with self.b.create_sampler(c) as s:
+            A=-np.cos(np.pi*(np.arange(6)+.5)/6)
+            B=-np.cos(np.pi*(np.arange(6)+.5)/6)
+            v=np.zeros((4,6,6,4));v[:,:,:,0]=.001*(1+A[None,:]*B[:,None])
+            s.set_unknowns(v.ravel());out=s.sample_with_derivatives(self.x)
+            h=.002
+            for d in range(3):
+                e=np.eye(3)[d]*h
+                fd=(s.sample(self.x-2*e)['gamma']-8*s.sample(self.x-e)['gamma']
+                    +8*s.sample(self.x+e)['gamma']-s.sample(self.x+2*e)['gamma'])/(12*h)
+                np.testing.assert_allclose(out['dgamma'][:,d].reshape(-1,9),fd,rtol=1e-8,atol=1e-10)
+
     def test_far_split_jvp(self):
         c=self.b.config();c.n[:]=[6,6,6];c.far_radius=8
         c.hole[0].spin[:]=[.04,.01,.03];c.hole[0].velocity[:]=[.04,.02,-.03]
@@ -163,6 +252,8 @@ class HiSpIDTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.b.create(c)
         c=self.b.config();c.n[:]=[256,256,256]
         with self.assertRaises(ValueError):self.b.create(c)
+        c=self.b.config();c.hole[1]=Hole(0,c.hole[0].center)
+        with self.assertRaisesRegex(ValueError,'map centers must be separated'):self.b.create(c)
         c=self.b.config();c.n[:]=[4,4,4]
         with self.b.create(c) as s:
             with self.assertRaises(ValueError):s.charges(10,center=[0,0])
