@@ -1,0 +1,259 @@
+{
+  "case": "boost885_local_sequence",
+  "stage": "boost885",
+  "library": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-hispid-budget/libHiSpID.so",
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "basis": "modal_P_C2prolate_mapped_v2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "residual_scaling": "sin6_alpha_beta",
+  "cpu_threads": 1,
+  "rows": [
+    {
+      "resolution": [
+        80,
+        160,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.885,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.885,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          80,
+          160,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.023279551112510736,
+          0.023279551112510736
+        ],
+        "inner_max": [
+          0.09311820445004294,
+          0.09311820445004294
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 64,
+        "memory_limit_mib": 8192
+      }
+    },
+    {
+      "resolution": [
+        104,
+        208,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.885,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.885,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          104,
+          208,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.023279551112510736,
+          0.023279551112510736
+        ],
+        "inner_max": [
+          0.09311820445004294,
+          0.09311820445004294
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 64,
+        "memory_limit_mib": 8192
+      }
+    },
+    {
+      "resolution": [
+        128,
+        256,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.885,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -6.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.885,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          128,
+          256,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          1.0,
+          1.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.023279551112510736,
+          0.023279551112510736
+        ],
+        "inner_max": [
+          0.09311820445004294,
+          0.09311820445004294
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-14,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 32,
+        "memory_limit_mib": 8192
+      }
+    }
+  ],
+  "preceding_evidence": {
+    "moderate": "moderate_polar_sequence",
+    "covariance": "validation/polar_sequence_covariance.json",
+    "horizons": "validation/polar_sequence_horizons.json",
+    "scope": "Qualified preliminary C/D; stronger moderate physical gate remains failed"
+  },
+  "criteria": {
+    "strong_physical_RMS": 1e-06,
+    "strong_physical_maximum": 0.0001,
+    "geometry": "positive physical metric",
+    "convergence": "Three improving raw near/bulk H/M RMS levels; preserve any raw monotonic failure and independently calibrate verifier floors before any additional interpretation",
+    "charges": "Angular and extraction-radius uncertainty<=1e-5 plus finest EPJ change<=.005; do not prescribe seed values as measured charges",
+    "horizons": "Fresh initial-time two-component spectral/quadrature/expansion refinement; continuous retained-surface bounds with actual centers must enclose each g ball",
+    "covariance": "Fresh solved frame checks; do not transfer moderate evidence",
+    "fourier_control": "Native g1 physical-equivalent H/M component RMS norm<1e-9 regarded as negligible; >=1e-6 motivates fresh Fourier refinement; intermediate is inconclusive. No inherited acceptance."
+  },
+  "scope": "Fully specified revised local boost885 target. Opposing boosts on prolate axis, no spin, actual curved correction operators, omega1/power4 and g windows.2/.8 of the minimum contracted isolated Schwarzschild throat. This is separate from published Gamma=sqrt5; no published energy agreement or boost interval is asserted.",
+  "accepted_high_regime": false,
+  "binary_validation_complete": false,
+  "lab_speed": 0.885,
+  "seed_rest_spin": 0,
+  "lorentz_factor": 2.1478077372861946,
+  "fourier_choice": "Axisymmetric scalar/geometry in prolate-axis azimuth, Cartesian vector components m0/\u00b11; phi8 resolves these sectors. A retained-polynomial phi16 native-equation replay will test Fourier sensitivity before this assumption is used for acceptance.",
+  "initial_guess": "Zero at first grid; matched physical-data spectral prolongation only between increasing grids",
+  "continuation_fallback": "If direct Newton convergence fails, preserve the failed record before considering separately labeled boost continuation."
+}

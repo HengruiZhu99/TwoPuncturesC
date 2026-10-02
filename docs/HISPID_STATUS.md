@@ -26,6 +26,18 @@ pending, so strict enclosure/refinement is not certified. Input acceptance
 remains diagnostic. See validation/spin95_local_horizons.json and the sibling
 AthenaK docs/hispid-spin95-binary.json. All checks take zero evolution steps.
 
+The separate local head-on boost v=.885 binary now has two successful
+coupled solves at80×160×8 and104×208×8, with equal rest masses.5 and
+opposing velocities on the separation axis. Near H/M RMS improves from
+6.72e-6/4.41e-4 to9.53e-7/7.70e-5, while bulk H/M worsens from
+1.37e-7/1.96e-5 to5.05e-7/8.02e-5. Both physical gates remain failed;
+two grids do not establish a convergence sequence. The run takes74.87s
+on one CPU thread with peak RSS2.26GB. The declared128×256×8 level,
+denser Fourier replay, refined charges, covariance and fresh binary
+horizons remain pending. See validation/boost885_local_plan.json and
+validation/boost885_local_resources.json. No high-boost binary acceptance
+or boost interval is inferred from these internally converged solves.
+
 The preserved physical producer comes from45bda9d. Default9cbf1108… uses regular
 modal P and exact modal FD block preconditioning. The qualified
 charge/memory-only producer126300dc… passes all native controls and17 Python

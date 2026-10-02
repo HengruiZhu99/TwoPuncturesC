@@ -108,6 +108,10 @@ def main():
     lines+=['','## Revised local spin95 binary','',
             'The fully specified rest-spin chi=.95, zero-boost binary is separate from HS99UU and any published energy target. Its80×160×16,104×208×20,128×256×24 solves converge internally and all raw near/bulk physical H/M RMS norms decrease. Finest near H3.76e-5, bulk H1.24e-3 and bulk M1.31e-6 still fail the physical accuracy gates. The diagnostic phi40 scalar replay gives g1 H RMS1.40e-8, between the predeclared negligible and appreciable thresholds. Strong physical acceptance, refined charges and solved covariance remain unverified.',
             '', 'The runner requires compatible producer/basis/maps/free data, positive geometry, successful solves and three genuinely refining grids before summarizing acceptance. Thirty Python controls pass, including failed-coarse-solve, mixed-configuration, repeated-grid and stage-relabel rejections. Tiny weighted residuals and converged Newton solves do not replace independent physical checks.']
+    if 'boost885_local_sequence' in data:
+        lines+=['','## Revised local boost885 diagnostic','',
+            'The equal-rest-mass.5 head-on binary at x=±6 has opposing lab speeds.885 and zero spin. Its80×160×8 and104×208×8 solves converge internally with positive sampled metrics. Near H/M RMS improves, but bulk H/M RMS worsens; both physical gates remain failed. Two grids do not establish convergence. The planned128×256×8 solve and independent phi16 replay have not run. Refined charge quadrature, solved covariance and fresh component horizons/enclosure are pending. No high-boost binary or boost interval is accepted.',
+            '', 'The one-thread two-grid run takes74.87s with peak RSS2.26GB. Fully specified inputs, criteria, provenance, raw-file hashes and a fresh-label replay command are retained in validation/boost885_local_plan.json and validation/boost885_local_resources.json.']
     horizon_path=ROOT/'validation/spin95_local_horizons.json'
     if horizon_path.exists():
         horizon=json.loads(horizon_path.read_text())

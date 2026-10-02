@@ -2283,6 +2283,107 @@ Fully specified finest-grid input:
 
 Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9812526191940562, 8.24959021597578e-15, 8.543664173394706e-15, -1.358406960349236e-14, 2.588506905384985e-12, -1.3487545595987349e-11, 0.47497842097592935]`.
 
+## boost885_local_sequence
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 80×160×8 | 6.71787e-06 | 0.000441346 | 1.36601e-07 | 1.96049e-05 | 2.01866 | 29.9294 |
+| 104×208×8 | 9.52515e-07 | 7.70443e-05 | 5.04595e-07 | 8.01556e-05 | 2.01867 | 28.4064 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 80×160×8 | 4.47275e-05 | 0.00067895 | 3.47006e-05 | 0.00164846 | 5.22037e-14, 1.33367e-14, 1.4689e-15, 1.47863e-15 |
+| 104×208×8 | 4.57338e-05 | 0.00067788 | 4.2923e-06 | 0.000308014 | 1.83931e-12, 2.0267e-13, 7.25567e-13, 7.25211e-13 |
+
+Finest source SHA: `126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Reference comparison:
+
+```json
+{
+  "source": "fully specified revised local user target",
+  "exact_historical_reproduction": false,
+  "departure": "spin95/boost885 are separate from published HS99UU/Gamma=sqrt5 benchmarks; seed parameters are not measured charges or horizon quantities"
+}
+```
+
+Combined high-regime gate: **False**. Finest local strict gate: **False**. Original three-grid monotonic gate: **False**.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.5,
+      "center": [
+        6.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "velocity": [
+        -0.885,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mass": 0.5,
+      "center": [
+        -6.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "velocity": [
+        0.885,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "n": [
+    104,
+    208,
+    8
+  ],
+  "conformal_choice": 0,
+  "inner_flatten": 0,
+  "omega": [
+    1.0,
+    1.0
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.023279551112510736,
+    0.023279551112510736
+  ],
+  "inner_max": [
+    0.09311820445004294,
+    0.09311820445004294
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 64,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[2.018666595902805, -2.095657564763915e-09, -1.536485727593121e-10, 8.151995208610962e-11, -2.2325675761663928e-12, 6.922062875510417e-10, 1.2913433699093815e-09]`.
+
 ## Solved coordinate covariance
 
 Gate: **True**. Source case: `moderate_polar_sequence`.
@@ -2403,6 +2504,12 @@ Explicit source/target-bound remapping and replay instructions are in docs/HISPI
 The fully specified rest-spin chi=.95, zero-boost binary is separate from HS99UU and any published energy target. Its80×160×16,104×208×20,128×256×24 solves converge internally and all raw near/bulk physical H/M RMS norms decrease. Finest near H3.76e-5, bulk H1.24e-3 and bulk M1.31e-6 still fail the physical accuracy gates. The diagnostic phi40 scalar replay gives g1 H RMS1.40e-8, between the predeclared negligible and appreciable thresholds. Strong physical acceptance, refined charges and solved covariance remain unverified.
 
 The runner requires compatible producer/basis/maps/free data, positive geometry, successful solves and three genuinely refining grids before summarizing acceptance. Thirty Python controls pass, including failed-coarse-solve, mixed-configuration, repeated-grid and stage-relabel rejections. Tiny weighted residuals and converged Newton solves do not replace independent physical checks.
+
+## Revised local boost885 diagnostic
+
+The equal-rest-mass.5 head-on binary at x=±6 has opposing lab speeds.885 and zero spin. Its80×160×8 and104×208×8 solves converge internally with positive sampled metrics. Near H/M RMS improves, but bulk H/M RMS worsens; both physical gates remain failed. Two grids do not establish convergence. The planned128×256×8 solve and independent phi16 replay have not run. Refined charge quadrature, solved covariance and fresh component horizons/enclosure are pending. No high-boost binary or boost interval is accepted.
+
+The one-thread two-grid run takes74.87s with peak RSS2.26GB. Fully specified inputs, criteria, provenance, raw-file hashes and a fresh-label replay command are retained in validation/boost885_local_plan.json and validation/boost885_local_resources.json.
 
 AthenaK import/property measurement confirmed: **True**. Strict horizon/refinement gate: **False**. Input acceptance remains diagnostic. Source/evidence bindings and failed attempts are retained in the cited JSON.
 

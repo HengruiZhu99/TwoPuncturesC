@@ -1,0 +1,73 @@
+{
+  "case": "boost885_local_sequence",
+  "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+  "cpu_threads": 1,
+  "runs": [
+    {
+      "log": "build-hispid/boost885-local-80-104.log",
+      "real_seconds": 74.87,
+      "user_seconds": 74.48,
+      "sys_seconds": 0.3,
+      "max_rss_bytes": 2258092032,
+      "peak_memory_footprint_bytes": 2206697776,
+      "exit_code": 1
+    }
+  ],
+  "raw_sha256": {
+    "validation/raw/boost885_local_sequence_104_8.npz": "1074cf48e531e29b5b9d600ee1790b6313550feaff8e5d35ab8eeb82c12472a9",
+    "validation/raw/boost885_local_sequence_104_8_collocation.npz": "9b956d319b90c0fcfa7af834128a4fd66c93286eb50ba92e50e96c52e9a609cd",
+    "validation/raw/boost885_local_sequence_80_8.npz": "9b688e8a4baead23036216c678afe3872668c8b16ab679922f1f23fc87c6ee70",
+    "validation/raw/boost885_local_sequence_80_8_collocation.npz": "cd4b9dbfca8102c9423d6bc441f56c7a69cc6ff7fded92f09e478ec4d9ce2457"
+  },
+  "passed": false,
+  "accepted_high_regime": false,
+  "binary_validation_complete": false,
+  "completed_resolutions": [
+    [
+      80,
+      160,
+      8
+    ],
+    [
+      104,
+      208,
+      8
+    ]
+  ],
+  "planned_fine_resolution": [
+    128,
+    256,
+    8
+  ],
+  "note": "Both coupled solves converge internally; sampled metrics are positive. Near H/M RMS improves while bulk H/M RMS worsens. Physical gates remain failed. The planned third grid, dense Fourier replay, refined charges, solved covariance and fresh binary horizons are pending.",
+  "replay_commands": [
+    [
+      "env",
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "VECLIB_MAXIMUM_THREADS=1",
+      "PYTHONPATH=python:validation:examples",
+      "python3",
+      "validation/run_validation.py",
+      "--library",
+      "/absolute/path/to/TwoPuncturesC/build-hispid-budget/libHiSpID.so",
+      "--stage",
+      "boost885",
+      "--label",
+      "boost885_local_replay",
+      "--angular-ratio",
+      "2",
+      "--levels",
+      "80:8,104:8",
+      "--memory-mib",
+      "8192",
+      "--krylov-restart",
+      "64",
+      "--max-newton",
+      "24",
+      "--max-krylov",
+      "2000"
+    ]
+  ],
+  "replay_note": "Use a fresh label and the explicitly isolated producer path. Returning1 is expected for the retained failed physical and high-regime gates; a successful Newton solve is separate."
+}
