@@ -33,9 +33,11 @@ the static library, without changing the BY global parameters.
 
 High-regime validation fails closed unless the saved seed, moderate and solved
 coordinate covariance gates pass for the same library. The moderate command
-above reproduces a current **failed** diagnostic; no regular-basis solved
-binary is yet accepted. Historical preliminary passes used an incompatible
-axis-nonregular representation. `--levels 24:12,40:20,56:28` means `(N_A,N_B,N_phi)` of
+above reproduces a current **failed** diagnostic. The separate
+`moderate_polar_sequence` passes preliminary physical, refined charge,
+coordinate-covariance and horizon-enclosure gates; its stronger physical
+accuracy gate remains failed. Historical preliminary passes used an
+incompatible axis-nonregular representation. `--levels 24:12,40:20,56:28` means `(N_A,N_B,N_phi)` of
 `(24,24,12)`, `(40,40,20)`, `(56,56,28)`. `--angular-ratio 2` doubles
 only the polar size, records the actual nonsquare shape, and prolongs in
 the identical mapped coordinates. Give separate case labels to different

@@ -10,6 +10,73 @@ unvalidated; do not use these binary outputs as validated production data.
 
 ## Measured improvements
 
+### Cold comparison with the local Bowen–York backend
+
+The lower-spin unequal-mass case uses masses.6/.4, centers(±3,0,0),
+rest seed spins.390512/.374166 and the generic spin/velocity vectors in
+`examples/configs.py:moderate`, with far filtering disabled. Both backends
+start from zero at40×80×16 and use one CPU thread on the Apple M5 Pro,
+with-O3 builds and nominal native weighted-residual stopping tolerances.
+BY inputs match the isolated seed lab charges:
+`P=m Gamma v` and
+`S_lab=Gamma S_rest-Gamma² v(v·S_rest)/(1+Gamma)`.
+The nodes/maps and geometries differ; this is a comparison of grid counts
+and bare/seed-charge inputs, not equal measured physical accuracy or horizon
+properties. No binary acceptance is inferred.
+
+| Nominal tolerance | HiSpID solve | BY solve | HiSpID setup/first sample | BY setup/first sample | Both reached tolerance? |
+|---|---:|---:|---:|---:|---|
+| 1e-10 | 2.606s | 51.056s | 3.913s | 51.200s | Yes |
+| 1e-12 | 3.359s | 56.833s | 4.633s | 56.972s | Yes |
+| 1e-14 | 3.661s | 202.666s | 4.964s | 202.819s | No: BY residual2.37e-13 |
+
+The current-source1e-12 pair makes HiSpID16.9× faster for the elliptic solve
+and12.3× faster through setup and first sampling. Peak process RSS is
+495.94MB versus85.54MB, about5.8× higher. The1e-10 row uses qualified
+producer126300dc; the1e-12/1e-14 rows use the later exact-reuse sourceb96ee4b1.
+No accepted performance ratio is assigned to the failed1e-14 pair. Each row
+is one paired measurement, not repeated-run uncertainty or a scaling curve.
+The80×160×28 BY screen was interrupted; its completed HiSpID time41.51s
+is retained separately and cannot provide a completed ratio.
+
+BY solves one scalar equation with analytic momentum, while HiSpID solves
+four coupled curved equations. BY uses its unchanged200-relaxation-sweep
+preconditioner; HiSpID uses exact modal FD block elimination. The ratio
+applies to these local serial implementations. It does not predict the cost
+of another BY implementation or finer grids.
+
+`validation/by_comparison_summary.json` binds the full configurations,
+loaded libraries, timings, memory, raw-file hashes and limitations. The final
+1e-12 pair uses spectral first sampling for both. The first1e-10 and failed
+1e-14 rows retain BY's default Taylor first sampling; this distinction does
+not affect solve times. BY eagerly constructs coefficients inside its
+initial-data call; HiSpID's lazy coefficient construction is included by
+the first-sample metric. Verification, ADM extraction and horizon searches
+are excluded. All failed and interrupted records remain separate.
+
+For a replay, link the timing wrapper instead of the legacy Newton object;
+it includes the original Newton source without changing its mathematics:
+
+```sh
+mkdir -p build-hispid-by-replay
+make -j1 "$PWD/lib/libTwoPunctures.a"
+cc -std=c99 -O3 -fPIC -Iinclude $(gsl-config --cflags) \
+  -c validation/by_newton_timer.c -o build-hispid-by-replay/timer.o
+cc -shared -O3 -fPIC build-hispid-by-replay/timer.o \
+  obj/TwoPunctures.o obj/TP_CoordTransf.o obj/TP_Equations.o \
+  obj/TP_FuncAndJacobian.o obj/TP_Utilities.o $(gsl-config --libs) \
+  -o build-hispid-by-replay/libTwoPuncturesTimed.so
+env OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
+  PYTHONPATH=python:validation:examples python3 validation/benchmark_bowen_york.py \
+  --hispid-library "$PWD/build-hispid-preconditioner-reuse/libHiSpID.so" \
+  --by-library "$PWD/build-hispid-by-replay/libTwoPuncturesTimed.so" \
+  --case moderate --grid 40:80:16 --tolerance 1e-12 \
+  --output validation/by_comparison_fresh_replay.json
+```
+
+Supply a fresh output label and the explicit isolated HiSpID build path.
+Historical source fingerprints remain bound to their own measurements.
+
 - At identical moderate80²×28 free data, exact block elimination of the
   five-point modal FD preconditioner reduced the solve from296.95s/896
   Krylov iterations to31.33s/64 iterations:9.48x. The full residual and JVP
@@ -115,8 +182,9 @@ checks and cannot be described as entirely inside a finite horizon. Reported
 coordinate spin is not a generic approximate-Killing-vector spin. Stronger
 physical accuracy and revised high-spin/boost binaries remain unvalidated.
 
-No merges, pushes, shared installations, main-project branch changes or
-production evolutions have been performed. GPU work remains last priority.
+Both isolated branches were pushed to the user's forks on2026-10-02.
+No merges, shared installations, main-project branch changes or production
+evolutions have been performed. GPU work remains last priority.
 
 The revised rest-spin chi=.95 binary now has three successful serial Newton
 solves. Its128×256×24 solve takes219.32s with4Newton/54Krylov iterations;

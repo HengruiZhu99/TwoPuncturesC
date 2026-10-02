@@ -102,6 +102,17 @@ See docs/HISPID_PERFORMANCE.md for measured speedups and the integration
 handoff; docs/VALIDATION.md and validation JSON retain full configurations,
 source hashes, failure diagnostics and numerical history.
 
+A new cold-start serial comparison of the lower-spin unequal-mass case
+at40×80×16 reaches the common native1e-12 stopping tolerance in both
+backends. Current HiSpID takes3.359s versus56.833s for the local legacy BY
+solver; setup plus spectral first sampling takes4.633s versus56.972s.
+This is16.9× faster in solve time and12.3× faster through first sampling,
+with about5.8× peak process memory. Grid counts and bare/seed-charge inputs
+match; grid maps, physical accuracy and final horizon properties do not.
+The stricter1e-14 BY attempt fails its native tolerance, and the larger
+80-grid comparison was interrupted; neither supplies an accepted ratio.
+See validation/by_comparison_summary.json. Scientific gates are unchanged.
+
 Baseline: `68287742f4920f4ea39b7dac1571c81eefe2ff8f`. Branch: `codex/hispid`.
 Worktree: `/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC`.
 Original native checkout was clean; Python `main` initially had staged work.

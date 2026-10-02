@@ -1,0 +1,121 @@
+{
+  "case": "moderate",
+  "grid": [
+    80,
+    160,
+    28
+  ],
+  "completed": false,
+  "ratio": null,
+  "disposition": "Resolution screen interrupted after BY had exceeded the completed HiSpID cold-start solve time. No completed BY solve or performance ratio accepted. The requested lower-spin case continues at40x80x16 with quiet timing and first-sample readiness.",
+  "hispid": {
+    "config": {
+      "hole": [
+        {
+          "mass": 0.6,
+          "center": [
+            3.0,
+            0.0,
+            0.0
+          ],
+          "spin": [
+            0.072,
+            0.054,
+            0.108
+          ],
+          "velocity": [
+            0.03,
+            0.06,
+            0.01
+          ]
+        },
+        {
+          "mass": 0.4,
+          "center": [
+            -3.0,
+            0.0,
+            0.0
+          ],
+          "spin": [
+            -0.032,
+            0.048,
+            0.016
+          ],
+          "velocity": [
+            -0.02,
+            -0.07,
+            0.025
+          ]
+        }
+      ],
+      "n": [
+        80,
+        160,
+        28
+      ],
+      "conformal_choice": 1,
+      "inner_flatten": 1,
+      "omega": [
+        0.5,
+        0.5
+      ],
+      "attenuation_power": 4,
+      "inner_min": [
+        0.045,
+        0.03
+      ],
+      "inner_max": [
+        0.09,
+        0.06
+      ],
+      "far_radius": 0.0,
+      "tolerance": 1e-10,
+      "max_newton": 24,
+      "max_krylov": 2000,
+      "krylov_restart": 64,
+      "memory_limit_mib": 8192
+    },
+    "diagnostics": {
+      "converged": 1,
+      "newton_iterations": 3,
+      "krylov_iterations": 27,
+      "npoints": 358400,
+      "scaled_linf": [
+        1.7841235395061118e-12,
+        3.466086430190475e-11,
+        2.2939955335532794e-11,
+        2.0875359993252655e-11
+      ],
+      "unscaled_linf": [
+        7.112776936879506e-09,
+        1.7949731493709412e-06,
+        5.608668143529714e-06,
+        2.9199144726674397e-06
+      ],
+      "seconds": 41.50534075,
+      "status": 0,
+      "error": ""
+    },
+    "creation_seconds": 9.129359833023045,
+    "setup_and_solve_seconds": 50.6355010420084,
+    "solve_seconds": 41.50534075,
+    "converged": true,
+    "library_sha256": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+    "loaded_image_verified": true,
+    "case": "moderate",
+    "cpu_threads": 1,
+    "initial_guess": "zero",
+    "max_rss_bytes": 3485892608
+  },
+  "by_log_sha256": "454e57f3a42ab70fc0ed464876a4e43c4e9f0cee84133bbfc2713f2629d5bc43",
+  "by_log_tail": [
+    "bicgstab:    11   1.781e-02   2.273e+00  -3.033e-02   5.475e-01",
+    "bicgstab:    12   4.518e-03   1.270e+00   3.232e-01   3.955e-01",
+    "bicgstab:    13   3.237e-02  -2.017e+00   6.392e+00   5.874e-01",
+    "bicgstab:    14   4.164e-04  -8.645e-02  -2.562e+01   3.543e+00",
+    "bicgstab:    15   1.929e-04   2.301e+00  -7.651e-04   4.666e-01",
+    "bicgstab:    16   2.539e-04   1.707e+00   5.951e-01   7.738e-01",
+    "bicgstab:    17   3.902e-04   6.531e-01   4.077e+00   3.033e-01",
+    "bicgstab:    18   8.593e-05   3.146e-01  -1.203e+00   5.188e+00"
+  ]
+}

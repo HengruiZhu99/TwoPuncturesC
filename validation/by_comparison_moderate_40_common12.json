@@ -1,0 +1,264 @@
+{
+  "case": "moderate",
+  "grid": [
+    40,
+    80,
+    16
+  ],
+  "records": {
+    "hispid": {
+      "config": {
+        "hole": [
+          {
+            "mass": 0.6,
+            "center": [
+              3.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.072,
+              0.054,
+              0.108
+            ],
+            "velocity": [
+              0.03,
+              0.06,
+              0.01
+            ]
+          },
+          {
+            "mass": 0.4,
+            "center": [
+              -3.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              -0.032,
+              0.048,
+              0.016
+            ],
+            "velocity": [
+              -0.02,
+              -0.07,
+              0.025
+            ]
+          }
+        ],
+        "n": [
+          40,
+          80,
+          16
+        ],
+        "conformal_choice": 1,
+        "inner_flatten": 1,
+        "omega": [
+          0.5,
+          0.5
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.045,
+          0.03
+        ],
+        "inner_max": [
+          0.09,
+          0.06
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-12,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 64,
+        "memory_limit_mib": 8192
+      },
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 4,
+        "krylov_iterations": 43,
+        "npoints": 51200,
+        "scaled_linf": [
+          3.894066753868869e-17,
+          3.8741192052220917e-16,
+          4.550445396739908e-16,
+          3.881377527018557e-16
+        ],
+        "unscaled_linf": [
+          9.343220641611083e-13,
+          4.9368002830002245e-11,
+          1.28645870599519e-10,
+          6.358719383063834e-11
+        ],
+        "seconds": 3.359016,
+        "status": 0,
+        "error": ""
+      },
+      "creation_seconds": 1.269122666970361,
+      "setup_and_solve_seconds": 4.6281956669990905,
+      "solve_seconds": 3.359016,
+      "first_sample_seconds": 0.0051307909889146686,
+      "ready_to_sample_seconds": 4.633326457988005,
+      "converged": true,
+      "library_sha256": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+      "loaded_image_verified": true,
+      "case": "moderate",
+      "cpu_threads": 1,
+      "initial_guess": "zero",
+      "max_rss_bytes": 495943680,
+      "sample_method": "spectral"
+    },
+    "by": {
+      "config": {
+        "hole": [
+          {
+            "mass": 0.6,
+            "center": [
+              3.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.072,
+              0.054,
+              0.108
+            ],
+            "velocity": [
+              0.03,
+              0.06,
+              0.01
+            ]
+          },
+          {
+            "mass": 0.4,
+            "center": [
+              -3.0,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              -0.032,
+              0.048,
+              0.016
+            ],
+            "velocity": [
+              -0.02,
+              -0.07,
+              0.025
+            ]
+          }
+        ],
+        "n": [
+          40,
+          80,
+          16
+        ],
+        "conformal_choice": 1,
+        "inner_flatten": 1,
+        "omega": [
+          0.5,
+          0.5
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.045,
+          0.03
+        ],
+        "inner_max": [
+          0.09,
+          0.06
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-12,
+        "max_newton": 24,
+        "max_krylov": 2000,
+        "krylov_restart": 64,
+        "memory_limit_mib": 8192
+      },
+      "by_real_parameters": {
+        "par_b": 3.0,
+        "par_m_plus": 0.6,
+        "par_m_minus": 0.4,
+        "Newton_tol": 1e-12,
+        "par_P_plus1": 0.018041543379727906,
+        "par_S_plus1": 0.07206863688824611,
+        "par_P_plus2": 0.03608308675945581,
+        "par_S_plus2": 0.05392955687785267,
+        "par_P_plus3": 0.006013847793242636,
+        "par_S_plus3": 0.10821674806814562,
+        "par_P_minus1": -0.008023805839587412,
+        "par_S_minus1": -0.032118526965034366,
+        "par_P_minus2": -0.028083320438555943,
+        "par_S_minus2": 0.048061272414127935,
+        "par_P_minus3": 0.010029757299484264,
+        "par_S_minus3": 0.016076741187530722
+      },
+      "by_integer_parameters": {
+        "npoints_A": 40,
+        "npoints_B": 80,
+        "npoints_phi": 16,
+        "Newton_maxit": 24,
+        "give_bare_mass": 1,
+        "use_external_initial_guess": 0,
+        "solve_momentum_constraint": 0,
+        "grid_setup_method": 1,
+        "verbose": 0
+      },
+      "by_momenta": [
+        [
+          0.018041543379727906,
+          0.03608308675945581,
+          0.006013847793242636
+        ],
+        [
+          -0.008023805839587412,
+          -0.028083320438555943,
+          0.010029757299484264
+        ]
+      ],
+      "by_lab_intrinsic_spins": [
+        [
+          0.07206863688824611,
+          0.05392955687785267,
+          0.10821674806814562
+        ],
+        [
+          -0.032118526965034366,
+          0.048061272414127935,
+          0.016076741187530722
+        ]
+      ],
+      "solve_seconds": 56.83258799999021,
+      "setup_and_solve_seconds": 56.97225333302049,
+      "first_sample_seconds": 0.00011358398478478193,
+      "ready_to_sample_seconds": 56.972366917005274,
+      "diagnostics": {
+        "status": 0,
+        "residual_linf": 3.082457907224647e-13,
+        "adm_energy": 1.0480742019437799,
+        "puncture_masses": [
+          0.6512023888739645,
+          0.4389371971934785
+        ]
+      },
+      "converged": true,
+      "library_sha256": "11d788a9d02be0dd3e35dc729dd708c549f27cba57769901a7b82651edc4d3c6",
+      "loaded_image_verified": true,
+      "sample_method": "spectral",
+      "verbose_inside_timer": false,
+      "case": "moderate",
+      "cpu_threads": 1,
+      "initial_guess": "zero",
+      "max_rss_bytes": 85540864
+    }
+  },
+  "both_native_stopping_criteria_met": true,
+  "cold_start": true,
+  "cpu_threads": 1,
+  "isolated_sequential_processes": true,
+  "hispid_over_by_solve_ratio": 0.05910369592883186,
+  "hispid_over_by_setup_and_solve_ratio": 0.08123595954588371,
+  "hispid_over_by_ready_to_sample_ratio": 0.08132585512442589,
+  "note": "Matched collocation counts, bare masses and centers; BY P=m*Gamma*v and S=Gamma*Srest-Gamma^2/(1+Gamma)*v*(v dot Srest) match the isolated seed lab-frame intrinsic charges. Native stopping tolerances have the same numeric value on each native weighted equation residual. BY solves one Hamiltonian equation with analytic momentum; HiSpID solves four coupled curved equations. Maps/seed geometries, physical accuracy, final horizon masses/spins and velocities are not equated. One paired run is not a scaling curve or binary validation.",
+  "validation_acceptance_inherited": false
+}

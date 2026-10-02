@@ -1,0 +1,123 @@
+{
+  "machine": {
+    "cpu": "Apple M5 Pro",
+    "memory_bytes": 51539607552,
+    "compiler": "Apple clang21.0.0",
+    "optimization": "-O3",
+    "GSL": "2.8",
+    "python": "3.12.14",
+    "cpu_threads": 1
+  },
+  "records": [
+    {
+      "evidence": "validation/by_comparison_moderate_40.json",
+      "tolerance": 1e-10,
+      "grid": [
+        40,
+        80,
+        16
+      ],
+      "both_native_stopping_criteria_met": true,
+      "hispid_source": "126300dc1b2f2a9f8268916f2cff8d3623e13e475121ece9c4b33ad524c37aff",
+      "by_source": "63d1213d5bc403ddacf8f4fb3ac0c9fb25bf3e802c779b5c2a81bca27dd93b1c",
+      "hispid_solve_seconds": 2.606352917,
+      "by_solve_seconds": 51.05619899998419,
+      "hispid_ready_seconds": 3.913333792006597,
+      "by_ready_seconds": 51.20036312501179,
+      "memory_ratio": 5.82432172407158,
+      "solve_speedup": 19.58913494291924,
+      "ready_speedup": 13.08356655637043,
+      "by_sample_method": "Taylor",
+      "by_measured_residual": 7.589449381915979e-12
+    },
+    {
+      "evidence": "validation/by_comparison_moderate_40_strict.json",
+      "tolerance": 1e-14,
+      "grid": [
+        40,
+        80,
+        16
+      ],
+      "both_native_stopping_criteria_met": false,
+      "hispid_source": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+      "by_source": "11d788a9d02be0dd3e35dc729dd708c549f27cba57769901a7b82651edc4d3c6",
+      "hispid_solve_seconds": 3.661177584,
+      "by_solve_seconds": 202.66647399996873,
+      "hispid_ready_seconds": 4.9640417079790495,
+      "by_ready_seconds": 202.8191698330338,
+      "memory_ratio": 5.461940836940837,
+      "solve_speedup": null,
+      "ready_speedup": null,
+      "by_sample_method": "Taylor",
+      "by_measured_residual": 2.3664400601403015e-13
+    },
+    {
+      "evidence": "validation/by_comparison_moderate_40_common12.json",
+      "tolerance": 1e-12,
+      "grid": [
+        40,
+        80,
+        16
+      ],
+      "both_native_stopping_criteria_met": true,
+      "hispid_source": "b96ee4b10bada7e869cac9cfbe5b113387ee7377f8ac59059d4465a215cc54d7",
+      "by_source": "11d788a9d02be0dd3e35dc729dd708c549f27cba57769901a7b82651edc4d3c6",
+      "hispid_solve_seconds": 3.359016,
+      "by_solve_seconds": 56.83258799999021,
+      "hispid_ready_seconds": 4.633326457988005,
+      "by_ready_seconds": 56.972366917005274,
+      "memory_ratio": 5.797739896571538,
+      "solve_speedup": 16.91941568601942,
+      "ready_speedup": 12.29621254483009,
+      "by_sample_method": "spectral",
+      "by_measured_residual": 3.082457907224647e-13
+    }
+  ],
+  "evidence_sha256": {
+    "validation/by_comparison_moderate_40.json": "bf546a930b59ae7242708fd71f45355897b0b79378509151d16d7c30898f4af6",
+    "validation/by_comparison_moderate_40_strict.json": "405f0fe4a19e3b072d4fee7b49b58d187d3d9aace724d7e264925c33e6959fa3",
+    "validation/by_comparison_moderate_40_common12.json": "b1f439049cf23c17290705768bd12a95e2e1461798829e2678da83dbeb4007ef",
+    "validation/by_comparison_moderate_80_interrupted.json": "58820c9642f1620fa3abed69e10a9a186c1e9ad76c8edd7d649283f3dab2235b"
+  },
+  "raw_sha256": {
+    "validation/raw/by_comparison_moderate_40/hispid.log": "91510c10e0eadd6b5ce3a7c239e3eace7dd20644015a75c0f0827acd0206ab95",
+    "validation/raw/by_comparison_moderate_40/input.json": "88e081021e9ebc06f1a50621d68d1447185c2876e8207c19298753607039855a",
+    "validation/raw/by_comparison_moderate_40/by.json": "6d5de9bae1f944b75bd441c85be194dbed90d3a27f5398c978177d7772115f82",
+    "validation/raw/by_comparison_moderate_40/by.log": "c9eaf551e123724fbbbbac0b145d9fa64a73d98f4c79dd9af37ca33e84550d49",
+    "validation/raw/by_comparison_moderate_40/hispid.json": "8a0bbfee2df2c4fd4f1bbfff1bd36af7f16cd8a31ffedbd1d8e1bc3db2f7b135",
+    "validation/raw/by_comparison_moderate_40_strict/hispid.log": "ec5ff5470cadae6b24d74e6d7c141e59d22679e66db41fb4ad7f2bf8c12ebc5a",
+    "validation/raw/by_comparison_moderate_40_strict/input.json": "d4fe60498165b8ac5b57f1248d1b5008c79c16bb33ea6ae1ce1404ccaf232bab",
+    "validation/raw/by_comparison_moderate_40_strict/by.json": "cb3031be075355cc1b7366daf6749513edeb76f8da8f84c6f61d0b67e3ea3310",
+    "validation/raw/by_comparison_moderate_40_strict/by.log": "3d57aea9715270c3e8b63e075decdc1b165b09f10a3fc5079dd226b5f19b2dee",
+    "validation/raw/by_comparison_moderate_40_strict/hispid.json": "316a607b5cff38954c1a0b2cb53994fa3e64c543d6c6a971dccd513bf5ed73db",
+    "validation/raw/by_comparison_moderate_40_common12/hispid.log": "9080671fa7104a7bc142052a509988f338dc8d526559ab33eb497b7a02b117cf",
+    "validation/raw/by_comparison_moderate_40_common12/input.json": "725b71d598b2ae452df169af93d71ec8198203cc631023440fe7c3bfa7613028",
+    "validation/raw/by_comparison_moderate_40_common12/by.json": "14ce69e6bd745dc44c1af5b3f2587745815b4fa26ccf9338287f4b588918fae6",
+    "validation/raw/by_comparison_moderate_40_common12/by.log": "df356bf04d5146b8b6aac6db8333f8fd7861026bf40bb3e6a8005153cb7586e2",
+    "validation/raw/by_comparison_moderate_40_common12/hispid.json": "e7ef2acbc1780558e173e47bce337c80e080cc6aaac49f59a098a68d80139a3e",
+    "validation/raw/by_comparison_moderate_80/hispid.log": "ea8f94a51171f87a774a890d8eddbb8f3ddcdc088adc1dee49eb2826b3b1181e",
+    "validation/raw/by_comparison_moderate_80/input.json": "2df70217cb2c7797cd697b0925dc6fbf12cc123350c956e3a45ac43f9bcdd098",
+    "validation/raw/by_comparison_moderate_80/by.log": "454e57f3a42ab70fc0ed464876a4e43c4e9f0cee84133bbfc2713f2629d5bc43",
+    "validation/raw/by_comparison_moderate_80/hispid.json": "8c2ed1901b1b1374b06cea77adc889b4eb0e8ff1cfe76cd627fa088ee0dcc0df"
+  },
+  "headline_evidence": "validation/by_comparison_moderate_40_common12.json",
+  "sampling_note": "First1e-10 and failed1e-14 pairs retained default BY Taylor sampling; both still formed spectral coefficients before readiness. The final1e-12 pair uses spectral sampling for both, verifies both loaded BY symbol paths, and freezes the BY library digest before loading and checks it on completion.",
+  "source_note": "Qualified field producer126 at1e-10; current exact-reuse sourceb96 at1e-14/1e-12. Earlier full tests and exact operator/field equivalence bind these sources. The legacy BY C/header sources are unchanged from68287742. The timing wrapper includes unmodified TP_Newton.c and times only its call; no equations or iterations are changed.",
+  "limitations": [
+    "Each row is one sequential cold-start pair, not a scaling curve or repeated-run uncertainty estimate.",
+    "Counts and bare/isolated seed-charge inputs match. Grid maps, seed geometries, final horizon properties and physical constraint accuracy do not match.",
+    "The failed1e-14 BY run cannot supply an accepted ratio; its measured residual is above tolerance.",
+    "The80-grid BY screen was interrupted and has no completed ratio.",
+    "The spin95 attempt was interrupted at the user steering; its ignored raw logs remain retained and no ratio is used.",
+    "CPU profiling for1s of the failed strict BY run is diagnostic only, not a timing result for the successful pair."
+  ],
+  "binary_validation_complete": false,
+  "source_file_sha256": {
+    "validation/benchmark_bowen_york.py": "8e806078ab3e19e37c4abfb5776e7e99e4c7a0d3866cd59c170b4623f0207593",
+    "validation/by_newton_timer.c": "306d89b72a6b34373974bc6f742bcb0df82aa1c7b0bdc904a43b69169f64c90c",
+    "src/TP_Newton.c": "74b1e4b397fc529fa3a6da49c4223bcc1624c49f81d3da944d0639ebf43b15c2",
+    "include/TwoPunctures.h": "6aa5695df08282f493b523554fbe5b6d51e58eccc683b6bd367190c32abeed1a",
+    "src/HiSpID_solver.cpp": "510a4d8a12b2bf79cf753bae3199967108d7d3a9342416f3edb787f4d7a67d71",
+    "src/HiSpID_geometry.cpp": "7093448cc7b810a23e93475f4578d2a49ece4fc5dbd2cfaa5e09162b8f5fee1f"
+  }
+}

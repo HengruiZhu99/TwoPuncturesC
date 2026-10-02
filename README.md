@@ -44,8 +44,9 @@ An experimental curved four-field HiSpID backend is built separately with
 `make -j1 hispid`. See [the formulation and interface](docs/HISPID.md),
 [validation evidence](docs/VALIDATION.md), and [milestone status](docs/HISPID_STATUS.md)
 before using it. Its quantitative validation limits differ from the
-Bowen–York backend; published high-boost reproduction and binary horizon
-enclosure remain incomplete.
+Bowen–York backend; published high-boost reproduction and high-parameter
+binary horizon-enclosure qualification remain incomplete. The current
+moderate binary passes its preliminary enclosure checks.
  
 ## Interface with GR-Athena++
 
