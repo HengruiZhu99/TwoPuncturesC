@@ -86,3 +86,35 @@ clean:
 	@echo "... done"
 
 .PHONY: all clean test
+
+# Independent HiSpID backend. No edits to legacy equations/global parameters.
+CXX ?= c++
+HISPID_DIR = $(BASE)/build-hispid
+HISPID_CPP = $(SRCD)/HiSpID_geometry.cpp $(SRCD)/HiSpID_solver.cpp
+HISPID_OBJ = $(patsubst $(SRCD)/%.cpp,$(HISPID_DIR)/%.o,$(HISPID_CPP))
+HISPID_LIB = $(HISPID_DIR)/libHiSpID.so
+HISPID_FLAGS = -std=c++17 -O3 -fPIC -Wall -Wextra $(shell gsl-config --cflags)
+
+$(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp
+	@mkdir -p $(HISPID_DIR)
+	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) -c $< -o $@
+
+$(HISPID_LIB): $(HISPID_OBJ) $(STATIC_LIB)
+	$(CXX) -shared $(HISPID_OBJ) $(STATIC_LIB) $(LFLAGS) -o $@
+
+hispid: $(HISPID_LIB)
+
+$(HISPID_DIR)/test_geometry.x: tests/test_hispid_geometry.cpp $(HISPID_LIB)
+	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(HISPID_OBJ) $(STATIC_LIB) $(LFLAGS) -o $@
+
+test-hispid-native: $(HISPID_DIR)/test_geometry.x
+	$(HISPID_DIR)/test_geometry.x
+
+PYTHON ?= python3
+test-hispid: test-hispid-native
+	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 PYTHONPATH=$(BASE)/python:$(BASE)/validation:$(BASE)/examples HISPID_LIBRARY=$(HISPID_LIB) $(PYTHON) -m unittest discover -s tests -p test_hispid.py -v
+
+clean-hispid:
+	rm -rf $(HISPID_DIR)
+
+.PHONY: hispid test-hispid-native test-hispid clean-hispid

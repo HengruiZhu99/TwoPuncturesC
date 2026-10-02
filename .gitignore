@@ -5,3 +5,11 @@ lib
 *.o
 *.dat
 /tests/*.log
+reference/
+build-hispid/
+__pycache__/
+.venv/
+validation/raw/
+/*.log
+tests/*.log
+validation/*.log
