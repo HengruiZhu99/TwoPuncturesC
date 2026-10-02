@@ -12,7 +12,9 @@ def main():
     p.add_argument('--equivalence-proof');p.add_argument('--output',required=True)
     p.add_argument('--case',default='moderate_default_polar2_r128');p.add_argument('--radii',default='40,200,1000')
     p.add_argument('--quadrature',default='16:32');p.add_argument('--worker-library');p.add_argument('--source-sha')
+    p.add_argument('--momentum-atol',type=float,default=0,help='predeclared P/J rounding bound; default requires bitwise equality')
     a=p.parse_args();record=select_record(a.case);nt,np_=map(int,a.quadrature.split(':'))
+    if not np.isfinite(a.momentum_atol) or a.momentum_atol<0:raise ValueError('finite nonnegative P/J bound required')
     if a.worker_library:
         if record['library_sha256']!=a.source_sha:raise ValueError('wrong source checkpoint')
         backend=Backend(a.worker_library)
@@ -42,10 +44,10 @@ def main():
     difference=np.abs(np.array(reports[0]['charges'])-reports[1]['charges'])
     result=dict(case=a.case,resolution=record['resolution'],radii=list(map(float,a.radii.split(','))),quadrature=[nt,np_],
         image_verified_separate_processes=True,records=reports,absolute_charge_differences=difference.tolist(),
-        energy_absolute_tolerance=1e-8,momentum_and_angular_momentum_require_bitwise=True,
+        energy_absolute_tolerance=1e-8,momentum_and_angular_momentum_require_bitwise=a.momentum_atol==0,momentum_and_angular_momentum_absolute_tolerance=a.momentum_atol,
         speedup=reports[0]['seconds']/reports[1]['seconds'],
-        passed=bool(np.max(difference[:,0])<1e-8 and np.max(difference[:,1:])==0),
-        binary_acceptance=False,note='Only ADM energy changes from FD to analytic gradients; P/J integrands and quadrature points remain identical. Failed physical binary flags are unchanged.')
+        passed=bool(np.max(difference[:,0])<1e-8 and np.max(difference[:,1:])<=a.momentum_atol),
+        binary_acceptance=False,note='Charge integration implementation comparison at identical declared sphere nodes; loaded images and source payload are verified independently. Failed physical binary flags are unchanged.')
     Path(a.output).write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
     if not result['passed']:raise SystemExit(1)
 

@@ -1,13 +1,14 @@
 # HiSpID milestone status
 
-Current status (2026-10-02): **exact single-hole targets pass; solved binaries
-remain unvalidated**. Rest spin chi=.95 and lab speed v=.885 pass separately
+Current status (2026-10-02): **exact single-hole targets pass; the moderate binary passes
+preliminary constraints, charges and coordinate covariance**. Rest spin chi=.95 and lab speed v=.885 pass separately
 and combined with generic directions. AthenaK's current isolated consumer
 passes their initial-time FastFlow and three-level mesh constraint controls.
 No evolution steps are taken. Solved-binary horizons and attenuation enclosure
-have not been checked because the binary physical gate has not passed.
+have not yet been checked. Stronger accuracy and high-parameter binary
+validation remain incomplete.
 
-The committed native checkpoint is f2b08bf. Default9cbf1108… uses regular
+The previous native checkpoint is45bda9d. Default9cbf1108… uses regular
 modal P and exact modal FD block preconditioning. The current experimental
 charge/memory-only build126300dc… passes all native controls and17 Python
 tests; separate-process fields, residuals and JVPs are bit-identical to9cb.
@@ -20,8 +21,12 @@ with decreasing auxiliary angular tails. Both binaries still fail acceptance.
 The fresh80×160/104×208/128×256×28 sequence improves monotonically and meets
 the preliminary finest-grid physical RMS limits. At128×256×28 nearH/M are
 1.95e-6/6.02e-6 and bulkH/M1.25e-7/8.01e-5. The solve takes209.0s/39Krylov
-iterations, process peak7.83GB. Its coarse charge summary passes, but angular
-charge qualification, axis/covariance and stronger accuracy remain pending.
+iterations, process peak7.83GB. Refined angular charges now pass1e-7 at
+allthree levels; finest extrapolated EPJ change is2.33e-7. The preliminary
+physical/charge gate passes. Fresh three-grid solved coordinate covariance
+also passes: finest metric/K rotation errors3.92e-11/2.84e-6, translation
+errors<3.5e-13, fixed-origin charge error1.99e-4. Stronger accuracy and binary
+horizon/enclosure checks remain pending.
 See validation/polar_sequence_plan.json. Every failed result remains retained.
 
 ADM integration has been sped up12.20x using tested analytic metric gradients.
@@ -29,7 +34,12 @@ The sphere grid now follows the prolate axis: both polar/azimuthal quadrature
 and independent physical-FD flux comparisons pass their integration controls.
 Earlier apparent polar convergence at fixed global-z phi64 was misleading:
 phi128 shifted angular momentum by.00935. Those records remain unaccepted.
-No binary charge or convergence gate is promoted by the integration repair.
+The integration repair alone does not promote a binary convergence gate.
+The subsequent explicit three-grid integration check qualifies preliminary
+moderate data only (`polar_sequence_refined_charges.json`). Ring reuse makes
+64×64 extraction another21.12x faster, with differences<5.6e-13 and unchanged
+ordinary sampler/operators. Its all-mode, rotated-frame, invalidation and
+independent centered/off-center FD controls pass.
 
 The optional sin6/(1-t)^6 row equilibration fails its declared exact-seed
 far-source floor1e-14 (worst1.89e-13). No binary solve has used that norm.
@@ -56,12 +66,13 @@ one CPU thread; builds use `make -j1`. No merges into the main project.
 - B: independent single-hole and boosted seed validation: passed.
 - C: current regular-basis moderate unequal-mass, generic-spin/boost binary:
   the finest polar-refined sequence passes preliminary physical RMS limits;
-  refined charge qualification and current covariance remain pending.
+  refined charge qualification and current solved coordinate covariance also pass.
   Earlier unregularized no-far-filter
   preliminary passes are historical and cannot satisfy the current gate.
-- D: current independent off-grid convergence/axis/charge/covariance gates:
-  pending. Historical solved rotation/translation checks passed; they do not
-  accept the current basis. Refined charge angular quadrature is required.
+- D: preliminary current off-grid convergence, refined centered charges and
+  solved rotation/translation covariance pass. Stronger physical accuracy,
+  refined fixed-origin charges and solved-binary horizon enclosure are pending.
+  Historical checks retain their source fingerprints.
 - E: HS99UU160²×24 passes the finest-grid local strict physical thresholds
   and the declared energy comparison. Its original all-norms monotonic gate
   remains failed because bulk H is below the calibrated verifier resolution.
@@ -85,8 +96,8 @@ one CPU thread; builds use `make -j1`. No merges into the main project.
   expansion RMS9.92e-8, area relative error1.75e-14 and sampled shape relative
   error3.35e-7. Fixed-lmax quadrature refinement to ntheta74 changes its area
   by8.44e-15 relative and expansion RMS by3.61e-12. The original alpha1
-  combined run fails and is retained. Boost-only quadrature and binary
-  boost-only fixed-lmax quadrature to ntheta74 also passes: relative area
+  combined run fails and is retained. Boost-only fixed-lmax
+  quadrature to ntheta74 also passes: relative area
   change1.44e-15, RMS change1.79e-12. Binary enclosure remains pending.
   These controls use exact isolated seed data. Independent generic target
   seeds pass near/bulk constraint RMS<1.4e-8 and charge error<2.3e-7 after

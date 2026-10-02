@@ -3,8 +3,10 @@
 The solver and the AthenaK importer are implemented in isolated branches.
 Exact isolated chi=.95 and v=.885 controls, separately and combined, pass
 independent physical checks and AthenaK initial-time horizon controls.
-Current regular-basis solved binaries remain unaccepted. Do not use the
-current binary outputs as validated vacuum initial data.
+The current regular-basis moderate binary passes preliminary physical and
+refined charge and solved coordinate-covariance gates. Stronger accuracy and binary
+horizon/enclosure checks remain pending. Its high-spin/boost range is
+unvalidated; do not use these binary outputs as validated production data.
 
 ## Measured improvements
 
@@ -29,6 +31,32 @@ current binary outputs as validated vacuum initial data.
   of the obsolete76-point stencil. The default2048MiB and explicit8192MiB
   maximum are unchanged. The new estimate also retains dense radial block
   factors, their shared Fourier/vector groups, and the GMRES basis.
+- Centered aligned sphere rings now reuse P/Pt/Peta across phi. Matched
+  64×64 quadrature at R40/200/1000 on128×256×28 data falls22.081s→1.046s:
+  another21.12x, with maximum EPJ difference5.52e-13. Ordinary sample,
+  residual and JVP paths remain bit-identical. Phase-shifted all-mode
+  first-gradient, translated/rotated-frame and changed-unknown controls
+  pass; independent centered/off-center FD fluxes agree within5.82e-11.
+  Off-center spheres retain ordinary interpolation.
+
+On the current80×160/104×208/128×256×28 moderate sequence, all near/bulk
+physical H/M RMS values improve monotonically. The finest nearH/M are
+1.95e-6/6.02e-6 and bulkH/M1.25e-7/8.01e-5; the209.0s solve uses39Krylov
+iterations on one thread. Each grid's ADM extraction uses polar orders
+2Npolar/3Npolar and phi64/128 at R100/200/400. All satisfy the declared
+1e-7 integration bound. The two finest extrapolated EPJ vectors differ by
+2.33e-7. `polar_sequence_refined_charges.json` records this preliminary
+qualification and its explicit failed stronger/full-binary flags.
+
+Fresh rotated/translated solves of the same sequence pass the declared
+coordinate gate. Finest metric/K rotation errors are3.92e-11/2.84e-6;
+translation errors are<3.5e-13. Centered charge error is3.40e-10 and fixed
+global-origin charge error1.99e-4 versus the preliminary.005 bound. The
+fixed-origin extraction still uses coarse12×24 integration and needs
+separate angular refinement for stronger claims. The whole covariance
+process peaks at10.32GB over sequential contexts (one CPU thread), while
+the original finest solve alone peaks at7.83GB. Context budgets do not
+bound allocator retention or whole-process RSS.
 
 Jobs and builds use one CPU thread. No OpenMP/MPI/GPU implementation or
 scaling claim is made. CPU time and peak memory must justify that next
@@ -56,8 +84,8 @@ seed tests to native9cbf1108… source provenance. Direct native-geometry
 finder controls and independently refined mesh-constraint checks are
 reported separately. These controls take zero evolution steps.
 
-After the current binary convergence/charge/covariance gates pass, export
-the accepted checkpoint with `examples/export_athenak.py`, rebuild the
+With the preliminary moderate convergence/charge/covariance gates passed,
+export the checked checkpoint with `examples/export_athenak.py`, rebuild the
 isolated AthenaK consumer against its exact native source, and run the
 finder on both holes. Measure horizon mass/spin and verify that the full
 modified g/operator regions are enclosed. The noncompact f/F tails are

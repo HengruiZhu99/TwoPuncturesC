@@ -1991,15 +1991,15 @@ Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Fin
 
 ## Solved coordinate covariance
 
-Gate: **True**. Source case: `moderate_sampler_api`.
+Gate: **True**. Source case: `moderate_polar_sequence`.
 
 | Grid | gamma relative max | K relative max | Maximum EPJ error |
 |---|---:|---:|---:|
-| 24×24×12 | 3.69793e-09 | 5.93056e-06 | 0.00331568 |
-| 40×40×20 | 5.73156e-15 | 2.4856e-11 | 0.000128842 |
-| 56×56×28 | 4.07243e-15 | 5.18704e-14 | 0.000125084 |
+| 80×160×28 | 9.37226e-12 | 6.60642e-07 | 0.00415565 |
+| 104×208×28 | 3.54093e-11 | 1.23363e-06 | 0.000489784 |
+| 128×256×28 | 3.92422e-11 | 2.83925e-06 | 0.000198708 |
 
-Translation errors: `{'gamma': 2.0662899441327097e-15, 'Kij': 1.7537687045595567e-14, 'conformal_metric': 6.495658047760385e-16, 'Atilde': 1.5193918553701578e-14, 'psi': 4.813468745247769e-16, 'mean_curvature': 1.241521302417777e-13, 'correction': 1.542696635910858e-15}`. Rotation errors are compared against five times the measured base-grid truncation difference, with a 1e-9 floor. ADM angular momentum is checked about both translated and fixed origins. The 12×24 surface rule has a rotation-dependent angular quadrature error; see the separate refined-charge evidence below.
+Translation errors: `{'gamma': 2.2138817684545064e-15, 'Kij': 3.492347974557706e-13, 'conformal_metric': 6.495658047760385e-16, 'Atilde': 3.2007875803165195e-13, 'psi': 4.813468574275274e-16, 'mean_curvature': 1.241521302417777e-13, 'correction': 3.3969251799675166e-13}`. Rotation errors are compared against five times the measured base-grid truncation difference, with a 1e-9 floor. ADM angular momentum is checked about both translated and fixed origins. The 12×24 surface rule has a rotation-dependent angular quadrature error; see the separate refined-charge evidence below.
 
 ## High-spin verifier calibration
 
@@ -2024,7 +2024,9 @@ Analytic metric gradients reduce matched charge integration from13.657s to1.120s
 
 The optional sin6/(1-t)^6 positive row scaling fails its declared exact-seed far-source floor1e-14: the finest boosted/generic controls reach1.89e-13. No binary has been solved in that norm. The failed artifact is retained. Correcting the stale76-point allocation estimate to the current five-point stencil preserves fields/residual/JVP bit-for-bit and keeps the2048MiB default and8192MiB cap.
 
-See docs/HISPID_PERFORMANCE.md for measured serial speedups and the isolated integration handoff.
+The three-grid moderate polar sequence subsequently passes the preliminary physical, refined centered charge and solved coordinate-covariance gates. Stronger accuracy and binary horizon/enclosure remain unverified. Centered extraction uses2Npolar/3Npolar and phi64/128; angular/fit changes are<1.8e-13, and the two finest extrapolated EPJ vectors differ2.33e-7. Ring reuse gives another21.12x speedup on matched64×64 extraction, with differences<5.6e-13; all-mode first-gradient, frame, invalidation and independent centered/off-center FD controls pass.
+
+The covariance fixed-global-origin charges still use coarse12×24 integration: finest error1.99e-4 passes the preliminary.005 bound and is not a stronger quadrature claim. Its process peak is10.32GB over sequential contexts. See docs/HISPID_PERFORMANCE.md for measured serial speedups and the isolated integration handoff.
 
 ## Additional reproducible checks
 
@@ -2041,6 +2043,12 @@ See docs/HISPID_PERFORMANCE.md for measured serial speedups and the isolated int
 - `validation/charge_quadrature_polar2_aligned.json`: control flag=diagnostic only; binary acceptance is not implied.
 - `validation/far_source_floor_infinity_equilibrated.json`: control flag=False; binary acceptance is not implied.
 - `validation/polar_sequence_plan.json`: control flag=diagnostic only; binary acceptance is not implied.
+- `validation/charge_rings_operator_equivalence.json`: control flag=True; binary acceptance is not implied.
+- `validation/charge_rings_method_comparison.json`: control flag=True; binary acceptance is not implied.
+- `validation/charge_rings_independent_fd.json`: control flag=True; binary acceptance is not implied.
+- `validation/charge_rings_private_controls.json`: control flag=True; binary acceptance is not implied.
+- `validation/charge_rings_full_tests.json`: control flag=True; binary acceptance is not implied.
+- `validation/polar_sequence_refined_charges.json`: control flag=diagnostic only; binary acceptance is not implied.
 - `validation/highboost_seed_controls.json`: passed=True.
 - `validation/failed_highboost_seed_charge_resolution.json`: passed=False.
 - `validation/target_seed_controls.json`: passed=True.

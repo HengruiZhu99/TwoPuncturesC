@@ -1,0 +1,10 @@
+{
+  "library_sha256": "8bc527238087bb3c589a4c26b585a9ecae59a600faa33bc98dc0506a4a1685d4",
+  "cpu_threads": 1,
+  "native_geometry_axis_solver_ring_controls_passed": true,
+  "python_tests": 17,
+  "passed": true,
+  "log": "build-hispid/charge-rings-full-tests.log",
+  "log_sha256": "9dd96d86fb145dd473ebd063468addc6319c94ccb187d97103b6ab0640f67008",
+  "binary_acceptance": false
+}

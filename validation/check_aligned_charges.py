@@ -41,11 +41,16 @@ def main():
             start=time.monotonic();native=solution.charges(radius,ntheta=nt,nphi=np_)
             independent=charges(solution.sample,radius,ntheta=nt,nphi=np_,polar_frame=frame)
             rotated=charges(transformed,radius,center=offset,ntheta=nt,nphi=np_,polar_frame=Q@frame)
+            offcenter_native=solution.charges(radius,center=offset,ntheta=nt,nphi=np_)
+            offcenter_independent=charges(solution.sample,radius,center=offset,ntheta=nt,nphi=np_,polar_frame=frame)
             expected=np.r_[independent[0],Q@independent[1:4],Q@independent[4:7]]
             difference=float(np.max(abs(native-independent)));covariance=float(np.max(abs(rotated-expected)))
+            offcenter_difference=float(np.max(abs(offcenter_native-offcenter_independent)))
             row=dict(radius=radius,native_EPJ=native.tolist(),independent_FD_EPJ=independent.tolist(),
                 charge_difference_linf=difference,centered_covariance_difference_linf=covariance,
-                seconds=time.monotonic()-start,passed=bool(difference<1e-8 and covariance<1e-8))
+                offcenter_native_EPJ=offcenter_native.tolist(),offcenter_independent_FD_EPJ=offcenter_independent.tolist(),
+                offcenter_charge_difference_linf=offcenter_difference,
+                seconds=time.monotonic()-start,passed=bool(difference<1e-8 and covariance<1e-8 and offcenter_difference<1e-8))
             rows.append(row);Path(a.output).write_text(json.dumps(result,indent=2)+'\n');print(row,flush=True)
     result['passed']=all(r['passed'] for r in rows);Path(a.output).write_text(json.dumps(result,indent=2)+'\n')
     if not result['passed']:raise SystemExit(1)

@@ -1,0 +1,17 @@
+{
+  "library_sha256": "8bc527238087bb3c589a4c26b585a9ecae59a600faa33bc98dc0506a4a1685d4",
+  "test_executable_sha256": "100e3ab2b9675384ac144583ca88c8b557bbcfe8a2af11109f3aba7d51545305",
+  "test_source_sha256": "a5cc4dcc824db401dd0ea730eb4be9ca7a64c7fbae250f12c59d7c0d09981f4b",
+  "field_and_first_gradient_max_normalized_difference": 1.79994e-21,
+  "rotated_translated_metric_K_max_normalized_difference": 9.6653e-16,
+  "physical_metric_gradient_max_normalized_difference": 3.37716e-17,
+  "changed_unknowns_energy_response": 0.000628741,
+  "sampled_phases": 33,
+  "polar_rings": 3,
+  "fields": 4,
+  "fourier_modes": "all real modes, including cosine/sine/Nyquist",
+  "passed": true,
+  "binary_acceptance": false,
+  "log": "build-hispid/charge-rings-private.log",
+  "log_sha256": "72dd47f9be30d3213d3def78e22409009ffdc6e7d5875576597e06a06d41ab47"
+}

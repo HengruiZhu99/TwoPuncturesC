@@ -26,7 +26,9 @@ def worker(library, source_sha, cases, output, axis, equation_case, equation_res
     backend = Backend(library)
     arrays, reports = {}, []
     for label in cases:
-        record = select_record(label)
+        selector=label.split('@')
+        if len(selector) not in (1,3):raise ValueError('case selector is name or name@resolution@nphi')
+        record = select_record(selector[0],*(map(int,selector[1:]) if len(selector)==3 else ()))
         if record['library_sha256'] != source_sha:
             raise ValueError('source checkpoint/build mismatch')
         cfg, unknowns = guarded_payload(backend,record)
@@ -36,7 +38,7 @@ def worker(library, source_sha, cases, output, axis, equation_case, equation_res
         with create(cfg) as solution:
             solution.set_unknowns(unknowns)
             for name, values in solution.sample(xyz).items(): arrays[label+'__'+name] = values
-            details = dict(case=label, resolution=record['resolution'],
+            details = dict(case=record['case'],array_key=label,resolution=record['resolution'],
                            original_evidence_sha=record['library_sha256'])
             if axis:
                 center = .5*(np.array(cfg.hole[0].center)+np.array(cfg.hole[1].center))
@@ -100,7 +102,7 @@ def main():
     with np.load(files[0]) as old, np.load(files[1]) as new:
         if set(old.files) != set(new.files): raise ValueError('worker array inventory differs')
         for case in result['cases']:
-            label = case['case']
+            label = case.get('array_key',case['case'])
             case['off_axis_absolute_differences'] = {
                 name.split('__', 1)[1]: float(np.max(abs(new[name]-old[name])))
                 for name in old.files if name.startswith(label+'__')}

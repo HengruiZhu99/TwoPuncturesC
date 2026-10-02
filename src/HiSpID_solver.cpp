@@ -367,11 +367,34 @@ void evaluate_mode(const HiSpID_Data&s,int k,double t,double eta,double P[4][3])
   const double c=s.coefficients[v+4*(i+na*(j+nb*k))];P[v][0]+=c*Ta[i]*Tb[j];P[v][1]+=(2*lambda/(den*den))*c*Da[i]*Tb[j];P[v][2]+=(T/(kappa*(1-T*T*eta*eta)))*c*Ta[i]*Db[j];
  }
 }
-void evaluate_coefficients(const HiSpID_Data&s,double a,double B,double phi,double V[4][4],double stable_sinR=-1){
+using ModeValues=std::array<std::array<double,3>,4>;
+struct MeridionalValues {
+ double sx2,sr2,sx,cx,sr,cr,a,B,rho;
+ std::vector<ModeValues> modes;
+};
+// A sphere centered at the map origin and aligned to its axis has identical
+// meridional coordinates around each polar ring. Only the Fourier sum and
+// seed geometry vary with phi; the expensive two-dimensional P sums do not.
+MeridionalValues sphere_ring(HiSpID_Data&s,double axial,double rho){
+ make_coefficients(s);MeridionalValues out;out.rho=rho;
+ const double w0=axial/s.b,q=rho/s.b,t=.5*(w0*w0+q*q-1),root=std::hypot(t,q);
+ out.sx2=t<0?q*q/(root-t):root+t;out.sr2=t>0?q*q/(root+t):root-t;
+ out.sx=std::sqrt(out.sx2);out.cx=std::sqrt(1+out.sx2);out.sr=std::sqrt(out.sr2);
+ out.cr=w0/out.cx;out.a=out.sx/(out.cx+1);out.B=-out.cr/(1+out.sr);
+ const double eta=-2*out.B/(1+out.B*out.B);out.modes.resize(s.local.n[2]);
+ for(int k=0;k<s.local.n[2];k++){
+  double values[4][3];evaluate_mode(s,k,out.a*out.a,eta,values);
+  for(int v=0;v<4;v++)for(int d=0;d<3;d++)out.modes[k][v][d]=values[v][d];
+ }
+ return out;
+}
+void evaluate_coefficients(const HiSpID_Data&s,double a,double B,double phi,double V[4][4],double stable_sinR=-1,const MeridionalValues*ring=nullptr){
  const int np=s.local.n[2],half=np/2;const double t=a*a,eta=-2*B/(1+B*B),sn=stable_sinR>=0?stable_sinR:(1-B*B)/(1+B*B);
  std::memset(V,0,16*sizeof(double));
  for(int k=0;k<np;k++){
-  const int m=k<=half?k:k-half,r=hispid::AxisDerivatives::exponent(m);double P[4][3];evaluate_mode(s,k,t,eta,P);
+  const int m=k<=half?k:k-half,r=hispid::AxisDerivatives::exponent(m);double P[4][3];
+  if(ring){for(int v=0;v<4;v++)for(int d=0;d<3;d++)P[v][d]=ring->modes[k][v][d];}
+  else evaluate_mode(s,k,t,eta,P);
   const double norm=std::sqrt((m==0||m==half?1.:2.)/np),F=norm*(k<=half?std::cos(m*phi):std::sin(m*phi)),DF=norm*m*(k<=half?-std::sin(m*phi):std::cos(m*phi));
   const double S=(1+a)*std::pow(a*sn,r),Sa=.5*(std::pow(a,r)+ (r? r*(1+a)*std::pow(a,r-1):0))*std::pow(sn,r);
   const double etaB=-2*sn/(1+B*B),snB=-4*B/std::pow(1+B*B,2);
@@ -382,9 +405,9 @@ void evaluate_coefficients(const HiSpID_Data&s,double a,double B,double phi,doub
   }
  }
 }
-void sample_fields(HiSpID_Data&s,const double*x,Fields&f){
+void sample_fields(HiSpID_Data&s,const double*x,Fields&f,const MeridionalValues*ring=nullptr){
  make_coefficients(s);
- const double rho=std::hypot(x[1],x[2]);
+ const double rho=ring?ring->rho:std::hypot(x[1],x[2]);
  /* Exact Cartesian first-derivative limits of the C2 modal interpolant.
   * Only m0 and m1 contribute. A tiny axis band avoids losing transverse
   * coordinates to rounding during coordinate inversion. */
@@ -415,11 +438,11 @@ void sample_fields(HiSpID_Data&s,const double*x,Fields&f){
   * Rationalize the small root rather than subtracting nearly equal
   * puncture distances (which loses R close to the axis). */
  const double w0=x[0]/s.b,q=rho/s.b,t=.5*(w0*w0+q*q-1),root=std::hypot(t,q);
- const double sx2=t<0?q*q/(root-t):root+t;
- const double sr2=t>0?q*q/(root+t):root-t;
- const double sx=std::sqrt(sx2),cx=std::sqrt(1+sx2),sr=std::sqrt(sr2),cr=w0/cx,a=sx/(cx+1),B=-cr/(1+sr);
+ const double sx2=ring?ring->sx2:(t<0?q*q/(root-t):root+t);
+ const double sr2=ring?ring->sr2:(t>0?q*q/(root+t):root-t);
+ const double sx=ring?ring->sx:std::sqrt(sx2),cx=ring?ring->cx:std::sqrt(1+sx2),sr=ring?ring->sr:std::sqrt(sr2),cr=ring?ring->cr:w0/cx,a=ring?ring->a:sx/(cx+1),B=ring?ring->B:-cr/(1+sr);
  double phi=std::atan2(x[2],x[1]);if(phi<0)phi+=2*Pi;
- double V[4][4];evaluate_coefficients(s,a,B,phi,V,sr);
+ double V[4][4];evaluate_coefficients(s,a,B,phi,V,sr,ring);
  const double denominator=s.b*(sx2+sr2),AX=1-a*a,BR=.5*(1+B*B),co=x[1]/rho,si=x[2]/rho;
  for(int v=0;v<4;v++){
   const double uA=V[v][0]-2*(1-a)*V[v][1],uB=-2*(1-a)*V[v][2],up=-2*(1-a)*V[v][3];
@@ -546,10 +569,11 @@ int HiSpID_equation_samples(HiSpID_Data*s,double*xyz,double*g,double*psi,double*
   }
  }catch(const std::exception&e){hispid::last_error=e.what();return -2;}return 0;
 }
-static int sample_with_derivatives(HiSpID_Data*s,int count,const double*xyz,HiSpID_Point*out,double*dgamma){
+static int sample_with_derivatives(HiSpID_Data*s,int count,const double*xyz,HiSpID_Point*out,double*dgamma,const MeridionalValues*ring=nullptr,const double*local_xyz=nullptr){
  if(!s||!xyz||!out||count<0)return -1;
  try{for(int p=0;p<count;p++){
-  double x[3];to_local(*s,xyz+3*p,x);hispid::Background bg;hispid::background(s->local,x,bg);Fields f{};sample_fields(*s,x,f);
+  double x[3];if(local_xyz)std::copy(local_xyz+3*p,local_xyz+3*p+3,x);else to_local(*s,xyz+3*p,x);
+  hispid::Background bg;hispid::background(s->local,x,bg);Fields f{};sample_fields(*s,x,f,ring);
   f[0][0]+=bg.far_correction.v;
   double psi=bg.psi.v+f[0][0];if(!(psi>0))throw std::runtime_error("nonpositive solved conformal factor");
   double L[3][3],gam[3][3],K[3][3],A[3][3];L_and_div(bg.metric,bg.inv,bg.C,f,L,nullptr);
@@ -584,7 +608,9 @@ int HiSpID_sample_with_derivatives(HiSpID_Data*s,int count,const double*xyz,HiSp
 }
 int HiSpID_charges(HiSpID_Data*s,const double*center,double radius,int nt,int np,double*out){
  if(!s||!center||!out||radius<=0||nt<4||np<8)return -1;
+ try{
  std::fill(out,out+7,0.0);
+ const bool centered=center[0]==s->origin[0]&&center[1]==s->origin[1]&&center[2]==s->origin[2];
  /* Gauss-Legendre cos(theta) and uniform phi. */
  for(int a=0;a<nt;a++){
   double mu=std::cos(Pi*(a+.75)/(nt+.5)),pp=0;
@@ -592,6 +618,7 @@ int HiSpID_charges(HiSpID_Data*s,const double*center,double radius,int nt,int np
    double p0=1,p1=mu;for(int l=2;l<=nt;l++){double p=((2*l-1)*mu*p1-(l-1)*p0)/l;p0=p1;p1=p;}
    pp=nt*(mu*p1-p0)/(mu*mu-1);double step=p1/pp;mu-=step;if(std::abs(step)<1e-15)break;
   }double weight=2/((1-mu*mu)*pp*pp)*(2*Pi/np)*radius*radius;
+  MeridionalValues ring;if(centered)ring=sphere_ring(*s,radius*mu,radius*std::sqrt(1-mu*mu));
   for(int b=0;b<np;b++){
    // Align the integration polar axis with the prolate separation axis.
    // This keeps high meridional polynomial degrees out of the azimuthal
@@ -602,7 +629,8 @@ int HiSpID_charges(HiSpID_Data*s,const double*center,double radius,int nt,int np
    // Reuse the tested analytic physical metric gradient. This evaluates
    // the retained modal polynomial once rather than at13 FD stencil points.
    // Independent physical-FD charge comparisons remain validation controls.
-   if(HiSpID_sample_with_derivatives(s,1,x,&p,&dg[0][0]))return -2;
+   double local_x[3];for(int i=0;i<3;i++)local_x[i]=radius*local_normal[i];
+   if(sample_with_derivatives(s,1,x,&p,&dg[0][0],centered?&ring:nullptr,centered?local_x:nullptr))return -2;
    double E=0,P[3]={};for(int i=0;i<3;i++)for(int j=0;j<3;j++){
     E+=n[i]*(dg[j][3*i+j]-dg[i][3*j+j]);
     P[i]+=(p.Kij[3*i+j]-p.mean_curvature*p.gamma[3*i+j])*n[j];
@@ -612,6 +640,7 @@ int HiSpID_charges(HiSpID_Data*s,const double*center,double radius,int nt,int np
    }
   }
  }return 0;
+ }catch(const std::exception&e){hispid::last_error=e.what();return -2;}
 }
 void HiSpID_destroy(HiSpID_Data*s){if(!s)return;if(s->work)free_derivs(s->work);delete s;}
 }
