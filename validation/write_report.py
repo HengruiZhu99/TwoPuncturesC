@@ -12,11 +12,13 @@ def main():
            'All numerical jobs use one CPU thread. Configurations, verifier steps, tensor samples, iterations and runtimes are retained in `validation/results.json` and ignored `validation/raw/`. The native BY baseline is unchanged.',
            '', 'The independent verifier differentiates physical gamma/K only; g is metadata for the region bins. Reported H and the physical momentum norm are in total seed rest-mass units. All binary examples here have total seed rest mass 1. RMS means an average over fixed off-grid points, not a volume L2 norm. Residual maxima and normalized ratios remain in JSON; normalization denominator floors are 1e-8. The normalized momentum ratio is uninformative for maximal data, so absolute physical norms define acceptance.',
            '', 'Numerical evidence is tied to each record\'s native library SHA. Older failed-source cases remain visible. API migration compares fresh, separate native processes with loaded-image checks; checkpoint guards otherwise remain strict. The original same-process comparison was invalid because dyld reused an archived image with an identical install name. It and the affected attempted revalidation are preserved and explicitly withdrawn.',
+           '', 'Current Cartesian-regular modal-P binaries remain unaccepted. The leading current source uses mapped Chebyshev coordinates and exact modal FD block elimination; old nodal-V binary results are historical and do not establish axis regularity. All tables retain their own source fingerprints and failed flags.',
            '', '## Seed controls','', '| Seed | H RMS | M RMS | Maximum charge error | Passed |', '|---|---:|---:|---:|---|']
     for rec in data.get('seeds',{}).get('records',[]):
         n=rec['step_sequence'][-1]['norms']
         lines.append(f"| {rec['case']} | {number(n['H_rms'])} | {number(n['M_rms'])} | {number(max(rec['charge_error']))} | {rec['passed']} |")
-    target=ROOT/'validation/target_seed_controls.json'
+    target=ROOT/'validation/target_seed_controls_current.json'
+    if not target.exists():target=ROOT/'validation/target_seed_controls.json'
     if target.exists():
         lines+=['','## Revised isolated seed targets','',
                 'Seed rest spin chi=.95 and lab speed v=.885, separately and together with generic directions. This does not accept a solved binary. Independent Cartesian constraints use three verifier step sizes; charge fits use increasing extraction radii with separately refined angular quadrature.',
@@ -43,6 +45,8 @@ def main():
             internal=', '.join(map(number,rec.get('physical_equivalent_g1_linf',[]))) or 'not captured'
             lines.append('| '+grid+' | '+' | '.join(inside+[number(ext['H_max']),number(ext['M_max']),internal])+' |')
         last=result['records'][-1]
+        if 'library_sha256' in last:
+            lines+=['',f"Finest source SHA: `{last['library_sha256']}`. Unknown basis: `{last.get('unknown_parameterization_id',last.get('unknown_parameterization','historical'))}`; maps: `{last.get('collocation_maps')}`."]
         if result.get('reference_comparison'):
             lines+=['', 'Reference comparison:', '', '```json',json.dumps(result['reference_comparison'],indent=2),'```']
         if 'accepted_high_regime' in result:
@@ -67,7 +71,7 @@ def main():
             lines.append('| '+label+' | '+' | '.join(number(r['norms']['H_rms']) for r in rec['sequence'])+' |')
         lines+=['','Full pointwise/stencil evidence: `validation/verifier_floor_highspin.json`. High-spin angular refinement from160²×16 to160²×24 lowers near H RMS from1.55e-6 to3.18e-7 and M RMS from8.69e-8 to2.70e-9. Near stencil checks leave those results stable. Local strict thresholds pass, but the predeclared aggregate gate does not.']
     lines+=['','## Additional reproducible checks','']
-    for name in ('highboost_seed_controls.json','failed_highboost_seed_charge_resolution.json','target_seed_controls.json','target_seed_controls_failed_short_radial_fit.json','charge_quadrature_moderate.json','charge_quadrature_highspin.json','highboost_continued_far0_continuation.json','highboost_continued_fine_far0_continuation.json','highboost_actualop_far0_continuation.json','axis_api_migration.json'):
+    for name in ('highboost_seed_controls.json','failed_highboost_seed_charge_resolution.json','target_seed_controls.json','target_seed_controls_current.json','target_seed_controls_failed_short_radial_fit.json','charge_quadrature_moderate.json','charge_quadrature_highspin.json','highboost_continued_far0_continuation.json','highboost_continued_fine_far0_continuation.json','highboost_actualop_far0_continuation.json','axis_api_migration.json','failed_axis_basis_trials.json','regular_modes_mapped.json','regular_operators_difference.json','mapped_cache_equivalence.json','modal_block_equivalence.json','difference_derivative_equivalence.json','focused_map_operator_audit.json','private_operator_controls_focus05_k3.json','regular_operators_focus05_k3.json','equation_rows_focus05_k3.json','dense_equations_focus05_k3.json','dense_equations_phi_focus05_k3.json','dense_equations_angular_focus05_k3.json','dense_equations_radial_focus05_k3.json','collocation_map_api_equivalence.json','anisotropic_inverse_default.json','anisotropic_inverse_restart128.json'):
         path=ROOT/'validation'/name
         if path.exists():
             value=json.loads(path.read_text())
@@ -89,7 +93,7 @@ def main():
             '- Direct Gamma=sqrt5 binary solves failed the nonlinear/Krylov and physical gates; `highboost_far0` retains all three resolutions. Continuation records distinguish solver convergence from independent physical validation. No boost interval is inferred from a few successful Newton stages.',
             '- The declared preliminary moderate threshold is RMS 1e-4 with three converging fine grids and <0.5% charge stability. The stronger near/bulk threshold is RMS 1e-6 and max 1e-4. They are reported separately. Neither certifies production or publication accuracy.',
             '- AthenaK horizon controls pass for exact isolated seeds, but solved-binary horizons, mass/spin measurements and attenuation enclosure remain unverified. Isolated seed radii only screen binary window sizes.',
-            '- Finite unconstrained Chebyshev/Fourier solved fields violate Cartesian axis regularity. The repaired axis value convention reduces the sampling bias but cannot fix this spectral defect; solved-axis constraints remain unsupported. Off-axis convergence and a future enclosure check alone do not establish a globally smooth exterior vacuum binary. A regular discretization and fresh validation are required.',
+            '- Historical unconstrained nodal-V fields violate Cartesian axis regularity. Current mapped modal-P fields enforce C2 axis limits and pass independent scalar/vector Cartesian manufactured checks. Fresh moderate binaries still fail physical/charge acceptance; regularity, small internal residuals and future enclosure alone do not establish exterior vacuum accuracy.',
             '- Exact punctures remain excluded. Regular signed-lapse graph formulas support the QI throat and pass independent seed/derivative checks there; high-regime binary accuracy and arbitrary-precision arithmetic remain separate questions.',
             '- Thesis historical step stuffing differs from modern smooth Eq.26, and boosted thesis spin conventions differ from this rest-spin API. Published high-boost head-on descriptions omit bare masses and companion-attenuation widths. No original parameter files were recovered. Fully specified local benchmarks must not be called exact table reproduction; milestone E remains incomplete.',
             '', 'See `docs/HISPID.md` for build/API/conventions, `docs/hispid-review.md` for independent source review, and `docs/HISPID_STATUS.md` for milestone status. Reviewable branch work stays isolated; no main-project merge or shared installation change is performed.', '']

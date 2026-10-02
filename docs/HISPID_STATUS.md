@@ -1,5 +1,80 @@
 # HiSpID milestone status
 
+Current development status (2026-10-02): the committed sampler/API build
+`2dbf450d…` has accepted exact seed and AthenaK initial horizon controls at
+chi=.95 and v=.885 (including their combination). Binary acceptance with
+uniform axis regularity remains pending. The current uncommitted native build
+`9cbf1108…` uses regular modal P on analytically mapped Gauss grids, with a
+direct modal FD block preconditioner. Seventeen Python controls and independent
+all-jet AD controls pass. Fresh moderate24²×12/40²×20/56²×28 solves converge
+internally but **fail** independent physical/charge gates. At56²×28 near
+H RMS2.79e-5,M RMS5.32e-4; bulkH6.35e-5,M1.63e-3. The first80²×28 run
+failed at the Krylov limit after177.7s. The cache/restart80 retry converged
+internally in296.9s but failed the physical gate. Exact modal block elimination
+reduced this to31.3s and64 Krylov iterations (previously896), retaining the
+same failed physical residuals. At104²×28 the solve takes42.4s/54 Krylov
+iterations; nearH/M RMS5.72e-6/9.49e-5 and bulkH/M3.98e-6/2.31e-4 still fail.
+Unfiltered152²×28 reaches nearH/M9.76e-7/1.66e-5 and bulkH/M4.80e-7/1.74e-4;
+far40 has essentially the same failed momentum norms. The current build adds
+constant-annihilating meridional row differences. All17 Python controls and
+the strict analytic flat-source inversion audit through64² pass. The prior
+64² constant-source inverse missed its strict linear tolerance while its
+reconstructed field/gradient error was8e-18; that outcome is preserved.
+Off-axis sampled fields remain bitwise identical; residual/JVP changes are
+5.81e-16/2.43e-17 in separate-process replay. Fresh current-basis56²/80²
+solves also fail:80² nearH/M RMS2.13e-5/2.48e-4 and bulkH/M
+2.87e-5/2.44e-3, matching the earlier direct-block result. These rounding
+improvements do not promote prior failed binaries.
+The cache-reordered derivative application and centered
+preconditioner projection preserve off-axis fields, residuals and JVPs
+bit-for-bit in isolated old/new library comparisons. Native controls now
+include random-mode sampler/Cartesian-gradient consistency and zero
+constant-mode leakage through the preconditioner. Random-vector modal FD
+inversion through64² agrees to2.5e-14. Independent Cartesian scalar/vector
+manufactured checks pass all axis segments and ordinary transverse points.
+No current regular-basis
+binary is accepted.
+The default full native/Python suite passes. A read-only map-query ABI and
+exact experimental-map identifiers leave default-map fields, residuals and
+JVPs bitwise identical in separate processes (`collocation_map_api_equivalence.json`).
+An isolated build-map experiment, radial stretch.05 and angular stretch3,
+is retained as failed. Its source is `e7a88824…`; all three80²/104²/128²
+solves miss the requested1e-14 internal tolerance at line search and fail
+physical acceptance. BulkM RMS is.00110/.0101/.00261. Its basis token
+encodes the exact constants; checkpoints
+cannot be replayed across maps. It targets resolution of the narrow g/f
+cores and is not an accepted result. Map changes require fresh derivative,
+physical, charge-quadrature and convergence checks. All17 Python controls and
+finest64² Cartesian scalar/all-three-vector operator controls pass. Strict
+scalar N64 constant-mode relative inversion audits fail at3.90e-13 and
+5.98e-13 versus1e-13, with physical correction value/gradient errors<2.2e-16;
+failed flags remain unchanged. Random degree39 all-Cartesian-Hessian checks
+pass at1.75e-13 normalized discrepancy. Coupled flat Navier inversions
+through32² pass their declared1e-11 relative/field bounds; maximum sampled
+field/gradient discrepancy is1.65e-14.
+
+Replaying the same N80 retained polynomial on104²×28 without a solve exposes
+g1 momentum component RMS up to4.46e-4, independently of the Cartesian FD
+verifier. Doubling only phi to56 leaves RMS<5e-12. This localizes the gap
+to continuous meridional PDE representation; true original-node unweighted
+residuals are small and do not support large ignored core equations as its
+sole cause. Separate polar-only/radial-only doubling gives g1 momentum
+component RMS up to1.29e-4/3.07e-5, so both directions contribute.
+The separately labeled wideg/actual-operator N56 run fails at the Krylov
+limit; N80 was deliberately interrupted and N104 was not attempted. The
+matched flattened-core N80/N104 runs also fail physical acceptance, with
+bulk momentum RMS3.58e-4/4.16e-4. Their g-ball screen uses.2/.8 of each
+contracted isolated Kerr throat and still needs computed binary horizon
+enclosure. No configuration is accepted by these changes.
+A constant-anisotropic-metric inverse audit (no black-hole sources) passes
+all36 weak-anisotropy rows, but7 of36 stronger-anisotropy rows fail with
+restart32/max300 Krylov. Its exact-P action agrees with an independent
+Cartesian RHS to roundoff. A separate restart128/max1024 diagnostic passes
+the two difficult m0 vector rows in82/85 iterations, with sampled errors
+1.47e-12/5.56e-15. This confirms finite-restart stagnation in that control;
+no linear tolerance or original failed flag is relaxed.
+Previous binary results below are explicitly historical (unregularized basis).
+
 Baseline: `68287742f4920f4ea39b7dac1571c81eefe2ff8f`. Branch: `codex/hispid`.
 Worktree: `/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC`.
 Original native checkout was clean; Python `main` initially had staged work.
@@ -12,11 +87,12 @@ one CPU thread; builds use `make -j1`. No merges into the main project.
   local thesis access resolved. Historical stuffing and spin conventions differ.
 - A: geometry/operator implementation and manufactured validation: passed.
 - B: independent single-hole and boosted seed validation: passed.
-- C: moderate unequal-mass, generic-spin/boost binary: preliminary no-far-filter
-  gate passed at 24²×12, 40²×20 and 56²×28. Far40 fails the three-level gate.
-- D: independent off-grid convergence and charges: three no-far-filter levels
-  improve; solved rotation/translation checks passed. Charge angular quadrature
-  uncertainty at 12×24 is about 1.3e-4 and needs refinement for precise claims.
+- C: current regular-basis moderate unequal-mass, generic-spin/boost binary:
+  independent acceptance remains failed. Earlier unregularized no-far-filter
+  preliminary passes are historical and cannot satisfy the current gate.
+- D: current independent off-grid convergence/axis/charge/covariance gates:
+  pending. Historical solved rotation/translation checks passed; they do not
+  accept the current basis. Refined charge angular quadrature is required.
 - E: HS99UU160²×24 passes the finest-grid local strict physical thresholds
   and the declared energy comparison. Its original all-norms monotonic gate
   remains failed because bulk H is below the calibrated verifier resolution.
@@ -90,7 +166,7 @@ be separately checked before accepting a charge comparison at this precision.
 
 Failed-case configurations, iterates, diagnostics, and runtimes are retained.
 
-## Current evidence
+## Historical evidence (unregularized basis)
 
 The initial far40 grids 12²×8,20²×12,28²×16 failed physical validation and
 are preserved in `validation/failed_moderate_coarse.json`. Independent review

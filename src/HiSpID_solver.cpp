@@ -1,11 +1,12 @@
 #include "HiSpID_internal.hpp"
-#include "HiSpID_spectral.hpp"
+#include "HiSpID_axis.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cstring>
 #include <map>
 #include <numeric>
 #include <cstdio>
+#include <gsl/gsl_linalg.h>
 extern "C" {
 #include "TwoPunctures.h"
 }
@@ -111,7 +112,7 @@ struct HiSpID_Data {
  std::vector<Cached> geometry;
  std::vector<double> values,coefficients;
  derivs *work=nullptr;
- hispid::SpectralDerivatives derivatives;
+ hispid::AxisDerivatives derivatives;
  std::vector<Fields> basefields;
  HiSpID_Diagnostics diag{};
  bool coefficients_valid=false;
@@ -127,7 +128,7 @@ void gather(derivs*w,int p,Fields&f){
  for(int k=0;k<4;k++)for(int d=0;d<10;d++)f[k][d]=a[d][4*p+k];
 }
 void transform(HiSpID_Data&s,int i,int j,int k,Fields&f,double*x=nullptr){
- double A=-std::cos(Pih*(2*i+1)/s.local.n[0]),B=-std::cos(Pih*(2*j+1)/s.local.n[1]);
+ double A=s.derivatives.coordinate[0][i],B=s.derivatives.coordinate[1][j];
  double dat[10][4];derivs w{};double **ptr[10]={&w.d0,&w.d1,&w.d2,&w.d3,&w.d11,&w.d12,&w.d13,&w.d22,&w.d23,&w.d33};
  for(int d=0;d<10;d++){*ptr[d]=dat[d];for(int v=0;v<4;v++)dat[d][v]=(A-1)*f[v][d];}
  for(int v=0;v<4;v++){dat[1][v]+=f[v][0];dat[4][v]+=2*f[v][1];dat[5][v]+=f[v][2];dat[6][v]+=f[v][3];}
@@ -154,14 +155,77 @@ void jvp(HiSpID_Data&s,const double*v,double*r){
   eval(s.geometry[p],s.basefields[p],r+4*p,&d[p]);for(int k=0;k<4;k++)r[4*p+k]*=s.geometry[p].weight;
  }
 }
-/* A row-local second-order FD approximation in uniform (alpha,beta,phi),
- * with reflected Chebyshev boundaries and periodic phi, used only as an
- * ILU(0) preconditioner. The actual solve/Jacobian are pseudospectral. */
+/* Exact block elimination of the five-point modal FD approximation. Each
+ * polar row is a dense radial block after elimination. Cosine/sine partners
+ * share factors, as do the three approximate vector equations. This removes
+ * the long-wavelength error of ILU(0); residuals/JVPs remain pseudospectral. */
+struct ModalBlock {
+ int na=0,nb=0;
+ std::vector<double>lu,transfer,lower,upper;
+ std::vector<size_t>permutation;
+ void factor(){
+  std::vector<double>rhs(na);int sign=0;
+  for(int j=0;j<nb;j++){
+   double*block=lu.data()+j*na*na;
+   if(j)for(int i=0;i<na;i++)for(int q=0;q<na;q++)
+    block[i*na+q]-=lower[j*na+i]*transfer[((j-1)*na+i)*na+q];
+   auto A=gsl_matrix_view_array(block,na,na);
+   gsl_permutation p{size_t(na),permutation.data()+j*na};gsl_permutation_init(&p);
+   if(gsl_linalg_LU_decomp(&A.matrix,&p,&sign))throw std::runtime_error("Modal block factorization failed");
+   for(int i=0;i<na;i++)if(!std::isfinite(block[i*na+i])||std::abs(block[i*na+i])<1e-30)
+    throw std::runtime_error("Modal block singular pivot");
+   if(j+1<nb)for(int q=0;q<na;q++){
+    std::fill(rhs.begin(),rhs.end(),0);rhs[q]=upper[j*na+q];
+    auto b=gsl_vector_view_array(rhs.data(),na);
+    auto x=gsl_vector_view_array_with_stride(transfer.data()+j*na*na+q,na,na);
+    if(gsl_linalg_LU_solve(&A.matrix,&p,&b.vector,&x.vector))throw std::runtime_error("Modal transfer solve failed");
+   }
+  }
+ }
+ void solve(std::vector<double>&x,int mode,int component)const{
+  std::vector<double>f(na*nb);
+  for(int j=0;j<nb;j++){
+   for(int i=0;i<na;i++)f[j*na+i]=x[4*(i+na*(j+nb*mode))+component]-(j?lower[j*na+i]*f[(j-1)*na+i]:0);
+   auto A=gsl_matrix_const_view_array(lu.data()+j*na*na,na,na);
+   gsl_permutation p{size_t(na),const_cast<size_t*>(permutation.data()+j*na)};
+   auto y=gsl_vector_view_array(f.data()+j*na,na);
+   if(gsl_linalg_LU_svx(&A.matrix,&p,&y.vector))throw std::runtime_error("Modal forward solve failed");
+  }
+  for(int j=nb-2;j>=0;j--)for(int i=0;i<na;i++){
+   double sum=0;for(int q=0;q<na;q++)sum+=transfer[(j*na+i)*na+q]*f[(j+1)*na+q];f[j*na+i]-=sum;
+  }
+  for(int j=0;j<nb;j++)for(int i=0;i<na;i++)x[4*(i+na*(j+nb*mode))+component]=f[j*na+i];
+ }
+};
 struct Sparse {
  std::vector<std::vector<int>>col;
  std::vector<std::vector<double>>val;
  std::vector<int>diag;
+ const hispid::AxisDerivatives*modal=nullptr;
+ std::vector<double>row_scale;
+ std::vector<ModalBlock>blocks;
  void factor(){
+  if(modal){
+   const int na=modal->n[0],nb=modal->n[1],half=modal->n[2]/2;
+   blocks.resize(2*(half+1));
+   for(int mode=0;mode<=half;mode++)for(int v=0;v<2;v++){
+    auto&B=blocks[2*mode+v];B.na=na;B.nb=nb;
+    B.lu.assign(na*na*nb,0);B.transfer.assign(na*na*nb,0);
+    B.lower.assign(na*nb,0);B.upper.assign(na*nb,0);B.permutation.resize(na*nb);
+    for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
+     const int row=4*(i+na*(j+nb*mode))+v;
+     for(size_t q=0;q<col[row].size();q++){
+      const int local=col[row][q]/4-na*nb*mode,ci=local%na,cj=local/na;
+      if(cj==j)B.lu[(j*na+i)*na+ci]+=val[row][q];
+      else if(ci==i&&cj==j-1)B.lower[j*na+i]+=val[row][q];
+      else if(ci==i&&cj==j+1)B.upper[j*na+i]+=val[row][q];
+      else throw std::runtime_error("Modal FD stencil is not block tridiagonal");
+     }
+    }
+    B.factor();
+   }
+   return;
+  }
   int n=col.size();diag.resize(n);
   for(int i=0;i<n;i++){
    auto&cc=col[i];auto&vv=val[i];int di=std::lower_bound(cc.begin(),cc.end(),i)-cc.begin();diag[i]=di;
@@ -177,45 +241,62 @@ struct Sparse {
  }
  void solve(const std::vector<double>&b,std::vector<double>&x)const{
   int n=col.size();x=b;
+  if(modal){
+   const int N=modal->n[2],stride=modal->n[0]*modal->n[1];
+   for(int line=0;line<stride;line++)for(int v=0;v<4;v++){
+    double sum=0,error=0;for(int k=0;k<N;k++){double y=b[4*(line+k*stride)+v]-error,t=sum+y;error=(t-sum)-y;sum=t;}
+    const double mean=sum/N;
+    for(int mode=0;mode<N;mode++){
+     double value=mode==0?sum/std::sqrt(double(N)):0;
+     if(mode>0)for(int k=0;k<N;k++)value+=modal->forward[mode*N+k]*(b[4*(line+k*stride)+v]-mean);
+     const int row=4*(line+mode*stride)+v;x[row]=value/row_scale[row];
+    }
+   }
+   const int half=N/2;
+   for(int k=0;k<N;k++)for(int v=0;v<4;v++)
+    blocks[2*(k<=half?k:k-half)+(v?1:0)].solve(x,k,v);
+   return;
+  }
   for(int i=0;i<n;i++)for(int k=0;k<diag[i];k++)x[i]-=val[i][k]*x[col[i][k]];
   for(int i=n-1;i>=0;i--){for(size_t k=diag[i]+1;k<col[i].size();k++)x[i]-=val[i][k]*x[col[i][k]];x[i]/=val[i][diag[i]];}
  }
 };
+// Modal flat-Laplacian block preconditioner for the regular P unknowns.
+// B_rm follows the analytic prolate Laplacian. Curved coefficients are
+// represented by their azimuthal average; the vector block uses4/3 Delta.
 Sparse preconditioner(HiSpID_Data&s){
- Sparse mat;mat.col.resize(s.ntotal);mat.val.resize(s.ntotal);
- double step[3]={Pi/s.local.n[0],Pi/s.local.n[1],2*Pi/s.local.n[2]};
- for(int k=0;k<s.local.n[2];k++)for(int j=0;j<s.local.n[1];j++)for(int i=0;i<s.local.n[0];i++){
-  int p=pindex(s,i,j,k);double al=step[0]*(i+.5),be=step[1]*(j+.5);
-  double sn[2]={std::sin(al),std::sin(be)},co[2]={std::cos(al),std::cos(be)};
-  std::map<int,std::array<double,10>>stencil;
-  auto add=[&](int di,int dj,int dk,int d,double v){
-   int q=Index(0,i+di,j+dj,k+dk,1,s.local.n[0],s.local.n[1],s.local.n[2]);stencil[q][d]+=v;
-  };
-  add(0,0,0,0,1);
-  for(int dim=0;dim<3;dim++){
-   int pos[3]={},neg[3]={};pos[dim]=1;neg[dim]=-1;
-   add(pos[0],pos[1],pos[2],dim+1,.5/step[dim]);add(neg[0],neg[1],neg[2],dim+1,-.5/step[dim]);
-   int d=dim==0?4:dim==1?7:9;
-   add(pos[0],pos[1],pos[2],d,1/(step[dim]*step[dim]));add(neg[0],neg[1],neg[2],d,1/(step[dim]*step[dim]));add(0,0,0,d,-2/(step[dim]*step[dim]));
+ Sparse mat;mat.col.resize(s.ntotal);mat.val.resize(s.ntotal);mat.row_scale.resize(s.ntotal);mat.modal=&s.derivatives;
+ const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],half=np/2;
+ const double ha=Pi/na,hb=Pi/nb;
+ for(int k=0;k<np;k++)for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
+  const int mode=k<=half?k:k-half,r=hispid::AxisDerivatives::exponent(mode),p=pindex(s,i,j,k);
+  const double a=.5*(s.derivatives.coordinate[0][i]+1),t=a*a,B=s.derivatives.coordinate[1][j],eta=-2*B/(1+B*B),s2=1-eta*eta,h2=4*t/((1-t)*(1-t)),D=s.b*s.b*(h2+s2);
+  const double c=-2*(1-t)*std::pow(a*std::sqrt(s2),r),weight=s.geometry[pindex(s,i,j,0)].weight;
+  double mu=0,potential=0;
+  for(int phi=0;phi<np;phi++){
+   int q=pindex(s,i,j,phi);const auto&g=s.geometry[q];const auto&u=s.basefields[q];double A[9];
+   for(int x=0;x<9;x++){A[x]=g.M[x];for(int v=0;v<3;v++)for(int d=0;d<4;d++)A[x]+=g.L[x][v][d]*u[v+1][d];}
+   const double psi=g.psi+u[0][0];mu+=(g.inv[0]+g.inv[4]+g.inv[8])/(3*np);
+   potential+=g.g*(-g.R/8-5*std::pow(psi,4)*g.K*g.K/12-7*contraction(g,A,A)/(8*std::pow(psi,8)))/np;
   }
-  int mixed[3][3]={{0,1,5},{0,2,6},{1,2,8}};
-  for(auto &mix:mixed)for(int sg1:{-1,1})for(int sg2:{-1,1}){
-   int d[3]={};d[mix[0]]=sg1;d[mix[1]]=sg2;add(d[0],d[1],d[2],mix[2],sg1*sg2*.25/(step[mix[0]]*step[mix[1]]));
-  }
-  std::map<int,std::array<double,4>>rows[4];
-  for(auto &entry:stencil){
-   auto a=entry.second;
-   a[4]=a[4]/(sn[0]*sn[0])-co[0]*a[1]/std::pow(sn[0],3);
-   a[7]=a[7]/(sn[1]*sn[1])-co[1]*a[2]/std::pow(sn[1],3);
-   a[5]/=sn[0]*sn[1];a[6]/=sn[0];a[8]/=sn[1];a[1]/=sn[0];a[2]/=sn[1];
-   for(int v=0;v<4;v++){
-    Fields d{};d[v]=a;transform(s,i,j,k,d);double out[4];eval(s.geometry[p],s.basefields[p],out,&d);
-    for(int r=0;r<4;r++)rows[r][4*entry.first+v][0]+=out[r]*s.geometry[p].weight;
+  const double ctt=t*(1-t)*(1-t),ct=(1-t)*((r+1)*(1-t)-2*t),cee=s2,ce=-2*(r+1)*eta;
+  const double c0=-(r+1)*(r+1-t)+(r*r-mode*mode)*(1/h2+1/s2);
+  std::map<int,double>stencil;
+  auto add=[&](int di,int dj,double v){int q=Index(0,i+di,j+dj,0,1,na,nb,1);stencil[q]+=v;};
+  add(0,0,c0);
+  const double al=ha*(i+.5),be=hb*(j+.5),sa=std::sin(al),sb=std::sin(be);
+  const double lambda=hispid::AxisDerivatives::radial_stretch,sigma=.5*(1-std::cos(al)),d=1-(1-lambda)*sigma,dt=lambda/(d*d),ddt=2*(1-lambda)*lambda/(d*d*d),ta=.5*sa*dt,taa=.5*std::cos(al)*dt+.25*sa*sa*ddt;
+  const double kappa=hispid::AxisDerivatives::angular_stretch,zeta=-std::cos(be),T=std::tanh(kappa),tanh=std::tanh(kappa*zeta),de=kappa*(1-tanh*tanh)/T,dde=-2*kappa*kappa*tanh*(1-tanh*tanh)/T,eb=de*sb,ebb=de*std::cos(be)+dde*sb*sb;
+  const double aa=ctt/(ta*ta),ab=ct/ta-ctt*taa/(ta*ta*ta);
+  const double ba=cee/(eb*eb),bb=ce/eb-cee*ebb/(eb*eb*eb);
+  add(1,0,aa/(ha*ha)+ab/(2*ha));add(-1,0,aa/(ha*ha)-ab/(2*ha));add(0,0,-2*aa/(ha*ha));
+  add(0,1,ba/(hb*hb)+bb/(2*hb));add(0,-1,ba/(hb*hb)-bb/(2*hb));add(0,0,-2*ba/(hb*hb));
+  for(int v=0;v<4;v++){
+   const int row=4*p+v;mat.row_scale[row]=weight*mu*(v?4./3:1.)*c/D;
+   for(auto entry:stencil){int col=4*(entry.first+na*nb*k)+v;double value=entry.second;
+    if(col==row&&v==0)value+=potential*D/mu;
+    if(value!=0||col==row){mat.col[row].push_back(col);mat.val[row].push_back(value);}
    }
-  }
-  for(int r=0;r<4;r++){
-   int row=4*p+r;rows[r][row][0]+=0;
-   for(auto &a:rows[r])if(a.second[0]!=0||a.first==row){mat.col[row].push_back(a.first);mat.val[row].push_back(a.second[0]);}
   }
  }
  mat.factor();return mat;
@@ -263,74 +344,66 @@ void to_local(const HiSpID_Data&s,const double*x,double*y){
 }
 void make_coefficients(HiSpID_Data&s){
  if(s.coefficients_valid)return;
- s.coefficients.resize(s.ntotal);
- SpecCoef(s.local.n[0],s.local.n[1],s.local.n[2],4,s.values.data(),s.coefficients.data());
+ s.coefficients.resize(s.ntotal);std::vector<double>temporary(s.ntotal);
+ s.derivatives.raw.along(0,s.derivatives.coefficient[0],4,s.values.data(),temporary.data());
+ s.derivatives.raw.along(1,s.derivatives.coefficient[1],4,temporary.data(),s.coefficients.data());
  s.coefficients_valid=true;
 }
-void chebyshev_basis(int n,double x,std::vector<double>&T,std::vector<double>&D){
- T.resize(n);D.resize(n);T[0]=1;D[0]=0;T[1]=x;D[1]=1;
- for(int i=2;i<n;i++){
-  T[i]=2*x*T[i-1]-T[i-2];D[i]=2*T[i-1]+2*x*D[i-1]-D[i-2];
- }
- T[0]=.5;
+void polynomial_basis(int N,double x,std::vector<double>&value,std::vector<double>&first){
+ value.resize(N);first.resize(N);value[0]=1;first[0]=0;value[1]=x;first[1]=1;
+ for(int i=2;i<N;i++){value[i]=2*x*value[i-1]-value[i-2];first[i]=2*value[i-1]+2*x*first[i-1]-first[i-2];}
+ value[0]=.5;
 }
-void evaluate_coefficients(const HiSpID_Data&s,double A,double B,double phi,double V[4][4]){
- const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],m=np/2;
- std::vector<double>Ta,Da,Tb,Db;chebyshev_basis(na,A,Ta,Da);chebyshev_basis(nb,B,Tb,Db);
+// Return P, P_t, P_eta for one orthonormal Fourier mode.
+void evaluate_mode(const HiSpID_Data&s,int k,double t,double eta,double P[4][3]){
+ const int na=s.local.n[0],nb=s.local.n[1];std::vector<double>Ta,Da,Tb,Db;
+ const double lambda=hispid::AxisDerivatives::radial_stretch,den=lambda+(1-lambda)*t,sigma=t/den,kappa=hispid::AxisDerivatives::angular_stretch,T=std::tanh(kappa),zeta=std::atanh(eta*T)/kappa;
+ polynomial_basis(na,2*sigma-1,Ta,Da);polynomial_basis(nb,zeta,Tb,Db);std::memset(P,0,12*sizeof(double));
+ for(int j=0;j<nb;j++)for(int i=0;i<na;i++)for(int v=0;v<4;v++){
+  const double c=s.coefficients[v+4*(i+na*(j+nb*k))];P[v][0]+=c*Ta[i]*Tb[j];P[v][1]+=(2*lambda/(den*den))*c*Da[i]*Tb[j];P[v][2]+=(T/(kappa*(1-T*T*eta*eta)))*c*Ta[i]*Db[j];
+ }
+}
+void evaluate_coefficients(const HiSpID_Data&s,double a,double B,double phi,double V[4][4],double stable_sinR=-1){
+ const int np=s.local.n[2],half=np/2;const double t=a*a,eta=-2*B/(1+B*B),sn=stable_sinR>=0?stable_sinR:(1-B*B)/(1+B*B);
  std::memset(V,0,16*sizeof(double));
  for(int k=0;k<np;k++){
-  const int frequency=k<=m?k:k-m;
-  double F=k<=m?std::cos(frequency*phi):std::sin(frequency*phi);
-  double DF=k<=m?-frequency*std::sin(frequency*phi):frequency*std::cos(frequency*phi);
-  if(k==0||k==m){F*=.5;DF*=.5;}
-  double vB[4][3]={};
-  for(int j=0;j<nb;j++){
-   double vA[4][2]={};
-   for(int i=0;i<na;i++)for(int v=0;v<4;v++){
-    const double c=s.coefficients[v+4*(i+na*(j+nb*k))];
-    vA[v][0]+=c*Ta[i];vA[v][1]+=c*Da[i];
-   }
-   for(int v=0;v<4;v++){
-    vB[v][0]+=vA[v][0]*Tb[j];vB[v][1]+=vA[v][1]*Tb[j];vB[v][2]+=vA[v][0]*Db[j];
-   }
-  }
+  const int m=k<=half?k:k-half,r=hispid::AxisDerivatives::exponent(m);double P[4][3];evaluate_mode(s,k,t,eta,P);
+  const double norm=std::sqrt((m==0||m==half?1.:2.)/np),F=norm*(k<=half?std::cos(m*phi):std::sin(m*phi)),DF=norm*m*(k<=half?-std::sin(m*phi):std::cos(m*phi));
+  const double S=(1+a)*std::pow(a*sn,r),Sa=.5*(std::pow(a,r)+ (r? r*(1+a)*std::pow(a,r-1):0))*std::pow(sn,r);
+  const double etaB=-2*sn/(1+B*B),snB=-4*B/std::pow(1+B*B,2);
+  const double Sb=r?(1+a)*std::pow(a,r)*r*std::pow(sn,r-1)*snB:0;
   for(int v=0;v<4;v++){
-   for(int d=0;d<3;d++)V[v][d]+=vB[v][d]*F;
-   V[v][3]+=vB[v][0]*DF;
+   V[v][0]+=S*P[v][0]*F;V[v][1]+=(Sa*P[v][0]+S*a*P[v][1])*F;
+   V[v][2]+=(Sb*P[v][0]+S*etaB*P[v][2])*F;V[v][3]+=S*P[v][0]*DF;
   }
  }
 }
 void sample_fields(HiSpID_Data&s,const double*x,Fields&f){
  make_coefficients(s);
  const double rho=std::hypot(x[1],x[2]);
- /* The Cartesian limit of the map-axis derivative is evaluated as in
-  * thesis Sec.2.4.2, using four transverse points. Test the physical rho
-  * before coordinate inversion so distant axis points cannot recurse. */
+ /* Exact Cartesian first-derivative limits of the C2 modal interpolant.
+  * Only m0 and m1 contribute. A tiny axis band avoids losing transverse
+  * coordinates to rounding during coordinate inversion. */
  if(rho<1e-10*s.b){
-  const double eps=std::max(1e-4*(s.local.hole[0].mass+s.local.hole[1].mass),1e-8*s.b);
-  for(int v=0;v<4;v++)for(int d=0;d<4;d++)f[v][d]=0;
-  for(int k=0;k<4;k++){
-   double xp[3]={x[0],0,0};xp[1+k/2]=(k%2? -eps:eps);Fields fp{};sample_fields(s,xp,fp);
-   for(int v=0;v<4;v++)for(int d=0;d<4;d++)f[v][d]+=.25*fp[v][d];
-  }
-  /* Values have an exact map-axis limit: the Fourier zero mode at the
-   * central A,B coordinates. Averaging displaced values introduces an
-   * O(eps^2) bias that an independent Cartesian Hessian amplifies as h^-2.
-   * Retain the transverse approximation only for Cartesian derivatives. */
-  double A=-1,B;
-  if(std::abs(x[0])<=s.b){
+  double A=-1,B,axial,transverse;const bool inner=std::abs(x[0])<s.b;
+  if(inner){
    const double R=std::acos(std::clamp(x[0]/s.b,-1.0,1.0));
    B=std::tan(R/2-Piq);
+   axial=-(1+B*B)/(2*s.b*std::sin(R));transverse=1/(s.b*std::sin(R));
   }else{
+   if(std::abs(x[0])==s.b)throw std::runtime_error("puncture map focus is excluded from correction sampling");
    const double X=std::acosh(std::abs(x[0])/s.b);
    A=2*std::tanh(X/2)-1;B=x[0]>0?-1:1;
+   const double a=.5*(A+1),sign=x[0]>0?1:-1;
+   axial=sign*(1-a*a)/(s.b*std::sinh(X));transverse=sign/(s.b*std::sinh(X));
   }
-  std::vector<double>Ta,Da,Tb,Db;
-  chebyshev_basis(s.local.n[0],A,Ta,Da);chebyshev_basis(s.local.n[1],B,Tb,Db);
+  double cosine[4][4],sine[4][4];evaluate_coefficients(s,.5*(A+1),B,0,cosine);evaluate_coefficients(s,.5*(A+1),B,Pih,sine);
   for(int v=0;v<4;v++){
-   f[v][0]=0;
-   for(int j=0;j<s.local.n[1];j++)for(int i=0;i<s.local.n[0];i++)
-    f[v][0]+=.5*(A-1)*s.coefficients[v+4*(i+s.local.n[0]*j)]*Ta[i]*Tb[j];
+   f[v][0]=(A-1)*cosine[v][0];
+   f[v][1]=inner?(A-1)*cosine[v][2]*axial:(cosine[v][0]+(A-1)*cosine[v][1])*axial;
+   f[v][2]=inner?(cosine[v][0]+(A-1)*cosine[v][1])*transverse:(A-1)*cosine[v][2]*transverse;
+   f[v][3]=inner?(sine[v][0]+(A-1)*sine[v][1])*transverse:(A-1)*sine[v][2]*transverse;
+   f[v][0]+=f[v][2]*x[1]+f[v][3]*x[2];
   }
   return;
  }
@@ -340,21 +413,29 @@ void sample_fields(HiSpID_Data&s,const double*x,Fields&f){
  const double w0=x[0]/s.b,q=rho/s.b,t=.5*(w0*w0+q*q-1),root=std::hypot(t,q);
  const double sx2=t<0?q*q/(root-t):root+t;
  const double sr2=t>0?q*q/(root+t):root-t;
- double X=std::asinh(std::sqrt(sx2)),R=std::atan2(std::sqrt(sr2),w0/std::sqrt(1+sx2));
- double A=2*std::tanh(X/2)-1,B=std::tan(R/2-Piq),phi=std::atan2(x[2],x[1]);if(phi<0)phi+=2*Pi;
- double dat[10][4]={};derivs w{};double **ptr[10]={&w.d0,&w.d1,&w.d2,&w.d3,&w.d11,&w.d12,&w.d13,&w.d22,&w.d23,&w.d33};
- for(int d=0;d<10;d++)*ptr[d]=dat[d];
- /* Differentiate the coefficient basis itself, including the cosine
-  * Nyquist derivative which vanishes only at collocation phi values. */
- double V[4][4];evaluate_coefficients(s,A,B,phi,V);
+ const double sx=std::sqrt(sx2),cx=std::sqrt(1+sx2),sr=std::sqrt(sr2),cr=w0/cx,a=sx/(cx+1),B=-cr/(1+sr);
+ double phi=std::atan2(x[2],x[1]);if(phi<0)phi+=2*Pi;
+ double V[4][4];evaluate_coefficients(s,a,B,phi,V,sr);
+ const double denominator=s.b*(sx2+sr2),AX=1-a*a,BR=.5*(1+B*B),co=x[1]/rho,si=x[2]/rho;
  for(int v=0;v<4;v++){
-  dat[0][v]=(A-1)*V[v][0];dat[1][v]=V[v][0]+(A-1)*V[v][1];dat[2][v]=(A-1)*V[v][2];dat[3][v]=(A-1)*V[v][3];
+  const double uA=V[v][0]-2*(1-a)*V[v][1],uB=-2*(1-a)*V[v][2],up=-2*(1-a)*V[v][3];
+  f[v][0]=-2*(1-a)*V[v][0];f[v][1]=(uA*AX*sx*cr-uB*BR*cx*sr)/denominator;
+  const double radial=(uA*AX*cx*sr+uB*BR*sx*cr)/denominator;
+  f[v][2]=radial*co-up*si/rho;f[v][3]=radial*si+up*co/rho;
  }
- double xx,rr,y,z;AB_To_XR(4,A,B,&X,&R,&w);C_To_c(4,X,R,&xx,&rr,s.b,&w);
- rx3_To_xyz(4,xx,rr,phi,&y,&z,&w);for(int v=0;v<4;v++)for(int d=0;d<4;d++)f[v][d]=dat[d][v];
+
 }
 }
 extern "C" {
+const char *HiSpID_unknown_parameterization(){
+ if constexpr(hispid::AxisDerivatives::radial_stretch==.2&&hispid::AxisDerivatives::angular_stretch==2.)return "modal_P_C2prolate_mapped_v2";
+ static const auto identifier=[](){std::array<char,128> value{};
+  std::snprintf(value.data(),value.size(),"modal_P_C2prolate_map_v3_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();
+ return identifier.data();
+}
+int HiSpID_collocation_maps(double*out){
+ if(!out)return -1;out[0]=hispid::AxisDerivatives::radial_stretch;out[1]=hispid::AxisDerivatives::angular_stretch;return 0;
+}
 static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only){
  hispid::last_error.clear();
  if(!c||!hispid::valid(*c,sampler_only)){hispid::last_error="invalid HiSpID configuration";return nullptr;}
@@ -376,7 +457,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only){
   }
   s->npt=c->n[0]*c->n[1]*c->n[2];s->ntotal=4*s->npt;s->values.resize(s->ntotal);
   s->diag.npoints=s->npt;
-  if(sampler_only)return s;
+  if(sampler_only){s->derivatives.initialize(c->n,true);return s;}
   s->geometry.resize(s->npt);allocate_derivs(&s->work,s->ntotal);
   s->derivatives.initialize(c->n);
   for(int k=0;k<c->n[2];k++)for(int j=0;j<c->n[1];j++)for(int i=0;i<c->n[0];i++){

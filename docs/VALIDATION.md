@@ -6,6 +6,8 @@ The independent verifier differentiates physical gamma/K only; g is metadata for
 
 Numerical evidence is tied to each record's native library SHA. Older failed-source cases remain visible. API migration compares fresh, separate native processes with loaded-image checks; checkpoint guards otherwise remain strict. The original same-process comparison was invalid because dyld reused an archived image with an identical install name. It and the affected attempted revalidation are preserved and explicitly withdrawn.
 
+Current Cartesian-regular modal-P binaries remain unaccepted. The leading current source uses mapped Chebyshev coordinates and exact modal FD block elimination; old nodal-V binary results are historical and do not establish axis regularity. All tables retain their own source fingerprints and failed flags.
+
 ## Seed controls
 
 | Seed | H RMS | M RMS | Maximum charge error | Passed |
@@ -42,6 +44,8 @@ Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unve
 | 40×40×20 | 0.0013713 | 3.43756e-05 | 0.000567779 | 0.000224773 | 2.49386e-11, 7.63918e-13, 4.34337e-12, 1.56632e-12 |
 | 56×56×28 | 0.001373 | 3.32953e-05 | 7.46973e-05 | 4.05882e-05 | 3.2019e-10, 6.76789e-12, 2.95003e-11, 1.43424e-11 |
 | 72×72×32 | 0.00137448 | 3.32681e-05 | 3.1667e-05 | 6.05114e-05 | 1.14053e-09, 6.18279e-11, 1.68026e-10, 6.65225e-11 |
+
+Finest source SHA: `ba1694e312e92fb322d81986288784c66cd85e4866809feeb5673575e1450a19`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
 
 Fully specified finest-grid input:
 
@@ -131,6 +135,8 @@ Preliminary gate: **True**. Stronger gate: **False**. Horizon enclosure: **unver
 | 40×40×20 | 0.00137136 | 3.43781e-05 | 0.000564469 | 0.000225496 | 2.21609e-11, 1.10236e-12, 3.46226e-12, 2.53461e-12 |
 | 56×56×28 | 0.00137305 | 3.32975e-05 | 4.77916e-05 | 3.99333e-05 | 2.35495e-10, 8.56549e-12, 3.67172e-11, 2.31978e-11 |
 
+Finest source SHA: `0016203beecd6ff4407d7e6cdbebc2b948dbba72eeaacf3cf87f7e6348533329`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
+
 Fully specified finest-grid input:
 
 ```json
@@ -219,6 +225,8 @@ Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unve
 | 80×80×16 | no support | no support | 0.000495192 | 8.24278e-06 | 3.00095e-09, 1.29895e-11, 1.05163e-10, 5.85879e-12 |
 | 112×112×16 | no support | no support | 3.40912e-05 | 1.35724e-05 | 1.64302e-09, 2.73657e-12, 8.2647e-13, 2.28e-13 |
 
+Finest source SHA: `0016203beecd6ff4407d7e6cdbebc2b948dbba72eeaacf3cf87f7e6348533329`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
+
 Fully specified finest-grid input:
 
 ```json
@@ -302,6 +310,8 @@ Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unve
 | Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
 |---|---:|---:|---:|---:|---|
 | 80×80×24 | no support | no support | 0.000495106 | 8.77315e-06 | 1.12932e-09, 3.18705e-12, 5.3143e-13, 1.38571e-11 |
+
+Finest source SHA: `0016203beecd6ff4407d7e6cdbebc2b948dbba72eeaacf3cf87f7e6348533329`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
 
 Reference comparison:
 
@@ -405,6 +415,8 @@ Preliminary gate: **True**. Stronger gate: **False**. Horizon enclosure: **unver
 | 40×40×20 | 0.00137136 | 3.43781e-05 | 0.000564469 | 0.000225496 | 1.6912e-10, 1.42273e-10, 3.22102e-10, 1.65026e-10 |
 | 56×56×28 | 0.00137305 | 3.32975e-05 | 4.77915e-05 | 3.99333e-05 | 4.25335e-10, 1.30587e-10, 1.32595e-10, 5.86782e-11 |
 
+Finest source SHA: `79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
+
 Fully specified finest-grid input:
 
 ```json
@@ -497,6 +509,8 @@ Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unve
 | 144×144×16 | no support | no support | 4.44377e-06 | 2.42484e-07 | 5.99414e-07, 7.00384e-10, 1.29152e-08, 2.16552e-10 |
 | 160×160×16 | no support | no support | 3.55904e-06 | 2.43432e-07 | 6.52199e-08, 2.24582e-11, 8.96724e-11, 1.0085e-11 |
 | 160×160×24 | no support | no support | 1.79295e-06 | 9.51411e-09 | 2.50755e-08, 5.10608e-10, 8.80717e-10, 1.99224e-10 |
+
+Finest source SHA: `79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
 
 Reference comparison:
 
@@ -603,6 +617,8 @@ Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unve
 | 80×80×8 | 0.000328593 | 0.000773704 | 0.00551453 | 0.0167648 | 457.209, 140.655, 1.24362, 1.23176 |
 | 112×112×8 | 0.000117745 | 0.000861754 | 0.00562504 | 0.0161933 | 745.113, 227.427, 1.90489, 2.41225 |
 
+Finest source SHA: `79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
+
 Reference comparison:
 
 ```json
@@ -704,6 +720,8 @@ Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unve
 | 80×80×8 | 6.15661e-05 | 0.000942688 | 0.000628258 | 0.0236149 | 2.86562e-09, 4.14052e-10, 1.03691e-11, 1.46656e-11 |
 | 112×112×8 | 5.8495e-05 | 0.000931577 | 6.67551e-05 | 0.00774977 | 7.19221e-09, 8.98319e-10, 1.04376e-11, 1.72301e-11 |
 
+Finest source SHA: `79e96b4c151a15bd178c92a7820a518ff71c15e83e226a29ff7f54ac5542b1e6`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
+
 Reference comparison:
 
 ```json
@@ -804,6 +822,8 @@ Preliminary gate: **True**. Stronger gate: **False**. Horizon enclosure: **unver
 | 40×40×20 | 0.00137136 | 3.43781e-05 | 0.000564469 | 0.000225496 | 1.66068e-10, 1.42039e-10, 3.21978e-10, 1.65849e-10 |
 | 56×56×28 | 0.00137305 | 3.32975e-05 | 4.77915e-05 | 3.99333e-05 | 2.46066e-10, 1.30612e-10, 1.48581e-10, 5.4861e-11 |
 
+Finest source SHA: `2dbf450d83d87ad58484fe9b676327dedd93ae8d185759281898322c338b49cb`. Unknown basis: `u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))`; maps: `None`.
+
 Fully specified finest-grid input:
 
 ```json
@@ -877,6 +897,833 @@ Fully specified finest-grid input:
 
 Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944889341928632, 0.010847878260679997, 0.006521486613271172, 0.019712484180835262, 0.03998971736718533, 0.1161460963877938, 0.3377684348630591]`.
 
+## moderate_c2prolate
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 24×24×12 | 0.00166547 | 0.0134378 | 0.00150536 | 0.0315229 | 1.00118 | 1.27338 |
+| 40×40×20 | 0.00033146 | 0.00922767 | 0.0012517 | 0.0236885 | 0.996097 | 12.1832 |
+| 56×56×28 | 0.000329162 | 0.00375352 | 0.000169196 | 0.0275579 | 0.995335 | 62.8489 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 24×24×12 | 0.0013598 | 6.17331e-05 | 0.0046602 | 0.077093 | 2.67833e-15, 1.12465e-16, 1.10575e-16, 1.26023e-16 |
+| 40×40×20 | 0.00137488 | 4.98361e-05 | 0.00391543 | 0.0550346 | 4.72892e-16, 2.39388e-17, 4.02107e-17, 3.09047e-17 |
+| 56×56×28 | 0.00138323 | 4.41192e-05 | 0.00114082 | 0.0679002 | 1.55617e-14, 1.97678e-15, 2.75303e-15, 1.25663e-15 |
+
+Finest source SHA: `5ae1a9ba2076bccf1e577f2d996e14b5c4d179ae3a240025d709d51676c48532`. Unknown basis: `modal_P_C2prolate_v1`; maps: `{'radial_stretch': 1.0, 'angular_stretch': 0.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    56,
+    56,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 12,
+  "max_krylov": 600,
+  "krylov_restart": 40,
+  "memory_limit_mib": 2048
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9953345312809408, 0.010942415167982366, 0.010540660009669195, 0.02017126897190442, 0.03999620402442297, -0.028043109680303338, -0.9996558097927203]`.
+
+## moderate_c2mapped
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 24×24×12 | 0.000440002 | 0.00571512 | 0.00026823 | 0.0311885 | 1.00872 | 1.0394 |
+| 40×40×20 | 0.000144464 | 0.000922282 | 0.000135276 | 0.0138438 | 0.99481 | 12.972 |
+| 56×56×28 | 2.79138e-05 | 0.000531766 | 6.34544e-05 | 0.00162502 | 0.994501 | 62.4589 |
+| 80×80×28 | 2.13171e-05 | 0.00024374 | 2.86667e-05 | 0.00245264 | 0.994489 | 177.668 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 24×24×12 | 0.00138206 | 4.69087e-05 | 0.00186814 | 0.07442 | 6.15522e-14, 1.45902e-15, 3.64652e-15, 1.53006e-15 |
+| 40×40×20 | 0.00137465 | 3.29042e-05 | 0.000570397 | 0.0322071 | 2.32137e-15, 4.67484e-17, 1.40052e-16, 6.56172e-17 |
+| 56×56×28 | 0.00137494 | 3.37587e-05 | 0.00023602 | 0.00550184 | 7.13837e-14, 7.7142e-16, 2.37396e-15, 9.78866e-16 |
+| 80×80×28 | 0.00137476 | 3.33916e-05 | 8.60416e-05 | 0.00655594 | 2.06444e-06, 9.5306e-07, 1.4858e-06, 1.17649e-06 |
+
+Finest source SHA: `d2de7b9fe0de67403a88ff520fa164ab4b3076c84d321c7c36180b892991f652`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    80,
+    80,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 12,
+  "max_krylov": 600,
+  "krylov_restart": 40,
+  "memory_limit_mib": 4096
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944888429925259, 0.010779493758228884, 0.006497234743744305, 0.02092104200061416, 0.04184480604301399, 0.19708498930016013, -0.07450431448545698]`.
+
+## moderate_c2cache
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 24×24×12 | 0.000440002 | 0.00571512 | 0.00026823 | 0.0311885 | 1.00872 | 1.12131 |
+| 40×40×20 | 0.000144464 | 0.000922282 | 0.000135276 | 0.0138438 | 0.99481 | 14.5322 |
+| 56×56×28 | 2.79139e-05 | 0.000531766 | 6.34542e-05 | 0.00162502 | 0.994501 | 49.0713 |
+| 80×80×28 | 2.13271e-05 | 0.000248068 | 2.86933e-05 | 0.00243548 | 0.994492 | 296.947 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 24×24×12 | 0.00138206 | 4.69087e-05 | 0.00186814 | 0.07442 | 3.3366e-14, 1.08075e-15, 2.2203e-15, 1.09477e-15 |
+| 40×40×20 | 0.00137465 | 3.29042e-05 | 0.000570397 | 0.0322071 | 1.2748e-15, 4.81644e-17, 1.38954e-16, 6.65755e-17 |
+| 56×56×28 | 0.00137494 | 3.37587e-05 | 0.00023602 | 0.00550184 | 5.35313e-14, 9.22861e-16, 3.62005e-15, 1.7773e-15 |
+| 80×80×28 | 0.00137474 | 3.33569e-05 | 8.60485e-05 | 0.00649838 | 5.82536e-15, 2.61247e-16, 7.38453e-16, 3.95576e-16 |
+
+Finest source SHA: `722df13ac2a86cc390b0c7a677d2c2fea92034dd48d5e44f5b48100f08dc9fdd`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    80,
+    80,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 80,
+  "memory_limit_mib": 4096
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944915447706093, 0.010778773750116393, 0.006494616068893856, 0.020890205419637726, 0.04183562172898036, 0.19854095268331612, -0.06484533114659395]`.
+
+## moderate_c2block
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 24×24×12 | 0.000440002 | 0.00571512 | 0.00026823 | 0.0311885 | 1.00872 | 0.35926 |
+| 40×40×20 | 0.000144464 | 0.000922282 | 0.000135276 | 0.0138438 | 0.99481 | 3.01237 |
+| 56×56×28 | 2.79139e-05 | 0.000531766 | 6.34545e-05 | 0.00162502 | 0.994501 | 8.45302 |
+| 80×80×28 | 2.1327e-05 | 0.000248068 | 2.86931e-05 | 0.00243548 | 0.994492 | 31.3308 |
+| 104×104×28 | 5.71749e-06 | 9.49288e-05 | 3.97901e-06 | 0.000231209 | 0.994489 | 42.4317 |
+| 128×128×28 | 2.49292e-06 | 7.82026e-05 | 5.5858e-07 | 0.00027654 | 0.994489 | 164.951 |
+| 152×152×28 | 9.75803e-07 | 1.66413e-05 | 4.80477e-07 | 0.000174423 | 0.994489 | 144.756 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 24×24×12 | 0.00138206 | 4.69087e-05 | 0.00186814 | 0.07442 | 5.52567e-15, 3.41752e-16, 2.62848e-16, 1.64584e-16 |
+| 40×40×20 | 0.00137465 | 3.29042e-05 | 0.000570397 | 0.0322071 | 2.28704e-15, 3.59402e-17, 1.90826e-16, 7.55835e-17 |
+| 56×56×28 | 0.00137494 | 3.37587e-05 | 0.000236021 | 0.00550184 | 5.7025e-15, 3.25689e-15, 3.61751e-15, 3.01719e-15 |
+| 80×80×28 | 0.00137474 | 3.33569e-05 | 8.60489e-05 | 0.00649838 | 5.2939e-15, 2.3466e-16, 1.0267e-15, 4.12834e-16 |
+| 104×104×28 | 0.00137389 | 3.2559e-05 | 2.68589e-05 | 0.000612845 | 1.15421e-14, 4.69233e-16, 1.85525e-15, 7.89531e-16 |
+| 128×128×28 | 0.00137351 | 3.23803e-05 | 8.6349e-06 | 0.000789495 | 1.63302e-14, 5.61431e-16, 2.32968e-15, 9.51629e-16 |
+| 152×152×28 | 0.00137353 | 3.24807e-05 | 4.93467e-06 | 0.000546329 | 2.46035e-14, 8.3646e-16, 2.57992e-15, 1.63916e-15 |
+
+Finest source SHA: `25ca63784d1d18175bc85b06d20f940577bb6106d1d11792307cfaba1f63ce37`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    152,
+    152,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944890545366777, 0.010851866554435543, 0.0065280154165237555, 0.019711651455636074, 0.03995082863045246, 0.10500242710164513, 0.3302949814728183]`.
+
+## moderate_c2block_far40
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 80×80×28 | 2.15666e-05 | 0.000248099 | 2.81869e-05 | 0.00243607 | 0.994486 | 21.7921 |
+| 104×104×28 | 5.75448e-06 | 9.49259e-05 | 3.99992e-06 | 0.000230949 | 0.994482 | 41.4298 |
+| 128×128×28 | 3.19933e-06 | 7.82167e-05 | 6.39036e-07 | 0.000276117 | 0.994481 | 172.636 |
+| 152×152×28 | 1.29475e-06 | 1.66369e-05 | 4.87401e-07 | 0.00017451 | 0.994481 | 150.07 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 80×80×28 | 0.00137474 | 3.33547e-05 | 8.38858e-05 | 0.00649946 | 9.98834e-15, 8.42064e-16, 1.13405e-15, 7.6075e-16 |
+| 104×104×28 | 0.0013739 | 3.25568e-05 | 2.2213e-05 | 0.000611825 | 1.27005e-14, 4.53393e-16, 1.20792e-15, 7.39528e-16 |
+| 128×128×28 | 0.00137351 | 3.23781e-05 | 1.05144e-05 | 0.000787817 | 2.25154e-14, 5.48449e-16, 2.01411e-15, 1.33656e-15 |
+| 152×152×28 | 0.00137353 | 3.24785e-05 | 5.07191e-06 | 0.000546629 | 2.08281e-14, 8.75442e-16, 3.87562e-15, 1.38354e-15 |
+
+Finest source SHA: `25ca63784d1d18175bc85b06d20f940577bb6106d1d11792307cfaba1f63ce37`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    152,
+    152,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 40.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944813246723054, 0.010748718344948987, 0.006447942549544943, 0.019543546104561743, 0.03995046544162055, 0.10510570111893107, 0.3302411627452412]`.
+
+## moderate_c2diff
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 56×56×28 | 2.79139e-05 | 0.000531766 | 6.34542e-05 | 0.00162502 | 0.994501 | 8.77042 |
+| 80×80×28 | 2.13271e-05 | 0.000248068 | 2.86934e-05 | 0.00243548 | 0.994492 | 30.8511 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 56×56×28 | 0.00137494 | 3.37587e-05 | 0.00023602 | 0.00550184 | 3.39595e-15, 2.24242e-15, 1.43121e-15, 1.09673e-15 |
+| 80×80×28 | 0.00137474 | 3.33569e-05 | 8.60481e-05 | 0.00649838 | 4.25601e-15, 1.65273e-16, 5.5168e-16, 2.88625e-16 |
+
+Finest source SHA: `c9186bc59fcd7abcd93989b14e380bdb69d40bbff2a2af15a1aec65de3fa8682`. Unknown basis: `modal_P_C2prolate_mapped_v2`; maps: `{'radial_stretch': 0.2, 'angular_stretch': 2.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    80,
+    80,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 6144
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944915447279237, 0.010778773713855296, 0.006494616145471746, 0.02089020511202079, 0.041835621965717766, 0.1985408285045107, -0.06484530608472855]`.
+
+## moderate_focus05_k3
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 80×80×28 | 8.55088e-06 | 0.000306247 | 3.03523e-06 | 0.00109514 | 0.994491 | 48.6601 |
+| 104×104×28 | 2.00706e-06 | 0.00113485 | 7.75997e-06 | 0.0101254 | 0.994579 | 91.5329 |
+| 128×128×28 | 1.46493e-06 | 0.000251054 | 1.34171e-06 | 0.00261068 | 0.994497 | 310.585 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 80×80×28 | 0.00137411 | 3.27075e-05 | 3.56694e-05 | 0.00362698 | 1.74716e-14, 4.93391e-16, 2.62886e-15, 1.29645e-15 |
+| 104×104×28 | 0.00137352 | 3.2466e-05 | 2.57851e-05 | 0.0369336 | 2.60055e-14, 1.17599e-15, 3.21552e-15, 1.75889e-15 |
+| 128×128×28 | 0.00137352 | 3.24716e-05 | 7.14575e-06 | 0.00783836 | 4.49742e-14, 2.41655e-15, 7.48883e-15, 4.01978e-15 |
+
+Finest source SHA: `e7a88824a3cc8c231ef58af941d86f77350d36895702d3be6ec6251b9c65a65d`. Unknown basis: `modal_P_C2prolate_map_v3_r0.050000000000000003_k3`; maps: `{'radial_stretch': 0.05, 'angular_stretch': 3.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    128,
+    128,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.045,
+    0.03
+  ],
+  "inner_max": [
+    0.09,
+    0.06
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944965211921352, 0.010817840899799492, 0.0069019374067587295, 0.021239124165597176, 0.0395351412886595, -0.014020453451996451, -0.18295199847078986]`.
+
+## moderate_focus_wide_actualop
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 56×56×28 | 0.00637759 | 0.0464328 | 0.033965 | 0.226289 | -0.15861 | 346.391 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 56×56×28 | 0.000766679 | 7.81984e-05 | 0.114521 | 0.794529 | 0.0106518, 1.72769e-06, 1.92891e-06, 1.71675e-06 |
+
+Finest source SHA: `e7a88824a3cc8c231ef58af941d86f77350d36895702d3be6ec6251b9c65a65d`. Unknown basis: `modal_P_C2prolate_map_v3_r0.050000000000000003_k3`; maps: `{'radial_stretch': 0.05, 'angular_stretch': 3.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    56,
+    56,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 0,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.05510866900951247,
+    0.03698441834070127
+  ],
+  "inner_max": [
+    0.2204346760380499,
+    0.14793767336280508
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[-0.1586096344149276, 0.008912973674813342, -0.12910534489879305, -0.5008497130509636, 0.03933514743031652, -736.7741458863702, 735.0936298884321]`.
+
+## moderate_focus_wide_flattened
+
+Preliminary gate: **False**. Stronger gate: **False**. Horizon enclosure: **unverified**.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | ADM E | Solve seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| 56×56×28 | 6.16208e-05 | 0.000143245 | 3.44861e-07 | 0.000187358 | 0.994496 | 9.3356 |
+| 80×80×28 | 1.1197e-05 | 6.80993e-05 | 2.02525e-07 | 0.00035751 | 0.994496 | 49.2063 |
+| 104×104×28 | 4.04896e-06 | 5.36288e-05 | 1.82206e-07 | 0.000415962 | 0.994496 | 86.9981 |
+
+| Grid | g<1 H RMS | g<1 M RMS | g=1 H max | g=1 M max | Physical-equivalent collocation maxima H,Mx,My,Mz |
+|---|---:|---:|---:|---:|---|
+| 56×56×28 | 0.00184652 | 0.000156201 | 0.000282712 | 0.000692254 | 1.13316e-14, 6.63939e-15, 3.63453e-15, 2.3972e-15 |
+| 80×80×28 | 0.00188453 | 0.000157476 | 3.94511e-05 | 0.00108669 | 1.80291e-14, 4.40882e-16, 1.92495e-15, 8.72756e-16 |
+| 104×104×28 | 0.00186747 | 0.00015696 | 1.88596e-05 | 0.00139586 | 2.25732e-14, 9.01454e-16, 3.67942e-15, 1.46771e-15 |
+
+Finest source SHA: `e7a88824a3cc8c231ef58af941d86f77350d36895702d3be6ec6251b9c65a65d`. Unknown basis: `modal_P_C2prolate_map_v3_r0.050000000000000003_k3`; maps: `{'radial_stretch': 0.05, 'angular_stretch': 3.0}`.
+
+Fully specified finest-grid input:
+
+```json
+{
+  "hole": [
+    {
+      "mass": 0.6,
+      "center": [
+        3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        0.072,
+        0.054,
+        0.108
+      ],
+      "velocity": [
+        0.03,
+        0.06,
+        0.01
+      ]
+    },
+    {
+      "mass": 0.4,
+      "center": [
+        -3.0,
+        0.0,
+        0.0
+      ],
+      "spin": [
+        -0.032,
+        0.048,
+        0.016
+      ],
+      "velocity": [
+        -0.02,
+        -0.07,
+        0.025
+      ]
+    }
+  ],
+  "n": [
+    104,
+    104,
+    28
+  ],
+  "conformal_choice": 1,
+  "inner_flatten": 1,
+  "omega": [
+    0.5,
+    0.5
+  ],
+  "attenuation_power": 4,
+  "inner_min": [
+    0.05510866900951247,
+    0.03698441834070127
+  ],
+  "inner_max": [
+    0.2204346760380499,
+    0.14793767336280508
+  ],
+  "far_radius": 0.0,
+  "tolerance": 1e-14,
+  "max_newton": 24,
+  "max_krylov": 2000,
+  "krylov_restart": 32,
+  "memory_limit_mib": 8192
+}
+```
+
+Charge radii: [100.0, 200.0, 400.0]; quadratic inverse-radius extrapolation. Finest [E,P,J]: `[0.9944961612620147, 0.010463592627560886, 0.005574843725763816, 0.01796740982391691, 0.03990755126426828, 0.11768385314076465, 0.3379262585652986]`.
+
 ## Solved coordinate covariance
 
 Gate: **True**. Source case: `moderate_sampler_api`.
@@ -909,6 +1756,7 @@ Full pointwise/stencil evidence: `validation/verifier_floor_highspin.json`. High
 - `validation/highboost_seed_controls.json`: passed=True.
 - `validation/failed_highboost_seed_charge_resolution.json`: passed=False.
 - `validation/target_seed_controls.json`: passed=True.
+- `validation/target_seed_controls_current.json`: passed=True.
 - `validation/target_seed_controls_failed_short_radial_fit.json`: passed=False.
 - `validation/charge_quadrature_moderate.json`: independent and refined angular/radial charge evidence.
 - `validation/charge_quadrature_highspin.json`: independent and refined angular/radial charge evidence.
@@ -916,6 +1764,23 @@ Full pointwise/stencil evidence: `validation/verifier_floor_highspin.json`. High
 - `validation/highboost_continued_fine_far0_continuation.json`: v=0.86: status=0, Newton=0, GMRES=0; v=0.87: status=0, Newton=5, GMRES=592; v=0.88: status=0, Newton=7, GMRES=1174; v=0.885: status=0, Newton=8, GMRES=1003; v=0.89: status=1, Newton=24, GMRES=8520.
 - `validation/highboost_actualop_far0_continuation.json`: v=0.885: status=0, Newton=7, GMRES=892; v=0.89: status=0, Newton=7, GMRES=1054; v=0.892: status=0, Newton=5, GMRES=1049; v=0.894427: status=0, Newton=7, GMRES=1120.
 - `validation/axis_api_migration.json`: off-axis/equation compatibility=True; solved-axis stencil limitations are recorded separately.
+- `validation/failed_axis_basis_trials.json`: passed=False.
+- `validation/regular_modes_mapped.json`: passed=True.
+- `validation/regular_operators_difference.json`: passed=True.
+- `validation/mapped_cache_equivalence.json`: off-axis/equation compatibility=True; solved-axis stencil limitations are recorded separately.
+- `validation/modal_block_equivalence.json`: off-axis/equation compatibility=True; solved-axis stencil limitations are recorded separately.
+- `validation/difference_derivative_equivalence.json`: off-axis/equation compatibility=True; solved-axis stencil limitations are recorded separately.
+- `validation/focused_map_operator_audit.json`: passed=False.
+- `validation/private_operator_controls_focus05_k3.json`: passed=True.
+- `validation/regular_operators_focus05_k3.json`: passed=True.
+- `validation/equation_rows_focus05_k3.json`: independent and refined angular/radial charge evidence.
+- `validation/dense_equations_focus05_k3.json`: independent and refined angular/radial charge evidence.
+- `validation/dense_equations_phi_focus05_k3.json`: independent and refined angular/radial charge evidence.
+- `validation/dense_equations_angular_focus05_k3.json`: independent and refined angular/radial charge evidence.
+- `validation/dense_equations_radial_focus05_k3.json`: independent and refined angular/radial charge evidence.
+- `validation/collocation_map_api_equivalence.json`: off-axis/equation compatibility=True; solved-axis stencil limitations are recorded separately.
+- `validation/anisotropic_inverse_default.json`: passed=False.
+- `validation/anisotropic_inverse_restart128.json`: passed=True.
 
 ## AthenaK integration
 
@@ -933,7 +1798,7 @@ Full executable/source fingerprints, commands and accepted/failed records are in
 - Direct Gamma=sqrt5 binary solves failed the nonlinear/Krylov and physical gates; `highboost_far0` retains all three resolutions. Continuation records distinguish solver convergence from independent physical validation. No boost interval is inferred from a few successful Newton stages.
 - The declared preliminary moderate threshold is RMS 1e-4 with three converging fine grids and <0.5% charge stability. The stronger near/bulk threshold is RMS 1e-6 and max 1e-4. They are reported separately. Neither certifies production or publication accuracy.
 - AthenaK horizon controls pass for exact isolated seeds, but solved-binary horizons, mass/spin measurements and attenuation enclosure remain unverified. Isolated seed radii only screen binary window sizes.
-- Finite unconstrained Chebyshev/Fourier solved fields violate Cartesian axis regularity. The repaired axis value convention reduces the sampling bias but cannot fix this spectral defect; solved-axis constraints remain unsupported. Off-axis convergence and a future enclosure check alone do not establish a globally smooth exterior vacuum binary. A regular discretization and fresh validation are required.
+- Historical unconstrained nodal-V fields violate Cartesian axis regularity. Current mapped modal-P fields enforce C2 axis limits and pass independent scalar/vector Cartesian manufactured checks. Fresh moderate binaries still fail physical/charge acceptance; regularity, small internal residuals and future enclosure alone do not establish exterior vacuum accuracy.
 - Exact punctures remain excluded. Regular signed-lapse graph formulas support the QI throat and pass independent seed/derivative checks there; high-regime binary accuracy and arbitrary-precision arithmetic remain separate questions.
 - Thesis historical step stuffing differs from modern smooth Eq.26, and boosted thesis spin conventions differ from this rest-spin API. Published high-boost head-on descriptions omit bare masses and companion-attenuation widths. No original parameter files were recovered. Fully specified local benchmarks must not be called exact table reproduction; milestone E remains incomplete.
 

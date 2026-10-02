@@ -25,6 +25,12 @@ struct SpectralDerivatives {
     }
     for(int i=0;i<N;i++)for(int j=0;j<N;j++)for(int k=0;k<N;k++)
      D2[axis][i*N+j]+=D[axis][i*N+k]*D[axis][k*N+j];
+    // The interpolant differentiates constants to zero. Preserve that
+    // identity when forming the rounded second-derivative matrix as well.
+    for(int i=0;i<N;i++){
+     double diagonal=0;for(int j=0;j<N;j++)if(i!=j)diagonal-=D2[axis][i*N+j];
+     D2[axis][i*N+i]=diagonal;
+    }
    }else{
     for(int i=0;i<N;i++){
      D2[axis][i*N+i]=-(N*N+2.0)/12;
@@ -37,10 +43,25 @@ struct SpectralDerivatives {
    }
   }
  }
+ void differentiate(int axis,const std::vector<double>&matrix,int nv,const double*in,double*out)const{
+  const int stride=axis==0?1:axis==1?n[0]:n[0]*n[1],N=n[axis],points=n[0]*n[1]*n[2];
+  // Sum off-diagonal differences instead of large nearly cancelling terms.
+  // This is the same polynomial derivative and annihilates constants exactly.
+  for(int block=0;block<points/(N*stride);block++)for(int offset=0;offset<stride;offset++)for(int i=0;i<N;i++){
+   const int base=block*N*stride+offset,p=base+i*stride;
+   for(int v=0;v<nv;v++)out[nv*p+v]=0;
+   for(int j=0;j<N;j++)if(j!=i){
+    const double c=matrix[i*N+j];const double*row=in+nv*(base+j*stride);
+    for(int v=0;v<nv;v++)out[nv*p+v]+=c*(row[v]-in[nv*p+v]);
+   }
+  }
+ }
  void along(int axis,const std::vector<double>&matrix,int nv,const double*in,double*out)const{
   const int stride=axis==0?1:axis==1?n[0]:n[0]*n[1],N=n[axis],points=n[0]*n[1]*n[2];
-  for(int p=0;p<points;p++){
-   const int i=(p/stride)%N,base=p-i*stride;
+  // Reuse each meridional/azimuthal input line while it is in cache.
+  // The column summation order for every output is unchanged.
+  for(int block=0;block<points/(N*stride);block++)for(int offset=0;offset<stride;offset++)for(int i=0;i<N;i++){
+   const int base=block*N*stride+offset,p=base+i*stride;
    for(int v=0;v<nv;v++)out[nv*p+v]=0;
    for(int j=0;j<N;j++){
     const double c=matrix[i*N+j];const double*row=in+nv*(base+j*stride);

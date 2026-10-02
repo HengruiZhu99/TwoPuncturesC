@@ -1,0 +1,389 @@
+{
+  "passed": false,
+  "disposition": "historical unaccepted discretization experiments",
+  "raw_spectrum_inference_withdrawn": "raw Jacobian eigenvalues were misleading because of compactification and sin^6 row weights; compare row-equilibrated conditions instead",
+  "records": {
+    "c2axis-krylov-screen.json": {
+      "library_sha256": "9fe471642e2da65c9c54a96abd86e55a8801d710ae92ca287fce87b6e7a41488",
+      "records": [
+        {
+          "n": 8,
+          "restart": 80,
+          "diagnostics": {
+            "converged": 0,
+            "newton_iterations": 14,
+            "krylov_iterations": 931,
+            "npoints": 384,
+            "scaled_linf": [
+              0.004634834851048879,
+              0.00010369224453915665,
+              0.00011266901229034867,
+              0.00011119191666406346
+            ],
+            "unscaled_linf": [
+              5.278192093791912,
+              794.9478284097652,
+              4056.2423063183605,
+              1820.5106518916332
+            ],
+            "seconds": 0.405517375,
+            "status": 1,
+            "error": "Newton line search failed"
+          }
+        },
+        {
+          "n": 12,
+          "restart": 80,
+          "diagnostics": {
+            "converged": 0,
+            "newton_iterations": 7,
+            "krylov_iterations": 790,
+            "npoints": 864,
+            "scaled_linf": [
+              0.0035007937576660964,
+              0.00014758337935678463,
+              0.00011673714932675874,
+              0.00012032499214964955
+            ],
+            "unscaled_linf": [
+              3.758854279799679,
+              3525.336023183683,
+              16008.962147452647,
+              6423.969798961771
+            ],
+            "seconds": 0.665198542,
+            "status": 1,
+            "error": "Newton line search failed"
+          }
+        },
+        {
+          "n": 16,
+          "restart": 80,
+          "diagnostics": {
+            "converged": 0,
+            "newton_iterations": 1,
+            "krylov_iterations": 2400,
+            "npoints": 1536,
+            "scaled_linf": [
+              0.0002662787857532895,
+              0.005715771588037734,
+              0.028383459496900854,
+              0.014645600287751631
+            ],
+            "unscaled_linf": [
+              0.07148685775580077,
+              7268596030.215199,
+              36094497102.49434,
+              18624423749.622715
+            ],
+            "seconds": 2.813743292,
+            "status": 1,
+            "error": "Krylov iteration limit"
+          }
+        }
+      ]
+    },
+    "c2axis-dense-diagnostic.json": {
+      "library_sha256": "9fe471642e2da65c9c54a96abd86e55a8801d710ae92ca287fce87b6e7a41488",
+      "records": [
+        {
+          "case": "flat",
+          "iterations": [
+            {
+              "n": 0,
+              "residual_max": 1.3380736247297611e-15,
+              "relative_linear_error": 2.500141054016512e-12,
+              "damping": 1.0,
+              "accepted": true,
+              "seconds": 0.4149253750219941
+            }
+          ],
+          "scalar_eigenvalue_real_range": [
+            5.404342549209349e-14,
+            5.334563773199564
+          ],
+          "scalar_condition": 3840925573469001.5,
+          "scalar_complex_eigenvalues": 38
+        },
+        {
+          "case": "generic",
+          "iterations": [
+            {
+              "n": 0,
+              "residual_max": 0.026480880762091534,
+              "relative_linear_error": 9.620586625534612e-10,
+              "damping": 0.015625,
+              "accepted": true,
+              "seconds": 0.40425879100803286
+            },
+            {
+              "n": 1,
+              "residual_max": 0.026067126886429957,
+              "relative_linear_error": 1.6871130365164793e-11,
+              "damping": 1.0,
+              "accepted": true,
+              "seconds": 0.38834666600450873
+            },
+            {
+              "n": 2,
+              "residual_max": 0.004701833569703009,
+              "relative_linear_error": 1.4306635280244193e-10,
+              "damping": 0.125,
+              "accepted": true,
+              "seconds": 0.38683699996909127
+            },
+            {
+              "n": 3,
+              "residual_max": 0.004551874021708181,
+              "relative_linear_error": 5.711617303338957e-10,
+              "damping": 0.03125,
+              "accepted": true,
+              "seconds": 0.38725099997827783
+            },
+            {
+              "n": 4,
+              "residual_max": 0.004547210330104197,
+              "relative_linear_error": 1.2527304364992138e-09,
+              "damping": 0.0078125,
+              "accepted": true,
+              "seconds": 0.3870806670165621
+            },
+            {
+              "n": 5,
+              "residual_max": 0.004517303179620127,
+              "relative_linear_error": 1.2446600017576806e-09,
+              "damping": 0.0078125,
+              "accepted": true,
+              "seconds": 0.3874158749822527
+            }
+          ],
+          "scalar_eigenvalue_real_range": [
+            5.4035462747497267e-14,
+            5.334899896395261
+          ],
+          "scalar_condition": 3874756240910762.0,
+          "scalar_complex_eigenvalues": 38
+        }
+      ]
+    },
+    "axis-matrix-old.json": {
+      "library_sha256": "2dbf450d83d87ad58484fe9b676327dedd93ae8d185759281898322c338b49cb",
+      "basis": "W_plus_Aminus1_V",
+      "row_norm_range": [
+        7.288396434843571e-12,
+        2.894784901732139
+      ],
+      "equilibrated_condition": 502.5605060347593,
+      "smallest_singular_values": [
+        0.017089764774126902,
+        0.016041045659594997,
+        0.013961968632646017,
+        0.012503941813559167,
+        0.011787114517738085,
+        0.010062541075287727,
+        0.0072225789238184,
+        0.0045628745124886745
+      ]
+    },
+    "axis-matrix-c2.json": {
+      "library_sha256": "9fe471642e2da65c9c54a96abd86e55a8801d710ae92ca287fce87b6e7a41488",
+      "basis": "W_plus_Aminus1_V_C2axis",
+      "row_norm_range": [
+        2.239708582706583e-12,
+        58.5597788218046
+      ],
+      "equilibrated_condition": 10034.939658248211,
+      "smallest_singular_values": [
+        0.0040041948794803306,
+        0.0034563547654264982,
+        0.0029110749455096155,
+        0.002376557858833446,
+        0.0020867013834263795,
+        0.0016636988226817818,
+        0.0009674291201379346,
+        0.000564430816255188
+      ]
+    },
+    "axis-matrix-minimal.json": {
+      "library_sha256": "0c1773288959310159c53d8cf4177da5346d4b8303712a4201365c3ca2659a07",
+      "basis": "W_plus_Aminus1_V_C2axis",
+      "row_norm_range": [
+        4.2502652002508145e-12,
+        1349.5482782538625
+      ],
+      "equilibrated_condition": 380789.3354173163,
+      "smallest_singular_values": [
+        0.0002367508098567765,
+        0.0001915632258825377,
+        0.00016910985278661443,
+        0.000106637999889096,
+        0.0001060612717405317,
+        9.603795880770053e-05,
+        4.051366389479695e-05,
+        1.9535763961745717e-05
+      ]
+    },
+    "c2minimal-solve.json": {
+      "library_sha256": "0c1773288959310159c53d8cf4177da5346d4b8303712a4201365c3ca2659a07",
+      "diagnostics": {
+        "converged": 0,
+        "newton_iterations": 1,
+        "krylov_iterations": 600,
+        "npoints": 384,
+        "scaled_linf": [
+          0.00014248516933066497,
+          0.005483947349779018,
+          0.026480880762091534,
+          0.013640848426658709
+        ],
+        "unscaled_linf": [
+          0.07139853686650777,
+          1804116.4634091994,
+          8711716.196617099,
+          4487584.882155344
+        ],
+        "seconds": 0.144435125,
+        "status": 1,
+        "error": "Krylov iteration limit"
+      }
+    },
+    "c2prolate-solve.json": {
+      "library_sha256": "f5e17367696c89df27a3a4994fc691935540bc8e5e2efab79599e177092aa32f",
+      "records": [
+        {
+          "n": 8,
+          "diagnostics": {
+            "converged": 1,
+            "newton_iterations": 2,
+            "krylov_iterations": 33,
+            "npoints": 384,
+            "scaled_linf": [
+              2.4900747366591898e-11,
+              4.032831809111351e-11,
+              3.606337703255513e-11,
+              3.334721702323714e-11
+            ],
+            "unscaled_linf": [
+              3.7052525353464816e-09,
+              1.6030215377327295e-07,
+              3.041912184365003e-07,
+              7.343461061459777e-08
+            ],
+            "seconds": 0.007452333,
+            "status": 0,
+            "error": ""
+          }
+        }
+      ]
+    },
+    "c2mapped-tiny-screen.json": {
+      "library_sha256": "d2de7b9fe0de67403a88ff520fa164ab4b3076c84d321c7c36180b892991f652",
+      "records": [
+        {
+          "n": 8,
+          "choice": 1,
+          "g": true,
+          "diagnostics": {
+            "converged": 1,
+            "newton_iterations": 3,
+            "krylov_iterations": 37,
+            "npoints": 384,
+            "scaled_linf": [
+              7.899519318417668e-12,
+              1.0165450659153298e-11,
+              1.7338272619520683e-11,
+              1.0654243527361988e-11
+            ],
+            "unscaled_linf": [
+              1.9032629375304033e-08,
+              2.7966427734431578e-08,
+              2.8347575003736567e-08,
+              9.088589510529833e-09
+            ],
+            "seconds": 0.009794708,
+            "status": 0,
+            "error": ""
+          }
+        },
+        {
+          "n": 8,
+          "choice": 0,
+          "g": false,
+          "diagnostics": {
+            "converged": 0,
+            "newton_iterations": 6,
+            "krylov_iterations": 146,
+            "npoints": 384,
+            "scaled_linf": [
+              0.0007374235849631666,
+              0.0003489241190358733,
+              0.00035720039734460466,
+              0.0003504543833803433
+            ],
+            "unscaled_linf": [
+              0.030017381600683145,
+              163.17257293996138,
+              526.6458503827714,
+              263.0028058137548
+            ],
+            "seconds": 0.034748542,
+            "status": 1,
+            "error": "Newton line search failed"
+          }
+        },
+        {
+          "n": 12,
+          "choice": 1,
+          "g": false,
+          "diagnostics": {
+            "converged": 0,
+            "newton_iterations": 7,
+            "krylov_iterations": 270,
+            "npoints": 864,
+            "scaled_linf": [
+              0.0009178512009734752,
+              0.0002647778961896116,
+              0.00028880074244098876,
+              0.0002610190988492908
+            ],
+            "unscaled_linf": [
+              0.0220462081149128,
+              1576.0358836322605,
+              5211.246098954943,
+              2609.3693550714715
+            ],
+            "seconds": 0.136378125,
+            "status": 1,
+            "error": "Newton line search failed"
+          }
+        },
+        {
+          "n": 16,
+          "choice": 1,
+          "g": false,
+          "diagnostics": {
+            "converged": 0,
+            "newton_iterations": 9,
+            "krylov_iterations": 666,
+            "npoints": 1536,
+            "scaled_linf": [
+              0.000687828690389632,
+              0.00019416489546015227,
+              0.00021739619967818262,
+              0.00019564483685710374
+            ],
+            "unscaled_linf": [
+              0.016088973216638373,
+              6520.1840754574305,
+              21718.986755854603,
+              10898.549685003964
+            ],
+            "seconds": 0.599868917,
+            "status": 1,
+            "error": "Newton line search failed"
+          }
+        }
+      ]
+    }
+  }
+}

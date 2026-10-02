@@ -7,7 +7,9 @@ import numpy as np
 from hispid import Config,Hole
 
 ROOT=Path(__file__).resolve().parents[1]
-PARAMETERIZATION='u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))'
+LEGACY_PARAMETERIZATION='u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))'
+LIFT_PARAMETERIZATION=LEGACY_PARAMETERIZATION+'; Cartesian C2 axis cardinal basis'
+PARAMETERIZATION='modal P: u=W-2(1-t)q^r P, t=a^2, q=a sin(R), parity cap r<=4'
 
 def library_sha(backend):
     return backend.library_sha256()
@@ -23,6 +25,13 @@ def select_record(case,resolution=None,nphi=None):
 def restore(backend,record):
     if record.get('library_sha256')!=library_sha(backend):
         raise ValueError('checkpoint/library mismatch; do not reinterpret old coefficients')
+    token=backend.parameterization()
+    if token!='W_plus_Aminus1_V' and record.get('unknown_parameterization_id')!=token:
+        raise ValueError('checkpoint/native exact basis identifier mismatch')
+    if record.get('collocation_maps')!=backend.parameterization_maps():
+        raise ValueError('checkpoint/native collocation maps mismatch')
+    if record.get('unknown_parameterization')!=backend.parameterization_description():
+        raise ValueError('checkpoint/native continuous basis mismatch')
     return restore_payload(record,backend.config())
 
 def restore_payload(record,cfg):
@@ -30,7 +39,7 @@ def restore_payload(record,cfg):
 
     This is used by isolated migration workers, never by normal replay.
     """
-    if record.get('unknown_parameterization')!=PARAMETERIZATION:
+    if record.get('unknown_parameterization') not in (LEGACY_PARAMETERIZATION,LIFT_PARAMETERIZATION,PARAMETERIZATION):
         raise ValueError('unsupported checkpoint parameterization')
     for name,_ in Config._fields_:
         if name not in record['config']:

@@ -32,9 +32,10 @@ unchanged; the new library reuses their mapping/spectral routines through
 the static library, without changing the BY global parameters.
 
 High-regime validation fails closed unless the saved seed, moderate and solved
-coordinate covariance gates pass. The unfiltered moderate case above is the
-validated preliminary example; the optional far40 variant currently fails its
-three-level physical convergence gate. `--levels 24:12,40:20,56:28` means `(N_A,N_B,N_phi)` of
+coordinate covariance gates pass for the same library. The moderate command
+above reproduces a current **failed** diagnostic; no regular-basis solved
+binary is yet accepted. Historical preliminary passes used an incompatible
+axis-nonregular representation. `--levels 24:12,40:20,56:28` means `(N_A,N_B,N_phi)` of
 `(24,24,12)`, `(40,40,20)`, `(56,56,28)`. Results are saved incrementally;
 failed iterates and physical samples remain in ignored `validation/raw/`.
 Only one numerical job should run at a time on the shared host.
@@ -122,16 +123,45 @@ operators. Modified-region residuals must be reported separately.
 
 The binary map is centered at the midpoint and aligned with its separation
 by a proper orthogonal frame. All sampled tensors and correction vectors
-are returned in the input lab frame. The native TwoPunctures Chebyshev ×
-Chebyshev × Fourier basis and its derivative/mapping routines are reused.
-Cached Chebyshev/Fourier differentiation matrices represent that same
-interpolant. Fourier second derivatives retain the cosine Nyquist mode and
-are formed separately from the square of the first derivative matrix.
-Scalar and vector unknowns use the infinity factor `(Acompact-1)`; vectors
-are allowed a 1/r term when the net correction momentum is nonzero.
+are returned in the input lab frame. The current experimental representation
+stores real orthonormal Fourier modes of a regular auxiliary field P, with
+Chebyshev interpolation in two mapped coordinates. With X the prolate radial
+coordinate and R its polar angle, define `a=tanh(X/2)`, `t=a²`, `eta=cos(R)`
+and `q=a sin(R)`. Each mode reconstructs as
+`u_m-W_m=-2(1-t)q^r P_m`, and likewise for each vector component without W.
+Here r=m through m=4; higher odd/even modes use r=3/4. This parity-preserving
+cap guarantees Cartesian C2 limits for arbitrary bounded P without division
+by tiny q^m. Smooth higher modes are represented by additional powers of q
+in P. It does not establish spectral convergence for puncture free data.
+
+The raw Chebyshev Gauss coordinates are `z,zeta` in (-1,1). With
+`sigma=(1+z)/2`, the fixed maps are `t=.2 sigma/(1-.8 sigma)` and
+`eta=tanh(2 zeta)/tanh(2)`. Both maps are analytic and monotone, with nonzero
+endpoint Jacobians. Meridional derivatives use off-diagonal row differences
+`sum_j D_ij(P_j-P_i)` and a zero-sum second-derivative diagonal, so constants
+differentiate to exactly zero. This changes rounding, not the polynomial
+interpolant. Derivatives include their full first/second chain rules
+and analytic mode factors. Fourier second derivatives retain the cosine
+Nyquist mode independently of the first derivative. Mode-indexed arrays are
+never subjected to a second Fourier transform during coefficient conversion
+or prolongation. The exact native identifier is
+`modal_P_C2prolate_mapped_v2`; old nodal-V arrays are incompatible.
+For resolution experiments, build into a fresh directory with, for example,
+`make -j1 hispid HISPID_DIR="$PWD/build-hispid-focus05_k3" HISPID_MAP_FLAGS='-DHISPID_RADIAL_STRETCH=.05 -DHISPID_ANGULAR_STRETCH=3.'`.
+The general maps are `t=lambda sigma/(1-(1-lambda)sigma)` and
+`eta=tanh(kappa zeta)/tanh(kappa)`, with positive endpoint Jacobians.
+Nondefault maps receive the identifier
+`modal_P_C2prolate_map_v3_r<lambda>_k<kappa>`, encoding both double constants
+at17 significant digits. `HiSpID_collocation_maps` also returns the constants.
+Map changes need fresh physical convergence evidence; they cannot reuse
+old modal arrays as an initial guess. Use a fresh build directory because
+Make does not track changes to command-line compiler flags.
+The infinity factor allows a vector 1/r term when correction momentum is
+nonzero. Leading angular coefficients are determined by the elliptic solve;
+finite-grid asymptotic charge convergence still requires independent checks.
 
 An exact change of scalar variable removes the known far-filter shell:
-`u=W+(Acompact-1)V0`,
+`u=W-2(1-t)sum_m q^r P_m`,
 `W=sum((1-F)(psi_seed-1))`. W and its first/second derivatives are computed by
 automatic jets; W is O(r³) at a puncture and O(1/r) at infinity. Its puncture
 extension is C2, with vanishing first and second derivatives, but need not be
@@ -147,25 +177,52 @@ u-W and require conversion. Checkpoints are tied to configuration and
 library SHA; arbitrary unknown arrays are not portable between grids.
 
 Newton uses an analytic Jacobian-vector product, restarted right-
-preconditioned GMRES with two-pass orthogonalization, a coupled second-order
-FD ILU(0) preconditioner and a damped line search. Residual rows are multiplied
+preconditioned GMRES with two-pass orthogonalization and a damped line search.
+A Fourier-mode FD preconditioner approximates the flat Laplacian of
+the analytic mode factor, including its potential and mapped-coordinate chain
+rules. It uses the azimuthal mean of `trace(h_inverse)/3`, the scalar Newton
+potential and a 4/3 Laplacian approximation for vector rows. Its five-point
+matrix is inverted by block-tridiagonal elimination with pivoted dense radial
+blocks. Cosine/sine partners share factors; scalar and vector factors are
+separate, and the three approximate vector rows share a factor. This removes
+the slow long-wavelength convergence of the earlier ILU(0) approximation.
+The full curved coupling remains in every residual/JVP. On the tested N80
+moderate configuration, exact modal block elimination reduces the serial
+solve from296.9s/896 Krylov iterations to31.3s/64, while retaining the same
+failed physical residuals. More Krylov storage can help restart stagnation:
+a constant-metric anisotropy control fails with restart32/max300 but its
+two difficult m0 vector rows pass with restart128/max1024 at unchanged
+1e-11 relative tolerance. Other failed rows remain unresolved. These
+controls are available through `build-hispid/test_solver.x
+--anisotropic-vector-only` and `--anisotropic-difficult-only`; they are
+separate diagnostics from the default passing native suite. Compensated Fourier projection removes
+the row mean from nonzero modes; exact Fourier rows have zero sum, so this
+changes neither equations nor retained modes. Residual rows are multiplied
 by `(sin(alpha) sin(beta))^6` as in the inherited solver. Both weighted and
 raw conformal extrema are exposed. Neither replaces physical validation.
-Allocation is rejected if a conservative cache/ILU/Krylov estimate exceeds
-the per-context `memory_limit_mib` (default2048, accepted range16--8192).
+
+The required horizon-enclosure check concerns `g<1` and the optional modified
+correction operators. The exponential companion/far profiles f/F modify
+free conformal data and have noncompact tails; those tails cannot all fit
+inside a finite horizon. At g=1 the full coupled equations still impose
+vacuum wherever f/F differ from1. Record all profiles and independently
+check the exterior physical constraints. Isolated Kerr throat radii only
+screen candidate g windows; the solved binary finder must establish their
+actual enclosure.
+Allocation is rejected if a conservative cache/stencil/Krylov estimate exceeds
+the per-context `memory_limit_mib` (default2048, accepted range16--8192),
+including the additional dense block factors.
 High-spin refinement beyond the initial grids explicitly uses4096 MiB,
 or6144 MiB for160²×24;
 only one context/job is active during those large solves. Match the native
 header, adapter and library when using this experimental ABI. Sampling
-differentiates the coefficient basis directly, including
-the off-grid cosine Nyquist derivative. Map-axis derivatives use the
-four-transverse-point limit described in thesis Sec. 2.4.2, with offset
-`max(1e-4 sum(m),1e-8 b)`; this is a finite-offset approximation.
-At the exact axis, auxiliary field values use the Fourier zero mode at the
-central map coordinates, avoiding the displaced-value bias. Points with
-transverse radius below1e-10 b use this same axis approximation. Arbitrary
-finite-grid fields need not satisfy axis regularity; the API does not imply
-that constraints on the map axis have the off-axis validation accuracy.
+differentiates the coefficient basis directly, including the off-grid cosine
+Nyquist derivative. The inverse prolate map uses stable Cartesian distance
+expressions near every axis segment. Exact-axis values and first gradients
+use analytic m=0/m=1 limits, and transverse radii below1e-10 b use their
+first-order Taylor extension. The foci themselves remain excluded. These
+limits are tested against an independent Cartesian distance expression;
+binary vacuum accuracy is a separate convergence gate and is still pending.
 
 `HiSpID_create_sampler` loads the same saved unknowns without allocating the
 collocation background, derivative workspace or Newton/Krylov work arrays.

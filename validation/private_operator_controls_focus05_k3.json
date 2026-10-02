@@ -1,0 +1,271 @@
+{
+  "library_sha256": "e7a88824a3cc8c231ef58af941d86f77350d36895702d3be6ec6251b9c65a65d",
+  "test_executable_sha256": "faaf07ac21cbc1b65b72db77671a86710e0e119236e7e019ce8b85bdb028b653",
+  "test_source_sha256": "4813755ab7bc6a11e2c61966b9e6f481b833d3b814df144152f8f31b6f45ad74",
+  "collocation_maps": {
+    "radial_stretch": 0.05,
+    "angular_stretch": 3.0
+  },
+  "high_degree_hessians": [
+    {
+      "resolution": 12,
+      "normalized_error": 2.03463e-16
+    },
+    {
+      "resolution": 24,
+      "normalized_error": 8.0235e-15
+    },
+    {
+      "resolution": 40,
+      "normalized_error": 1.75283e-13
+    }
+  ],
+  "hessian_bound": 1e-08,
+  "vector_inverses": [
+    {
+      "resolution": 8,
+      "mode": 0,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 22,
+      "exact_P_linear_floor": 4.47695e-16,
+      "final_linear_relative_residual": 8.78852e-12,
+      "field_gradient_error": 1.64832e-14
+    },
+    {
+      "resolution": 8,
+      "mode": 0,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 25,
+      "exact_P_linear_floor": 4.21012e-16,
+      "final_linear_relative_residual": 4.9902e-12,
+      "field_gradient_error": 1.06512e-15
+    },
+    {
+      "resolution": 8,
+      "mode": 1,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 27,
+      "exact_P_linear_floor": 1.02524e-15,
+      "final_linear_relative_residual": 6.74233e-12,
+      "field_gradient_error": 3.73745e-16
+    },
+    {
+      "resolution": 8,
+      "mode": 1,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 26,
+      "exact_P_linear_floor": 1.21001e-15,
+      "final_linear_relative_residual": 8.69612e-12,
+      "field_gradient_error": 2.38251e-15
+    },
+    {
+      "resolution": 8,
+      "mode": 2,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 28,
+      "exact_P_linear_floor": 1.40153e-15,
+      "final_linear_relative_residual": 3.90989e-12,
+      "field_gradient_error": 5.72714e-17
+    },
+    {
+      "resolution": 8,
+      "mode": 2,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 30,
+      "exact_P_linear_floor": 1.3882e-15,
+      "final_linear_relative_residual": 6.58763e-12,
+      "field_gradient_error": 1.62655e-16
+    },
+    {
+      "resolution": 8,
+      "mode": 4,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 22,
+      "exact_P_linear_floor": 1.92334e-15,
+      "final_linear_relative_residual": 7.9458e-12,
+      "field_gradient_error": 1.04629e-17
+    },
+    {
+      "resolution": 8,
+      "mode": 4,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 28,
+      "exact_P_linear_floor": 1.73429e-15,
+      "final_linear_relative_residual": 8.99146e-12,
+      "field_gradient_error": 1.82599e-17
+    },
+    {
+      "resolution": 16,
+      "mode": 0,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 22,
+      "exact_P_linear_floor": 5.6978e-16,
+      "final_linear_relative_residual": 4.71993e-12,
+      "field_gradient_error": 1.99221e-16
+    },
+    {
+      "resolution": 16,
+      "mode": 0,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 24,
+      "exact_P_linear_floor": 5.02869e-16,
+      "final_linear_relative_residual": 4.27625e-12,
+      "field_gradient_error": 4.67666e-16
+    },
+    {
+      "resolution": 16,
+      "mode": 1,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 24,
+      "exact_P_linear_floor": 8.06573e-16,
+      "final_linear_relative_residual": 8.70622e-12,
+      "field_gradient_error": 9.979e-16
+    },
+    {
+      "resolution": 16,
+      "mode": 1,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 26,
+      "exact_P_linear_floor": 8.61529e-16,
+      "final_linear_relative_residual": 3.90576e-12,
+      "field_gradient_error": 8.12143e-17
+    },
+    {
+      "resolution": 16,
+      "mode": 2,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 27,
+      "exact_P_linear_floor": 9.46246e-16,
+      "final_linear_relative_residual": 3.77127e-12,
+      "field_gradient_error": 7.20774e-18
+    },
+    {
+      "resolution": 16,
+      "mode": 2,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 29,
+      "exact_P_linear_floor": 9.6463e-16,
+      "final_linear_relative_residual": 9.26096e-12,
+      "field_gradient_error": 1.83397e-16
+    },
+    {
+      "resolution": 16,
+      "mode": 4,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 23,
+      "exact_P_linear_floor": 1.22294e-15,
+      "final_linear_relative_residual": 7.74125e-12,
+      "field_gradient_error": 3.63658e-19
+    },
+    {
+      "resolution": 16,
+      "mode": 4,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 29,
+      "exact_P_linear_floor": 1.11329e-15,
+      "final_linear_relative_residual": 4.13474e-12,
+      "field_gradient_error": 4.38978e-18
+    },
+    {
+      "resolution": 32,
+      "mode": 0,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 19,
+      "exact_P_linear_floor": 5.01163e-16,
+      "final_linear_relative_residual": 9.72426e-12,
+      "field_gradient_error": 8.09439e-16
+    },
+    {
+      "resolution": 32,
+      "mode": 0,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 23,
+      "exact_P_linear_floor": 4.2985e-16,
+      "final_linear_relative_residual": 6.39105e-12,
+      "field_gradient_error": 6.12212e-15
+    },
+    {
+      "resolution": 32,
+      "mode": 1,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 22,
+      "exact_P_linear_floor": 1.15098e-15,
+      "final_linear_relative_residual": 4.28964e-12,
+      "field_gradient_error": 1.43502e-16
+    },
+    {
+      "resolution": 32,
+      "mode": 1,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 23,
+      "exact_P_linear_floor": 1.364e-15,
+      "final_linear_relative_residual": 5.65536e-12,
+      "field_gradient_error": 1.16016e-16
+    },
+    {
+      "resolution": 32,
+      "mode": 2,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 21,
+      "exact_P_linear_floor": 1.40435e-15,
+      "final_linear_relative_residual": 6.65734e-12,
+      "field_gradient_error": 1.47125e-17
+    },
+    {
+      "resolution": 32,
+      "mode": 2,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 26,
+      "exact_P_linear_floor": 1.36418e-15,
+      "final_linear_relative_residual": 7.74187e-12,
+      "field_gradient_error": 2.97485e-16
+    },
+    {
+      "resolution": 32,
+      "mode": 4,
+      "component": 1,
+      "converged": true,
+      "krylov_iterations": 19,
+      "exact_P_linear_floor": 1.08263e-15,
+      "final_linear_relative_residual": 4.17216e-12,
+      "field_gradient_error": 1.05747e-19
+    },
+    {
+      "resolution": 32,
+      "mode": 4,
+      "component": 2,
+      "converged": true,
+      "krylov_iterations": 23,
+      "exact_P_linear_floor": 9.88731e-16,
+      "final_linear_relative_residual": 5.21092e-12,
+      "field_gradient_error": 9.39086e-19
+    }
+  ],
+  "vector_relative_tolerance": 1e-11,
+  "vector_krylov_limit": 300,
+  "vector_field_gradient_bound": 1e-11,
+  "passed": true,
+  "note": "Independent Cartesian puncture-distance expressions exercise every retained random-mode Hessian and the coupled flat Navier inverse. These controls do not accept a binary. Strict scalar N64 tolerance failures remain in focused_map_operator_audit.json."
+}

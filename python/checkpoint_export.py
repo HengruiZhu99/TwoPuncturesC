@@ -7,11 +7,16 @@ source evidence; the consumer must explicitly name that SHA in its input.
 from pathlib import Path
 import hashlib
 import numpy as np
+import re
 from hispid import Config
 
-PARAMETERIZATION='W_plus_Aminus1_V'
+PARAMETERIZATION='modal_P_C2prolate_mapped_v2'
 
-def write_checkpoint(path,config,unknowns,library_sha256,acceptance):
+def write_checkpoint(path,config,unknowns,library_sha256,acceptance,parameterization=PARAMETERIZATION):
+    custom_map=re.fullmatch(r'modal_P_C2prolate_map_v3_r([0-9eE+.-]+)_k([0-9eE+.-]+)',parameterization)
+    if parameterization not in ('W_plus_Aminus1_V','W_plus_Aminus1_V_C2axis','modal_P_C2prolate_mapped_v2') and custom_map is None:
+        raise ValueError('unsupported checkpoint parameterization')
+    if custom_map and not (.001<=float(custom_map[1])<=1 and .1<=float(custom_map[2])<=6):raise ValueError('unsupported collocation maps')
     if len(library_sha256)!=64 or any(c not in '0123456789abcdef' for c in library_sha256):
         raise ValueError('invalid library SHA256')
     if acceptance not in ('analytic_seed','preliminary','strong','diagnostic'):
@@ -21,7 +26,7 @@ def write_checkpoint(path,config,unknowns,library_sha256,acceptance):
         raise ValueError('invalid checkpoint unknowns')
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     with path.open('w',encoding='ascii',newline='\n') as out:
-        out.write('HISPID_CHECKPOINT 1\nparameterization '+PARAMETERIZATION+'\n')
+        out.write('HISPID_CHECKPOINT 1\nparameterization '+parameterization+'\n')
         out.write('library_sha256 '+library_sha256+'\nacceptance '+acceptance+'\n')
         for name,_ in Config._fields_:
             value=getattr(config,name)

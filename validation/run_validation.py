@@ -10,9 +10,13 @@ import numpy as np
 from hispid import Backend,Hole
 from physical import constraints,norms,charges,extrapolate
 from configs import moderate,hs99uu,highboost,as_dict
-from prolong import prolong
+from prolong import for_backend
 
 ROOT=Path(__file__).resolve().parents[1]
+SOLVER_CONTROLS=('n','memory_limit_mib','tolerance','max_newton','max_krylov','krylov_restart')
+def free_data(config):
+    return {k:v for k,v in as_dict(config).items() if k not in SOLVER_CONTROLS}
+
 REPORT=ROOT/'validation/results.json'
 RAW=ROOT/'validation/raw'
 
@@ -68,9 +72,9 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
     previous_values=None;previous_shape=None;previous_config=None
     if records or initial_record:
         last=records[-1] if records else initial_record
-        if last['library_sha256']!=backend.library_sha256():
+        if last['library_sha256']!=backend.library_sha256() or last.get('unknown_parameterization_id')!=backend.parameterization():
             raise ValueError('resume requires the same native library SHA')
-        previous_shape=last['resolution'];previous_config=dict(last['config']);previous_config.pop('n');previous_config.pop('memory_limit_mib',None)
+        previous_shape=last['resolution'];previous_config={k:v for k,v in last['config'].items() if k not in SOLVER_CONTROLS}
         n,_,np_=previous_shape
         previous_values=np.load(RAW/f"{last['case']}_{n}_{np_}.npz")['unknowns']
     for n,nphi in levels:
@@ -79,11 +83,11 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
         rec=dict(case=label,config=as_dict(cfg),resolution=[n,n,nphi],verifier_order=4,verifier_step=.002,
                  library_sha256=backend.library_sha256(),
                  near_sample_count=near,bulk_sample_count=bulk,attenuation_sample_count=len(x)-near-bulk,
-                 horizon_scaled=horizon_scaled,verifier_steps=step.tolist(),unknown_parameterization='u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))')
+                 horizon_scaled=horizon_scaled,verifier_steps=step.tolist(),unknown_parameterization=backend.parameterization_description(),unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps())
         with backend.create(cfg) as s:
-            comparable=as_dict(cfg);comparable.pop('n');comparable.pop('memory_limit_mib',None)
+            comparable=free_data(cfg)
             if previous_values is not None and comparable==previous_config:
-                s.set_unknowns(prolong(previous_values,previous_shape,list(cfg.n)))
+                s.set_unknowns(for_backend(backend,previous_values,previous_shape,list(cfg.n)))
                 rec['initial_guess_from_resolution']=previous_shape
             rec['creation_seconds']=time.monotonic()-start;rec['diagnostics']=s.solve()
             collocation=s.equation_samples();equivalent=collocation['physical_equivalent'];cg=collocation['attenuation']
@@ -128,6 +132,9 @@ def main():
     parser.add_argument('--evaluate-only',action='store_true',help='with --resume, recompute summary gates without another solve')
     parser.add_argument('--initial-from',help='warm-start a separate diagnostic case from the last compatible saved grid of this case')
     parser.add_argument('--memory-mib',type=int,default=None,help='explicit per-context allocation budget (default2048,max8192)')
+    parser.add_argument('--krylov-restart',type=int);parser.add_argument('--max-krylov',type=int);parser.add_argument('--max-newton',type=int)
+    parser.add_argument('--inner-flatten',type=int,choices=[0,1],help='separately labeled interior-operator experiment')
+    parser.add_argument('--inner-throat-window',help='lo:hi fractions of the minimum contracted isolated Kerr throat; a screen, not horizon enclosure')
     args=parser.parse_args()
     if args.evaluate_only and (not args.resume or args.stage=='seeds'):
         parser.error('--evaluate-only requires a binary stage and --resume')
@@ -148,6 +155,18 @@ def main():
             config=selected(backend,n,nphi)
             if args.far_radius is not None:config.far_radius=args.far_radius
             if args.memory_mib is not None:config.memory_limit_mib=args.memory_mib
+            if args.inner_flatten is not None:config.inner_flatten=args.inner_flatten
+            if args.inner_throat_window:
+                lo,hi=map(float,args.inner_throat_window.split(':'))
+                if not 0<=lo<hi<1:raise ValueError('throat window must satisfy0<=lo<hi<1')
+                for h,hole in enumerate(config.hole):
+                    if hole.mass<=0:continue
+                    chi=np.linalg.norm(list(hole.spin))/hole.mass**2
+                    v2=np.dot(list(hole.velocity),list(hole.velocity))
+                    radius=.5*hole.mass*np.sqrt(1-chi**2)*np.sqrt(1-v2)
+                    config.inner_min[h]=lo*radius;config.inner_max[h]=hi*radius
+            for field in ('krylov_restart','max_krylov','max_newton'):
+                if getattr(args,field) is not None:setattr(config,field,getattr(args,field))
             return config
         levels=args.levels or ('24:12,40:20,56:28' if args.stage=='moderate' else '24:8,40:12,56:16')
         levels=[] if args.evaluate_only else [tuple(map(int,v.split(':'))) for v in levels.split(',')]

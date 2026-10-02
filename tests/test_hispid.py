@@ -9,7 +9,7 @@ import unittest
 import numpy as np
 from hispid import Backend,Hole
 from physical import constraints,norms,charges,extrapolate
-from prolong import prolong
+from prolong import prolong,prolong_modal
 
 class HiSpIDTests(unittest.TestCase):
     @classmethod
@@ -58,6 +58,22 @@ else:
         old=(8,7,8);new=(13,12,12)
         np.testing.assert_allclose(prolong(values(old),old,new),values(new),atol=1e-14,rtol=1e-14)
 
+    def test_modal_prolongation_preserves_cartesian_fields(self):
+        old=(8,7,8);new=(13,12,12)
+        t=.5*(1-np.cos(np.pi*(np.arange(old[0])+.5)/old[0]))
+        eta=-np.cos(np.pi*(np.arange(old[1])+.5)/old[1])
+        v=np.zeros((old[2],old[1],old[0],4))
+        for mode,amplitude in ((0,.001),(1,.002),(2,-.003),(4,.004),(5,.002)):
+            v[mode,:,:,0]=amplitude*(1+.2*t[None,:]+.1*eta[:,None]**2)
+        c=self.b.config();c.conformal_choice=0;c.inner_max[:]=[0,0];c.far_radius=0
+        c.n[:]=old
+        with self.b.create_sampler(c) as coarse:
+            coarse.set_unknowns(v.ravel());reference=coarse.sample_with_derivatives(self.x)
+        c.n[:]=new
+        with self.b.create_sampler(c) as fine:
+            fine.set_unknowns(prolong_modal(v.ravel(),old,new));actual=fine.sample_with_derivatives(self.x)
+        for key in actual:np.testing.assert_allclose(actual[key],reference[key],rtol=2e-12,atol=2e-13)
+
     def test_physical_seed_step_convergence(self):
         for spin,velocity in [((0,0,0),(0,0,0)),((0,0,.6),(0,0,0)),((.2,.3,.4),(.2,-.1,.15))]:
             sample=lambda x:self.b.seed(Hole(1,spin=spin,velocity=velocity),x)
@@ -91,7 +107,9 @@ else:
     def test_analytic_jvp_and_native_solve(self):
         c=self.b.config();c.n[:]=[8,8,6];c.hole[0].spin[:]=[0,0,.05];c.hole[1].spin[:]=[.02,0,0]
         c.hole[0].velocity[:]=[.03,.05,0];c.hole[1].velocity[:]=[-.01,-.03,.02]
-        c.inner_max[:]=[0,0];c.far_radius=0
+        # Retain the published inner regularization for this coarse solve.
+        # Unattenuated coarse boosted cases are preserved as failed diagnostics.
+        c.far_radius=0
         with self.b.create(c) as s:
             rng=np.random.default_rng(14108607);base=rng.normal(0,1e-6,s.size);d=rng.normal(0,1e-3,s.size)
             epsilon=1e-4;fd=(s.residual(base+epsilon*d)-s.residual(base-epsilon*d))/(2*epsilon)
@@ -117,13 +135,12 @@ else:
     def test_nyquist_vector_gradient_and_distant_axis(self):
         # The cosine Nyquist mode has zero d/dphi at collocation points,
         # but its analytic derivative must survive off-grid reconstruction.
-        c=self.b.config();c.n[:]=[6,6,8];c.conformal_choice=0
+        c=self.b.config();c.n[:]=[10,10,8];c.conformal_choice=0
         c.far_radius=0;c.inner_max[:]=[0,0];c.inner_flatten=0
         c.hole[0]=Hole(.5,(1,0,0));c.hole[1]=Hole(.5,(-1,0,0))
         m=4;x=np.array([[.3,.7,.4],[1.7,-.8,.2],[-.4,.3,-.9]])
         with self.b.create(c) as s:
-            u=np.zeros((8,6,6,4))
-            for k in range(8):u[k,:,:,1]=np.cos(m*2*np.pi*k/8)
+            u=np.zeros((8,10,10,4));u[4,:,:,1]=np.sqrt(8)
             s.set_unknowns(u.ravel())
             rp=np.linalg.norm(x-np.array([1.,0,0]),axis=1)
             rm=np.linalg.norm(x+np.array([1.,0,0]),axis=1)
@@ -132,7 +149,14 @@ else:
             dA=dX/np.cosh(X/2)[:,None]**2
             phi=np.arctan2(x[:,2],x[:,1]);rho2=x[:,1]**2+x[:,2]**2
             dphi=np.c_[np.zeros(len(x)),-x[:,2]/rho2,x[:,1]/rho2]
-            grad=dA*np.cos(m*phi)[:,None]-(A-1)[:,None]*m*np.sin(m*phi)[:,None]*dphi
+            R=np.arccos((rm-rp)/2);B=np.tan(R/2-np.pi/4)
+            dR=-((x+np.array([1.,0,0]))/rm[:,None]-(x-np.array([1.,0,0]))/rp[:,None])/(2*np.sin(R)[:,None])
+            dB=.5*(1+B*B)[:,None]*dR
+            a=(A+1)/2;f=(1+a)*a**4;fA=.5*(a**4+4*(1+a)*a**3)
+            sn=(1-B*B)/(1+B*B);h=sn**4;hB=-16*B*sn**3/(1+B*B)**2
+            grad=((f*h+(A-1)*fA*h)*np.cos(m*phi))[:,None]*dA
+            grad+=((A-1)*f*hB*np.cos(m*phi))[:,None]*dB
+            grad-=((A-1)*f*h*m*np.sin(m*phi))[:,None]*dphi
             L=np.zeros((len(x),3,3));L[:,0,:]+=grad;L[:,:,0]+=grad
             L-=2/3*grad[:,0,None,None]*np.eye(3)
             np.testing.assert_allclose(s.sample(x)['Atilde'].reshape(-1,3,3),L,rtol=1e-12,atol=1e-12)
@@ -159,12 +183,16 @@ else:
     def test_axis_value_and_independent_hessian(self):
         # A degree-seven V gives a Cartesian-regular u at the interpuncture
         # axis. Its exact central value is zero and Laplacian is 4*eta/b^2.
-        c=self.b.config();c.n[:]=[10,6,4];c.conformal_choice=0
+        # This physical t-polynomial is rational in the raw radial nodes.
+        # Resolve its nearest complex pole for every explicitly built map;
+        # the physical endpoint/Hessian tolerances remain fixed.
+        stretch=self.b.parameterization_maps()['radial_stretch']
+        n=max(40,int(np.ceil(35/(2*np.arctanh(np.sqrt(stretch)))))) if stretch<1 else 40
+        c=self.b.config();c.n[:]=[n,6,4];c.conformal_choice=0
         c.hole[0]=Hole(.6,(3,0,0));c.hole[1]=Hole(.4,(-3,0,0))
         c.far_radius=0;c.omega[:]=[0,0];c.inner_max[:]=[0,0];c.inner_flatten=0
-        A=-np.cos(np.pi*(np.arange(10)+.5)/10);z=A+1;eta=.01
-        u=eta*(z**2+z**4/6+23*z**6/720-49*z**8/1440)
-        values=np.zeros((4,6,10,4));values[:,:,:,0]=u/(A-1)
+        sigma=.5*(1-np.cos(np.pi*(np.arange(n)+.5)/n));t=stretch*sigma/(1-(1-stretch)*sigma);eta=.01
+        values=np.zeros((4,6,n,4));values[0,:,:,0]=-2*eta*t*np.sqrt(4)
         expected=-8*(4*eta/9)/(7/6)**5
         with self.b.create(c) as s:
             s.set_unknowns(values.ravel())

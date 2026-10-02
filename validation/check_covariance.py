@@ -6,7 +6,7 @@ from hispid import Backend,Config
 from configs import moderate,as_dict
 from physical import extrapolate
 from run_validation import ROOT,REPORT,RAW,points
-from prolong import prolong
+from prolong import for_backend
 from checkpoints import restore
 
 TENSORS=('gamma','Kij','conformal_metric','Atilde')
@@ -49,19 +49,19 @@ def run(backend,levels,label='moderate'):
         with backend.create(config) as s:
             s.set_unknowns(np.load(RAW/f'{label}_{n}_{nphi}.npz')['unknowns'])
             original=s.sample(x);base_values.append(original)
-            prime=transformed(config,Q,offset)
-            with backend.create(prime) as t:
-                if previous_values is not None:t.set_unknowns(prolong(previous_values,previous_shape,list(prime.n)))
-                diagnostic=t.solve();rotated=t.sample(x@Q.T+offset)
-                previous_values=t.unknowns();previous_shape=list(prime.n)
-                err=errors(rotated,rotate_values(original,Q))
-                radii=[100.,200.,400.]
-                qrot=extrapolate(radii,[t.charges(R,center=offset,ntheta=12,nphi=24) for R in radii])
-                qglobal=extrapolate(radii,[t.charges(R,ntheta=12,nphi=24) for R in radii])
-            base_record=next(r for r in saved['records'] if r['resolution']==[n,n,nphi])
-            base_charge=np.array(base_record['charges_extrapolated']);expected=np.r_[base_charge[0],Q@base_charge[1:4],Q@base_charge[4:]]
-            origin_expected=expected.copy();origin_expected[4:]+=np.cross(offset,expected[1:4])
-            RAW.mkdir(exist_ok=True);np.savez_compressed(RAW/f'covariance_{label}_{n}_{nphi}.npz',points=x,**{'base_'+k:v for k,v in original.items()},**{'rotated_'+k:v for k,v in rotated.items()})
+        prime=transformed(config,Q,offset)
+        with backend.create(prime) as t:
+            if previous_values is not None:t.set_unknowns(for_backend(backend,previous_values,previous_shape,list(prime.n)))
+            diagnostic=t.solve();rotated=t.sample(x@Q.T+offset)
+            previous_values=t.unknowns();previous_shape=list(prime.n)
+            err=errors(rotated,rotate_values(original,Q))
+            radii=[100.,200.,400.]
+            qrot=extrapolate(radii,[t.charges(R,center=offset,ntheta=12,nphi=24) for R in radii])
+            qglobal=extrapolate(radii,[t.charges(R,ntheta=12,nphi=24) for R in radii])
+        base_record=next(r for r in saved['records'] if r['resolution']==[n,n,nphi])
+        base_charge=np.array(base_record['charges_extrapolated']);expected=np.r_[base_charge[0],Q@base_charge[1:4],Q@base_charge[4:]]
+        origin_expected=expected.copy();origin_expected[4:]+=np.cross(offset,expected[1:4])
+        RAW.mkdir(exist_ok=True);np.savez_compressed(RAW/f'covariance_{label}_{n}_{nphi}.npz',points=x,**{'base_'+k:v for k,v in original.items()},**{'rotated_'+k:v for k,v in rotated.items()})
         rec=dict(resolution=[n,n,nphi],library_sha256=backend.library_sha256(),rotation=Q.tolist(),offset=offset.tolist(),config=as_dict(prime),diagnostics=diagnostic,
                  relative_errors=err,rotated_EPJ=qrot.tolist(),global_origin_EPJ=qglobal.tolist(),expected_EPJ=expected.tolist(),
                  charge_error=np.abs(qrot-expected).tolist(),origin_charge_error=np.abs(qglobal-origin_expected).tolist(),seconds=time.monotonic()-start)

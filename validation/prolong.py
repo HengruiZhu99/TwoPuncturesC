@@ -30,3 +30,23 @@ def prolong(values,oldshape,newshape):
     v=np.einsum('kjav,bj->kbav',v,chebyshev_matrix(b,B),optimize=True)
     v=np.einsum('kbav,ck->cbav',v,fourier_matrix(p,P),optimize=True)
     return np.ascontiguousarray(v).ravel()
+
+def prolong_modal(values,oldshape,newshape):
+    """Regular modal P interpolation; phi slot is an orthonormal mode index."""
+    a,b,p=oldshape;A,B,P=newshape
+    if P<p:raise ValueError('modal prolongation must not discard Fourier modes')
+    v=np.asarray(values).reshape(p,b,a,4)
+    v=np.einsum('kjiv,ai->kjav',v,chebyshev_matrix(a,A),optimize=True)
+    v=np.einsum('kjav,bj->kbav',v,chebyshev_matrix(b,B),optimize=True)
+    out=np.zeros((P,B,A,4));half=p//2;newhalf=P//2
+    for k in range(p):
+        m=k if k<=half else k-half
+        dest=m if k<=half else newhalf+m
+        oldnormal=np.sqrt((1 if m in (0,half) else 2)/p)
+        newnormal=np.sqrt((1 if m in (0,newhalf) else 2)/P)
+        out[dest]=v[k]*oldnormal/newnormal
+    return out.ravel()
+
+def for_backend(backend,values,oldshape,newshape):
+    if backend.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or backend.parameterization().startswith('modal_P_C2prolate_map_v3_'):return prolong_modal(values,oldshape,newshape)
+    return prolong(values,oldshape,newshape)

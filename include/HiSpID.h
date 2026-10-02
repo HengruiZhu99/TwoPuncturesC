@@ -35,6 +35,11 @@ typedef struct {
 typedef struct HiSpID_Data HiSpID_Data;
 
 void HiSpID_default_config(HiSpID_Config *);
+/* Identifies the continuous basis represented by the saved nodal unknowns. */
+const char *HiSpID_unknown_parameterization(void);
+/* Fixed build maps [radial_stretch,angular_stretch], also encoded in the
+ * exact basis identifier for nondefault builds. Return0 on success. */
+int HiSpID_collocation_maps(double out[2]);
 /* No global parameter changes. Contexts own their configuration and caches.
  * Both map centers must be distinct, even when one mass is zero.
  * Return NULL on invalid configuration/allocation/geometry failure. */
@@ -49,8 +54,8 @@ int HiSpID_solve(HiSpID_Data *);
 int HiSpID_diagnostics(const HiSpID_Data *, HiSpID_Diagnostics *);
 int HiSpID_sample(HiSpID_Data *, int count, const double *xyz, HiSpID_Point *);
 /* Physical lab-frame metric gradients, dgamma[27*p+9*d+3*i+j]=d_d gamma_ij.
- * At the prolate map axis, correction gradients use the documented transverse
- * limit approximation; the metric values use the exact central zero mode. */
+ * Correction values and gradients use the same Cartesian C2 modal basis,
+ * including its analytic limits at the prolate axes (map foci excluded). */
 int HiSpID_sample_with_derivatives(HiSpID_Data *, int count, const double *xyz,
                                    HiSpID_Point *, double *dgamma);
 int HiSpID_seed(const HiSpID_Hole *, int conformal_choice,

@@ -94,11 +94,32 @@ class Backend:
         for name,(ret,args) in api.items():
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
-        optional={'HiSpID_create_sampler':(C.c_void_p,[C.POINTER(Config)]),
+        optional={'HiSpID_unknown_parameterization':(C.c_char_p,[]),
+                  'HiSpID_collocation_maps':(C.c_int,[PTR]),
+                  'HiSpID_create_sampler':(C.c_void_p,[C.POINTER(Config)]),
                   'HiSpID_sample_with_derivatives':(C.c_int,[C.c_void_p,C.c_int,PTR,C.POINTER(Point),PTR])}
         for name,(ret,args) in optional.items():
             if hasattr(self.lib,name):
                 f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
+    def parameterization(self):
+        if hasattr(self.lib,'HiSpID_unknown_parameterization'):
+            return self.lib.HiSpID_unknown_parameterization().decode('ascii')
+        return 'W_plus_Aminus1_V'
+    def parameterization_description(self):
+        value='u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))'
+        if self.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or self.parameterization().startswith('modal_P_C2prolate_map_v3_'):
+            return 'modal P: u=W-2(1-t)q^r P, t=a^2, q=a sin(R), parity cap r<=4'
+        return value+'; Cartesian C2 axis cardinal basis' if self.parameterization().endswith('_C2axis') else value
+    def parameterization_maps(self):
+        if hasattr(self.lib,'HiSpID_collocation_maps'):
+            values=np.empty(2)
+            if self.lib.HiSpID_collocation_maps(ptr(values)):raise ValueError('native collocation-map query failed')
+            return dict(radial_stretch=float(values[0]),angular_stretch=float(values[1]))
+        if self.parameterization()=='modal_P_C2prolate_mapped_v2':
+            return dict(radial_stretch=.2,angular_stretch=2.)
+        if self.parameterization()=='modal_P_C2prolate_v1':
+            return dict(radial_stretch=1.,angular_stretch=0.)
+        return None
     def error(self):return self.lib.HiSpID_last_error().decode()
     def library_sha256(self):
         if hashlib.sha256(self.path.read_bytes()).hexdigest()!=self.loaded_sha256:

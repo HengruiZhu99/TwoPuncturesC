@@ -1,8 +1,9 @@
 """Replay a bound checkpoint to check ADM quadrature and coordinate covariance."""
-import argparse, ctypes as C, hashlib, json
+import argparse, json
 from pathlib import Path
 import numpy as np
-from hispid import Backend, Config, Hole
+from hispid import Backend
+from checkpoints import restore
 from physical import charges, extrapolate
 
 p = argparse.ArgumentParser()
@@ -24,29 +25,7 @@ if len(candidates)!=1:
 rec=candidates[0]
 backend = Backend(args.library)
 sha = backend.library_sha256()
-if rec.get('library_sha256') != sha:
-    raise ValueError('checkpoint/library mismatch; do not reinterpret old coefficients')
-if rec.get('unknown_parameterization') != 'u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))':
-    raise ValueError('unsupported checkpoint parameterization')
-cfg = backend.config()
-for name, _ in Config._fields_:
-    if name not in rec['config']:
-        if name=='memory_limit_mib':continue # optional budget added after early evidence
-        raise ValueError('missing checkpoint configuration field: '+name)
-    value = rec['config'][name]
-    if name == 'hole':
-        for i, hole in enumerate(value):
-            cfg.hole[i] = Hole(**hole)
-    elif isinstance(getattr(cfg, name), C.Array):
-        getattr(cfg, name)[:] = value
-    else:
-        setattr(cfg, name, value)
-if list(cfg.n) != rec['resolution']:
-    raise ValueError('checkpoint/configuration grid mismatch')
-n, _, nphi = rec['resolution']
-checkpoint = root/f'validation/raw/{args.case}_{n}_{nphi}.npz'
-with np.load(checkpoint) as saved:
-    unknowns = saved['unknowns'].copy()
+cfg,unknowns=restore(backend,rec)
 radii = [float(r) for r in args.radii.split(',')]
 quadratures = [tuple(map(int, q.split(':'))) for q in args.quadratures.split(',')]
 axis = np.array([1., 2., 3.]); axis /= np.linalg.norm(axis)
@@ -57,12 +36,13 @@ offset = np.array([.7, -.2, .4])
 def rotate_charge(q):
     return np.r_[q[0], Q@q[1:4], Q@q[4:7]]
 output = dict(case=args.case, resolution=rec['resolution'],
-              library_sha256=sha, radii=radii, records=[])
+              library_sha256=sha,unknown_parameterization_id=backend.parameterization(),
+              collocation_maps=backend.parameterization_maps(),radii=radii,records=[])
 def save():
     if args.output:
         path=root/args.output;path.parent.mkdir(parents=True,exist_ok=True)
         path.write_text(json.dumps(output,indent=2)+'\n')
-with backend.create(cfg) as solution:
+with backend.create_sampler(cfg) as solution:
     solution.set_unknowns(unknowns)  # Deliberately no solve().
     def rotated_sample(x):
         values = solution.sample((np.asarray(x)-offset)@Q)

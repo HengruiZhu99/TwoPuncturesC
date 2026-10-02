@@ -7,6 +7,7 @@ lib
 /tests/*.log
 reference/
 build-hispid/
+/build-hispid-*/
 __pycache__/
 .venv/
 validation/raw/

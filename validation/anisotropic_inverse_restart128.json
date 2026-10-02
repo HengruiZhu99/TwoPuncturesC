@@ -1,0 +1,38 @@
+{
+  "library_sha256": "9cbf1108d9060095cade976c27394d8953594f45df97503a90700474f4f822fb",
+  "test_source_sha256": "f6376af06e6d510b021bdee632f718fb6a83273149497a96fc2a9113e9ed0c13",
+  "test_executable_sha256": "d1540412a6b6ab86223f9133f8e413a2541278119c8da86c7946bf62e8c97431",
+  "log": "build-hispid/anisotropic-vector-restart128.log",
+  "command": "build-hispid/test_solver.x --anisotropic-difficult-only",
+  "krylov_restart": 128,
+  "max_krylov": 1024,
+  "relative_tolerance": 1e-11,
+  "sampled_field_gradient_tolerance": 1e-11,
+  "records": [
+    {
+      "epsilon": 0.4,
+      "N": 32,
+      "mode": 0,
+      "component": 1,
+      "converged": true,
+      "krylov": 82,
+      "exact_P_floor": 4.52023e-16,
+      "true_relative_residual": 9.23627e-12,
+      "sampled_field_gradient_error": 1.46506e-12
+    },
+    {
+      "epsilon": 0.4,
+      "N": 32,
+      "mode": 0,
+      "component": 2,
+      "converged": true,
+      "krylov": 85,
+      "exact_P_floor": 3.89672e-16,
+      "true_relative_residual": 9.89474e-12,
+      "sampled_field_gradient_error": 5.56348e-15
+    }
+  ],
+  "passed": true,
+  "binary_acceptance": false,
+  "note": "Explicit larger-restart diagnostic of the first two failed rows; original72-row audit remains failed. Identical metric, RHS, operator, preconditioner and tolerance."
+}

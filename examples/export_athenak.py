@@ -26,4 +26,4 @@ else:
     elif result.get('passed') and r.get('passed_local') and converged:acceptance='preliminary'
     elif a.allow_diagnostic:acceptance='diagnostic'
     else:raise ValueError('case has not passed its physical convergence gate; --allow-diagnostic exports a labeled failure')
-print(json.dumps(write_checkpoint(a.output,c,unknowns,library_sha(b),acceptance),indent=2))
+print(json.dumps(write_checkpoint(a.output,c,unknowns,library_sha(b),acceptance,b.parameterization()),indent=2))

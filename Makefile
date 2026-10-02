@@ -94,8 +94,9 @@ HISPID_CPP = $(SRCD)/HiSpID_geometry.cpp $(SRCD)/HiSpID_solver.cpp
 HISPID_OBJ = $(patsubst $(SRCD)/%.cpp,$(HISPID_DIR)/%.o,$(HISPID_CPP))
 HISPID_LIB = $(HISPID_DIR)/libHiSpID.so
 HISPID_FLAGS = -std=c++17 -O3 -fPIC -Wall -Wextra $(shell gsl-config --cflags)
+HISPID_FLAGS += $(HISPID_MAP_FLAGS)
 
-$(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp
+$(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp $(SRCD)/HiSpID_axis.hpp
 	@mkdir -p $(HISPID_DIR)
 	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) -c $< -o $@
 
@@ -107,8 +108,17 @@ hispid: $(HISPID_LIB)
 $(HISPID_DIR)/test_geometry.x: tests/test_hispid_geometry.cpp $(HISPID_LIB)
 	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(HISPID_OBJ) $(STATIC_LIB) $(LFLAGS) -o $@
 
-test-hispid-native: $(HISPID_DIR)/test_geometry.x
+$(HISPID_DIR)/test_axis.x: tests/test_hispid_axis.cpp $(SRCD)/HiSpID_axis.hpp $(SRCD)/HiSpID_spectral.hpp
+	@mkdir -p $(HISPID_DIR)
+	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< -o $@
+
+$(HISPID_DIR)/test_solver.x: tests/test_hispid_solver.cpp $(SRCD)/HiSpID_solver.cpp $(SRCD)/HiSpID_axis.hpp $(SRCD)/HiSpID_spectral.hpp $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB)
+	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB) $(LFLAGS) -o $@
+
+test-hispid-native: $(HISPID_DIR)/test_geometry.x $(HISPID_DIR)/test_axis.x $(HISPID_DIR)/test_solver.x
 	$(HISPID_DIR)/test_geometry.x
+	$(HISPID_DIR)/test_axis.x
+	$(HISPID_DIR)/test_solver.x
 
 PYTHON ?= python3
 test-hispid: test-hispid-native

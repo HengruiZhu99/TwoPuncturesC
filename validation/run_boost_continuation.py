@@ -62,7 +62,7 @@ for i,v in enumerate(velocities):
         if unknowns is not None:s.set_unknowns(unknowns)
         diagnostics=s.solve();unknowns=s.unknowns()
     last=dict(case=stage,resolution=list(cfg.n),config=as_dict(cfg),library_sha256=sha,
-              unknown_parameterization=PARAMETERIZATION,diagnostics=diagnostics,
+              unknown_parameterization=backend.parameterization_description(),unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps(),diagnostics=diagnostics,
               velocity=v,seconds=time.monotonic()-start)
     np.savez_compressed(RAW/f'{stage}_{cfg.n[0]}_{cfg.n[2]}.npz',unknowns=unknowns)
     history.append(last)
