@@ -1,0 +1,79 @@
+{
+  "created_utc": "2026-10-03T20:31:17.737529+00:00",
+  "source_commit": "5c91c80f3c13516436fda8714571cfacef22ebef",
+  "stage": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/geometry-setup-source-5c91c80",
+  "manifest": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/geometry-setup-build-manifest-5c91c80.json",
+  "manifest_sha256": "780598b7dcc8d30a7303690fa7fb1710007e7aeee0f4c7a4329c77a6b729218b",
+  "variants": [
+    {
+      "id": "serial",
+      "space": "Serial",
+      "threads": 1,
+      "hispid_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libHiSpID.so",
+      "by_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libTwoPunctures.so"
+    },
+    {
+      "id": "openmp1",
+      "space": "OpenMP",
+      "threads": 1,
+      "hispid_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libHiSpID.so",
+      "by_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libTwoPunctures.so"
+    },
+    {
+      "id": "openmp2",
+      "space": "OpenMP",
+      "threads": 2,
+      "hispid_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libHiSpID.so",
+      "by_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libTwoPunctures.so"
+    },
+    {
+      "id": "openmp4",
+      "space": "OpenMP",
+      "threads": 4,
+      "hispid_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libHiSpID.so",
+      "by_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libTwoPunctures.so"
+    },
+    {
+      "id": "openmp8",
+      "space": "OpenMP",
+      "threads": 8,
+      "hispid_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libHiSpID.so",
+      "by_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libTwoPunctures.so"
+    },
+    {
+      "id": "openmp16",
+      "space": "OpenMP",
+      "threads": 16,
+      "hispid_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libHiSpID.so",
+      "by_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libTwoPunctures.so"
+    },
+    {
+      "id": "cuda",
+      "space": "Cuda",
+      "threads": 16,
+      "hispid_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libHiSpID.so",
+      "by_library": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libTwoPunctures.so"
+    }
+  ],
+  "build_images_sha256": {
+    "serial": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libHiSpID.so": "4f8e792fa9f091643b1554e38a5bb7478f44423ed8a4e1ba3309b8900325adf9",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libTwoPunctures.so": "b2691bf737b75d75844b91a318aa5cbeea055e7f6d9bacea68b461676e56ca34"
+    },
+    "openmp": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libHiSpID.so": "52f48572b9b5ecadb1a00c1cb010d00865a162e79754efd1ef5c3a9038605b87",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855/libTwoPunctures.so": "eb985e445b9d7e0091a507f0124140b6faa903dbe024dbaad3d474cf1c2be32f"
+    },
+    "cuda": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libHiSpID.so": "9ce170ab179a5eee257c2c53f5541e3b3585673cab7fb8f274743494e340233a",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libTwoPunctures.so": "3f37baf766438b08e870c3f4ce60f69d87a7710e0cc8b891372e46a6ca6c2b8d"
+    }
+  },
+  "compiled_native_source_files": {
+    "serial": 47,
+    "openmp": 47,
+    "cuda": 47
+  },
+  "actual_setup_tests_pending": true,
+  "solve_campaign_replaced": false
+}
