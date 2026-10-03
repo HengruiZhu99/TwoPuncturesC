@@ -4,6 +4,7 @@ from collections import defaultdict
 from pathlib import Path
 from benchmark_bowen_york import digest
 from benchmark_kokkos import verify_artifacts
+from kokkos_setup_report import load_setup_results, render_setup
 
 
 def tex(value):
@@ -15,10 +16,24 @@ def work(row):
     stats=row['diagnostics'] if row['mode']=='hispid' else row['work_statistics']
     return stats['newton_iterations'],stats['krylov_iterations'],row['work_statistics']['jvp_applications'],row['work_statistics']['preconditioner_applications']
 
+
+def qualified_solve_group(result, grid, mode, method, variant, rows):
+    if result['binding'].get('repeats') != 3 or len(rows) != 3 or {r['repeat'] for r in rows} != {0,1,2}:
+        return False
+    prefix='_'.join(map(str,grid))+f'_{variant}_{mode}_{method}_'
+    return all(row['checks']['passed'] and result['comparisons'].get(prefix+str(row['repeat']),{}).get('passed',False)
+               for row in rows)
+
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--results',required=True);p.add_argument('--output',required=True);args=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--results',required=True);p.add_argument('--output',required=True)
+    p.add_argument('--artifact-root',help='Root for relative solve artifacts; defaults to the frozen benchmark module root')
+    p.add_argument('--setup-results',help='Separate immutable geometry-setup result snapshot')
+    p.add_argument('--setup-artifact-root',help='Its staged source/root, where relative setup artifacts are retained')
+    args=p.parse_args()
+    if bool(args.setup_results)!=bool(args.setup_artifact_root):p.error('--setup-results and --setup-artifact-root must be supplied together')
     payload=Path(args.results).read_bytes();source_sha=hashlib.sha256(payload).hexdigest()
-    result=json.loads(payload);verify_artifacts(result);records=result['records'];groups=defaultdict(list)
+    result=json.loads(payload);verify_artifacts(result,artifact_root=args.artifact_root);records=result['records'];groups=defaultdict(list)
+    setup,setup_sha=load_setup_results(args.setup_results,args.setup_artifact_root) if args.setup_results else (None,None)
     for row in records.values():groups[(tuple(row['grid']),row['mode'],row['krylov'],row['variant'])].append(row)
     grids=sorted({key[0] for key in groups});variants=[v['id'] for v in result['manifest']['variants']]
     failed_comparisons=[(label,c) for label,c in result['comparisons'].items() if not c['passed']]
@@ -132,8 +147,9 @@ alone.
 
 Host RSS is the process peak through first sampling, before untimed verification
 and snapshot allocation. Reported Kokkos peaks are allocations observed after
-owned runtime initialization, including setup overlap; they exclude native
-std::vector/GSL storage and initialization/runtime allocations. Pinned memory
+owned runtime initialization, including setup overlap and any tracked allocations
+still live at counter reset. They exclude native std::vector/GSL storage and
+runtime/stack allocations outside the callbacks. Pinned memory
 is host; unified spaces are classified by their logical device space. Driver
 process memory at 1 Hz covers the whole worker, including untimed verification
 and snapshot allocation. It includes CUDA context/runtime and is a sampled lower
@@ -158,12 +174,13 @@ setup/operator phases; API copy volumes exclude runtime-internal traffic.
         for mode in ('hispid','by'):
             for method in ('gmres','bicgstab'):
                 ref=groups.get((grid,mode,method,'reference'),[]);omp=groups.get((grid,mode,method,'openmp16'),[]);gpu=groups.get((grid,mode,method,'cuda'),[])
-                if not (ref and omp and gpu) or not all(row['checks']['passed'] for row in ref+omp+gpu):continue
+                if not all(qualified_solve_group(result,grid,mode,method,v,rows) for v,rows in
+                           (('reference',ref),('openmp16',omp),('cuda',gpu))):continue
                 cold=lambda rows:statistics.median(row['initialization_seconds']+row['ready_to_sample_seconds'] for row in rows)
                 values=[r'$\times$'.join(map(str,grid)),('Hi' if mode=='hispid' else 'BY')+'/'+('G' if method=='gmres' else 'B'),number(median(ref,'solve_seconds')/median(omp,'solve_seconds')),number(median(omp,'solve_seconds')/median(gpu,'solve_seconds')),number(cold(ref)/cold(gpu)),number(100*(1-median(omp,'max_rss_bytes')/median(ref,'max_rss_bytes')))+r'\%']
                 doc.append(' & '.join(values)+r'\\'+'\n')
     doc.append(r'\bottomrule\end{tabular}\end{center}'+'\n')
-    doc.append('Ratios above use internally converged solves; the strict Hi full-state comparison remains a separate failed gate. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.\n')
+    doc.append('Ratios require all three repeats in every participating group to pass stopping/protocol and strict full-state comparison gates. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.\n')
     for grid in grids:
         doc.append(r'\subsection{Grid '+r'$\times$'.join(map(str,grid))+'}\n')
         doc.append(r'''\footnotesize
@@ -276,6 +293,17 @@ reported separately from full port acceptance.
             outcome='timeout' if failure.get('timeout') else 'process failure'
             doc.append(r'\nolinkurl{'+label+'} & '+outcome+' & '+number(failure.get('elapsed_seconds'))+' & '+tex(failure.get('exit_code','unavailable'))+r'\\'+'\n')
         doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
+    if setup is not None:
+        doc.append(render_setup(setup,setup_sha,tex,number))
+    else:
+        doc.append(r'''\section{Execution-space geometry setup status}
+The newer optional setup kernels evaluate spinning/boosted seed geometry and
+build coordinate, derivative and coefficient caches in the selected Kokkos
+execution space. CPU controls pass and CUDA images compile. Their separate
+126-worker paired setup campaign is pending; this frozen solve dataset uses
+host geometry construction. No measured GPU setup improvement or acceptance
+of the newer images is inferred from the solve timings above.
+''')
     doc.append(r'''\section{Interpretation and subsequent physical study}
 Dense cached differentiation removes repeated transform/trigonometric setup
 from BY's linear action and repeated nonlinear residual evaluations. A scoped
@@ -353,5 +381,6 @@ August2015, Section4.5 and Table4.3 (printed pp.117--119),
 \end{document}
 ''')
     if digest(args.results)!=source_sha:raise RuntimeError('measurement JSON changed during report generation; use an immutable snapshot')
+    if args.setup_results and digest(args.setup_results)!=setup_sha:raise RuntimeError('setup JSON changed during report generation; use an immutable snapshot')
     Path(args.output).write_text(''.join(doc));print(args.output)
 if __name__=='__main__':main()

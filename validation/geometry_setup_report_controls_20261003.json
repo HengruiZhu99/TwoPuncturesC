@@ -1,0 +1,20 @@
+{
+  "created_utc": "2026-10-03T21:05:20.055858+00:00",
+  "protocol_test_methods": 7,
+  "report_test_methods": 6,
+  "passed": true,
+  "native_or_gpu_runs": false,
+  "synthetic_report_fixtures": true,
+  "independent_review": "formulation_review: cleared final build/image binding and setup-only scope",
+  "source_sha256": {
+    "validation/kokkos_latex_report.py": "22058db39955a645d27dd7f7e3ea06cf02bcdcc8c5ff0f1b861ad6727d087444",
+    "validation/kokkos_setup_report.py": "83efc0eb91df94a76cc0daffe91714adeb46d0dad54a0f932a51fd98d88b34b2",
+    "validation/benchmark_geometry_setup.py": "63041a1d63861e7b8e5bc294d8cbb9cd60121150a85b1932713f74d6b58ae3b9",
+    "validation/kokkos_build_manifest.py": "1313a00f04f7b620cc3b095d84e9ad96ded83c604a5179d1c26d9bba915de328",
+    "validation/benchmark_kokkos.py": "09cad8c1222d9435251b7dc24278b182c8763e937e754360216b88c8f2e50262",
+    "tests/test_geometry_setup_protocol.py": "a538b88dc8b42af075a2bc7754e4795e912f9cc8a44cd037cf967b061d1a2807",
+    "tests/test_kokkos_setup_report.py": "000f380f26177e5f0e03248040b9ef4836f067027dc6518b4dca94cc0d1415b6"
+  },
+  "log": "validation/geometry_setup_report_controls_20261003.txt",
+  "log_sha256": "54ebe422704b71dce4a114a6b1c496835ca1f987b93219122c05cdea18af7b9f"
+}

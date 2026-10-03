@@ -61,3 +61,31 @@ on transient VRAM peaks. Construction and first-sample timers are separate;
 coefficient transformation is a subset of first sampling. The metadata-query
 gap has its own wall-time field. Timing and memory definitions must remain
 explicit in the final standalone LaTeX report.
+
+The report generator accepts a separate immutable setup snapshot and its
+staged artifact root alongside the frozen solve snapshot:
+
+```sh
+python3 validation/kokkos_latex_report.py \
+  --results /absolute/frozen-solve-snapshot.json \
+  --artifact-root /absolute/frozen-solve-source \
+  --setup-results /absolute/setup-snapshot.json \
+  --setup-artifact-root /absolute/staged-setup-source \
+  --output docs/HISPID_KOKKOS_PERFORMANCE.tex
+```
+
+Run where the measured absolute native/runtime images, build caches and test
+executables remain accessible. Relative setup evidence resolves against its
+own artifact root. The generator reconstructs all126 worker identities,
+rehashes sources, inputs, logs, states, worker JSON, build caches and images,
+reparses native JUnit outcomes, and recomputes all22 array comparisons. Duplicate
+test names are rejected; skipped or missing suites cannot qualify a pair.
+Each variant must match its Serial/OpenMP/CUDA build receipt. Only three
+complete qualified pairs yield a group speedup; partial and failed groups keep
+diagnostic timings. Cached flags do not supply qualification. The source JSON
+remains unchanged. Omitting both setup arguments reports the campaign pending.
+
+Generate the source first, then compile the saved standalone document with
+the desktop LaTeX editor. Compilation success is recorded separately from
+benchmark completion and numerical acceptance. The solve speedup table also
+requires three repeats passing both stopping and strict state gates.

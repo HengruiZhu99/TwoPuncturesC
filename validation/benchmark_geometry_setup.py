@@ -194,6 +194,7 @@ def compare_arrays(host, execution, grid):
 def protocol_checks(record, variant, images, expected_config, input_hash, arrays_hash):
     setup = record.get('setup_statistics') or {}
     primary = str(Path(variant['hispid_library']).resolve())
+    puncture = str(Path(variant['by_library']).resolve())
     runtime = {str(Path(path).resolve()): images[str(Path(path).resolve())]
                for path in variant.get('runtime_images', [])}
     checks = dict(configuration=record['config'] == expected_config,
@@ -203,6 +204,7 @@ def protocol_checks(record, variant, images, expected_config, input_hash, arrays
                   geometry=setup.get('geometry_execution') == int(record['geometry'] == 'execution'),
                   precision=setup.get('scalar_digits') == 53 if record['geometry'] == 'execution' else setup.get('scalar_digits', 0) >= 53,
                   image=record['loaded_image_verified'] and record['library_sha256'] == images[primary]
+                        and record['dependency_images'].get(puncture) == images[puncture]
                         and all(images.get(p) == sha for p, sha in record['dependency_images'].items()),
                   runtime=record['runtime_images'] == runtime,
                   finite=record['all_arrays_finite'], zero=record['initial_unknowns_zero'],
@@ -211,7 +213,7 @@ def protocol_checks(record, variant, images, expected_config, input_hash, arrays
                   memory_tracking=record['execution_statistics']['memory_tracking_available'] == 1)
     times = [record[k] for k in ('initialization_seconds', 'creation_seconds', 'first_sample_seconds', 'ready_to_sample_seconds')]
     times += [setup.get(k, -1) for k in ('spectral_seconds', 'geometry_seconds', 'coefficient_seconds')]
-    checks['timers'] = all(np.isfinite(v) and v >= 0 for v in times)
+    checks['timers'] = all(np.isfinite(v) and v >= 0 for v in times) and times[1] > 0 and times[3] > 0
     if variant['space'] == 'Cuda':
         device = record.get('device') or {}
         checks['one_gpu'] = device.get('visible_count') == 1 and device.get('visible_ordinal') == 0 and bool(device.get('uuid'))
@@ -219,6 +221,16 @@ def protocol_checks(record, variant, images, expected_config, input_hash, arrays
         checks['driver_identity'] = not observed or observed == {device.get('uuid')}
     checks['passed'] = all(checks.values())
     return checks
+
+
+def junit_outcomes(path):
+    tested = {}
+    for test in ET.parse(path).getroot().iter('testcase'):
+        name = test.attrib['name']
+        if name in tested:
+            raise ValueError('duplicate native setup testcase: ' + name)
+        tested[name] = all(test.find(key) is None for key in ('failure', 'error', 'skipped'))
+    return tested
 
 
 def setup_control(variant, images, raw, timeout, env):
@@ -263,8 +275,7 @@ def setup_control(variant, images, raw, timeout, env):
             timed_out = True
     tested = {}
     if junit.exists():
-        for test in ET.parse(junit).getroot().iter('testcase'):
-            tested[test.attrib['name']] = all(test.find(key) is None for key in ('failure', 'error', 'skipped'))
+        tested = junit_outcomes(junit)
     row = dict(executed=True, passed=code == 0 and set(tested) == SETUP_TESTS and all(tested.values()),
                tests=tested, exit_code=code, timeout=timed_out, command=command,
                images=images, executables_sha256=executables,
@@ -274,17 +285,23 @@ def setup_control(variant, images, raw, timeout, env):
     return row
 
 
-def verify_sources(result):
+def verify_sources(result, artifact_root=None):
+    root = ROOT if artifact_root is None else Path(artifact_root)
     for path, sha in result['binding']['sources_sha256'].items():
-        if digest(ROOT/path) != sha:
+        if digest(root/path) != sha:
             raise ValueError('supplemental source changed: ' + path)
 
 
-def verify_controls(result):
+def verify_controls(result, artifact_root=None):
+    root = ROOT if artifact_root is None else Path(artifact_root)
     for row in result['setup_controls'].values():
         for key in ('log', 'junit'):
-            if key in row and digest(ROOT / row[key]) != row[key + '_sha256']:
+            if key in row and digest(root / row[key]) != row[key + '_sha256']:
                 raise ValueError('native setup evidence changed')
+        if 'junit' in row:
+            tested = junit_outcomes(root/row['junit'])
+            if tested != row['tests']:
+                raise ValueError('native setup suite outcomes differ from retained JUnit')
         for path, sha in row.get('executables_sha256', {}).items():
             if digest(path) != sha:
                 raise ValueError('native setup executable changed')
@@ -301,14 +318,15 @@ def control_passed(control, images):
             and all(control.get(key) and len(control.get(key+'_sha256', '')) == 64 for key in ('log', 'junit')))
 
 
-def finalize(result, raw, verify=True):
+def finalize(result, raw, verify=True, artifact_root=None):
+    root = ROOT if artifact_root is None else Path(artifact_root)
     result['full_artifact_verification'] = False
     result['declared_setup_completed'] = False
     result['all_setup_checks_passed'] = False
     if verify:
-        verify_artifacts(result)
-        verify_sources(result)
-        verify_controls(result)
+        verify_artifacts(result, artifact_root=root)
+        verify_sources(result, artifact_root=root)
+        verify_controls(result, artifact_root=root)
         result['full_artifact_verification'] = True
     variants = {v['id']: v for v in result['manifest']['variants']}
     comparisons = {}
@@ -333,7 +351,7 @@ def finalize(result, raw, verify=True):
         if cached.get('binding') == comparison_binding:
             comparison = dict(cached)
         else:
-            comparison = compare_arrays(ROOT / host['state'], ROOT / execution['state'], record['grid'])
+            comparison = compare_arrays(root / host['state'], root / execution['state'], record['grid'])
         comparison['binding'] = comparison_binding
         qualified = result['full_artifact_verification'] and comparison['passed'] and host['checks']['passed'] and execution['checks']['passed'] and control_passed(control, result['images'][record['variant']])
         comparison['qualified'] = qualified

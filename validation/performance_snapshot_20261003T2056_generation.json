@@ -1,0 +1,15 @@
+{
+  "generated_utc": "2026-10-03T21:01:24.492504+00:00",
+  "snapshot_sha256": "a065bb0a19674ccc996b481dad933a0ed64e469f5c4cea18b7233961d41dcf2d",
+  "tex_sha256": "ef1d5e2d0b00cb41eff92fdc5bd61b54c9a38d12c64ecedb99d2434985b60286",
+  "generator_sha256": {
+    "kokkos_latex_report.py": "22058db39955a645d27dd7f7e3ea06cf02bcdcc8c5ff0f1b861ad6727d087444",
+    "kokkos_setup_report.py": "83efc0eb91df94a76cc0daffe91714adeb46d0dad54a0f932a51fd98d88b34b2",
+    "benchmark_geometry_setup.py": "63041a1d63861e7b8e5bc294d8cbb9cd60121150a85b1932713f74d6b58ae3b9",
+    "kokkos_build_manifest.py": "1313a00f04f7b620cc3b095d84e9ad96ded83c604a5179d1c26d9bba915de328",
+    "benchmark_kokkos.py": "09cad8c1222d9435251b7dc24278b182c8763e937e754360216b88c8f2e50262"
+  },
+  "retained_artifacts_verified": true,
+  "setup_campaign_pending": true,
+  "native_compilation_pending": true
+}

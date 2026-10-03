@@ -1,0 +1,27 @@
+{
+  "compilation_confirmed": true,
+  "compiler": "mcp__codex_app__compile_latex_document",
+  "kind": "success",
+  "performance_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/performance_snapshot_20261003T2056.json",
+  "performance_sha256": "a065bb0a19674ccc996b481dad933a0ed64e469f5c4cea18b7233961d41dcf2d",
+  "report_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/docs/HISPID_KOKKOS_PERFORMANCE.tex",
+  "report_sha256": "ef1d5e2d0b00cb41eff92fdc5bd61b54c9a38d12c64ecedb99d2434985b60286",
+  "compiled_at_utc": "2026-10-03T21:05:20.055262+00:00",
+  "declared_performance_completed": false,
+  "completed_workers": 243,
+  "expected_workers": 288,
+  "failed_stopping_checks": 63,
+  "process_failures": 2,
+  "strict_comparison_failures": 155,
+  "report_generator_sha256": {
+    "kokkos_latex_report.py": "22058db39955a645d27dd7f7e3ea06cf02bcdcc8c5ff0f1b861ad6727d087444",
+    "kokkos_setup_report.py": "83efc0eb91df94a76cc0daffe91714adeb46d0dad54a0f932a51fd98d88b34b2",
+    "benchmark_geometry_setup.py": "63041a1d63861e7b8e5bc294d8cbb9cd60121150a85b1932713f74d6b58ae3b9",
+    "kokkos_build_manifest.py": "1313a00f04f7b620cc3b095d84e9ad96ded83c604a5179d1c26d9bba915de328",
+    "benchmark_kokkos.py": "09cad8c1222d9435251b7dc24278b182c8763e937e754360216b88c8f2e50262"
+  },
+  "retained_artifacts_verified": true,
+  "setup_campaign_pending": true,
+  "qualified_ratios_require_three_repeats_and_strict_state": true,
+  "frozen_producer_sources_unchanged": true
+}

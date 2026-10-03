@@ -10,7 +10,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT/name) for name in ('python', 'examples', 'validation')]
-from benchmark_geometry_setup import SETUP_TESTS, compare_arrays, decode_config, finalize, frozen_arrays, protocol_checks, state_shapes, verify_sources, verify_controls
+from benchmark_geometry_setup import SETUP_TESTS, compare_arrays, decode_config, finalize, frozen_arrays, junit_outcomes, protocol_checks, state_shapes, verify_sources, verify_controls
 from configs import as_dict
 from hispid import Config, Hole
 
@@ -18,7 +18,7 @@ from hispid import Config, Hole
 class GeometrySetupProtocolTests(unittest.TestCase):
     def fixtures(self, geometry='execution', space='Serial'):
         variant = dict(id='serial', threads=1, space=space, execution='kokkos',
-                       hispid_library='/build/libHiSpID.so', runtime_images=['/build/libkokkoscore.so'])
+                       hispid_library='/build/libHiSpID.so', by_library='/build/libTwoPunctures.so', runtime_images=['/build/libkokkoscore.so'])
         images = {'/build/libHiSpID.so': 'a'*64, '/build/libTwoPunctures.so': 'b'*64,
                   '/build/libkokkoscore.so': 'c'*64}
         record = dict(config={'n': [4, 8, 4]}, geometry=geometry, execution='kokkos',
@@ -77,10 +77,10 @@ class GeometrySetupProtocolTests(unittest.TestCase):
         self.assertTrue(self.checks(record, variant, images)['passed'])
         mutations = [dict(config={'n': [8, 8, 4]}), dict(input_arrays_sha256='f'*64),
                      dict(cpu_threads=2), dict(compiled_execution='OpenMP'),
-                     dict(library_sha256='f'*64), dict(runtime_images={}),
+                     dict(library_sha256='f'*64), dict(runtime_images={}), dict(dependency_images={}),
                      dict(all_arrays_finite=False), dict(initial_unknowns_zero=False),
                      dict(diagnostics={'newton_iterations': 1, 'krylov_iterations': 0}),
-                     dict(creation_seconds=float('nan')), dict(first_sample_seconds=-1),
+                     dict(creation_seconds=float('nan')), dict(creation_seconds=0), dict(first_sample_seconds=-1),
                      dict(execution_statistics={'memory_tracking_available': 0}),
                      dict(setup_statistics=record['setup_statistics'] | {'geometry_execution': 0}),
                      dict(setup_statistics=record['setup_statistics'] | {'scalar_digits': 64})]
@@ -172,6 +172,32 @@ class GeometrySetupProtocolTests(unittest.TestCase):
             result['setup_controls']['serial']['executables_sha256'] = {}
             with self.assertRaisesRegex(ValueError, 'image changed'):
                 verify_controls(result)
+
+    def test_relocated_artifacts_and_fresh_junit_outcomes(self):
+        import hashlib
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, log, junit, image = [root/name for name in ('source.py', 'control.log', 'control.xml', 'native')]
+            source.write_text('source'); log.write_text('control'); image.write_text('image')
+            junit.write_text('<testsuite><testcase name="hispid_kokkos_setup"/><testcase name="hispid_execution_seed_export"/></testsuite>')
+            sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+            row = dict(log='control.log', log_sha256=sha(log), junit='control.xml', junit_sha256=sha(junit),
+                       tests={key: True for key in SETUP_TESTS}, executables_sha256={str(image): sha(image)},
+                       images={str(image): sha(image)})
+            result = dict(binding={'sources_sha256': {'source.py': sha(source)}}, setup_controls={'serial': row})
+            verify_sources(result, artifact_root=root); verify_controls(result, artifact_root=root)
+            junit.write_text('<testsuite><testcase name="hispid_kokkos_setup"><skipped/></testcase><testcase name="hispid_execution_seed_export"/></testsuite>')
+            row['junit_sha256'] = sha(junit)
+            with self.assertRaisesRegex(ValueError, 'outcomes differ'):
+                verify_controls(result, artifact_root=root)
+            row['tests']['hispid_kokkos_setup'] = False
+            verify_controls(result, artifact_root=root)
+            junit.write_text('<testsuite><testcase name="hispid_kokkos_setup"><failure/></testcase><testcase name="hispid_kokkos_setup"/><testcase name="hispid_execution_seed_export"/></testsuite>')
+            row['junit_sha256'] = sha(junit)
+            with self.assertRaisesRegex(ValueError, 'duplicate'):
+                verify_controls(result, artifact_root=root)
+            with self.assertRaisesRegex(ValueError, 'duplicate'):
+                junit_outcomes(junit)
 
 
 if __name__ == '__main__':

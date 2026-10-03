@@ -1,5 +1,22 @@
 # HiSpID milestone status
 
+October3 report qualification follow-up: the goal and Perlmutter job59275439
+are active. At21:01UTC the frozen solve campaign retains243/288 attempts,
+63 failed stopping/protocol checks, two process timeouts and155 failed strict
+comparison entries. These are separate failure categories, not disjoint counts.
+The standalone report now binds the immutable20:56UTC243-attempt snapshot,
+with retained artifact hashes verified and native editor compilation confirmed
+in `validation/performance_snapshot_20261003T2056_compilation.json`.
+The speedup table was corrected to require three repeats and both stopping
+and full-state preservation; failed or partial groups retain diagnostic timings.
+Seven setup-protocol and six report controls pass. The independently reviewed
+report adapter accepts the separate126-worker setup dataset, verifies its own
+source/artifact/build/image witnesses, reparses JUnit and rereads all22 arrays
+before qualifying a three-pair ratio. No new setup performance results are
+invented or pooled with the frozen solve images. The new GPU setup campaign,
+final comprehensive report and chi=.99/Gamma10 binary investigations remain
+pending. See [the setup/report protocol](HISPID_SETUP_PROTOCOL.md).
+
 October3 setup measurement follow-up: a separate, restartable126-worker
 host-versus-execution setup protocol is prepared for the new images. Six
 protocol tests reject missing arrays, nonfinite values, skipped suites and
@@ -72,14 +89,13 @@ and one final polishing step now pass both methods on OpenMP16 and CUDA,
 with original residuals3–7e-13 and complete-state gates passed; see
 `kokkos_by_polish_preflight40_v3_20261002.json`. This is a one-repeat preflight,
 not the final performance estimate. The declared 288-worker performance
-matrix is running on one allocated Perlmutter A100. Retained at 2026-10-03 11:29 UTC,
+matrix is running on one allocated Perlmutter A100. In the earlier snapshot at 2026-10-03 11:29 UTC,
 195 attempts are retained, with 39 failed stopping checks and one process
 failure: the largest reference BY/GMRES worker reached its 3600 s timeout.
 These failed checks are not qualified speedup results. The standalone
-[LaTeX report draft](HISPID_KOKKOS_PERFORMANCE.tex) is an explicitly incomplete
-195-attempt snapshot covering all small/medium repeats and the first largest-grid
-reference attempts, with native
-editor compilation confirmed by
+[LaTeX report draft](HISPID_KOKKOS_PERFORMANCE.tex) remains explicitly incomplete
+and now uses the243-attempt snapshot described above. The earlier195-attempt
+snapshot and compilation receipt remain in
 `validation/performance_snapshot_20261003T1129_compilation.json`.
 The new separate spin.99/Gamma10 studies remain pending. The completed
 performance report will precede physical runs. The existing Hi

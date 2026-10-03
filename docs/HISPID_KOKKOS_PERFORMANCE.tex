@@ -53,7 +53,7 @@ $10^{-9}$ bound. Independent Cartesian FD constraint differences are bounded
 by $\max(10^{-7},5\epsilon_{\rm step})$ with steps 0.004/0.002/0.001.
 \section{Hardware and measurement definitions}
 Current measurement binding: hispid, by, 3 grid(s), 8 variant(s), 3 repeat(s).\\
-Source result: \texttt{performance\_snapshot\_20261003T1129.json}.\\
+Source result: \texttt{performance\_snapshot\_20261003T2056.json}.\\
 Initial host: nid200265. CPU: AMD EPYC 7763 64-Core Processor.\\
 Compiler command version: gcc (SUSE Linux) 14.3.0.\\
 Initial Slurm allocation: 59242299. Visible GPU setting: 0.\\
@@ -61,6 +61,9 @@ Allocation epoch 0: nid200265, Slurm 59242299.\\
 Allocation epoch 1: nid200265, Slurm 59247540.\\
 Allocation epoch 2: nid200265, Slurm 59252614.\\
 Allocation epoch 3: nid200265, Slurm 59258902.\\
+Allocation epoch 4: nid200265, Slurm 59265273.\\
+Allocation epoch 5: nid200265, Slurm 59269384.\\
+Allocation epoch 6: nid200265, Slurm 59275439.\\
 Device: NVIDIA A100-SXM4-80GB, 79.2 GiB; UUID \texttt{GPU-3d48a662-4640-b2ae-94ac-27f2e14a9fb2}.\\
 The one-GPU shared allocation supplies 16 physical CPU cores (32 logical
 CPUs). OpenMP uses 1/2/4/8/16 host threads bound to cores; the CUDA variant
@@ -103,8 +106,9 @@ alone.
 
 Host RSS is the process peak through first sampling, before untimed verification
 and snapshot allocation. Reported Kokkos peaks are allocations observed after
-owned runtime initialization, including setup overlap; they exclude native
-std::vector/GSL storage and initialization/runtime allocations. Pinned memory
+owned runtime initialization, including setup overlap and any tracked allocations
+still live at counter reset. They exclude native std::vector/GSL storage and
+runtime/stack allocations outside the callbacks. Pinned memory
 is host; unified spaces are classified by their logical device space. Driver
 process memory at 1 Hz covers the whole worker, including untimed verification
 and snapshot allocation. It includes CUDA context/runtime and is a sampled lower
@@ -117,18 +121,14 @@ total data-construction time minus its Newton timer (allocation and native
 post-solve work are not individually instrumented). Transfer timings overlap
 setup/operator phases; API copy volumes exclude runtime-internal traffic.
 \section{Completed measurements}
-Retained attempts: 195 of 288; completed benchmark records: 194. Retained process failures: 1. Completed records failing stopping/protocol checks: 39. Strict state comparison failures: 132.\\
+Retained attempts: 243 of 288; completed benchmark records: 241. Retained process failures: 2. Completed records failing stopping/protocol checks: 63. Strict state comparison failures: 155.\\
 \textbf{This is an incomplete measurement snapshot; pending rows are not estimated.}\par
 \textbf{The full declared three-grid, eight-variant, three-repeat protocol is not yet complete. This snapshot cannot substitute for the comprehensive report.}\par
 \begin{center}\small\begin{tabular}{llrrrr}\toprule Grid & System/method & OMP16 speedup & GPU/OMP16 & GPU cold speedup & OMP RSS saved\\\midrule
-40$\times$80$\times$16 & Hi/G & 8.3 & 4.29 & 16.3 & 4.04\%\\
-40$\times$80$\times$16 & Hi/B & 8.34 & 4.95 & 16.8 & 4.71\%\\
 40$\times$80$\times$16 & BY/G & 9.17 & 0.911 & 6.05 & 21.4\%\\
 40$\times$80$\times$16 & BY/B & 9.27 & 0.913 & 6.11 & 21.4\%\\
-80$\times$160$\times$16 & Hi/G & 8.04 & 5.2 & 17.6 & 4.03\%\\
-80$\times$160$\times$16 & Hi/B & 8.67 & 5.88 & 18.7 & 5.11\%\\
 \bottomrule\end{tabular}\end{center}
-Ratios above use internally converged solves; the strict Hi full-state comparison remains a separate failed gate. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.
+Ratios require all three repeats in every participating group to pass stopping/protocol and strict full-state comparison gates. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.
 \subsection{Grid 40$\times$80$\times$16}
 \footnotesize
 \begin{longtable}{llrrrrrr}
@@ -355,19 +355,103 @@ BY/B & cuda & 24/70 & 170/122 & 0.0929 & 1.07 & 1.11 & 32.4 & 43.7 & 0.709\\
 \toprule System/method & Variant & $n$ & Solve(s) & Ready(s) & Cold(s) & RSS(GiB) & Device(GiB)\\
 \midrule\endhead
 Hi/G & reference & 1 & 512 [512,512] & 1.45e+03 & 1.45e+03 & 6.38 & --\\
+Hi/G & serial & 1 & 1e+03 [1e+03,1e+03] & 2e+03 & 2e+03 & 6.13 & 0\\
+Hi/G & openmp1 & 1 & 993 [993,993] & 2e+03 & 2e+03 & 6.13 & 0\\
+Hi/G & openmp2 & 1 & 510 [510,510] & 1.01e+03 & 1.01e+03 & 6.13 & 0\\
+Hi/G & openmp4 & 2 & 274 [273,275] & 536 & 536 & 6.16 & 0\\
+Hi/G & openmp8 & 2 & 137 [137,138] & 265 & 265 & 6.16 & 0\\
+Hi/G & openmp16 & 2 & 78.6 [78.4,78.7] & 146 & 146 & 6.13 & 0\\
+Hi/G & cuda & 2 & 9.11 [9.07,9.15] & 74.5 & 75 & 2.29 & 5.84\\
 Hi/B & reference & 1 & 599 [599,599] & 1.53e+03 & 1.53e+03 & 5.62 & --\\
+Hi/B & serial & 1 & 1.24e+03 [1.24e+03,1.24e+03] & 2.23e+03 & 2.23e+03 & 5.33 & 0\\
+Hi/B & openmp1 & 1 & 1.23e+03 [1.23e+03,1.23e+03] & 2.24e+03 & 2.24e+03 & 5.31 & 0\\
+Hi/B & openmp2 & 2 & 603 [601,605] & 1.11e+03 & 1.11e+03 & 5.33 & 0\\
+Hi/B & openmp4 & 2 & 328 [328,329] & 581 & 581 & 5.31 & 0\\
+Hi/B & openmp8 & 2 & 152 [151,154] & 280 & 280 & 5.33 & 0\\
+Hi/B & openmp16 & 2 & 98 [97.5,98.4] & 162 & 162 & 5.33 & 0\\
+Hi/B & cuda & 2 & 9.51 [9.49,9.52] & 74.6 & 74.9 & 2.29 & 5.75\\
+BY/G & serial$\dagger$ & 1 & 747 [747,747] & 779 & 779 & 2.08 & 0\\
+BY/G & openmp1$\dagger$ & 1 & 765 [765,765] & 797 & 797 & 2.09 & 0\\
+BY/G & openmp2$\dagger$ & 2 & 571 [566,576] & 603 & 603 & 2.08 & 0\\
+BY/G & openmp4$\dagger$ & 2 & 475 [473,476] & 506 & 506 & 2.1 & 0\\
+BY/G & openmp8$\dagger$ & 2 & 429 [429,429] & 461 & 461 & 2.09 & 0\\
+BY/G & openmp16$\dagger$ & 2 & 408 [407,408] & 440 & 440 & 2.08 & 0\\
+BY/G & cuda$\dagger$ & 2 & 388 [387,388] & 420 & 420 & 1.83 & 2.16\\
+BY/B & serial$\dagger$ & 1 & 738 [738,738] & 770 & 770 & 2.03 & 0\\
+BY/B & openmp1$\dagger$ & 1 & 749 [749,749] & 781 & 781 & 2.03 & 0\\
+BY/B & openmp2$\dagger$ & 2 & 603 [566,639] & 634 & 634 & 2.03 & 0\\
+BY/B & openmp4$\dagger$ & 2 & 481 [474,489] & 513 & 513 & 2.02 & 0\\
+BY/B & openmp8$\dagger$ & 2 & 430 [430,430] & 462 & 462 & 2.02 & 0\\
+BY/B & openmp16$\dagger$ & 2 & 408 [408,408] & 440 & 440 & 2.03 & 0\\
+BY/B & cuda$\dagger$ & 2 & 387 [386,387] & 419 & 419 & 1.83 & 2.16\\
 \bottomrule\end{longtable}\normalsize
 \scriptsize\begin{longtable}{llrrrrrrr}
 \toprule System/method & Variant & Init(s) & Create/other(s) & Sample(s) & Transfer(s) & H2D(GiB) & D2H(GiB) & K host(GiB)\\
 \midrule\endhead
 Hi/G & reference & 1.34e-06 & 942 & 1.04 & -- & -- & -- & --\\
+Hi/G & serial & 6.23e-05 & 999 & 1.39 & 0.133 & 0.379 & 0.275 & 2.24\\
+Hi/G & openmp1 & 0.000132 & 1e+03 & 0.98 & 0.124 & 0.379 & 0.275 & 2.24\\
+Hi/G & openmp2 & 0.000287 & 502 & 0.98 & 0.06 & 0.379 & 0.275 & 2.24\\
+Hi/G & openmp4 & 0.000644 & 261 & 1.4 & 0.055 & 0.379 & 0.275 & 2.24\\
+Hi/G & openmp8 & 0.00094 & 127 & 1.4 & 0.058 & 0.379 & 0.275 & 2.24\\
+Hi/G & openmp16 & 0.00173 & 65.9 & 1.36 & 0.0548 & 0.379 & 0.275 & 2.24\\
+Hi/G & cuda & 0.493 & 64 & 1.32 & 0.897 & 9.71 & 0.275 & 0\\
 Hi/B & reference & 1.1e-06 & 935 & 1.13 & -- & -- & -- & --\\
+Hi/B & serial & 5.78e-05 & 992 & 1.06 & 0.127 & 0.379 & 0.275 & 1.47\\
+Hi/B & openmp1 & 0.00013 & 1.01e+03 & 0.904 & 0.13 & 0.379 & 0.275 & 1.47\\
+Hi/B & openmp2 & 0.000258 & 506 & 1.06 & 0.0612 & 0.379 & 0.275 & 1.47\\
+Hi/B & openmp4 & 0.000527 & 251 & 1.06 & 0.059 & 0.379 & 0.275 & 1.47\\
+Hi/B & openmp8 & 0.000865 & 126 & 1.06 & 0.0591 & 0.379 & 0.275 & 1.47\\
+Hi/B & openmp16 & 0.00158 & 63.5 & 1.03 & 0.0559 & 0.379 & 0.275 & 1.47\\
+Hi/B & cuda & 0.372 & 63.8 & 1.28 & 0.897 & 9.71 & 0.275 & 0\\
+BY/G & serial & 6.79e-05 & 31.9 & 0.00575 & 0.342 & 0.857 & 3.58 & 0.381\\
+BY/G & openmp1 & 0.000138 & 32 & 0.00577 & 0.337 & 0.857 & 3.58 & 0.381\\
+BY/G & openmp2 & 0.000252 & 31.9 & 0.00589 & 0.378 & 0.857 & 3.58 & 0.381\\
+BY/G & openmp4 & 0.00042 & 32 & 0.00593 & 0.349 & 0.857 & 3.58 & 0.381\\
+BY/G & openmp8 & 0.000874 & 32.2 & 0.0059 & 0.298 & 0.857 & 3.58 & 0.381\\
+BY/G & openmp16 & 0.00152 & 32 & 0.00648 & 0.246 & 0.857 & 3.58 & 0.381\\
+BY/G & cuda & 0.4 & 32.1 & 0.0059 & 3.14 & 34.6 & 3.58 & 0\\
+BY/B & serial & 7.12e-05 & 31.9 & 0.00577 & 0.34 & 0.857 & 3.58 & 0.34\\
+BY/B & openmp1 & 0.000141 & 32 & 0.00576 & 0.337 & 0.857 & 3.58 & 0.339\\
+BY/B & openmp2 & 0.000243 & 32 & 0.00656 & 0.376 & 0.857 & 3.58 & 0.339\\
+BY/B & openmp4 & 0.000405 & 31.9 & 0.00593 & 0.351 & 0.857 & 3.58 & 0.339\\
+BY/B & openmp8 & 0.000883 & 31.9 & 0.00594 & 0.294 & 0.857 & 3.58 & 0.339\\
+BY/B & openmp16 & 0.00164 & 32 & 0.00594 & 0.246 & 0.857 & 3.58 & 0.339\\
+BY/B & cuda & 0.363 & 32 & 0.00597 & 3.08 & 34.6 & 3.58 & 0\\
 \bottomrule\end{longtable}\normalsize
 \scriptsize\begin{longtable}{llrrrrrrrr}
 \toprule System/method & Variant & Newton/K & A/M calls & A(s) & M(s) & Kokkos setup(s) & Native M(s) & F(s) & Driver(GiB)\\
 \midrule\endhead
 Hi/G & reference & 4/46 & 54/46 & -- & -- & -- & -- & -- & --\\
+Hi/G & serial & 4/46 & 54/46 & 792 & 54.5 & 65.6 & -- & -- & --\\
+Hi/G & openmp1 & 4/46 & 54/46 & 783 & 54.3 & 65.8 & -- & -- & --\\
+Hi/G & openmp2 & 4/46 & 54/46 & 400 & 27.2 & 34.8 & -- & -- & --\\
+Hi/G & openmp4 & 4/46 & 54/46 & 216 & 14.1 & 18.4 & -- & -- & --\\
+Hi/G & openmp8 & 4/46 & 54/46 & 105 & 8.3 & 9.94 & -- & -- & --\\
+Hi/G & openmp16 & 4/46 & 54/46 & 55 & 10.3 & 5.66 & -- & -- & --\\
+Hi/G & cuda & 4/46 & 54/46 & 0.638 & 0.715 & 7.06 & -- & -- & 6.27\\
 Hi/B & reference & 4/29 & 65/57 & -- & -- & -- & -- & -- & --\\
+Hi/B & serial & 4/33 & 73/65 & 1.01e+03 & 77.6 & 65.5 & -- & -- & --\\
+Hi/B & openmp1 & 4/33 & 73/65 & 998 & 77.9 & 66 & -- & -- & --\\
+Hi/B & openmp2 & 4/31 & 68/60 & 486 & 36.2 & 34.9 & -- & -- & --\\
+Hi/B & openmp4 & 4/32 & 72/64 & 265 & 20 & 18.6 & -- & -- & --\\
+Hi/B & openmp8 & 4/29 & 64/56 & 120 & 10.1 & 9.86 & -- & -- & --\\
+Hi/B & openmp16 & 4/31 & 69/61 & 71.3 & 13.6 & 5.75 & -- & -- & --\\
+Hi/B & cuda & 4/33 & 73/65 & 0.862 & 1.01 & 7.06 & -- & -- & 6.21\\
+BY/G & serial & 24/114 & 162/114 & 275 & 56.4 & 1.94 & 369 & 43.5 & --\\
+BY/G & openmp1 & 24/114 & 162/114 & 274 & 69.6 & 1.96 & 374 & 42.9 & --\\
+BY/G & openmp2 & 24/114 & 162/114 & 138 & 33.8 & 1.97 & 374 & 21.9 & --\\
+BY/G & openmp4 & 24/114 & 162/114 & 71 & 14.2 & 1.97 & 375 & 11.8 & --\\
+BY/G & openmp8 & 24/114 & 162/114 & 35 & 10.3 & 1.98 & 375 & 6.19 & --\\
+BY/G & openmp16 & 24/114 & 162/114 & 18.4 & 9.1 & 1.92 & 374 & 3.31 & --\\
+BY/G & cuda & 24/114 & 162/114 & 0.482 & 2.67 & 7.28 & 376 & 0.614 & 2.6\\
+BY/B & serial & 24/68 & 163/115 & 273 & 55 & 1.89 & 364 & 43 & --\\
+BY/B & openmp1 & 24/68 & 163/115 & 273 & 56.9 & 1.94 & 374 & 42 & --\\
+BY/B & openmp2 & 24/68 & 163/115 & 157 & 43.8 & 1.98 & 374 & 25 & --\\
+BY/B & openmp4 & 24/68 & 162/114 & 77.5 & 14.1 & 1.99 & 375 & 12.6 & --\\
+BY/B & openmp8 & 24/68 & 162/114 & 35.9 & 10.7 & 1.96 & 375 & 6.25 & --\\
+BY/B & openmp16 & 24/68 & 162/114 & 18.7 & 8.97 & 1.96 & 375 & 3.32 & --\\
+BY/B & cuda & 24/68 & 162/114 & 0.482 & 2.67 & 7.22 & 375 & 0.57 & 2.39\\
 \bottomrule\end{longtable}\normalsize
 \section{Numerical comparison results}
 Worker stopping checks: pending or failed; inspect retained records.
@@ -418,6 +502,30 @@ No speedup ratio above uses a group containing one of these failures.
 \nolinkurl{80_160_16_openmp16_by_gmres_2} & 0 & 1.5e-12 & 24/115 & 0.000967 & converged, residual\\
 \nolinkurl{80_160_16_openmp16_by_bicgstab_2} & 0 & 2.55e-12 & 24/70 & 0.00098 & converged, residual\\
 \nolinkurl{80_160_16_cuda_by_gmres_2} & 0 & 2.4e-11 & 24/113 & 0.000966 & converged, residual\\
+\nolinkurl{128_256_28_serial_by_gmres_0} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_serial_by_bicgstab_0} & 0 & 2.24e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_openmp1_by_gmres_0} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp1_by_bicgstab_0} & 0 & 2.24e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_openmp2_by_gmres_0} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp2_by_bicgstab_0} & 0 & 2.24e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_openmp4_by_gmres_0} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp4_by_bicgstab_0} & 0 & 2.24e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_openmp8_by_gmres_0} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp8_by_bicgstab_0} & 0 & 2.24e-10 & 24/68 & 0.00097 & converged, residual\\
+\nolinkurl{128_256_28_openmp16_by_gmres_0} & 0 & 2.11e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp16_by_bicgstab_0} & 0 & 2.26e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_cuda_by_gmres_0} & 0 & 2.2e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_cuda_by_bicgstab_0} & 0 & 2.23e-10 & 24/68 & 0.000954 & converged, residual\\
+\nolinkurl{128_256_28_cuda_by_bicgstab_1} & 0 & 2.23e-10 & 24/68 & 0.000954 & converged, residual\\
+\nolinkurl{128_256_28_cuda_by_gmres_1} & 0 & 2.2e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp16_by_bicgstab_1} & 0 & 2.26e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_openmp16_by_gmres_1} & 0 & 2.11e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp8_by_bicgstab_1} & 0 & 2.24e-10 & 24/68 & 0.00097 & converged, residual\\
+\nolinkurl{128_256_28_openmp8_by_gmres_1} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp4_by_bicgstab_1} & 0 & 2.24e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_openmp4_by_gmres_1} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
+\nolinkurl{128_256_28_openmp2_by_bicgstab_1} & 0 & 2.24e-10 & 24/68 & 0.000951 & converged, residual\\
+\nolinkurl{128_256_28_openmp2_by_gmres_1} & 0 & 2.24e-10 & 24/114 & 0.000667 & converged, residual\\
 \bottomrule\end{longtable}\normalsize
 HiSpID raw-modal and coefficient preservation remains failed.
 Sampled physical fields have separate $10^{-10}$ scaled-difference gates;
@@ -426,7 +534,7 @@ finite-difference constraint comparisons does not waive full-state preservation
 or establish vacuum accuracy. The retained differences alone do not identify
 their cause. Kernel qualification and internally converged timings are therefore
 reported separately from full port acceptance.
-HiSpID comparisons failing at least one sampled physical-field gate: 6.
+HiSpID comparisons failing at least one sampled physical-field gate: 29.
 \scriptsize\begin{longtable}{p{0.44\linewidth}p{0.29\linewidth}r}
 \toprule Comparison & Failed sampled fields & Largest scaled difference\\\midrule\endhead
 \nolinkurl{80_160_16_openmp4_hispid_gmres_0} & Kij, Atilde & 1.45e-10\\
@@ -435,6 +543,29 @@ HiSpID comparisons failing at least one sampled physical-field gate: 6.
 \nolinkurl{80_160_16_openmp4_hispid_gmres_1} & Kij, Atilde & 1.45e-10\\
 \nolinkurl{80_160_16_openmp4_hispid_gmres_2} & Kij, Atilde & 1.45e-10\\
 \nolinkurl{80_160_16_openmp16_hispid_gmres_2} & Kij, Atilde & 1.35e-10\\
+\nolinkurl{128_256_28_serial_hispid_gmres_0} & Kij, Atilde, dgamma & 6.37e-10\\
+\nolinkurl{128_256_28_serial_hispid_bicgstab_0} & Kij, Atilde, dgamma & 1.97e-10\\
+\nolinkurl{128_256_28_openmp1_hispid_gmres_0} & Kij, Atilde, dgamma & 6.37e-10\\
+\nolinkurl{128_256_28_openmp1_hispid_bicgstab_0} & Kij, Atilde, dgamma & 1.97e-10\\
+\nolinkurl{128_256_28_openmp2_hispid_gmres_0} & Kij, Atilde & 3.47e-10\\
+\nolinkurl{128_256_28_openmp2_hispid_bicgstab_0} & Kij, Atilde, dgamma & 2.23e-09\\
+\nolinkurl{128_256_28_openmp4_hispid_gmres_0} & Kij, Atilde & 8.23e-10\\
+\nolinkurl{128_256_28_openmp4_hispid_bicgstab_0} & Kij, Atilde, dgamma & 1.98e-09\\
+\nolinkurl{128_256_28_openmp8_hispid_gmres_0} & Kij, Atilde & 6.23e-10\\
+\nolinkurl{128_256_28_openmp8_hispid_bicgstab_0} & Kij, Atilde, dgamma & 1.82e-09\\
+\nolinkurl{128_256_28_openmp16_hispid_gmres_0} & Kij, Atilde & 7.17e-10\\
+\nolinkurl{128_256_28_openmp16_hispid_bicgstab_0} & Kij, Atilde, dgamma & 5.98e-10\\
+\nolinkurl{128_256_28_cuda_hispid_gmres_0} & Kij, Atilde & 3.24e-10\\
+\nolinkurl{128_256_28_cuda_hispid_bicgstab_0} & Kij, Atilde, dgamma & 2.59e-09\\
+\nolinkurl{128_256_28_cuda_hispid_bicgstab_1} & Kij, Atilde, dgamma & 2.59e-09\\
+\nolinkurl{128_256_28_cuda_hispid_gmres_1} & Kij, Atilde & 3.24e-10\\
+\nolinkurl{128_256_28_openmp16_hispid_bicgstab_1} & Kij, Atilde, dgamma & 5.98e-10\\
+\nolinkurl{128_256_28_openmp16_hispid_gmres_1} & Kij, Atilde & 7.17e-10\\
+\nolinkurl{128_256_28_openmp8_hispid_bicgstab_1} & Kij, Atilde, dgamma & 1.82e-09\\
+\nolinkurl{128_256_28_openmp8_hispid_gmres_1} & Kij, Atilde & 6.23e-10\\
+\nolinkurl{128_256_28_openmp4_hispid_bicgstab_1} & Kij, Atilde, dgamma & 1.98e-09\\
+\nolinkurl{128_256_28_openmp4_hispid_gmres_1} & Kij, Atilde & 8.23e-10\\
+\nolinkurl{128_256_28_openmp2_hispid_bicgstab_1} & Kij, Atilde, dgamma & 2.23e-09\\
 \bottomrule\end{longtable}\normalsize
 \small\begin{longtable}{lrrr}\toprule Failed comparison & Raw-P scaled max & Coefficient scaled max & Residual max\\\midrule\endhead
 40\_80\_16\_serial\_hispid\_gmres\_0 & 2.61e-05 & 8.35e-08 & 6.77e-15\\
@@ -569,11 +700,42 @@ HiSpID comparisons failing at least one sampled physical-field gate: 6.
 80\_160\_16\_cuda\_hispid\_bicgstab\_2 & 0.00517 & 2.12e-06 & 8.49e-15\\
 80\_160\_16\_cuda\_by\_gmres\_2 & -- & -- & 2.4e-11\\
 80\_160\_16\_cuda\_by\_bicgstab\_2 & -- & -- & 1.63e-12\\
+128\_256\_28\_serial\_hispid\_gmres\_0 & 0.109 & 2.27e-05 & 1.59e-14\\
+128\_256\_28\_serial\_hispid\_bicgstab\_0 & 0.146 & 3.79e-05 & 1.78e-14\\
+128\_256\_28\_openmp1\_hispid\_gmres\_0 & 0.109 & 2.27e-05 & 1.59e-14\\
+128\_256\_28\_openmp1\_hispid\_bicgstab\_0 & 0.146 & 3.79e-05 & 1.78e-14\\
+128\_256\_28\_openmp2\_hispid\_gmres\_0 & 0.116 & 2.78e-05 & 1.55e-14\\
+128\_256\_28\_openmp2\_hispid\_bicgstab\_0 & 0.205 & 5.4e-05 & 1.82e-14\\
+128\_256\_28\_openmp4\_hispid\_gmres\_0 & 0.0955 & 3.1e-05 & 1.55e-14\\
+128\_256\_28\_openmp4\_hispid\_bicgstab\_0 & 0.294 & 4.54e-05 & 1.78e-14\\
+128\_256\_28\_openmp8\_hispid\_gmres\_0 & 0.0997 & 5.33e-05 & 1.55e-14\\
+128\_256\_28\_openmp8\_hispid\_bicgstab\_0 & 0.138 & 5.32e-05 & 2.42e-14\\
+128\_256\_28\_openmp16\_hispid\_gmres\_0 & 0.112 & 2.75e-05 & 1.67e-14\\
+128\_256\_28\_openmp16\_hispid\_bicgstab\_0 & 0.125 & 2.48e-05 & 2.84e-14\\
+128\_256\_28\_cuda\_hispid\_gmres\_0 & 0.151 & 3.75e-05 & 1.61e-14\\
+128\_256\_28\_cuda\_hispid\_bicgstab\_0 & 0.234 & 4.35e-05 & 1.78e-14\\
+128\_256\_28\_cuda\_hispid\_bicgstab\_1 & 0.234 & 4.35e-05 & 1.78e-14\\
+128\_256\_28\_cuda\_hispid\_gmres\_1 & 0.151 & 3.75e-05 & 1.61e-14\\
+128\_256\_28\_openmp16\_hispid\_bicgstab\_1 & 0.125 & 2.48e-05 & 2.84e-14\\
+128\_256\_28\_openmp16\_hispid\_gmres\_1 & 0.112 & 2.75e-05 & 1.67e-14\\
+128\_256\_28\_openmp8\_hispid\_bicgstab\_1 & 0.138 & 5.32e-05 & 2.42e-14\\
+128\_256\_28\_openmp8\_hispid\_gmres\_1 & 0.0997 & 5.33e-05 & 1.55e-14\\
+128\_256\_28\_openmp4\_hispid\_bicgstab\_1 & 0.294 & 4.54e-05 & 1.78e-14\\
+128\_256\_28\_openmp4\_hispid\_gmres\_1 & 0.0955 & 3.1e-05 & 1.55e-14\\
+128\_256\_28\_openmp2\_hispid\_bicgstab\_1 & 0.205 & 5.4e-05 & 1.82e-14\\
 \bottomrule\end{longtable}\normalsize
 \paragraph{Failed workers.} These attempts have no completed benchmark record or qualified speed ratio. The elapsed time covers the worker until failure.
 \small\begin{longtable}{llrr}\toprule Worker & Outcome & Elapsed [s] & Exit code\\\midrule\endhead
 \nolinkurl{128_256_28_reference_by_gmres_0} & timeout & 3.6e+03 & -9\\
+\nolinkurl{128_256_28_reference_by_bicgstab_0} & timeout & 3.6e+03 & -9\\
 \bottomrule\end{longtable}\normalsize
+\section{Execution-space geometry setup status}
+The newer optional setup kernels evaluate spinning/boosted seed geometry and
+build coordinate, derivative and coefficient caches in the selected Kokkos
+execution space. CPU controls pass and CUDA images compile. Their separate
+126-worker paired setup campaign is pending; this frozen solve dataset uses
+host geometry construction. No measured GPU setup improvement or acceptance
+of the newer images is inferred from the solve timings above.
 \section{Interpretation and subsequent physical study}
 Dense cached differentiation removes repeated transform/trigonometric setup
 from BY's linear action and repeated nonlinear residual evaluations. A scoped
@@ -609,7 +771,7 @@ constraint convergence, charges/covariance, initial-time AthenaK import,
 individual/common horizon searches and enclosure of modified regions.
 No high-parameter validation is inherited from the performance case.
 \section{Reproducibility and sources}
-Measurement JSON SHA256:\par{\footnotesize\ttfamily 384246f4e99b90ff74be01ff67836fea2d6709983b7afd0ec4cbef5ae658edda}\par
+Measurement JSON SHA256:\par{\footnotesize\ttfamily a065bb0a19674ccc996b481dad933a0ed64e469f5c4cea18b7233961d41dcf2d}\par
 Acceptance plan SHA256:\par{\footnotesize\ttfamily 9474a2c51fa197ea9204400f18ab1711d1e71bc5f3d9d0cdc4f7ecdb0e92870c}\par
 The immutable measurement manifest contains complete build caches,
 source/runtime/native-image hashes, commands, resolved options, configurations,
