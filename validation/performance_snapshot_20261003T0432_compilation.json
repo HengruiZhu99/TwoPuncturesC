@@ -1,0 +1,13 @@
+{
+  "compilation_confirmed": true,
+  "compiler": "mcp__codex_app__compile_latex_document",
+  "kind": "success",
+  "performance_sha256": "f717355372e2242846b74c251bbc4cb769838a5398b2f7b5ccc08ad9e361db7e",
+  "report_sha256": "83456c108b14130745ba8d531e5dbb6c3ab2a51231f73c3aa0376468ce90652f",
+  "performance_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/performance_snapshot_20261003T0432.json",
+  "report_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/docs/HISPID_KOKKOS_PERFORMANCE.tex",
+  "utc": "2026-10-03T04:37:54.875499+00:00",
+  "declared_performance_completed": false,
+  "completed_workers": 98,
+  "note": "Incomplete snapshot compilation. This receipt cannot unlock physical runs because the declared matrix is incomplete."
+}

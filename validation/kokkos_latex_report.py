@@ -1,5 +1,5 @@
 """Generate a standalone, data-bound LaTeX performance report (no TeX runtime)."""
-import argparse,json,re,statistics
+import argparse,hashlib,json,re,statistics
 from collections import defaultdict
 from pathlib import Path
 from benchmark_bowen_york import digest
@@ -17,7 +17,8 @@ def work(row):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--results',required=True);p.add_argument('--output',required=True);args=p.parse_args()
-    result=json.loads(Path(args.results).read_text());verify_artifacts(result);records=result['records'];groups=defaultdict(list)
+    payload=Path(args.results).read_bytes();source_sha=hashlib.sha256(payload).hexdigest()
+    result=json.loads(payload);verify_artifacts(result);records=result['records'];groups=defaultdict(list)
     for row in records.values():groups[(tuple(row['grid']),row['mode'],row['krylov'],row['variant'])].append(row)
     grids=sorted({key[0] for key in groups});variants=[v['id'] for v in result['manifest']['variants']]
     failed_comparisons=[(label,c) for label,c in result['comparisons'].items() if not c['passed']]
@@ -251,7 +252,7 @@ individual/common horizon searches and enclosure of modified regions.
 No high-parameter validation is inherited from the performance case.
 \section{Reproducibility and sources}
 ''')
-    doc.append('Measurement JSON SHA256:'+r'\par{\footnotesize\ttfamily '+digest(args.results)+r'}\par'+'\n')
+    doc.append('Measurement JSON SHA256:'+r'\par{\footnotesize\ttfamily '+source_sha+r'}\par'+'\n')
     doc.append('Acceptance plan SHA256:'+r'\par{\footnotesize\ttfamily '+tex(result['acceptance_sha256'])+r'}\par'+'\n')
     doc.append(r'''The immutable measurement manifest contains complete build caches,
 source/runtime/native-image hashes, commands, resolved options, configurations,
@@ -277,5 +278,6 @@ August2015, Section4.5 and Table4.3 (printed pp.117--119),
 \end{thebibliography}
 \end{document}
 ''')
+    if digest(args.results)!=source_sha:raise RuntimeError('measurement JSON changed during report generation; use an immutable snapshot')
     Path(args.output).write_text(''.join(doc));print(args.output)
 if __name__=='__main__':main()

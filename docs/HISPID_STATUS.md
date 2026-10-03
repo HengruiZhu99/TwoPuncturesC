@@ -300,3 +300,22 @@ and [four-way measurements](KRYLOV_MATRIX_RESULTS.md). Existing defaults are
 preserved bitwise. All four moderate binary solves converge at the common
 computational stopping norm; Hi cross-backend auxiliary-field/coefficient
 preservation remains failed, so this adds no physical binary acceptance.
+
+October3 Kokkos progress: the immutable 288-worker single-A100 performance
+matrix continues across sequential one-GPU shared allocations. The first
+allocation checkpointed cleanly; the second uses the same node/GPU. The
+compiled standalone report currently binds an explicitly incomplete snapshot
+with98 successful worker stopping checks (all three smallest-grid repeats and
+two medium-grid reference HiSpID workers). Larger grids and final performance
+qualification remain pending. No new .99/Gamma10 physical case has run.
+Preparation adds a separate-process portable CPU sampler witness, checkpoint
+and actual consumer/dependency image checks, enlarged import budget metadata,
+explicit mesh domains and separate common-horizon searches. The new Serial
+AthenaK build succeeds with -j1; actual new sampler/import/common-surface
+execution controls remain pending. Default native solver images and frozen
+benchmark sources are unchanged by this preparation.
+The next medium-grid reference BY/GMRES worker exhausted24 Newton iterations
+at weighted Linf1.48905e-12, above the fixed1e-12 tolerance, with a1257.95s
+solve. The independent stopping check retains this as failed despite its API
+status0. It is outside the compiled98-worker snapshot and will be included
+in the final report; its timing cannot support an accepted speedup comparison.

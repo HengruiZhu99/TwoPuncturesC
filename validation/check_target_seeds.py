@@ -52,13 +52,14 @@ def horizon_expansion(solution, hole, directions):
             - np.einsum('nij,nij->n', inverse, K))
 
 
-def run(backend, radii):
+def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=False):
     axes = np.array([[.73, .31, .61], [-.41, .82, .39], [.22, -.51, .83],
                      [-.69, -.44, .57], [.39, .73, -.56], [.81, -.38, -.45]])
     axes /= np.linalg.norm(axes, axis=1)[:, None]
     spin_axis, boost_axis = direction([.2, -.3, .4]), direction([-.7, .2, .3])
-    cases = [('spin95', .95, 0), ('boost885', 0, .885),
-             ('spin95_boost885_generic', .95, .885)]
+    cases = targets or [('spin95', .95, 0), ('boost885', 0, .885),
+                       ('spin95_boost885_generic', .95, .885)]
+    quadrature_levels=quadrature_levels or ((16,32),(24,48),(32,64))
     output = dict(library_sha256=library_sha(backend), cases=[], passed=False,
                   criteria=dict(physical_constraint_rms=1e-7,
                                 ADM_absolute_error=1e-5,
@@ -80,6 +81,12 @@ def run(backend, radii):
         config.conformal_choice = 0
         v, S = np.array(hole.velocity), np.array(hole.spin)
         G = 1 / np.sqrt(1 - v @ v)
+        frame=None
+        if align_polar_axis:
+            polar=direction(v if speed else S)
+            transverse=np.eye(3)[np.argmin(abs(polar))]
+            transverse=direction(transverse-(transverse@polar)*polar)
+            frame=np.column_stack([polar,transverse,np.cross(polar,transverse)])
         rh = .5 * np.sqrt(1 - chi**2)
         ray_radius = rh / np.sqrt(1 + G**2 * (axes @ v)**2)
         near = np.concatenate([factor * ray_radius[:, None] * axes
@@ -97,8 +104,8 @@ def run(backend, radii):
             expansion = horizon_expansion(solution, hole, axes)
         expected = np.r_[G, G * v, G * S - G**2 / (G + 1) * (v @ S) * v]
         quadratures = []
-        for nt, np_ in ((16, 32), (24, 48), (32, 64)):
-            q = [charges(sample, r, ntheta=nt, nphi=np_) for r in radii]
+        for nt, np_ in quadrature_levels:
+            q = [charges(sample, r, ntheta=nt, nphi=np_,polar_frame=frame) for r in radii]
             fits = [extrapolate(radii[i:i+4], q[i:i+4]) for i in range(len(radii)-3)]
             quadratures.append(dict(ntheta=nt, nphi=np_, charges=np.array(q).tolist(),
                                     radial_fits=np.array(fits).tolist()))
@@ -111,6 +118,7 @@ def run(backend, radii):
         passed = (constraint_pass and error < 1e-5 and quad_change < 1e-5
                   and radial_change < 1e-5 and np.max(abs(expansion)) < 1e-10)
         record = dict(case=label, config=as_dict(config), seed_rest_chi=chi, lab_speed=speed,
+                      input_lorentz_factor=float(G),polar_frame=frame.tolist() if frame is not None else None,
                       xyz=xyz.tolist(), verifier_steps=step.tolist(), constraint_sequence=sequence,
                       exact_horizon_expansion=expansion.tolist(), radii=radii,
                       charge_quadratures=quadratures, expected_charges=expected.tolist(),
@@ -128,10 +136,15 @@ if __name__ == '__main__':
     parser.add_argument('--library', required=True)
     parser.add_argument('--output', default='validation/target_seed_controls.json')
     parser.add_argument('--radii', default='40,80,160,320,640,1280,2560,5120,10240')
+    parser.add_argument('--extreme',action='store_true',help='fresh separate chi=.99/Gamma=10 controls, with refined beam-aligned charge quadrature')
     args = parser.parse_args()
     radii = list(map(float, args.radii.split(',')))
     if len(radii)<5 or min(radii)<=0 or not np.isfinite(radii).all() or not np.all(np.diff(radii)>0):
         raise ValueError('at least five finite positive increasing charge radii are required')
-    result = run(Backend(args.library), radii)
+    if (ROOT/args.output).exists():raise FileExistsError('use a new output path to retain prior control evidence')
+    result = run(Backend(args.library), radii,
+        targets=[('spin99',.99,0),('gamma10',0,float(np.sqrt(.99)))] if args.extreme else None,
+        quadrature_levels=((64,64),(128,128),(192,192)) if args.extreme else None,
+        align_polar_axis=args.extreme)
     (ROOT / args.output).write_text(json.dumps(result, indent=2) + '\n')
     raise SystemExit(0 if result['passed'] else 1)

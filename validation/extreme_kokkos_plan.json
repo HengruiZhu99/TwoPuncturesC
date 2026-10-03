@@ -47,7 +47,7 @@
   },
   "solve_controls": {
     "execution": "Kokkos CUDA one allocated A100, with CPU/host comparison only as explicitly retained separate workers",
-    "krylov": "GMRES",
+    "krylov": "gmres",
     "linear_rtol": 0.001,
     "outer_tolerance": 1e-14,
     "max_newton": 24,

@@ -75,6 +75,8 @@ def constraints(sample,xyz,step):
                 normalized_H=np.abs(H)/np.maximum(np.abs(R)+tr*tr+K2,1e-8),
                 normalized_M=Mnorm/np.maximum(divKnorm+gradKnorm,1e-8),
                 attenuation=values['attenuation'].reshape(-1,n)[0],
+                stencil_attenuation_min=np.min(values['attenuation'].reshape(-1,n),axis=0),
+                stencil_attenuation_all_one=np.all(values['attenuation'].reshape(-1,n)==1,axis=0),
                 min_metric_eigenvalue=np.linalg.eigvalsh(g[0])[:,0])
 
 def norms(r,mask=None):

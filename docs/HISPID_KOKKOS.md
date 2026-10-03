@@ -161,3 +161,47 @@ at the largest tier remains recorded.
 No new spin.99 or Gamma10 physical investigation will precede the measured
 performance report. Those are separate configurations selected by the user;
 seed inputs and measured horizon properties will be reported separately.
+
+## Prepared physical and consumer path (not numerically qualified yet)
+
+`validation/run_extreme_kokkos.py` invokes the common physical validation
+machinery with explicit CUDA selection, fixed GMRES forcing, separate output
+directories and one retained grid per invocation. It rejects an incomplete
+288-worker matrix before loading a native library. Its compilation receipt
+must name `mcp__codex_app__compile_latex_document` and bind the successfully
+compiled report and complete performance JSON by SHA256. The current compiled
+98-worker snapshot cannot unlock this stage. A fresh final receipt is required.
+`check_target_seeds.py --extreme` supplies new separate .99/Gamma10 controls
+with refined, beam-aligned independent ADM quadrature. No new target has run.
+
+Every extreme-study export is explicitly `diagnostic`: physical constraints,
+refined charges, solved covariance and AthenaK horizons remain distinct gates.
+The diagnostic-investigation switch records failed prerequisite gates and
+does not change their criteria or inherit acceptance. The boost study retains
+changed-separation configurations individually when calibrating d/measured
+component Mirr. Its Fourier control uses a separate label.
+Prerequisite bytes and all measured images are frozen and rechecked around
+the solve/export. Exclusive case and row receipts bind the declared grid
+prefix, controls and both raw NPZ artifacts; progress writes cannot erase
+that binding. GPU UUID is retained per worker so an equivalent later
+allocation can continue without rewriting provenance. Explicit execution
+requires native convergence and weighted Linf within the declared tolerance;
+an API success code alone cannot qualify a retained iterate.
+
+Use `validation/portable_sampler_migration.py` with the checkpoint, exact
+producer library, pure reference CPU consumer library, and a fresh output
+filename. It compares identical coefficients in separate processes, checks
+the exact continuous basis/maps, physical fields and metric derivatives at
+off-grid and trial-horizon points, and binds artifacts and dependency images.
+This is a sampler migration, without a PDE-equivalence or physical-acceptance
+claim. A consumer with a mapped puncture Kokkos runtime is rejected, avoiding
+a second Kokkos runtime in the AthenaK process. Actual numerical proof for each
+new checkpoint is still required.
+
+AthenaK's binary driver accepts `--migration-proof` and an explicit
+`--domain-half-width`. It rechecks checkpoint, executable, generated input,
+proof and dependency hashes around every horizon worker. A separate `--common`
+search also requires `--common-radius`; its configured center is recorded and
+both modified balls must satisfy continuous retained-surface enclosure bounds.
+Component searches keep their own masses/spins. All runs stay at time/cycle
+zero. Failed common searches do not demonstrate absence.

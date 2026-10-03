@@ -7,15 +7,17 @@ from checkpoints import library_sha,select_record,restore
 
 p=argparse.ArgumentParser();p.add_argument('--library',required=True);p.add_argument('--output',required=True)
 group=p.add_mutually_exclusive_group(required=True)
-group.add_argument('--case');group.add_argument('--seed',choices=('schwarzschild','kerr95','boost885','kerr95_boost885'))
+group.add_argument('--case');group.add_argument('--seed',choices=('schwarzschild','kerr95','boost885','kerr95_boost885','kerr99','gamma10'))
 p.add_argument('--resolution',type=int);p.add_argument('--nphi',type=int)
 p.add_argument('--allow-diagnostic',action='store_true')
-a=p.parse_args();b=Backend(a.library)
+a=p.parse_args()
+if __import__('pathlib').Path(a.output).exists():raise FileExistsError('use a fresh path to preserve checkpoint evidence')
+b=Backend(a.library)
 if a.seed:
     c=b.config();c.n[:]=[6,6,4];c.conformal_choice=0;c.inner_flatten=0
     c.omega[:]=[0,0];c.inner_min[:]=[0,0];c.inner_max[:]=[0,0];c.far_radius=0
-    spin=(0,0,.95) if 'kerr95' in a.seed else (0,0,0)
-    velocity=(.885,0,0) if 'boost885' in a.seed else (0,0,0)
+    spin=(0,0,.99 if a.seed=='kerr99' else .95) if a.seed=='kerr99' or 'kerr95' in a.seed else (0,0,0)
+    velocity=(float(np.sqrt(.99)) if a.seed=='gamma10' else .885,0,0) if a.seed=='gamma10' or 'boost885' in a.seed else (0,0,0)
     c.hole[0]=Hole(1,(0,0,0),spin,velocity);c.hole[1]=Hole(0,(-6,0,0))
     unknowns=np.zeros(4*np.prod(list(c.n)));acceptance='analytic_seed'
 else:

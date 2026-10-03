@@ -69,13 +69,21 @@ def seeds(backend):
         print(label,seq[-1]['norms'],'charge error',err,flush=True)
     return {'records':records,'passed':all(r['passed'] for r in records)}
 
-def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None,initial_record=None,initial_guess=None):
+def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None,initial_record=None,initial_guess=None,
+               execution='reference',solve_options=None,output_report=None,raw_directory=None):
+    report_path=REPORT if output_report is None else Path(output_report)
+    raw_root=RAW if raw_directory is None else Path(raw_directory)
+    options=dict(solve_options or {})
+    if execution not in ('reference','kokkos') or set(options)-{'linear_rtol','krylov'}:
+        raise ValueError('invalid explicit execution/solve options')
+    from native_loader import validate_krylov
+    validate_krylov(options.get('krylov'),options.get('linear_rtol'))
     records=list(previous_records or [])
     previous_values=None;previous_shape=None;previous_config=None
     if initial_guess is not None and (records or initial_record):raise ValueError('remapped guess cannot be combined with checkpoint warm starts')
     if initial_guess is not None:
-        if (REPORT.exists() and label in json.loads(REPORT.read_text())) or any(
-                (RAW/f'{label}_{n}_{nphi}{suffix}.npz').exists() for n,nphi in levels for suffix in ('','_collocation')):
+        if (report_path.exists() and label in json.loads(report_path.read_text())) or any(
+                (raw_root/f'{label}_{n}_{nphi}{suffix}.npz').exists() for n,nphi in levels for suffix in ('','_collocation')):
             raise ValueError('remapped initial guess requires a new label without existing report/raw evidence')
         from remapped_guess import load_guess,validate_config
         guess_payload,guess_values=load_guess(initial_guess,backend)
@@ -88,11 +96,22 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                     or stored.get('collocation_maps')!=backend.parameterization_maps()
                     or stored.get('unknown_parameterization')!=backend.parameterization_description()):
                 raise ValueError('resume requires the same native library SHA, continuous basis and maps')
+            if records and (stored.get('execution','reference')!=execution or stored.get('requested_solve_options',{})!=options):
+                raise ValueError('resume execution or solve controls differ')
             if records and {k:v for k,v in stored['config'].items() if k not in SOLVER_CONTROLS}!=free_data(factory(backend,stored['resolution'][0],stored['resolution'][2])):
                 raise ValueError('stored sequence physical free data do not match the selected factory')
         previous_shape=last['resolution'];previous_config={k:v for k,v in last['config'].items() if k not in SOLVER_CONTROLS}
         n,_,np_=previous_shape
-        previous_values=np.load(RAW/f"{last['case']}_{n}_{np_}.npz")['unknowns']
+        if execution!='reference' or options:
+            for stored in records or [last]:
+                expected={str((raw_root/f"{stored['case']}_{stored['resolution'][0]}_{stored['resolution'][2]}{suffix}.npz").resolve()) for suffix in ('','_collocation')}
+                artifacts=stored.get('raw_artifact_sha256',{})
+                if set(artifacts)!=expected or any(hashlib.sha256(Path(path).read_bytes()).hexdigest()!=sha for path,sha in artifacts.items()):
+                    raise ValueError('resume requires the unchanged bound raw artifacts for every retained row')
+        previous_values=np.load(raw_root/f"{last['case']}_{n}_{np_}.npz")['unknowns']
+        if execution!='reference' or options:
+            if any(hashlib.sha256(Path(path).read_bytes()).hexdigest()!=sha for path,sha in last['raw_artifact_sha256'].items()):
+                raise ValueError('warm-start raw artifacts changed while loading')
     for n,nphi in levels:
         cfg=factory(backend,n,nphi);x,near,bulk=points(cfg,horizon_scaled);start=time.monotonic()
         step=np.minimum(.002,.001*np.min([np.linalg.norm(x-np.array(h.center),axis=1) for h in cfg.hole if h.mass>0],axis=0)) if adaptive_steps else np.full(len(x),.002)
@@ -100,7 +119,7 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                  library_sha256=backend.library_sha256(),residual_scaling=backend.residual_scaling(),
                  near_sample_count=near,bulk_sample_count=bulk,attenuation_sample_count=len(x)-near-bulk,
                  horizon_scaled=horizon_scaled,verifier_steps=step.tolist(),unknown_parameterization=backend.parameterization_description(),unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps())
-        with backend.create(cfg) as s:
+        with backend.create(cfg,execution=execution) as s:
             comparable=free_data(cfg)
             if initial_guess is not None and not records:
                 s.set_unknowns(guess_values)
@@ -110,7 +129,16 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
             if previous_values is not None and comparable==previous_config:
                 s.set_unknowns(for_backend(backend,previous_values,previous_shape,list(cfg.n)))
                 rec['initial_guess_from_resolution']=previous_shape
-            rec['creation_seconds']=time.monotonic()-start;rec['diagnostics']=s.solve()
+            rec['creation_seconds']=time.monotonic()-start;rec['diagnostics']=s.solve(**options)
+            if execution!='reference' or options:
+                from execution import name,concurrency,device_description,statistics
+                rec.update(execution=execution,requested_solve_options=options,resolved_solve_options=s.resolved_options,
+                    compiled_execution=name(backend.lib),execution_concurrency=concurrency(backend.lib),
+                    device=device_description(backend.lib),execution_statistics=statistics(backend.lib),
+                    linear_history=s.linear_history(),work_statistics=s.work_statistics())
+                diagnostic=rec['diagnostics'];weighted=np.asarray(diagnostic['scaled_linf'])
+                rec['stopping_verified']=bool(diagnostic['status']==0 and diagnostic['converged']
+                    and np.isfinite(weighted).all() and np.max(weighted)<=cfg.tolerance)
             collocation=s.equation_samples();equivalent=collocation['physical_equivalent'];cg=collocation['attenuation']
             rec['physical_equivalent_g1_linf']=np.max(np.abs(equivalent[cg==1]),axis=0).tolist()
             rec['equation_normalized_g_lt_one_linf']=np.max(np.abs(equivalent[cg<1]),axis=0).tolist() if np.any(cg<1) else []
@@ -119,6 +147,7 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
             rec['bulk']=norms(r,(np.arange(len(x))>=near)&(np.arange(len(x))<near+bulk))
             rec['attenuation']=norms(r,r['attenuation']<1)
             rec['g_equals_one']=norms(r,r['attenuation']==1)
+            rec['exterior_stencil_verified']=bool(np.all(r['stencil_attenuation_all_one'][:near+bulk]))
             rec['min_metric_eigenvalue']=float(np.min(r['min_metric_eigenvalue']))
             # Record verifier-step sensitivity on near/exterior only.
             rec['verifier_step_check']=[]
@@ -129,17 +158,23 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
             radii=[100.,200.,400.]
             rec['charge_radii']=radii;rec['charges']=[s.charges(R,ntheta=12,nphi=24).tolist() for R in radii]
             rec['charges_extrapolated']=extrapolate(radii,rec['charges']).tolist()
-            RAW.mkdir(parents=True,exist_ok=True)
-            np.savez_compressed(RAW/f'{label}_{n}_{nphi}.npz',unknowns=s.unknowns(),points=x,verifier_steps=np.array(rec['verifier_steps']),**r)
-            np.savez_compressed(RAW/f'{label}_{n}_{nphi}_collocation.npz',**collocation)
+            raw_root.mkdir(parents=True,exist_ok=True)
+            np.savez_compressed(raw_root/f'{label}_{n}_{nphi}.npz',unknowns=s.unknowns(),points=x,verifier_steps=np.array(rec['verifier_steps']),**r)
+            np.savez_compressed(raw_root/f'{label}_{n}_{nphi}_collocation.npz',**collocation)
+            if execution!='reference' or options:
+                rec['raw_artifact_sha256']={str((raw_root/f'{label}_{n}_{nphi}{suffix}.npz').resolve()):
+                    hashlib.sha256((raw_root/f'{label}_{n}_{nphi}{suffix}.npz').read_bytes()).hexdigest() for suffix in ('','_collocation')}
             rec['passed_local']=rec['diagnostics']['status']==0 and rec['min_metric_eigenvalue']>0 and all(rec[k][q]<1e-4 for k in ('near','bulk') for q in ('H_rms','M_rms'))
+            if execution!='reference' or options:rec['passed_local'] &= rec['stopping_verified']
             rec['passed_strict']=rec['passed_local'] and all(rec[k][q]<1e-6 for k in ('near','bulk') for q in ('H_rms','M_rms')) and all(rec[k][q]<1e-4 for k in ('near','bulk') for q in ('H_max','M_max'))
+            if execution!='reference' or options:rec['passed_strict'] &= rec['exterior_stencil_verified']
             previous_values=s.unknowns();previous_shape=list(cfg.n);previous_config=comparable
         rec['total_seconds']=time.monotonic()-start;records.append(rec)
         print(label,rec['resolution'],rec['diagnostics'],rec['near'],rec['bulk'],rec['charges_extrapolated'],flush=True)
         # Preserve progress even if an expensive later run is interrupted.
-        previous=json.loads(REPORT.read_text()) if REPORT.exists() else {};previous[label]={'records':records,'passed':False}
-        REPORT.write_text(json.dumps(previous,indent=2)+'\n')
+        previous=json.loads(report_path.read_text()) if report_path.exists() else {};previous[label]={'records':records,'passed':False}
+        report_path.parent.mkdir(parents=True,exist_ok=True)
+        report_path.write_text(json.dumps(previous,indent=2)+'\n')
     best=records[-1];fine=records[-3:]
     converges=len(fine)>=3 and all(fine[i+1][k][q]<fine[i][k][q] for i in range(2) for k in ('near','bulk') for q in ('H_rms','M_rms'))
     charge_stable=len(records)>=2 and max(abs(np.array(records[-1]['charges_extrapolated'])-np.array(records[-2]['charges_extrapolated'])))<.005
@@ -147,7 +182,8 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
         and r.get('unknown_parameterization_id')==best.get('unknown_parameterization_id')
         and r['config']['n']==r['resolution']
         and {k:v for k,v in r['config'].items() if k not in SOLVER_CONTROLS}=={k:v for k,v in best['config'].items() if k not in SOLVER_CONTROLS} for r in fine)
-    solved=all(r['diagnostics']['status']==0 and r['min_metric_eigenvalue']>0 for r in fine)
+    solved=all(r['diagnostics']['status']==0 and r['min_metric_eigenvalue']>0
+               and r.get('stopping_verified',execution=='reference' and not options) for r in fine)
     refines=len(fine)>=3 and all(all(b>=a for a,b in zip(old['resolution'],new['resolution'])) and old['resolution']!=new['resolution'] for old,new in zip(fine,fine[1:]))
     return dict(records=records,acceptance_resolutions=[r['resolution'] for r in fine],passed=bool(best['passed_local'] and converges and charge_stable and compatible and solved and refines),passed_strict=bool(best['passed_strict'] and converges and charge_stable and compatible and solved and refines),converges=bool(converges),charge_stable=bool(charge_stable),sequence_compatible=bool(compatible),all_acceptance_solves_converged=bool(solved),resolution_refines=bool(refines),horizon_enclosure_verified=False)
 
