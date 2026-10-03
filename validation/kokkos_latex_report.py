@@ -109,13 +109,26 @@ cold time below additionally includes explicit runtime initialization, but
 excludes Python import and DSO loading. All device phases are fenced.
 Kokkos A/M timings include finite checks; reference BY phase wrappers time
 the kernel calls without the controller's finite scans. Linear time includes
-A/M. Hi setup
-includes native factor construction and device import. BY reports native
+A/M. Hi Kokkos setup measures Newton preconditioner construction and
+execution-space import within solve time; constructor workspace/geometry
+imports belong to creation time. BY reports native
 modal setup separately from its Kokkos setup. BY verbose iteration
 logging and flushing are inside the Newton timer. The F phase covers Newton
 evaluations; the final native residual outside Newton is included in ready
 time. Setup includes transfers,
 which are also reported separately; overlapping phase times must not be added.
+
+HiSpID creation includes serial configuration/frame/basis construction and
+dense differentiation tables, then the background geometry and cached
+operators at every collocation point. Boosted Kerr seed derivatives are
+constructed with long-double jets on the CPU. Reference uses a serial point
+loop; OpenMP and CUDA use parallel host execution for that point builder.
+CUDA seed construction therefore remains CPU work. Optional execution also
+allocates the spectral workspace, constructs coordinate chains and regular
+mode factors on the host, and imports them. Native modal factors are built
+inside Newton, outside creation. Constructor subphases are not individually
+timed, so the creation column cannot assign elapsed time to seed geometry
+alone.
 
 Host RSS is the process peak through first sampling, before untimed verification
 and snapshot allocation. Reported Kokkos peaks are allocations observed after

@@ -137,6 +137,14 @@ Logical resident/workspace estimates and API copy-byte counters are also
 reported; copy counters on Serial/OpenMP do not represent GPU traffic.
 A/M times include finite checks, linear time includes A/M, setup includes
 transfers, and transfer time can overlap those scopes. Do not add phase times.
+HiSpID's Kokkos setup counter measures Newton preconditioner construction and
+execution-space import inside solve time. Constructor workspace and geometry
+imports belong to creation time. Creation includes serial frame/basis and
+differentiation-table setup, then CPU boosted-Kerr geometry and operator
+caches at every collocation point. OpenMP and CUDA parallelize that point
+builder on the host; CUDA seed construction remains CPU work. Constructor
+subphases have no separate timers, and peak RSS covers the worker through
+first sampling rather than the constructor alone.
 
 ## Qualification and reproducibility
 
