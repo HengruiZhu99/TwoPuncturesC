@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-10-03T20:07:00.082169+00:00",
+  "created_utc": "2026-10-03T20:18:27.129681+00:00",
   "purpose": "Supplemental setup driver preparation and small local control",
   "declared_setup_completed": false,
   "new_gpu_setup_executed": false,
@@ -50,15 +50,15 @@
     "actual_threads": 1,
     "workers": {
       "host": {
-        "initialization_seconds": 3.595799999999566e-05,
-        "creation_seconds": 0.038261292,
-        "first_sample_seconds": 0.00025179099999998733,
-        "ready_to_sample_seconds": 0.03851308299999999,
-        "wall_creation_through_sample_seconds": 0.03853633299999999,
-        "instrumentation_gap_seconds": 2.3250000000002435e-05,
-        "initialization_rss_bytes": 29409280,
-        "constructor_rss_bytes": 33603584,
-        "max_rss_bytes": 33685504,
+        "initialization_seconds": 3.829199999999533e-05,
+        "creation_seconds": 0.038380416,
+        "first_sample_seconds": 0.00028316700000000083,
+        "ready_to_sample_seconds": 0.038663583,
+        "wall_creation_through_sample_seconds": 0.038689249999999994,
+        "instrumentation_gap_seconds": 2.5666999999993112e-05,
+        "initialization_rss_bytes": 29294592,
+        "constructor_rss_bytes": 33488896,
+        "max_rss_bytes": 33619968,
         "initialization_statistics": {
           "operator_seconds": 0.0,
           "precondition_seconds": 0.0,
@@ -83,7 +83,7 @@
           "precondition_seconds": 0.0,
           "setup_seconds": 0.0,
           "linear_seconds": 0.0,
-          "transfer_seconds": 1.5624449588358402e-05,
+          "transfer_seconds": 1.9165221601724625e-05,
           "nonlinear_seconds": 0.0,
           "resident_bytes": 0,
           "peak_workspace_bytes": 0,
@@ -102,7 +102,7 @@
           "precondition_seconds": 0.0,
           "setup_seconds": 0.0,
           "linear_seconds": 0.0,
-          "transfer_seconds": 1.5624449588358402e-05,
+          "transfer_seconds": 1.9165221601724625e-05,
           "nonlinear_seconds": 0.0,
           "resident_bytes": 0,
           "peak_workspace_bytes": 0,
@@ -119,16 +119,16 @@
         "constructor_setup_statistics": {
           "geometry_execution": 0,
           "scalar_digits": 53,
-          "spectral_seconds": 0.00010166696405410766,
-          "geometry_seconds": 0.037865,
+          "spectral_seconds": 0.00012241592562514545,
+          "geometry_seconds": 0.037939959,
           "coefficient_seconds": 0.0
         },
         "setup_statistics": {
           "geometry_execution": 0,
           "scalar_digits": 53,
-          "spectral_seconds": 0.00010166696405410766,
-          "geometry_seconds": 0.037865,
-          "coefficient_seconds": 3.65e-05
+          "spectral_seconds": 0.00012241592562514545,
+          "geometry_seconds": 0.037939959,
+          "coefficient_seconds": 3.9334e-05
         },
         "config": {
           "hole": [
@@ -245,15 +245,15 @@
         "note": "No nonlinear solve. Callback peaks exclude CUDA stack/runtime; whole-worker driver observations also include verification."
       },
       "execution": {
-        "initialization_seconds": 1.795899999999795e-05,
-        "creation_seconds": 0.040150208,
-        "first_sample_seconds": 0.0002891659999999935,
-        "ready_to_sample_seconds": 0.04043937399999999,
-        "wall_creation_through_sample_seconds": 0.040461832999999996,
-        "instrumentation_gap_seconds": 2.245900000000245e-05,
-        "initialization_rss_bytes": 29327360,
-        "constructor_rss_bytes": 33439744,
-        "max_rss_bytes": 33521664,
+        "initialization_seconds": 1.9249999999998435e-05,
+        "creation_seconds": 0.041046458,
+        "first_sample_seconds": 0.0002894999999999981,
+        "ready_to_sample_seconds": 0.041335958,
+        "wall_creation_through_sample_seconds": 0.041365083000000004,
+        "instrumentation_gap_seconds": 2.912500000000484e-05,
+        "initialization_rss_bytes": 29376512,
+        "constructor_rss_bytes": 33488896,
+        "max_rss_bytes": 33603584,
         "initialization_statistics": {
           "operator_seconds": 0.0,
           "precondition_seconds": 0.0,
@@ -278,7 +278,7 @@
           "precondition_seconds": 0.0,
           "setup_seconds": 0.0,
           "linear_seconds": 0.0,
-          "transfer_seconds": 5.250913091003895e-06,
+          "transfer_seconds": 5.917041562497616e-06,
           "nonlinear_seconds": 0.0,
           "resident_bytes": 0,
           "peak_workspace_bytes": 0,
@@ -297,7 +297,7 @@
           "precondition_seconds": 0.0,
           "setup_seconds": 0.0,
           "linear_seconds": 0.0,
-          "transfer_seconds": 8.0430181697011e-06,
+          "transfer_seconds": 9.251059964299202e-06,
           "nonlinear_seconds": 0.0,
           "resident_bytes": 0,
           "peak_workspace_bytes": 0,
@@ -314,16 +314,16 @@
         "constructor_setup_statistics": {
           "geometry_execution": 1,
           "scalar_digits": 53,
-          "spectral_seconds": 8.395803160965443e-05,
-          "geometry_seconds": 0.03997412498574704,
+          "spectral_seconds": 9.445799514651299e-05,
+          "geometry_seconds": 0.040828875033184886,
           "coefficient_seconds": 0.0
         },
         "setup_statistics": {
           "geometry_execution": 1,
           "scalar_digits": 53,
-          "spectral_seconds": 8.395803160965443e-05,
-          "geometry_seconds": 0.03997412498574704,
-          "coefficient_seconds": 5.4375e-05
+          "spectral_seconds": 9.445799514651299e-05,
+          "geometry_seconds": 0.040828875033184886,
+          "coefficient_seconds": 5.8791e-05
         },
         "config": {
           "hole": [
@@ -603,24 +603,31 @@
     "strict_wider_reference_available": false,
     "qualified_campaign_timing": false,
     "protocol_tests": 6,
-    "protocol_tests_exit": 0
+    "protocol_tests_exit": 0,
+    "manifest_and_guard_tests": 3,
+    "manifest_and_guard_tests_exit": 0
   },
   "source_sha256": {
-    "validation/benchmark_geometry_setup.py": "24968918fac29144d07b56865a52e9a74bd7ae664d6d207af388f3f1aa5d161b",
+    "validation/benchmark_geometry_setup.py": "d289e2478651c6bfd19bb516908279f614849c0ab1aa934f1d3310ed316b5383",
     "tests/test_geometry_setup_protocol.py": "4d8246d9ec085d4bfb6658f48670ec6af195512b2a3d23bb02115376b4f0cca1",
     "docs/HISPID_KOKKOS.md": "92523f3a4cf3729f1160f68e0b12ff1fea55a6bd78e88eb1cf9b62e2df6bea0e",
-    "docs/HISPID_STATUS.md": "09bcb1e907f277aebe5f8e876d03366cad6f2630cdc95f2b9c352c547ded999a"
+    "docs/HISPID_STATUS.md": "09bcb1e907f277aebe5f8e876d03366cad6f2630cdc95f2b9c352c547ded999a",
+    "validation/kokkos_build_manifest.py": "1403b1e9e445b0d75a9a7c5046d7c5ed9451440be2191bfd608ec0562f919de8",
+    "validation/perlmutter_allocation_guard.py": "41c4c03a8fd1ec51076f1b55ffa34f1ac82cc5f549603a1d281f8bb2d0df10a1",
+    "tests/test_setup_build_manifest.py": "ed0420da89209b33c1f5aa1fab9eecb0bbf1cb242073b64b07478b544a52a8a7",
+    "docs/HISPID_SETUP_PROTOCOL.md": "2081f7b27168e0ba93d2905c5c992680af7253f7b4ec4dffc94ee5db92f0fda9"
   },
   "artifacts_sha256": {
-    "validation/raw/geometry_setup_local_20261003/host.json": "7038895e4810ad7ccaa6b0b7b9a4b253c45907b814926d96bff24be10a09b038",
+    "validation/raw/geometry_setup_local_20261003/host.json": "93c34d46e2528f8cc1c89562aa40430e5f5789b64e57eeec7126efbf1b62f64e",
     "validation/raw/geometry_setup_local_20261003/host.npz": "9ab315591146f3cc3c9736b4a29339e3c8e00888d342974ac57a0db746a9ff09",
     "validation/raw/geometry_setup_local_20261003/input.json": "ae3c12b0f56a87395dd28cf58a56ff33a07bd5c928f8cee612827ce1631e038d",
-    "validation/raw/geometry_setup_local_20261003/protocol_tests.log": "91bf10ce34b2b5f6f6efdd64fd681002bb5816631b2608575fab164709c80992",
+    "validation/raw/geometry_setup_local_20261003/protocol_tests.log": "fcc79679fd61f1821d24f3ba295f934745f885f074c5b2c3ab08cb808510d5e9",
     "validation/raw/geometry_setup_local_20261003/execution.npz": "bfd92f08270ae905d3ec288a5b2b8e80529ecad4f29abbd8d9421814f545c681",
     "validation/raw/geometry_setup_local_20261003/comparison.json": "a8f52a136f5ccd964ef34e9c4e8a79664c7f43fc5c430f5e294f2133f30f3bf8",
     "validation/raw/geometry_setup_local_20261003/execution.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation/raw/geometry_setup_local_20261003/manifest_tests.log": "27c4a39d34ece4cbc66cc59cb0870c7abe4cc0a5f009205bdd0ea06a93f8b3ac",
     "validation/raw/geometry_setup_local_20261003/input.npz": "0e43dd28910efbf49634128c68b8c8589fc4afe5549f776d2b382ae5dbf951c9",
-    "validation/raw/geometry_setup_local_20261003/execution.json": "0b21e0b0682b067cbfe2ae3ab4f222cec20982dd891bbd2a6b7c4c1918176fb5",
+    "validation/raw/geometry_setup_local_20261003/execution.json": "0d27249fa4ccd6601ae21bd8fc85eaa2af64fb705fe8df13f3727a9787795394",
     "validation/raw/geometry_setup_local_20261003/host.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "remote_openmp_build": {

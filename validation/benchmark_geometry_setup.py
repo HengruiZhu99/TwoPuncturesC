@@ -408,10 +408,21 @@ def coordinator(args):
     del backend
     finalize(result, raw)
     write_json(out, result)
+    def checkpoint_requested():
+        if not (raw/'STOP_AFTER_WORKER').exists():
+            return False
+        finalize(result, raw)
+        write_json(out, result)
+        print('Checkpointed', result['completed_workers'], 'of', len(expected), flush=True)
+        return True
     for grid in grids:
         key = '_'.join(map(str, grid))
         for repeat in range(args.repeats):
             for variant in (variants if repeat % 2 == 0 else list(reversed(variants))):
+                # A native control is also bounded work. Honor the governor
+                # before it, not only before the following timed worker.
+                if checkpoint_requested():
+                    return
                 env = os.environ.copy()
                 env.update(OMP_NUM_THREADS=str(variant['threads']), OMP_PROC_BIND='close', OMP_PLACES='cores', OPENBLAS_NUM_THREADS='1', VECLIB_MAXIMUM_THREADS='1')
                 env.update(variant.get('environment', {}))
@@ -425,10 +436,7 @@ def coordinator(args):
                     label = f'{key}_{variant["id"]}_{repeat}_{geometry}'
                     if label in result['records'] or label in result['failures']:
                         continue
-                    if (raw / 'STOP_AFTER_WORKER').exists():
-                        finalize(result, raw)
-                        write_json(out, result)
-                        print('Checkpointed', result['completed_workers'], 'of', len(expected), flush=True)
+                    if checkpoint_requested():
                         return
                     if manifest_images(variant) != images[variant['id']]:
                         raise ValueError('worker images changed')

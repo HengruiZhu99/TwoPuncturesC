@@ -20,6 +20,20 @@ def duration(text):
     return int(days)*86400 + parts[0]*3600 + parts[1]*60 + parts[2]
 
 
+def expected_workers(result):
+    if set(result.get('records',{}))&set(result.get('failures',{})):
+        raise ValueError('retained success/failure worker identities overlap')
+    if 'expected_worker_ids' in result:
+        workers=result['expected_worker_ids']
+        if not isinstance(workers,list) or not workers or len(set(workers))!=len(workers):
+            raise ValueError('explicit worker inventory must be nonempty and unique')
+        if (set(result['records'])|set(result['failures']))-set(workers):
+            raise ValueError('unexpected retained worker identity')
+        return len(workers)
+    binding=result['binding']
+    return len(binding['grids'])*binding['repeats']*len(binding['systems'])*len(binding['methods'])*len(result['manifest']['variants'])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--job-id', required=True)
@@ -48,7 +62,7 @@ def main():
             return
         observed_epoch = True
         binding = result['binding']
-        expected = len(binding['grids'])*binding['repeats']*len(binding['systems'])*len(binding['methods'])*len(result['manifest']['variants'])
+        expected = expected_workers(result)
         if len(result['records']) + len(result['failures']) == expected:
             print('All workers recorded; finalization remains with coordinator', flush=True)
             return
