@@ -198,6 +198,30 @@ claim. A consumer with a mapped puncture Kokkos runtime is rejected, avoiding
 a second Kokkos runtime in the AthenaK process. Actual numerical proof for each
 new checkpoint is still required.
 
+The charge and covariance replay tools accept separate `--results` and
+`--raw-directory` inputs. New charge qualification uses an explicit bound
+at most1e-5, at least five increasing radii, and separate polar-only and
+azimuthal-only angular refinements. It checks native versus independent
+integrals, fixed-origin transformation, angular changes in both finite-radius
+values and intercepts, consecutive four-radius fit windows, and the reported
+all-radius intercept against the finest window. Subsequent joint refinements
+cannot bypass these checks. Qualified charge evidence remains separate from
+binary acceptance.
+
+For a new covariance study, provide a fresh `--output` and one
+`--charge-evidence` file for each selected full grid. The physical free data
+and sample-point mode must be identical and all three grid dimensions must
+refine monotonically. Each fresh rotated solve repeats the bound native and
+independent charge sequence at both displaced and global origins. It requires
+those refinements as well as the existing covariance thresholds; the historical
+12×24 preliminary integral cannot qualify this path. Explicit study stopping
+checks require native convergence and the stated weighted tolerance. Rotated
+and translated unknowns, diagnostics and histories are retained immediately
+after solve, before measurement callbacks. Source files, arrays and images
+remain bound by hashes throughout. The unchanged default invocation retains
+its historical behavior. These new paths have metadata/refinement regression
+tests but no fresh extreme numerical evidence yet.
+
 AthenaK's binary driver accepts `--migration-proof` and an explicit
 `--domain-half-width`. It rechecks checkpoint, executable, generated input,
 proof and dependency hashes around every horizon worker. A separate `--common`
