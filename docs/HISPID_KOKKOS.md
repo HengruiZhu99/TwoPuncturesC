@@ -178,6 +178,9 @@ expansion and individual charge radius before moving on. Incomplete controls
 remain unqualified; interruptions retain measurements with a failure record.
 Every atomic progress write rechecks its source and native image hashes. This
 changes retention only, with the same sampling, quadratures and thresholds.
+The extreme runner requires both seed cases and their containing attempt to
+be complete before opening a binary context. Its diagnostic switch can retain
+completed numerical failures but cannot bypass unfinished seed controls.
 
 Every extreme-study export is explicitly `diagnostic`: physical constraints,
 refined charges, solved covariance and AthenaK horizons remain distinct gates.

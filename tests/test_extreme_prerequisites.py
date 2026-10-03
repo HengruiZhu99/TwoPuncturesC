@@ -9,13 +9,30 @@ import numpy as np
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/name) for name in ('python','examples','validation')]
-from run_extreme_kokkos import frozen_inputs,prerequisites,verify_hashes,source_floor_passed,verify_source_floor_arrays
+from run_extreme_kokkos import frozen_inputs,prerequisites,verify_hashes,source_floor_passed,verify_source_floor_arrays,completed_seed_controls
 from check_far_source_floor import isolated_controls
 from hispid import Config,Hole
 from configs import as_dict
 
 
 class ExtremePrerequisiteTests(unittest.TestCase):
+    def test_seed_controls_reject_partial_or_duplicate_cases(self):
+        seed=dict(completed=True,passed=True,cases=[dict(case=case,completed=True)
+            for case in ('spin99','gamma10')])
+        completed_seed_controls(seed)
+        for partial in (seed|{'completed':False},seed|{'cases':seed['cases'][:1]},
+            seed|{'cases':[seed['cases'][0],seed['cases'][0]]},
+            seed|{'cases':[seed['cases'][0],seed['cases'][1]|{'completed':False}]}):
+            with self.subTest(partial=partial),self.assertRaisesRegex(ValueError,'completed fresh'):
+                completed_seed_controls(partial)
+
+    def test_completed_failed_seed_controls_stay_failed(self):
+        seed=dict(completed=True,passed=False,cases=[dict(case=case,completed=True,passed=False)
+            for case in ('spin99','gamma10')])
+        self.assertIs(completed_seed_controls(seed),seed)
+        self.assertFalse(seed['passed'])
+        self.assertTrue(all(not case['passed'] for case in seed['cases']))
+
     def test_frozen_decode_rejects_later_input_mutations(self):
         with tempfile.TemporaryDirectory() as directory:
             paths={key:Path(directory)/key for key in ('plan','performance','seed','receipt','report')}

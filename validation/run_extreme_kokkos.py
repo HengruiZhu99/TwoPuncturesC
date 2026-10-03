@@ -50,6 +50,16 @@ def prerequisites(performance,receipt,hashes):
     return performance,receipt
 
 
+def completed_seed_controls(seed):
+    """Numerical failures may be diagnostic; unfinished controls are not ready."""
+    cases=seed.get('cases',[])
+    if (seed.get('completed') is not True or len(cases)!=2
+        or {row.get('case') for row in cases}!={'spin99','gamma10'}
+        or any(row.get('completed') is not True for row in cases)):
+        raise ValueError('completed fresh chi=.99/Gamma=10 seed controls required')
+    return seed
+
+
 def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32768):
     """Bind exact isolated controls to the binary's charts and declared norm.
 
@@ -149,7 +159,7 @@ def main():
     if any(digest(path)!=sha for path,sha in measured.items()):raise ValueError('measured CUDA build/dependencies changed')
     if digest(library)!=measured[str(Path(variant['hispid_library']).resolve())]:
         raise ValueError('producer differs from the measured CUDA build')
-    seed=inputs['seed']
+    seed=completed_seed_controls(inputs['seed'])
     if seed.get('library_sha256')!=digest(library) or {c['case'] for c in seed.get('cases',[])}!={'spin99','gamma10'}:
         raise ValueError('fresh bound chi=.99/Gamma=10 seed controls required')
     seed_cases={c['case']:c for c in seed['cases']}
