@@ -1,0 +1,38 @@
+{
+  "scope": "exact_seed_CPU_sampler_compatibility_only",
+  "sampler_script_commit": "c130785e56d85e1f6b5a01e3077ba83ed36abffc",
+  "sampler_script_sha256": "933e39c9ca1f42d3494a03f3793c1e583bd6ff759b868dd3d9f38d0a2de1ae91",
+  "local_raw_arrays_rehashed_and_recompared": true,
+  "failed_dispatch_attempt_retained": "failed_worker_dispatch",
+  "records": [
+    {
+      "case": "kerr99",
+      "proof_file": "kerr99-migration.json",
+      "proof_sha256": "1c5ff1de02b1e09dfd156cc4ca40f2647c3c223b82370310a472a596f9cdf401",
+      "point_count": 1512,
+      "scaled_field_and_gradient_linf_max": 0.0,
+      "native_gate_passed": true
+    },
+    {
+      "case": "gamma10",
+      "proof_file": "gamma10-migration.json",
+      "proof_sha256": "8df6304da195abb77fd1f5ebe5505aabea1cfbedf709773b761d5bcf967e73e8",
+      "point_count": 1512,
+      "scaled_field_and_gradient_linf_max": 0.0,
+      "native_gate_passed": true
+    },
+    {
+      "case": "boost885",
+      "proof_file": "boost885-migration.json",
+      "proof_sha256": "3b73c9d980f4bcb934ebfa8adaaae232e6caee1f3c666c73aa8184a513b83027",
+      "point_count": 1512,
+      "scaled_field_and_gradient_linf_max": 0.0,
+      "native_gate_passed": true
+    }
+  ],
+  "binary_checkpoint_migration_verified": false,
+  "athenak_import_verified": false,
+  "horizons_verified": false,
+  "physical_acceptance_transferred": false,
+  "note": "Raw arrays and original metadata are mirrored locally; canonical native-image paths in the original proofs refer to the preserved Perlmutter build bank."
+}

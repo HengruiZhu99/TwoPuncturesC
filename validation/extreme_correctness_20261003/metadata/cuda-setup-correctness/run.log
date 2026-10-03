@@ -1,0 +1,46 @@
+Internal ctest changing into directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855
+Test project /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855
+    Start 3: hispid_kokkos_setup
+1/2 Test #3: hispid_kokkos_setup ..............***Failed    5.19 sec
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
+
+seed kind0 choice0 defined derivatives 3.553e-15 all-slot diagnostic 3.553e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.813e-13 all-slot diagnostic 4.813e-13
+seed kind1 choice1 defined derivatives 5.539e-13 all-slot diagnostic 5.539e-13
+seed kind2 choice0 defined derivatives 8.842e-14 all-slot diagnostic 1.320e-12
+seed kind2 choice1 defined derivatives 8.842e-14 all-slot diagnostic 1.320e-12
+seed kind3 choice0 defined derivatives 2.916e-13 all-slot diagnostic 1.622e-12
+seed kind3 choice1 defined derivatives 2.902e-13 all-slot diagnostic 1.408e-12
+seed kind4 choice0 defined derivatives 5.390e-13 all-slot diagnostic 5.390e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 5.390e-13 all-slot diagnostic 5.390e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.414e-13 all-slot diagnostic 4.077e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.3566036520288896e-10
+extreme seed kind5 choice0 all coefficients 1.173e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 3.676e-12
+extreme seed kind5 choice1 all coefficients 5.529e-11
+cache choice0 modified0 7.287e-11
+cache choice0 modified1 7.288e-11
+cache choice1 modified0 7.296e-11
+cache choice1 modified1 1.136e-10
+worst binary coefficient point192 xyz[-3.0078012248949406,8.1766494860233003e-19,0.013353481986342841] field7 host7.8479275489464388 execution7.8479275479414365 same-point-double-legacy7.8479275475762842 stable7.8479275483063446
+line129: cache_error<=1e-10 ()
+seed geometry defined-derivative maximum 5.539e-13; all-slot diagnostic 4.077e-09
+
+    Start 4: hispid_execution_seed_export
+2/2 Test #4: hispid_execution_seed_export .....   Passed    0.53 sec
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =   5.74 sec
+
+The following tests FAILED:
+	  3 - hispid_kokkos_setup (Failed)
+Errors while running CTest

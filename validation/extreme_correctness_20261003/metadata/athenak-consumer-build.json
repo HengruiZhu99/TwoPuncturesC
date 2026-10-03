@@ -1,0 +1,14 @@
+{
+  "purpose": "pure_cpu_athenak_consumer_preparation_not_performance",
+  "utc": "2026-10-03T22:21:16.070901+00:00",
+  "source_commit": "030cbcc73abd8180943874359ef79b50653f0e3e",
+  "files_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/athenak-build-extreme-serial-20261003/src/athena": "6f279f0747876c8279f780f4d1ed3edc7b0cc3f53f27ca870cfcb6c3b26441e2",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/athenak-build-extreme-serial-20261003/CMakeCache.txt": "16dfdcfaa689b0d44c4cf90706a0d3c5f07dd399c05e7994a2e1d6180b236846",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libHiSpID.so": "48ef22c57d62b03b0d9676bd39c0cb3c37ff0cce0a3e84804b264cb542507aff",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so": "686ed7d4dfb0fe434c4f8e10858a283d004b5436890d80fd8b78cfc6eb6109fc",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/athenak-030cbcc.staging.json": "47ee863f048cb3cca7b8b9161330e557708a32661691d505de378d728e42e132",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/athenak-kokkos-source-link.json": "ed3dc255814031f0f733edcb6ea9495e1c80e7954fe47284d86d48a5fa2219bd"
+  },
+  "consumer_controls_pending": true
+}

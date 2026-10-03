@@ -1,0 +1,23 @@
+{
+  "library_path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libHiSpID.so",
+  "library_sha256": "48ef22c57d62b03b0d9676bd39c0cb3c37ff0cce0a3e84804b264cb542507aff",
+  "dependency_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so": "686ed7d4dfb0fe434c4f8e10858a283d004b5436890d80fd8b78cfc6eb6109fc"
+  },
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/consumer-analytic-seeds-v2/boost885.checkpoint",
+    "file_sha256": "33cd528a1ac7b639b66f1168cbfa159ef43bfa68d25906ff30bef4429cb882e8",
+    "source_library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+    "acceptance": "analytic_seed",
+    "parameterization": "modal_P_C2prolate_mapped_v2"
+  },
+  "compiled_execution": "reference",
+  "runtime_images": {},
+  "parameterization": "modal_P_C2prolate_mapped_v2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "point_count": 1512,
+  "artifact_sha256": "0d7b4bf7fb368bed4cd9eb72334b7cbbc1ffded5bd264341b1f8c13a985f5c66"
+}

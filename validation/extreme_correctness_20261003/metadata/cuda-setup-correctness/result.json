@@ -1,0 +1,61 @@
+{
+  "purpose": "new_CUDA_seed_and_setup_kernel_correctness_only",
+  "performance_measurement": false,
+  "numerical_physics_images_changed": false,
+  "bound_artifacts_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libHiSpID.so": "9ce170ab179a5eee257c2c53f5541e3b3585673cab7fb8f274743494e340233a",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libTwoPunctures.so": "3f37baf766438b08e870c3f4ce60f69d87a7710e0cc8b891372e46a6ca6c2b8d",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/test_hispid_setup_kokkos": "ee65f84f01197cea52dd4f78df465f75f9eb14e48ba7f6df635ad42f0cd951f8",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/test_hispid_seed_execution": "386159d36329d11758ddc53058aaa171fd1e0a034dfcf7e3ab527d72343cb1c6",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/CMakeCache.txt": "2fdcaf69132c62bca3640f53b1ccb8690b457ea236fba4220802b2e69b187234",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/CTestTestfile.cmake": "200dadda769b6fa1e456d08be50a055c0500b72d84edbd28a66b3db142bc56e5",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/algorithms/src/libkokkosalgorithms.so.4.7.2": "302f2e822ac5627d1190a7f116ae3f59cd8059171c599a45dfc34048f3091b05",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/containers/src/libkokkoscontainers.so.4.7.2": "19f8a863ba37b93cd5e3f96a9314059da1b568f5440787dbf946a128806fbc92",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/core/src/libkokkoscore.so.4.7.2": "37bdc354e47e0e546b80b71af9f09babd07d7cf6fa5fea65ae0e25841947c3cd",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/simd/src/libkokkossimd.so.4.7.2": "03ea16f181ee997913c70e0d6fbd11c6e9723a4098993c348b689171e9757117"
+  },
+  "device": {
+    "name": "NVIDIA A100-SXM4-80GB",
+    "uuid": "GPU-a5e46c98-df24-c9ea-6d96-0288a18dc5c9",
+    "visible_ordinal": 0,
+    "visible_count": 1,
+    "total_bytes": 85093777408,
+    "free_bytes": 84642824192,
+    "sm_count": 108,
+    "compute_major": 8,
+    "compute_minor": 0
+  },
+  "compiled_execution": "Cuda",
+  "command": [
+    "taskset",
+    "-c",
+    "4",
+    "ctest",
+    "--test-dir",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855",
+    "-R",
+    "^(hispid_kokkos_setup|hispid_execution_seed_export)$",
+    "--output-on-failure",
+    "--output-junit",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/cuda-setup-correctness/junit.xml",
+    "--timeout",
+    "300"
+  ],
+  "completed": true,
+  "passed": false,
+  "returncode": 8,
+  "bound_artifacts_unchanged": true,
+  "log_sha256": "c7da9b79edea5b2241fc00db5fa6225df1c60bab128ff9550ffe0764b9035904",
+  "junit_sha256": "7f228e8cbe30bade813505369353d5a8dba4246fef4e6f77d7a4453ea3d269f7",
+  "tests": [
+    {
+      "name": "hispid_kokkos_setup",
+      "passed": false
+    },
+    {
+      "name": "hispid_execution_seed_export",
+      "passed": true
+    }
+  ],
+  "utc": "2026-10-03T22:37:11.452655+00:00"
+}

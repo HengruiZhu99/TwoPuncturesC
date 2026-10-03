@@ -1,0 +1,13 @@
+
+Root grid = 1 x 1 x 1 MeshBlocks
+Total number of MeshBlocks = 1
+Number of logical  levels of refinement = 0 (1 levels total)
+Number of physical levels of refinement = 0 (1 levels total)
+Number of parallel ranks = 1
+FastFlow harmonic_storage horizon=0 mode=dense lmax=48 ntheta=74 host_bytes=2537271744 device_bytes=2537271744 unique_bytes=2537271744
+AssembleZ4cTasks
+HiSpID consumer_dependency symbol="AB_To_XR" image="/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="C_To_c" image="/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="PK_solve" image="/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so"
+HiSpID consumer_image="/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libHiSpID.so"
+HiSpID import source=7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236 acceptance=analytic_seed consumer=48ef22c57d62b03b0d9676bd39c0cb3c37ff0cce0a3e84804b264cb542507aff ADM/Z4c relative error=4.4068794099594399e-16

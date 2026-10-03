@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/validation/portable_sampler_migration.py", line 151, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/validation/portable_sampler_migration.py", line 84, in main
+    worker(args);return 0
+    ^^^^^^
+UnboundLocalError: cannot access local variable 'worker' where it is not associated with a value

@@ -1,5 +1,28 @@
 # HiSpID milestone status
 
+October 3 physical follow-up: performance work remains stopped under the
+human override below. Commit `c130785` fixes worker dispatch in the isolated
+CPU sampler comparison. Fresh separate-process comparisons for exact Kerr
+chi=.99, Gamma10, and the speed=.885 control agree in every physical/conformal
+field and metric derivative at 1512 points per case, with zero measured
+difference. Raw arrays, checkpoints, the failed dispatch attempt and a local
+rehash/recomparison receipt are retained in
+`validation/extreme_consumer_sampler_20261003`. These proofs apply to exact
+seeds only; every solved binary checkpoint needs its own proof.
+
+The new Serial AthenaK consumer builds on Perlmutter. Its harmonic cache
+component checks pass (exhaustive at L8/16, sampled at L160). The displaced
+speed=.885 dense and factorized finder attempts both hit the 900s timeout;
+they import successfully but do not establish full finder equivalence or
+horizon acceptance. The new CUDA public seed export passes 7629 checks.
+Its setup test fails the unchanged 1e-10 coefficient gate at 1.136e-10 for
+the choice1/modified binary fixture. That execution-geometry image remains
+unqualified. Physical investigations use the preserved solver image and
+host geometry. The fresh chi=.99 seed passes independent constraints and
+refined charges. Its dense L8 horizon control also passes; the remaining
+angular levels and Gamma10 controls are running or pending. No new solved
+binary acceptance is claimed.
+
 HUMAN OVERRIDE, October3: the user instructed that existing results be
 preserved, performance work stopped, and high-spin/high-boost investigations
 started immediately. The campaign was stopped at244 retained attempts;
@@ -14,6 +37,10 @@ use a new single-GPU shared allocation59284155. The source-floor calibration
 can now select exactly spin99 or gamma10 at both chart foci and every target
 grid, without claiming general-orientation qualification. No new binary or
 horizon result is claimed yet.
+
+The entries below are historical snapshots. Their former performance-first
+sequencing and active-campaign descriptions are superseded by the human
+override; their numerical results and failed gates remain preserved.
 
 October3 report qualification follow-up: the goal and Perlmutter job59275439
 are active. At21:01UTC the frozen solve campaign retains243/288 attempts,

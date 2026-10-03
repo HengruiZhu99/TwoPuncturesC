@@ -1,0 +1,44 @@
+{
+  "purpose": "exact_seed_sampler_compatibility_no_elliptic_solve_no_acceptance_transfer",
+  "records": [
+    {
+      "case": "kerr99",
+      "export_command": [
+        "taskset",
+        "-c",
+        "6",
+        "python3",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/examples/export_athenak.py",
+        "--library",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libHiSpID.so",
+        "--seed",
+        "kerr99",
+        "--output",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/consumer-analytic-seeds/kerr99.checkpoint"
+      ],
+      "passed": false,
+      "export_returncode": 0,
+      "migration_command": [
+        "taskset",
+        "-c",
+        "6",
+        "python3",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/validation/portable_sampler_migration.py",
+        "--checkpoint",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/consumer-analytic-seeds/kerr99.checkpoint",
+        "--producer-library",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libHiSpID.so",
+        "--consumer-library",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libHiSpID.so",
+        "--output",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/consumer-analytic-seeds/kerr99-migration.json",
+        "--timeout",
+        "600"
+      ],
+      "migration_returncode": 1,
+      "migration_sha256": "e7c0ce6d8f53aa2601c4e8e745f3914758b4f129c960b5a7e7aa1198462616bd"
+    }
+  ],
+  "completed": false,
+  "utc": "2026-10-03T22:03:47.023504+00:00"
+}

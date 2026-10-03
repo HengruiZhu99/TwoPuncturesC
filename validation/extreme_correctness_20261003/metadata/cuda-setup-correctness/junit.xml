@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="2"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="5"
+	timestamp="2026-10-03T15:37:05"
+	>
+	<testcase name="hispid_kokkos_setup" classname="hispid_kokkos_setup" time="5.19041" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
+
+seed kind0 choice0 defined derivatives 3.553e-15 all-slot diagnostic 3.553e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.813e-13 all-slot diagnostic 4.813e-13
+seed kind1 choice1 defined derivatives 5.539e-13 all-slot diagnostic 5.539e-13
+seed kind2 choice0 defined derivatives 8.842e-14 all-slot diagnostic 1.320e-12
+seed kind2 choice1 defined derivatives 8.842e-14 all-slot diagnostic 1.320e-12
+seed kind3 choice0 defined derivatives 2.916e-13 all-slot diagnostic 1.622e-12
+seed kind3 choice1 defined derivatives 2.902e-13 all-slot diagnostic 1.408e-12
+seed kind4 choice0 defined derivatives 5.390e-13 all-slot diagnostic 5.390e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 5.390e-13 all-slot diagnostic 5.390e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.414e-13 all-slot diagnostic 4.077e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.3566036520288896e-10
+extreme seed kind5 choice0 all coefficients 1.173e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 3.676e-12
+extreme seed kind5 choice1 all coefficients 5.529e-11
+cache choice0 modified0 7.287e-11
+cache choice0 modified1 7.288e-11
+cache choice1 modified0 7.296e-11
+cache choice1 modified1 1.136e-10
+worst binary coefficient point192 xyz[-3.0078012248949406,8.1766494860233003e-19,0.013353481986342841] field7 host7.8479275489464388 execution7.8479275479414365 same-point-double-legacy7.8479275475762842 stable7.8479275483063446
+line129: cache_error&lt;=1e-10 ()
+seed geometry defined-derivative maximum 5.539e-13; all-slot diagnostic 4.077e-09
+</system-out>
+	</testcase>
+	<testcase name="hispid_execution_seed_export" classname="hispid_execution_seed_export" time="0.534871" status="run">
+		<properties/>
+		<system-out>Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
+
+HiSpID Cuda public seed export: 7629 checks; value difference 2.443e-14
+</system-out>
+	</testcase>
+</testsuite>

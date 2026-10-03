@@ -1,0 +1,59 @@
+{
+  "purpose": "preserve_correctness_failures_and_consumer_build_without_more_performance_work",
+  "performance_campaign": false,
+  "source_remote_root": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003",
+  "original_archive": {
+    "file": "remote-original-evidence.tar.gz",
+    "sha256": "3ca032a6228ce477b7e458e41edb2c1fc35d2ab235cc636704507fedf4e7f3d3",
+    "bytes": 111927281,
+    "preserved_locally": true,
+    "committed": false
+  },
+  "archive_member_sha256": {
+    "cuda-setup-correctness/junit.xml": "7f228e8cbe30bade813505369353d5a8dba4246fef4e6f77d7a4453ea3d269f7",
+    "cuda-setup-correctness/result.json": "b750246c176e06263576a007da99d36b8a02188230dd35f513fd63b92d270ce6",
+    "cuda-setup-correctness/run.log": "c7da9b79edea5b2241fc00db5fa6225df1c60bab128ff9550ffe0764b9035904",
+    "cuda-setup-correctness-launch.log": "25a5b341888677deb9cf3438c001af6d910f3d94e7ad47c5f359fda4f0fb6758",
+    "horizon-cache-equivalence-l48/boost885_dense/hispid.horizon_summary_0.txt": "232381fe2a39e0aed3f0f793e0af5996132ca449d2971dc6fb0c7d05e1e7c0b7",
+    "horizon-cache-equivalence-l48/boost885_dense/cache.athinput": "b6a621934689b143f8a0e2fa270ec9e0aaacad22b213347cfdff2bfb36ca28cb",
+    "horizon-cache-equivalence-l48/boost885_dense/run.log": "432e0ba8ee0186010662db57977e3183856557e53a7dad6be7e0237ec66f1339",
+    "horizon-cache-equivalence-l48/boost885_dense/hispid.horizon_verbose_0.txt": "9ab6e2504bfc0d21fab831d4869c4861cfc95d66a5cce48a664c6cfd28a976ae",
+    "horizon-cache-equivalence-l48/boost885_factorized/hispid.horizon_summary_0.txt": "232381fe2a39e0aed3f0f793e0af5996132ca449d2971dc6fb0c7d05e1e7c0b7",
+    "horizon-cache-equivalence-l48/boost885_factorized/cache.athinput": "b6a621934689b143f8a0e2fa270ec9e0aaacad22b213347cfdff2bfb36ca28cb",
+    "horizon-cache-equivalence-l48/boost885_factorized/run.log": "c3ac0520ee15fab8635dd6258910a48822d4647957b63cc42f0c7a8ece817c95",
+    "horizon-cache-equivalence-l48/boost885_factorized/hispid.horizon_verbose_0.txt": "a4d317817281b7eb2aea5f4bb28e49387d2305fae741af9963e099993829ae90",
+    "horizon-cache-equivalence-l48/cache-equivalence.json": "810072361bd6c43cd7b47ac97a186f0dce2d277edb374e419c9c793aa6cabcbd",
+    "horizon-cache-equivalence-l48.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "horizon-cache-equivalence-l48.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "athenak-consumer-build.json": "712e95bb797abc0b93ca945ba18387be85f968a864becb6f9d049522fe1ec85a",
+    "fastflow-cache-correctness.json": "76a89f1f8a174eb9d1d5fd64a4a8e286fb12f046f50480717fa47662bd26eea0",
+    "fastflow-cache-correctness.log": "4a33b4d812d93afd1a45db2de0088828fd3eab68299ef743ae5314a25672d60b"
+  },
+  "metadata_copies_sha256": {
+    "cuda-setup-correctness/junit.xml": "7f228e8cbe30bade813505369353d5a8dba4246fef4e6f77d7a4453ea3d269f7",
+    "cuda-setup-correctness/result.json": "b750246c176e06263576a007da99d36b8a02188230dd35f513fd63b92d270ce6",
+    "cuda-setup-correctness/run.log": "c7da9b79edea5b2241fc00db5fa6225df1c60bab128ff9550ffe0764b9035904",
+    "cuda-setup-correctness-launch.log": "25a5b341888677deb9cf3438c001af6d910f3d94e7ad47c5f359fda4f0fb6758",
+    "horizon-cache-equivalence-l48/boost885_dense/hispid.horizon_summary_0.txt": "232381fe2a39e0aed3f0f793e0af5996132ca449d2971dc6fb0c7d05e1e7c0b7",
+    "horizon-cache-equivalence-l48/boost885_dense/cache.athinput": "b6a621934689b143f8a0e2fa270ec9e0aaacad22b213347cfdff2bfb36ca28cb",
+    "horizon-cache-equivalence-l48/boost885_dense/run.log": "432e0ba8ee0186010662db57977e3183856557e53a7dad6be7e0237ec66f1339",
+    "horizon-cache-equivalence-l48/boost885_factorized/hispid.horizon_summary_0.txt": "232381fe2a39e0aed3f0f793e0af5996132ca449d2971dc6fb0c7d05e1e7c0b7",
+    "horizon-cache-equivalence-l48/boost885_factorized/cache.athinput": "b6a621934689b143f8a0e2fa270ec9e0aaacad22b213347cfdff2bfb36ca28cb",
+    "horizon-cache-equivalence-l48/boost885_factorized/run.log": "c3ac0520ee15fab8635dd6258910a48822d4647957b63cc42f0c7a8ece817c95",
+    "horizon-cache-equivalence-l48/cache-equivalence.json": "810072361bd6c43cd7b47ac97a186f0dce2d277edb374e419c9c793aa6cabcbd",
+    "horizon-cache-equivalence-l48.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "horizon-cache-equivalence-l48.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "athenak-consumer-build.json": "712e95bb797abc0b93ca945ba18387be85f968a864becb6f9d049522fe1ec85a",
+    "fastflow-cache-correctness.json": "76a89f1f8a174eb9d1d5fd64a4a8e286fb12f046f50480717fa47662bd26eea0",
+    "fastflow-cache-correctness.log": "4a33b4d812d93afd1a45db2de0088828fd3eab68299ef743ae5314a25672d60b"
+  },
+  "CUDA_setup_test_passed": false,
+  "CUDA_seed_export_test_passed": true,
+  "finder_dense_and_factorized_returncodes": [
+    "timeout",
+    "timeout"
+  ],
+  "original_failed_gates_unchanged": true,
+  "physical_acceptance_transferred": false,
+  "note": "Full partial finder traces are in the local archive and original Perlmutter directories. Tracked metadata retains their original hashes; no completed finder equivalence is inferred."
+}
