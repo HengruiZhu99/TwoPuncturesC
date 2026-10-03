@@ -23,12 +23,14 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--library',required=True);p.add_argument('--output',required=True)
     p.add_argument('--resolutions',default='32:32:16,64:64:28,80:160:28')
     p.add_argument('--extreme',action='store_true',help='fresh exact chi.99/Gamma10 source-cancellation controls')
+    p.add_argument('--target-case',choices=('spin99','gamma10'),help='explicit target-specific extreme controls at both chart foci')
     p.add_argument('--execution',choices=('reference','kokkos'),default='reference')
     p.add_argument('--geometry',choices=('host','execution'),default='host')
     p.add_argument('--threads',type=int,default=1);p.add_argument('--memory-mib',type=int,default=8192)
     p.add_argument('--seed-mass',type=float,default=1.)
     p.add_argument('--coordinate-separation',type=float,default=12.,help='extreme controls use the same two chart centers as the binary')
     a=p.parse_args();path=Path(a.output)
+    if a.target_case and not a.extreme:raise ValueError('target-specific controls require --extreme')
     if a.geometry=='execution' and a.execution!='kokkos':raise ValueError('execution geometry requires Kokkos')
     if path.exists():raise FileExistsError('preserve prior source-floor controls')
     if not 1<=a.threads<=16 or not 1<=a.memory_mib<=65536:raise ValueError('invalid concurrency or memory budget')
@@ -58,10 +60,12 @@ def main():
         execution_concurrency=concurrency(backend.lib),device=device,bound_images=frozen,
         unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps(),
         acceptance=False,note='Exact isolated vacuum seeds with all attenuation disabled; zero corrections. The far source floor is measured before any binary in a new norm. This does not accept a binary.')
+    output.update(control_scope='requested_target' if a.target_case else 'full',target_case=a.target_case)
     save()
     for shape in map(lambda x:list(map(int,x.split(':'))),a.resolutions.split(',')):
         if len(shape)!=3 or min(shape)<4:raise ValueError('three supported grid dimensions required')
         controls=[(label,S,v,active) for label,S,v in isolated_controls(a.extreme)
+                  if a.target_case is None or label==a.target_case
                   for active in ((0,1) if a.extreme else (0,))]
         for label,S,v,active in controls:
             cfg=backend.config();cfg.n[:]=shape;cfg.memory_limit_mib=a.memory_mib;cfg.krylov_restart=32

@@ -1,7 +1,8 @@
 """One retained grid of a separate aligned-spin or head-on boost investigation.
 
-Requires the completed performance matrix and a receipt for its successfully
-compiled standalone report. Uses the common physical validation machinery with
+Normally requires the completed performance matrix and a compiled-report
+receipt. An explicitly recorded human override can waive that sequencing.
+Uses the common physical validation machinery with
 explicit Kokkos execution. Every export remains diagnostic until the separate
 charge/covariance/horizon gates qualify the complete evidence bundle.
 """
@@ -37,7 +38,18 @@ def verify_hashes(paths,hashes):
         raise ValueError('bound prerequisite or attempt evidence changed')
 
 
-def prerequisites(performance,receipt,hashes):
+def human_override_authorized(override,performance_sha):
+    if override is None:return False
+    if (override.get('schema')!='hispid_human_override_v1'
+        or override.get('authority')!='explicit_user_request'
+        or override.get('scope')!='stop_performance_and_proceed_to_extreme_investigations'
+        or override.get('performance_sha256')!=performance_sha
+        or not override.get('instruction') or override.get('scientific_acceptance_waived') is not False):
+        raise ValueError('human override must record the explicit scope and preserved performance snapshot')
+    return True
+
+
+def prerequisites(performance,receipt,hashes,human_override=None):
     grids=[[40,80,16],[80,160,16],[128,256,28]]
     variants={'reference','serial','openmp1','openmp2','openmp4','openmp8','openmp16','cuda'}
     systems={'hispid','by'};methods={'gmres','bicgstab'}
@@ -46,14 +58,16 @@ def prerequisites(performance,receipt,hashes):
     expected={f'{"_".join(map(str,grid))}_{variant}_{system}_{method}_{repeat}'
         for grid in grids for variant in variants for system in systems for method in methods for repeat in range(3)}
     records=performance.get('records',{});failures=performance.get('failures',{})
-    if (performance.get('declared_performance_completed') is not True
+    overridden=human_override_authorized(human_override,hashes['performance'])
+    if ((not overridden and (performance.get('declared_performance_completed') is not True
         or performance.get('expected_workers')!=288 or performance.get('completed_workers')!=288
+        or set(records)|set(failures)!=expected))
         or binding.get('grids')!=grids or binding.get('repeats')!=3
         or len(binding.get('systems',[]))!=2 or set(binding.get('systems',[]))!=systems
         or len(binding.get('methods',[]))!=2 or set(binding.get('methods',[]))!=methods
         or len(ids)!=8 or set(ids)!=variants or set(records)&set(failures)
-        or set(records)|set(failures)!=expected):
-        raise ValueError('complete declared 288-worker performance matrix required')
+        or (set(records)|set(failures))-expected):
+        raise ValueError('complete declared matrix required unless explicitly overridden; retained identities must remain valid')
     for label,row in records.items():
         actual=f'{"_".join(map(str,row.get("grid",[])))}_{row.get("variant")}_{row.get("mode")}_{row.get("krylov")}_{row.get("repeat")}'
         if actual!=label:raise ValueError('performance record identity differs from its matrix key')
@@ -70,7 +84,7 @@ def prerequisites(performance,receipt,hashes):
         or {Path(path).name for path in inputs}!=required_inputs
         or any(not valid_sha(sha) for sha in inputs.values())):
         raise ValueError('all three retained performance input witnesses required')
-    if (receipt.get('compilation_confirmed') is not True
+    if not overridden and (receipt.get('compilation_confirmed') is not True
         or receipt.get('compiler')!='mcp__codex_app__compile_latex_document'
         or receipt.get('performance_sha256')!=hashes['performance']
         or receipt.get('report_sha256')!=hashes['report']):
@@ -112,7 +126,7 @@ def verify_seed_images(seed,measured,producer,geometry='host'):
         raise ValueError('seed producer, puncture or Kokkos dependency images differ from measured evidence')
 
 
-def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32768,geometry='host'):
+def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32768,geometry='host',target_case=None):
     """Bind exact isolated controls to the binary's charts and declared norm.
 
     Structural mismatches are rejected; retained numerical failures return
@@ -128,6 +142,10 @@ def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32
         raise ValueError('source-floor controls differ from the target charts, norm or producer')
     from check_far_source_floor import isolated_controls
     controls={label:(spin*mass**2,velocity) for label,spin,velocity in isolated_controls(True)}
+    if target_case is not None:
+        if target_case not in ('spin99','gamma10') or floor.get('target_case') not in (None,target_case):
+            raise ValueError('source-floor target case differs from the binary')
+        controls={target_case:controls[target_case]}
     rows=floor.get('records',[])
     keys=[(r['case'],r['active_hole'],tuple(r['resolution'])) for r in rows]
     required={(label,active,tuple(grid)) for label in controls for active in (0,1) for grid in grids}
@@ -193,7 +211,8 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--library',required=True);p.add_argument('--performance-results',required=True)
     p.add_argument('--performance-artifact-root',required=True,help='original benchmark source root containing retained state/log/worker/input files')
-    p.add_argument('--compiled-report-receipt',required=True);p.add_argument('--compiled-report',required=True)
+    p.add_argument('--compiled-report-receipt');p.add_argument('--compiled-report')
+    p.add_argument('--human-override',help='Recorded explicit user instruction to stop performance work and proceed; never waives scientific acceptance')
     p.add_argument('--seed-controls',required=True);p.add_argument('--source-floor-controls',required=True)
     p.add_argument('--plan',default=str(Path(__file__).with_name('extreme_kokkos_plan.json')))
     p.add_argument('--case',choices=('aligned_spin99_kokkos','headon_gamma10_kokkos'),required=True)
@@ -203,10 +222,14 @@ def main():
     p.add_argument('--geometry',choices=('host','execution'),default='host')
     p.add_argument('--allow-diagnostic-investigation',action='store_true',help='retain failed prerequisite gates while measuring unqualified data')
     a=p.parse_args()
-    input_paths=dict(performance=a.performance_results,receipt=a.compiled_report_receipt,
-        report=a.compiled_report,plan=a.plan,seed=a.seed_controls,floor=a.source_floor_controls)
+    if not a.human_override and not (a.compiled_report_receipt and a.compiled_report):
+        p.error('compiled report and receipt required without a human override')
+    if bool(a.compiled_report_receipt)!=bool(a.compiled_report):p.error('provide both report and receipt, or neither under the override')
+    input_paths=dict(performance=a.performance_results,plan=a.plan,seed=a.seed_controls,floor=a.source_floor_controls)
+    if a.compiled_report:input_paths.update(receipt=a.compiled_report_receipt,report=a.compiled_report)
+    if a.human_override:input_paths['human_override']=a.human_override
     inputs,input_hashes=frozen_inputs(input_paths)
-    performance,receipt=prerequisites(inputs['performance'],inputs['receipt'],input_hashes)
+    performance,receipt=prerequisites(inputs['performance'],inputs.get('receipt',{}),input_hashes,inputs.get('human_override'))
     from benchmark_kokkos import verify_artifacts
     performance_artifact_root=Path(a.performance_artifact_root).resolve(strict=True)
     verify_artifacts(performance,performance_artifact_root)
@@ -232,7 +255,8 @@ def main():
     initial_separation=12. if a.case.startswith('aligned') else 25.
     separation=a.separation if a.separation is not None else initial_separation
     floor=inputs['floor']
-    floor_passed=source_floor_passed(floor,digest(library),grids,separation,memory_mib=controls['memory_limit_mib'],geometry=a.geometry)
+    floor_passed=source_floor_passed(floor,digest(library),grids,separation,memory_mib=controls['memory_limit_mib'],geometry=a.geometry,
+                                    target_case='spin99' if a.case.startswith('aligned') else 'gamma10')
     floor_artifacts=verify_source_floor_arrays(floor)
     if (not floor.get('bound_images') or any(measured.get(path)!=sha for path,sha in floor['bound_images'].items())
         or any(digest(path)!=sha for path,sha in floor_artifacts.items())):
@@ -270,7 +294,8 @@ def main():
         raise ValueError('retained resolutions differ from the declared grid prefix')
     binding=dict(schema='hispid_extreme_attempt_binding_v1',case=a.case,label=label,
         prerequisite_sha256=input_hashes,measured_images=measured,loaded_images=actual_images,
-        producer=str(library),coordinate_separation=separation,host_threads=a.threads,geometry=a.geometry)
+        producer=str(library),coordinate_separation=separation,host_threads=a.threads,geometry=a.geometry,
+        human_override=inputs.get('human_override'))
     binding_path=root/(label+'_attempt_binding.json')
     if binding_path.exists():
         bound_bytes=binding_path.read_bytes()
@@ -335,6 +360,7 @@ def main():
     verify_attempt()
     result.update(stage='diagnostic_extreme_investigation',plan_sha256=input_hashes['plan'],
         performance_sha256=input_hashes['performance'],compiled_report_receipt=receipt,
+        human_override=inputs.get('human_override'),performance_sequence_overridden=bool(a.human_override),
         performance_artifact_root=str(performance_artifact_root),
         seed_controls_sha256=input_hashes['seed'],prerequisite_sha256=input_hashes,
         source_floor_controls_sha256=input_hashes['floor'],source_floor_passed=floor_passed,

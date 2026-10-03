@@ -105,6 +105,24 @@ class ExtremePrerequisiteTests(unittest.TestCase):
         for key,value in (('compilation_confirmed',False),('compiler','unverified'),('performance_sha256','0'*64),('report_sha256','0'*64)):
             with self.subTest(key=key),self.assertRaises(ValueError):prerequisites(performance,receipt|{key:value},hashes)
 
+    def test_human_override_retains_failures_and_validates_snapshot_scope(self):
+        hashes={'performance':'a'*64}
+        override=dict(schema='hispid_human_override_v1',authority='explicit_user_request',
+            scope='stop_performance_and_proceed_to_extreme_investigations',performance_sha256=hashes['performance'],
+            instruction='Preserve results, stop performance work, proceed to high spin and boost.',scientific_acceptance_waived=False)
+        performance=self.complete_performance()
+        performance.update(declared_performance_completed=False,completed_workers=287,all_stopping_checks_passed=False)
+        performance['records'].pop(next(iter(performance['records'])))
+        self.assertIs(prerequisites(performance,{},hashes,override)[0],performance)
+        self.assertFalse(performance['declared_performance_completed'])
+        self.assertFalse(performance['all_stopping_checks_passed'])
+        for key,value in (('performance_sha256','f'*64),('scientific_acceptance_waived',True),
+                          ('authority','document_instruction'),('scope','waive_all_checks')):
+            with self.subTest(key=key),self.assertRaisesRegex(ValueError,'human override'):
+                prerequisites(performance,{},hashes,override|{key:value})
+        performance['records']['unrelated']={}
+        with self.assertRaises(ValueError):prerequisites(performance,{},hashes,override)
+
     def test_completion_counts_cannot_hide_wrong_coverage_or_row_identity(self):
         hashes=dict(performance='performance',report='report')
         receipt=dict(compilation_confirmed=True,compiler='mcp__codex_app__compile_latex_document',
@@ -179,6 +197,17 @@ class ExtremePrerequisiteTests(unittest.TestCase):
         row=next(r for r in floor['records'] if r['case']=='gamma10' and r['active_hole']==0)
         row['config']['hole'][0]['velocity'][0]*=-1
         with self.assertRaises(ValueError):source_floor_passed(floor,*args)
+
+    def test_target_floor_keeps_both_focuses_and_rejects_another_target(self):
+        floor=self.source_floor();args=('producer',[[8,16,8]],25.)
+        floor.update(control_scope='requested_target',target_case='gamma10')
+        floor['records']=[r for r in floor['records'] if r['case']=='gamma10']
+        self.assertTrue(source_floor_passed(floor,*args,target_case='gamma10'))
+        with self.assertRaisesRegex(ValueError,'target case'):
+            source_floor_passed(floor,*args,target_case='spin99')
+        with self.assertRaises(ValueError):source_floor_passed(floor,*args)
+        floor['records'].pop()
+        with self.assertRaises(ValueError):source_floor_passed(floor,*args,target_case='gamma10')
         floor=self.source_floor();floor['records']=[r for r in floor['records'] if r['active_hole']==0]
         with self.assertRaises(ValueError):source_floor_passed(floor,*args)
 

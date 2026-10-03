@@ -1,0 +1,18 @@
+{
+  "schema": "hispid_human_override_v1",
+  "authority": "explicit_user_request",
+  "scope": "stop_performance_and_proceed_to_extreme_investigations",
+  "instruction": "no please mark that as human overwrite, and proceed to high spin and high boost; preserve the existing results but do not proceed in that",
+  "created_utc": "2026-10-03T21:29:17.840567+00:00",
+  "performance_sha256": "b7f870beb0d0f77d4b8dc2df091809cba9026721f7b355ba93b4d65a3f441e6c",
+  "performance_attempts_preserved": 244,
+  "original_performance_completed": false,
+  "scientific_acceptance_waived": false,
+  "performance_results_relabelled": false,
+  "requested_targets": {
+    "seed_spin": 0.99,
+    "input_lorentz_factor": 10
+  },
+  "stop_receipt": "validation/human_override_performance_stop_20261003.json",
+  "stop_receipt_sha256": "a797feefda4bf4d211a9c2540b38504e0afcb6a343a10961885cf417e4cc66ed"
+}

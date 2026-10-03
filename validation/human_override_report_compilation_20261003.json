@@ -1,0 +1,12 @@
+{
+  "compilation_confirmed": true,
+  "compiler": "mcp__codex_app__compile_latex_document",
+  "kind": "success",
+  "report_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/docs/HISPID_KOKKOS_PERFORMANCE.tex",
+  "report_sha256": "f9794ecf60f2dc053e026dd05eae94de1cb845f6ba3a6514ace6d381949fe7e5",
+  "compiled_at_utc": "2026-10-03T21:29:17.843711+00:00",
+  "human_override_sha256": "8b49546d0d15ab45727c6fe9e3a5cbf86588a3c1c082f050cc2bdb142ff2c56f",
+  "retained_table_snapshot_sha256": "a065bb0a19674ccc996b481dad933a0ed64e469f5c4cea18b7233961d41dcf2d",
+  "final_preserved_performance_sha256": "b7f870beb0d0f77d4b8dc2df091809cba9026721f7b355ba93b4d65a3f441e6c",
+  "performance_completed": false
+}

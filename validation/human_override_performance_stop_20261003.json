@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-03T21:17:35.458286+00:00",
+  "kind": "human_override",
+  "authorization": "User: preserve existing results; do not proceed with performance work; proceed to high spin and high boost.",
+  "controller_pid": 1189386,
+  "controller_stopped": true,
+  "cancelled_job": "59283640",
+  "previous_job_state": "59283640|hzhu|codex-hispid-matrix|RUNNING",
+  "performance_snapshot": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/human-override-performance-preserved-20261003.json",
+  "performance_sha256": "b7f870beb0d0f77d4b8dc2df091809cba9026721f7b355ba93b4d65a3f441e6c",
+  "attempts": 244,
+  "original_declared_performance_completed": false,
+  "performance_results_relabelled": false,
+  "controller_termination_requested": true,
+  "resources_released_utc": "2026-10-03T21:21:08.008123+00:00"
+}

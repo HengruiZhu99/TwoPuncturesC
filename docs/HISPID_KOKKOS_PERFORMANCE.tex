@@ -7,7 +7,14 @@
 \author{Isolated TwoPuncturesC implementation}
 \date{October 2026}
 \begin{document}\maketitle
-\noindent\textbf{Incomplete measurement snapshot.} The full declared performance protocol is pending.\par
+\noindent\textbf{HUMAN OVERRIDE --- October 3, 2026.}
+The user instructed that existing performance results be preserved, further
+performance work stopped, and the high-spin/high-boost investigations started.
+The campaign was discontinued with 244 attempts preserved; the tables below
+retain their immutable 243-attempt snapshot. The original 288-worker matrix and
+the proposed setup timing campaign remain incomplete. This overrides the
+performance/report sequencing requirement only. Failed checks remain failed,
+and no physical or horizon acceptance is implied.\par
 \begin{abstract}
 The performance protocol compares two equation systems, two Krylov methods, CPU execution
 and one allocated NVIDIA A100 at matched computational resolution and
@@ -733,7 +740,8 @@ HiSpID comparisons failing at least one sampled physical-field gate: 29.
 The newer optional setup kernels evaluate spinning/boosted seed geometry and
 build coordinate, derivative and coefficient caches in the selected Kokkos
 execution space. CPU controls pass and CUDA images compile. Their separate
-126-worker paired setup campaign is pending; this frozen solve dataset uses
+126-worker paired setup campaign was discontinued by the human override;
+this frozen solve dataset uses
 host geometry construction. No measured GPU setup improvement or acceptance
 of the newer images is inferred from the solve timings above.
 \section{Interpretation and subsequent physical study}
@@ -765,7 +773,8 @@ and global ADM energy must be measured, and changed-separation calibration
 cases retained individually. This differs from the thesis Table4.3
 $d/M_{\rm ADM}=100$--400 regime chosen to approximate isolated holes
 \cite{thesis}. Failed common-horizon searches do not prove absence.
-New physical runs follow the completed performance report. They require
+The human override permits physical runs before performance-matrix completion.
+Physical acceptance still requires
 fresh seed controls, at least three resolutions, independent exterior
 constraint convergence, charges/covariance, initial-time AthenaK import,
 individual/common horizon searches and enclosure of modified regions.

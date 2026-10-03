@@ -1,5 +1,20 @@
 # HiSpID milestone status
 
+HUMAN OVERRIDE, October3: the user instructed that existing results be
+preserved, performance work stopped, and high-spin/high-boost investigations
+started immediately. The campaign was stopped at244 retained attempts;
+allocation59283640 was cancelled and released, and the allocation controller
+was stopped. No further performance allocation or setup timing campaign is
+planned. The original288-worker scope remains incomplete and its failures are
+unchanged. The open report records this override while preserving its existing
+243-attempt tables. The physical runner accepts the SHA-bound override solely
+for performance/report sequencing; native image/input binding and scientific
+acceptance remain explicit. Fresh target controls and diagnostic extreme runs
+use a new single-GPU shared allocation59284155. The source-floor calibration
+can now select exactly spin99 or gamma10 at both chart foci and every target
+grid, without claiming general-orientation qualification. No new binary or
+horizon result is claimed yet.
+
 October3 report qualification follow-up: the goal and Perlmutter job59275439
 are active. At21:01UTC the frozen solve campaign retains243/288 attempts,
 63 failed stopping/protocol checks, two process timeouts and155 failed strict
