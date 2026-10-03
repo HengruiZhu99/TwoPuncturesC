@@ -139,10 +139,10 @@ def main():
         and max(result['differences'].values())<=TOLERANCE)
     result['note']='Identical coefficients and exact basis/maps; separate loaded-image witnesses, off-grid and trial-horizon fields/derivatives. This empirical sampler comparison does not establish physical constraints, exact PDE equivalence, or horizon accuracy. Source acceptance is preserved.'
     if digest(checkpoint_path)!=checkpoint['file_sha256']:raise ValueError('checkpoint changed before qualification')
-    for worker in result['workers']:
-        if (digest(worker['library_path'])!=worker['library_sha256']
-            or digest(worker['artifact'])!=worker['artifact_sha256']
-            or any(digest(p)!=s for p,s in (worker['dependency_images']|worker['runtime_images']).items())):
+    for retained_worker in result['workers']:
+        if (digest(retained_worker['library_path'])!=retained_worker['library_sha256']
+            or digest(retained_worker['artifact'])!=retained_worker['artifact_sha256']
+            or any(digest(p)!=s for p,s in (retained_worker['dependency_images']|retained_worker['runtime_images']).items())):
             raise ValueError('sampler image or raw witness changed before qualification')
     save();print(json.dumps(result['differences']),flush=True)
     return 0 if result['passed'] else 1
