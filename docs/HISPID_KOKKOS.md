@@ -208,6 +208,17 @@ validator still recognizes older bounded two-artifact rows, while this new
 extreme runner requires the new complete format. A synthetic failing-history
 test checks this retention without constructing a native solver.
 
+`calibrate_study_verifier.py` replays separate bound results/raw directories
+at the saved adaptive Cartesian step sizes times a decreasing factor sequence.
+The default `--region all` retains near, bulk and modified-point partitions,
+all61-point stencil attenuation checks, physical metric positivity, and raw
+H/M arrays at every step for the saved binaries, isolated exact seeds and
+analytic Brill-Lindquist data. The same points and steps must be used on every
+retained grid. Each step is saved incrementally with source/image/raw hashes
+rechecked. `completed` denotes completed calibration only; binary acceptance
+and changes to the original convergence gate remain false. No fresh extreme
+calibration has run yet.
+
 Use `validation/portable_sampler_migration.py` with the checkpoint, exact
 producer library, pure reference CPU consumer library, and a fresh output
 filename. It compares identical coefficients in separate processes, checks
