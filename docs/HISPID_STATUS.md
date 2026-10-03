@@ -15,9 +15,13 @@ solution differences about5e-16); those failures remain in
 and one final polishing step now pass both methods on OpenMP16 and CUDA,
 with original residuals3–7e-13 and complete-state gates passed; see
 `kokkos_by_polish_preflight40_v3_20261002.json`. This is a one-repeat preflight,
-not the final performance estimate. The declared comprehensive performance matrix and new separate
-spin.99/Gamma10 studies remain pending. Their report will precede physical
-runs. The existing Hi raw-P/coefficient failure remains failed. See
+not the final performance estimate. The declared 288-worker performance
+matrix is running on one allocated Perlmutter A100. The standalone
+[LaTeX report draft](HISPID_KOKKOS_PERFORMANCE.tex) compiles in the native
+editor and explicitly labels its current BY preflight scope as incomplete.
+The new separate spin.99/Gamma10 studies remain pending. The completed
+performance report will precede physical runs. The existing Hi
+raw-P/coefficient failure remains failed. See
 [the port interfaces and ownership](HISPID_KOKKOS.md) and
 `validation/kokkos_acceptance.json`.
 

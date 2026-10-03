@@ -1,5 +1,5 @@
 """Generate a standalone, data-bound LaTeX performance report (no TeX runtime)."""
-import argparse,json,statistics
+import argparse,json,re,statistics
 from collections import defaultdict
 from pathlib import Path
 from benchmark_bowen_york import digest
@@ -25,12 +25,13 @@ def main():
 \usepackage[margin=0.8in]{geometry}
 \usepackage{amsmath,booktabs,longtable,array,hyperref}
 \hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue}
+\setlength{\tabcolsep}{3pt}
 \title{Bowen--York and HiSpID: Kokkos performance and numerical qualification}
 \author{Isolated TwoPuncturesC implementation}
 \date{October 2026}
 \begin{document}\maketitle
 \begin{abstract}
-This report measures two equation systems, two Krylov methods, CPU execution
+The performance protocol compares two equation systems, two Krylov methods, CPU execution
 and one allocated NVIDIA A100 at matched computational resolution and
 stopping norms. Matched grid counts and input seed charges do not equate
 physical accuracy or horizon properties. Internal convergence, complete-state
@@ -74,13 +75,21 @@ $10^{-9}$ bound. Independent Cartesian FD constraint differences are bounded
 by $\max(10^{-7},5\epsilon_{\rm step})$ with steps 0.004/0.002/0.001.
 \section{Hardware and measurement definitions}
 ''']
-    hw=result['hardware'];doc.append('Host: '+tex(hw['hostname'])+'. Platform: '+tex(hw['platform'])+'.\\\n')
-    env=hw['environment'];doc.append('Initial Slurm allocation: '+tex(env.get('SLURM_JOB_ID'))+'. Visible GPU setting: '+tex(env.get('CUDA_VISIBLE_DEVICES'))+'.\\\n')
+    if not result.get('declared_performance_completed'):
+        doc[0]=doc[0].replace(r'\begin{abstract}',r'\noindent\textbf{Incomplete measurement snapshot.} The full declared performance protocol is pending.\par'+'\n'+r'\begin{abstract}')
+    binding=result.get('binding',{})
+    doc.append('Current measurement binding: '+tex(', '.join(binding.get('systems',[])))+', '+str(len(binding.get('grids',[])))+' grid(s), '+str(len(variants))+' variant(s), '+str(binding.get('repeats','unavailable'))+' repeat(s).'+r'\\'+'\n')
+    doc.append('Source result: '+r'\texttt{'+tex(Path(args.results).name)+'}.'+r'\\'+'\n')
+    hw=result['hardware'];cpu=re.search(r'^Model name:\s*(.+)$',hw.get('cpu',''),re.M)
+    doc.append('Initial host: '+tex(hw['hostname'])+'. CPU: '+tex(cpu[1] if cpu else 'unavailable')+'.'+r'\\'+'\n')
+    compiler=hw.get('compiler','unavailable').splitlines()[0]
+    doc.append('Compiler command version: '+tex(compiler)+'.'+r'\\'+'\n')
+    env=hw['environment'];doc.append('Initial Slurm allocation: '+tex(env.get('SLURM_JOB_ID'))+'. Visible GPU setting: '+tex(env.get('CUDA_VISIBLE_DEVICES'))+'.'+r'\\'+'\n')
     for epoch,hardware in enumerate(result.get('allocation_epochs',[])):
-        doc.append('Allocation epoch '+str(epoch)+': '+tex(hardware['hostname'])+', Slurm '+tex(hardware['environment'].get('SLURM_JOB_ID'))+'.\\\n')
+        doc.append('Allocation epoch '+str(epoch)+': '+tex(hardware['hostname'])+', Slurm '+tex(hardware['environment'].get('SLURM_JOB_ID'))+'.'+r'\\'+'\n')
     devices={json.dumps({key:row['device'][key] for key in ('name','uuid','total_bytes')},sort_keys=True) for row in records.values() if row.get('device')}
     for description in sorted(devices):
-        device=json.loads(description);doc.append('Device: '+tex(device['name'])+', '+number(device['total_bytes']/2**30)+r'GiB; UUID\texttt{'+tex(device['uuid'])+'}.\\\n')
+        device=json.loads(description);doc.append('Device: '+tex(device['name'])+', '+number(device['total_bytes']/2**30)+r' GiB; UUID \texttt{'+tex(device['uuid'])+'}.'+r'\\'+'\n')
     doc.append(r'''The one-GPU shared allocation supplies 16 physical CPU cores (32 logical
 CPUs). OpenMP uses 1/2/4/8/16 host threads bound to cores; the CUDA variant
 uses the same 16-core host fraction. Reference and Serial use one thread.
@@ -118,9 +127,13 @@ bound on that window's transient peak. Missing driver samples are unavailable;
 the device API independently verifies one visible GPU and its selected UUID.
 Logical resident estimates and API copy counters
 are diagnostics, not substitutes for measured RAM/VRAM.
+The creation/other column below is HiSpID context creation, or for BY the
+total data-construction time minus its Newton timer (allocation and native
+post-solve work are not individually instrumented). Transfer timings overlap
+setup/operator phases; API copy volumes exclude runtime-internal traffic.
 \section{Completed measurements}
 ''')
-    doc.append(f"Completed workers: {result.get('completed_workers',len(records))} of {result.get('expected_workers','pending')}. Retained worker failures: {len(result['failures'])}. Strict state comparison failures: {len(failed_comparisons)}.\\\n")
+    doc.append(f"Completed workers: {result.get('completed_workers',len(records))} of {result.get('expected_workers','pending')}. Retained worker failures: {len(result['failures'])}. Strict state comparison failures: {len(failed_comparisons)}."+r'\\'+'\n')
     if result.get('expected_workers')!=result.get('completed_workers'):doc.append(r'\textbf{This is an incomplete measurement snapshot; pending rows are not estimated.}\par'+'\n')
     if not result.get('declared_performance_completed'):doc.append(r'\textbf{The full declared three-grid, eight-variant, three-repeat protocol is not yet complete. This snapshot cannot substitute for the comprehensive report.}\par'+'\n')
     doc.append(r'\begin{center}\small\begin{tabular}{llrrrr}\toprule Grid & System/method & OMP16 speedup & GPU/OMP16 & GPU cold speedup & OMP RSS saved\\\midrule'+'\n')
@@ -136,7 +149,7 @@ are diagnostics, not substitutes for measured RAM/VRAM.
     doc.append('Ratios above use internally converged solves; the strict Hi raw-P failure remains a separate failed gate. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.\n')
     for grid in grids:
         doc.append(r'\subsection{Grid '+r'$\times$'.join(map(str,grid))+'}\n')
-        doc.append(r'''\small
+        doc.append(r'''\footnotesize
 \begin{longtable}{llrrrrrr}
 \toprule System/method & Variant & $n$ & Solve(s) & Ready(s) & Cold(s) & RSS(GiB) & Device(GiB)\\
 \midrule\endhead
@@ -150,6 +163,22 @@ are diagnostics, not substitutes for measured RAM/VRAM.
                     label=tex(variant)+(r'$\dagger$' if not all(r['checks']['passed'] for r in rows) else '')
                     timing=number(median(rows,'solve_seconds'))+' ['+number(min(r['solve_seconds'] for r in rows))+','+number(max(r['solve_seconds'] for r in rows))+']'
                     cells=[('Hi' if mode=='hispid' else 'BY')+'/'+('G' if method=='gmres' else 'B'),label,str(len(rows)),timing,number(median(rows,'ready_to_sample_seconds')),number(statistics.median(r['initialization_seconds']+r['ready_to_sample_seconds'] for r in rows)),number(median(rows,'max_rss_bytes')/2**30),number(statistics.median(device_peaks)) if device_peaks else '--']
+                    doc.append(' & '.join(cells)+r'\\'+'\n')
+        doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
+        doc.append(r'''\scriptsize\begin{longtable}{llrrrrrrr}
+\toprule System/method & Variant & Init(s) & Create/other(s) & Sample(s) & Transfer(s) & H2D(GiB) & D2H(GiB) & K host(GiB)\\
+\midrule\endhead
+''')
+        for mode in ('hispid','by'):
+            for method in ('gmres','bicgstab'):
+                for variant in variants:
+                    rows=groups.get((grid,mode,method,variant),[])
+                    if not rows:continue
+                    stats=[r['execution_statistics'] for r in rows if r.get('execution_statistics') and r['execution']=='kokkos']
+                    creation=statistics.median(r['creation_seconds'] if mode=='hispid' else r['setup_and_solve_seconds']-r['solve_seconds'] for r in rows)
+                    transfer=[number(statistics.median(s[key] for s in stats)/scale) if stats else '--' for key,scale in (('transfer_seconds',1),('host_to_device_bytes',2**30),('device_to_host_bytes',2**30))]
+                    host=[s['kokkos_host_peak_bytes']/2**30 for s in stats if s['memory_tracking_available']]
+                    cells=[('Hi' if mode=='hispid' else 'BY')+'/'+('G' if method=='gmres' else 'B'),tex(variant),number(median(rows,'initialization_seconds')),number(creation),number(median(rows,'first_sample_seconds')),*transfer,number(statistics.median(host)) if host else '--']
                     doc.append(' & '.join(cells)+r'\\'+'\n')
         doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
         doc.append(r'''\scriptsize\begin{longtable}{llrrrrrrrr}

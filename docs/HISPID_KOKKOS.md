@@ -4,7 +4,10 @@ The optional CMake build provides Serial, OpenMP or CUDA execution for either
 Bowen–York or HiSpID and either GMRES or BiCGStab. The execution space is fixed
 by the image; the equation system, Krylov method and execution choice are
 separate options. The historical Makefile and reference entry points remain
-the default. Qualification and performance measurements are in progress.
+the default. Actual execution-space kernel controls, original BY fixtures and
+bitwise reference-default controls pass. HiSpID's strict raw-P/coefficient gate
+remains failed. The full performance matrix is running; its report will
+precede the new physical studies.
 
 Both execution policies instantiate one C-compatible Krylov controller.
 Reference vector operations preserve the original C arithmetic and BY's
@@ -75,6 +78,19 @@ Request `shared_interactive`, one GPU,32 logical CPUs (16 physical cores) and
 account m3328_g, then run every build/test/benchmark through `srun --gpus=1`.
 The isolated `validation/perlmutter_kokkos_build.sh` builds all images
 sequentially. Do not reuse a full-node allocation for a one-GPU study.
+For a resumed performance allocation use `-C "gpu&hbm80g"` to retain the
+measured 80 GB GPU class; the coordinator also verifies CPU/cache topology,
+affinity count and GPU memory/driver class. Keep its frozen source/images and
+manifest unchanged throughout the matrix.
+
+An administrative observer can request a clean checkpoint before Slurm's
+deadline. Copy `validation/perlmutter_allocation_guard.py` outside the frozen
+source tree and run it with the current `--job-id` and absolute `--results`
+path. It sets `STOP_AFTER_WORKER` with enough time for the full worker timeout
+and finalization margin, without killing work. Release that allocation after
+the coordinator exits; request another one-GPU shared allocation, remove the
+marker, and restart the same command with `--resume`. The observer exits if
+the allocation epoch changes. No numerical workers may overlap.
 
 ## Python and ownership
 
