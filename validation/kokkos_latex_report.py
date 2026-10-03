@@ -163,7 +163,7 @@ setup/operator phases; API copy volumes exclude runtime-internal traffic.
                 values=[r'$\times$'.join(map(str,grid)),('Hi' if mode=='hispid' else 'BY')+'/'+('G' if method=='gmres' else 'B'),number(median(ref,'solve_seconds')/median(omp,'solve_seconds')),number(median(omp,'solve_seconds')/median(gpu,'solve_seconds')),number(cold(ref)/cold(gpu)),number(100*(1-median(omp,'max_rss_bytes')/median(ref,'max_rss_bytes')))+r'\%']
                 doc.append(' & '.join(values)+r'\\'+'\n')
     doc.append(r'\bottomrule\end{tabular}\end{center}'+'\n')
-    doc.append('Ratios above use internally converged solves; the strict Hi raw-P failure remains a separate failed gate. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.\n')
+    doc.append('Ratios above use internally converged solves; the strict Hi full-state comparison remains a separate failed gate. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.\n')
     for grid in grids:
         doc.append(r'\subsection{Grid '+r'$\times$'.join(map(str,grid))+'}\n')
         doc.append(r'''\footnotesize
@@ -238,11 +238,31 @@ No speedup ratio above uses a group containing one of these failures.
                 str(n)+'/'+str(k),number(max(relative)) if relative else '--',tex(reasons)]
             doc.append(' & '.join(cells)+r'\\'+'\n')
         doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
-    doc.append(r'''The existing HiSpID weak raw-modal/coefficient preservation failure remains
-failed. Agreement of sampled physical metric, curvature, gradients and
-charges does not waive that criterion. Kernel qualification and internally
-converged timings are therefore reported separately from full port acceptance.
+    doc.append(r'''HiSpID raw-modal and coefficient preservation remains failed.
+Sampled physical fields have separate $10^{-10}$ scaled-difference gates;
+the table below identifies any failures in those fields. Passing charge or
+finite-difference constraint comparisons does not waive full-state preservation
+or establish vacuum accuracy. The retained differences alone do not identify
+their cause. Kernel qualification and internally converged timings are therefore
+reported separately from full port acceptance.
 ''')
+    sampled_fields=('lapse','gamma','Kij','psi','correction','conformal_metric','Atilde','mean_curvature','dgamma')
+    sampled_failures=[]
+    for label,comparison in result['comparisons'].items():
+        if records[label]['mode']!='hispid':continue
+        fields={key:comparison['arrays'][key] for key in sampled_fields
+                if not comparison['arrays'][key]['finite'] or comparison['arrays'][key]['max_scaled_difference']>1e-10}
+        if fields:sampled_failures.append((label,fields))
+    doc.append(f'HiSpID comparisons failing at least one sampled physical-field gate: {len(sampled_failures)}.\n')
+    if sampled_failures:
+        doc.append(r'''\scriptsize\begin{longtable}{p{0.44\linewidth}p{0.29\linewidth}r}
+\toprule Comparison & Failed sampled fields & Largest scaled difference\\\midrule\endhead
+''')
+        for label,fields in sampled_failures:
+            peak=max(value['max_scaled_difference'] for value in fields.values())
+            names=', '.join(key+(' (nonfinite)' if not value['finite'] else '') for key,value in fields.items())
+            doc.append(r'\nolinkurl{'+label+'} & '+tex(names)+' & '+number(peak)+r'\\'+'\n')
+        doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
     if failed_comparisons:
         doc.append(r'\small\begin{longtable}{lrrr}\toprule Failed comparison & Raw-P scaled max & Coefficient scaled max & Residual max\\\midrule\endhead'+'\n')
         for label,comparison in failed_comparisons:

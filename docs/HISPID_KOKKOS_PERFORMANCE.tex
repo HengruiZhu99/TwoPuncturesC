@@ -128,7 +128,7 @@ Retained attempts: 195 of 288; completed benchmark records: 194. Retained proces
 80$\times$160$\times$16 & Hi/G & 8.04 & 5.2 & 17.6 & 4.03\%\\
 80$\times$160$\times$16 & Hi/B & 8.67 & 5.88 & 18.7 & 5.11\%\\
 \bottomrule\end{tabular}\end{center}
-Ratios above use internally converged solves; the strict Hi raw-P failure remains a separate failed gate. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.
+Ratios above use internally converged solves; the strict Hi full-state comparison remains a separate failed gate. G/B denotes GMRES/BiCGStab. Negative RAM savings mean increased RSS. Timing tables report medians and observed ranges. A dagger marks a timing group containing a failed stopping/protocol check; those timings are diagnostic.
 \subsection{Grid 40$\times$80$\times$16}
 \footnotesize
 \begin{longtable}{llrrrrrr}
@@ -419,10 +419,23 @@ No speedup ratio above uses a group containing one of these failures.
 \nolinkurl{80_160_16_openmp16_by_bicgstab_2} & 0 & 2.55e-12 & 24/70 & 0.00098 & converged, residual\\
 \nolinkurl{80_160_16_cuda_by_gmres_2} & 0 & 2.4e-11 & 24/113 & 0.000966 & converged, residual\\
 \bottomrule\end{longtable}\normalsize
-The existing HiSpID weak raw-modal/coefficient preservation failure remains
-failed. Agreement of sampled physical metric, curvature, gradients and
-charges does not waive that criterion. Kernel qualification and internally
-converged timings are therefore reported separately from full port acceptance.
+HiSpID raw-modal and coefficient preservation remains failed.
+Sampled physical fields have separate $10^{-10}$ scaled-difference gates;
+the table below identifies any failures in those fields. Passing charge or
+finite-difference constraint comparisons does not waive full-state preservation
+or establish vacuum accuracy. The retained differences alone do not identify
+their cause. Kernel qualification and internally converged timings are therefore
+reported separately from full port acceptance.
+HiSpID comparisons failing at least one sampled physical-field gate: 6.
+\scriptsize\begin{longtable}{p{0.44\linewidth}p{0.29\linewidth}r}
+\toprule Comparison & Failed sampled fields & Largest scaled difference\\\midrule\endhead
+\nolinkurl{80_160_16_openmp4_hispid_gmres_0} & Kij, Atilde & 1.45e-10\\
+\nolinkurl{80_160_16_openmp16_hispid_gmres_0} & Kij, Atilde & 1.35e-10\\
+\nolinkurl{80_160_16_openmp16_hispid_gmres_1} & Kij, Atilde & 1.35e-10\\
+\nolinkurl{80_160_16_openmp4_hispid_gmres_1} & Kij, Atilde & 1.45e-10\\
+\nolinkurl{80_160_16_openmp4_hispid_gmres_2} & Kij, Atilde & 1.45e-10\\
+\nolinkurl{80_160_16_openmp16_hispid_gmres_2} & Kij, Atilde & 1.35e-10\\
+\bottomrule\end{longtable}\normalsize
 \small\begin{longtable}{lrrr}\toprule Failed comparison & Raw-P scaled max & Coefficient scaled max & Residual max\\\midrule\endhead
 40\_80\_16\_serial\_hispid\_gmres\_0 & 2.61e-05 & 8.35e-08 & 6.77e-15\\
 40\_80\_16\_serial\_hispid\_bicgstab\_0 & 2.79e-05 & 8.38e-08 & 1.46e-14\\

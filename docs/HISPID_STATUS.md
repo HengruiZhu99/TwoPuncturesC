@@ -323,6 +323,10 @@ required hardware class. The compiled standalone report binds 195 attempts:
 155 completed records pass stopping/protocol checks, 39 fail, and one worker
 timed out. All 194 comparison entries are retained; 132 fail their strict
 gates, which include recomputed residuals as well as state agreement.
+Six medium-grid HiSpID comparisons also fail the sampled Kij and Atilde
+field bounds. The report lists those failures separately; passing charges or
+finite-difference constraint comparisons does not waive them or establish
+vacuum accuracy. The snapshot's corrected report was compiled successfully.
 The raw snapshot's cached `completed_workers` counter remains187
 mid-allocation; record/failure inventories establish 195. The snapshot bytes
 are preserved. Full producer finalization must supply288 before the final
