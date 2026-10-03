@@ -70,12 +70,14 @@ def seeds(backend):
     return {'records':records,'passed':all(r['passed'] for r in records)}
 
 def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None,initial_record=None,initial_guess=None,
-               execution='reference',solve_options=None,output_report=None,raw_directory=None):
+               execution='reference',solve_options=None,output_report=None,raw_directory=None,geometry='host'):
     report_path=REPORT if output_report is None else Path(output_report)
     raw_root=RAW if raw_directory is None else Path(raw_directory)
     options=dict(solve_options or {})
     if execution not in ('reference','kokkos') or set(options)-{'linear_rtol','krylov'}:
         raise ValueError('invalid explicit execution/solve options')
+    if geometry not in ('host','execution') or (geometry=='execution' and execution!='kokkos'):
+        raise ValueError('execution geometry requires Kokkos')
     from native_loader import validate_krylov
     validate_krylov(options.get('krylov'),options.get('linear_rtol'))
     records=list(previous_records or [])
@@ -96,8 +98,8 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                     or stored.get('collocation_maps')!=backend.parameterization_maps()
                     or stored.get('unknown_parameterization')!=backend.parameterization_description()):
                 raise ValueError('resume requires the same native library SHA, continuous basis and maps')
-            if records and (stored.get('execution','reference')!=execution or stored.get('requested_solve_options',{})!=options):
-                raise ValueError('resume execution or solve controls differ')
+            if records and (stored.get('execution','reference')!=execution or stored.get('requested_solve_options',{})!=options or stored.get('geometry','host')!=geometry):
+                raise ValueError('resume execution, geometry or solve controls differ')
             if records and {k:v for k,v in stored['config'].items() if k not in SOLVER_CONTROLS}!=free_data(factory(backend,stored['resolution'][0],stored['resolution'][2])):
                 raise ValueError('stored sequence physical free data do not match the selected factory')
         previous_shape=last['resolution'];previous_config={k:v for k,v in last['config'].items() if k not in SOLVER_CONTROLS}
@@ -127,7 +129,11 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                  library_sha256=backend.library_sha256(),residual_scaling=backend.residual_scaling(),
                  near_sample_count=near,bulk_sample_count=bulk,attenuation_sample_count=len(x)-near-bulk,
                  horizon_scaled=horizon_scaled,verifier_steps=step.tolist(),unknown_parameterization=backend.parameterization_description(),unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps())
-        with backend.create(cfg,execution=execution) as s:
+        with backend.create(cfg,execution=execution,geometry=geometry) as s:
+            rec.update(geometry=geometry,setup_statistics=s.setup_statistics())
+            if geometry=='execution' and (not rec['setup_statistics'] or
+                    rec['setup_statistics']['geometry_execution']!=1 or rec['setup_statistics']['scalar_digits']!=53):
+                raise ValueError('execution-built double geometry witness required')
             comparable=free_data(cfg)
             if initial_guess is not None and not records:
                 s.set_unknowns(guess_values)
@@ -199,6 +205,7 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
             if execution!='reference' or options:rec['passed_local'] &= rec['stopping_verified']
             rec['passed_strict']=rec['passed_local'] and all(rec[k][q]<1e-6 for k in ('near','bulk') for q in ('H_rms','M_rms')) and all(rec[k][q]<1e-4 for k in ('near','bulk') for q in ('H_max','M_max'))
             if execution!='reference' or options:rec['passed_strict'] &= rec['exterior_stencil_verified']
+            rec['setup_statistics']=s.setup_statistics()
             previous_values=s.unknowns();previous_shape=list(cfg.n);previous_config=comparable
         rec['total_seconds']=time.monotonic()-start;records.append(rec)
         print(label,rec['resolution'],rec['diagnostics'],rec['near'],rec['bulk'],rec['charges_extrapolated'],flush=True)

@@ -125,28 +125,57 @@ its binary precision, constructor spectral/geometry wall times and cumulative
 coefficient-transform time. These measurements include fences. The
 coordinate builder retains the host GSL map's hyperbolic/trigonometric products,
 but bitwise equality is not promised. The new `test_hispid_setup_kokkos`
-compares all seed jet entries, compact coefficients, table/coordinate data,
+compares mathematically defined seed derivatives, compact coefficients, table/coordinate data,
 residuals, JVPs, coefficient transforms and lab-frame exports. Its source
 includes seed chi=.99 and Gamma=10 controls, not new binary physical studies.
-The new setup controls pass 620 checks on Serial and OpenMP with one CPU
-thread, and all four CTest suites pass on each build. On the ARM test host,
-`long double` and `double` both have 53 binary digits; seed jets and cached
-geometry agree bitwise there. The separate native manufactured geometry and
-Python selection/phase-query controls also pass. CUDA compilation succeeds
-for A100, including the setup test executable. Actual CUDA execution and
-comparison against the wider x86 host reference remain pending.
-The A100 compiler reports 72928 bytes of stack and 255 registers for the
+The repaired setup controls pass748 checks on x86 Serial and OpenMP against
+the wider host reference, including chi=.99/Gamma=10 coefficient controls
+and a rotated binary. All four CTest suites pass on each one-thread build;
+the setup checks also pass with two actual OpenMP threads.
+Metric/psi jets are valid through second order; extrinsic/A/mean-K
+jets are valid only through first order because `diff()` discards third
+derivatives. The strict seed comparison therefore covers494 defined entries
+per point; all798 slots must be finite, with incomplete Hessians retained as
+arithmetic diagnostics. The defined-derivative maximum is5.547e-13 and the
+extreme coefficient maximum is8.515e-11 against the unchanged1e-10 bound.
+The retained Gamma10 incomplete-Hessian diagnostic is5.933e-9.
+
+Execution setup forms the QI conformal spacetime metric before the Lorentz
+pullback, uses `(r2-c)^2/AA` for the normalized lapse, evaluates attenuation
+complements with `expm1`, and compensates the mean-K trace accumulation.
+These equivalent identities avoid amplified double cancellation; the host
+reference retains its original expressions and accumulation order.
+The first x86 comparisons failed; those diagnostics are retained rather
+than accepted by changing tolerances.
+
+The original620-check Serial/OpenMP controls passed on ARM, where both scalar
+types have53 binary digits. After the stable evaluation changed arithmetic,
+that legacy equal-precision oracle itself has a spurious5.111e-10 derivative
+of an analytically constant transverse metric. The new strict setup test
+reports skip77 on hosts without a wider reference; it does not qualify
+geometry accuracy there. The previous native manufactured geometry and
+Python selection/phase-query controls remain historical evidence. CUDA
+compilation of the repaired formulas succeeds for A100. Actual CUDA execution
+remains pending.
+The A100 compiler reports73600 bytes of stack and255 registers for the
 geometry kernel, with register spills. These are compiler resource counts,
 not measured VRAM or runtime. Device profiling must establish whether those
 temporaries limit throughput before claiming a setup speedup.
 See `validation/kokkos_setup_controls_20261003.json` for the source/build
 bindings, retained first failures and local results.
+The subsequent precision controls are recorded separately in
+`validation/kokkos_setup_precision_20261003.json`.
 The earlier kernel qualification applies to the earlier host-setup images.
 The frozen 288-attempt campaign retains those images unchanged.
 
 For a separate setup-path measurement, `validation/benchmark_bowen_york.py`
 accepts `--execution kokkos --geometry execution` and records the selection
 and setup phase statistics. Its default remains `--geometry host`.
+`check_far_source_floor.py` and `run_extreme_kokkos.py` also accept
+`--geometry execution`. Floors, binary solves and resumes must select the
+same path; execution-built floors retain native mode/precision witnesses.
+This does not alter image bindings, physical acceptance thresholds or the
+requirement to finish the performance report before new binary studies.
 
 BY's `Solution.solve` accepts `execution='kokkos'` with
 `preconditioner='modal'` and an explicit positive `linear_rtol`. It supports

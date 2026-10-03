@@ -1,0 +1,236 @@
+=== setup-test-serial-20261003T1515.log (sha256 e030857c5216e2791acebf1f13448002da69fdaae331d194be3f6fb8ca63b98c) ===
+seed kind0 choice0 all jets 4.548e-12
+seed kind0 choice1 all jets 7.274e-12
+seed kind1 choice0 all jets 1.819e-12
+seed kind1 choice1 all jets 7.141e-13
+seed kind2 choice0 all jets 1.297e-11
+seed kind2 choice1 all jets 2.500e-11
+seed kind3 choice0 all jets 1.019e-11
+seed kind3 choice1 all jets 1.340e-11
+seed kind4 choice0 all jets 9.095e-13
+seed kind4 choice1 all jets 5.453e-12
+seed kind5 choice0 all jets 5.933e-09
+line44: error<=1e-10 ()
+line53: seed_controls()==0 ()
+
+=== setup-precision-diagnostic-test-20261003T1543.log (sha256 2c66546cc3f7209c0a0dc187f756ac95261dad285dada069f27df625ec4edf5f) ===
+seed kind0 choice0 all jets 4.548e-12
+seed kind0 choice1 all jets 7.274e-12
+seed kind1 choice0 all jets 1.819e-12
+seed kind1 choice1 all jets 7.141e-13
+seed kind2 choice0 all jets 1.297e-11
+seed kind2 choice1 all jets 2.500e-11
+seed kind3 choice0 all jets 1.019e-11
+seed kind3 choice1 all jets 1.340e-11
+seed kind4 choice0 all jets 9.095e-13
+seed kind4 choice1 all jets 5.453e-12
+seed kind5 choice0 all jets 5.933e-09
+worst point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+line48: error<=1e-10 ()
+line57: seed_controls()==0 ()
+
+=== setup-defined-test-serial-20261003T1600.log (sha256 6b4f9a343fe396ca234fd5ae33e15609b4d2b969325595235e1c3dfd174ac240) ===
+seed kind0 choice0 defined derivatives 4.548e-12 all-slot diagnostic 4.548e-12
+seed kind0 choice1 defined derivatives 7.274e-12 all-slot diagnostic 7.274e-12
+seed kind1 choice0 defined derivatives 1.819e-12 all-slot diagnostic 1.819e-12
+seed kind1 choice1 defined derivatives 7.141e-13 all-slot diagnostic 7.141e-13
+seed kind2 choice0 defined derivatives 1.297e-11 all-slot diagnostic 1.297e-11
+seed kind2 choice1 defined derivatives 2.500e-11 all-slot diagnostic 2.500e-11
+seed kind3 choice0 defined derivatives 1.019e-11 all-slot diagnostic 1.019e-11
+seed kind3 choice1 defined derivatives 1.340e-11 all-slot diagnostic 1.340e-11
+seed kind4 choice0 defined derivatives 9.095e-13 all-slot diagnostic 9.095e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 5.453e-12 all-slot diagnostic 5.453e-12
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 5.458e-10 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+line58: error<=1e-10 ()
+line87: seed_controls()==0 ()
+
+=== setup-normalized-test-serial-20261003T1610.log (sha256 2041756c3f9639d57bb4b900a1f42f60c1396381a377db8534ef0bb4cb3f7d6b) ===
+seed kind0 choice0 defined derivatives 3.804e-15 all-slot diagnostic 3.804e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.820e-13 all-slot diagnostic 4.820e-13
+seed kind1 choice1 defined derivatives 5.547e-13 all-slot diagnostic 5.547e-13
+seed kind2 choice0 defined derivatives 8.817e-14 all-slot diagnostic 1.697e-12
+seed kind2 choice1 defined derivatives 8.637e-14 all-slot diagnostic 1.676e-12
+seed kind3 choice0 defined derivatives 1.104e-13 all-slot diagnostic 1.129e-12
+seed kind3 choice1 defined derivatives 1.104e-13 all-slot diagnostic 1.413e-12
+seed kind4 choice0 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.344e-13 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+extreme seed kind5 choice0 all coefficients 1.220e-10
+worst coefficient point0 field38 host3.6617633986679678e-10 execution2.4414062499999989e-10
+line80: cache_error<=1e-10 ()
+line90: seed_controls()==0 ()
+
+=== setup-stable-test-serial-20261003T1620.log (sha256 6092495ed70af62bc29cb7d4f21fddff3ccd4344a62f84a65a8265220175e1b3) ===
+seed kind0 choice0 defined derivatives 3.804e-15 all-slot diagnostic 3.804e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.820e-13 all-slot diagnostic 4.820e-13
+seed kind1 choice1 defined derivatives 5.547e-13 all-slot diagnostic 5.547e-13
+seed kind2 choice0 defined derivatives 8.817e-14 all-slot diagnostic 1.697e-12
+seed kind2 choice1 defined derivatives 8.637e-14 all-slot diagnostic 1.676e-12
+seed kind3 choice0 defined derivatives 1.104e-13 all-slot diagnostic 1.129e-12
+seed kind3 choice1 defined derivatives 1.104e-13 all-slot diagnostic 1.413e-12
+seed kind4 choice0 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.344e-13 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+extreme seed kind5 choice0 all coefficients 1.875e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 5.253e-12
+extreme seed kind5 choice1 all coefficients 8.515e-11
+cache choice0 modified0 2.700e-11
+cache choice0 modified1 2.700e-11
+cache choice1 modified0 2.700e-11
+cache choice1 modified1 1.548e-10
+line118: cache_error<=1e-10 ()
+seed geometry defined-derivative maximum 5.547e-13; all-slot diagnostic 5.933e-09
+
+=== setup-cache-source-test-serial-20261003T1632.log (sha256 8d43830b8c109817a3b5279c2761cb2955f6111f29164373b1c9f0ac3cbee79b) ===
+seed kind0 choice0 defined derivatives 3.804e-15 all-slot diagnostic 3.804e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.820e-13 all-slot diagnostic 4.820e-13
+seed kind1 choice1 defined derivatives 5.547e-13 all-slot diagnostic 5.547e-13
+seed kind2 choice0 defined derivatives 8.817e-14 all-slot diagnostic 1.697e-12
+seed kind2 choice1 defined derivatives 8.637e-14 all-slot diagnostic 1.676e-12
+seed kind3 choice0 defined derivatives 1.104e-13 all-slot diagnostic 1.129e-12
+seed kind3 choice1 defined derivatives 1.104e-13 all-slot diagnostic 1.413e-12
+seed kind4 choice0 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.344e-13 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+extreme seed kind5 choice0 all coefficients 1.875e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 5.253e-12
+extreme seed kind5 choice1 all coefficients 8.515e-11
+cache choice0 modified0 2.700e-11
+cache choice0 modified1 2.700e-11
+cache choice1 modified0 2.700e-11
+cache choice1 modified1 1.548e-10
+worst binary coefficient point192 xyz[-3.0078012248949406,8.1766494860233003e-19,0.013353481986342841] field7 host7.8479275489464388 execution7.8479275475765888 same-point-double-legacy7.8479275475762842 stable7.8479275475765888
+line126: cache_error<=1e-10 ()
+seed geometry defined-derivative maximum 5.547e-13; all-slot diagnostic 5.933e-09
+
+=== setup-trace-test-serial-20261003T1640.log (sha256 93929fa8390d92415b317c22a8471bf760fc9cbd92b0162e6ebbb51808789c55) ===
+seed kind0 choice0 defined derivatives 3.804e-15 all-slot diagnostic 3.804e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.820e-13 all-slot diagnostic 4.820e-13
+seed kind1 choice1 defined derivatives 5.547e-13 all-slot diagnostic 5.547e-13
+seed kind2 choice0 defined derivatives 8.817e-14 all-slot diagnostic 1.738e-12
+seed kind2 choice1 defined derivatives 8.637e-14 all-slot diagnostic 1.708e-12
+seed kind3 choice0 defined derivatives 1.104e-13 all-slot diagnostic 1.120e-12
+seed kind3 choice1 defined derivatives 1.104e-13 all-slot diagnostic 1.402e-12
+seed kind4 choice0 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.344e-13 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+extreme seed kind5 choice0 all coefficients 1.875e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 5.253e-12
+extreme seed kind5 choice1 all coefficients 8.515e-11
+cache choice0 modified0 2.411e-11
+cache choice0 modified1 2.411e-11
+cache choice1 modified0 2.411e-11
+cache choice1 modified1 7.234e-11
+seed geometry defined-derivative maximum 5.547e-13; all-slot diagnostic 5.933e-09
+HiSpID Serial execution-space setup: 748 checks
+
+=== setup-final-ctest-serial-20261003T1625.log (sha256 fc416694357eec13ad51f7ac413f5eb4579407c674075c1ed3c053f37663fe99) ===
+Internal ctest changing into directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-precision-diagnostic-20261003T1543
+Test project /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-precision-diagnostic-20261003T1543
+    Start 1: kokkos_independent
+1/4 Test #1: kokkos_independent ...............   Passed    0.02 sec
+    Start 2: hispid_kokkos_actual_kernels
+2/4 Test #2: hispid_kokkos_actual_kernels .....   Passed   10.86 sec
+    Start 3: hispid_kokkos_setup
+3/4 Test #3: hispid_kokkos_setup ..............   Passed    4.36 sec
+    Start 4: by_kokkos_actual_kernels
+4/4 Test #4: by_kokkos_actual_kernels .........   Passed    0.07 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =  15.32 sec
+
+=== setup-test-openmp-20261003T1625.log (sha256 8311f2fb981ae40975a109505cd84b2c4ea40b21794ea7f2851944ef09329300) ===
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+seed kind0 choice0 defined derivatives 3.804e-15 all-slot diagnostic 3.804e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.820e-13 all-slot diagnostic 4.820e-13
+seed kind1 choice1 defined derivatives 5.547e-13 all-slot diagnostic 5.547e-13
+seed kind2 choice0 defined derivatives 8.817e-14 all-slot diagnostic 1.738e-12
+seed kind2 choice1 defined derivatives 8.637e-14 all-slot diagnostic 1.708e-12
+seed kind3 choice0 defined derivatives 1.104e-13 all-slot diagnostic 1.120e-12
+seed kind3 choice1 defined derivatives 1.104e-13 all-slot diagnostic 1.402e-12
+seed kind4 choice0 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.344e-13 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+extreme seed kind5 choice0 all coefficients 1.875e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 5.253e-12
+extreme seed kind5 choice1 all coefficients 8.515e-11
+cache choice0 modified0 2.411e-11
+cache choice0 modified1 2.411e-11
+cache choice1 modified0 2.411e-11
+cache choice1 modified1 7.234e-11
+seed geometry defined-derivative maximum 5.547e-13; all-slot diagnostic 5.933e-09
+HiSpID OpenMP execution-space setup: 748 checks
+
+=== setup-ctest-openmp-20261003T1625.log (sha256 4f693c0436a654255ef7d9ff9e333d21d939e9f611a0e213d3092c72c3311935) ===
+Internal ctest changing into directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-stable-openmp-20261003T1625
+Test project /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-stable-openmp-20261003T1625
+    Start 1: kokkos_independent
+1/4 Test #1: kokkos_independent ...............   Passed    0.03 sec
+    Start 2: hispid_kokkos_actual_kernels
+2/4 Test #2: hispid_kokkos_actual_kernels .....   Passed   10.76 sec
+    Start 3: hispid_kokkos_setup
+3/4 Test #3: hispid_kokkos_setup ..............   Passed    4.39 sec
+    Start 4: by_kokkos_actual_kernels
+4/4 Test #4: by_kokkos_actual_kernels .........   Passed    0.07 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =  15.25 sec
+
+=== setup-test-openmp2-20261003T1635.log (sha256 8311f2fb981ae40975a109505cd84b2c4ea40b21794ea7f2851944ef09329300) ===
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+seed kind0 choice0 defined derivatives 3.804e-15 all-slot diagnostic 3.804e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.820e-13 all-slot diagnostic 4.820e-13
+seed kind1 choice1 defined derivatives 5.547e-13 all-slot diagnostic 5.547e-13
+seed kind2 choice0 defined derivatives 8.817e-14 all-slot diagnostic 1.738e-12
+seed kind2 choice1 defined derivatives 8.637e-14 all-slot diagnostic 1.708e-12
+seed kind3 choice0 defined derivatives 1.104e-13 all-slot diagnostic 1.120e-12
+seed kind3 choice1 defined derivatives 1.104e-13 all-slot diagnostic 1.402e-12
+seed kind4 choice0 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.344e-13 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+extreme seed kind5 choice0 all coefficients 1.875e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 5.253e-12
+extreme seed kind5 choice1 all coefficients 8.515e-11
+cache choice0 modified0 2.411e-11
+cache choice0 modified1 2.411e-11
+cache choice1 modified0 2.411e-11
+cache choice1 modified1 7.234e-11
+seed geometry defined-derivative maximum 5.547e-13; all-slot diagnostic 5.933e-09
+HiSpID OpenMP execution-space setup: 748 checks

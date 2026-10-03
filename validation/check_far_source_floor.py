@@ -24,10 +24,12 @@ def main():
     p.add_argument('--resolutions',default='32:32:16,64:64:28,80:160:28')
     p.add_argument('--extreme',action='store_true',help='fresh exact chi.99/Gamma10 source-cancellation controls')
     p.add_argument('--execution',choices=('reference','kokkos'),default='reference')
+    p.add_argument('--geometry',choices=('host','execution'),default='host')
     p.add_argument('--threads',type=int,default=1);p.add_argument('--memory-mib',type=int,default=8192)
     p.add_argument('--seed-mass',type=float,default=1.)
     p.add_argument('--coordinate-separation',type=float,default=12.,help='extreme controls use the same two chart centers as the binary')
     a=p.parse_args();path=Path(a.output)
+    if a.geometry=='execution' and a.execution!='kokkos':raise ValueError('execution geometry requires Kokkos')
     if path.exists():raise FileExistsError('preserve prior source-floor controls')
     if not 1<=a.threads<=16 or not 1<=a.memory_mib<=65536:raise ValueError('invalid concurrency or memory budget')
     if not np.isfinite([a.seed_mass,a.coordinate_separation]).all() or min(a.seed_mass,a.coordinate_separation)<=0:
@@ -51,7 +53,7 @@ def main():
         path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(output,indent=2)+'\n')
     output=dict(schema='hispid_source_floor_v3',library_sha256=backend.library_sha256(),residual_scaling=backend.residual_scaling(),
         weighted_far_source_bound=1e-14,far_radius_minimum=100.,exact_correction=0.,records=records,passed=False,
-        extreme_controls=a.extreme,execution=a.execution,compiled_execution=name(backend.lib),
+        extreme_controls=a.extreme,execution=a.execution,geometry=a.geometry,compiled_execution=name(backend.lib),
         seed_mass=a.seed_mass,coordinate_separation=a.coordinate_separation,
         execution_concurrency=concurrency(backend.lib),device=device,bound_images=frozen,
         unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps(),
@@ -74,7 +76,11 @@ def main():
             cfg.omega[:]=[0,0];cfg.far_radius=0;start=time.monotonic()
             row=dict(case=label,active_hole=active,resolution=shape,config=as_dict(cfg),completed=False,passed=False)
             records.append(row);save()
-            with backend.create(cfg,execution=a.execution) as solution:
+            with backend.create(cfg,execution=a.execution,geometry=a.geometry) as solution:
+                row['setup_statistics']=solution.setup_statistics()
+                if a.geometry=='execution' and (not row['setup_statistics'] or
+                        row['setup_statistics']['geometry_execution']!=1 or row['setup_statistics']['scalar_digits']!=53):
+                    raise ValueError('execution-built double geometry witness required')
                 unknowns=solution.unknowns()
                 if not np.all(unknowns==0):raise ValueError('exact isolated control requires zero unknowns')
                 weighted=solution.residual(unknowns).reshape(-1,4)

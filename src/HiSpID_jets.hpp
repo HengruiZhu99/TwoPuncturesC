@@ -36,6 +36,9 @@ template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> operator-(const JetT<Real
     for(int j=0;j<4;j++)c.h[i][j]=a.h[i][j]-b.h[i][j];}return c;
 }
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> operator-(const JetT<Real>&a){return JetT<Real>(0)-a;}
+template<class Real> HISPID_GEOMETRY_INLINE void compensated_add(JetT<Real>&sum,JetT<Real>&correction,const JetT<Real>&term){
+ JetT<Real> adjusted=term-correction,next=sum+adjusted;correction=(next-sum)-adjusted;sum=next;
+}
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> operator*(const JetT<Real>&a,const JetT<Real>&b){
   JetT<Real> c(a.v*b.v);for(int i=0;i<4;i++){c.d[i]=a.d[i]*b.v+a.v*b.d[i];
     for(int j=0;j<4;j++)c.h[i][j]=a.h[i][j]*b.v+a.d[i]*b.d[j]
@@ -52,6 +55,7 @@ template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> inverse(const JetT<Real>&
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> operator/(const JetT<Real>&a,const JetT<Real>&b){return a*inverse(b);}
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> sqrt(const JetT<Real>&a){return power(a,.5L);}
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> exp(const JetT<Real>&a){Real v=std::exp(a.v);return unary(a,v,v,v);}
+template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
 /* This differentiated jet is correct to FIRST order only. Used for K and

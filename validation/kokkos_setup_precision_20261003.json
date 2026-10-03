@@ -1,0 +1,164 @@
+{
+  "schema": "hispid_setup_precision_controls_v1",
+  "observed_utc": "2026-10-03T16:33:26.983588+00:00",
+  "base_commit": "b4ffc2011f6def4df4a4ffcfa1dd689eea21d552",
+  "scope": "Execution-built free geometry/setup controls; no nonlinear binary solve or physical acceptance",
+  "comparison": {
+    "scaled_difference": "abs(execution-reference)/(1+abs(reference))",
+    "bound": 1e-10,
+    "seed_defined_components": 494,
+    "seed_exported_slots": 798,
+    "cache_components": 248,
+    "valid_orders": {
+      "physical_metric": 2,
+      "conformal_metric": 2,
+      "psi": 2,
+      "extrinsic": 1,
+      "Atilde": 1,
+      "meanK": 1
+    },
+    "incomplete_hessians": "finite arithmetic diagnostics, not mathematical Hessians"
+  },
+  "source_sha256": {
+    "CMakeLists.txt": "4a359a5fac0f01fb1177144eccb2384cf724a5712d6eeed50e31789d4b404d75",
+    "src/HiSpID_geometry_kernels.hpp": "df84d043c7267e70b05ab06998240057acc5c296ea150197c31a7568c4aaa489",
+    "src/HiSpID_jets.hpp": "4e51b4f508bb3f391cd00121c881c4c878ee4b64bf75b24d75889ff557edc612",
+    "src/HiSpID_solver.cpp": "55ee7da1f1b84eb8f5777b367b62e3dffebd7f3d8c3cbce7f77e620655d56073",
+    "tests/test_hispid_setup_kokkos.cpp": "3b754108b3da63d5dfbde7fe381777f2883a57f8061300aca75f717d76e17a97"
+  },
+  "reference": {
+    "platform": "Perlmutter x86-64 Linux",
+    "compiler": "GCC14",
+    "scalar_binary_digits": 64,
+    "execution_scalar_binary_digits": 53
+  },
+  "serial": {
+    "passed": true,
+    "checks": 748,
+    "ctest_passed": 4,
+    "ctest_total": 4,
+    "threads": 1,
+    "image_sha256": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-precision-diagnostic-20261003T1543/libHiSpID.so": "f976d6f7042647c9f65a7f672fd0229dd2365a840141c1fa0bd47d80c0217b55",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-precision-diagnostic-20261003T1543/libTwoPunctures.so": "b2691bf737b75d75844b91a318aa5cbeea055e7f6d9bacea68b461676e56ca34",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-precision-diagnostic-20261003T1543/test_hispid_setup_kokkos": "ee88b77e689a9d063b3697980c9a76745f1563a7f1bc7f3717bc0a539b747db8"
+    }
+  },
+  "openmp": {
+    "passed": true,
+    "checks": 748,
+    "ctest_passed": 4,
+    "ctest_total": 4,
+    "threads": 1,
+    "two_thread_setup_passed": true,
+    "two_thread_checks": 748,
+    "concurrency_probe": {
+      "initialize_status": 0,
+      "actual_host_concurrency": 2,
+      "OMP_NUM_THREADS": "2"
+    },
+    "image_sha256": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-stable-openmp-20261003T1625/libHiSpID.so": "ff634bfb27a224eacc512d50928f1cbe475a105680787d28a2a29256819d94dd",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-stable-openmp-20261003T1625/libTwoPunctures.so": "eb985e445b9d7e0091a507f0124140b6faa903dbe024dbaad3d474cf1c2be32f",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-stable-openmp-20261003T1625/test_hispid_setup_kokkos": "7dc7c57606ef9a2f1ea5adda24c78b3cc7badf1b7c7c0ce35fecc3c91f92aabc"
+    }
+  },
+  "maxima": {
+    "defined_seed_derivatives": 5.547e-13,
+    "extreme_coefficients": 8.515e-11,
+    "rotated_binary_coefficients": 7.234e-11,
+    "all_slot_diagnostic": 5.933e-09
+  },
+  "cuda": {
+    "compilation": "success",
+    "execution": "pending",
+    "target": "sm_80",
+    "compiler": "CUDA13.2 nvcc_wrapper / GCC14",
+    "flags": "Release -O3 -DNDEBUG -Xptxas=-v",
+    "source_directory": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/setup-kernels-20261003T1620",
+    "build_directory": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-cuda-20261003T1620",
+    "source_manifest": "setup-kernels-20261003T1620.json",
+    "patch_sha256": "18ac6713ad65e84a8ee7261c6583e5a4b5eeb9b4dfed6afe22e50b8895449a14",
+    "test_source_sha256": "046e9fcb9e8c389644ca8de9b11e4265f02e9490d862f9d3bbd8c90aa346cb62",
+    "note": "Production mathematical sources match this receipt. CUDA was compiled before the later host-oracle skip guard in CMake/test main; CPU controls include that guard. No CUDA run or timing is claimed.",
+    "log_sha256": "d05d5d4e716a56c130e48b02160bb6932fcb8b0f9acd74c9a7d2b144858d10a4",
+    "image_sha256": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-cuda-20261003T1620/libHiSpID.so": "92fb8bf68f034da853896f5cc3cc11947d0a6ba2273c9738bf1e81c2dfa3e456",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-cuda-20261003T1620/libTwoPunctures.so": "156d84ec3c8c72c6aa59e7fd2d7d1e28af0e395b473cbc0e82a28169adf17c72",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-cuda-20261003T1620/test_hispid_setup_kokkos": "67bc8920a87ccdd69747882bc76fd39c8c682cf324f8e51c48ad5b4b888ab089"
+    },
+    "geometry_kernel": {
+      "stack_frame_bytes": 73600,
+      "registers": 255,
+      "spill_store_bytes": 4924,
+      "spill_load_bytes": 6444,
+      "measured_runtime": false,
+      "measured_vram": false
+    }
+  },
+  "retained_failures": [
+    {
+      "kind": "original all-slot comparison",
+      "difference": 5.933e-09,
+      "reason": "Incomplete Atilde Hessian is not consumed; remains an arithmetic diagnostic",
+      "passed": false
+    },
+    {
+      "kind": "defined Gamma10 metric derivative",
+      "difference": 5.458e-10,
+      "repair": "Direct normalized conformal spacetime pullback",
+      "repaired_gate_passed": true
+    },
+    {
+      "kind": "Gamma10 attenuation coefficient",
+      "difference": 1.22e-10,
+      "repair": "Stable expm1 attenuation complement",
+      "repaired_gate_passed": true
+    },
+    {
+      "kind": "rotated binary momentum source coefficient",
+      "difference": 1.548e-10,
+      "repair": "Compensated mean-K trace accumulation",
+      "repaired_gate_passed": true
+    },
+    {
+      "kind": "ARM equal-precision legacy oracle",
+      "difference": 5.111e-10,
+      "reason": "Host reference has a spurious derivative of an analytically constant transverse metric",
+      "reference_digits": 53,
+      "execution_digits": 53,
+      "subsequent_strict_comparison": "skipped, no qualification"
+    }
+  ],
+  "macos": {
+    "serial_ctest_passed": 3,
+    "openmp1_ctest_passed": 3,
+    "ctest_total": 4,
+    "strict_setup_comparison": "skipped on equal-precision oracle",
+    "strict_setup_return_code": 77
+  },
+  "workflow_tests": {
+    "extreme_prerequisites": 12,
+    "completed_solve_retention": 1,
+    "passed": true
+  },
+  "raw_logs": {
+    "setup-test-serial-20261003T1515.log": "e030857c5216e2791acebf1f13448002da69fdaae331d194be3f6fb8ca63b98c",
+    "setup-precision-diagnostic-test-20261003T1543.log": "2c66546cc3f7209c0a0dc187f756ac95261dad285dada069f27df625ec4edf5f",
+    "setup-defined-test-serial-20261003T1600.log": "6b4f9a343fe396ca234fd5ae33e15609b4d2b969325595235e1c3dfd174ac240",
+    "setup-normalized-test-serial-20261003T1610.log": "2041756c3f9639d57bb4b900a1f42f60c1396381a377db8534ef0bb4cb3f7d6b",
+    "setup-stable-test-serial-20261003T1620.log": "6092495ed70af62bc29cb7d4f21fddff3ccd4344a62f84a65a8265220175e1b3",
+    "setup-cache-source-test-serial-20261003T1632.log": "8d43830b8c109817a3b5279c2761cb2955f6111f29164373b1c9f0ac3cbee79b",
+    "setup-trace-test-serial-20261003T1640.log": "93929fa8390d92415b317c22a8471bf760fc9cbd92b0162e6ebbb51808789c55",
+    "setup-final-ctest-serial-20261003T1625.log": "fc416694357eec13ad51f7ac413f5eb4579407c674075c1ed3c053f37663fe99",
+    "setup-test-openmp-20261003T1625.log": "8311f2fb981ae40975a109505cd84b2c4ea40b21794ea7f2851944ef09329300",
+    "setup-ctest-openmp-20261003T1625.log": "4f693c0436a654255ef7d9ff9e333d21d939e9f611a0e213d3092c72c3311935",
+    "setup-test-openmp2-20261003T1635.log": "8311f2fb981ae40975a109505cd84b2c4ea40b21794ea7f2851944ef09329300"
+  },
+  "combined_log": "validation/kokkos_setup_precision_20261003.txt",
+  "frozen_performance_images_changed": false,
+  "new_setup_performance_measured": false,
+  "new_physical_binary_study_run": false,
+  "combined_log_sha256": "3fe7a604b071df4bcaac9fbfba74ae0c5f17e6fdb47e486e6f8875b569b92916",
+  "current_host_geometry_smoke": "passed"
+}

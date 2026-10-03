@@ -88,13 +88,14 @@ def completed_seed_controls(seed):
     return seed
 
 
-def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32768):
+def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32768,geometry='host'):
     """Bind exact isolated controls to the binary's charts and declared norm.
 
     Structural mismatches are rejected; retained numerical failures return
     false and may only accompany an explicitly diagnostic investigation.
     """
-    if (floor.get('schema')!='hispid_source_floor_v3' or floor.get('extreme_controls') is not True
+    if (geometry not in ('host','execution') or floor.get('geometry','host')!=geometry
+        or floor.get('schema')!='hispid_source_floor_v3' or floor.get('extreme_controls') is not True
         or floor.get('library_sha256')!=library_sha or floor.get('residual_scaling')!='sin3_alpha_beta'
         or floor.get('execution')!='kokkos' or floor.get('compiled_execution')!='Cuda'
         or floor.get('seed_mass')!=mass or floor.get('coordinate_separation')!=separation
@@ -111,6 +112,11 @@ def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32
     passed=floor.get('passed') is True
     for row in rows:
         if (row['case'],row['active_hole'],tuple(row['resolution'])) not in required:continue
+        setup=row.get('setup_statistics')
+        if setup and setup.get('geometry_execution')!=int(geometry=='execution'):
+            raise ValueError('source-floor setup witness contradicts the selected geometry')
+        if geometry=='execution' and (not setup or setup.get('geometry_execution')!=1 or setup.get('scalar_digits')!=53):
+            raise ValueError('source-floor execution geometry witness differs from the binary')
         cfg=row['config'];spin,velocity=controls[row['case']]
         active=row['active_hole'];sign=1 if active==0 else -1
         hole=cfg['hole'][active];inactive=cfg['hole'][1-active]
@@ -170,6 +176,7 @@ def main():
     p.add_argument('--grid-index',type=int,required=True)
     p.add_argument('--separation',type=float,help='retain a separately labeled separation-calibration case')
     p.add_argument('--output-directory',required=True);p.add_argument('--threads',type=int,default=16)
+    p.add_argument('--geometry',choices=('host','execution'),default='host')
     p.add_argument('--allow-diagnostic-investigation',action='store_true',help='retain failed prerequisite gates while measuring unqualified data')
     a=p.parse_args()
     input_paths=dict(performance=a.performance_results,receipt=a.compiled_report_receipt,
@@ -200,7 +207,7 @@ def main():
     initial_separation=12. if a.case.startswith('aligned') else 25.
     separation=a.separation if a.separation is not None else initial_separation
     floor=inputs['floor']
-    floor_passed=source_floor_passed(floor,digest(library),grids,separation,memory_mib=controls['memory_limit_mib'])
+    floor_passed=source_floor_passed(floor,digest(library),grids,separation,memory_mib=controls['memory_limit_mib'],geometry=a.geometry)
     floor_artifacts=verify_source_floor_arrays(floor)
     if (not floor.get('bound_images') or any(measured.get(path)!=sha for path,sha in floor['bound_images'].items())
         or any(digest(path)!=sha for path,sha in floor_artifacts.items())):
@@ -238,7 +245,7 @@ def main():
         raise ValueError('retained resolutions differ from the declared grid prefix')
     binding=dict(schema='hispid_extreme_attempt_binding_v1',case=a.case,label=label,
         prerequisite_sha256=input_hashes,measured_images=measured,loaded_images=actual_images,
-        producer=str(library),coordinate_separation=separation,host_threads=a.threads)
+        producer=str(library),coordinate_separation=separation,host_threads=a.threads,geometry=a.geometry)
     binding_path=root/(label+'_attempt_binding.json')
     if binding_path.exists():
         bound_bytes=binding_path.read_bytes()
@@ -286,7 +293,7 @@ def main():
         cfg.tolerance=controls['outer_tolerance'];cfg.krylov_restart=controls['restart']
         return cfg
     result=solve_case(backend,factory,[(grid[0],grid[2])],label,horizon_scaled=True,adaptive_steps=True,
-        previous_records=previous,execution='kokkos',solve_options=dict(krylov=controls['krylov'],linear_rtol=controls['linear_rtol']),
+        previous_records=previous,execution='kokkos',geometry=a.geometry,solve_options=dict(krylov=controls['krylov'],linear_rtol=controls['linear_rtol']),
         output_report=report_path,raw_directory=raw)
     verify_attempt()
     record=result['records'][-1];cfg=factory(backend,grid[0],grid[2])

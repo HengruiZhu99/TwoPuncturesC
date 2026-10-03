@@ -24,6 +24,7 @@ class SyntheticContext:
     def __exit__(self,*args):return False
     def solve(self,**kwargs):return dict(status=0,converged=False,scaled_linf=[2e-14]*4)
     def unknowns(self):return np.zeros(self.size)
+    def setup_statistics(self):return None
     def linear_history(self):raise ValueError('synthetic metadata callback failure')
 
 
@@ -34,7 +35,7 @@ class SyntheticBackend:
     def parameterization(self):return 'synthetic_only'
     def parameterization_description(self):return 'synthetic_only'
     def parameterization_maps(self):return dict(radial_stretch=.2,angular_stretch=2.)
-    def create(self,config,execution):return SyntheticContext(config)
+    def create(self,config,execution,geometry='host'):return SyntheticContext(config)
 
 
 class StudyRetentionTests(unittest.TestCase):

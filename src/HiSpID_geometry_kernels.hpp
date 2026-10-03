@@ -22,7 +22,7 @@ template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> pullback_derivatives(cons
  return out;
 }
 
-template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&hole,int choice,const double *point,SeedT<Real>&s){
+template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&hole,int choice,const double *point,SeedT<Real>&s,bool stable_evaluation=false){
  Real m=hole.mass,smag=point_norm<Real>(hole.spin),a=smag/m,v2=0;
  Real axis[3]={0,0,1};if(smag>0)for(int i=0;i<3;i++)axis[i]=hole.spin[i]/smag;
  for(int i=0;i<3;i++)v2+=(Real)hole.velocity[i]*hole.velocity[i];
@@ -118,18 +118,46 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&
   Kgraph[aidx][b]=-W*alpha0*JetT<Real>(hole.velocity[aidx])*N[b];
   for(int c=0;c<3;c++)for(int d=0;d<3;d++)Kgraph[aidx][b]=Kgraph[aidx][b]-W*T[aidx][c]*rest[c][d]*Q[b][d];
  }
- s.K=0;
+ s.K=0;JetT<Real> trace_roundoff;
  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
   for(int aidx=0;aidx<3;aidx++)for(int b=0;b<3;b++)
    s.extrinsic[i][j]=s.extrinsic[i][j]+JetT<Real>(B[aidx+1][i+1]*B[b+1][j+1])*(Kgraph[aidx][b]+Kgraph[b][aidx])/JetT<Real>(2);
-  s.K=s.K+inv[i][j]*s.extrinsic[i][j];
+  if(stable_evaluation)compensated_add(s.K,trace_roundoff,inv[i][j]*s.extrinsic[i][j]);
+  else s.K=s.K+inv[i][j]*s.extrinsic[i][j];
  }
  /* A stationary unboosted QI Kerr slice is exactly maximal. Retaining
   * a roundoff trace here would amplify its gradient by psi^6 at a puncture. */
  if(v2==0)s.K=0;
  s.psi=choice?power(determinant(s.physical),Real(1.0L)/12):psiQI;
+ JetT<Real> normalized[3][3];
+ if(stable_evaluation){
+  /* Build the QI conformal spacetime metric directly. Dividing two large
+   * physical-metric/psi jets creates spurious derivatives of the exact
+   * constant transverse metric for a highly boosted Schwarzschild seed.
+   * U is the spatial pullback including the rest shift; the lapse term
+   * supplies the remaining normal part of the spacetime pullback. */
+  JetT<Real> rest_normalized[3][3],U[3][3];
+  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+   rest_normalized[i][j]=JetT<Real>(i==j?1:0)
+    +JetT<Real>(a*a)*(JetT<Real>(1)+JetT<Real>(2*m)*rb/sigma)/(sigma*r2)*cross[i]*cross[j];
+   U[i][j]=JetT<Real>(B[i+1][j+1])+JetT<Real>(B[0][j+1])*beta0[i];
+  }
+  JetT<Real> radial_normalized=r2-JetT<Real>((m*m-a*a)/4);
+  JetT<Real> lapse_normalized=radial_normalized*radial_normalized/AA;
+  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+   normalized[i][j]=-JetT<Real>(B[0][i+1]*B[0][j+1])*lapse_normalized;
+   for(int k=0;k<3;k++)for(int l=0;l<3;l++)
+    normalized[i][j]=normalized[i][j]+U[k][i]*rest_normalized[k][l]*U[l][j];
+  }
+  if(choice){
+   JetT<Real> det=determinant(normalized);if(!(det.v>0))return geometry_determinant;
+   JetT<Real> factor=power(det,Real(1.0L)/3);
+   s.psi=psiQI*power(det,Real(1.0L)/12);
+   for(int i=0;i<3;i++)for(int j=0;j<3;j++)normalized[i][j]=normalized[i][j]/factor;
+  }
+ }
  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
-  s.metric[i][j]=s.physical[i][j]/power(s.psi,4);
+  s.metric[i][j]=stable_evaluation?normalized[i][j]:s.physical[i][j]/power(s.psi,4);
   s.A[i][j]=s.psi*s.psi*(s.extrinsic[i][j]-s.physical[i][j]*s.K/JetT<Real>(3));
   s.physical[i][j]=pullback_derivatives(s.physical[i][j],B);
   s.extrinsic[i][j]=pullback_derivatives(s.extrinsic[i][j],B);
@@ -197,21 +225,24 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_sum_source(const HiSpID_Con
  }return geometry_ok;
 }
 
-template<class Real> HISPID_GEOMETRY_INLINE int background_geometry(const HiSpID_Config&cfg,const double*x,BackgroundT<Real>&b){
- SeedT<Real> s[2];JetT<Real> radius[2],F[2]={1,1},f[2]={1,1};
+template<class Real> HISPID_GEOMETRY_INLINE int background_geometry(const HiSpID_Config&cfg,const double*x,BackgroundT<Real>&b,bool stable_evaluation=false){
+ SeedT<Real> s[2];JetT<Real> radius[2],F[2]={1,1},f[2]={1,1},complement[2];
  b.psi=1;b.g=1;b.K=0;
  for(int h=0;h<2;h++)if(cfg.hole[h].mass>0){
   JetT<Real> r2=0;for(int i=0;i<3;i++){
    JetT<Real> dx=JetT<Real>::variable(x[i]-cfg.hole[h].center[i],i+1);r2=r2+dx*dx;
   }radius[h]=sqrt(r2);
-  const int status=seed_geometry(cfg.hole[h],cfg.conformal_choice,x,s[h]);if(status)return status;
-  if(cfg.far_radius>0)F[h]=exp(-power(radius[h]/JetT<Real>(cfg.far_radius),4));
+  const int status=seed_geometry(cfg.hole[h],cfg.conformal_choice,x,s[h],stable_evaluation);if(status)return status;
+  if(cfg.far_radius>0){JetT<Real> exponent=-power(radius[h]/JetT<Real>(cfg.far_radius),4);
+   F[h]=exp(exponent);complement[h]=stable_evaluation?-expm1(exponent):JetT<Real>(1)-F[h];}
   b.psi=b.psi+F[h]*(s[h].psi-JetT<Real>(1));
-  b.far_correction=b.far_correction+(JetT<Real>(1)-F[h])*(s[h].psi-JetT<Real>(1));
+  b.far_correction=b.far_correction+complement[h]*(s[h].psi-JetT<Real>(1));
   b.g=b.g*inner(radius[h],cfg.inner_min[h],cfg.inner_max[h]);
  }
- for(int h=0;h<2;h++)if(cfg.omega[h]>0&&cfg.hole[1-h].mass>0)
-  f[h]=JetT<Real>(1)-exp(-power(radius[1-h]/JetT<Real>(cfg.omega[h]),cfg.attenuation_power));
+ for(int h=0;h<2;h++)if(cfg.omega[h]>0&&cfg.hole[1-h].mass>0){
+  JetT<Real> exponent=-power(radius[1-h]/JetT<Real>(cfg.omega[h]),cfg.attenuation_power);
+  f[h]=stable_evaluation?-expm1(exponent):JetT<Real>(1)-exp(exponent);
+ }
  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
   b.metric[i][j]=JetT<Real>(i==j?1:0);b.M[i][j]=0;
   for(int h=0;h<2;h++)if(cfg.hole[h].mass>0){

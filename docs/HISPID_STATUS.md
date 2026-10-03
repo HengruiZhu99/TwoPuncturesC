@@ -1,12 +1,27 @@
 # HiSpID milestone status
 
-October3 follow-up: an explicit execution-space HiSpID setup path now builds
+October3 precision follow-up: x86 Serial and OpenMP pass748 strict setup checks,
+including chi=.99/Gamma10 coefficients and the rotated binary fixture.
+Defined seed derivatives agree within5.547e-13; extreme coefficients within
+8.515e-11 against the unchanged1e-10 gate. The execution path now uses direct
+conformal pullback, stable attenuation complements and compensated trace
+accumulation. Failed earlier comparisons and unused partial-Hessian
+diagnostics remain retained. Equal-precision ARM cannot supply the wider
+reference for this strict gate and reports a skipped comparison. Source-floor
+and binary runners now bind explicit geometry selection and native witnesses;
+12 prerequisite tests and completed-solve retention pass. All four x86 CTest
+suites pass on each backend; two-thread setup controls also pass. Repaired
+CUDA compilation succeeds; GPU execution remains pending, independently of
+the frozen performance matrix. See the separately bound precision receipt
+in `validation/kokkos_setup_precision_20261003.json`.
+
+October3 initial port: an explicit execution-space HiSpID setup path now builds
 spinning/boosted seed geometry and coordinate/derivative/operator coefficient
 caches in Kokkos kernels. The host reference constructors retain their default
 behavior and precision. Serial/OpenMP setup controls pass620 checks each;
 all four CTest suites, native manufactured geometry and Python selection
 controls pass. CUDA compilation passes for A100; actual GPU execution and
-x86 extended-precision comparisons remain pending. The compiler's large
+x86 extended-precision comparisons were pending at this initial snapshot. The compiler's large
 geometry stack frame/spills require device performance and VRAM measurements.
 This is separate
 from the frozen 288-attempt campaign, which retains its original images.

@@ -110,7 +110,7 @@ struct HiKokkos {
    start=puncture::seconds();
    Kokkos::parallel_for("spinning boosted seed and operator cache",puncture::Range(0,points),KOKKOS_LAMBDA(int p){
     int row=p%(na*nb),i=row%na,j=row/na,k=p/(na*nb);double xyz[3]={position(2*row),position(2*row+1)*trig(2*k),position(2*row+1)*trig(2*k+1)};
-    hispid::BackgroundT<double>bg;int status=hispid::background_geometry(config,xyz,bg);
+    hispid::BackgroundT<double>bg;int status=hispid::background_geometry(config,xyz,bg,true);
     if(status){errors(p)=status;return;}
     cache(bg,geom(p));double sn=std::sin(Pih*(2*i+1)/na)*std::sin(Pih*(2*j+1)/nb);geom(p).weight=std::pow(sn,HISPID_ROW_POWER);
     const double a=.5*(ca(i)+1);if constexpr(HISPID_INFINITY_EQUILIBRATION){geom(p).weight/=std::pow(1-a*a,6);}

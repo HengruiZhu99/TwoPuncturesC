@@ -150,6 +150,19 @@ class ExtremePrerequisiteTests(unittest.TestCase):
         floor=self.source_floor();floor['records']=[r for r in floor['records'] if r['active_hole']==0]
         with self.assertRaises(ValueError):source_floor_passed(floor,*args)
 
+    def test_source_floor_binds_geometry_selection_and_native_witness(self):
+        floor=self.source_floor();args=('producer',[[8,16,8]],25.)
+        with self.assertRaises(ValueError):source_floor_passed(floor,*args,geometry='execution')
+        floor['records'][0]['setup_statistics']=dict(geometry_execution=1,scalar_digits=53)
+        with self.assertRaises(ValueError):source_floor_passed(floor,*args)
+        floor['geometry']='execution'
+        for row in floor['records']:row['setup_statistics']=dict(geometry_execution=1,scalar_digits=53)
+        self.assertTrue(source_floor_passed(floor,*args,geometry='execution'))
+        with self.assertRaises(ValueError):source_floor_passed(floor,*args)
+        for witness in (None,dict(geometry_execution=0,scalar_digits=53),dict(geometry_execution=1,scalar_digits=64)):
+            floor['records'][0]['setup_statistics']=witness
+            with self.subTest(witness=witness),self.assertRaises(ValueError):source_floor_passed(floor,*args,geometry='execution')
+
     def test_numerical_floor_failure_remains_failed_despite_saved_pass_flag(self):
         floor=self.source_floor();args=('producer',[[8,16,8]],25.)
         floor['records'][0]['weighted_far_source_linf'][0]=2e-14
