@@ -150,7 +150,7 @@ setup/operator phases; API copy volumes exclude runtime-internal traffic.
     completed=len(records)+len(result['failures'])
     expected=len(binding.get('grids',[]))*binding.get('repeats',0)*len(binding.get('systems',[]))*len(binding.get('methods',[]))*len(variants)
     failed_checks=[(label,row) for label,row in records.items() if not row['checks']['passed']]
-    doc.append(f"Completed workers: {completed} of {expected}. Retained process failures: {len(result['failures'])}. Completed workers failing stopping/protocol checks: {len(failed_checks)}. Strict state comparison failures: {len(failed_comparisons)}."+r'\\'+'\n')
+    doc.append(f"Retained attempts: {completed} of {expected}; completed benchmark records: {len(records)}. Retained process failures: {len(result['failures'])}. Completed records failing stopping/protocol checks: {len(failed_checks)}. Strict state comparison failures: {len(failed_comparisons)}."+r'\\'+'\n')
     if completed!=expected:doc.append(r'\textbf{This is an incomplete measurement snapshot; pending rows are not estimated.}\par'+'\n')
     if not result.get('declared_performance_completed'):doc.append(r'\textbf{The full declared three-grid, eight-variant, three-repeat protocol is not yet complete. This snapshot cannot substitute for the comprehensive report.}\par'+'\n')
     doc.append(r'\begin{center}\small\begin{tabular}{llrrrr}\toprule Grid & System/method & OMP16 speedup & GPU/OMP16 & GPU cold speedup & OMP RSS saved\\\midrule'+'\n')
@@ -250,7 +250,12 @@ converged timings are therefore reported separately from full port acceptance.
             doc.append(tex(label)+' & '+number(unknown)+' & '+number(coefficient)+' & '+number(residual)+r'\\'+'\n')
         doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
     if result['failures']:
-        doc.append(r'\paragraph{Failed workers.} '+', '.join(tex(key) for key in result['failures'])+'.\n')
+        doc.append(r'\paragraph{Failed workers.} These attempts have no completed benchmark record or qualified speed ratio. The elapsed time covers the worker until failure.'+'\n')
+        doc.append(r'\small\begin{longtable}{llrr}\toprule Worker & Outcome & Elapsed [s] & Exit code\\\midrule\endhead'+'\n')
+        for label,failure in result['failures'].items():
+            outcome='timeout' if failure.get('timeout') else 'process failure'
+            doc.append(r'\nolinkurl{'+label+'} & '+outcome+' & '+number(failure.get('elapsed_seconds'))+' & '+tex(failure.get('exit_code','unavailable'))+r'\\'+'\n')
+        doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
     doc.append(r'''\section{Interpretation and subsequent physical study}
 Dense cached differentiation removes repeated transform/trigonometric setup
 from BY's linear action and repeated nonlinear residual evaluations. A scoped

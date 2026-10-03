@@ -53,7 +53,7 @@ $10^{-9}$ bound. Independent Cartesian FD constraint differences are bounded
 by $\max(10^{-7},5\epsilon_{\rm step})$ with steps 0.004/0.002/0.001.
 \section{Hardware and measurement definitions}
 Current measurement binding: hispid, by, 3 grid(s), 8 variant(s), 3 repeat(s).\\
-Source result: \texttt{performance\_snapshot\_20261003T0938.json}.\\
+Source result: \texttt{performance\_snapshot\_20261003T1129.json}.\\
 Initial host: nid200265. CPU: AMD EPYC 7763 64-Core Processor.\\
 Compiler command version: gcc (SUSE Linux) 14.3.0.\\
 Initial Slurm allocation: 59242299. Visible GPU setting: 0.\\
@@ -80,13 +80,26 @@ cold time below additionally includes explicit runtime initialization, but
 excludes Python import and DSO loading. All device phases are fenced.
 Kokkos A/M timings include finite checks; reference BY phase wrappers time
 the kernel calls without the controller's finite scans. Linear time includes
-A/M. Hi setup
-includes native factor construction and device import. BY reports native
+A/M. Hi Kokkos setup measures Newton preconditioner construction and
+execution-space import within solve time; constructor workspace/geometry
+imports belong to creation time. BY reports native
 modal setup separately from its Kokkos setup. BY verbose iteration
 logging and flushing are inside the Newton timer. The F phase covers Newton
 evaluations; the final native residual outside Newton is included in ready
 time. Setup includes transfers,
 which are also reported separately; overlapping phase times must not be added.
+
+HiSpID creation includes serial configuration/frame/basis construction and
+dense differentiation tables, then the background geometry and cached
+operators at every collocation point. Boosted Kerr seed derivatives are
+constructed with long-double jets on the CPU. Reference uses a serial point
+loop; OpenMP and CUDA use parallel host execution for that point builder.
+CUDA seed construction therefore remains CPU work. Optional execution also
+allocates the spectral workspace, constructs coordinate chains and regular
+mode factors on the host, and imports them. Native modal factors are built
+inside Newton, outside creation. Constructor subphases are not individually
+timed, so the creation column cannot assign elapsed time to seed geometry
+alone.
 
 Host RSS is the process peak through first sampling, before untimed verification
 and snapshot allocation. Reported Kokkos peaks are allocations observed after
@@ -104,7 +117,7 @@ total data-construction time minus its Newton timer (allocation and native
 post-solve work are not individually instrumented). Transfer timings overlap
 setup/operator phases; API copy volumes exclude runtime-internal traffic.
 \section{Completed measurements}
-Completed workers: 192 of 288. Retained process failures: 0. Completed workers failing stopping/protocol checks: 39. Strict state comparison failures: 132.\\
+Retained attempts: 195 of 288; completed benchmark records: 194. Retained process failures: 1. Completed records failing stopping/protocol checks: 39. Strict state comparison failures: 132.\\
 \textbf{This is an incomplete measurement snapshot; pending rows are not estimated.}\par
 \textbf{The full declared three-grid, eight-variant, three-repeat protocol is not yet complete. This snapshot cannot substitute for the comprehensive report.}\par
 \begin{center}\small\begin{tabular}{llrrrr}\toprule Grid & System/method & OMP16 speedup & GPU/OMP16 & GPU cold speedup & OMP RSS saved\\\midrule
@@ -336,6 +349,26 @@ BY/B & openmp8 & 24/70 & 175/127 & 4.07 & 1.09 & 0.449 & 32.2 & 67.3 & --\\
 BY/B & openmp16 & 24/70 & 169/121 & 2.01 & 1.4 & 0.432 & 32 & 66.6 & --\\
 BY/B & cuda & 24/70 & 170/122 & 0.0929 & 1.07 & 1.11 & 32.4 & 43.7 & 0.709\\
 \bottomrule\end{longtable}\normalsize
+\subsection{Grid 128$\times$256$\times$28}
+\footnotesize
+\begin{longtable}{llrrrrrr}
+\toprule System/method & Variant & $n$ & Solve(s) & Ready(s) & Cold(s) & RSS(GiB) & Device(GiB)\\
+\midrule\endhead
+Hi/G & reference & 1 & 512 [512,512] & 1.45e+03 & 1.45e+03 & 6.38 & --\\
+Hi/B & reference & 1 & 599 [599,599] & 1.53e+03 & 1.53e+03 & 5.62 & --\\
+\bottomrule\end{longtable}\normalsize
+\scriptsize\begin{longtable}{llrrrrrrr}
+\toprule System/method & Variant & Init(s) & Create/other(s) & Sample(s) & Transfer(s) & H2D(GiB) & D2H(GiB) & K host(GiB)\\
+\midrule\endhead
+Hi/G & reference & 1.34e-06 & 942 & 1.04 & -- & -- & -- & --\\
+Hi/B & reference & 1.1e-06 & 935 & 1.13 & -- & -- & -- & --\\
+\bottomrule\end{longtable}\normalsize
+\scriptsize\begin{longtable}{llrrrrrrrr}
+\toprule System/method & Variant & Newton/K & A/M calls & A(s) & M(s) & Kokkos setup(s) & Native M(s) & F(s) & Driver(GiB)\\
+\midrule\endhead
+Hi/G & reference & 4/46 & 54/46 & -- & -- & -- & -- & -- & --\\
+Hi/B & reference & 4/29 & 65/57 & -- & -- & -- & -- & -- & --\\
+\bottomrule\end{longtable}\normalsize
 \section{Numerical comparison results}
 Worker stopping checks: pending or failed; inspect retained records.
 An API success code does not establish convergence. The following
@@ -524,6 +557,10 @@ converged timings are therefore reported separately from full port acceptance.
 80\_160\_16\_cuda\_by\_gmres\_2 & -- & -- & 2.4e-11\\
 80\_160\_16\_cuda\_by\_bicgstab\_2 & -- & -- & 1.63e-12\\
 \bottomrule\end{longtable}\normalsize
+\paragraph{Failed workers.} These attempts have no completed benchmark record or qualified speed ratio. The elapsed time covers the worker until failure.
+\small\begin{longtable}{llrr}\toprule Worker & Outcome & Elapsed [s] & Exit code\\\midrule\endhead
+\nolinkurl{128_256_28_reference_by_gmres_0} & timeout & 3.6e+03 & -9\\
+\bottomrule\end{longtable}\normalsize
 \section{Interpretation and subsequent physical study}
 Dense cached differentiation removes repeated transform/trigonometric setup
 from BY's linear action and repeated nonlinear residual evaluations. A scoped
@@ -559,7 +596,7 @@ constraint convergence, charges/covariance, initial-time AthenaK import,
 individual/common horizon searches and enclosure of modified regions.
 No high-parameter validation is inherited from the performance case.
 \section{Reproducibility and sources}
-Measurement JSON SHA256:\par{\footnotesize\ttfamily 744ebf6ace01aa0801cfb6a5ca414ae471c238ba0ca006c6d83c21af15f2c1f7}\par
+Measurement JSON SHA256:\par{\footnotesize\ttfamily 384246f4e99b90ff74be01ff67836fea2d6709983b7afd0ec4cbef5ae658edda}\par
 Acceptance plan SHA256:\par{\footnotesize\ttfamily 9474a2c51fa197ea9204400f18ab1711d1e71bc5f3d9d0cdc4f7ecdb0e92870c}\par
 The immutable measurement manifest contains complete build caches,
 source/runtime/native-image hashes, commands, resolved options, configurations,

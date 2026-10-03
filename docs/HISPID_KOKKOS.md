@@ -178,7 +178,7 @@ directories and one retained grid per invocation. It rejects an incomplete
 288-worker matrix before loading a native library. Its compilation receipt
 must name `mcp__codex_app__compile_latex_document` and bind the successfully
 compiled report and complete performance JSON by SHA256. The current compiled
-192-worker snapshot cannot unlock this stage. A fresh final receipt is required.
+195-attempt snapshot cannot unlock this stage. A fresh final receipt is required.
 Admission independently reconstructs the exact three-grid/eight-variant/
 two-system/two-method/three-repeat coverage and checks each successful row's
 identity. Supply `--performance-artifact-root` as the original benchmark

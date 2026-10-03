@@ -16,13 +16,15 @@ and one final polishing step now pass both methods on OpenMP16 and CUDA,
 with original residuals3–7e-13 and complete-state gates passed; see
 `kokkos_by_polish_preflight40_v3_20261002.json`. This is a one-repeat preflight,
 not the final performance estimate. The declared 288-worker performance
-matrix is running on one allocated Perlmutter A100. Retained at 2026-10-03 09:38 UTC,
-192 attempts are retained, with 39 failed stopping checks and no process
-failures. These failed checks are not qualified speedup results. The standalone
+matrix is running on one allocated Perlmutter A100. Retained at 2026-10-03 11:29 UTC,
+195 attempts are retained, with 39 failed stopping checks and one process
+failure: the largest reference BY/GMRES worker reached its 3600 s timeout.
+These failed checks are not qualified speedup results. The standalone
 [LaTeX report draft](HISPID_KOKKOS_PERFORMANCE.tex) is an explicitly incomplete
-192-attempt snapshot covering all small/medium repeats, with native
+195-attempt snapshot covering all small/medium repeats and the first largest-grid
+reference attempts, with native
 editor compilation confirmed by
-`validation/performance_snapshot_20261003T0938_compilation.json`.
+`validation/performance_snapshot_20261003T1129_compilation.json`.
 The new separate spin.99/Gamma10 studies remain pending. The completed
 performance report will precede physical runs. The existing Hi
 raw-P/coefficient failure remains failed. See
@@ -317,14 +319,21 @@ preservation remains failed, so this adds no physical binary acceptance.
 
 October3 Kokkos progress: the immutable 288-worker single-A100 performance
 matrix continues across sequential one-GPU shared allocations with the same
-required hardware class. The compiled standalone report binds all192
-small/medium attempts:153 pass stopping/protocol checks,39 fail, and no
-process failed. All192 comparison entries are retained;132 fail their strict
+required hardware class. The compiled standalone report binds 195 attempts:
+155 completed records pass stopping/protocol checks, 39 fail, and one worker
+timed out. All 194 comparison entries are retained; 132 fail their strict
 gates, which include recomputed residuals as well as state agreement.
 The raw snapshot's cached `completed_workers` counter remains187
-mid-allocation; record/failure inventories establish192. The snapshot bytes
+mid-allocation; record/failure inventories establish 195. The snapshot bytes
 are preserved. Full producer finalization must supply288 before the final
-compiled report can admit physics. Largest-grid measurements and final
+compiled report can admit physics. Both first largest-grid reference HiSpID
+methods meet the internal stopping/protocol checks; one repeat does not
+establish final performance or port qualification. The largest reference
+BY/GMRES worker timed out after 3600.021 s, with its last completed
+Newton iteration 16 at weighted residual 2.106e-11, above 1e-12.
+Its retained log copy is `validation/performance_timeout_20261003T1129.txt`;
+its SHA256 matches the failure record. The timeout has no completed benchmark
+record or qualified speed ratio. Remaining largest-grid measurements and final
 performance qualification remain pending. No new .99/Gamma10 physical case
 has run.
 Preparation adds a separate-process portable CPU sampler witness, checkpoint

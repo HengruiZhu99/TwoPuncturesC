@@ -1,0 +1,20 @@
+{
+  "compilation_confirmed": true,
+  "compiler": "mcp__codex_app__compile_latex_document",
+  "kind": "success",
+  "performance_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/performance_snapshot_20261003T1129.json",
+  "performance_sha256": "384246f4e99b90ff74be01ff67836fea2d6709983b7afd0ec4cbef5ae658edda",
+  "report_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/docs/HISPID_KOKKOS_PERFORMANCE.tex",
+  "report_sha256": "eebf8dbf17522d002558a601fcca6f6733633ee3983efaaed8cfbdb7fb8a30bd",
+  "compiled_at_utc": "2026-10-03T11:43:59.006396+00:00",
+  "declared_performance_completed": false,
+  "completed_workers": 195,
+  "expected_workers": 288,
+  "failed_stopping_checks": 39,
+  "process_failures": 1,
+  "producer_completed_workers": 187,
+  "attempt_count_note": "completed_workers in this receipt counts records plus failures; the raw producer counter is stale mid-allocation and is preserved",
+  "report_generator_sha256": "efa38ac2acb1d60e2a0b1a9a1f9842bdd9b96801ab744d29346879597f2e8a71",
+  "retained_timeout_log": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/performance_timeout_20261003T1129.txt",
+  "retained_timeout_log_sha256": "558d72da3737593f9ec1b2859cf367a91d6388590bb88830e3be53192652bf48"
+}
