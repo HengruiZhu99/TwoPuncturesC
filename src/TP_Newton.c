@@ -1,19 +1,23 @@
 /* TP_Newton.c */
 
 #include "TwoPunctures.h"
+#include "PunctureExecution.h"
 #include "TP_LineCache.h"
 #include "TP_Modal.h"
 #include "PunctureKrylov.h"
 
 static TP_SolverStats solver_stats;
-void TP_solver_reset_statistics(void){memset(&solver_stats,0,sizeof(solver_stats));}
+static TP_ExecutionStats execution_stats;
+void TP_solver_reset_statistics(void){memset(&solver_stats,0,sizeof(solver_stats));memset(&execution_stats,0,sizeof(execution_stats));}
 void TP_solver_get_statistics(TP_SolverStats*out){if(out)*out=solver_stats;}
+void TP_solver_get_execution_statistics(TP_ExecutionStats*out){if(out)*out=execution_stats;}
 
 static int
 solve_linear (int const nvar, int const n1, int const n2, int const n3,
           derivs* v, derivs* dv,
           int const output, int const itmax, double const tol,
-          double * restrict const normres);
+          double * restrict const normres,void *execution_workspace,
+          double *frozen_F,derivs *frozen_u);
 static double
 norm_inf (double const * restrict const F,
           int const ntotal);
@@ -372,12 +376,15 @@ static void by_linear_monitor(void*pointer,int iteration,double residual,double 
 static double by_dot(const double*a,const double*b,int n){return scalarproduct((double*)a,(double*)b,n);}
 static double by_norm(const double*a,int n){return norm2((double*)a,n);}
 static int solve_linear(int nvar,int n1,int n2,int n3,derivs*v,derivs*dv,
-                         int output,int itmax,double tol,double*normres){
+                         int output,int itmax,double tol,double*normres,void*execution_workspace,
+                         double*frozen_F,derivs*frozen_u){
  BYLinearContext c={0};c.nvar=nvar;c.n1=n1;c.n2=n2;c.n3=n3;c.total=nvar*n1*n2*n3;
  const int modal_requested=params_get_int("TP_preconditioner"),method=params_get_int("TP_krylov_solver");
  const int strict=modal_requested||params_get_int("TP_linear_relative")||method!=PK_BICGSTAB;
- double*F=dvector(0,c.total-1);allocate_derivs(&c.u,c.total);allocate_derivs(&c.direction,c.total);
- F_of_v(nvar,n1,n2,n3,v,F,c.u);
+ double*F;
+ if(execution_workspace){F=frozen_F;c.u=frozen_u;}
+ else{F=dvector(0,c.total-1);allocate_derivs(&c.u,c.total);allocate_derivs(&c.direction,c.total);
+  F_of_v(nvar,n1,n2,n3,v,F,c.u);}
  int failed=0;
  if(modal_requested){
   c.modal=nvar==1?TP_modal_create_analytic(n1,n2,n3,c.u->d0):NULL;
@@ -392,8 +399,12 @@ static int solve_linear(int nvar,int n1,int n2,int n3,derivs*v,derivs*dv,
  PK_Options options={method,itmax,params_get_int("TP_krylov_restart"),strict,method==PK_BICGSTAB,0,tol,method==PK_BICGSTAB?by_dot:NULL,method==PK_BICGSTAB?by_norm:NULL};
  PK_Result result={0};
  result.true_residual=result.relative_residual=NAN;
- int status=failed?PK_CALLBACK:PK_solve(c.total,F,dv->d0,&options,by_linear_action,by_linear_precondition,&c,
-                                      output?by_linear_monitor:NULL,(void*)name,&result);
+ int status;
+#ifdef PUNCTURES_KOKKOS
+ if(params_get_int("TP_execution_backend"))status=failed?PK_CALLBACK:Puncture_kokkos_BY_linear(execution_workspace,c.u->d0,c.modal,F,dv->d0,&options,&result,output?by_linear_monitor:NULL,(void*)name);
+ else
+#endif
+ status=failed?PK_CALLBACK:PK_solve(c.total,F,dv->d0,&options,by_linear_action,by_linear_precondition,&c,output?by_linear_monitor:NULL,(void*)name,&result);
  *normres=result.recurrence_residual;
  solver_stats.krylov_iterations+=result.iterations;solver_stats.jvp_applications+=result.operator_calls;
  solver_stats.preconditioner_applications+=result.preconditioner_calls;solver_stats.last_linear_target=tol;
@@ -408,9 +419,30 @@ static int solve_linear(int nvar,int n1,int n2,int n3,derivs*v,derivs*dv,
  if(c.JFD)free_dmatrix(c.JFD,0,c.total-1,0,StencilSize*nvar-1);
  if(c.cols)free_imatrix(c.cols,0,c.total-1,0,StencilSize*nvar-1);
  if(c.ncols)free_ivector(c.ncols,0,c.total-1);
- free_dvector(F,0,c.total-1);free_derivs(c.u);free_derivs(c.direction);
+ if(!execution_workspace){free_dvector(F,0,c.total-1);free_derivs(c.u);free_derivs(c.direction);}
  // Legacy Newton ignores a recurrence failure, as before; new modes fail closed.
  return failed?-(100+status):status==PK_SUCCESS?0:result.iterations;
+}
+
+static int newton_residual(int nvar,int n1,int n2,int n3,derivs*v,double*F,derivs*u,void*workspace,double tol,int*reference_polishing){
+#ifdef PUNCTURES_KOKKOS
+ if(workspace&&!*reference_polishing){
+  int status=Puncture_kokkos_BY_residual(workspace,v,F,u);if(status)return status;
+  execution_stats.device_residual_calls++;execution_stats.device_candidate_linf=norm_inf(F,nvar*n1*n2*n3);
+  if(execution_stats.device_candidate_linf>tol)return 0;
+  // A cached matrix and a transform can differ at roundoff near the map
+  // foci. Confirm the original residual before accepting outer convergence,
+  // then retain it for any remaining refinement of this same iterate.
+  *reference_polishing=1;
+  execution_stats.original_confirmation_calls++;
+ }
+#endif
+ F_of_v(nvar,n1,n2,n3,v,F,u);
+ if(workspace){
+  const double*arrays[21]={F,v->d0,v->d1,v->d2,v->d3,v->d11,v->d12,v->d13,v->d22,v->d23,v->d33,u->d0,u->d1,u->d2,u->d3,u->d11,u->d12,u->d13,u->d22,u->d23,u->d33};
+  for(int a=0;a<21;a++)for(int p=0;p<nvar*n1*n2*n3;p++)if(!isfinite(arrays[a][p]))return PK_NONFINITE;
+  execution_stats.original_confirmation_linf=norm_inf(F,nvar*n1*n2*n3);
+ }return 0;
 }
 
 /* -------------------------------------------------------------------*/
@@ -428,6 +460,15 @@ Newton (int const nvar, int const n1, int const n2, int const n3,
   F = dvector (0, ntotal - 1);
   allocate_derivs (&dv, ntotal);
   allocate_derivs (&u, ntotal);
+  void *execution_workspace=NULL;
+  int reference_polishing=0;
+#ifdef PUNCTURES_KOKKOS
+  if(params_get_int("TP_execution_backend")){
+    if(nvar==1&&!params_get_int("do_residuum_debug_output"))execution_workspace=Puncture_kokkos_BY_create(n1,n2,n3);
+    if(!execution_workspace){solver_stats.linear_failures++;free_dvector(F,0,ntotal-1);free_derivs(dv);free_derivs(u);return;}
+    execution_stats.workspace_creations++;
+  }
+#endif
   
   /*         TestRelax(nvar, n1, n2, n3, v, dv->d0); */
   it = 0;
@@ -436,7 +477,7 @@ Newton (int const nvar, int const n1, int const n2, int const n3,
     {
       if (it == 0)
 	{
-	  F_of_v (nvar, n1, n2, n3, v, F, u);
+	  if(newton_residual(nvar,n1,n2,n3,v,F,u,execution_workspace,tol,&reference_polishing)){solver_stats.linear_failures++;break;}
 	  dmax = norm_inf (F, ntotal);
 	}
 #ifdef TP_OMP
@@ -454,23 +495,24 @@ Newton (int const nvar, int const n1, int const n2, int const n3,
       fflush(stdout);
       double linear_target=dmax*params_get_real("TP_linear_rtol");
       if(params_get_int("TP_linear_relative"))linear_target=norm2(F,ntotal)*params_get_real("TP_linear_rtol");
-      ii = solve_linear (nvar, n1, n2, n3, v, dv, verbose, params_get_int("TP_krylov_maxit"), linear_target, &normres);
+      ii = solve_linear (nvar, n1, n2, n3, v, dv, verbose, params_get_int("TP_krylov_maxit"), linear_target, &normres,execution_workspace,F,u);
       if((params_get_int("TP_preconditioner")||params_get_int("TP_linear_relative")||params_get_int("TP_krylov_solver")!=PK_BICGSTAB)&&ii<0){
         if(verbose)printf("Newton linear solve failed: %d\n",ii);break;
       }
       solver_stats.newton_iterations++;
+      if(execution_workspace&&reference_polishing)execution_stats.polishing_steps++;
 #ifdef TP_OMP
 #pragma omp parallel for
 #endif
       for (int j = 0; j < ntotal; j++)
 	v->d0[j] -= dv->d0[j];
-      F_of_v (nvar, n1, n2, n3, v, F, u);
+      if(newton_residual(nvar,n1,n2,n3,v,F,u,execution_workspace,tol,&reference_polishing)){solver_stats.linear_failures++;break;}
       dmax = norm_inf (F, ntotal);
       it += 1;
     }
   if (itmax==0)
     {
-      F_of_v (nvar, n1, n2, n3, v, F, u);
+      if(newton_residual(nvar,n1,n2,n3,v,F,u,execution_workspace,tol,&reference_polishing))solver_stats.linear_failures++;
       dmax = norm_inf (F, ntotal);
     }
   
@@ -482,4 +524,7 @@ Newton (int const nvar, int const n1, int const n2, int const n3,
   free_dvector (F, 0, ntotal - 1);
   free_derivs (dv);
   free_derivs (u);
+#ifdef PUNCTURES_KOKKOS
+  Puncture_kokkos_BY_destroy(execution_workspace);
+#endif
 }

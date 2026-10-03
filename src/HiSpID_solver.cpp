@@ -1,6 +1,15 @@
 #include "HiSpID_internal.hpp"
 #include "HiSpID_axis.hpp"
 #include "PunctureKrylov.h"
+#include "PunctureExecution.h"
+#ifdef PUNCTURES_KOKKOS
+#include "PunctureKokkos.hpp"
+#include <memory>
+#include <mutex>
+#define HI_INLINE KOKKOS_INLINE_FUNCTION
+#else
+#define HI_INLINE
+#endif
 #include <algorithm>
 #include <chrono>
 #include <cstring>
@@ -22,7 +31,11 @@ extern "C" {
 using hispid::Jet;
 namespace {
 const int hi[6]={1,1,1,2,2,3},hj[6]={1,2,3,2,3,3};
+#ifdef PUNCTURES_KOKKOS
+using Fields=Kokkos::Array<Kokkos::Array<double,10>,4>;
+#else
 using Fields=std::array<std::array<double,10>,4>;
+#endif
 struct Cached {
  double psi,R,K,g,lapPsi,divM[3],gradK[3],M[9],inv[9];
  double lap[10],vec[3][3][10],L[9][3][4];
@@ -90,12 +103,12 @@ void cache(const hispid::Background&b,Cached&c){
   }
  }
 }
-double contraction(const Cached&c,const double*A,const double*B){
+HI_INLINE double contraction(const Cached&c,const double*A,const double*B){
  double q=0;for(int i=0;i<3;i++)for(int j=0;j<3;j++)for(int k=0;k<3;k++)for(int l=0;l<3;l++)
   q+=c.inv[3*i+k]*c.inv[3*j+l]*A[3*i+j]*B[3*k+l];
  return q;
 }
-void eval(const Cached&c,const Fields&u,double*out,const Fields*du=nullptr){
+HI_INLINE void eval(const Cached&c,const Fields&u,double*out,const Fields*du=nullptr){
  double psi=c.psi+u[0][0],A[9];if(!(psi>0)){for(int k=0;k<4;k++)out[k]=NAN;return;}
  for(int a=0;a<9;a++){
   A[a]=c.M[a];for(int k=0;k<3;k++)for(int d=0;d<4;d++)A[a]+=c.L[a][k][d]*u[k+1][d];
@@ -113,6 +126,68 @@ void eval(const Cached&c,const Fields&u,double*out,const Fields*du=nullptr){
   for(int k=0;k<3;k++)out[k+1]-=c.g*4*std::pow(psi,5)*v[0][0]*c.gradK[k];
  }
 }
+#ifdef PUNCTURES_KOKKOS
+struct HiKokkos {
+ puncture::Operator op;
+ Kokkos::View<Cached*,puncture::Exec>geometry;
+ puncture::View base,input,output,averages;
+ HiKokkos(const int*n,const hispid::AxisDerivatives&axis,std::vector<Cached>&g,double b):
+   op(n,4,true),
+   base(Kokkos::view_alloc(Kokkos::WithoutInitializing,"frozen base fields"),40*g.size()),input("input",4*g.size()),output("output",4*g.size()),averages("azimuthal averages",2*n[0]*n[1]){
+  puncture::initialize_spectral(op,n,b,axis.coordinate.data());
+  using H=Kokkos::View<const Cached*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
+  if constexpr(Kokkos::SpaceAccessibility<puncture::Exec,Kokkos::HostSpace>::accessible){
+   // Borrow the context-owned cache on CPU: no second geometry allocation.
+   geometry=decltype(geometry)(g.data(),g.size());
+  }else{
+   geometry=decltype(geometry)(Kokkos::view_alloc(Kokkos::WithoutInitializing,"background geometry"),g.size());
+   puncture::Timed t(puncture::statistics().transfer_seconds);Kokkos::deep_copy(geometry,H(g.data(),g.size()));puncture::statistics().host_to_device_bytes+=g.size()*sizeof(Cached);
+  }
+  op.spectral.inverse=puncture::upload(axis.inverse,"inverse Fourier");op.spectral.inverse_phi=puncture::upload(axis.inverse_phi,"Fourier first");op.spectral.inverse_phi2=puncture::upload(axis.inverse_phi2,"Fourier second");
+  std::vector<double>mapping(15*g.size());
+  for(size_t p=0;p<g.size();p++){
+   int i=p%n[0],j=(p/n[0])%n[1],mode=p/(n[0]*n[1]),m=mode<=n[2]/2?mode:mode-n[2]/2,r=hispid::AxisDerivatives::exponent(m);
+   double a=.5*(axis.coordinate[0][i]+1),B=axis.coordinate[1][j],eta=-2*B/(1+B*B),den=1-eta*eta;
+   double ma=axis.first_map[0][i],mma=axis.second_map[0][i],mb=axis.first_map[1][j],mmb=axis.second_map[1][j],S=hispid::AxisDerivatives::radial(a,r)*hispid::AxisDerivatives::angular(eta,r);
+   double la=.5*(1/(1+a)+r/a),lla=-.25*(1/((1+a)*(1+a))+r/(a*a));
+   double etaB=-2*(1-B*B)/std::pow(1+B*B,2),etaBB=4*B*(3-B*B)/std::pow(1+B*B,3),le=-r*eta/den,lle=-r*(1+eta*eta)/(den*den),lb=le*etaB,llb=lle*etaB*etaB+le*etaBB;
+   double*q=mapping.data()+15*p;
+   q[0]=S;q[1]=S*ma;q[2]=S*la;q[3]=S*mb;q[4]=S*lb;
+   q[5]=S*ma*ma;q[6]=S*(mma+2*la*ma);q[7]=S*(la*la+lla);
+   q[8]=S*mb*mb;q[9]=S*(mmb+2*lb*mb);q[10]=S*(lb*lb+llb);
+   q[11]=S*ma*mb;q[12]=S*la*mb;q[13]=S*lb*ma;q[14]=S*la*lb;
+  }
+  op.spectral.mapping=puncture::upload(mapping,"regular factors");
+ }
+ void fields(const double*v,bool reference){
+  {puncture::Timed t(puncture::statistics().transfer_seconds);Kokkos::deep_copy(input,puncture::Host(v,input.extent(0)));puncture::statistics().host_to_device_bytes+=input.extent(0)*8;}
+  op.physical_fields(input);auto f=op.fields;auto c=geometry;auto out=base;
+  Kokkos::parallel_for("reference correction",puncture::Range(0,geometry.extent(0)),KOKKOS_LAMBDA(int p){for(int v=0;v<4;v++)for(int d=0;d<10;d++)out(40*p+10*v+d)=f(40*p+10*v+d)+(reference&&v==0?c(p).far_correction[d]:0);});
+ }
+ void residual(const double*v,double*r){
+  fields(v,true);auto f=base,out=output;auto c=geometry;
+  Kokkos::parallel_for("HiSpID nonlinear equations",puncture::Range(0,geometry.extent(0)),KOKKOS_LAMBDA(int p){Fields u{};for(int v=0;v<4;v++)for(int d=0;d<10;d++)u[v][d]=f(40*p+10*v+d);double result[4];eval(c(p),u,result);for(int v=0;v<4;v++)out(4*p+v)=result[v]*c(p).weight;});
+  puncture::download(output,r);
+ }
+ void apply(puncture::View in,puncture::View out){
+  op.physical_fields(in);auto f=op.fields,b=base;auto c=geometry;
+  Kokkos::parallel_for("HiSpID Jacobian",puncture::Range(0,geometry.extent(0)),KOKKOS_LAMBDA(int p){Fields u{},du{};for(int v=0;v<4;v++)for(int d=0;d<10;d++){u[v][d]=b(40*p+10*v+d);du[v][d]=f(40*p+10*v+d);}double result[4];eval(c(p),u,result,&du);for(int v=0;v<4;v++)out(4*p+v)=result[v]*c(p).weight;});
+ }
+ void azimuthal_averages(double*out){
+  const int stride=op.spectral.na*op.spectral.nb,np=op.spectral.np;auto c=geometry;auto f=base,avg=averages;
+  Kokkos::parallel_for("modal coefficient averages",puncture::Range(0,stride),KOKKOS_LAMBDA(int row){double mu=0,potential=0;
+   for(int k=0;k<np;k++){int p=row+stride*k;const auto&g=c(p);double A[9];
+    for(int a=0;a<9;a++){A[a]=g.M[a];for(int v=0;v<3;v++)for(int d=0;d<4;d++)A[a]+=g.L[a][v][d]*f(40*p+10*(v+1)+d);}
+    double psi=g.psi+f(40*p);mu+=(g.inv[0]+g.inv[4]+g.inv[8])/(3*np);
+    potential+=g.g*(-g.R/8-5*std::pow(psi,4)*g.K*g.K/12-7*contraction(g,A,A)/(8*std::pow(psi,8)))/np;
+   }avg(2*row)=mu;avg(2*row+1)=potential;
+  });puncture::download(averages,out);
+ }
+ unsigned long long bytes()const{
+  auto n=geometry.extent(0);return n*(sizeof(Cached)+8*(40+40+8+64+15))+8*(op.chain.extent(0)+op.trig.extent(0));
+ }
+};
+#endif
 }
 struct HiSpID_Data {
  HiSpID_Config config,local;
@@ -129,9 +204,25 @@ struct HiSpID_Data {
  int jvp_applications=0,preconditioner_applications=0;
  std::vector<std::array<double,4>>linear_history;
  double last_gmres_relative=0;
+ HiSpID_SolveOptions resolved_options{};
+#ifdef PUNCTURES_KOKKOS
+ std::unique_ptr<HiKokkos>device;
+ std::vector<double>row_weights;
+#endif
 };
 namespace {
+#ifdef PUNCTURES_KOKKOS
+puncture::ExecutionLock execution_lock(const HiSpID_Data*s){
+ puncture::ExecutionLock lock(puncture::execution_mutex(),std::defer_lock);if(s&&s->device)lock.lock();return lock;
+}
+#endif
 int pindex(const HiSpID_Data&s,int i,int j,int k){return i+s.local.n[0]*(j+s.local.n[1]*k);}
+double row_weight(const HiSpID_Data&s,int p){
+#ifdef PUNCTURES_KOKKOS
+ if(s.device)return s.row_weights[p%(s.local.n[0]*s.local.n[1])];
+#endif
+ return s.geometry[p].weight;
+}
 double dot(const std::vector<double>&a,const std::vector<double>&b){double q=0;for(size_t i=0;i<a.size();i++)q+=a[i]*b[i];return q;}
 double norm2v(const std::vector<double>&v){return std::sqrt(dot(v,v));}
 double norminf(const std::vector<double>&v){double q=0;for(double a:v){if(!std::isfinite(a))return INFINITY;q=std::max(q,std::abs(a));}return q;}
@@ -150,6 +241,9 @@ void transform(HiSpID_Data&s,int i,int j,int k,Fields&f,double*x=nullptr){
  if(x){x[0]=xx;x[1]=y;x[2]=z;}
 }
 void fields(HiSpID_Data&s,const double*values,std::vector<Fields>&f,bool include_reference=true){
+#ifdef PUNCTURES_KOKKOS
+ if(s.device){s.device->fields(values,include_reference);f.resize(s.npt);static_assert(sizeof(Fields)==40*sizeof(double));puncture::download(s.device->base,reinterpret_cast<double*>(f.data()));return;}
+#endif
  std::copy(values,values+s.ntotal,s.work->d0);
  s.derivatives.apply(4,s.work);
  f.resize(s.npt);for(int k=0;k<s.local.n[2];k++)for(int j=0;j<s.local.n[1];j++)for(int i=0;i<s.local.n[0];i++){
@@ -158,12 +252,18 @@ void fields(HiSpID_Data&s,const double*values,std::vector<Fields>&f,bool include
  }
 }
 void residual(HiSpID_Data&s,const double*v,double*r){
+#ifdef PUNCTURES_KOKKOS
+ if(s.device){s.device->residual(v,r);return;}
+#endif
  fields(s,v,s.basefields);for(int p=0;p<s.npt;p++){
   eval(s.geometry[p],s.basefields[p],r+4*p);for(int k=0;k<4;k++)r[4*p+k]*=s.geometry[p].weight;
  }
 }
 void jvp(HiSpID_Data&s,const double*v,double*r){
  s.jvp_applications++;
+#ifdef PUNCTURES_KOKKOS
+ if(s.device){Kokkos::deep_copy(s.device->input,puncture::Host(v,s.ntotal));s.device->apply(s.device->input,s.device->output);puncture::download(s.device->output,r);return;}
+#endif
  std::vector<Fields>d;fields(s,v,d,false);for(int p=0;p<s.npt;p++){
   eval(s.geometry[p],s.basefields[p],r+4*p,&d[p]);for(int k=0;k<4;k++)r[4*p+k]*=s.geometry[p].weight;
  }
@@ -311,18 +411,33 @@ AzimuthalAverage azimuthal_average(const HiSpID_Data&s,int i,int j){
  return out;
 }
 Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr,bool share_averages=true){
- Sparse mat;mat.col.resize(s.ntotal);mat.val.resize(s.ntotal);mat.row_scale.resize(s.ntotal);mat.modal=&s.derivatives;
+ bool compact=false;
+#ifdef PUNCTURES_KOKKOS
+ puncture::TimedIf setup_timer(puncture::statistics().setup_seconds,bool(s.device));
+ compact=bool(s.device);if(compact)share_averages=true;
+#endif
+ Sparse mat;if(!compact){mat.col.resize(s.ntotal);mat.val.resize(s.ntotal);}mat.row_scale.resize(s.ntotal);mat.modal=&s.derivatives;
  const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],half=np/2;
  const double ha=Pi/na,hb=Pi/nb;
  std::vector<AzimuthalAverage>averages;
  if(share_averages){
   averages.resize(na*nb);
+#ifdef PUNCTURES_KOKKOS
+  if(compact){static_assert(sizeof(AzimuthalAverage)==2*sizeof(double));s.device->azimuthal_averages(reinterpret_cast<double*>(averages.data()));}else
+#endif
   for(int j=0;j<nb;j++)for(int i=0;i<na;i++)averages[i+na*j]=azimuthal_average(s,i,j);
  }
- for(int k=0;k<np;k++)for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
+ const bool reuse=compact&&vector_cache&&!vector_cache->empty();
+ if(compact){mat.blocks.resize(2*(half+1));if(reuse&&vector_cache->size()!=size_t(half+1))throw std::runtime_error("invalid compact vector factors");
+  for(int mode=0;mode<=half;mode++)for(int v=0;v<2;v++){auto&B=mat.blocks[2*mode+v];
+   if(v&&reuse){B=std::move((*vector_cache)[mode]);continue;}
+   B.na=na;B.nb=nb;B.lu.assign(size_t(na)*na*nb,0);B.transfer.assign(size_t(na)*na*nb,0);B.lower.assign(na*nb,0);B.upper.assign(na*nb,0);B.permutation.resize(na*nb);
+  }
+ }
+ for(int k=0;k<(compact?half+1:np);k++)for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
   const int mode=k<=half?k:k-half,r=hispid::AxisDerivatives::exponent(mode),p=pindex(s,i,j,k);
   const double a=.5*(s.derivatives.coordinate[0][i]+1),t=a*a,B=s.derivatives.coordinate[1][j],eta=-2*B/(1+B*B),s2=1-eta*eta,h2=4*t/((1-t)*(1-t)),D=s.b*s.b*(h2+s2);
-  const double c=-2*(1-t)*std::pow(a*std::sqrt(s2),r),weight=s.geometry[pindex(s,i,j,0)].weight;
+  const double c=-2*(1-t)*std::pow(a*std::sqrt(s2),r),weight=row_weight(s,pindex(s,i,j,0));
   const auto average=share_averages?averages[i+na*j]:azimuthal_average(s,i,j);
   const double mu=average.mu,potential=average.potential;
   const double ctt=t*(1-t)*(1-t),ct=(1-t)*((r+1)*(1-t)-2*t),cee=s2,ce=-2*(r+1)*eta;
@@ -341,13 +456,60 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
    const int row=4*p+v;mat.row_scale[row]=weight*mu*(v?4./3:1.)*c/D;
    for(auto entry:stencil){int col=4*(entry.first+na*nb*k)+v;double value=entry.second;
     if(col==row&&v==0)value+=potential*D/mu;
+    if(compact){
+     if(v>1||(v&&reuse))continue;
+     auto&block=mat.blocks[2*k+v];int ci=entry.first%na,cj=entry.first/na;
+     if(cj==j)block.lu[(j*na+i)*na+ci]+=value;
+     else if(ci==i&&cj==j-1)block.lower[j*na+i]+=value;
+     else if(ci==i&&cj==j+1)block.upper[j*na+i]+=value;
+     else throw std::runtime_error("compact modal stencil is not block tridiagonal");continue;
+    }
     if(value!=0||col==row){mat.col[row].push_back(col);mat.val[row].push_back(value);}
    }
   }
  }
- mat.factor(vector_cache);return mat;
+ if(compact){
+  for(int k=half+1;k<np;k++)for(int row=0;row<4*na*nb;row++)mat.row_scale[row+4*na*nb*k]=mat.row_scale[row+4*na*nb*(k-half)];
+#ifdef PUNCTURES_KOKKOS
+  std::mutex lock;std::string error;
+  Kokkos::parallel_for("host modal factorizations",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,2*(half+1)),[&](int group){if((group%2)&&reuse)return;try{mat.blocks[group].factor();}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
+  Kokkos::DefaultHostExecutionSpace().fence();if(!error.empty())throw std::runtime_error(error);
+#endif
+  mat.scalar_factorizations=half+1;mat.vector_factorizations=reuse?0:half+1;
+  if(vector_cache)vector_cache->clear();
+ }else mat.factor(vector_cache);return mat;
 }
 struct HiLinearContext { HiSpID_Data&data;const Sparse&preconditioner; };
+#ifdef PUNCTURES_KOKKOS
+puncture::Modal device_preconditioner(const Sparse&M){
+ const int a=M.modal->n[0],b=M.modal->n[1],p=M.modal->n[2],groups=M.blocks.size();
+ puncture::Modal d(a,b,p,4,groups,true,true);
+ std::vector<int>rows(4*p);
+ if constexpr(Kokkos::SpaceAccessibility<puncture::Exec,Kokkos::HostSpace>::accessible){
+  std::vector<puncture::ModalPointers>ptrs;for(const auto&B:M.blocks)ptrs.push_back({B.lu.data(),B.transfer.data(),B.lower.data(),B.permutation.data()});
+  d.native_blocks=decltype(d.native_blocks)("borrowed modal factors",groups);
+  using PH=Kokkos::View<const puncture::ModalPointers*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
+  Kokkos::deep_copy(d.native_blocks,PH(ptrs.data(),groups));
+  d.row_scale=puncture::View(const_cast<double*>(M.row_scale.data()),M.row_scale.size());d.forward=puncture::View(const_cast<double*>(M.modal->forward.data()),M.modal->forward.size());
+ }else{
+  size_t matrix=size_t(a)*a*b,lower=size_t(a)*b;
+  d.lu=puncture::View(Kokkos::view_alloc(Kokkos::WithoutInitializing,"modal LU"),groups*matrix);d.transfer=puncture::View(Kokkos::view_alloc(Kokkos::WithoutInitializing,"modal transfer"),groups*matrix);d.lower=puncture::View(Kokkos::view_alloc(Kokkos::WithoutInitializing,"modal lower"),groups*lower);
+  std::vector<int>permutation;for(int g=0;g<groups;g++){const auto&B=M.blocks[g];
+   {puncture::Timed t(puncture::statistics().transfer_seconds);
+    Kokkos::deep_copy(Kokkos::subview(d.lu,std::make_pair(g*matrix,(g+1)*matrix)),puncture::Host(B.lu.data(),matrix));
+    Kokkos::deep_copy(Kokkos::subview(d.transfer,std::make_pair(g*matrix,(g+1)*matrix)),puncture::Host(B.transfer.data(),matrix));
+    Kokkos::deep_copy(Kokkos::subview(d.lower,std::make_pair(g*lower,(g+1)*lower)),puncture::Host(B.lower.data(),lower));puncture::statistics().host_to_device_bytes+=(2*matrix+lower)*8;
+   }for(auto x:B.permutation)permutation.push_back(int(x));
+  }
+  d.permutation=puncture::Indices("modal pivots",permutation.size());using H=Kokkos::View<const int*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;Kokkos::deep_copy(d.permutation,H(permutation.data(),permutation.size()));
+  d.row_scale=puncture::upload(M.row_scale,"modal scaling");d.forward=puncture::upload(M.modal->forward,"modal Fourier");
+ }
+ for(int k=0;k<p;k++)for(int v=0;v<4;v++)rows[4*k+v]=2*(k<=p/2?k:k-p/2)+(v?1:0);
+ d.block=puncture::Indices("modal groups",rows.size());
+ using H=Kokkos::View<const int*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
+ Kokkos::deep_copy(d.block,H(rows.data(),rows.size()));d.prepare();return d;
+}
+#endif
 int hi_linear_action(void*context,const double*input,double*output){
  auto&c=*static_cast<HiLinearContext*>(context);
  try{jvp(c.data,input,output);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}
@@ -360,8 +522,18 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
                   std::vector<double>&x,double rtol,int method,bool eager=false){
  x.assign(s.ntotal,0);HiLinearContext context{s,M};
  PK_Options options{method,s.local.max_krylov,s.local.krylov_restart,1,0,int(eager),rtol*norm2v(rhs),nullptr,nullptr};
- PK_Result result{};int status=PK_solve(s.ntotal,rhs.data(),x.data(),&options,
-                                     hi_linear_action,hi_linear_precondition,&context,nullptr,nullptr,&result);
+ PK_Result result{};int status;
+#ifdef PUNCTURES_KOKKOS
+ if(s.device){
+  auto&Mstats=puncture::statistics();
+  double begin=puncture::seconds();auto d=device_preconditioner(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
+  auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
+  Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)));
+  status=puncture::solve(b,solution,options,[&](auto in,auto out){s.device->apply(in,out);},[&](auto in,auto out){d.apply(in,out);},result);
+  puncture::download(solution,x.data());s.jvp_applications+=result.operator_calls;s.preconditioner_applications+=result.preconditioner_calls;
+ }else
+#endif
+ status=PK_solve(s.ntotal,rhs.data(),x.data(),&options,hi_linear_action,hi_linear_precondition,&context,nullptr,nullptr,&result);
  s.diag.krylov_iterations+=result.iterations;s.last_gmres_relative=result.relative_residual;
  if(status!=PK_SUCCESS&&!(status==PK_CALLBACK&&!hispid::last_error.empty()))
    hispid::last_error=PK_status_string(status);
@@ -376,7 +548,7 @@ void update_diag(HiSpID_Data&s,const std::vector<double>&res){
  for(int p=0;p<s.npt;p++)for(int k=0;k<4;k++){
   if(!std::isfinite(res[4*p+k])){s.diag.scaled_linf[k]=s.diag.unscaled_linf[k]=INFINITY;continue;}
   s.diag.scaled_linf[k]=std::max(s.diag.scaled_linf[k],std::abs(res[4*p+k]));
-  s.diag.unscaled_linf[k]=std::max(s.diag.unscaled_linf[k],std::abs(res[4*p+k]/s.geometry[p].weight));
+  s.diag.unscaled_linf[k]=std::max(s.diag.unscaled_linf[k],std::abs(res[4*p+k]/row_weight(s,p)));
  }
 }
 void to_local(const HiSpID_Data&s,const double*x,double*y){
@@ -503,9 +675,34 @@ const char *HiSpID_unknown_parameterization(){
 int HiSpID_collocation_maps(double*out){
  if(!out)return -1;out[0]=hispid::AxisDerivatives::radial_stretch;out[1]=hispid::AxisDerivatives::angular_stretch;return 0;
 }
-static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only){
+static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int execution=0){
+#ifdef PUNCTURES_KOKKOS
+ puncture::ExecutionLock execution_guard(puncture::execution_mutex(),std::defer_lock);if(execution)execution_guard.lock();
+#endif
  hispid::last_error.clear();
+ if(execution<0||execution>1){hispid::last_error="invalid execution backend";return nullptr;}
+#ifndef PUNCTURES_KOKKOS
+ if(execution){hispid::last_error="library was built without Kokkos";return nullptr;}
+#endif
  if(!c||!hispid::valid(*c,sampler_only)){hispid::last_error="invalid HiSpID configuration";return nullptr;}
+#ifdef PUNCTURES_KOKKOS
+ if(execution&&!sampler_only){
+  try{puncture::initialize();}catch(const std::exception&e){hispid::last_error=e.what();return nullptr;}
+  const long double points=(long double)c->n[0]*c->n[1]*c->n[2],radial=(long double)c->n[0]*c->n[0]*c->n[1]*2*(c->n[2]/2+1);
+  const long double cpu=points*(3192+4*(5*12+48)+32*(2*c->krylov_restart+30)+16.L/c->n[2])+radial*16+2.L*(c->n[2]/2+1)*c->n[1]*24*c->n[0];
+  const long double device=points*(sizeof(Cached)+8.L*(40+40+8+64+15+8+4*(2*c->krylov_restart+5)))+radial*24;
+  // Retained CPU data, device data (or extra host copies for OpenMP), lazy
+  // maximum Krylov basis, packed factor mirrors and LU/inverse overlap.
+  long double small=0;for(int axis=0;axis<3;axis++)small+=16.L*c->n[axis]*c->n[axis];small+=32.L*c->n[2]*c->n[2]+160.L*c->n[0]*c->n[1];
+  if(cpu+device+radial*16+small>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="Kokkos aggregate allocation bound exceeds memory_limit_mib";return nullptr;}
+#ifdef KOKKOS_ENABLE_CUDA
+  if constexpr(std::is_same_v<puncture::Exec,Kokkos::Cuda>){
+   auto free=Puncture_execution_device_free_bytes();
+   if(!free||device+small+512.L*1024*1024>free){hispid::last_error="Kokkos device allocation bound exceeds available GPU memory or query failed";return nullptr;}
+  }
+#endif
+ }
+#endif
  HiSpID_Data*s=nullptr;try{
   s=new HiSpID_Data;s->config=s->local=*c;s->sampler_only=sampler_only;
   double sep[3],len=0;for(int i=0;i<3;i++){s->origin[i]=.5*(c->hole[0].center[i]+c->hole[1].center[i]);sep[i]=c->hole[0].center[i]-c->hole[1].center[i];len+=sep[i]*sep[i];}
@@ -525,29 +722,47 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only){
   s->npt=c->n[0]*c->n[1]*c->n[2];s->ntotal=4*s->npt;s->values.resize(s->ntotal);
   s->diag.npoints=s->npt;
   if(sampler_only){s->derivatives.initialize(c->n,true);return s;}
-  s->geometry.resize(s->npt);allocate_derivs(&s->work,s->ntotal);
+  s->geometry.resize(s->npt);if(!execution)allocate_derivs(&s->work,s->ntotal);
   s->derivatives.initialize(c->n);
-  for(int k=0;k<c->n[2];k++)for(int j=0;j<c->n[1];j++)for(int i=0;i<c->n[0];i++){
+  auto build_geometry=[&](int p){
+   const int i=p%c->n[0],j=(p/c->n[0])%c->n[1],k=p/(c->n[0]*c->n[1]);
    Fields f{};double x[3];transform(*s,i,j,k,f,x);hispid::Background bg;hispid::background(s->local,x,bg);
-   int p=pindex(*s,i,j,k);cache(bg,s->geometry[p]);
+   cache(bg,s->geometry[p]);
    double sn=std::sin(Pih*(2*i+1)/c->n[0])*std::sin(Pih*(2*j+1)/c->n[1]);s->geometry[p].weight=std::pow(sn,HISPID_ROW_POWER);
    if constexpr(HISPID_INFINITY_EQUILIBRATION){
     const double a=.5*(s->derivatives.coordinate[0][i]+1);
     s->geometry[p].weight/=std::pow(1-a*a,6);
    }
-  }
+  };
+#ifdef PUNCTURES_KOKKOS
+  if(execution){
+   puncture::initialize();std::mutex lock;std::string error;
+   Kokkos::parallel_for("host seed geometry",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,s->npt),[&](int p){try{build_geometry(p);}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
+   Kokkos::DefaultHostExecutionSpace().fence();if(!error.empty())throw std::runtime_error(error);
+   s->device=std::make_unique<HiKokkos>(c->n,s->derivatives,s->geometry,s->b);
+   s->row_weights.resize(c->n[0]*c->n[1]);for(size_t p=0;p<s->row_weights.size();p++)s->row_weights[p]=s->geometry[p].weight;
+   if constexpr(!Kokkos::SpaceAccessibility<puncture::Exec,Kokkos::HostSpace>::accessible){s->geometry.clear();s->geometry.shrink_to_fit();}
+  }else
+#endif
+  for(int p=0;p<s->npt;p++)build_geometry(p);
   s->diag.npoints=s->npt;
  }catch(const std::exception&e){hispid::last_error=e.what();HiSpID_destroy(s);return nullptr;}return s;
 }
 HiSpID_Data *HiSpID_create(const HiSpID_Config*c){return create_context(c,false);}
+HiSpID_Data *HiSpID_create_with_execution(const HiSpID_Config*c,int execution){return create_context(c,false,execution);}
 HiSpID_Data *HiSpID_create_sampler(const HiSpID_Config*c){return create_context(c,true);}
 static bool sampling_context(HiSpID_Data*s){
  if(s&&s->sampler_only){hispid::last_error="sampling-only context cannot evaluate or solve collocation equations";return true;}
  return false;
 }
 static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES){
+#ifdef PUNCTURES_KOKKOS
+ auto execution_guard=execution_lock(s);
+#endif
+
  if(sampling_context(s))return -1;
  if(!s)return -1;hispid::last_error.clear();auto start=std::chrono::steady_clock::now();
+ s->resolved_options={int(sizeof(HiSpID_SolveOptions)),method,fixed_forcing};
  s->diag={};s->diag.npoints=s->npt;s->coefficients_valid=false;
  s->jvp_applications=s->preconditioner_applications=0;s->linear_history.clear();
  std::vector<double>r(s->ntotal),rhs(s->ntotal),step,trial(s->ntotal),rt(s->ntotal);
@@ -576,7 +791,8 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES)
    if(!accepted){hispid::last_error="Newton line search failed";residual(*s,s->values.data(),r.data());break;}
   }
  }catch(const std::exception&e){hispid::last_error=e.what();}
- residual(*s,s->values.data(),r.data());update_diag(*s,r);
+ try{residual(*s,s->values.data(),r.data());update_diag(*s,r);}
+ catch(const std::exception&e){hispid::last_error=e.what();s->diag.converged=0;}
  s->diag.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
  if(!s->diag.converged&&hispid::last_error.empty())hispid::last_error="Newton iteration limit";
  return s->diag.converged?0:1;
@@ -595,6 +811,10 @@ int HiSpID_solve_with_options(HiSpID_Data*s,const HiSpID_SolveOptions*o){
 int HiSpID_work_statistics(const HiSpID_Data*s,int*out){
  if(!s||!out)return -1;out[0]=s->jvp_applications;out[1]=s->preconditioner_applications;return 0;
 }
+int HiSpID_resolved_solve_options(const HiSpID_Data*s,HiSpID_SolveOptions*out){
+ if(!s||!out||out->struct_size!=sizeof(*out)||s->resolved_options.struct_size!=sizeof(*out))return -1;
+ *out=s->resolved_options;return 0;
+}
 int HiSpID_linear_history(const HiSpID_Data*s,int capacity,double*out){
  if(!s||capacity<0)return -1;int n=s->linear_history.size();
  if(!out)return capacity==0?n:-1;
@@ -606,22 +826,38 @@ int HiSpID_diagnostics(const HiSpID_Data*s,HiSpID_Diagnostics*d){if(!s||!d)retur
 int HiSpID_get_unknowns(const HiSpID_Data*s,double*v,int n){if(!s||!v||n!=s->ntotal)return -1;std::copy(s->values.begin(),s->values.end(),v);return 0;}
 int HiSpID_set_unknowns(HiSpID_Data*s,const double*v,int n){if(!s||!v||n!=s->ntotal)return -1;for(int i=0;i<n;i++)if(!std::isfinite(v[i]))return -1;std::copy(v,v+n,s->values.begin());s->coefficients_valid=false;s->diag.converged=0;return 0;}
 int HiSpID_residual(HiSpID_Data*s,const double*v,double*r){
+#ifdef PUNCTURES_KOKKOS
+ auto execution_guard=execution_lock(s);
+#endif
+
  if(sampling_context(s))return -1;
  if(!s||!v||!r)return -1;
  try{residual(*s,v,r);}catch(const std::exception&e){hispid::last_error=e.what();return -2;}return 0;
 }
 int HiSpID_jvp(HiSpID_Data*s,const double*v,const double*d,double*r){
+#ifdef PUNCTURES_KOKKOS
+ auto execution_guard=execution_lock(s);
+#endif
+
  if(sampling_context(s))return -1;
  if(!s||!v||!d||!r)return -1;
  try{fields(*s,v,s->basefields);jvp(*s,d,r);}catch(const std::exception&e){hispid::last_error=e.what();return -2;}return 0;
 }
 int HiSpID_equation_samples(HiSpID_Data*s,double*xyz,double*g,double*psi,double*HM){
+#ifdef PUNCTURES_KOKKOS
+ auto execution_guard=execution_lock(s);
+#endif
+
  if(sampling_context(s))return -1;
  if(!s||!xyz||!g||!psi||!HM)return -1;
  try{
   fields(*s,s->values.data(),s->basefields);
+  std::vector<Cached>mirror;const Cached*geometry=s->geometry.data();
+#ifdef PUNCTURES_KOKKOS
+  if(s->device&&s->geometry.empty()){mirror.resize(s->npt);using H=Kokkos::View<Cached*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;Kokkos::deep_copy(H(mirror.data(),mirror.size()),s->device->geometry);geometry=mirror.data();}
+#endif
   for(int k=0;k<s->local.n[2];k++)for(int j=0;j<s->local.n[1];j++)for(int i=0;i<s->local.n[0];i++){
-   const int p=pindex(*s,i,j,k);const Cached&c=s->geometry[p];
+   const int p=pindex(*s,i,j,k);const Cached&c=geometry[p];
    psi[p]=c.psi+s->basefields[p][0][0];g[p]=c.g;
    eval(c,s->basefields[p],HM+4*p);
    HM[4*p]*=-8/std::pow(psi[p],5);
@@ -708,5 +944,9 @@ int HiSpID_charges(HiSpID_Data*s,const double*center,double radius,int nt,int np
  }return 0;
  }catch(const std::exception&e){hispid::last_error=e.what();return -2;}
 }
-void HiSpID_destroy(HiSpID_Data*s){if(!s)return;if(s->work)free_derivs(s->work);delete s;}
+void HiSpID_destroy(HiSpID_Data*s){
+#ifdef PUNCTURES_KOKKOS
+ auto execution_guard=execution_lock(s);
+#endif
+if(!s)return;if(s->work)free_derivs(s->work);delete s;}
 }

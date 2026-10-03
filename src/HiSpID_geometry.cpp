@@ -294,7 +294,7 @@ bool valid(const HiSpID_Config&c,bool sampler_only){
  for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>256||(k==2&&c.n[k]%2))return false;
  /* Bound the compact cache, four-field modal FD stencil and Krylov basis before
   * allocation. Larger grids require an explicit per-context budget. */
- if(c.memory_limit_mib<16||c.memory_limit_mib>8192)return false;
+ if(c.memory_limit_mib<16||c.memory_limit_mib>65536)return false;
  const double npt=(double)c.n[0]*c.n[1]*c.n[2];
  // Sampler: values, coefficients and SpecCoef's two padded scalar scratch
  // arrays/pointer tables, with headroom for the smallest allowed grids.

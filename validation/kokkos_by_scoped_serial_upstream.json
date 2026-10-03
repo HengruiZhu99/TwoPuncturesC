@@ -1,0 +1,1840 @@
+{
+  "passed": true,
+  "records": {
+    "moderate_small": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.6511426850122876,
+          0.4387898329748014
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "49d83f0ed34f477bd19f2cf8750b143a56efde1e079ad1818b83f68c77533966",
+        "residual_linf": 2.2595908385004197e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 4,
+          "krylov_iterations": 12,
+          "jvp_applications": 32,
+          "preconditioner_applications": 24,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 4,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 4.369292614731085e-13,
+          "last_true_linear_residual": 2.343306006331442e-14,
+          "last_relative_linear_residual": 5.363124452756901e-05
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 2.5178592385463664e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 6.003024883813367e-16
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 1.361790476958176e-13
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 4.267363718679624e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 5.320407067841302e-13
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 1.6626127897763295e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 8.347379543621633e-12
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 9.728013033462942e-12
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 6.931893936654303e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 1.5319328328389183e-10
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 3.9981553188873387e-10
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 3.1108664444554276e-16
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 2.722349870510491e-15
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 9.485557875328863e-15
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 6.080486402336054e-17
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 6.324521386384403e-14
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 1.3864783872688556e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 1.159848304294449e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 3.663307912119753e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 1.6606798316303854e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 1.1709531686067968e-16
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 3.374111510174907e-16
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 2.5178592385463664e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 3.2110643251465926e-16
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 2.0171903398225599e-16
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_bicgstab.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_bicgstab.log",
+        "log_sha256": "d8a7d4b268e26203b35073d4f1c34728b7b4caa3498683419c9611aed04e5ef9",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab",
+          "--execution",
+          "kokkos"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.6511426850122705,
+          0.43878983297479746
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "15b9d0206e37231101872b6d5310c69ab492e68e17bba1434d7ce27ec199dd1f",
+        "residual_linf": 9.005778116535636e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 4,
+          "krylov_iterations": 20,
+          "jvp_applications": 28,
+          "preconditioner_applications": 20,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 4,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 1.6747019073313038e-12,
+          "last_true_linear_residual": 4.74099713956783e-13,
+          "last_relative_linear_residual": 0.0002830949865652673
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 9.135232724891797e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 2.9524478872979124e-14
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 2.709998498763891e-12
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 4.555428440549099e-12
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 5.908301984977862e-12
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 9.025490170977824e-11
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 2.1206320834832638e-10
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 8.920912142648468e-11
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 4.419162797208883e-10
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 4.96379190271243e-10
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 2.7422882793705803e-09
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 1.546357792756238e-14
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 1.044155141484489e-13
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 1.951323645595935e-13
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 1.5891907086170442e-15
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 2.8779562135396855e-12
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 1.1749831746722603e-11
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 1.1159323863039528e-13
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 1.0866606124665695e-11
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 1.1350492053866199e-13
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 2.480870500842764e-15
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 5.415904812468868e-14
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 9.135232724891797e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 2.2671317318224403e-14
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 1.0153191377106885e-14
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_gmres.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_gmres.log",
+        "log_sha256": "0ac17c95dc72803232d14dd9cd5777cb7e6d7b0d1922a962e11c7296e0f22987",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/moderate_small_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres",
+          "--execution",
+          "kokkos"
+        ]
+      }
+    },
+    "target_mass": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.5434050862104483,
+          0.358775916858214
+        ],
+        "internal_end_adm_masses": [
+          0.6000000000110339,
+          0.40000000000310654
+        ],
+        "target_mass_errors": [
+          1.1033951530237118e-11,
+          3.1065150452036505e-12
+        ],
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "e62a66c4cb001405802b92df85f921a7be4562103e3781e50535aad6fef815a2",
+        "residual_linf": 3.444548626760845e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 16,
+          "krylov_iterations": 48,
+          "jvp_applications": 128,
+          "preconditioner_applications": 96,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 16,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 1.5783628189373194e-13,
+          "last_true_linear_residual": 3.708597384439486e-14,
+          "last_relative_linear_residual": 0.00023496482177250044
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722,
+          "target_M_plus": 0.6,
+          "target_M_minus": 0.4,
+          "adm_tol": 1e-10,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 0,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 4.067845535123521e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 4.271618301097397e-14
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 2.9344086945861647e-13
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 1.2265484132621096e-12
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 1.2488241233020128e-12
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 4.927301605180741e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 2.7296765106887027e-11
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 1.803965590718199e-11
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 4.51894264455847e-10
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 1.1252533501247104e-10
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 7.096320335544396e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 2.3394028866063742e-14
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 4.047963793721749e-14
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 5.440044078666181e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 1.6152590995916585e-15
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 6.231605259671116e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 2.5250603135669835e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 2.0672419710950947e-14
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 6.467800082254511e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 1.883539225780656e-14
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 3.126311884195467e-15
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 3.318304958181482e-14
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 4.067845535123521e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 2.315924689373918e-14
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 5.992048281916244e-14,
+          "internal_end_adm_masses": 4.87804241441338e-14
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/target_mass_bicgstab.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/target_mass_bicgstab.log",
+        "log_sha256": "05ff9fc57454774485dd62236791fb2d6dca068fef4fb6db664e0e8cbaa814c2",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/target_mass_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/target_mass_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/target_mass_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab",
+          "--execution",
+          "kokkos",
+          "--target-mass"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.5434050862103746,
+          0.35877591685820087
+        ],
+        "internal_end_adm_masses": [
+          0.6000000000109714,
+          0.4000000000030936
+        ],
+        "target_mass_errors": [
+          1.0971445973950722e-11,
+          3.0935809469667674e-12
+        ],
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "01a8587fe80af59dec82709b0de54ef795244c9a2094d77017e73c40228d8203",
+        "residual_linf": 3.882661200768794e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 16,
+          "krylov_iterations": 80,
+          "jvp_applications": 112,
+          "preconditioner_applications": 80,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 16,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 1.5704097060604141e-13,
+          "last_true_linear_residual": 6.360518636963293e-14,
+          "last_relative_linear_residual": 0.0004050228811256852
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722,
+          "target_M_plus": 0.6,
+          "target_M_minus": 0.4,
+          "adm_tol": 1e-10,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 0,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 3.4552932223872853e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 9.0438621048249e-15
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 4.876419521424402e-13
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 1.348367211168092e-12
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 1.46170843527166e-12
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 6.1758686977003414e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 1.9397820712435757e-11
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 1.7647327070969172e-11
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 8.174881843871904e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 7.017294355532778e-11
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 8.274492325558837e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 4.958872431663063e-15
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 1.4883403064905268e-14
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 2.878490651774544e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 3.468229598305499e-16
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 4.2808271487249645e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 9.794756985377385e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 9.047159090814528e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 1.855363384188431e-12
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 1.478165117598563e-14
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 6.935730974342811e-16
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 7.18629873162403e-15
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 3.4552932223872853e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 5.100863875337291e-15
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 1.2228669963094375e-14,
+          "internal_end_adm_masses": 9.714451465403601e-15
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/target_mass_gmres.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/target_mass_gmres.log",
+        "log_sha256": "b78c078803cc993d846a8911f15c6b2a4864a0fca7f9b715da99e1a053454e57",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/target_mass_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/target_mass_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/target_mass_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres",
+          "--execution",
+          "kokkos",
+          "--target-mass"
+        ]
+      }
+    },
+    "bl": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.62,
+          0.42000000000000004
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "0eb016bba18a100d4038b9a04ff886b98f0cf7fa0a35e6aa89b598456a5244b0",
+        "residual_linf": 0.0,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 1,
+          "krylov_iterations": 0,
+          "jvp_applications": 2,
+          "preconditioner_applications": 0,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 1,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 0.0,
+          "last_true_linear_residual": 0.0,
+          "last_relative_linear_residual": 0.0
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.0,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.0,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 0.0
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 0.0
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/bl_bicgstab.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/bl_bicgstab.log",
+        "log_sha256": "b0a242d68ce7d7ffa44e2fe0db51e4ebab22aaa31ac35758a506ee62a294ff85",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/bl_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/bl_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/bl_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab",
+          "--execution",
+          "kokkos"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.6,
+          0.4
+        ],
+        "internal_end_adm_masses": [
+          0.62,
+          0.42000000000000004
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "0eb016bba18a100d4038b9a04ff886b98f0cf7fa0a35e6aa89b598456a5244b0",
+        "residual_linf": 0.0,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 1,
+          "krylov_iterations": 0,
+          "jvp_applications": 0,
+          "preconditioner_applications": 0,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 1,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 0.0,
+          "last_true_linear_residual": 0.0,
+          "last_relative_linear_residual": 0.0
+        },
+        "real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.0,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.0,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 0.0
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 0.0
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/bl_gmres.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/bl_gmres.log",
+        "log_sha256": "fd00cd03d20f3acb028e813c64fbf8018f8708a40f2377a86fea82fad9b04e79",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/bl_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/bl_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/bl_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres",
+          "--execution",
+          "kokkos"
+        ]
+      }
+    },
+    "spin95": {
+      "bicgstab": {
+        "final_bare_masses": [
+          0.5,
+          0.5
+        ],
+        "internal_end_adm_masses": [
+          0.6216846069517402,
+          0.6216846069517401
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "01a5c51de1e1792b1bc1a5289beff186761040fd219837217802e813f515cd76",
+        "residual_linf": 2.2158050792374588e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 5,
+          "krylov_iterations": 15,
+          "jvp_applications": 38,
+          "preconditioner_applications": 28,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 5,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 5.182349235665819e-13,
+          "last_true_linear_residual": 9.658606053610394e-14,
+          "last_relative_linear_residual": 0.0001863750514368697
+        },
+        "real_parameters": {
+          "par_b": 6.0,
+          "par_m_plus": 0.5,
+          "par_m_minus": 0.5,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.2375,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.2375,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 1,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 2.2937103146298305e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 1.0350132036424699e-14
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 1.4230978965206389e-12
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 6.979482135241399e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 1.0242985499405504e-12
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 4.300020685205794e-12
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 1.1462714799945948e-10
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 8.871068075469129e-11
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 2.557078850982479e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 5.146976401902211e-09
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 4.3932882501748877e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 6.721798875274332e-15
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 1.197378790886814e-13
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 8.32096457959975e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 4.650965324375743e-16
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 9.828816201275868e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 2.7132221097461938e-12
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 1.909158412138475e-14
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 1.1406726744275221e-12
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 4.039870473764867e-14
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 1.5085292632258507e-15
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 1.4114627222792015e-14
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 2.2937103146298305e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 2.558747790528534e-15
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 3.354593610461012e-15
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/spin95_bicgstab.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/spin95_bicgstab.log",
+        "log_sha256": "30afb396ef2a7c7651defb375ad982c24d94478d47cbef0c01d752e70294c874",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/spin95_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/spin95_bicgstab.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/spin95_bicgstab.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "bicgstab",
+          "--execution",
+          "kokkos"
+        ]
+      },
+      "gmres": {
+        "final_bare_masses": [
+          0.5,
+          0.5
+        ],
+        "internal_end_adm_masses": [
+          0.6216846069517352,
+          0.6216846069517351
+        ],
+        "target_mass_errors": null,
+        "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+        "state_sha256": "5b8a45874ceac3ef59670a643c97b44933d93fa85f4d578128d86bbec6b298be",
+        "residual_linf": 2.5681448824968787e-14,
+        "converged": true,
+        "work_statistics": {
+          "newton_iterations": 5,
+          "krylov_iterations": 29,
+          "jvp_applications": 39,
+          "preconditioner_applications": 29,
+          "relaxation_sweeps": 0,
+          "modal_factorizations": 5,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 2.084645288556111e-14,
+          "last_true_linear_residual": 5.419789794678192e-15,
+          "last_relative_linear_residual": 0.00025998618683143474
+        },
+        "real_parameters": {
+          "par_b": 6.0,
+          "par_m_plus": 0.5,
+          "par_m_minus": 0.5,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.0,
+          "par_S_plus1": 0.0,
+          "par_P_plus2": 0.0,
+          "par_S_plus2": 0.0,
+          "par_P_plus3": 0.0,
+          "par_S_plus3": 0.2375,
+          "par_P_minus1": 0.0,
+          "par_S_minus1": 0.0,
+          "par_P_minus2": 0.0,
+          "par_S_minus2": 0.0,
+          "par_P_minus3": 0.0,
+          "par_S_minus3": 0.2375,
+          "TP_linear_rtol": 0.001
+        },
+        "integer_parameters": {
+          "npoints_A": 12,
+          "npoints_B": 18,
+          "npoints_phi": 8,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_execution_backend": 1,
+          "TP_linear_relative": 1,
+          "TP_execution_memory_limit_mib": 8192,
+          "TP_preconditioner": 1,
+          "TP_krylov_solver": 0,
+          "TP_krylov_maxit": 2000,
+          "TP_krylov_restart": 64
+        },
+        "loaded_image_verified": true,
+        "passed": true,
+        "arrays": {
+          "F": {
+            "finite": true,
+            "scaled_difference": 2.3992236671066726e-14
+          },
+          "u_d0": {
+            "finite": true,
+            "scaled_difference": 1.2736210581226372e-15
+          },
+          "u_d1": {
+            "finite": true,
+            "scaled_difference": 4.5484188825236224e-14
+          },
+          "u_d2": {
+            "finite": true,
+            "scaled_difference": 8.580454997075963e-13
+          },
+          "u_d3": {
+            "finite": true,
+            "scaled_difference": 1.0037086892981653e-12
+          },
+          "u_d11": {
+            "finite": true,
+            "scaled_difference": 3.6832323671854307e-13
+          },
+          "u_d12": {
+            "finite": true,
+            "scaled_difference": 1.1464377611369985e-10
+          },
+          "u_d13": {
+            "finite": true,
+            "scaled_difference": 8.863779802257341e-11
+          },
+          "u_d22": {
+            "finite": true,
+            "scaled_difference": 3.0579504160536154e-11
+          },
+          "u_d23": {
+            "finite": true,
+            "scaled_difference": 4.967986625017868e-09
+          },
+          "u_d33": {
+            "finite": true,
+            "scaled_difference": 4.0222608448051844e-11
+          },
+          "v_d0": {
+            "finite": true,
+            "scaled_difference": 7.082816206171419e-15
+          },
+          "v_d1": {
+            "finite": true,
+            "scaled_difference": 8.681686258568849e-14
+          },
+          "v_d2": {
+            "finite": true,
+            "scaled_difference": 3.075696827910525e-14
+          },
+          "v_d3": {
+            "finite": true,
+            "scaled_difference": 1.596163856682606e-16
+          },
+          "v_d11": {
+            "finite": true,
+            "scaled_difference": 7.067204980980454e-13
+          },
+          "v_d12": {
+            "finite": true,
+            "scaled_difference": 5.748432831033125e-13
+          },
+          "v_d13": {
+            "finite": true,
+            "scaled_difference": 2.9699746473822428e-15
+          },
+          "v_d22": {
+            "finite": true,
+            "scaled_difference": 4.465876559910909e-13
+          },
+          "v_d23": {
+            "finite": true,
+            "scaled_difference": 4.338479463660048e-15
+          },
+          "v_d33": {
+            "finite": true,
+            "scaled_difference": 4.2098456089442766e-16
+          },
+          "cf_v_d0": {
+            "finite": true,
+            "scaled_difference": 6.490005443277357e-15
+          },
+          "cf_v_d1": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d2": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d3": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d11": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d12": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d13": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d22": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d23": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "cf_v_d33": {
+            "finite": true,
+            "scaled_difference": 0.0
+          },
+          "recomputed_F": {
+            "finite": true,
+            "scaled_difference": 2.3992236671066726e-14
+          },
+          "spectral_v_samples": {
+            "finite": true,
+            "scaled_difference": 2.5492200702685596e-16
+          }
+        },
+        "charges_scaled_difference": {
+          "final_bare_masses": 0.0,
+          "internal_end_adm_masses": 2.7384437636416423e-16
+        },
+        "state": "validation/raw/kokkos_by_scoped_serial_upstream/spin95_gmres.npz",
+        "log": "validation/raw/kokkos_by_scoped_serial_upstream/spin95_gmres.log",
+        "log_sha256": "c41bd6725d69ee5026929bffa8c4f1b5837a20bf75e97da9dc2eb15258d6b034",
+        "command": [
+          "/Users/hz0693/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/compare_by_upstream.py",
+          "--library",
+          "build-kokkos-serial/libTwoPunctures.dylib",
+          "--parameters",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/spin95_input.json",
+          "--output",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/spin95_gmres.json",
+          "--state",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/kokkos_by_scoped_serial_upstream/spin95_gmres.npz",
+          "--by-preconditioner",
+          "1",
+          "--krylov",
+          "gmres",
+          "--execution",
+          "kokkos"
+        ]
+      }
+    }
+  },
+  "execution": "kokkos",
+  "library_sha256": "aaf3a7367be1ffae80b1a78a77cd18780b8ff15a03068a7f948d49d16d78e7f7",
+  "script_sha256": "72530501d3d5021dd42aa356218a99dddfd27ffb4fff5ab0740261f9c2d473bc",
+  "original_commit": "ec563aeb672235b9443c330f9cde65f7246e8ea4",
+  "note": "Modal M with both methods; opt-in Kokkos explicitly uses true RHS-relative inner tolerance. Native outer tolerance retained; not physical binary acceptance."
+}

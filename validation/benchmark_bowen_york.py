@@ -23,6 +23,7 @@ SAMPLE_POINTS = np.array([[0.,2.,1.], [3.2,.1,.15], [-3.2,.1,.15],
 
 from bowen_york import Derivs,SolverStats,InitialData
 from native_loader import verify_image
+from execution import select as select_execution, name as execution_name, concurrency, device_description, statistics as execution_statistics, reset_statistics
 
 
 def save_by_state(lib, pointer, grid, filename, include_physical=True):
@@ -113,14 +114,21 @@ def worker(args):
     if args.mode == 'hispid':
         backend = Backend(str(Path(args.hispid_library).resolve(strict=True)))
         config = configuration(backend, args.case, args.grid, args.tolerance)
+        config.memory_limit_mib=args.memory_limit_mib
+        initialized=time.monotonic();select_execution(backend.lib,args.execution,args.threads);initialization_seconds=time.monotonic()-initialized;reset_statistics(backend.lib)
+        actual_threads=concurrency(backend.lib) if args.execution=='kokkos' else 1
+        device=device_description(backend.lib) if args.execution=='kokkos' else None
+        dependency_images=backend.dependency_images
         start = time.monotonic()
-        with backend.create(config) as data:
+        with backend.create(config,execution=args.execution) as data:
             created = time.monotonic()
             diagnostics = data.solve(linear_rtol=args.linear_rtol,krylov=args.krylov)
             finished = time.monotonic()
             data.sample([[0., 2., 1.]])
             ready = time.monotonic()
             measured_rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            execution_stats=execution_statistics(backend.lib);compiled_execution=execution_name(backend.lib)
+            resolved_options=data.resolved_options
             work_statistics=data.work_statistics();linear_history=data.linear_history()
             values=data.unknowns();residual=data.residual(values)
             computational_norms=residual_norms(residual,args.grid,3 if backend.residual_scaling()=='sin3_alpha_beta' else 6)
@@ -131,6 +139,7 @@ def worker(args):
                 if args.krylov:samples['lapse']=samples['psi']**-2
                 np.savez(args.state_output, unknowns=values, residual=residual, **samples)
         result = dict(config=as_dict(config), diagnostics=diagnostics,
+                      resolved_options=resolved_options,
                       work_statistics=work_statistics,linear_history=linear_history,physical_check=physical,computational_norms=computational_norms,
                       residual_scaling=backend.residual_scaling(),linear_rtol=args.linear_rtol,
                       charges=charges,creation_seconds=created-start,
@@ -150,6 +159,10 @@ def worker(args):
         lib = C.CDLL(str(path))
         verify_image(lib, 'TwoPunctures_make_initial_data', path)
         verify_image(lib, 'benchmark_newton_seconds', path)
+        initialized=time.monotonic();select_execution(lib,args.execution,args.threads);initialization_seconds=time.monotonic()-initialized;reset_statistics(lib)
+        actual_threads=concurrency(lib) if args.execution=='kokkos' else 1
+        device=device_description(lib) if args.execution=='kokkos' else None
+        dependency_images={str(path):expected_sha}
         signatures = {
             'TwoPunctures_params_set_default': (None, []),
             'TwoPunctures_params_set_Real': (None, [C.c_char_p, C.c_double]),
@@ -188,6 +201,7 @@ def worker(args):
                         use_external_initial_guess=0, solve_momentum_constraint=0,
                         grid_setup_method=1,
                         verbose=int(args.by_verbose))
+        if args.execution=='kokkos':integers.update(TP_execution_backend=1,TP_execution_memory_limit_mib=args.memory_limit_mib)
         if hasattr(lib,'TP_solver_get_statistics'):
             integers.update(TP_preconditioner=args.by_preconditioner,TP_linear_relative=int(args.linear_rtol is not None))
             reals['TP_linear_rtol']=args.linear_rtol if args.linear_rtol is not None else 1e-3
@@ -201,6 +215,10 @@ def worker(args):
             lib.TwoPunctures_params_set_Real(name.encode(), value)
         for name, value in integers.items():
             lib.TwoPunctures_params_set_Int(name.encode(), value)
+        lib.params_get_int.argtypes=[C.c_char_p];lib.params_get_int.restype=C.c_int
+        lib.params_get_real.argtypes=[C.c_char_p];lib.params_get_real.restype=C.c_double
+        resolved_options=dict(integers={name:lib.params_get_int(name.encode()) for name in integers},
+                              reals={name:lib.params_get_real(name.encode()) for name in reals})
         start = time.monotonic()
         data = lib.TwoPunctures_make_initial_data()
         finished = time.monotonic()
@@ -212,6 +230,7 @@ def worker(args):
         sample_status = lib.TwoPunctures_sample_points(data, 1, xyz, lapse, psi, gamma, curvature)
         ready = time.monotonic()
         measured_rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        execution_stats=execution_statistics(lib);compiled_execution=execution_name(lib)
         if sample_status:
             raise RuntimeError('BY first sampling failed')
         residual, energy = C.c_double(), C.c_double()
@@ -236,9 +255,13 @@ def worker(args):
             lib.benchmark_phase_seconds.argtypes=[C.POINTER(C.c_double)];lib.benchmark_phase_seconds.restype=None
             phases=(C.c_double*4)();lib.benchmark_phase_seconds(phases)
             phase_seconds=dict(zip(('legacy_fd_setup','modal_setup','modal_apply','spectral_jvp'),phases))
+        if hasattr(lib,'benchmark_native_residual_seconds'):
+            lib.benchmark_native_residual_seconds.restype=C.c_double
+            phase_seconds['native_residual']=lib.benchmark_native_residual_seconds()
         if digest(path) != expected_sha:
             raise RuntimeError('BY library changed on disk during benchmark')
         result = dict(config=config, by_real_parameters=reals,
+                      resolved_options=resolved_options,
                       physical_check=physical,work_statistics=work_statistics,computational_norms=computational_norms,residual_scaling="sin3_alpha_beta",linear_rtol=args.linear_rtol,
                       by_integer_parameters=integers, by_momenta=momenta,
                       by_lab_intrinsic_spins=spins,
@@ -254,10 +277,15 @@ def worker(args):
                       library_sha256=expected_sha, loaded_image_verified=True,
                       sample_method='spectral',
                       verbose_inside_timer=args.by_verbose)
-    result.update(case=args.case, cpu_threads=1, initial_guess='zero',
+        from execution import by_statistics
+        result['by_execution_statistics']=by_statistics(lib)
+    result.update(case=args.case, cpu_threads=actual_threads,requested_threads=args.threads,dependency_images=dependency_images, initial_guess='zero',
+                  execution=args.execution,compiled_execution=compiled_execution,device=device,execution_statistics=execution_stats,initialization_seconds=initialization_seconds,
                   krylov=args.krylov or ('gmres' if args.mode=='hispid' else 'bicgstab'),
                   max_rss_bytes=measured_rss
                   * (1 if sys.platform == 'darwin' else 1024))
+    from native_loader import loaded_kokkos_images
+    result['runtime_images']=loaded_kokkos_images()
     if args.mode == 'hispid':
         result['sample_method'] = 'spectral'
     Path(args.worker_output).write_text(json.dumps(result, indent=2)+'\n')
@@ -274,6 +302,9 @@ def main():
     parser.add_argument('--output', required=True)
     parser.add_argument('--timeout', type=float, default=1200)
     parser.add_argument('--mode', choices=('by', 'hispid'))
+    parser.add_argument('--execution',choices=('reference','kokkos'),default='reference')
+    parser.add_argument('--threads',type=int,default=1)
+    parser.add_argument('--memory-limit-mib',type=int,default=8192)
     parser.add_argument('--input')
     parser.add_argument('--worker-output')
     parser.add_argument('--by-verbose', action='store_true')
@@ -288,6 +319,7 @@ def main():
         parser.error('grid needs three sizes >=4 and an even Fourier size')
     if not np.isfinite(args.tolerance) or args.tolerance <= 0:
         parser.error('positive finite tolerance required')
+    if not 16<=args.memory_limit_mib<=65536:parser.error('memory budget must be 16..65536 MiB')
     if args.linear_rtol is not None and (not np.isfinite(args.linear_rtol) or not 0<args.linear_rtol<1):
         parser.error('linear relative tolerance must be finite and between 0 and 1')
     if args.mode:
@@ -298,7 +330,7 @@ def main():
         raise FileExistsError(output)
     raw.mkdir(parents=True, exist_ok=False)
     env = os.environ.copy()
-    env.update(OMP_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1', VECLIB_MAXIMUM_THREADS='1')
+    env.update(OMP_NUM_THREADS=str(args.threads), OPENBLAS_NUM_THREADS='1', VECLIB_MAXIMUM_THREADS='1')
     records = {}
     for mode in ('hispid', 'by'):
         path = raw/(mode+'.json')
@@ -306,7 +338,10 @@ def main():
                '--hispid-library', args.hispid_library, '--by-library', args.by_library,
                '--case', args.case, '--grid', ':'.join(map(str, args.grid)),
                '--tolerance', str(args.tolerance), '--output', str(output),
-               '--mode', mode, '--worker-output', str(path)]
+               '--mode', mode, '--worker-output', str(path),'--execution',args.execution,
+               '--threads',str(args.threads),'--memory-limit-mib',str(args.memory_limit_mib)]
+        if args.krylov:cmd+=['--krylov',args.krylov]
+        if args.krylov_maxit:cmd+=['--krylov-maxit',str(args.krylov_maxit)]
         if args.physical_check:cmd += ['--physical-check']
         cmd += ['--by-preconditioner',str(args.by_preconditioner)]
         if args.linear_rtol is not None:cmd += ['--linear-rtol',str(args.linear_rtol)]
@@ -321,11 +356,12 @@ def main():
             subprocess.run(cmd, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT,
                            timeout=args.timeout, check=True)
         records[mode] = json.loads(path.read_text())
+        if records[mode]['execution']!=args.execution or (args.execution=='kokkos' and records[mode]['cpu_threads']!=args.threads):raise RuntimeError('worker execution or concurrency disagrees with request')
         print(mode, records[mode]['solve_seconds'], records[mode]['converged'], flush=True)
     converged = all(r['converged'] for r in records.values())
     result = dict(case=args.case, grid=args.grid, records=records,
                   both_native_stopping_criteria_met=converged,
-                  cold_start=True, cpu_threads=1, isolated_sequential_processes=True,
+                  cold_start=True, cpu_threads={key:r['cpu_threads'] for key,r in records.items()}, isolated_sequential_processes=True,
                   hispid_over_by_solve_ratio=records['hispid']['solve_seconds']/records['by']['solve_seconds'] if converged else None,
                   hispid_over_by_setup_and_solve_ratio=records['hispid']['setup_and_solve_seconds']/records['by']['setup_and_solve_seconds'] if converged else None,
                   hispid_over_by_ready_to_sample_ratio=records['hispid']['ready_to_sample_seconds']/records['by']['ready_to_sample_seconds'] if converged else None,

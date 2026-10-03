@@ -14,6 +14,13 @@ void TP_modal_destroy(TP_Modal *m){
   free(m->row_scale);free(m->modal);free(m->y);free(m->column);free(m->permutation);
   free(m);
 }
+int TP_modal_factors(const TP_Modal*m,const double**lu,const double**transfer,
+                    const double**lower,const double**scale,const double**fourier,
+                    const size_t**permutation){
+ if(!m||!lu||!transfer||!lower||!scale||!fourier||!permutation)return -1;
+ *lu=m->lu;*transfer=m->transfer;*lower=m->lower;*scale=m->row_scale;*fourier=m->forward;*permutation=m->permutation;return 0;
+}
+int TP_modal_shape(const TP_Modal*m,int*out){if(!m||!out)return -1;out[0]=m->na;out[1]=m->nb;out[2]=m->np;return 0;}
 static size_t block_offset(const TP_Modal*m,int mode,int j){return ((size_t)mode*m->nb+j)*m->na*m->na;}
 static int product(size_t a,size_t b,size_t*out){
   if(b&&a>SIZE_MAX/b)return -1;*out=a*b;return 0;

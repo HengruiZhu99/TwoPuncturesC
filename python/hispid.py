@@ -8,7 +8,7 @@ import ctypes as C
 import hashlib
 from pathlib import Path
 import numpy as np
-from native_loader import verify_image,validate_krylov
+from native_loader import verify_image,verify_puncture_dependencies,validate_krylov
 
 D3=C.c_double*3
 D9=C.c_double*9
@@ -57,6 +57,7 @@ class Backend:
         self.path=path.resolve(strict=True)
         self.lib=C.CDLL(str(self.path))
         self.loaded_sha256=verify_image(self.lib,'HiSpID_default_config',self.path)
+        self.dependency_images=verify_puncture_dependencies(self.lib,self.path)
         api={'HiSpID_default_config':(None,[C.POINTER(Config)]),
              'HiSpID_create':(C.c_void_p,[C.POINTER(Config)]),
              'HiSpID_solve':(C.c_int,[C.c_void_p]),
@@ -76,8 +77,10 @@ class Backend:
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
         optional={'HiSpID_work_statistics':(C.c_int,[C.c_void_p,C.POINTER(C.c_int)]),
+                  'HiSpID_create_with_execution':(C.c_void_p,[C.POINTER(Config),C.c_int]),
                   'HiSpID_default_solve_options':(None,[C.POINTER(SolveOptions)]),
                   'HiSpID_solve_with_options':(C.c_int,[C.c_void_p,C.POINTER(SolveOptions)]),
+                  'HiSpID_resolved_solve_options':(C.c_int,[C.c_void_p,C.POINTER(SolveOptions)]),
                   'HiSpID_linear_history':(C.c_int,[C.c_void_p,C.c_int,PTR]),
                   'HiSpID_solve_with_forcing':(C.c_int,[C.c_void_p,C.c_double]),
                   'HiSpID_unknown_parameterization':(C.c_char_p,[]),
@@ -113,6 +116,8 @@ class Backend:
     def library_sha256(self):
         if hashlib.sha256(self.path.read_bytes()).hexdigest()!=self.loaded_sha256:
             raise ValueError('native library file changed after loading; start a fresh process')
+        for path,digest in self.dependency_images.items():
+            if hashlib.sha256(Path(path).read_bytes()).hexdigest()!=digest:raise ValueError('native dependency changed after loading; start a fresh process')
         return self.loaded_sha256
     def config(self):
         c=Config();self.lib.HiSpID_default_config(C.byref(c));return c
@@ -125,16 +130,23 @@ class Backend:
         x=np.ascontiguousarray(xyz,dtype=float).reshape(3);j=np.ascontiguousarray(jets,dtype=float).reshape(40);out=np.empty(5)
         if self.lib.HiSpID_operators(C.byref(config),ptr(x),ptr(j),ptr(out)):raise ValueError(self.error())
         return out
-    def create(self,config):return Solution(self,config)
+    def create(self,config,execution='reference'):return Solution(self,config,execution=execution)
     def create_sampler(self,config):return Solution(self,config,sampler_only=True)
 
 class Solution:
-    def __init__(self,backend,config,sampler_only=False):
+    def __init__(self,backend,config,sampler_only=False,execution='reference'):
         self.backend=backend;self.config=Config.from_buffer_copy(config)
         self.context=None
         name='HiSpID_create_sampler' if sampler_only else 'HiSpID_create'
         if not hasattr(backend.lib,name):raise ValueError('library does not support sampling-only contexts')
-        self.context=getattr(backend.lib,name)(C.byref(config))
+        from execution import select
+        code=select(backend.lib,execution)
+        if code:
+            if sampler_only:raise ValueError('sampling-only contexts use CPU execution')
+            if not hasattr(backend.lib,'HiSpID_create_with_execution'):raise ValueError('library lacks execution-aware contexts')
+            self.context=backend.lib.HiSpID_create_with_execution(C.byref(config),code)
+        else:self.context=getattr(backend.lib,name)(C.byref(config))
+        self.execution=execution
         if not self.context:raise ValueError(backend.error())
         self.size=4*int(np.prod(list(config.n)))
     def __enter__(self):return self
@@ -155,7 +167,12 @@ class Solution:
         else:
             if not hasattr(self.backend.lib,'HiSpID_solve_with_forcing'):raise ValueError('library lacks fixed forcing API')
             r=self.backend.lib.HiSpID_solve_with_forcing(self.context,float(linear_rtol))
-        self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal')
+        self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal',execution=self.execution)
+        self.resolved_options['native_verified']=False
+        if hasattr(self.backend.lib,'HiSpID_resolved_solve_options'):
+            actual=SolveOptions(C.sizeof(SolveOptions),0,0)
+            if self.backend.lib.HiSpID_resolved_solve_options(self.context,C.byref(actual))==0:
+                self.resolved_options.update(krylov='gmres' if actual.krylov==0 else 'bicgstab',linear_rtol=actual.linear_rtol or None,native_verified=True)
         d=self.diagnostics();d['status']=r;d['error']=self.backend.error() if r else '';return d
     def work_statistics(self):
         self._check()

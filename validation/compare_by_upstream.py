@@ -20,6 +20,7 @@ def main():
     p.add_argument('--target-mass',action='store_true')
     p.add_argument('--by-preconditioner',type=int,choices=(0,1),default=0)
     p.add_argument('--krylov',choices=('gmres','bicgstab'))
+    p.add_argument('--execution',choices=('reference','kokkos'),default='reference')
     args=p.parse_args();path=Path(args.library).resolve(strict=True);expected_sha=digest(path);lib=C.CDLL(str(path));verify_image(lib,'TwoPunctures_make_initial_data',path)
     record=json.loads(Path(args.parameters).read_text());reals=record['by_real_parameters'].copy();integers=record['by_integer_parameters'].copy()
     integers['verbose']=1
@@ -29,6 +30,11 @@ def main():
     for name,restype,argtypes in [('TwoPunctures_params_set_default',None,[]),('TwoPunctures_params_set_Real',None,[C.c_char_p,C.c_double]),('TwoPunctures_params_set_Int',None,[C.c_char_p,C.c_int]),('TwoPunctures_make_initial_data',C.c_void_p,[])]:
         f=getattr(lib,name);f.restype=restype;f.argtypes=argtypes
     lib.TwoPunctures_params_set_default()
+    from execution import select
+    select(lib,args.execution,1)
+    if args.execution=='kokkos':
+        integers.update(TP_execution_backend=1,TP_linear_relative=1,TP_execution_memory_limit_mib=8192)
+        reals['TP_linear_rtol']=.001
     if hasattr(lib,'TP_solver_get_statistics'):integers['TP_preconditioner']=args.by_preconditioner
     elif args.by_preconditioner:raise RuntimeError('reference image lacks modal option')
     if args.krylov is not None:

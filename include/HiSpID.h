@@ -1,6 +1,7 @@
 #ifndef HISPID_H
 #define HISPID_H
 #include "PunctureKrylov.h"
+#include "PunctureExecution.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -23,7 +24,7 @@ typedef struct {
   double far_radius;    /* <=0 disables F */
   double tolerance;
   int max_newton, max_krylov, krylov_restart;
-  int memory_limit_mib; /* conservative allocation budget; default2048, max8192 */
+ int memory_limit_mib; /* conservative aggregate budget; default2048, max65536 */
 } HiSpID_Config;
 typedef struct {
   double gamma[9], Kij[9], psi, conformal_metric[9], Atilde[9];
@@ -47,6 +48,9 @@ const char *HiSpID_residual_scaling(void);
  * Both map centers must be distinct, even when one mass is zero.
  * Return NULL on invalid configuration/allocation/geometry failure. */
 HiSpID_Data *HiSpID_create(const HiSpID_Config *);
+/* Explicit execution choice; reference is unchanged. Kokkos uses this
+ * image's execution space and parallel host geometry setup when available. */
+HiSpID_Data *HiSpID_create_with_execution(const HiSpID_Config *,int execution);
 /* Sampling-only context for loading saved unknowns: no collocation geometry,
  * derivative workspace, or Newton/Krylov allocation. It supports sampling,
  * charges and get/set_unknowns, and rejects solve/residual/JVP operations. */
@@ -63,6 +67,8 @@ int HiSpID_solve_with_forcing(HiSpID_Data *, double rtol);
 typedef struct { int struct_size,krylov; double linear_rtol; } HiSpID_SolveOptions;
 void HiSpID_default_solve_options(HiSpID_SolveOptions *);
 int HiSpID_solve_with_options(HiSpID_Data *, const HiSpID_SolveOptions *);
+/* Last options actually accepted by the native solve; -1 before a solve. */
+int HiSpID_resolved_solve_options(const HiSpID_Data *,HiSpID_SolveOptions *);
 /* Work counters [spectral JVP calls, preconditioner applies]. */
 int HiSpID_work_statistics(const HiSpID_Data *, int out[2]);
 /* Solves: rows [Newton index, requested relative L2 target,

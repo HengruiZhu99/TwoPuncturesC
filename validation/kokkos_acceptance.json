@@ -1,0 +1,70 @@
+{
+  "scope": "Explicit Kokkos execution for both equation systems and both Krylov methods; performance study precedes new physical targets",
+  "reference_commit": "25ca0649d2951537c1513fbcf4a7304698d84955",
+  "kokkos_commit": "6739bc623081648af9e752b616d9671527922cbf",
+  "default_preservation": "Unchanged reference defaults: archived full states, work counts and BY trace remain bit-identical on the original compiler/platform. Perlmutter reference is rebuilt from the frozen commit with the same compiler flags as its CPU candidate.",
+  "performance": {
+    "systems": [
+      "hispid",
+      "by"
+    ],
+    "krylov": [
+      "gmres",
+      "bicgstab"
+    ],
+    "grids": [
+      [
+        40,
+        80,
+        16
+      ],
+      [
+        80,
+        160,
+        16
+      ],
+      [
+        128,
+        256,
+        28
+      ]
+    ],
+    "variants": [
+      "reference",
+      "Kokkos Serial",
+      "Kokkos OpenMP 1,2,4,8,16 physical cores",
+      "Kokkos CUDA one allocated A100"
+    ],
+    "case": "moderate generic unequal mass .6/.4 binary, centers +/-3, frozen free data; computational matching does not equate physical accuracy",
+    "outer_linf": 1e-12,
+    "true_rhs_relative_inner_l2": 0.001,
+    "restart": 64,
+    "max_iterations": 2000,
+    "guess": "zero",
+    "preconditioner": "same modal FD approximation within each equation system",
+    "repeats": 3,
+    "ordering": "interleaved forward/reverse variants and methods, sequential fresh workers; no concurrent numerical contexts",
+    "measurements": "runtime initialization, setup+solve, solve, first sample, ready-to-sample; fenced A/M/linear/setup/transfer phases; work counts; host RSS and logical resident/workspace device allocations, with actual GPU memory telemetry when available",
+    "shared_resource": "Perlmutter shared_interactive one GPU fraction node; record Slurm allocation, affinity, hardware identity/memory, software flags and image/source hashes",
+    "memory_limit_mib": 32768,
+    "capacity_change": "The explicit maximum budget is extended8192 to65536MiB without changing allocation formulas or numerical arithmetic. The frozen reference receives only this declared guard-cap patch; both variants request32768MiB. Preserve the original8192MiB rejection at128x256x28/restart64."
+  },
+  "numerical": {
+    "kernel_relative_l2": 1e-10,
+    "kernel_absolute_linf_floor": 1e-13,
+    "original_full_state_bounds": "Retain the prior max |delta|/(1+|reference|) <=1e-10 core and coefficient gates, including failures; no GPU or weak-mode waiver",
+    "physical_fields_and_gradients_scaled_max": 1e-10,
+    "charges_scaled_max": 1e-10,
+    "physical_H_M_difference": "max(1e-7,5*corresponding largest independent Cartesian finite-difference step variation)",
+    "stopping": "recompute true inner residual and native outer residual; finite states, no failures or silent fallback",
+    "controls": "independent nonsymmetric matrices, polynomial/constant/Nyquist spectral derivatives, original coordinate chain, manufactured block inverse, malformed options/failure controls, complete binary states and physical sampling"
+  },
+  "physical_followup": {
+    "order": "Only after measured performance report is written, opened and successfully compiled in native LaTeX editor",
+    "cases": "Separate equal-rest-mass aligned seed chi=.99 and nonspinning inward head-on input Gamma=10 cases, as selected by user",
+    "velocity": 0.99498743710662,
+    "separation": "Head-on d about50 times the measured one-hole M_irr=sqrt(A/(16*pi)); report attained ratio and calibrate d, not total ADM mass. Search individual and common horizons.",
+    "spin": "Seed rest |S|/m^2 and measured coordinate horizon spin are distinct",
+    "gates": "Fresh isolated seed tests, >=3 grids, independent exterior H/M RMS1e-6/max1e-4 and raw-decrease gates, charges/covariance, initial-time AthenaK import/horizons and modified-region enclosure; keep failures explicitly failed"
+  }
+}

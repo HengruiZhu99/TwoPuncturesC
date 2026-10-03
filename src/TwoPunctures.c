@@ -118,6 +118,8 @@ void TwoPunctures_params_set_default(){
 
   params_add_real("Newton_tol",1e-10); // Tolerance for Newton solver
   params_add_int("TP_preconditioner",0); // 0: inherited line sweeps, 1: modal block inverse
+  params_add_int("TP_execution_backend",0); // 0: unchanged reference, 1: compiled Kokkos space
+  params_add_int("TP_execution_memory_limit_mib",8192); // aggregate Kokkos BY bound
   params_add_int("TP_linear_relative",0); // 0: inherited dmax*rtol, 1: RHS-relative L2
   params_add_real("TP_linear_rtol",1e-3);
   params_add_int("TP_krylov_solver",1); // PK_BICGSTAB; PK_GMRES=0
@@ -172,10 +174,16 @@ ini_data* TwoPunctures_make_initial_data() {
     return NULL;
   }
   const int preconditioner = params_get_int("TP_preconditioner");
+  const int execution=params_get_int("TP_execution_backend");
+  const int execution_budget=params_get_int("TP_execution_memory_limit_mib");
   const int relative = params_get_int("TP_linear_relative");
   const double linear_rtol = params_get_real("TP_linear_rtol");
   const int method=params_get_int("TP_krylov_solver"),maxit=params_get_int("TP_krylov_maxit"),restart=params_get_int("TP_krylov_restart");
-  if ((preconditioner != 0 && preconditioner != 1) ||
+  if (execution<0||execution>1||(execution&&(!preconditioner||!relative||params_get_int("do_residuum_debug_output")||execution_budget<16||execution_budget>65536))||
+#ifndef PUNCTURES_KOKKOS
+      execution||
+#endif
+      (preconditioner != 0 && preconditioner != 1) ||
       (relative != 0 && relative != 1) || !isfinite(linear_rtol) ||
       linear_rtol <= 0 || linear_rtol >= 1 || method<0 || method>1 ||
       maxit<1 || maxit>100000 || restart<1 || restart>4096) {

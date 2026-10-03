@@ -1,5 +1,26 @@
 # HiSpID milestone status
 
+The optional Kokkos port is in progress on the same isolated branch. Serial,
+OpenMP and one allocated Perlmutter A100 pass actual execution-space derivative,
+coupled HiSpID Jacobian, original BY Jacobian, production modal inverse and
+independent pivoted full-lower matrix-action controls. This is kernel
+qualification, not complete-binary or physical acceptance. The original
+Makefile default full states/work counts remain bit-identical for both systems;
+BY's original-code, target-mass, Brill–Lindquist and spin95 controls pass with
+both methods. The scoped BY Kokkos workspace additionally preserves every
+raw/Cartesian derivative array and refreshes changed masses. Its first fast
+40×80×16 preflight failed the original residual check (about6e-12 despite
+solution differences about5e-16); those failures remain in
+`kokkos_preflight40_scoped_v2_20261002.json`. Original-residual confirmation
+and one final polishing step now pass both methods on OpenMP16 and CUDA,
+with original residuals3–7e-13 and complete-state gates passed; see
+`kokkos_by_polish_preflight40_v3_20261002.json`. This is a one-repeat preflight,
+not the final performance estimate. The declared comprehensive performance matrix and new separate
+spin.99/Gamma10 studies remain pending. Their report will precede physical
+runs. The existing Hi raw-P/coefficient failure remains failed. See
+[the port interfaces and ownership](HISPID_KOKKOS.md) and
+`validation/kokkos_acceptance.json`.
+
 The opt-in serial BY modal preconditioner now solves the40×80×16 moderate
 case in4.58s versus26.78s for cached inherited line sweeps (**5.85×**), with
 original stopping rules and equivalent final data (scaled V difference5.9e-15).

@@ -13,7 +13,7 @@ EXE=$(NAME).x
 SRC=$(wildcard $(SRCD)/*.c)
 OBJ=$(patsubst $(SRCD)/%.c,$(OBJD)/%.o,$(SRC))
 LIBOBJ=$(filter-out $(OBJD)/TwoPuncturesRun.o,$(OBJ))
-INC=$(wildcard $(INCD)/*.h)
+INC=$(wildcard $(INCD)/*.h) $(wildcard $(SRCD)/*.inc)
 INC_PARAMS=$(foreach d, $(INCD), -I$d)
 
 LIB=$(LIBD)/lib$(LIBNAME).so
@@ -97,7 +97,7 @@ HISPID_FLAGS = -std=c++17 -O3 -fPIC -Wall -Wextra $(shell gsl-config --cflags)
 HISPID_FLAGS += $(HISPID_MAP_FLAGS)
 HISPID_FLAGS += $(HISPID_EXPERIMENT_FLAGS)
 
-$(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(INCD)/PunctureKrylov.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp $(SRCD)/HiSpID_axis.hpp
+$(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(INCD)/PunctureKrylov.h $(INCD)/PunctureExecution.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp $(SRCD)/HiSpID_axis.hpp
 	@mkdir -p $(HISPID_DIR)
 	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) -c $< -o $@
 

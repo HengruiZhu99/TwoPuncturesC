@@ -10,6 +10,7 @@ build-hispid/
 /build-hispid-*/
 /build-by-modal*/
 /build-krylov*/
+/build-kokkos*/
 __pycache__/
 .venv/
 validation/raw/

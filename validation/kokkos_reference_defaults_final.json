@@ -1,0 +1,716 @@
+{
+  "passed": true,
+  "controls": {
+    "hispid": {
+      "passed": true,
+      "arrays": {
+        "unknowns": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "residual": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "gamma": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "Kij": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "psi": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "conformal_metric": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "Atilde": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "mean_curvature": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "correction": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "attenuation": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "dgamma": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        }
+      },
+      "counts_equal": true,
+      "trace_equal": true,
+      "record": {
+        "config": {
+          "hole": [
+            {
+              "mass": 0.6,
+              "center": [
+                3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                0.072,
+                0.054,
+                0.108
+              ],
+              "velocity": [
+                0.03,
+                0.06,
+                0.01
+              ]
+            },
+            {
+              "mass": 0.4,
+              "center": [
+                -3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                -0.032,
+                0.048,
+                0.016
+              ],
+              "velocity": [
+                -0.02,
+                -0.07,
+                0.025
+              ]
+            }
+          ],
+          "n": [
+            40,
+            80,
+            16
+          ],
+          "conformal_choice": 1,
+          "inner_flatten": 1,
+          "omega": [
+            0.5,
+            0.5
+          ],
+          "attenuation_power": 4,
+          "inner_min": [
+            0.045,
+            0.03
+          ],
+          "inner_max": [
+            0.09,
+            0.06
+          ],
+          "far_radius": 0.0,
+          "tolerance": 1e-12,
+          "max_newton": 24,
+          "max_krylov": 2000,
+          "krylov_restart": 64,
+          "memory_limit_mib": 8192
+        },
+        "diagnostics": {
+          "converged": 1,
+          "newton_iterations": 4,
+          "krylov_iterations": 43,
+          "npoints": 51200,
+          "scaled_linf": [
+            3.894066753868869e-17,
+            3.8741192052220917e-16,
+            4.550445396739908e-16,
+            3.881377527018557e-16
+          ],
+          "unscaled_linf": [
+            9.343220641611083e-13,
+            4.9368002830002245e-11,
+            1.28645870599519e-10,
+            6.358719383063834e-11
+          ],
+          "seconds": 3.321574916,
+          "status": 0,
+          "error": ""
+        },
+        "work_statistics": {
+          "jvp_applications": 51,
+          "preconditioner_applications": 43
+        },
+        "linear_history": [
+          [
+            0.0,
+            0.038187129574034494,
+            0.0347265597151314,
+            6.0
+          ],
+          [
+            1.0,
+            0.00843334720802722,
+            0.0028194481475136974,
+            9.0
+          ],
+          [
+            2.0,
+            0.0003983227455173358,
+            0.00029488967142140415,
+            11.0
+          ],
+          [
+            3.0,
+            1e-05,
+            7.698616215728275e-06,
+            17.0
+          ]
+        ],
+        "physical_check": null,
+        "computational_norms": {
+          "native_weighted": {
+            "linf": [
+              3.894066753868869e-17,
+              3.8741192052220917e-16,
+              4.550445396739908e-16,
+              3.881377527018557e-16
+            ],
+            "rms": [
+              4.166613101435739e-18,
+              3.9487867967905226e-17,
+              4.012020490116734e-17,
+              4.1277884954605043e-17
+            ]
+          },
+          "unweighted": {
+            "linf": [
+              9.343220641611083e-13,
+              4.9368002830002245e-11,
+              1.28645870599519e-10,
+              6.358719383063834e-11
+            ],
+            "rms": [
+              2.2586477388255008e-14,
+              7.260772621353784e-13,
+              2.300529534322516e-12,
+              1.0586086647786797e-12
+            ]
+          },
+          "common_cubic": {
+            "linf": [
+              3.8548823949912288e-16,
+              2.809177993815874e-15,
+              4.968205165235873e-15,
+              2.6058469219120376e-15
+            ],
+            "rms": [
+              3.190168018212041e-17,
+              2.262131147531932e-16,
+              3.55991179882814e-16,
+              2.5972917602354755e-16
+            ]
+          }
+        },
+        "residual_scaling": "sin6_alpha_beta",
+        "linear_rtol": null,
+        "charges": null,
+        "creation_seconds": 1.253840915975161,
+        "setup_and_solve_seconds": 4.575472249998711,
+        "solve_seconds": 3.321574916,
+        "first_sample_seconds": 0.005154207989107817,
+        "ready_to_sample_seconds": 4.580626457987819,
+        "converged": true,
+        "library_sha256": "e6497044492a8008dd7a2f56c4b67b5c6b65351aa5fbae4fca44a55e5e896ec7",
+        "loaded_image_verified": true,
+        "case": "moderate",
+        "cpu_threads": 1,
+        "requested_threads": 1,
+        "dependency_images": {
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-default-final/hispid6/libHiSpID.so": "e6497044492a8008dd7a2f56c4b67b5c6b65351aa5fbae4fca44a55e5e896ec7"
+        },
+        "initial_guess": "zero",
+        "execution": "reference",
+        "compiled_execution": "reference",
+        "device": null,
+        "execution_statistics": null,
+        "initialization_seconds": 9.170034900307655e-07,
+        "krylov": "gmres",
+        "max_rss_bytes": 339443712,
+        "runtime_images": {},
+        "sample_method": "spectral"
+      },
+      "state": "validation/raw/kokkos_reference_defaults_final/hi_native.npz",
+      "state_sha256": "c2e6af60d7a1dfeb4f32628d0525ed69fc853563887dac8733fa5f41e09573af",
+      "log": "validation/raw/kokkos_reference_defaults_final/hi_native.log",
+      "log_sha256": "489d99b85096c9357e6583ce887c08f0a16780b8fe5045c182728934d3760740"
+    },
+    "by": {
+      "passed": true,
+      "arrays": {
+        "F": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d0": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d1": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d2": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d3": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d11": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d12": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d13": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d22": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d23": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "u_d33": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d0": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d1": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d2": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d3": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d11": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d12": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d13": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d22": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d23": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "v_d33": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d0": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d1": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d2": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d3": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d11": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d12": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d13": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d22": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d23": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "cf_v_d33": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "recomputed_F": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "spectral_v_samples": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "lapse": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "psi": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "gamma": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        },
+        "K": {
+          "finite": true,
+          "bitwise_equal": true,
+          "max_scaled_difference": 0.0
+        }
+      },
+      "counts_equal": true,
+      "trace_equal": true,
+      "record": {
+        "config": {
+          "hole": [
+            {
+              "mass": 0.6,
+              "center": [
+                3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                0.072,
+                0.054,
+                0.108
+              ],
+              "velocity": [
+                0.03,
+                0.06,
+                0.01
+              ]
+            },
+            {
+              "mass": 0.4,
+              "center": [
+                -3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                -0.032,
+                0.048,
+                0.016
+              ],
+              "velocity": [
+                -0.02,
+                -0.07,
+                0.025
+              ]
+            }
+          ],
+          "n": [
+            40,
+            80,
+            16
+          ],
+          "conformal_choice": 1,
+          "inner_flatten": 1,
+          "omega": [
+            0.5,
+            0.5
+          ],
+          "attenuation_power": 4,
+          "inner_min": [
+            0.045,
+            0.03
+          ],
+          "inner_max": [
+            0.09,
+            0.06
+          ],
+          "far_radius": 0.0,
+          "tolerance": 1e-12,
+          "max_newton": 24,
+          "max_krylov": 2000,
+          "krylov_restart": 64,
+          "memory_limit_mib": 8192
+        },
+        "by_real_parameters": {
+          "par_b": 3.0,
+          "par_m_plus": 0.6,
+          "par_m_minus": 0.4,
+          "Newton_tol": 1e-12,
+          "par_P_plus1": 0.018041543379727906,
+          "par_S_plus1": 0.07206863688824611,
+          "par_P_plus2": 0.03608308675945581,
+          "par_S_plus2": 0.05392955687785267,
+          "par_P_plus3": 0.006013847793242636,
+          "par_S_plus3": 0.10821674806814562,
+          "par_P_minus1": -0.008023805839587412,
+          "par_S_minus1": -0.032118526965034366,
+          "par_P_minus2": -0.028083320438555943,
+          "par_S_minus2": 0.048061272414127935,
+          "par_P_minus3": 0.010029757299484264,
+          "par_S_minus3": 0.016076741187530722,
+          "TP_linear_rtol": 0.001
+        },
+        "resolved_options": {
+          "integers": {
+            "npoints_A": 40,
+            "npoints_B": 80,
+            "npoints_phi": 16,
+            "Newton_maxit": 24,
+            "give_bare_mass": 1,
+            "use_external_initial_guess": 0,
+            "solve_momentum_constraint": 0,
+            "grid_setup_method": 1,
+            "verbose": 1,
+            "TP_preconditioner": 0,
+            "TP_linear_relative": 0
+          },
+          "reals": {
+            "par_b": 3.0,
+            "par_m_plus": 0.6,
+            "par_m_minus": 0.4,
+            "Newton_tol": 1e-12,
+            "par_P_plus1": 0.018041543379727906,
+            "par_S_plus1": 0.07206863688824611,
+            "par_P_plus2": 0.03608308675945581,
+            "par_S_plus2": 0.05392955687785267,
+            "par_P_plus3": 0.006013847793242636,
+            "par_S_plus3": 0.10821674806814562,
+            "par_P_minus1": -0.008023805839587412,
+            "par_S_minus1": -0.032118526965034366,
+            "par_P_minus2": -0.028083320438555943,
+            "par_S_minus2": 0.048061272414127935,
+            "par_P_minus3": 0.010029757299484264,
+            "par_S_minus3": 0.016076741187530722,
+            "TP_linear_rtol": 0.001
+          }
+        },
+        "physical_check": null,
+        "work_statistics": {
+          "newton_iterations": 4,
+          "krylov_iterations": 36,
+          "jvp_applications": 73,
+          "preconditioner_applications": 69,
+          "relaxation_sweeps": 13800,
+          "modal_factorizations": 0,
+          "linear_failures": 0,
+          "modal_failures": 0,
+          "last_linear_target": 7.58944938191598e-15,
+          "last_true_linear_residual": null,
+          "last_relative_linear_residual": null
+        },
+        "computational_norms": {
+          "native_weighted": {
+            "linf": [
+              3.082457907224647e-13
+            ],
+            "rms": [
+              5.004320350660106e-15
+            ]
+          },
+          "unweighted": {
+            "linf": [
+              0.0006730486093533966
+            ],
+            "rms": [
+              7.410748640184793e-06
+            ]
+          },
+          "common_cubic": {
+            "linf": [
+              3.082457907224647e-13
+            ],
+            "rms": [
+              5.004320350660106e-15
+            ]
+          }
+        },
+        "residual_scaling": "sin3_alpha_beta",
+        "linear_rtol": null,
+        "by_integer_parameters": {
+          "npoints_A": 40,
+          "npoints_B": 80,
+          "npoints_phi": 16,
+          "Newton_maxit": 24,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "solve_momentum_constraint": 0,
+          "grid_setup_method": 1,
+          "verbose": 1,
+          "TP_preconditioner": 0,
+          "TP_linear_relative": 0
+        },
+        "by_momenta": [
+          [
+            0.018041543379727906,
+            0.03608308675945581,
+            0.006013847793242636
+          ],
+          [
+            -0.008023805839587412,
+            -0.028083320438555943,
+            0.010029757299484264
+          ]
+        ],
+        "by_lab_intrinsic_spins": [
+          [
+            0.07206863688824611,
+            0.05392955687785267,
+            0.10821674806814562
+          ],
+          [
+            -0.032118526965034366,
+            0.048061272414127935,
+            0.016076741187530722
+          ]
+        ],
+        "solve_seconds": 26.596691000042483,
+        "phase_seconds": {
+          "legacy_fd_setup": 5.093477999907918,
+          "modal_setup": 0.0,
+          "modal_apply": 0.0,
+          "spectral_jvp": 7.585238000261597,
+          "native_residual": 0.9396509999642149
+        },
+        "setup_and_solve_seconds": 26.741270792030264,
+        "first_sample_seconds": 0.00012279197108000517,
+        "ready_to_sample_seconds": 26.741393584001344,
+        "diagnostics": {
+          "status": 0,
+          "residual_linf": 3.082457907224647e-13,
+          "adm_energy": 1.0480742019437799,
+          "puncture_masses": [
+            0.6512023888739645,
+            0.4389371971934785
+          ]
+        },
+        "converged": true,
+        "library_sha256": "2c062be47d3627566f1dc60455e2489efdc43051bee9bf6efffd86a280f90057",
+        "loaded_image_verified": true,
+        "sample_method": "spectral",
+        "verbose_inside_timer": true,
+        "case": "moderate",
+        "cpu_threads": 1,
+        "requested_threads": 1,
+        "dependency_images": {
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-default-final/timed/libTwoPuncturesTimed.so": "2c062be47d3627566f1dc60455e2489efdc43051bee9bf6efffd86a280f90057"
+        },
+        "initial_guess": "zero",
+        "execution": "reference",
+        "compiled_execution": "reference",
+        "device": null,
+        "execution_statistics": {
+          "operator_seconds": 0.0,
+          "precondition_seconds": 0.0,
+          "setup_seconds": 0.0,
+          "linear_seconds": 0.0,
+          "transfer_seconds": 0.0,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 0,
+          "peak_workspace_bytes": 0,
+          "host_to_device_bytes": 0,
+          "device_to_host_bytes": 0,
+          "kokkos_host_current_bytes": 0,
+          "kokkos_host_peak_bytes": 0,
+          "kokkos_device_current_bytes": 0,
+          "kokkos_device_peak_bytes": 0,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 0
+        },
+        "initialization_seconds": 1.3329554349184036e-06,
+        "krylov": "bicgstab",
+        "max_rss_bytes": 83525632,
+        "runtime_images": {}
+      },
+      "state": "validation/raw/kokkos_reference_defaults_final/by_native.npz",
+      "state_sha256": "ab7a8f66b0b410bfb8f95dedd20b874e0697c367546ffafd406e5fd66f0e9500",
+      "log": "validation/raw/kokkos_reference_defaults_final/by_native.log",
+      "log_sha256": "b1f99193a326eea297cda01b626143f472fc652f548543417295120541ba1ce9"
+    }
+  }
+}

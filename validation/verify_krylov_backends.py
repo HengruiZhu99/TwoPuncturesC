@@ -6,7 +6,7 @@ from benchmark_bowen_york import ROOT,digest
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--library',required=True);p.add_argument('--output',required=True);args=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--library',required=True);p.add_argument('--output',required=True);p.add_argument('--execution',choices=('reference','kokkos'),default='reference');args=p.parse_args()
     out=Path(args.output);raw=ROOT/'validation/raw'/out.stem
     if out.exists():raise FileExistsError(out)
     raw.mkdir(parents=True,exist_ok=False)
@@ -22,7 +22,7 @@ def main():
         for krylov in ('bicgstab','gmres'):
             label=case+'_'+krylov;result=raw/(label+'.json');state=raw/(label+'.npz');log=raw/(label+'.log')
             cmd=[sys.executable,str(ROOT/'validation/compare_by_upstream.py'),'--library',args.library,'--parameters',str(params),
-                 '--output',str(result),'--state',str(state),'--by-preconditioner','1','--krylov',krylov]
+                 '--output',str(result),'--state',str(state),'--by-preconditioner','1','--krylov',krylov,'--execution',args.execution]
             if case=='target_mass':cmd+=['--target-mass']
             with log.open('w') as stream:subprocess.run(cmd,cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT,timeout=180,check=True)
             r=json.loads(result.read_text());b=np.load(state)
@@ -33,7 +33,7 @@ def main():
             r.update(passed=bool(passed),arrays=metrics,charges_scaled_difference=charges,state=str(state.relative_to(ROOT)),log=str(log.relative_to(ROOT)),log_sha256=digest(log),command=cmd)
             series[krylov]=r;print(label,'passed',passed,flush=True)
         records[case]=series
-    result=dict(passed=all(r['passed'] for series in records.values() for r in series.values()),records=records,library_sha256=digest(args.library),script_sha256=digest(__file__),original_commit='ec563aeb672235b9443c330f9cde65f7246e8ea4',note='Native outer/linear stopping retained; modal M with both methods; not physical binary acceptance.')
+    result=dict(passed=all(r['passed'] for series in records.values() for r in series.values()),records=records,execution=args.execution,library_sha256=digest(args.library),script_sha256=digest(__file__),original_commit='ec563aeb672235b9443c330f9cde65f7246e8ea4',note='Modal M with both methods; opt-in Kokkos explicitly uses true RHS-relative inner tolerance. Native outer tolerance retained; not physical binary acceptance.')
     out.write_text(json.dumps(result,indent=2)+'\n')
     if not result['passed']:raise SystemExit(1)
 if __name__=='__main__':main()

@@ -73,14 +73,18 @@ class Solution:
             else:Solution._poisoned=True
             self._parameters_seeded=False
         if self._owned:self._lock.release();self._owned=False
-    def solve(self,linear_rtol=None,krylov=None,preconditioner='lines',max_krylov=100,restart=64):
+    def solve(self,linear_rtol=None,krylov=None,preconditioner='lines',max_krylov=100,restart=64,execution='reference',memory_limit_mib=8192):
         if not self._owned:raise ValueError('closed BY context')
         if self.context:raise ValueError('BY context already solved; create a fresh context')
         validate_krylov(krylov,linear_rtol)
         if preconditioner not in ('lines','modal'):raise ValueError('preconditioner must be lines or modal')
         if not isinstance(max_krylov,int) or not 1<=max_krylov<=100000:raise ValueError('invalid max_krylov')
         if not isinstance(restart,int) or not 1<=restart<=4096:raise ValueError('invalid restart')
+        if not isinstance(memory_limit_mib,int) or not 16<=memory_limit_mib<=65536:raise ValueError('invalid memory_limit_mib')
         lib=self.backend.lib;new=hasattr(lib,'PK_solve')
+        from execution import select
+        execution_code=select(lib,execution)
+        if execution_code and (preconditioner!='modal' or linear_rtol is None):raise ValueError('Kokkos BY requires modal preconditioning and a true RHS-relative stopping norm')
         if not new and (krylov is not None or max_krylov!=100 or restart!=64):
             raise ValueError('library lacks selectable Krylov API')
         if not hasattr(lib,'TP_solver_get_statistics') and (linear_rtol is not None or preconditioner!='lines'):
@@ -91,6 +95,7 @@ class Solution:
             integers.update(TP_preconditioner=int(preconditioner=='modal'),TP_linear_relative=int(linear_rtol is not None))
             reals['TP_linear_rtol']=.001 if linear_rtol is None else linear_rtol
         if new:integers.update(TP_krylov_solver=0 if krylov=='gmres' else 1,TP_krylov_maxit=max_krylov,TP_krylov_restart=restart)
+        if execution_code:integers.update(TP_execution_backend=execution_code,TP_execution_memory_limit_mib=memory_limit_mib)
         # Convert everything before mutating the global native table.
         reals={key.encode():float(value) for key,value in reals.items()}
         integers={key.encode():int(value) for key,value in integers.items()}
@@ -106,7 +111,7 @@ class Solution:
         self._resolved_config=dict(real={key.decode():value for key,value in reals.items()},integer={key.decode():value for key,value in integers.items()})
         self.context=lib.TwoPunctures_make_initial_data()
         if not self.context:raise ValueError('BY allocation/solve failed')
-        self.resolved_options=dict(system='bowen_york',krylov=krylov or 'bicgstab',preconditioner=preconditioner,linear_rtol=linear_rtol,max_krylov=max_krylov,restart=restart)
+        self.resolved_options=dict(system='bowen_york',krylov=krylov or 'bicgstab',preconditioner=preconditioner,linear_rtol=linear_rtol,max_krylov=max_krylov,restart=restart,execution=execution)
         return self.diagnostics()
     def _check(self):
         if not self.context:raise ValueError('BY context not solved or closed')
