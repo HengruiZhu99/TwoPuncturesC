@@ -1,0 +1,17 @@
+{
+  "compilation_confirmed": true,
+  "compiler": "mcp__codex_app__compile_latex_document",
+  "kind": "success",
+  "performance_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/performance_snapshot_20261003T0938.json",
+  "performance_sha256": "744ebf6ace01aa0801cfb6a5ca414ae471c238ba0ca006c6d83c21af15f2c1f7",
+  "report_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/docs/HISPID_KOKKOS_PERFORMANCE.tex",
+  "report_sha256": "f9e5a6272bc5d40b9205b78cd01a286ee58ea89b3f7d6bcd6112716a844cd3a1",
+  "compiled_at_utc": "2026-10-03T09:42:25.037467+00:00",
+  "declared_performance_completed": false,
+  "completed_workers": 192,
+  "expected_workers": 288,
+  "failed_stopping_checks": 39,
+  "process_failures": 0,
+  "producer_completed_workers": 187,
+  "attempt_count_note": "completed_workers in this receipt counts records plus failures; the raw producer counter is stale mid-allocation and is preserved"
+}

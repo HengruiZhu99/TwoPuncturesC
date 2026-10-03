@@ -16,13 +16,13 @@ and one final polishing step now pass both methods on OpenMP16 and CUDA,
 with original residuals3–7e-13 and complete-state gates passed; see
 `kokkos_by_polish_preflight40_v3_20261002.json`. This is a one-repeat preflight,
 not the final performance estimate. The declared 288-worker performance
-matrix is running on one allocated Perlmutter A100. Observed at 2026-10-03 07:53 UTC,
-157 attempts are retained, with 25 failed stopping checks and no process
+matrix is running on one allocated Perlmutter A100. Retained at 2026-10-03 09:38 UTC,
+192 attempts are retained, with 39 failed stopping checks and no process
 failures. These failed checks are not qualified speedup results. The standalone
 [LaTeX report draft](HISPID_KOKKOS_PERFORMANCE.tex) is an explicitly incomplete
-111-attempt snapshot, including seven failed stopping checks, with native
+192-attempt snapshot covering all small/medium repeats, with native
 editor compilation confirmed by
-`validation/performance_snapshot_20261003T0605_compilation.json`.
+`validation/performance_snapshot_20261003T0938_compilation.json`.
 The new separate spin.99/Gamma10 studies remain pending. The completed
 performance report will precede physical runs. The existing Hi
 raw-P/coefficient failure remains failed. See
@@ -316,20 +316,25 @@ computational stopping norm; Hi cross-backend auxiliary-field/coefficient
 preservation remains failed, so this adds no physical binary acceptance.
 
 October3 Kokkos progress: the immutable 288-worker single-A100 performance
-matrix continues across sequential one-GPU shared allocations. The first
-allocation checkpointed cleanly; the second uses the same node/GPU. The
-compiled standalone report currently binds an explicitly incomplete snapshot
-with98 successful worker stopping checks (all three smallest-grid repeats and
-two medium-grid reference HiSpID workers). Larger grids and final performance
-qualification remain pending. No new .99/Gamma10 physical case has run.
+matrix continues across sequential one-GPU shared allocations with the same
+required hardware class. The compiled standalone report binds all192
+small/medium attempts:153 pass stopping/protocol checks,39 fail, and no
+process failed. All192 comparison entries are retained;132 fail their strict
+gates, which include recomputed residuals as well as state agreement.
+The raw snapshot's cached `completed_workers` counter remains187
+mid-allocation; record/failure inventories establish192. The snapshot bytes
+are preserved. Full producer finalization must supply288 before the final
+compiled report can admit physics. Largest-grid measurements and final
+performance qualification remain pending. No new .99/Gamma10 physical case
+has run.
 Preparation adds a separate-process portable CPU sampler witness, checkpoint
 and actual consumer/dependency image checks, enlarged import budget metadata,
 explicit mesh domains and separate common-horizon searches. The new Serial
 AthenaK build succeeds with -j1; actual new sampler/import/common-surface
 execution controls remain pending. Default native solver images and frozen
 benchmark sources are unchanged by this preparation.
-The next medium-grid reference BY/GMRES worker exhausted24 Newton iterations
-at weighted Linf1.48905e-12, above the fixed1e-12 tolerance, with a1257.95s
-solve. The independent stopping check retains this as failed despite its API
-status0. It is outside the compiled98-worker snapshot and will be included
-in the final report; its timing cannot support an accepted speedup comparison.
+All three medium-grid reference BY/GMRES workers exhausted24 Newton iterations
+and116 Krylov iterations at weighted Linf1.48905e-12, above the fixed1e-12
+tolerance. The corresponding HiSpID references took4 Newton/44 Krylov steps
+and passed at6.46579e-15. The compiled report retains all failed BY checks
+despite API status0; their timings cannot support an accepted speedup ratio.
