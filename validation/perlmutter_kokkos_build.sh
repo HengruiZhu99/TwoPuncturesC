@@ -6,6 +6,9 @@ export PUNCTURE_RUN_ROOT=${1:?isolated scratch run directory required}
 cd "$PUNCTURE_RUN_ROOT/source"
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 OMP_PROC_BIND=close OMP_PLACES=cores
 export PYTHONPATH=python:validation:examples
+PUNCTURE_CC=${PUNCTURE_CC:-/opt/cray/pe/gcc-native/14/bin/gcc}
+PUNCTURE_CXX=${PUNCTURE_CXX:-/opt/cray/pe/gcc-native/14/bin/g++}
+export NVCC_WRAPPER_DEFAULT_COMPILER=${NVCC_WRAPPER_DEFAULT_COMPILER:-$PUNCTURE_CXX}
 if [[ ! -d "$PUNCTURE_RUN_ROOT/frozen-reference" ]]; then
   python3 validation/prepare_kokkos_reference.py --archive "$PUNCTURE_RUN_ROOT/frozen-25ca064.tar" --destination "$PUNCTURE_RUN_ROOT/frozen-reference" > "$PUNCTURE_RUN_ROOT/reference-provenance.log"
 fi
@@ -18,15 +21,16 @@ record['timing_wrapper_sha256']=hashlib.sha256((root/'validation/by_solver_timer
 record['timing_note']='Current wrappers add native residual timing and preserve reference arithmetic.'
 path.write_text(json.dumps(record,indent=2)+'\n')
 PY
-cmake -S "$PUNCTURE_RUN_ROOT/frozen-reference" -B "$PUNCTURE_RUN_ROOT/build-reference" -DCMAKE_BUILD_TYPE=Release -DPUNCTURES_KOKKOS=OFF -DHISPID_ROW_POWER=3 -DPUNCTURES_BENCHMARK=ON -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ > "$PUNCTURE_RUN_ROOT/configure-reference.log" 2>&1
+cmake -S "$PUNCTURE_RUN_ROOT/frozen-reference" -B "$PUNCTURE_RUN_ROOT/build-reference" -DCMAKE_BUILD_TYPE=Release -DPUNCTURES_KOKKOS=OFF -DHISPID_ROW_POWER=3 -DPUNCTURES_BENCHMARK=ON -DCMAKE_C_COMPILER="$PUNCTURE_CC" -DCMAKE_CXX_COMPILER="$PUNCTURE_CXX" > "$PUNCTURE_RUN_ROOT/configure-reference.log" 2>&1
 cmake --build "$PUNCTURE_RUN_ROOT/build-reference" -j1 > "$PUNCTURE_RUN_ROOT/build-reference.log" 2>&1
 for PUNCTURE_SPACE in serial openmp; do
   PUNCTURE_OMP=OFF
   if [[ "$PUNCTURE_SPACE" == openmp ]]; then PUNCTURE_OMP=ON; fi
-  cmake -S . -B "$PUNCTURE_RUN_ROOT/build-$PUNCTURE_SPACE" -DCMAKE_BUILD_TYPE=Release -DPUNCTURES_KOKKOS=ON -DPUNCTURES_KOKKOS_SOURCE="$PUNCTURE_RUN_ROOT/kokkos" -DHISPID_ROW_POWER=3 -DPUNCTURES_BENCHMARK=ON -DKokkos_ENABLE_SERIAL=ON -DKokkos_ENABLE_OPENMP="$PUNCTURE_OMP" -DKokkos_ENABLE_CUDA=OFF -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ > "$PUNCTURE_RUN_ROOT/configure-$PUNCTURE_SPACE.log" 2>&1
+  cmake -S . -B "$PUNCTURE_RUN_ROOT/build-$PUNCTURE_SPACE" -DCMAKE_BUILD_TYPE=Release -DPUNCTURES_KOKKOS=ON -DPUNCTURES_KOKKOS_SOURCE="$PUNCTURE_RUN_ROOT/kokkos" -DHISPID_ROW_POWER=3 -DPUNCTURES_BENCHMARK=ON -DKokkos_ENABLE_SERIAL=ON -DKokkos_ENABLE_OPENMP="$PUNCTURE_OMP" -DKokkos_ENABLE_CUDA=OFF -DCMAKE_C_COMPILER="$PUNCTURE_CC" -DCMAKE_CXX_COMPILER="$PUNCTURE_CXX" > "$PUNCTURE_RUN_ROOT/configure-$PUNCTURE_SPACE.log" 2>&1
   cmake --build "$PUNCTURE_RUN_ROOT/build-$PUNCTURE_SPACE" -j1 > "$PUNCTURE_RUN_ROOT/build-$PUNCTURE_SPACE.log" 2>&1
   ctest --test-dir "$PUNCTURE_RUN_ROOT/build-$PUNCTURE_SPACE" --output-on-failure -j1 > "$PUNCTURE_RUN_ROOT/test-$PUNCTURE_SPACE.log" 2>&1
  done
+cmake -S . -B "$PUNCTURE_RUN_ROOT/build-cuda" -DCMAKE_BUILD_TYPE=Release -DPUNCTURES_KOKKOS=ON -DPUNCTURES_KOKKOS_SOURCE="$PUNCTURE_RUN_ROOT/kokkos" -DHISPID_ROW_POWER=3 -DPUNCTURES_BENCHMARK=ON -DKokkos_ENABLE_SERIAL=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON -DKokkos_ENABLE_CUDA_LAMBDA=ON -DKokkos_ARCH_AMPERE80=ON -DCMAKE_C_COMPILER="$PUNCTURE_CC" -DCMAKE_CXX_COMPILER="$PUNCTURE_RUN_ROOT/kokkos/bin/nvcc_wrapper" > "$PUNCTURE_RUN_ROOT/configure-cuda.log" 2>&1
 cmake --build "$PUNCTURE_RUN_ROOT/build-cuda" -j1 > "$PUNCTURE_RUN_ROOT/build-cuda.log" 2>&1
 ctest --test-dir "$PUNCTURE_RUN_ROOT/build-cuda" --output-on-failure -j1 > "$PUNCTURE_RUN_ROOT/test-cuda.log" 2>&1
 python3 validation/kokkos_build_manifest.py --root "$PUNCTURE_RUN_ROOT" --output "$PUNCTURE_RUN_ROOT/build-manifest.json"
