@@ -77,13 +77,14 @@ def linear_log(record,text):
     record['linear_iterations']=[max(map(int,re.findall(r'^(?:bicgstab|gmres):\s+(\d+)\s',part,re.M)),default=0) for part in re.split(r'(?:bicgstab|gmres):  itmax.*\n',text)[1:]]
 
 
-def verify_artifacts(result):
+def verify_artifacts(result,artifact_root=None):
+    root=ROOT if artifact_root is None else Path(artifact_root)
     for label,row in {**result['records'],**result['failures']}.items():
         for key in ('state','log','worker'):
-            if key in row and digest(ROOT/row[key])!=row[key+'_sha256']:
+            if key in row and digest(root/row[key])!=row[key+'_sha256']:
                 raise RuntimeError(f'retained {key} changed: {label}')
     for path,sha in result.get('input_sha256',{}).items():
-        if digest(ROOT/path)!=sha:raise RuntimeError('retained input changed: '+path)
+        if digest(root/path)!=sha:raise RuntimeError('retained input changed: '+path)
 
 
 def protocol_checks(record,variant,images,expected_config):

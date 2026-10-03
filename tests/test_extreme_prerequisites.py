@@ -13,9 +13,26 @@ from run_extreme_kokkos import frozen_inputs,prerequisites,verify_hashes,source_
 from check_far_source_floor import isolated_controls
 from hispid import Config,Hole
 from configs import as_dict
+from benchmark_kokkos import verify_artifacts
 
 
 class ExtremePrerequisiteTests(unittest.TestCase):
+    def complete_performance(self):
+        grids=[[40,80,16],[80,160,16],[128,256,28]]
+        variants=['reference','serial','openmp1','openmp2','openmp4','openmp8','openmp16','cuda']
+        systems=['hispid','by'];methods=['gmres','bicgstab']
+        records={f'{"_".join(map(str,grid))}_{variant}_{system}_{method}_{repeat}':
+            dict(grid=grid,variant=variant,mode=system,krylov=method,repeat=repeat)
+            for grid in grids for variant in variants for system in systems for method in methods for repeat in range(3)}
+        failed=next(reversed(records));records.pop(failed)
+        for label,row in records.items():
+            for key in ('state','log','worker'):row.update({key:label+'.'+key,key+'_sha256':'0'*64})
+        return dict(declared_performance_completed=True,expected_workers=288,completed_workers=288,
+            binding=dict(grids=grids,systems=systems,methods=methods,repeats=3),
+            manifest=dict(variants=[dict(id=v) for v in variants]),records=records,
+            failures={failed:dict(log=failed+'.log',log_sha256='0'*64)},
+            input_sha256={f'input_{"_".join(map(str,grid))}.json':'0'*64 for grid in grids})
+
     def test_seed_controls_reject_partial_or_duplicate_cases(self):
         seed=dict(completed=True,passed=True,cases=[dict(case=case,completed=True)
             for case in ('spin99','gamma10')])
@@ -47,8 +64,7 @@ class ExtremePrerequisiteTests(unittest.TestCase):
 
     def test_only_complete_matrix_and_exact_compilation_receipt_pass(self):
         hashes={'performance':hashlib.sha256(b'performance').hexdigest(),'report':hashlib.sha256(b'report').hexdigest()}
-        performance=dict(declared_performance_completed=True,expected_workers=288,completed_workers=288,
-                         records={str(i):{} for i in range(287)},failures={'287':{}})
+        performance=self.complete_performance()
         receipt=dict(compilation_confirmed=True,compiler='mcp__codex_app__compile_latex_document',
                      performance_sha256=hashes['performance'],report_sha256=hashes['report'])
         prerequisites(performance,receipt,hashes)  # Retained failures do not become successful gates.
@@ -56,6 +72,51 @@ class ExtremePrerequisiteTests(unittest.TestCase):
             with self.subTest(key=key),self.assertRaises(ValueError):prerequisites(performance|{key:value},receipt,hashes)
         for key,value in (('compilation_confirmed',False),('compiler','unverified'),('performance_sha256','0'*64),('report_sha256','0'*64)):
             with self.subTest(key=key),self.assertRaises(ValueError):prerequisites(performance,receipt|{key:value},hashes)
+
+    def test_completion_counts_cannot_hide_wrong_coverage_or_row_identity(self):
+        hashes=dict(performance='performance',report='report')
+        receipt=dict(compilation_confirmed=True,compiler='mcp__codex_app__compile_latex_document',
+            performance_sha256='performance',report_sha256='report')
+        performance=self.complete_performance();failed=next(iter(performance['failures']))
+        performance['failures']={'wrong_key':{}}
+        with self.assertRaises(ValueError):prerequisites(performance,receipt,hashes)
+        performance=self.complete_performance();label=next(iter(performance['records']))
+        performance['records'][label]['repeat']=3
+        with self.assertRaisesRegex(ValueError,'record identity'):prerequisites(performance,receipt,hashes)
+        performance=self.complete_performance();performance['manifest']['variants'][-1]={'id':'reference'}
+        with self.assertRaises(ValueError):prerequisites(performance,receipt,hashes)
+        performance=self.complete_performance();performance['records'][failed]=dict()
+        with self.assertRaises(ValueError):prerequisites(performance,receipt,hashes)
+
+    def test_retained_artifacts_rechecked_in_explicit_original_root(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);row={};paths=[]
+            for key in ('state','log','worker'):
+                path=root/key;path.write_bytes(key.encode());paths.append(path)
+                row[key]=key;row[key+'_sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+            input_path=root/'input';input_path.write_bytes(b'input');paths.append(input_path)
+            result=dict(records={'worker':row},failures={},input_sha256={'input':hashlib.sha256(b'input').hexdigest()})
+            verify_artifacts(result,root)
+            for path in paths:
+                before=path.read_bytes();path.write_bytes(before+b'changed')
+                with self.subTest(artifact=path.name),self.assertRaises(RuntimeError):verify_artifacts(result,root)
+                path.write_bytes(before)
+
+    def test_missing_artifact_or_grid_input_witness_cannot_be_skipped(self):
+        hashes=dict(performance='performance',report='report')
+        receipt=dict(compilation_confirmed=True,compiler='mcp__codex_app__compile_latex_document',
+            performance_sha256='performance',report_sha256='report')
+        for key in ('state','state_sha256','log','log_sha256','worker','worker_sha256'):
+            performance=self.complete_performance();next(iter(performance['records'].values())).pop(key)
+            with self.subTest(missing=key),self.assertRaisesRegex(ValueError,'artifact witnesses'):
+                prerequisites(performance,receipt,hashes)
+        performance=self.complete_performance();next(iter(performance['failures'].values())).pop('log')
+        with self.assertRaisesRegex(ValueError,'artifact witnesses'):prerequisites(performance,receipt,hashes)
+        performance=self.complete_performance();performance['input_sha256']={}
+        with self.assertRaisesRegex(ValueError,'input witnesses'):prerequisites(performance,receipt,hashes)
+        performance=self.complete_performance();sha=performance['input_sha256'].pop('input_40_80_16.json')
+        performance['input_sha256']['wrong_grid.json']=sha
+        with self.assertRaisesRegex(ValueError,'input witnesses'):prerequisites(performance,receipt,hashes)
 
     def source_floor(self):
         floor=dict(schema='hispid_source_floor_v3',extreme_controls=True,library_sha256='producer',

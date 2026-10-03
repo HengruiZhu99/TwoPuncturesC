@@ -38,10 +38,38 @@ def verify_hashes(paths,hashes):
 
 
 def prerequisites(performance,receipt,hashes):
+    grids=[[40,80,16],[80,160,16],[128,256,28]]
+    variants={'reference','serial','openmp1','openmp2','openmp4','openmp8','openmp16','cuda'}
+    systems={'hispid','by'};methods={'gmres','bicgstab'}
+    binding=performance.get('binding',{})
+    ids=[v['id'] for v in performance.get('manifest',{}).get('variants',[])]
+    expected={f'{"_".join(map(str,grid))}_{variant}_{system}_{method}_{repeat}'
+        for grid in grids for variant in variants for system in systems for method in methods for repeat in range(3)}
+    records=performance.get('records',{});failures=performance.get('failures',{})
     if (performance.get('declared_performance_completed') is not True
         or performance.get('expected_workers')!=288 or performance.get('completed_workers')!=288
-        or len(performance.get('records',{}))+len(performance.get('failures',{}))!=288):
+        or binding.get('grids')!=grids or binding.get('repeats')!=3
+        or len(binding.get('systems',[]))!=2 or set(binding.get('systems',[]))!=systems
+        or len(binding.get('methods',[]))!=2 or set(binding.get('methods',[]))!=methods
+        or len(ids)!=8 or set(ids)!=variants or set(records)&set(failures)
+        or set(records)|set(failures)!=expected):
         raise ValueError('complete declared 288-worker performance matrix required')
+    for label,row in records.items():
+        actual=f'{"_".join(map(str,row.get("grid",[])))}_{row.get("variant")}_{row.get("mode")}_{row.get("krylov")}_{row.get("repeat")}'
+        if actual!=label:raise ValueError('performance record identity differs from its matrix key')
+    def valid_sha(value):
+        return isinstance(value,str) and len(value)==64 and all(c in '0123456789abcdef' for c in value)
+    for rows,keys in ((records,('state','log','worker')),(failures,('log',))):
+        for row in rows.values():
+            if any(not isinstance(row.get(key),str) or not row[key]
+                   or not valid_sha(row.get(key+'_sha256')) for key in keys):
+                raise ValueError('complete retained performance artifact witnesses required')
+    inputs=performance.get('input_sha256',{})
+    required_inputs={f'input_{"_".join(map(str,grid))}.json' for grid in grids}
+    if (len(inputs)!=3 or any(not isinstance(path,str) or not path for path in inputs)
+        or {Path(path).name for path in inputs}!=required_inputs
+        or any(not valid_sha(sha) for sha in inputs.values())):
+        raise ValueError('all three retained performance input witnesses required')
     if (receipt.get('compilation_confirmed') is not True
         or receipt.get('compiler')!='mcp__codex_app__compile_latex_document'
         or receipt.get('performance_sha256')!=hashes['performance']
@@ -134,6 +162,7 @@ def verify_source_floor_arrays(floor):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--library',required=True);p.add_argument('--performance-results',required=True)
+    p.add_argument('--performance-artifact-root',required=True,help='original benchmark source root containing retained state/log/worker/input files')
     p.add_argument('--compiled-report-receipt',required=True);p.add_argument('--compiled-report',required=True)
     p.add_argument('--seed-controls',required=True);p.add_argument('--source-floor-controls',required=True)
     p.add_argument('--plan',default=str(Path(__file__).with_name('extreme_kokkos_plan.json')))
@@ -147,6 +176,9 @@ def main():
         report=a.compiled_report,plan=a.plan,seed=a.seed_controls,floor=a.source_floor_controls)
     inputs,input_hashes=frozen_inputs(input_paths)
     performance,receipt=prerequisites(inputs['performance'],inputs['receipt'],input_hashes)
+    from benchmark_kokkos import verify_artifacts
+    performance_artifact_root=Path(a.performance_artifact_root).resolve(strict=True)
+    verify_artifacts(performance,performance_artifact_root)
     if not 1<=a.threads<=16:raise ValueError('one allocated GPU with at most16 host threads required')
     plan=inputs['plan'];case=next(c for c in plan['cases'] if c['label']==a.case)
     controls=plan['solve_controls'];validate_krylov(controls['krylov'],controls['linear_rtol'])
@@ -271,6 +303,7 @@ def main():
     verify_attempt()
     result.update(stage='diagnostic_extreme_investigation',plan_sha256=input_hashes['plan'],
         performance_sha256=input_hashes['performance'],compiled_report_receipt=receipt,
+        performance_artifact_root=str(performance_artifact_root),
         seed_controls_sha256=input_hashes['seed'],prerequisite_sha256=input_hashes,
         source_floor_controls_sha256=input_hashes['floor'],source_floor_passed=floor_passed,
         attempt_binding=dict(path=str(binding_path),sha256=binding_sha),prerequisites_passed=prerequisites_passed,

@@ -171,6 +171,13 @@ directories and one retained grid per invocation. It rejects an incomplete
 must name `mcp__codex_app__compile_latex_document` and bind the successfully
 compiled report and complete performance JSON by SHA256. The current compiled
 111-worker snapshot cannot unlock this stage. A fresh final receipt is required.
+Admission independently reconstructs the exact three-grid/eight-variant/
+two-system/two-method/three-repeat coverage and checks each successful row's
+identity. Supply `--performance-artifact-root` as the original benchmark
+source directory; state, log, worker and input hashes are rechecked there
+before a native context opens, even when newer validation tools run elsewhere.
+Successful rows require all three artifact path/hash pairs; failed attempts
+require their log witness, and all three grid input witnesses are mandatory.
 `check_target_seeds.py --extreme` supplies new separate .99/Gamma10 controls
 with refined, beam-aligned independent ADM quadrature. No new target has run.
 The runner now reserves a fresh output and saves each constraint step, exact
