@@ -1,5 +1,28 @@
 # Revised validation and AthenaK targets
 
+The October 2026 follow-up requests a Kokkos port and comprehensive matched
+performance report before separate aligned seed chi=.99 and inward head-on
+input Gamma=10 studies. This supersedes the earlier GPU deferral below.
+The new quantitative plan is `validation/extreme_kokkos_plan.json`; every
+physical result is currently pending. Earlier .95/.885 evidence remains
+bound to those cases and cannot qualify the new targets.
+
+For the boost study, start with equal rest masses .5 and d=25, then use the
+measured component areas to report and, if needed, calibrate d/Mirr about50.
+At Gamma10 the isolated seed energies sum to10, so d/Eseed is only2.5.
+Measure the global ADM energy and both component masses. This is separate
+from thesis Section4.5/Table4.3 (printed pp.117--119, PDF pp.142--144), whose
+d/MADM=100--400 cases were chosen to approximate isolated holes. Retain all
+changed-d cases, bounded component/common finder attempts and failed gates;
+a failed common search does not prove absence.
+
+Portable GPU-produced data will be checked against a pure CPU sampler in
+separate processes, with both library hashes, exact basis/maps, checkpoint
+hash and physical field/derivative/horizon-point witnesses. AthenaK's budget
+reader, domain and finder-role changes are pending validation. The producer
+budget is preserved; a consumer migration or ADM/Z4c round trip cannot
+inherit physical acceptance. No evolution steps are authorized here.
+
 The user's revised targets are seed rest spin |S|/m²=0.95 and lab coordinate
 speed |v|=0.885 (Gamma=2.147807737), followed by initial-data import and horizon
 checks in AthenaK. These inputs are not measured horizon spins or momenta.

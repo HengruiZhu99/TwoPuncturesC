@@ -133,8 +133,10 @@ post-solve work are not individually instrumented). Transfer timings overlap
 setup/operator phases; API copy volumes exclude runtime-internal traffic.
 \section{Completed measurements}
 ''')
-    doc.append(f"Completed workers: {result.get('completed_workers',len(records))} of {result.get('expected_workers','pending')}. Retained worker failures: {len(result['failures'])}. Strict state comparison failures: {len(failed_comparisons)}."+r'\\'+'\n')
-    if result.get('expected_workers')!=result.get('completed_workers'):doc.append(r'\textbf{This is an incomplete measurement snapshot; pending rows are not estimated.}\par'+'\n')
+    completed=len(records)+len(result['failures'])
+    expected=len(binding.get('grids',[]))*binding.get('repeats',0)*len(binding.get('systems',[]))*len(binding.get('methods',[]))*len(variants)
+    doc.append(f"Completed workers: {completed} of {expected}. Retained worker failures: {len(result['failures'])}. Strict state comparison failures: {len(failed_comparisons)}."+r'\\'+'\n')
+    if completed!=expected:doc.append(r'\textbf{This is an incomplete measurement snapshot; pending rows are not estimated.}\par'+'\n')
     if not result.get('declared_performance_completed'):doc.append(r'\textbf{The full declared three-grid, eight-variant, three-repeat protocol is not yet complete. This snapshot cannot substitute for the comprehensive report.}\par'+'\n')
     doc.append(r'\begin{center}\small\begin{tabular}{llrrrr}\toprule Grid & System/method & OMP16 speedup & GPU/OMP16 & GPU cold speedup & OMP RSS saved\\\midrule'+'\n')
     for grid in grids:
@@ -235,6 +237,13 @@ nonspinning inward head-on input $\Gamma=10$ investigations. The latter uses
 $v=\sqrt{0.99}$ and coordinate separation about 50 times one hole's measured
 $M_{\rm irr}=\sqrt{A/(16\pi)}$, rather than total ADM mass. Measured horizon
 spins, masses and momenta will be distinguished from seed parameters.
+For nonspinning isolated seeds with $m=0.5$, $M_{\rm irr}=0.5$, so the
+initial choice is $d\simeq25$. At input $\Gamma=10$ the total isolated seed
+energy is about10, giving $d/E_{\rm seed}\simeq2.5$. Binary component masses
+and global ADM energy must be measured, and changed-separation calibration
+cases retained individually. This differs from the thesis Table4.3
+$d/M_{\rm ADM}=100$--400 regime chosen to approximate isolated holes
+\cite{thesis}. Failed common-horizon searches do not prove absence.
 New physical runs follow the completed performance report. They require
 fresh seed controls, at least three resolutions, independent exterior
 constraint convergence, charges/covariance, initial-time AthenaK import,
@@ -253,6 +262,10 @@ unchanged. Source controls and failed comparisons are retained with the report.
 \begin{thebibliography}{9}
 \bibitem{hispid} Ruchlin et al., \emph{Puncture Initial Data for Black-Hole
 Binaries with High Spins and High Boosts}, \url{https://arxiv.org/abs/1410.8607}.
+\bibitem{thesis} I. Ruchlin, \emph{Puncture Initial Data and Evolution of
+Black Hole Binaries with High Speed and High Spin}, RIT dissertation,
+August2015, Section4.5 and Table4.3 (printed pp.117--119),
+\url{https://repository.rit.edu/theses/8797/}.
 \bibitem{nersc} NERSC, job policy and interactive resources,
 \url{https://docs.nersc.gov/jobs/policy/},
 \url{https://docs.nersc.gov/jobs/interactive/}.

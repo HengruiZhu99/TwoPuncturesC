@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--job-id', required=True)
     parser.add_argument('--results', required=True)
     parser.add_argument('--finalize-margin-seconds', type=int, default=900)
+    parser.add_argument('--wait-for-epoch', action='store_true', help='allow up to180 seconds for a newly resumed coordinator to publish this allocation')
     args = parser.parse_args()
     if not args.job_id.isdecimal() or args.finalize_margin_seconds < 60:
         parser.error('numeric job ID and at least 60 seconds finalization margin required')
@@ -32,12 +33,20 @@ def main():
     raw = path.parent/'raw'/path.stem
     if not raw.is_dir():
         raise FileNotFoundError(raw)
+    observed_epoch = False
+    epoch_deadline = time.monotonic() + 180
     while True:
         result = json.loads(path.read_text())  # atomic coordinator checkpoints
         epoch = result['allocation_epochs'][-1]
         if epoch['environment']['SLURM_JOB_ID'] != args.job_id:
+            if args.wait_for_epoch and not observed_epoch:
+                if time.monotonic() > epoch_deadline:
+                    raise RuntimeError('Resumed coordinator did not publish its allocation epoch')
+                time.sleep(2)
+                continue
             print('Allocation epoch changed; observer exits without action', flush=True)
             return
+        observed_epoch = True
         binding = result['binding']
         expected = len(binding['grids'])*binding['repeats']*len(binding['systems'])*len(binding['methods'])*len(result['manifest']['variants'])
         if len(result['records']) + len(result['failures']) == expected:
@@ -47,7 +56,9 @@ def main():
         if not listing:
             raise RuntimeError('Allocation disappeared before a clean checkpoint')
         remaining = duration(listing)
-        threshold = binding['timeout'] + args.finalize_margin_seconds
+        # A worker may start just after the last poll. Include both the30s
+        # sleep and the bounded15s scheduler query in the safety threshold.
+        threshold = binding['timeout'] + args.finalize_margin_seconds + 45
         if remaining <= threshold:
             (raw/'STOP_AFTER_WORKER').touch()
             print(f'Requested between-worker checkpoint: {remaining}s left; worker timeout {binding["timeout"]}s plus margin {args.finalize_margin_seconds}s', flush=True)
