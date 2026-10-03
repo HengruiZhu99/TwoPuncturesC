@@ -6,7 +6,11 @@ first derivatives, with an independently specified exact horizon ellipsoid.
 No elliptic binary acceptance is inferred from these zero-correction controls.
 """
 import argparse
+import hashlib
 import json
+import os
+from pathlib import Path
+import sys
 import time
 
 import numpy as np
@@ -15,11 +19,22 @@ from hispid import Backend, Hole
 from configs import as_dict
 from checkpoints import ROOT, library_sha
 from physical import constraints, norms, charges, extrapolate
+from native_loader import loaded_kokkos_images
 
 
 def direction(x):
     x = np.asarray(x, dtype=float)
     return x / np.linalg.norm(x)
+
+
+def write_progress(path,bound,metadata,output):
+    """Atomic update of a reserved new attempt; changed inputs leave old evidence."""
+    if any(hashlib.sha256(Path(file).read_bytes()).hexdigest()!=sha for file,sha in bound.items()):
+        raise ValueError('bound exact-seed control implementation or native image changed')
+    payload=dict(output,bound_artifacts_sha256=bound,**metadata)
+    temporary=path.with_name(path.name+'.tmp')
+    with temporary.open('x') as stream:stream.write(json.dumps(payload,indent=2)+'\n')
+    os.replace(temporary,path)
 
 
 def horizon_expansion(solution, hole, directions):
@@ -52,7 +67,7 @@ def horizon_expansion(solution, hole, directions):
             - np.einsum('nij,nij->n', inverse, K))
 
 
-def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=False):
+def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=False,progress=None):
     axes = np.array([[.73, .31, .61], [-.41, .82, .39], [.22, -.51, .83],
                      [-.69, -.44, .57], [.39, .73, -.56], [.81, -.38, -.45]])
     axes /= np.linalg.norm(axes, axis=1)[:, None]
@@ -60,12 +75,17 @@ def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=F
     cases = targets or [('spin95', .95, 0), ('boost885', 0, .885),
                        ('spin95_boost885_generic', .95, .885)]
     quadrature_levels=quadrature_levels or ((16,32),(24,48),(32,64))
-    output = dict(library_sha256=library_sha(backend), cases=[], passed=False,
+    output = dict(library_sha256=library_sha(backend), cases=[], passed=False,completed=False,
                   criteria=dict(physical_constraint_rms=1e-7,
                                 ADM_absolute_error=1e-5,
                                 ADM_quadrature_change=1e-5,
                                 ADM_radial_fit_change=1e-5,
                                 exact_horizon_expansion_max=1e-10))
+    def save():
+        if library_sha(backend)!=output['library_sha256']:
+            raise ValueError('exact-seed native image changed')
+        if progress:progress(output)
+    save()
     for label, chi, speed in cases:
         start = time.monotonic()
         hole = Hole(1, spin=chi * spin_axis, velocity=speed * boost_axis)
@@ -95,20 +115,31 @@ def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=F
         step = np.minimum(.002, .001 * np.linalg.norm(xyz, axis=1))
         sample = lambda x: backend.seed(hole, x, config.conformal_choice)
         sequence = []
+        expected = np.r_[G, G * v, G * S - G**2 / (G + 1) * (v @ S) * v]
+        quadratures = []
+        record = dict(case=label, config=as_dict(config), seed_rest_chi=chi, lab_speed=speed,
+                      input_lorentz_factor=float(G),polar_frame=frame.tolist() if frame is not None else None,
+                      xyz=xyz.tolist(),verifier_steps=step.tolist(),constraint_sequence=sequence,
+                      radii=list(radii),charge_quadratures=quadratures,expected_charges=expected.tolist(),
+                      passed=False,completed=False)
+        output['cases'].append(record);save()
         for factor in (2, 1, .5):
             residual = constraints(sample, xyz, factor * step)
             sequence.append(dict(step_factor=factor,
                                  near=norms(residual, np.arange(len(xyz)) < len(near)),
                                  bulk=norms(residual, np.arange(len(xyz)) >= len(near))))
+            save()
         with backend.create_sampler(config) as solution:
             expansion = horizon_expansion(solution, hole, axes)
-        expected = np.r_[G, G * v, G * S - G**2 / (G + 1) * (v @ S) * v]
-        quadratures = []
+        record['exact_horizon_expansion']=expansion.tolist();save()
         for nt, np_ in quadrature_levels:
-            q = [charges(sample, r, ntheta=nt, nphi=np_,polar_frame=frame) for r in radii]
+            q=[];quadrature=dict(ntheta=nt,nphi=np_,charges=[],radial_fits=[],completed=False)
+            quadratures.append(quadrature);save()
+            for r in radii:
+                value=charges(sample,r,ntheta=nt,nphi=np_,polar_frame=frame)
+                q.append(value);quadrature['charges'].append(np.asarray(value).tolist());save()
             fits = [extrapolate(radii[i:i+4], q[i:i+4]) for i in range(len(radii)-3)]
-            quadratures.append(dict(ntheta=nt, nphi=np_, charges=np.array(q).tolist(),
-                                    radial_fits=np.array(fits).tolist()))
+            quadrature.update(radial_fits=np.array(fits).tolist(),completed=True);save()
         final = np.array(quadratures[-1]['radial_fits'][-1])
         error = np.max(abs(final - expected))
         quad_change = np.max(abs(final - quadratures[-2]['radial_fits'][-1]))
@@ -117,17 +148,13 @@ def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=F
                               for region in ('near', 'bulk') for component in ('H_rms', 'M_rms'))
         passed = (constraint_pass and error < 1e-5 and quad_change < 1e-5
                   and radial_change < 1e-5 and np.max(abs(expansion)) < 1e-10)
-        record = dict(case=label, config=as_dict(config), seed_rest_chi=chi, lab_speed=speed,
-                      input_lorentz_factor=float(G),polar_frame=frame.tolist() if frame is not None else None,
-                      xyz=xyz.tolist(), verifier_steps=step.tolist(), constraint_sequence=sequence,
-                      exact_horizon_expansion=expansion.tolist(), radii=radii,
-                      charge_quadratures=quadratures, expected_charges=expected.tolist(),
-                      charge_error_max=float(error), quadrature_change_max=float(quad_change),
+        record.update(charge_error_max=float(error), quadrature_change_max=float(quad_change),
                       radial_fit_change_max=float(radial_change), passed=bool(passed),
-                      seconds=time.monotonic() - start)
-        output['cases'].append(record)
+                      seconds=time.monotonic() - start,completed=True)
+        save()
         print(label, sequence[-1], 'charge error', error, 'Theta', expansion, flush=True)
     output['passed'] = all(case['passed'] for case in output['cases'])
+    output['completed']=True;save()
     return output
 
 
@@ -141,10 +168,31 @@ if __name__ == '__main__':
     radii = list(map(float, args.radii.split(',')))
     if len(radii)<5 or min(radii)<=0 or not np.isfinite(radii).all() or not np.all(np.diff(radii)>0):
         raise ValueError('at least five finite positive increasing charge radii are required')
-    if (ROOT/args.output).exists():raise FileExistsError('use a new output path to retain prior control evidence')
-    result = run(Backend(args.library), radii,
-        targets=[('spin99',.99,0),('gamma10',0,float(np.sqrt(.99)))] if args.extreme else None,
-        quadrature_levels=((64,64),(128,128),(192,192)) if args.extreme else None,
-        align_polar_axis=args.extreme)
-    (ROOT / args.output).write_text(json.dumps(result, indent=2) + '\n')
+    path=(ROOT/args.output).resolve();path.parent.mkdir(parents=True,exist_ok=True)
+    with path.open('x') as stream:
+        stream.write(json.dumps(dict(passed=False,completed=False,stage='loading_bound_library'))+'\n')
+    latest={};bound=None;metadata=None
+    def progress(output):
+        latest['output']=output
+        write_progress(path,bound,metadata,output)
+    try:
+        backend=Backend(args.library)
+        paths=[Path(__file__).resolve()]+[Path(__import__(name).__file__).resolve() for name in
+            ('hispid','configs','checkpoints','physical','native_loader')]
+        bound={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+        bound[str(backend.path)]=library_sha(backend);bound.update(backend.dependency_images)
+        bound.update(loaded_kokkos_images())
+        metadata=dict(library_dependency_images=backend.dependency_images,
+            unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps())
+        result = run(backend, radii,
+            targets=[('spin99',.99,0),('gamma10',0,float(np.sqrt(.99)))] if args.extreme else None,
+            quadrature_levels=((64,64),(128,128),(192,192)) if args.extreme else None,
+            align_polar_axis=args.extreme,progress=progress)
+    except BaseException as error:
+        output=latest.get('output',dict(stage='setup_failed',cases=[]))
+        output.update(passed=False,completed=False,failure=dict(type=type(error).__name__,message=str(error)))
+        try:write_progress(path,bound or {},metadata or {},output)
+        except BaseException as write_error:
+            print('Failure record unavailable; prior snapshot preserved: '+str(write_error),file=sys.stderr)
+        raise
     raise SystemExit(0 if result['passed'] else 1)

@@ -173,6 +173,11 @@ compiled report and complete performance JSON by SHA256. The current compiled
 111-worker snapshot cannot unlock this stage. A fresh final receipt is required.
 `check_target_seeds.py --extreme` supplies new separate .99/Gamma10 controls
 with refined, beam-aligned independent ADM quadrature. No new target has run.
+The runner now reserves a fresh output and saves each constraint step, exact
+expansion and individual charge radius before moving on. Incomplete controls
+remain unqualified; interruptions retain measurements with a failure record.
+Every atomic progress write rechecks its source and native image hashes. This
+changes retention only, with the same sampling, quadratures and thresholds.
 
 Every extreme-study export is explicitly `diagnostic`: physical constraints,
 refined charges, solved covariance and AthenaK horizons remain distinct gates.
