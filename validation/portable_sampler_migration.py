@@ -35,6 +35,7 @@ def witness_points(config):
     mu,phi=np.meshgrid(mu,phi,indexing='ij')
     directions=np.c_[np.sqrt(1-mu.ravel()**2)*np.cos(phi.ravel()),
                      np.sqrt(1-mu.ravel()**2)*np.sin(phi.ravel()),mu.ravel()]
+    directions=np.r_[directions,np.eye(3),-np.eye(3)]
     trials=[]
     for hole in config.hole:
         if hole.mass<=0:continue
@@ -102,6 +103,7 @@ def main():
     env=os.environ.copy();env.update(OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',VECLIB_MAXIMUM_THREADS='1')
     for side,library,sha in zip(('producer','consumer'),libraries,hashes):
         if digest(checkpoint_path)!=checkpoint['file_sha256']:raise ValueError('checkpoint changed before worker')
+        if any(digest(p)!=s for p,s in zip(libraries,hashes)):raise ValueError('bound library changed before worker')
         artifact=raw/(side+'.npz')
         command=[sys.executable,str(Path(__file__).resolve()),'--checkpoint',str(checkpoint_path),
                  '--worker-library',str(library),'--worker-sha',sha,'--worker-output',str(artifact)]
@@ -137,6 +139,11 @@ def main():
         and max(result['differences'].values())<=TOLERANCE)
     result['note']='Identical coefficients and exact basis/maps; separate loaded-image witnesses, off-grid and trial-horizon fields/derivatives. This empirical sampler comparison does not establish physical constraints, exact PDE equivalence, or horizon accuracy. Source acceptance is preserved.'
     if digest(checkpoint_path)!=checkpoint['file_sha256']:raise ValueError('checkpoint changed before qualification')
+    for worker in result['workers']:
+        if (digest(worker['library_path'])!=worker['library_sha256']
+            or digest(worker['artifact'])!=worker['artifact_sha256']
+            or any(digest(p)!=s for p,s in (worker['dependency_images']|worker['runtime_images']).items())):
+            raise ValueError('sampler image or raw witness changed before qualification')
     save();print(json.dumps(result['differences']),flush=True)
     return 0 if result['passed'] else 1
 

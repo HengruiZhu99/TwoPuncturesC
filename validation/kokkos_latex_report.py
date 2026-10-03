@@ -136,7 +136,8 @@ setup/operator phases; API copy volumes exclude runtime-internal traffic.
 ''')
     completed=len(records)+len(result['failures'])
     expected=len(binding.get('grids',[]))*binding.get('repeats',0)*len(binding.get('systems',[]))*len(binding.get('methods',[]))*len(variants)
-    doc.append(f"Completed workers: {completed} of {expected}. Retained worker failures: {len(result['failures'])}. Strict state comparison failures: {len(failed_comparisons)}."+r'\\'+'\n')
+    failed_checks=[(label,row) for label,row in records.items() if not row['checks']['passed']]
+    doc.append(f"Completed workers: {completed} of {expected}. Retained process failures: {len(result['failures'])}. Completed workers failing stopping/protocol checks: {len(failed_checks)}. Strict state comparison failures: {len(failed_comparisons)}."+r'\\'+'\n')
     if completed!=expected:doc.append(r'\textbf{This is an incomplete measurement snapshot; pending rows are not estimated.}\par'+'\n')
     if not result.get('declared_performance_completed'):doc.append(r'\textbf{The full declared three-grid, eight-variant, three-repeat protocol is not yet complete. This snapshot cannot substitute for the comprehensive report.}\par'+'\n')
     doc.append(r'\begin{center}\small\begin{tabular}{llrrrr}\toprule Grid & System/method & OMP16 speedup & GPU/OMP16 & GPU cold speedup & OMP RSS saved\\\midrule'+'\n')
@@ -205,6 +206,25 @@ setup/operator phases; API copy volumes exclude runtime-internal traffic.
         doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
     doc.append(r'\section{Numerical comparison results}'+'\n')
     doc.append('Worker stopping checks: '+('all passed' if result.get('all_stopping_checks_passed') else 'pending or failed; inspect retained records')+'.\n')
+    if failed_checks:
+        doc.append(r'''An API success code does not establish convergence. The following
+completed workers fail an independently checked stopping or protocol gate;
+their weighted residuals, work counts and maximum true inner relative residual
+are retained. A near-tolerance plateau alone does not identify its cause.
+No speedup ratio above uses a group containing one of these failures.
+\scriptsize\begin{longtable}{p{0.40\linewidth}rrrrp{0.22\linewidth}}
+\toprule Worker & Status & Weighted $L^\infty$ & N/K & Inner max & Failed checks\\
+\midrule\endhead
+''')
+        for label,row in failed_checks:
+            history=row['linear_history']
+            relative=[h[2] if row['mode']=='hispid' else h['true_relative_l2'] for h in history]
+            n,k,_,_=work(row)
+            reasons=', '.join(key for key,value in row['checks'].items() if key!='passed' and not value)
+            cells=[r'\nolinkurl{'+label+'}',str(row['diagnostics']['status']),number(max(row['computational_norms']['native_weighted']['linf'])),
+                str(n)+'/'+str(k),number(max(relative)) if relative else '--',tex(reasons)]
+            doc.append(' & '.join(cells)+r'\\'+'\n')
+        doc.append(r'\bottomrule\end{longtable}\normalsize'+'\n')
     doc.append(r'''The existing HiSpID weak raw-modal/coefficient preservation failure remains
 failed. Agreement of sampled physical metric, curvature, gradients and
 charges does not waive that criterion. Kernel qualification and internally
