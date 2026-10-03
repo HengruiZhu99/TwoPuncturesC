@@ -50,11 +50,83 @@ def prerequisites(performance,receipt,hashes):
     return performance,receipt
 
 
+def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32768):
+    """Bind exact isolated controls to the binary's charts and declared norm.
+
+    Structural mismatches are rejected; retained numerical failures return
+    false and may only accompany an explicitly diagnostic investigation.
+    """
+    if (floor.get('schema')!='hispid_source_floor_v3' or floor.get('extreme_controls') is not True
+        or floor.get('library_sha256')!=library_sha or floor.get('residual_scaling')!='sin3_alpha_beta'
+        or floor.get('execution')!='kokkos' or floor.get('compiled_execution')!='Cuda'
+        or floor.get('seed_mass')!=mass or floor.get('coordinate_separation')!=separation
+        or floor.get('weighted_far_source_bound')!=1e-14 or floor.get('far_radius_minimum')!=100.
+        or floor.get('exact_correction')!=0.):
+        raise ValueError('source-floor controls differ from the target charts, norm or producer')
+    from check_far_source_floor import isolated_controls
+    controls={label:(spin*mass**2,velocity) for label,spin,velocity in isolated_controls(True)}
+    rows=floor.get('records',[])
+    keys=[(r['case'],r['active_hole'],tuple(r['resolution'])) for r in rows]
+    required={(label,active,tuple(grid)) for label in controls for active in (0,1) for grid in grids}
+    if len(keys)!=len(set(keys)) or not required.issubset(keys):
+        raise ValueError('complete distinct exact-seed controls required at every target grid')
+    passed=floor.get('passed') is True
+    for row in rows:
+        if (row['case'],row['active_hole'],tuple(row['resolution'])) not in required:continue
+        cfg=row['config'];spin,velocity=controls[row['case']]
+        active=row['active_hole'];sign=1 if active==0 else -1
+        hole=cfg['hole'][active];inactive=cfg['hole'][1-active]
+        if (cfg['n']!=row['resolution'] or cfg['memory_limit_mib']!=memory_mib
+            or hole['mass']!=mass or hole['center']!=[sign*separation/2,0,0]
+            or not np.array_equal(hole['spin'],spin) or not np.array_equal(hole['velocity'],-sign*velocity)
+            or inactive['mass']!=0 or inactive['center']!=[-sign*separation/2,0,0]
+            or cfg['conformal_choice']!=0 or cfg['inner_flatten']!=0
+            or cfg['inner_min']!=[0,0] or cfg['inner_max']!=[0,0]
+            or cfg['omega']!=[0,0] or cfg['far_radius']!=0):
+            raise ValueError('source-floor geometry or attenuation differs from exact isolated controls')
+        values=np.asarray(row.get('weighted_far_source_linf',[]))
+        physical_values=np.asarray(row.get('physical_equivalent_far_linf',[]))
+        passed &= bool(row.get('completed') is True and row.get('passed') is True and values.shape==(4,)
+            and np.isfinite(values).all() and np.min(values)>=0 and np.max(values)<1e-14
+            and physical_values.shape==(4,) and np.isfinite(physical_values).all() and np.min(physical_values)>=0
+            and row.get('far_node_count',0)>0 and row.get('far_radius_range',[0])[0]>=100.)
+    return bool(passed)
+
+
+def verify_source_floor_arrays(floor):
+    """Recompute admission summaries from their immutable full numerical arrays."""
+    bindings={}
+    for row in floor['records']:
+        artifact=row['raw_artifact'];path=artifact['path'];sha=artifact['sha256']
+        if path in bindings:raise ValueError('each source-floor control needs a distinct retained artifact')
+        if digest(path)!=sha:raise ValueError('source-floor array hash mismatch')
+        with np.load(path) as data:
+            xyz=data['xyz'];weighted=data['weighted'];unknowns=data['unknowns'];saved_mask=data['far_mask']
+            physical=data['physical_equivalent']
+            count=int(np.prod(row['resolution']))
+            if (xyz.shape!=(count,3) or weighted.shape!=(count,4) or physical.shape!=(count,4)
+                or unknowns.size!=4*count or not np.isfinite(xyz).all() or not np.isfinite(unknowns).all()
+                or not np.all(unknowns==0) or saved_mask.shape!=(count,)):
+                raise ValueError('source-floor array dimensions or zero-correction witness differ')
+            radius=np.linalg.norm(xyz,axis=1);mask=radius>=floor['far_radius_minimum']
+            if not mask.any() or not np.array_equal(saved_mask,mask):raise ValueError('source-floor far mask differs')
+            values=np.max(abs(weighted[mask]),axis=0);pvalues=np.max(abs(physical[mask]),axis=0)
+            limits=[float(radius[mask].min()),float(radius[mask].max())]
+            if (int(mask.sum())!=row['far_node_count'] or not np.array_equal(values,row['weighted_far_source_linf'],equal_nan=True)
+                or not np.array_equal(pvalues,row['physical_equivalent_far_linf'],equal_nan=True)
+                or not np.allclose(limits,row['far_radius_range'],rtol=4*np.finfo(float).eps,atol=0)):
+                raise ValueError('source-floor retained arrays differ from reported summaries')
+        if digest(path)!=sha:raise ValueError('source-floor arrays changed while decoding')
+        bindings[path]=sha
+    return bindings
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--library',required=True);p.add_argument('--performance-results',required=True)
     p.add_argument('--compiled-report-receipt',required=True);p.add_argument('--compiled-report',required=True)
-    p.add_argument('--seed-controls',required=True);p.add_argument('--plan',default=str(Path(__file__).with_name('extreme_kokkos_plan.json')))
+    p.add_argument('--seed-controls',required=True);p.add_argument('--source-floor-controls',required=True)
+    p.add_argument('--plan',default=str(Path(__file__).with_name('extreme_kokkos_plan.json')))
     p.add_argument('--case',choices=('aligned_spin99_kokkos','headon_gamma10_kokkos'),required=True)
     p.add_argument('--grid-index',type=int,required=True)
     p.add_argument('--separation',type=float,help='retain a separately labeled separation-calibration case')
@@ -62,7 +134,7 @@ def main():
     p.add_argument('--allow-diagnostic-investigation',action='store_true',help='retain failed prerequisite gates while measuring unqualified data')
     a=p.parse_args()
     input_paths=dict(performance=a.performance_results,receipt=a.compiled_report_receipt,
-        report=a.compiled_report,plan=a.plan,seed=a.seed_controls)
+        report=a.compiled_report,plan=a.plan,seed=a.seed_controls,floor=a.source_floor_controls)
     inputs,input_hashes=frozen_inputs(input_paths)
     performance,receipt=prerequisites(inputs['performance'],inputs['receipt'],input_hashes)
     if not 1<=a.threads<=16:raise ValueError('one allocated GPU with at most16 host threads required')
@@ -80,11 +152,19 @@ def main():
     seed=inputs['seed']
     if seed.get('library_sha256')!=digest(library) or {c['case'] for c in seed.get('cases',[])}!={'spin99','gamma10'}:
         raise ValueError('fresh bound chi=.99/Gamma=10 seed controls required')
-    inputs={c['case']:c for c in seed['cases']}
-    if inputs['spin99']['seed_rest_chi']!=.99 or abs(inputs['gamma10']['input_lorentz_factor']/10-1)>1e-13:
+    seed_cases={c['case']:c for c in seed['cases']}
+    if seed_cases['spin99']['seed_rest_chi']!=.99 or abs(seed_cases['gamma10']['input_lorentz_factor']/10-1)>1e-13:
         raise ValueError('seed controls do not represent the requested targets')
+    initial_separation=12. if a.case.startswith('aligned') else 25.
+    separation=a.separation if a.separation is not None else initial_separation
+    floor=inputs['floor']
+    floor_passed=source_floor_passed(floor,digest(library),grids,separation,memory_mib=controls['memory_limit_mib'])
+    floor_artifacts=verify_source_floor_arrays(floor)
+    if (not floor.get('bound_images') or any(measured.get(path)!=sha for path,sha in floor['bound_images'].items())
+        or any(digest(path)!=sha for path,sha in floor_artifacts.items())):
+        raise ValueError('source-floor images or retained arrays differ from measured evidence')
     prerequisites_passed=bool(seed.get('passed') and performance.get('all_stopping_checks_passed')
-                              and performance.get('strict_state_comparisons_passed'))
+                              and performance.get('strict_state_comparisons_passed') and floor_passed)
     if not prerequisites_passed and not a.allow_diagnostic_investigation:
         raise ValueError('failed prerequisites require an explicitly diagnostic investigation')
     os.environ.update(OMP_NUM_THREADS=str(a.threads),OPENBLAS_NUM_THREADS='1',OMP_PROC_BIND='close',OMP_PLACES='cores')
@@ -92,14 +172,14 @@ def main():
     if (backend.parameterization_maps()!=dict(radial_stretch=plan['common_free_data']['maps'][0],angular_stretch=plan['common_free_data']['maps'][1])
         or backend.residual_scaling()!='sin3_alpha_beta' or plan['solve_controls']['row_power']!=3):
         raise ValueError('producer basis/maps/row scaling differs from the declared plan')
+    if floor.get('unknown_parameterization_id')!=backend.parameterization() or floor.get('collocation_maps')!=backend.parameterization_maps():
+        raise ValueError('source-floor continuous basis/maps differ from producer')
     actual_images=backend.dependency_images | loaded_kokkos_images()
     if any(measured.get(path)!=sha for path,sha in actual_images.items()):
         raise ValueError('loaded puncture/runtime image differs from the measured CUDA build')
     device=device_description(backend.lib)
     if name(backend.lib)!='Cuda' or concurrency(backend.lib)!=a.threads or not device or device['visible_count']!=1 or device['visible_ordinal']!=0:
         raise ValueError('actual one-GPU CUDA execution and requested host concurrency required')
-    initial_separation=12. if a.case.startswith('aligned') else 25.
-    separation=a.separation if a.separation is not None else initial_separation
     label=a.case+(('_d'+format(separation,'.17g').replace('.','p')) if a.separation is not None else '')
     fourier=a.grid_index==len(case['grids'])
     if fourier:label+='_fourier_control'
@@ -109,7 +189,7 @@ def main():
     previous=report.get(label,{}).get('records',[])
     grid=grids[a.grid_index]
     if any(r['resolution']==grid for r in previous):raise ValueError('grid already retained; use a separate case for a new attempt')
-    if any((raw/f'{label}_{grid[0]}_{grid[2]}{suffix}.npz').exists() for suffix in ('','_collocation')):
+    if any((raw/f'{label}_{grid[0]}_{grid[2]}{suffix}.npz').exists() for suffix in ('','_collocation','_solve')):
         raise FileExistsError('unrecorded attempt artifacts exist; preserve them and use a fresh output location')
     if not fourier and a.grid_index!=len(previous):raise ValueError('retain the declared radial sequence in order')
     if [r['resolution'] for r in previous]!=case['grids'][:len(previous)]:
@@ -138,6 +218,8 @@ def main():
         if digest(binding_path)!=binding_sha:raise ValueError('immutable attempt binding changed')
         if any(digest(path)!=sha for path,sha in measured.items()):
             raise ValueError('measured CUDA build/dependencies changed during the attempt')
+        if any(digest(path)!=sha for path,sha in floor_artifacts.items()):
+            raise ValueError('source-floor arrays changed during the attempt')
         if backend.dependency_images | loaded_kokkos_images()!=actual_images:
             raise ValueError('loaded puncture/runtime image changed during the attempt')
         if any(digest(path)!=sha for path,sha in row_receipts.items()):
@@ -145,7 +227,7 @@ def main():
         for row in previous:
             artifacts=row.get('raw_artifact_sha256',{})
             expected={str((raw/f"{label}_{row['resolution'][0]}_{row['resolution'][2]}{suffix}.npz").resolve())
-                      for suffix in ('','_collocation')}
+                      for suffix in ('','_collocation','_solve')}
             if set(artifacts)!=expected or any(digest(path)!=sha for path,sha in artifacts.items()):
                 raise ValueError('retained row raw artifacts are missing or changed')
     verify_attempt()
@@ -180,6 +262,7 @@ def main():
     result.update(stage='diagnostic_extreme_investigation',plan_sha256=input_hashes['plan'],
         performance_sha256=input_hashes['performance'],compiled_report_receipt=receipt,
         seed_controls_sha256=input_hashes['seed'],prerequisite_sha256=input_hashes,
+        source_floor_controls_sha256=input_hashes['floor'],source_floor_passed=floor_passed,
         attempt_binding=dict(path=str(binding_path),sha256=binding_sha),prerequisites_passed=prerequisites_passed,
         library_dependency_images=backend.dependency_images,runtime_images=loaded_kokkos_images(),device=device,coordinate_separation=separation,
         portable_checkpoint=exported,acceptance_transferred=False,reference_reproduction=False,

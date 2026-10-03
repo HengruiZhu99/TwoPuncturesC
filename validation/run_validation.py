@@ -83,7 +83,7 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
     if initial_guess is not None and (records or initial_record):raise ValueError('remapped guess cannot be combined with checkpoint warm starts')
     if initial_guess is not None:
         if (report_path.exists() and label in json.loads(report_path.read_text())) or any(
-                (raw_root/f'{label}_{n}_{nphi}{suffix}.npz').exists() for n,nphi in levels for suffix in ('','_collocation')):
+                (raw_root/f'{label}_{n}_{nphi}{suffix}.npz').exists() for n,nphi in levels for suffix in ('','_collocation','_solve')):
             raise ValueError('remapped initial guess requires a new label without existing report/raw evidence')
         from remapped_guess import load_guess,validate_config
         guess_payload,guess_values=load_guess(initial_guess,backend)
@@ -104,15 +104,23 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
         n,_,np_=previous_shape
         if execution!='reference' or options:
             for stored in records or [last]:
-                expected={str((raw_root/f"{stored['case']}_{stored['resolution'][0]}_{stored['resolution'][2]}{suffix}.npz").resolve()) for suffix in ('','_collocation')}
+                # Old bounded rows predate immediate solve-state retention;
+                # new rows declare the additional artifact explicitly.
+                suffixes=('','_collocation','_solve') if stored.get('solve_artifact') else ('','_collocation')
+                expected={str((raw_root/f"{stored['case']}_{stored['resolution'][0]}_{stored['resolution'][2]}{suffix}.npz").resolve()) for suffix in suffixes}
                 artifacts=stored.get('raw_artifact_sha256',{})
                 if set(artifacts)!=expected or any(hashlib.sha256(Path(path).read_bytes()).hexdigest()!=sha for path,sha in artifacts.items()):
                     raise ValueError('resume requires the unchanged bound raw artifacts for every retained row')
+                if stored.get('solve_artifact') and artifacts.get(stored['solve_artifact']['path'])!=stored['solve_artifact']['sha256']:
+                    raise ValueError('retained solve-state receipt differs from the raw inventory')
         previous_values=np.load(raw_root/f"{last['case']}_{n}_{np_}.npz")['unknowns']
         if execution!='reference' or options:
             if any(hashlib.sha256(Path(path).read_bytes()).hexdigest()!=sha for path,sha in last['raw_artifact_sha256'].items()):
                 raise ValueError('warm-start raw artifacts changed while loading')
     for n,nphi in levels:
+        if (execution!='reference' or options) and any((raw_root/f'{label}_{n}_{nphi}{suffix}.npz').exists()
+                for suffix in ('','_collocation','_solve')):
+            raise FileExistsError('preserve an existing explicit-study attempt')
         cfg=factory(backend,n,nphi);x,near,bulk=points(cfg,horizon_scaled);start=time.monotonic()
         step=np.minimum(.002,.001*np.min([np.linalg.norm(x-np.array(h.center),axis=1) for h in cfg.hole if h.mass>0],axis=0)) if adaptive_steps else np.full(len(x),.002)
         rec=dict(case=label,config=as_dict(cfg),resolution=list(cfg.n),verifier_order=4,verifier_step=.002,
@@ -131,6 +139,20 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                 rec['initial_guess_from_resolution']=previous_shape
             rec['creation_seconds']=time.monotonic()-start;rec['diagnostics']=s.solve(**options)
             if execution!='reference' or options:
+                # Retain diagnostics before querying ancillary native APIs.
+                progress=json.loads(report_path.read_text()) if report_path.exists() else {}
+                progress[label]=dict(records=records,passed=False,
+                    incomplete_attempt=dict(stage='retaining_completed_solve',record=rec))
+                report_path.parent.mkdir(parents=True,exist_ok=True)
+                report_path.write_text(json.dumps(progress,indent=2)+'\n')
+                solve_artifact=raw_root/f'{label}_{n}_{nphi}_solve.npz'
+                raw_root.mkdir(parents=True,exist_ok=True)
+                if solve_artifact.exists():raise FileExistsError('preserve prior solved iterate')
+                np.savez_compressed(solve_artifact,unknowns=s.unknowns())
+                rec['solve_artifact']=dict(path=str(solve_artifact.resolve()),
+                    sha256=hashlib.sha256(solve_artifact.read_bytes()).hexdigest())
+                progress[label]['incomplete_attempt']=dict(stage='collecting_solver_metadata',record=rec)
+                report_path.write_text(json.dumps(progress,indent=2)+'\n')
                 from execution import name,concurrency,device_description,statistics
                 rec.update(execution=execution,requested_solve_options=options,resolved_solve_options=s.resolved_options,
                     compiled_execution=name(backend.lib),execution_concurrency=concurrency(backend.lib),
@@ -139,6 +161,13 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                 diagnostic=rec['diagnostics'];weighted=np.asarray(diagnostic['scaled_linf'])
                 rec['stopping_verified']=bool(diagnostic['status']==0 and diagnostic['converged']
                     and np.isfinite(weighted).all() and np.max(weighted)<=cfg.tolerance)
+                # Keep the completed iterate even if a later physical callback
+                # fails or an allocation ends during measurement.
+                progress=json.loads(report_path.read_text()) if report_path.exists() else {}
+                progress[label]=dict(records=records,passed=False,
+                    incomplete_attempt=dict(stage='post_solve_measurement',record=rec))
+                report_path.parent.mkdir(parents=True,exist_ok=True)
+                report_path.write_text(json.dumps(progress,indent=2)+'\n')
             collocation=s.equation_samples();equivalent=collocation['physical_equivalent'];cg=collocation['attenuation']
             rec['physical_equivalent_g1_linf']=np.max(np.abs(equivalent[cg==1]),axis=0).tolist()
             rec['equation_normalized_g_lt_one_linf']=np.max(np.abs(equivalent[cg<1]),axis=0).tolist() if np.any(cg<1) else []
@@ -163,7 +192,9 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
             np.savez_compressed(raw_root/f'{label}_{n}_{nphi}_collocation.npz',**collocation)
             if execution!='reference' or options:
                 rec['raw_artifact_sha256']={str((raw_root/f'{label}_{n}_{nphi}{suffix}.npz').resolve()):
-                    hashlib.sha256((raw_root/f'{label}_{n}_{nphi}{suffix}.npz').read_bytes()).hexdigest() for suffix in ('','_collocation')}
+                    hashlib.sha256((raw_root/f'{label}_{n}_{nphi}{suffix}.npz').read_bytes()).hexdigest() for suffix in ('','_collocation','_solve')}
+                if rec['raw_artifact_sha256'][str(solve_artifact.resolve())]!=rec['solve_artifact']['sha256']:
+                    raise ValueError('completed solve coefficients changed during measurement')
             rec['passed_local']=rec['diagnostics']['status']==0 and rec['min_metric_eigenvalue']>0 and all(rec[k][q]<1e-4 for k in ('near','bulk') for q in ('H_rms','M_rms'))
             if execution!='reference' or options:rec['passed_local'] &= rec['stopping_verified']
             rec['passed_strict']=rec['passed_local'] and all(rec[k][q]<1e-6 for k in ('near','bulk') for q in ('H_rms','M_rms')) and all(rec[k][q]<1e-4 for k in ('near','bulk') for q in ('H_max','M_max'))

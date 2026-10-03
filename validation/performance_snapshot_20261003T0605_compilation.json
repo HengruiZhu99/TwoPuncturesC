@@ -1,0 +1,13 @@
+{
+  "compilation_confirmed": true,
+  "compiler": "mcp__codex_app__compile_latex_document",
+  "kind": "success",
+  "performance_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/performance_snapshot_20261003T0605.json",
+  "performance_sha256": "1ff82da6550d9443de1566319d8a2be12519948718ab029e1996bb99396adbf0",
+  "report_source": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/docs/HISPID_KOKKOS_PERFORMANCE.tex",
+  "report_sha256": "e1b2e0c2ab3b8328ee6655cee253bcff5115fc66ccfc896d1cfb991f565d4930",
+  "compiled_at_utc": "2026-10-03T06:23:21.420450+00:00",
+  "declared_performance_completed": false,
+  "completed_workers": 111,
+  "expected_workers": 288
+}

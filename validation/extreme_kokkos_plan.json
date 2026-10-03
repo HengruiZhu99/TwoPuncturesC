@@ -58,6 +58,7 @@
     "initial_guess": "Zero initially; explicitly recorded spin/velocity continuation or grid prolongation may provide a guess only, without inherited acceptance"
   },
   "criteria": {
+    "isolated_far_source_floor": "Before each distinct binary configuration, zero-correction exact isolated controls on every declared grid at both target focus positions and inward velocity signs, same mass/charts/norm/producer; far weighted Linf below1e-14 and finite physical-equivalent summaries. Recompute from bound arrays. Numerical failure remains failed even in a diagnostic investigation.",
     "physical_exterior_H_M_RMS": 1e-6,
     "physical_exterior_H_M_max": 0.0001,
     "physical_method": "Independent fourth-order Cartesian differences of physical gamma/K at identical off-grid points on at least three solved grids; all g=1 stencils verified. Report modified-region norms separately.",

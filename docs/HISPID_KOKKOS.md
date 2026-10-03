@@ -170,7 +170,7 @@ directories and one retained grid per invocation. It rejects an incomplete
 288-worker matrix before loading a native library. Its compilation receipt
 must name `mcp__codex_app__compile_latex_document` and bind the successfully
 compiled report and complete performance JSON by SHA256. The current compiled
-98-worker snapshot cannot unlock this stage. A fresh final receipt is required.
+111-worker snapshot cannot unlock this stage. A fresh final receipt is required.
 `check_target_seeds.py --extreme` supplies new separate .99/Gamma10 controls
 with refined, beam-aligned independent ADM quadrature. No new target has run.
 
@@ -182,11 +182,31 @@ changed-separation configurations individually when calibrating d/measured
 component Mirr. Its Fourier control uses a separate label.
 Prerequisite bytes and all measured images are frozen and rechecked around
 the solve/export. Exclusive case and row receipts bind the declared grid
-prefix, controls and both raw NPZ artifacts; progress writes cannot erase
+prefix, controls and all three raw NPZ artifacts; progress writes cannot erase
 that binding. GPU UUID is retained per worker so an equivalent later
 allocation can continue without rewriting provenance. Explicit execution
 requires native convergence and weighted Linf within the declared tolerance;
 an API success code alone cannot qualify a retained iterate.
+
+`check_far_source_floor.py --extreme` measures zero-correction isolated
+Schwarzschild, .99 spin and Gamma10 seeds, including generic orientations,
+at both active puncture positions and inward boost signs. Use `--seed-mass .5`,
+the case's `--coordinate-separation`, every planned `--resolutions` grid,
+`--execution kokkos --threads 16 --memory-mib 32768`, and a fresh output.
+The extreme runner requires this v3 evidence through `--source-floor-controls`.
+It derives masks and maxima from the hash-bound arrays and checks exactly zero
+unknowns. The far weighted threshold remains1e-14. Matching nonfinite residual
+evidence is retained for diagnostics and cannot pass the finite weighted and
+physical-equivalent gates. A changed separation needs its own controls.
+No extreme source-floor context has been run yet.
+
+Explicit physical solves now save diagnostics and a hash-bound coefficient
+NPZ immediately after solve, before history, field, constraint or charge
+callbacks. An incomplete attempt stays failed and blocks accidental reuse;
+three-artifact rows resume only with their complete inventory. The general
+validator still recognizes older bounded two-artifact rows, while this new
+extreme runner requires the new complete format. A synthetic failing-history
+test checks this retention without constructing a native solver.
 
 Use `validation/portable_sampler_migration.py` with the checkpoint, exact
 producer library, pure reference CPU consumer library, and a fresh output
