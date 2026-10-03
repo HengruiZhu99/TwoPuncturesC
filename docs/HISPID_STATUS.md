@@ -16,14 +16,26 @@ and one final polishing step now pass both methods on OpenMP16 and CUDA,
 with original residuals3–7e-13 and complete-state gates passed; see
 `kokkos_by_polish_preflight40_v3_20261002.json`. This is a one-repeat preflight,
 not the final performance estimate. The declared 288-worker performance
-matrix is running on one allocated Perlmutter A100. The standalone
-[LaTeX report draft](HISPID_KOKKOS_PERFORMANCE.tex) compiles in the native
-editor and explicitly labels its current BY preflight scope as incomplete.
+matrix is running on one allocated Perlmutter A100. Observed at 2026-10-03 07:53 UTC,
+157 attempts are retained, with 25 failed stopping checks and no process
+failures. These failed checks are not qualified speedup results. The standalone
+[LaTeX report draft](HISPID_KOKKOS_PERFORMANCE.tex) is an explicitly incomplete
+111-attempt snapshot, including seven failed stopping checks, with native
+editor compilation confirmed by
+`validation/performance_snapshot_20261003T0605_compilation.json`.
 The new separate spin.99/Gamma10 studies remain pending. The completed
 performance report will precede physical runs. The existing Hi
 raw-P/coefficient failure remains failed. See
 [the port interfaces and ownership](HISPID_KOKKOS.md) and
 `validation/kokkos_acceptance.json`.
+
+The AthenaK consumer branch now has optional compact FastFlow harmonic
+storage, with the dense default retained. The sampled component comparison
+and full finder comparison controls are prepared and its Serial build passes;
+numerical equivalence and measured peak RAM remain pending the performance
+campaign. At L=160, ntheta=162 the compact allocation estimate is 96.91 MiB
+per horizon, compared with 121.83 GiB for dense storage. These are allocation
+estimates, not measured process peaks or new horizon validation.
 
 The opt-in serial BY modal preconditioner now solves the40×80×16 moderate
 case in4.58s versus26.78s for cached inherited line sweeps (**5.85×**), with
@@ -154,8 +166,10 @@ Baseline: `68287742f4920f4ea39b7dac1571c81eefe2ff8f`. Branch: `codex/hispid`.
 Worktree: `/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC`.
 Original native checkout was clean; Python `main` initially had staged work.
 Both remain untouched by this task while the main project continues its work.
-No shared AthenaK files, installations, or simulations will be changed. Jobs use
-one CPU thread; builds use `make -j1`. No merges into the main project.
+No shared AthenaK files, installations, or simulations will be changed. Local
+numerical controls use one CPU thread and builds use `make -j1`. The declared
+Perlmutter matrix uses its allocated CPU threads and one GPU, with one
+numerical worker at a time. No merges into the main project.
 
 - Isolation and baseline inspection: complete.
 - Reference formulation and original implementation investigation: complete;
