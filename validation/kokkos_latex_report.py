@@ -252,7 +252,23 @@ partners and vector components share factors. Inner Krylov vectors stay in
 the selected execution space; CPU seed construction and native block
 factorization still limit end-to-end GPU speed. A speed ratio is meaningful
 only with the work counts, stopping checks and memory columns alongside it.
-
+''')
+    for grid in grids:
+        for method in ('gmres','bicgstab'):
+            by=groups.get((grid,'by',method,'reference'),[])
+            hi=groups.get((grid,'hispid',method,'reference'),[])
+            if len(by)!=binding['repeats'] or len(hi)!=binding['repeats']:continue
+            failed=lambda rows:sum(not r['checks']['residual'] or not r['checks']['converged'] for r in rows)
+            if not (failed(by) or failed(hi)):continue
+            counts=lambda rows:'/'.join(number(statistics.median(work(r)[i] for r in rows)) for i in (0,1))
+            residual=lambda rows:'['+number(min(max(r['computational_norms']['native_weighted']['linf']) for r in rows))+', '+number(max(max(r['computational_norms']['native_weighted']['linf']) for r in rows))+']'
+            doc.append(r'\paragraph{Matched reference stopping: '+r'$\times$'.join(map(str,grid))+' '+method.upper()+'.} '+
+                f"Reference BY has {failed(by)} stopping failures among {len(by)} repeats; HiSpID has {failed(hi)} among {len(hi)}. "+
+                'Median Newton/Krylov counts are '+counts(by)+' for BY and '+counts(hi)+' for HiSpID. '+
+                r'Final weighted $L^\infty$ ranges are '+residual(by)+' and '+residual(hi)+', respectively. '+
+                'The common computational stopping protocol has therefore produced different amounts of iterative work; equation count alone does not predict the measured solve duration. '+
+                'Failed durations remain diagnostic, and a near-tolerance plateau does not establish its cause or equal physical accuracy.\n')
+    doc.append(r'''
 The user selected separate equal-rest-mass aligned seed spin $\chi=0.99$ and
 nonspinning inward head-on input $\Gamma=10$ investigations. The latter uses
 $v=\sqrt{0.99}$ and coordinate separation about 50 times one hole's measured
