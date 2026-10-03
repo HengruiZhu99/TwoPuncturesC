@@ -67,7 +67,7 @@ def horizon_expansion(solution, hole, directions):
             - np.einsum('nij,nij->n', inverse, K))
 
 
-def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=False,progress=None,seed_execution='reference'):
+def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=False,progress=None,seed_execution='reference',step_factors=(2,1,.5),all_angular_changes=False):
     axes = np.array([[.73, .31, .61], [-.41, .82, .39], [.22, -.51, .83],
                      [-.69, -.44, .57], [.39, .73, -.56], [.81, -.38, -.45]])
     axes /= np.linalg.norm(axes, axis=1)[:, None]
@@ -124,7 +124,7 @@ def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=F
                       radii=list(radii),charge_quadratures=quadratures,expected_charges=expected.tolist(),
                       passed=False,completed=False)
         output['cases'].append(record);save()
-        for factor in (2, 1, .5):
+        for factor in step_factors:
             residual = constraints(sample, xyz, factor * step)
             sequence.append(dict(step_factor=factor,
                                  near=norms(residual, np.arange(len(xyz)) < len(near)),
@@ -144,12 +144,16 @@ def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=F
         final = np.array(quadratures[-1]['radial_fits'][-1])
         error = np.max(abs(final - expected))
         quad_change = np.max(abs(final - quadratures[-2]['radial_fits'][-1]))
+        adjacent_changes=[float(np.max(abs(np.asarray(b['radial_fits'][-1])-a['radial_fits'][-1])))
+                          for a,b in zip(quadratures,quadratures[1:])]
         radial_change = np.max(abs(final - quadratures[-1]['radial_fits'][-2]))
         constraint_pass = all(sequence[-1][region][component] < 1e-7
                               for region in ('near', 'bulk') for component in ('H_rms', 'M_rms'))
         passed = (constraint_pass and error < 1e-5 and quad_change < 1e-5
                   and radial_change < 1e-5 and np.max(abs(expansion)) < 1e-10)
+        if all_angular_changes:passed &= max(adjacent_changes)<1e-5
         record.update(charge_error_max=float(error), quadrature_change_max=float(quad_change),
+                      adjacent_quadrature_change_max=adjacent_changes,all_angular_changes_required=all_angular_changes,
                       radial_fit_change_max=float(radial_change), passed=bool(passed),
                       seconds=time.monotonic() - start,completed=True)
         save()
@@ -165,9 +169,22 @@ if __name__ == '__main__':
     parser.add_argument('--output', default='validation/target_seed_controls.json')
     parser.add_argument('--radii', default='40,80,160,320,640,1280,2560,5120,10240')
     parser.add_argument('--extreme',action='store_true',help='fresh separate chi=.99/Gamma=10 controls, with refined beam-aligned charge quadrature')
+    parser.add_argument('--target-case',choices=('spin99','gamma10'),help='one separately retained extreme seed refinement; requires --extreme')
+    parser.add_argument('--quadratures',help='explicit ntheta:nphi levels; defaults remain unchanged')
+    parser.add_argument('--step-factors',default='2,1,.5',help='strictly decreasing positive Cartesian verifier step factors')
     parser.add_argument('--seed-execution',choices=('reference','kokkos'),default='reference',help='evaluator used by independent Cartesian FD and charge quadrature; exact-horizon gradient check remains host')
     parser.add_argument('--threads',type=int,default=1)
     args = parser.parse_args()
+    if args.target_case and not args.extreme:raise ValueError('target-specific refinement requires --extreme')
+    step_factors=list(map(float,args.step_factors.split(',')))
+    if (len(step_factors)<3 or not np.isfinite(step_factors).all() or min(step_factors)<=0
+        or not np.all(np.diff(step_factors)<0)):
+        raise ValueError('at least three finite positive decreasing verifier steps required')
+    quadratures=[tuple(map(int,x.split(':'))) for x in args.quadratures.split(',')] if args.quadratures else None
+    if quadratures is not None and (len(quadratures)<2 or any(len(x)!=2 or min(x)<8 for x in quadratures)
+        or len(set(quadratures))!=len(quadratures)
+        or any(b[0]<a[0] or b[1]<a[1] for a,b in zip(quadratures,quadratures[1:]))):
+        raise ValueError('distinct nondecreasing angular quadratures of at least8 points required')
     if not 1<=args.threads<=16:raise ValueError('between1 and16 host threads required')
     radii = list(map(float, args.radii.split(',')))
     if len(radii)<5 or min(radii)<=0 or not np.isfinite(radii).all() or not np.all(np.diff(radii)>0):
@@ -192,15 +209,19 @@ if __name__ == '__main__':
         bound[str(backend.path)]=library_sha(backend);bound.update(backend.dependency_images)
         runtime_images=loaded_kokkos_images();bound.update(runtime_images)
         metadata=dict(library_dependency_images=backend.dependency_images,
+            control_scope='requested_target' if args.target_case else 'full',target_case=args.target_case,
+            verifier_step_factors=step_factors,all_angular_changes_required=bool(args.target_case),
             unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps(),
             seed_execution=args.seed_execution,compiled_execution=name(backend.lib) if args.seed_execution=='kokkos' else 'reference',
             execution_concurrency=concurrency(backend.lib) if args.seed_execution=='kokkos' else 1,device=device,
             seed_scalar_digits=53 if args.seed_execution=='kokkos' else None,exact_horizon_geometry='host',
             runtime_images=runtime_images,native_images={str(backend.path):library_sha(backend),**backend.dependency_images,**runtime_images})
-        result = run(backend, radii,
-            targets=[('spin99',.99,0),('gamma10',0,float(np.sqrt(.99)))] if args.extreme else None,
-            quadrature_levels=((64,64),(128,128),(192,192)) if args.extreme else None,
-            align_polar_axis=args.extreme,progress=progress,seed_execution=args.seed_execution)
+        targets=[('spin99',.99,0),('gamma10',0,float(np.sqrt(.99)))] if args.extreme else None
+        if args.target_case:targets=[case for case in targets if case[0]==args.target_case]
+        result = run(backend, radii,targets=targets,
+            quadrature_levels=quadratures or (((64,64),(128,128),(192,192)) if args.extreme else None),
+            align_polar_axis=args.extreme,progress=progress,seed_execution=args.seed_execution,step_factors=step_factors,
+            all_angular_changes=bool(args.target_case))
     except BaseException as error:
         output=latest.get('output',dict(stage='setup_failed',cases=[]))
         output.update(passed=False,completed=False,failure=dict(type=type(error).__name__,message=str(error)))
