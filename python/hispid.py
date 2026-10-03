@@ -83,6 +83,7 @@ class Backend:
         optional={'HiSpID_work_statistics':(C.c_int,[C.c_void_p,C.POINTER(C.c_int)]),
                   'HiSpID_create_with_execution':(C.c_void_p,[C.POINTER(Config),C.c_int]),
                   'HiSpID_create_with_geometry':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int]),
+                  'HiSpID_seed_with_execution':(C.c_int,[C.POINTER(Hole),C.c_int,C.c_int,PTR,C.POINTER(Point),C.c_int]),
                   'HiSpID_setup_statistics':(C.c_int,[C.c_void_p,C.POINTER(SetupStatistics)]),
                   'HiSpID_default_solve_options':(None,[C.POINTER(SolveOptions)]),
                   'HiSpID_solve_with_options':(C.c_int,[C.c_void_p,C.POINTER(SolveOptions)]),
@@ -127,9 +128,14 @@ class Backend:
         return self.loaded_sha256
     def config(self):
         c=Config();self.lib.HiSpID_default_config(C.byref(c));return c
-    def seed(self,hole,xyz,choice=1):
+    def seed(self,hole,xyz,choice=1,execution='reference'):
         x=np.ascontiguousarray(xyz,dtype=float).reshape(-1,3);out=(Point*len(x))()
-        r=self.lib.HiSpID_seed(C.byref(hole),choice,len(x),ptr(x),out)
+        from execution import select
+        code=select(self.lib,execution)
+        if code:
+            if not hasattr(self.lib,'HiSpID_seed_with_execution'):raise ValueError('library lacks execution-space seed export')
+            r=self.lib.HiSpID_seed_with_execution(C.byref(hole),choice,len(x),ptr(x),out,code)
+        else:r=self.lib.HiSpID_seed(C.byref(hole),choice,len(x),ptr(x),out)
         if r:raise ValueError(self.error() or 'invalid seed input')
         return unpack(out)
     def operators(self,config,xyz,jets):

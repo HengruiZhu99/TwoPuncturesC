@@ -78,14 +78,38 @@ def prerequisites(performance,receipt,hashes):
     return performance,receipt
 
 
-def completed_seed_controls(seed):
+def completed_seed_controls(seed,geometry='host'):
     """Numerical failures may be diagnostic; unfinished controls are not ready."""
     cases=seed.get('cases',[])
     if (seed.get('completed') is not True or len(cases)!=2
         or {row.get('case') for row in cases}!={'spin99','gamma10'}
         or any(row.get('completed') is not True for row in cases)):
         raise ValueError('completed fresh chi=.99/Gamma=10 seed controls required')
+    if geometry not in ('host','execution'):raise ValueError('invalid seed geometry selection')
+    if geometry=='execution':
+        device=seed.get('device') or {}
+        if (seed.get('seed_execution')!='kokkos' or seed.get('compiled_execution')!='Cuda'
+            or seed.get('seed_scalar_digits')!=53 or seed.get('exact_horizon_geometry')!='host'
+            or device.get('visible_count')!=1 or device.get('visible_ordinal')!=0 or not device.get('uuid')):
+            raise ValueError('execution geometry requires fresh device-field seed controls and separately labelled host horizon gradients')
     return seed
+
+
+def verify_seed_images(seed,measured,producer,geometry='host'):
+    """Bind seed controls to the measured producer, puncture and runtime DSOs."""
+    bound=seed.get('bound_artifacts_sha256',{})
+    def native_path(path):
+        return Path(path).name.startswith(('libHiSpID','libTwoPunctures','libkokkos'))
+    images=seed.get('native_images') or {p:s for p,s in bound.items() if native_path(p)}
+    # Historical host controls without an image witness remain compatible.
+    # Explicit execution geometry always needs the complete native witnesses.
+    if not images and geometry=='host':return
+    required={str(producer)}|{p for p in measured if Path(p).name.startswith(('libTwoPunctures','libkokkos'))}
+    dependencies={**seed.get('library_dependency_images',{}),**seed.get('runtime_images',{})}
+    if (not required.issubset(images) or not any('libkokkos' in Path(p).name for p in images)
+        or any(measured.get(p)!=sha or bound.get(p)!=sha for p,sha in images.items())
+        or any(images.get(p)!=sha for p,sha in dependencies.items())):
+        raise ValueError('seed producer, puncture or Kokkos dependency images differ from measured evidence')
 
 
 def source_floor_passed(floor,library_sha,grids,separation,mass=.5,memory_mib=32768,geometry='host'):
@@ -198,7 +222,8 @@ def main():
     if any(digest(path)!=sha for path,sha in measured.items()):raise ValueError('measured CUDA build/dependencies changed')
     if digest(library)!=measured[str(Path(variant['hispid_library']).resolve())]:
         raise ValueError('producer differs from the measured CUDA build')
-    seed=completed_seed_controls(inputs['seed'])
+    seed=completed_seed_controls(inputs['seed'],geometry=a.geometry)
+    verify_seed_images(seed,measured,library,geometry=a.geometry)
     if seed.get('library_sha256')!=digest(library) or {c['case'] for c in seed.get('cases',[])}!={'spin99','gamma10'}:
         raise ValueError('fresh bound chi=.99/Gamma=10 seed controls required')
     seed_cases={c['case']:c for c in seed['cases']}

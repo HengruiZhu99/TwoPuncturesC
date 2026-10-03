@@ -67,7 +67,7 @@ def horizon_expansion(solution, hole, directions):
             - np.einsum('nij,nij->n', inverse, K))
 
 
-def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=False,progress=None):
+def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=False,progress=None,seed_execution='reference'):
     axes = np.array([[.73, .31, .61], [-.41, .82, .39], [.22, -.51, .83],
                      [-.69, -.44, .57], [.39, .73, -.56], [.81, -.38, -.45]])
     axes /= np.linalg.norm(axes, axis=1)[:, None]
@@ -76,6 +76,7 @@ def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=F
                        ('spin95_boost885_generic', .95, .885)]
     quadrature_levels=quadrature_levels or ((16,32),(24,48),(32,64))
     output = dict(library_sha256=library_sha(backend), cases=[], passed=False,completed=False,
+                  seed_execution=seed_execution,exact_horizon_geometry='host',
                   criteria=dict(physical_constraint_rms=1e-7,
                                 ADM_absolute_error=1e-5,
                                 ADM_quadrature_change=1e-5,
@@ -113,7 +114,7 @@ def run(backend, radii, targets=None, quadrature_levels=None, align_polar_axis=F
                                for factor in (1.5, 3)] + [.6 * axes, axes])
         xyz = np.r_[near, 4 * axes, 8 * axes, 16 * axes]
         step = np.minimum(.002, .001 * np.linalg.norm(xyz, axis=1))
-        sample = lambda x: backend.seed(hole, x, config.conformal_choice)
+        sample = lambda x: backend.seed(hole, x, config.conformal_choice,execution=seed_execution)
         sequence = []
         expected = np.r_[G, G * v, G * S - G**2 / (G + 1) * (v @ S) * v]
         quadratures = []
@@ -164,7 +165,10 @@ if __name__ == '__main__':
     parser.add_argument('--output', default='validation/target_seed_controls.json')
     parser.add_argument('--radii', default='40,80,160,320,640,1280,2560,5120,10240')
     parser.add_argument('--extreme',action='store_true',help='fresh separate chi=.99/Gamma=10 controls, with refined beam-aligned charge quadrature')
+    parser.add_argument('--seed-execution',choices=('reference','kokkos'),default='reference',help='evaluator used by independent Cartesian FD and charge quadrature; exact-horizon gradient check remains host')
+    parser.add_argument('--threads',type=int,default=1)
     args = parser.parse_args()
+    if not 1<=args.threads<=16:raise ValueError('between1 and16 host threads required')
     radii = list(map(float, args.radii.split(',')))
     if len(radii)<5 or min(radii)<=0 or not np.isfinite(radii).all() or not np.all(np.diff(radii)>0):
         raise ValueError('at least five finite positive increasing charge radii are required')
@@ -177,17 +181,26 @@ if __name__ == '__main__':
         write_progress(path,bound,metadata,output)
     try:
         backend=Backend(args.library)
+        from execution import select,name,concurrency,device_description
+        select(backend.lib,args.seed_execution,args.threads)
+        device=device_description(backend.lib) if args.seed_execution=='kokkos' else None
+        if args.seed_execution=='kokkos' and name(backend.lib)=='Cuda' and (not device or device['visible_count']!=1 or device['visible_ordinal']!=0):
+            raise ValueError('execution seed controls require one visible CUDA device')
         paths=[Path(__file__).resolve()]+[Path(__import__(name).__file__).resolve() for name in
-            ('hispid','configs','checkpoints','physical','native_loader')]
+            ('hispid','configs','checkpoints','physical','native_loader','execution')]
         bound={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
         bound[str(backend.path)]=library_sha(backend);bound.update(backend.dependency_images)
-        bound.update(loaded_kokkos_images())
+        runtime_images=loaded_kokkos_images();bound.update(runtime_images)
         metadata=dict(library_dependency_images=backend.dependency_images,
-            unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps())
+            unknown_parameterization_id=backend.parameterization(),collocation_maps=backend.parameterization_maps(),
+            seed_execution=args.seed_execution,compiled_execution=name(backend.lib) if args.seed_execution=='kokkos' else 'reference',
+            execution_concurrency=concurrency(backend.lib) if args.seed_execution=='kokkos' else 1,device=device,
+            seed_scalar_digits=53 if args.seed_execution=='kokkos' else None,exact_horizon_geometry='host',
+            runtime_images=runtime_images,native_images={str(backend.path):library_sha(backend),**backend.dependency_images,**runtime_images})
         result = run(backend, radii,
             targets=[('spin99',.99,0),('gamma10',0,float(np.sqrt(.99)))] if args.extreme else None,
             quadrature_levels=((64,64),(128,128),(192,192)) if args.extreme else None,
-            align_polar_axis=args.extreme,progress=progress)
+            align_polar_axis=args.extreme,progress=progress,seed_execution=args.seed_execution)
     except BaseException as error:
         output=latest.get('output',dict(stage='setup_failed',cases=[]))
         output.update(passed=False,completed=False,failure=dict(type=type(error).__name__,message=str(error)))

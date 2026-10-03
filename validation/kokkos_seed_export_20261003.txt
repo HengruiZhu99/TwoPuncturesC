@@ -1,0 +1,214 @@
+x86 Serial CTest and actual control output
+Internal ctest changing into directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855
+Test project /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855
+    Start 1: kokkos_independent
+1/5 Test #1: kokkos_independent ...............   Passed    0.02 sec
+    Start 2: hispid_kokkos_actual_kernels
+2/5 Test #2: hispid_kokkos_actual_kernels .....   Passed   11.50 sec
+    Start 3: hispid_kokkos_setup
+3/5 Test #3: hispid_kokkos_setup ..............   Passed    4.52 sec
+    Start 4: hispid_execution_seed_export
+4/5 Test #4: hispid_execution_seed_export .....   Passed    0.24 sec
+    Start 5: by_kokkos_actual_kernels
+5/5 Test #5: by_kokkos_actual_kernels .........   Passed    0.06 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =  16.35 sec
+Start testing: Oct 03 12:01 PDT
+----------------------------------------------------------
+1/5 Testing: kokkos_independent
+1/5 Test: kokkos_independent
+Command: "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/test_kokkos"
+Directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855
+"kokkos_independent" start time: Oct 03 12:01 PDT
+Output:
+----------------------------------------------------------
+Kokkos Serial independent controls: 286221 passed
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"kokkos_independent" end time: Oct 03 12:01 PDT
+"kokkos_independent" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/5 Testing: hispid_kokkos_actual_kernels
+2/5 Test: hispid_kokkos_actual_kernels
+Command: "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/test_hispid_kokkos"
+Directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855
+"hispid_kokkos_actual_kernels" start time: Oct 03 12:01 PDT
+Output:
+----------------------------------------------------------
+fields 1.730e-16 JVP 1.772e-16 M difference 8.842e-17 balanced M residual 3.776e-16
+HiSpID Serial actual kernels: 184371 checks; fields 1.730e-16 JVP 1.772e-16 M difference 8.842e-17 M residual 3.776e-16
+<end of output>
+Test time =  11.50 sec
+----------------------------------------------------------
+Test Passed.
+"hispid_kokkos_actual_kernels" end time: Oct 03 12:02 PDT
+"hispid_kokkos_actual_kernels" time elapsed: 00:00:11
+----------------------------------------------------------
+
+3/5 Testing: hispid_kokkos_setup
+3/5 Test: hispid_kokkos_setup
+Command: "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/test_hispid_setup_kokkos"
+Directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855
+"hispid_kokkos_setup" start time: Oct 03 12:02 PDT
+Output:
+----------------------------------------------------------
+seed kind0 choice0 defined derivatives 3.804e-15 all-slot diagnostic 3.804e-15
+seed kind0 choice1 defined derivatives 6.217e-15 all-slot diagnostic 6.217e-15
+seed kind1 choice0 defined derivatives 4.820e-13 all-slot diagnostic 4.820e-13
+seed kind1 choice1 defined derivatives 5.547e-13 all-slot diagnostic 5.547e-13
+seed kind2 choice0 defined derivatives 8.817e-14 all-slot diagnostic 1.738e-12
+seed kind2 choice1 defined derivatives 8.637e-14 all-slot diagnostic 1.708e-12
+seed kind3 choice0 defined derivatives 1.104e-13 all-slot diagnostic 1.120e-12
+seed kind3 choice1 defined derivatives 1.104e-13 all-slot diagnostic 1.402e-12
+seed kind4 choice0 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice0 all coefficients 1.258e-12
+seed kind4 choice1 defined derivatives 1.402e-13 all-slot diagnostic 1.402e-13
+extreme seed kind4 choice1 all coefficients 2.849e-12
+seed kind5 choice0 defined derivatives 1.344e-13 all-slot diagnostic 5.933e-09
+worst diagnostic point8 xyz[0.050000000000000003,0,0] Atilde tensor[0,0] jet slot10 defined0 host3.8415048919660049e-09 execution-2.0918378140777329e-09
+extreme seed kind5 choice0 all coefficients 1.875e-11
+seed kind5 choice1 defined derivatives 1.805e-13 all-slot diagnostic 5.253e-12
+extreme seed kind5 choice1 all coefficients 8.515e-11
+cache choice0 modified0 2.411e-11
+cache choice0 modified1 2.411e-11
+cache choice1 modified0 2.411e-11
+cache choice1 modified1 7.234e-11
+seed geometry defined-derivative maximum 5.547e-13; all-slot diagnostic 5.933e-09
+HiSpID Serial execution-space setup: 748 checks
+<end of output>
+Test time =   4.52 sec
+----------------------------------------------------------
+Test Passed.
+"hispid_kokkos_setup" end time: Oct 03 12:02 PDT
+"hispid_kokkos_setup" time elapsed: 00:00:04
+----------------------------------------------------------
+
+4/5 Testing: hispid_execution_seed_export
+4/5 Test: hispid_execution_seed_export
+Command: "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/test_hispid_seed_execution"
+Directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855
+"hispid_execution_seed_export" start time: Oct 03 12:02 PDT
+Output:
+----------------------------------------------------------
+HiSpID Serial public seed export: 7629 checks; value difference 5.452e-14
+<end of output>
+Test time =   0.24 sec
+----------------------------------------------------------
+Test Passed.
+"hispid_execution_seed_export" end time: Oct 03 12:02 PDT
+"hispid_execution_seed_export" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/5 Testing: by_kokkos_actual_kernels
+5/5 Test: by_kokkos_actual_kernels
+Command: "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/test_by_kokkos"
+Directory: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855
+"by_kokkos_actual_kernels" start time: Oct 03 12:02 PDT
+Output:
+----------------------------------------------------------
+BY Serial actual kernels: 42281 checks, M solution 2.998e-14 M action 1.421e-13 JVP 1.187e-13
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"by_kokkos_actual_kernels" end time: Oct 03 12:02 PDT
+"by_kokkos_actual_kernels" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 03 12:02 PDT
+
+test-seed-export-serial-20261003.log
+Test project /Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial
+    Start 1: kokkos_independent
+1/5 Test #1: kokkos_independent ...............   Passed    0.51 sec
+    Start 2: hispid_kokkos_actual_kernels
+2/5 Test #2: hispid_kokkos_actual_kernels .....   Passed    0.54 sec
+    Start 3: hispid_kokkos_setup
+3/5 Test #3: hispid_kokkos_setup ..............***Skipped   0.16 sec
+    Start 4: hispid_execution_seed_export
+4/5 Test #4: hispid_execution_seed_export .....   Passed    0.18 sec
+    Start 5: by_kokkos_actual_kernels
+5/5 Test #5: by_kokkos_actual_kernels .........   Passed    0.16 sec
+
+100% tests passed out of 5
+
+Total Test time (real) =   1.56 sec
+
+The following tests did not run:
+	  3 - hispid_kokkos_setup (Skipped)
+
+test-seed-export-openmp-20261003.log
+Test project /Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-openmp
+    Start 1: kokkos_independent
+1/5 Test #1: kokkos_independent ...............   Passed    0.34 sec
+    Start 2: hispid_kokkos_actual_kernels
+2/5 Test #2: hispid_kokkos_actual_kernels .....   Passed    0.53 sec
+    Start 3: hispid_kokkos_setup
+3/5 Test #3: hispid_kokkos_setup ..............***Skipped   0.17 sec
+    Start 4: hispid_execution_seed_export
+4/5 Test #4: hispid_execution_seed_export .....   Passed    0.19 sec
+    Start 5: by_kokkos_actual_kernels
+5/5 Test #5: by_kokkos_actual_kernels .........   Passed    0.16 sec
+
+100% tests passed out of 5
+
+Total Test time (real) =   1.40 sec
+
+The following tests did not run:
+	  3 - hispid_kokkos_setup (Skipped)
+
+test-seed-export-prerequisites-20261003-v2.log
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.030s
+
+OK
+
+test-seed-export-progress-20261003-v2.log
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.114s
+
+OK
+
+CUDA compiler production kernels (not GPU execution)
+{
+  "old_geometry": {
+    "symbol": "_ZN6Kokkos4Impl33cuda_parallel_launch_local_memoryINS0_11ParallelForIZN50_GLOBAL__N__094434a0_17_HiSpID_solver_cpp_4de58f8e8HiKokkos29initialize_execution_geometryEPKiRN6hispid15AxisDerivativesEdRK13HiSpID_ConfigEUliE_NS_11RangePolicyIJNS_4CudaEEEESF_EEEEvT_",
+    "stack_bytes": 73600,
+    "spill_stores_bytes": 4924,
+    "spill_loads_bytes": 6444,
+    "registers": 255
+  },
+  "new_geometry": {
+    "symbol": "_ZN6Kokkos4Impl33cuda_parallel_launch_local_memoryINS0_11ParallelForIZN50_GLOBAL__N__71f7a5a6_17_HiSpID_solver_cpp_4de58f8e8HiKokkos29initialize_execution_geometryEPKiRN6hispid15AxisDerivativesEdRK13HiSpID_ConfigEUliE_NS_11RangePolicyIJNS_4CudaEEEESF_EEEEvT_",
+    "stack_bytes": 70912,
+    "spill_stores_bytes": 4924,
+    "spill_loads_bytes": 6444,
+    "registers": 255
+  },
+  "public_seed": {
+    "symbol": "_ZN6Kokkos4Impl33cuda_parallel_launch_local_memoryINS0_11ParallelForIZ26HiSpID_seed_with_executionEUliE_NS_11RangePolicyIJNS_4CudaEEEES5_EEEEvT_",
+    "stack_bytes": 32368,
+    "spill_stores_bytes": 60,
+    "spill_loads_bytes": 56,
+    "registers": 255
+  }
+}
+
+Final dependency-image admission controls
+..............
+----------------------------------------------------------------------
+Ran 14 tests in 0.029s
+
+OK
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.119s
+
+OK

@@ -119,6 +119,19 @@ cache is 248 doubles per point. Only small tables needed by host modal LU and
 sampling are downloaded. Lazy coefficient transforms and collocation equation
 exports also run in kernels, without exporting a full geometry mirror.
 
+For independent off-grid seed controls, `backend.seed(hole, xyz, choice,
+execution='kokkos')` evaluates lab-frame physical/conformal fields in the
+compiled execution space. The optional native API is
+`HiSpID_seed_with_execution(..., PUNCTURE_KOKKOS)`; the existing seed API and
+Python default retain the host reference. Bounded4096-point batches export
+only the43 physical-value entries, with zero corrections and attenuation1.
+Per-point geometry and finite-value failures are reported without a host
+fallback. The independent Cartesian FD oracle in `check_target_seeds.py`
+can use this evaluator with `--seed-execution kokkos`. Its exact-horizon
+gradient check still uses host geometry and is labelled separately.
+Execution-geometry binary admission requires fresh device-field seed controls;
+the completed full performance/report prerequisite remains unchanged.
+
 Execution-space geometry uses **double precision**; the host reference uses
 `long double`. `data.setup_statistics()` reports the selected geometry path,
 its binary precision, constructor spectral/geometry wall times and cumulative

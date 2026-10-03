@@ -50,13 +50,15 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&
  JetT<Real> alpha0=(r-JetT<Real>((m*m-a*a)/4)/r)*sqrt(sigma/AA);
  JetT<Real> cross[3]={JetT<Real>(axis[1])*x[2]-JetT<Real>(axis[2])*x[1],
     JetT<Real>(axis[2])*x[0]-JetT<Real>(axis[0])*x[2],JetT<Real>(axis[0])*x[1]-JetT<Real>(axis[1])*x[0]};
- JetT<Real> beta0[3],rest[3][3],rinv[3][3],grest[4][4],g4[4][4];
+ JetT<Real> beta0[3],rest[3][3],rinv[3][3];
  for(int i=0;i<3;i++){
   beta0[i]=-JetT<Real>(2*m*a)*rb/AA*cross[i];
   for(int j=0;j<3;j++)rest[i][j]=power(psiQI,4)
      *(JetT<Real>(i==j?1:0)+JetT<Real>(a*a)*(JetT<Real>(1)+JetT<Real>(2*m)*rb/sigma)/(sigma*r2)*cross[i]*cross[j]);
  }
  if(!invert_checked(rest,rinv))return geometry_determinant;
+ {
+ JetT<Real> grest[4][4];
  grest[0][0]=-alpha0*alpha0;
  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
   grest[i+1][j+1]=rest[i][j];
@@ -64,10 +66,15 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&
   grest[0][0]=grest[0][0]+rest[i][j]*beta0[i]*beta0[j];
  }
  for(int i=0;i<3;i++)grest[i+1][0]=grest[0][i+1];
- for(int i=0;i<4;i++)for(int j=0;j<4;j++)for(int k=0;k<4;k++)for(int l=0;l<4;l++)
-  g4[i][j]=g4[i][j]+JetT<Real>(B[k][i]*B[l][j])*grest[k][l];
+ // Only the spatial block is consumed. Retain the original k/l arithmetic
+ // order, and reset reused output just as the former fresh g4 array did.
+ for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+  s.physical[i][j]=0;
+  for(int k=0;k<4;k++)for(int l=0;l<4;l++)
+   s.physical[i][j]=s.physical[i][j]+JetT<Real>(B[k][i+1]*B[l][j+1])*grest[k][l];
+ }
+ }
  JetT<Real> inv[3][3],C0[3][3][3];
- for(int i=0;i<3;i++)for(int j=0;j<3;j++)s.physical[i][j]=g4[i+1][j+1];
  if(!invert_checked(s.physical,inv))return geometry_determinant;connection(rest,rinv,C0);
  /* Rest beta=omega*l, with l an axial Killing vector. Factoring dR/dr
   * and Delta analytically in (partial omega)/alpha removes the 0/0 at
@@ -166,6 +173,24 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&
  }
  s.psi=pullback_derivatives(s.psi,B);s.K=pullback_derivatives(s.K,B);
  return geometry_ok;
+}
+
+/* Value-only lab-frame export for both policies. K/A/mean-K Hessians are
+ * intentionally absent: graph-slice differentiation provides first order.
+ * Exact seeds have zero correction and no attenuation. */
+template<class Real> HISPID_GEOMETRY_INLINE void seed_values(const SeedT<Real>&s,HiSpID_Point&out){
+ out={};
+ for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+  int k=3*i+j;out.gamma[k]=s.physical[i][j].v;out.Kij[k]=s.extrinsic[i][j].v;
+  out.conformal_metric[k]=s.metric[i][j].v;out.Atilde[k]=s.A[i][j].v;
+ }
+ out.psi=s.psi.v;out.mean_curvature=s.K.v;out.attenuation=1;
+}
+HISPID_GEOMETRY_INLINE bool finite_seed_values(const HiSpID_Point&out){
+ if(!std::isfinite(out.psi)||!std::isfinite(out.mean_curvature))return false;
+ for(int k=0;k<9;k++)if(!std::isfinite(out.gamma[k])||!std::isfinite(out.Kij[k])
+   ||!std::isfinite(out.conformal_metric[k])||!std::isfinite(out.Atilde[k]))return false;
+ return true;
 }
 
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> inner(const JetT<Real>&r,double lo,double hi){

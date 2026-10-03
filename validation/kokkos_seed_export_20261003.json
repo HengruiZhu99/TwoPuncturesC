@@ -1,0 +1,555 @@
+{
+  "schema": "hispid_seed_execution_controls_v1",
+  "observed_utc": "2026-10-03T19:14:56.080951+00:00",
+  "prior_commit": "83310fef7aec8a9b0281e6095e44098e5c7a9ac0",
+  "scope": "Public execution-space exact-seed values and bounded export; default API regression and compiler storage. No new binary or GPU timing acceptance.",
+  "source_sha256": {
+    "CMakeLists.txt": "e33ac85226d42606d95afe592d6ac5ced0d42f4acf32de302fa247ab6e3af614",
+    "include/HiSpID.h": "fd5b8dc8a441c14f804de8a55d06feba00c969a6dd7797f58e3f95b031b4fac5",
+    "python/hispid.py": "70b8bf2a8e38e38a279598ae2ee42c99af519c9ae65601a6581ff998e1382961",
+    "src/HiSpID_geometry.cpp": "5ed62d504e174dd40f1d2aa887af2b9d104edc02331551324ee051e815db8a59",
+    "src/HiSpID_geometry_kernels.hpp": "d948b4c85b7a0a91efb3f5767cc975b49ed0c5b5cb1ee2c5f6f24006483fb02e",
+    "src/HiSpID_jets.hpp": "4e51b4f508bb3f391cd00121c881c4c878ee4b64bf75b24d75889ff557edc612",
+    "src/HiSpID_solver.cpp": "55ee7da1f1b84eb8f5777b367b62e3dffebd7f3d8c3cbce7f77e620655d56073",
+    "tests/test_hispid_seed_execution.cpp": "b17ec302cda4f051d82598016a3e4466440d0036258c7c11d8eec65365e01aef",
+    "tests/test_hispid_setup_kokkos.cpp": "3b754108b3da63d5dfbde7fe381777f2883a57f8061300aca75f717d76e17a97",
+    "validation/check_target_seeds.py": "71cd4230583c56b29b851b7cd7ccbf7477c7d1956f919a0af8da3385af784b47",
+    "validation/check_seed_api_regression.py": "bb4c43e87bb2d4548c8791aa5ee8c87426f4b2063b9f95b2954b9ba2602c93c2",
+    "validation/run_extreme_kokkos.py": "4121d5accf946ce9a6e3c22455970e1c21b085a7ecf9faa7d64b445beb085040",
+    "tests/test_extreme_prerequisites.py": "7b2dcfd77c2d3a738bae08e387c1240a83dfe00d57eb6aedc045e628c502d087"
+  },
+  "combined_log_sha256": "122a6a71f2396943347fc170945a53600c29fa0c29ca46aaf96c09adefeb6e5d",
+  "api": {
+    "native": "HiSpID_seed_with_execution",
+    "python": "Backend.seed(...,execution='kokkos')",
+    "value_components": 43,
+    "max_chunk_points": 4096,
+    "corrections": 0,
+    "attenuation": 1,
+    "scalar_binary_digits": 53,
+    "finite_values_required": true,
+    "host_fallback": false
+  },
+  "native_controls": {
+    "checks": 7629,
+    "x86_serial": true,
+    "arm_serial": true,
+    "arm_openmp": true,
+    "x86_serial_max_difference": 5.452e-14,
+    "arm_max_difference": 2.752e-14,
+    "bound": 1e-10,
+    "chunk_boundary_and_failure_controls": true
+  },
+  "ctest": {
+    "x86_serial": {
+      "passed": 5,
+      "total": 5,
+      "setup_checks": 748
+    },
+    "arm_serial": {
+      "passed": 4,
+      "skipped": 1,
+      "total": 5
+    },
+    "arm_openmp": {
+      "passed": 4,
+      "skipped": 1,
+      "total": 5
+    },
+    "arm_skip_reason": "long double has no wider precision than double"
+  },
+  "default_host_replay": {
+    "arrays": 106,
+    "arm_capture": {
+      "captured": true,
+      "arrays": 106,
+      "all_finite": true,
+      "scope": "default host API values; no solve or physical acceptance",
+      "native_images": {
+        "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-setup-reference/libHiSpID.dylib": "f477462f15a36038e15a50c8544547023217fcee8d5f40815ba382ea8b948ef3",
+        "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-setup-reference/libTwoPunctures.dylib": "654131f04099677e6bc6481cb728e68879c322a5af1ff0512fb26f06b4877d3c"
+      },
+      "baseline": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/seed_export_20261003/default_host.npz",
+      "baseline_sha256": "c55da84ad00ba668586e7a7ec8cb01dafe9ecb744ebd91e44068709057dfeb1a",
+      "script_sha256": "bb4c43e87bb2d4548c8791aa5ee8c87426f4b2063b9f95b2954b9ba2602c93c2"
+    },
+    "arm_serial": {
+      "captured": false,
+      "arrays": 106,
+      "bitwise_equal": true,
+      "scope": "default host API values; no solve or physical acceptance",
+      "native_images": {
+        "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/libHiSpID.dylib": "a3b04dee0e41740e96a79b85c3adf30c58142d2c7898c101dac989da87d9124a",
+        "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/libTwoPunctures.dylib": "6a8c0f6b09031f3c55170b605f89a8e96b728e895383ddc70ac403f7eeea5cd8"
+      },
+      "baseline": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/seed_export_20261003/default_host.npz",
+      "baseline_sha256": "c55da84ad00ba668586e7a7ec8cb01dafe9ecb744ebd91e44068709057dfeb1a",
+      "script_sha256": "bb4c43e87bb2d4548c8791aa5ee8c87426f4b2063b9f95b2954b9ba2602c93c2"
+    },
+    "arm_openmp": {
+      "captured": false,
+      "arrays": 106,
+      "bitwise_equal": true,
+      "scope": "default host API values; no solve or physical acceptance",
+      "native_images": {
+        "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-openmp/libHiSpID.dylib": "bba9a1ed71bd222cbe167e022912cbdd75b8d3b9c9c37430a0f81736e53f2cf9",
+        "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-openmp/libTwoPunctures.dylib": "0560541b5425c2c184712b61152b8bf8ac19d2d6222fb70ed5b212b898434561"
+      },
+      "baseline": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/raw/seed_export_20261003/default_host.npz",
+      "baseline_sha256": "c55da84ad00ba668586e7a7ec8cb01dafe9ecb744ebd91e44068709057dfeb1a",
+      "script_sha256": "bb4c43e87bb2d4548c8791aa5ee8c87426f4b2063b9f95b2954b9ba2602c93c2"
+    },
+    "x86_serial": {
+      "captured": false,
+      "arrays": 106,
+      "bitwise_equal": true,
+      "scope": "default host API values; no solve or physical acceptance",
+      "native_images": {
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libHiSpID.so": "4f8e792fa9f091643b1554e38a5bb7478f44423ed8a4e1ba3309b8900325adf9",
+        "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libTwoPunctures.so": "b2691bf737b75d75844b91a318aa5cbeea055e7f6d9bacea68b461676e56ca34"
+      },
+      "baseline": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-default-host-20261003T1855.npz",
+      "baseline_sha256": "d64837248c6dbb88cf54192aa25658b2388a95344b52a2a6e3e88c9e85608626",
+      "script_sha256": "bb4c43e87bb2d4548c8791aa5ee8c87426f4b2063b9f95b2954b9ba2602c93c2"
+    },
+    "retained_fixtures": {
+      "validation/kokkos_seed_export_host_arm_20261003.npz": "c55da84ad00ba668586e7a7ec8cb01dafe9ecb744ebd91e44068709057dfeb1a",
+      "validation/kokkos_seed_export_host_x86_20261003.npz": "d64837248c6dbb88cf54192aa25658b2388a95344b52a2a6e3e88c9e85608626"
+    }
+  },
+  "independent_fd": {
+    "scope": "isolated moderate seed public execution export with unchanged fourth-order Cartesian FD oracle; no binary solve",
+    "library_sha256": "a3b04dee0e41740e96a79b85c3adf30c58142d2c7898c101dac989da87d9124a",
+    "dependency_images": {
+      "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/libTwoPunctures.dylib": "6a8c0f6b09031f3c55170b605f89a8e96b728e895383ddc70ac403f7eeea5cd8"
+    },
+    "xyz": [
+      [
+        1.0,
+        0.4,
+        0.2
+      ],
+      [
+        2.0,
+        -1.0,
+        0.3
+      ],
+      [
+        4.0,
+        0.1,
+        -2.0
+      ],
+      [
+        0.6,
+        0.4,
+        0.2
+      ]
+    ],
+    "constraint_sequences": {
+      "reference": [
+        {
+          "step": 0.004,
+          "norms": {
+            "count": 4,
+            "H_rms": 9.413612563644403e-10,
+            "H_max": 1.7771479930012157e-09,
+            "M_rms": 6.037918666288698e-10,
+            "M_max": 1.2070189602598703e-09,
+            "M_components_rms": [
+              5.0625947609571214e-11,
+              1.7161613135503506e-10,
+              1.1619758596485908e-10
+            ],
+            "M_components_max": [
+              1.010429816301633e-10,
+              3.430718865238693e-10,
+              2.3202948764198774e-10
+            ],
+            "normalized_H_max": 7.790841795320551e-08,
+            "normalized_M_max": 2.9898538588596346e-08
+          },
+          "H": [
+            5.435843615508862e-10,
+            -2.997696743611833e-10,
+            3.229946003583187e-11,
+            1.7771479930012157e-09
+          ],
+          "M": [
+            [
+              -6.4787466752436355e-12,
+              -1.0480295217341752e-11,
+              -1.3023074988269078e-11
+            ],
+            [
+              -5.363901434414018e-13,
+              -4.796202102498483e-13,
+              4.819807249237266e-13
+            ],
+            [
+              -1.6609837944908187e-14,
+              -1.478645440978422e-14,
+              3.642889900993922e-15
+            ],
+            [
+              -1.010429816301633e-10,
+              3.430718865238693e-10,
+              -2.3202948764198774e-10
+            ]
+          ]
+        },
+        {
+          "step": 0.002,
+          "norms": {
+            "count": 4,
+            "H_rms": 6.26777607114514e-10,
+            "H_max": 1.0821257327708889e-09,
+            "M_rms": 3.7745555767063315e-11,
+            "M_max": 7.545582152010007e-11,
+            "M_components_rms": [
+              3.166461389289126e-12,
+              1.072769708208945e-11,
+              7.264205747288896e-12
+            ],
+            "M_components_max": [
+              6.319872535889975e-12,
+              2.144555912922643e-11,
+              1.450527264795019e-11
+            ],
+            "normalized_H_max": 2.600378965723936e-07,
+            "normalized_M_max": 1.8690831004149515e-09
+          },
+          "H": [
+            5.846359715788729e-10,
+            -1.0821257327708889e-09,
+            2.4073083478882984e-10,
+            2.5573805226275503e-11
+          ],
+          "M": [
+            [
+              -4.040314568749958e-13,
+              -6.489422853942772e-13,
+              -8.187826684267384e-13
+            ],
+            [
+              -4.2923326304226085e-14,
+              -2.8379984185165582e-14,
+              3.742821144752237e-14
+            ],
+            [
+              6.182188394553307e-15,
+              -9.283640992168507e-16,
+              1.8782986126627725e-16
+            ],
+            [
+              -6.319872535889975e-12,
+              2.144555912922643e-11,
+              -1.450527264795019e-11
+            ]
+          ]
+        },
+        {
+          "step": 0.001,
+          "norms": {
+            "count": 4,
+            "H_rms": 2.7278350329419807e-09,
+            "H_max": 4.891880106723534e-09,
+            "M_rms": 2.3576799126394644e-12,
+            "M_max": 4.713197267635499e-12,
+            "M_components_rms": [
+              1.9918996187125035e-13,
+              6.703215698483227e-13,
+              4.5260423340620417e-13
+            ],
+            "M_components_max": [
+              3.974257523346548e-13,
+              1.3403040274530467e-12,
+              9.033905738667233e-13
+            ],
+            "normalized_H_max": 4.252320054592939e-07,
+            "normalized_M_max": 1.1674854467095512e-10
+          },
+          "H": [
+            2.4096643760213032e-09,
+            -4.891880106723534e-09,
+            8.208592339924506e-11,
+            -1.436119261705171e-10
+          ],
+          "M": [
+            [
+              -2.632406335730331e-14,
+              -2.6408013656965668e-14,
+              -5.69289624099688e-14
+            ],
+            [
+              -7.930450357166678e-15,
+              -5.564475059247191e-15,
+              -3.733539830058157e-15
+            ],
+            [
+              -1.867262115370187e-15,
+              -1.3446019516214393e-14,
+              -5.7439844085066294e-15
+            ],
+            [
+              -3.974257523346548e-13,
+              1.3403040274530467e-12,
+              -9.033905738667233e-13
+            ]
+          ]
+        }
+      ],
+      "kokkos": [
+        {
+          "step": 0.004,
+          "norms": {
+            "count": 4,
+            "H_rms": 9.413612563644403e-10,
+            "H_max": 1.7771479930012157e-09,
+            "M_rms": 6.037918666288698e-10,
+            "M_max": 1.2070189602598703e-09,
+            "M_components_rms": [
+              5.0625947609571214e-11,
+              1.7161613135503506e-10,
+              1.1619758596485908e-10
+            ],
+            "M_components_max": [
+              1.010429816301633e-10,
+              3.430718865238693e-10,
+              2.3202948764198774e-10
+            ],
+            "normalized_H_max": 7.790841795320551e-08,
+            "normalized_M_max": 2.9898538588596346e-08
+          },
+          "H": [
+            5.435843615508862e-10,
+            -2.997696743611833e-10,
+            3.229946003583187e-11,
+            1.7771479930012157e-09
+          ],
+          "M": [
+            [
+              -6.4787466752436355e-12,
+              -1.0480295217341752e-11,
+              -1.3023074988269078e-11
+            ],
+            [
+              -5.363901434414018e-13,
+              -4.796202102498483e-13,
+              4.819807249237266e-13
+            ],
+            [
+              -1.6609837944908187e-14,
+              -1.478645440978422e-14,
+              3.642889900993922e-15
+            ],
+            [
+              -1.010429816301633e-10,
+              3.430718865238693e-10,
+              -2.3202948764198774e-10
+            ]
+          ]
+        },
+        {
+          "step": 0.002,
+          "norms": {
+            "count": 4,
+            "H_rms": 6.26777607114514e-10,
+            "H_max": 1.0821257327708889e-09,
+            "M_rms": 3.7745555767063315e-11,
+            "M_max": 7.545582152010007e-11,
+            "M_components_rms": [
+              3.166461389289126e-12,
+              1.072769708208945e-11,
+              7.264205747288896e-12
+            ],
+            "M_components_max": [
+              6.319872535889975e-12,
+              2.144555912922643e-11,
+              1.450527264795019e-11
+            ],
+            "normalized_H_max": 2.600378965723936e-07,
+            "normalized_M_max": 1.8690831004149515e-09
+          },
+          "H": [
+            5.846359715788729e-10,
+            -1.0821257327708889e-09,
+            2.4073083478882984e-10,
+            2.5573805226275503e-11
+          ],
+          "M": [
+            [
+              -4.040314568749958e-13,
+              -6.489422853942772e-13,
+              -8.187826684267384e-13
+            ],
+            [
+              -4.2923326304226085e-14,
+              -2.8379984185165582e-14,
+              3.742821144752237e-14
+            ],
+            [
+              6.182188394553307e-15,
+              -9.283640992168507e-16,
+              1.8782986126627725e-16
+            ],
+            [
+              -6.319872535889975e-12,
+              2.144555912922643e-11,
+              -1.450527264795019e-11
+            ]
+          ]
+        },
+        {
+          "step": 0.001,
+          "norms": {
+            "count": 4,
+            "H_rms": 2.7278350329419807e-09,
+            "H_max": 4.891880106723534e-09,
+            "M_rms": 2.3576799126394644e-12,
+            "M_max": 4.713197267635499e-12,
+            "M_components_rms": [
+              1.9918996187125035e-13,
+              6.703215698483227e-13,
+              4.5260423340620417e-13
+            ],
+            "M_components_max": [
+              3.974257523346548e-13,
+              1.3403040274530467e-12,
+              9.033905738667233e-13
+            ],
+            "normalized_H_max": 4.252320054592939e-07,
+            "normalized_M_max": 1.1674854467095512e-10
+          },
+          "H": [
+            2.4096643760213032e-09,
+            -4.891880106723534e-09,
+            8.208592339924506e-11,
+            -1.436119261705171e-10
+          ],
+          "M": [
+            [
+              -2.632406335730331e-14,
+              -2.6408013656965668e-14,
+              -5.69289624099688e-14
+            ],
+            [
+              -7.930450357166678e-15,
+              -5.564475059247191e-15,
+              -3.733539830058157e-15
+            ],
+            [
+              -1.867262115370187e-15,
+              -1.3446019516214393e-14,
+              -5.7439844085066294e-15
+            ],
+            [
+              -3.974257523346548e-13,
+              1.3403040274530467e-12,
+              -9.033905738667233e-13
+            ]
+          ]
+        }
+      ]
+    },
+    "passed": true,
+    "compiled_execution": "Serial",
+    "concurrency": 1,
+    "execution_statistics": {
+      "operator_seconds": 0.0,
+      "precondition_seconds": 0.0,
+      "setup_seconds": 0.0,
+      "linear_seconds": 0.0,
+      "transfer_seconds": 1.9917148165404797e-05,
+      "nonlinear_seconds": 0.0,
+      "resident_bytes": 0,
+      "peak_workspace_bytes": 0,
+      "host_to_device_bytes": 17568,
+      "device_to_host_bytes": 251808,
+      "kokkos_host_current_bytes": 11264,
+      "kokkos_host_peak_bytes": 102032,
+      "kokkos_device_current_bytes": 0,
+      "kokkos_device_peak_bytes": 0,
+      "nonlinear_calls": 0,
+      "workspace_creations": 0,
+      "memory_tracking_available": 1
+    },
+    "bound_sources": {
+      "python/hispid.py": "70b8bf2a8e38e38a279598ae2ee42c99af519c9ae65601a6581ff998e1382961",
+      "validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+      "src/HiSpID_geometry.cpp": "5ed62d504e174dd40f1d2aa887af2b9d104edc02331551324ee051e815db8a59",
+      "src/HiSpID_geometry_kernels.hpp": "d948b4c85b7a0a91efb3f5767cc975b49ed0c5b5cb1ee2c5f6f24006483fb02e"
+    }
+  },
+  "cuda": {
+    "compilation": "success",
+    "execution": "pending",
+    "compiler": "CUDA13.2.78 nvcc_wrapper / GCC14.3.0",
+    "target": "sm_80",
+    "flags": "Release -O3 -DNDEBUG -Xptxas=-v",
+    "build": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855",
+    "old_geometry": {
+      "symbol": "_ZN6Kokkos4Impl33cuda_parallel_launch_local_memoryINS0_11ParallelForIZN50_GLOBAL__N__094434a0_17_HiSpID_solver_cpp_4de58f8e8HiKokkos29initialize_execution_geometryEPKiRN6hispid15AxisDerivativesEdRK13HiSpID_ConfigEUliE_NS_11RangePolicyIJNS_4CudaEEEESF_EEEEvT_",
+      "stack_bytes": 73600,
+      "spill_stores_bytes": 4924,
+      "spill_loads_bytes": 6444,
+      "registers": 255
+    },
+    "new_geometry": {
+      "symbol": "_ZN6Kokkos4Impl33cuda_parallel_launch_local_memoryINS0_11ParallelForIZN50_GLOBAL__N__71f7a5a6_17_HiSpID_solver_cpp_4de58f8e8HiKokkos29initialize_execution_geometryEPKiRN6hispid15AxisDerivativesEdRK13HiSpID_ConfigEUliE_NS_11RangePolicyIJNS_4CudaEEEESF_EEEEvT_",
+      "stack_bytes": 70912,
+      "spill_stores_bytes": 4924,
+      "spill_loads_bytes": 6444,
+      "registers": 255
+    },
+    "public_seed": {
+      "symbol": "_ZN6Kokkos4Impl33cuda_parallel_launch_local_memoryINS0_11ParallelForIZ26HiSpID_seed_with_executionEUliE_NS_11RangePolicyIJNS_4CudaEEEES5_EEEEvT_",
+      "stack_bytes": 32368,
+      "spill_stores_bytes": 60,
+      "spill_loads_bytes": 56,
+      "registers": 255
+    },
+    "stack_reduction_bytes": 2688,
+    "stack_reduction_fraction": 0.03652173913043477,
+    "runtime_speedup": null,
+    "driver_vram_peak": null
+  },
+  "remote_images": {
+    "serial": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libHiSpID.so": "4f8e792fa9f091643b1554e38a5bb7478f44423ed8a4e1ba3309b8900325adf9",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/libTwoPunctures.so": "b2691bf737b75d75844b91a318aa5cbeea055e7f6d9bacea68b461676e56ca34",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/test_hispid_setup_kokkos": "649a99a51961295182cee3445c4ca2f32f604ee501c4194187a62e393d9ae95b",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/test_hispid_seed_execution": "c4dd7b4b2489d508054c7648903605e413b0ad1b4f2393cda3f199b1797383b8"
+    },
+    "cuda": {
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libHiSpID.so": "9ce170ab179a5eee257c2c53f5541e3b3585673cab7fb8f274743494e340233a",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/libTwoPunctures.so": "3f37baf766438b08e870c3f4ce60f69d87a7710e0cc8b891372e46a6ca6c2b8d",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/test_hispid_setup_kokkos": "ee65f84f01197cea52dd4f78df465f75f9eb14e48ba7f6df635ad42f0cd951f8",
+      "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-cuda-20261003T1855/test_hispid_seed_execution": "386159d36329d11758ddc53058aaa171fd1e0a034dfcf7e3ab527d72343cb1c6"
+    }
+  },
+  "remote_source_manifest": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-20261003T1855.json",
+    "sha256": "a5412bf9629d8fe48f2cc19115412b982ae3ed871ca7987cfe7f601cc59fadf4"
+  },
+  "remote_artifacts": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-ctest-serial-20261003T1855.log": "461cb6042e79248c23b682062c2e708a6b70ad9b751675f851a9ea640b0cca21",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-serial-20261003T1855/Testing/Temporary/LastTest.log": "87f2e7f98f999c967690fd798313f3499f52af5c48aca1366c82e9ee19ea0181",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/setup-build-cuda-20261003T1620.log": "d05d5d4e716a56c130e48b02160bb6932fcb8b0f9acd74c9a7d2b144858d10a4",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-build-cuda-20261003T1855.log": "dc24a3db4de58d0ce12c20d91f3d3c236aa27982c14ec49bc1a5ab05aee4c829",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-capture-20261003T1855.json": "db004366d2f2ca0423eeaba6470d0ffccfeff4336126975433f09117563b441b",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-replay-serial-20261003T1855.json": "9a95844971074b107e169357e246a9b867211dfc26096d05e010eb782cadd9f9",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-default-host-20261003T1855.npz": "d64837248c6dbb88cf54192aa25658b2388a95344b52a2a6e3e88c9e85608626",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/seed-export-20261003T1855.json": "a5412bf9629d8fe48f2cc19115412b982ae3ed871ca7987cfe7f601cc59fadf4"
+  },
+  "staged_workflow_note": "Staged seed-control CLI predates final thread-bound and explicit image-metadata additions; production sources and both native tests match this receipt. The staged physical workflow has not run.",
+  "workflow_controls": {
+    "prerequisite_tests": 14,
+    "seed_progress_tests": 5,
+    "execution_geometry_needs_device_seed_fields": true,
+    "exact_horizon_gradients": "host",
+    "completed_full_performance_and_native_report_still_required": true,
+    "seed_native_dependencies_match_measured_images": true
+  },
+  "frozen_performance_campaign_changed": false,
+  "new_extreme_binaries_run": false
+}

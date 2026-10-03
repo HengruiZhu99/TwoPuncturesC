@@ -1,5 +1,22 @@
 # HiSpID milestone status
 
+October3 seed export follow-up: the optional public Kokkos batch API now
+evaluates exact seed physical/conformal values for the unchanged Cartesian
+FD and charge verifier. Serial/OpenMP export controls pass7629 checks each;
+the x86 Serial build passes all five CTest suites, including the748 strict
+setup checks. All106 captured default host seed/operator/sampler arrays
+replay bitwise on Mac Serial/OpenMP and x86 Serial. A small moderate spinning/
+boosted exact-seed FD control also passes through the Serial export; the
+analytic horizon-gradient evaluator remains explicitly host geometry.
+Removing unconsumed spacetime-metric temporaries preserves retained arithmetic
+order and lowers the compiled A100 setup stack from73600 to70912 bytes,
+with unchanged255 registers and4924/6444 spill store/load bytes. This is a
+compiler storage result; GPU runtime, speed and VRAM results remain pending.
+CUDA13.2/GCC14 compilation passes. The frozen performance source/images remain
+unchanged, and no new extreme binary has run. Execution-geometry admission
+requires fresh device-field seed controls and the existing completed-matrix/
+compiled-report prerequisite. See `validation/kokkos_seed_export_20261003.json`.
+
 October3 precision follow-up: x86 Serial and OpenMP pass748 strict setup checks,
 including chi=.99/Gamma10 coefficients and the rotated binary fixture.
 Defined seed derivatives agree within5.547e-13; extreme coefficients within

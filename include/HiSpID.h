@@ -98,6 +98,14 @@ int HiSpID_sample_with_derivatives(HiSpID_Data *, int count, const double *xyz,
                                    HiSpID_Point *, double *dgamma);
 int HiSpID_seed(const HiSpID_Hole *, int conformal_choice,
                 int count, const double *xyz, HiSpID_Point *);
+/* Optional batch seed evaluator. PUNCTURE_REFERENCE calls the unchanged
+ * long-double host API; PUNCTURE_KOKKOS evaluates stable double geometry in
+ * this image's execution space. xyz/output are host buffers. Output is valid
+ * only on return0: failed device status/finiteness never falls back to host.
+ * No solve, attenuation, corrections or derivative jets are exported. */
+int HiSpID_seed_with_execution(const HiSpID_Hole *, int conformal_choice,
+                              int count, const double *xyz, HiSpID_Point *,
+                              int execution);
 /* Finite-radius PHYSICAL ADM surface integrals E,P[3],J[3] in lab coordinates,
  * angular momentum about sphere_center. Extrapolation is caller's job. */
 int HiSpID_charges(HiSpID_Data *, const double sphere_center[3], double radius,

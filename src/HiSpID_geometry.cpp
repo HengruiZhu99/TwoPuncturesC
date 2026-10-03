@@ -2,6 +2,9 @@
 #include <algorithm>
 #include <cstring>
 #include <limits>
+#ifdef PUNCTURES_KOKKOS
+#include "PunctureKokkos.hpp"
+#endif
 namespace hispid {
 thread_local std::string last_error;
 static long double norm(const double*a){return point_norm<long double>(a);}
@@ -111,13 +114,47 @@ int HiSpID_seed(const HiSpID_Hole*h,int choice,int count,const double*xyz,HiSpID
  HiSpID_Config c;HiSpID_default_config(&c);c.hole[0]=*h;c.hole[1].mass=0;
  if(!hispid::valid(c))return -1;
  try{for(int p=0;p<count;p++){
-  hispid::Seed s;hispid::seed(*h,choice,xyz+3*p,s);std::memset(out+p,0,sizeof(*out));
-  for(int i=0;i<3;i++)for(int j=0;j<3;j++){
-   out[p].gamma[3*i+j]=s.physical[i][j].v;out[p].Kij[3*i+j]=s.extrinsic[i][j].v;
-   out[p].conformal_metric[3*i+j]=s.metric[i][j].v;out[p].Atilde[3*i+j]=s.A[i][j].v;
-   }
-   out[p].psi=s.psi.v;out[p].mean_curvature=s.K.v;out[p].attenuation=1;
+  hispid::Seed s;hispid::seed(*h,choice,xyz+3*p,s);hispid::seed_values(s,out[p]);
  }}catch(const std::exception&e){hispid::last_error=e.what();return -2;}return 0;
+}
+int HiSpID_seed_with_execution(const HiSpID_Hole*h,int choice,int count,const double*xyz,HiSpID_Point*out,int execution){
+ if(execution==PUNCTURE_REFERENCE)return HiSpID_seed(h,choice,count,xyz,out);
+ if(execution!=PUNCTURE_KOKKOS||!h||!xyz||!out||count<0||!(h->mass>0)||choice<0||choice>1){
+  hispid::last_error="invalid execution seed request";return -1;
+ }
+ HiSpID_Config cfg;HiSpID_default_config(&cfg);cfg.hole[0]=*h;cfg.hole[1].mass=0;
+ if(!hispid::valid(cfg)){hispid::last_error="invalid execution seed parameters";return -1;}
+ for(size_t k=0;k<size_t(count)*3;k++)if(!std::isfinite(xyz[k])){hispid::last_error="nonfinite execution seed coordinate";return -1;}
+#ifdef PUNCTURES_KOKKOS
+ try{
+  puncture::ExecutionLock lock(puncture::execution_mutex());puncture::initialize();
+  const HiSpID_Hole hole=*h;
+  // Bound temporary export memory for independent Cartesian FD/quadrature
+  // batches. No retained host or device jet bank is needed.
+  for(int first=0;first<count;){
+   const int n=std::min(count-first,4096);
+   auto x=puncture::upload(xyz+size_t(3)*first,size_t(3)*n,"execution seed coordinates");
+   Kokkos::View<HiSpID_Point*,puncture::Exec>values(Kokkos::view_alloc(Kokkos::WithoutInitializing,"execution seed values"),n);
+   puncture::Indices codes("execution seed status",n);
+   Kokkos::parallel_for("execution seed value export",puncture::Range(0,n),KOKKOS_LAMBDA(int p){
+    hispid::SeedT<double>s;int code=hispid::seed_geometry(hole,choice,x.data()+3*p,s,true);
+    if(!code){hispid::seed_values(s,values(p));if(!hispid::finite_seed_values(values(p)))code=hispid::geometry_nonfinite;}
+    codes(p)=code;
+   });
+   int failed=n;
+   Kokkos::parallel_reduce("first failed execution seed",puncture::Range(0,n),KOKKOS_LAMBDA(int p,int&index){if(codes(p)&&p<index)index=p;},Kokkos::Min<int>(failed));
+   if(failed<n){int code;Kokkos::deep_copy(code,Kokkos::subview(codes,failed));
+    throw std::runtime_error("execution seed failed at point "+std::to_string(first+failed)+" (status "+std::to_string(code)+")");}
+   using HostPoints=Kokkos::View<HiSpID_Point*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
+   {puncture::Timed timer(puncture::statistics().transfer_seconds);
+    Kokkos::deep_copy(HostPoints(out+first,n),values);puncture::statistics().device_to_host_bytes+=size_t(n)*sizeof(HiSpID_Point);}
+   first+=n;
+  }
+ }catch(const std::exception&e){hispid::last_error=e.what();return -2;}
+ return 0;
+#else
+ hispid::last_error="library was built without Kokkos";return -1;
+#endif
 }
 int HiSpID_operators(const HiSpID_Config*c,const double*x,const double*j,double*out){
  if(!c||!x||!j||!out||!hispid::valid(*c))return -1;

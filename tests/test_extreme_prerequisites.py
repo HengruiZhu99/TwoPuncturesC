@@ -9,7 +9,7 @@ import numpy as np
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/name) for name in ('python','examples','validation')]
-from run_extreme_kokkos import frozen_inputs,prerequisites,verify_hashes,source_floor_passed,verify_source_floor_arrays,completed_seed_controls
+from run_extreme_kokkos import frozen_inputs,prerequisites,verify_hashes,source_floor_passed,verify_source_floor_arrays,completed_seed_controls,verify_seed_images
 from check_far_source_floor import isolated_controls
 from hispid import Config,Hole
 from configs import as_dict
@@ -49,6 +49,38 @@ class ExtremePrerequisiteTests(unittest.TestCase):
         self.assertIs(completed_seed_controls(seed),seed)
         self.assertFalse(seed['passed'])
         self.assertTrue(all(not case['passed'] for case in seed['cases']))
+
+    def test_execution_geometry_needs_device_seed_fields(self):
+        seed=dict(completed=True,passed=False,cases=[dict(case=case,completed=True,passed=False)
+            for case in ('spin99','gamma10')])
+        with self.assertRaisesRegex(ValueError,'device-field'):
+            completed_seed_controls(seed,geometry='execution')
+        device=dict(visible_count=1,visible_ordinal=0,uuid='GPU-control')
+        seed.update(seed_execution='kokkos',compiled_execution='Cuda',seed_scalar_digits=53,
+                    exact_horizon_geometry='host',device=device)
+        self.assertIs(completed_seed_controls(seed,geometry='execution'),seed)
+        self.assertFalse(seed['passed'])
+        for key,value in (('seed_execution','reference'),('compiled_execution','Serial'),
+                          ('seed_scalar_digits',64),('exact_horizon_geometry','execution'),
+                          ('device',device|{'visible_count':2}),('device',device|{'uuid':None})):
+            with self.subTest(key=key),self.assertRaisesRegex(ValueError,'device-field'):
+                completed_seed_controls(seed|{key:value},geometry='execution')
+
+    def test_seed_native_dependencies_match_the_measured_build(self):
+        producer='/build/libHiSpID.so';puncture='/build/libTwoPunctures.so';runtime='/build/libkokkoscore.so'
+        images={producer:'a'*64,puncture:'b'*64,runtime:'c'*64}
+        bound=images|{'/source/physical.py':'d'*64}
+        seed=dict(native_images=images,bound_artifacts_sha256=bound,
+                  library_dependency_images={puncture:images[puncture]},runtime_images={runtime:images[runtime]})
+        verify_seed_images(seed,images,Path(producer),geometry='execution')
+        verify_seed_images(seed|{'native_images':None},images,Path(producer),geometry='execution')
+        for mutation in (seed|{'native_images':{producer:images[producer]}},
+                         seed|{'native_images':images|{puncture:'e'*64}},
+                         seed|{'bound_artifacts_sha256':bound|{runtime:'f'*64}},
+                         seed|{'runtime_images':{runtime:'f'*64}},
+                         seed|{'native_images':images|{'/other/libkokkoscore.so':'c'*64}}):
+            with self.subTest(mutation=mutation),self.assertRaisesRegex(ValueError,'dependency images'):
+                verify_seed_images(mutation,images,Path(producer),geometry='execution')
 
     def test_frozen_decode_rejects_later_input_mutations(self):
         with tempfile.TemporaryDirectory() as directory:
