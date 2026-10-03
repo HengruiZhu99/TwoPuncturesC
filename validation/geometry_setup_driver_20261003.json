@@ -612,9 +612,9 @@
     "tests/test_geometry_setup_protocol.py": "4d8246d9ec085d4bfb6658f48670ec6af195512b2a3d23bb02115376b4f0cca1",
     "docs/HISPID_KOKKOS.md": "92523f3a4cf3729f1160f68e0b12ff1fea55a6bd78e88eb1cf9b62e2df6bea0e",
     "docs/HISPID_STATUS.md": "09bcb1e907f277aebe5f8e876d03366cad6f2630cdc95f2b9c352c547ded999a",
-    "validation/kokkos_build_manifest.py": "1403b1e9e445b0d75a9a7c5046d7c5ed9451440be2191bfd608ec0562f919de8",
+    "validation/kokkos_build_manifest.py": "1313a00f04f7b620cc3b095d84e9ad96ded83c604a5179d1c26d9bba915de328",
     "validation/perlmutter_allocation_guard.py": "41c4c03a8fd1ec51076f1b55ffa34f1ac82cc5f549603a1d281f8bb2d0df10a1",
-    "tests/test_setup_build_manifest.py": "ed0420da89209b33c1f5aa1fab9eecb0bbf1cb242073b64b07478b544a52a8a7",
+    "tests/test_setup_build_manifest.py": "e86635b17ccc9ee4d7f5f86338148cf02cacf23a82444b04e1fd2a8afa8e6c08",
     "docs/HISPID_SETUP_PROTOCOL.md": "2081f7b27168e0ba93d2905c5c992680af7253f7b4ec4dffc94ee5db92f0fda9"
   },
   "artifacts_sha256": {
@@ -640,5 +640,12 @@
       "libTwoPunctures.so": "eb985e445b9d7e0091a507f0124140b6faa903dbe024dbaad3d474cf1c2be32f"
     }
   },
-  "note": "Frozen288-worker campaign source/images untouched. Full setup campaign and actual CUDA control remain pending. The local control has no wider precision oracle; no nonlinear/physical acceptance follows."
+  "note": "Frozen288-worker campaign source/images untouched. Full setup campaign and actual CUDA control remain pending. The local control has no wider precision oracle; no nonlinear/physical acceptance follows.",
+  "staging_parser_failure": {
+    "commit": "494d613811066fb743a1bb262f8771f626ee57c1",
+    "reason": "CMake cache parser consumed blank lines and comments into variable names",
+    "native_images_changed": false,
+    "numerical_workers_started": false,
+    "regression_fixture": "CMake cache with comments and blank lines"
+  }
 }

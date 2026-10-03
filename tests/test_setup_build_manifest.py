@@ -29,7 +29,7 @@ class SetupBuildManifestTests(unittest.TestCase):
         for name in ('src','include','tests'):(source/name).mkdir()
         (source/'CMakeLists.txt').write_text('project(control)\n')
         (source/'src/native.cpp').write_text('int control(){return 1;}\n')
-        cache='\n'.join(('CMAKE_BUILD_TYPE:STRING=Release','PUNCTURES_KOKKOS:BOOL=ON',
+        cache='# This is the CMakeCache file\n\n// A cache entry\n'+'\n\n// A cache entry\n'.join(('CMAKE_BUILD_TYPE:STRING=Release','PUNCTURES_KOKKOS:BOOL=ON',
                          'PUNCTURES_BENCHMARK:BOOL=ON','HISPID_ROW_POWER:STRING=3',
                          'CMAKE_C_FLAGS:STRING=','CMAKE_CXX_FLAGS:STRING=',
                          'CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG',

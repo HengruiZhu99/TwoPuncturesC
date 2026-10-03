@@ -24,7 +24,7 @@ def native_source(source):
 def setup_build_source(build,expected):
     """Bind imported new images to their actual CMake source and flags."""
     cache=build['cache']
-    fields=dict(re.findall(r'^([^#/:=][^:=]*):[^=]+=(.*)$',cache,re.M))
+    fields=dict(re.findall(r'^([^#/\r\n:=][^\r\n:=]*):[^\r\n=]+=(.*)$',cache,re.M))
     if fields.get('CMAKE_BUILD_TYPE')!='Release' or fields.get('PUNCTURES_KOKKOS')!='ON' or fields.get('PUNCTURES_BENCHMARK')!='ON' or fields.get('HISPID_ROW_POWER')!='3':
         raise ValueError('setup build must use Release/Kokkos/benchmark/cubic-row options')
     for key in ('CMAKE_C_FLAGS','CMAKE_CXX_FLAGS','CMAKE_C_FLAGS_RELEASE','CMAKE_CXX_FLAGS_RELEASE'):
