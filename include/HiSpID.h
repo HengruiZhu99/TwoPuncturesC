@@ -51,6 +51,20 @@ HiSpID_Data *HiSpID_create(const HiSpID_Config *);
 /* Explicit execution choice; reference is unchanged. Kokkos uses this
  * image's execution space and parallel host geometry setup when available. */
 HiSpID_Data *HiSpID_create_with_execution(const HiSpID_Config *,int execution);
+/* Explicit setup choice: geometry_execution=0 retains the long-double host
+ * reference. Value1 builds seed/coordinate/derivative/operator caches in
+ * the selected Kokkos execution space, using double precision. It requires
+ * execution=PUNCTURE_KOKKOS. Existing constructors retain geometry_execution=0. */
+HiSpID_Data *HiSpID_create_with_geometry(const HiSpID_Config *,int execution,
+                                       int geometry_execution);
+/* Setup phase wall times; coefficient_seconds accumulates lazy transforms.
+ * scalar_digits is the geometry scalar's binary precision. Initialize
+ * struct_size=sizeof(HiSpID_SetupStatistics) before querying. */
+typedef struct {
+ int struct_size,geometry_execution,scalar_digits;
+ double spectral_seconds,geometry_seconds,coefficient_seconds;
+} HiSpID_SetupStatistics;
+int HiSpID_setup_statistics(const HiSpID_Data *,HiSpID_SetupStatistics *);
 /* Sampling-only context for loading saved unknowns: no collocation geometry,
  * derivative workspace, or Newton/Krylov allocation. It supports sampling,
  * charges and get/set_unknowns, and rejects solve/residual/JVP operations. */

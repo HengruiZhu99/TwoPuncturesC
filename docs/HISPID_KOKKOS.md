@@ -20,11 +20,14 @@ failure handling use the same controller.
 
 HiSpID solves four coupled equations: one Hamiltonian and three momentum
 constraints. Its seed conformal metric, mean curvature and lapse prescription
-are free data, not additional elliptic unknowns. Geometry uses the existing
-high-precision CPU construction. Newton control, line search, nonlinear host
+are free data, not additional elliptic unknowns. The default geometry path uses
+the existing high-precision CPU construction. An explicit setup choice now
+builds boosted/rotated seeds, conformal superposition, attenuation and compact
+operator coefficients in the compiled Kokkos execution space. Newton control, line search, nonlinear host
 iterates, native block factorization and physical sampling remain host work.
 The OpenMP build parallelizes geometry and independent modal factor groups;
 CUDA transfers fixed geometry once and keeps the inner iteration resident.
+With execution-space setup selected, CUDA constructs that geometry in place.
 The reference BY nonlinear residual and Newton loop retain their C arithmetic.
 The opt-in BY path uses one scoped Kokkos workspace throughout each Newton
 call, reusing differentiation matrices and fixed seed data for nonlinear
@@ -104,6 +107,47 @@ with backend.create(config, execution='kokkos') as data:
     diagnostics = data.solve(linear_rtol=.001, krylov='gmres')
 ```
 
+To request execution-space setup as well, use
+`backend.create(config, execution='kokkos', geometry='execution')`.
+The native entry point is
+`HiSpID_create_with_geometry(config, PUNCTURE_KOKKOS, 1)`.
+All existing constructors retain the host setup choice. The new path builds
+mapped nodes, first/second derivative matrices, Fourier partners, coordinate
+chains, regular-mode factors and Chebyshev coefficient matrices in kernels.
+Second-order seed jets remain per-point temporaries; the retained geometry
+cache is 248 doubles per point. Only small tables needed by host modal LU and
+sampling are downloaded. Lazy coefficient transforms and collocation equation
+exports also run in kernels, without exporting a full geometry mirror.
+
+Execution-space geometry uses **double precision**; the host reference uses
+`long double`. `data.setup_statistics()` reports the selected geometry path,
+its binary precision, constructor spectral/geometry wall times and cumulative
+coefficient-transform time. These measurements include fences. The
+coordinate builder retains the host GSL map's hyperbolic/trigonometric products,
+but bitwise equality is not promised. The new `test_hispid_setup_kokkos`
+compares all seed jet entries, compact coefficients, table/coordinate data,
+residuals, JVPs, coefficient transforms and lab-frame exports. Its source
+includes seed chi=.99 and Gamma=10 controls, not new binary physical studies.
+The new setup controls pass 620 checks on Serial and OpenMP with one CPU
+thread, and all four CTest suites pass on each build. On the ARM test host,
+`long double` and `double` both have 53 binary digits; seed jets and cached
+geometry agree bitwise there. The separate native manufactured geometry and
+Python selection/phase-query controls also pass. CUDA compilation succeeds
+for A100, including the setup test executable. Actual CUDA execution and
+comparison against the wider x86 host reference remain pending.
+The A100 compiler reports 72928 bytes of stack and 255 registers for the
+geometry kernel, with register spills. These are compiler resource counts,
+not measured VRAM or runtime. Device profiling must establish whether those
+temporaries limit throughput before claiming a setup speedup.
+See `validation/kokkos_setup_controls_20261003.json` for the source/build
+bindings, retained first failures and local results.
+The earlier kernel qualification applies to the earlier host-setup images.
+The frozen 288-attempt campaign retains those images unchanged.
+
+For a separate setup-path measurement, `validation/benchmark_bowen_york.py`
+accepts `--execution kokkos --geometry execution` and records the selection
+and setup phase statistics. Its default remains `--geometry host`.
+
 BY's `Solution.solve` accepts `execution='kokkos'` with
 `preconditioner='modal'` and an explicit positive `linear_rtol`. It supports
 both Krylov methods. Unavailable execution spaces fail explicitly.
@@ -141,9 +185,10 @@ HiSpID's Kokkos setup counter measures Newton preconditioner construction and
 execution-space import inside solve time. Constructor workspace and geometry
 imports belong to creation time. Creation includes serial frame/basis and
 differentiation-table setup, then CPU boosted-Kerr geometry and operator
-caches at every collocation point. OpenMP and CUDA parallelize that point
-builder on the host; CUDA seed construction remains CPU work. Constructor
-subphases have no separate timers, and peak RSS covers the worker through
+caches at every collocation point. For the frozen campaign, OpenMP and CUDA
+parallelize that point builder on the host. Those images have no constructor
+subphase timers. The new optional execution-space setup has separate phase
+statistics described above. Peak RSS covers the worker through
 first sampling rather than the constructor alone.
 
 ## Qualification and reproducibility

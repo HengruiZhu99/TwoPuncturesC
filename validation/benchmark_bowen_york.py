@@ -120,13 +120,14 @@ def worker(args):
         device=device_description(backend.lib) if args.execution=='kokkos' else None
         dependency_images=backend.dependency_images
         start = time.monotonic()
-        with backend.create(config,execution=args.execution) as data:
+        with backend.create(config,execution=args.execution,geometry=args.geometry) as data:
             created = time.monotonic()
             diagnostics = data.solve(linear_rtol=args.linear_rtol,krylov=args.krylov)
             finished = time.monotonic()
             data.sample([[0., 2., 1.]])
             ready = time.monotonic()
             measured_rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            setup_statistics=data.setup_statistics()
             execution_stats=execution_statistics(backend.lib);compiled_execution=execution_name(backend.lib)
             resolved_options=data.resolved_options
             work_statistics=data.work_statistics();linear_history=data.linear_history()
@@ -138,7 +139,7 @@ def worker(args):
                 samples = data.sample_with_derivatives(SAMPLE_POINTS)
                 if args.krylov:samples['lapse']=samples['psi']**-2
                 np.savez(args.state_output, unknowns=values, residual=residual, **samples)
-        result = dict(config=as_dict(config), diagnostics=diagnostics,
+        result = dict(config=as_dict(config), diagnostics=diagnostics,setup_statistics=setup_statistics,
                       resolved_options=resolved_options,
                       work_statistics=work_statistics,linear_history=linear_history,physical_check=physical,computational_norms=computational_norms,
                       residual_scaling=backend.residual_scaling(),linear_rtol=args.linear_rtol,
@@ -280,6 +281,7 @@ def worker(args):
         from execution import by_statistics
         result['by_execution_statistics']=by_statistics(lib)
     result.update(case=args.case, cpu_threads=actual_threads,requested_threads=args.threads,dependency_images=dependency_images, initial_guess='zero',
+                  geometry=args.geometry if args.mode=='hispid' else 'host',
                   execution=args.execution,compiled_execution=compiled_execution,device=device,execution_statistics=execution_stats,initialization_seconds=initialization_seconds,
                   krylov=args.krylov or ('gmres' if args.mode=='hispid' else 'bicgstab'),
                   max_rss_bytes=measured_rss
@@ -303,6 +305,7 @@ def main():
     parser.add_argument('--timeout', type=float, default=1200)
     parser.add_argument('--mode', choices=('by', 'hispid'))
     parser.add_argument('--execution',choices=('reference','kokkos'),default='reference')
+    parser.add_argument('--geometry',choices=('host','execution'),default='host',help='HiSpID seed/cache setup; execution requires Kokkos')
     parser.add_argument('--threads',type=int,default=1)
     parser.add_argument('--memory-limit-mib',type=int,default=8192)
     parser.add_argument('--input')
@@ -315,6 +318,7 @@ def main():
     parser.add_argument('--krylov-maxit',type=int)
     parser.add_argument('--state-output', help='Optional worker-only state snapshot, after RSS/timing capture')
     args = parser.parse_args()
+    if args.geometry=='execution' and args.execution!='kokkos':parser.error('execution geometry requires --execution kokkos')
     if len(args.grid) != 3 or min(args.grid) < 4 or args.grid[2] % 2:
         parser.error('grid needs three sizes >=4 and an even Fourier size')
     if not np.isfinite(args.tolerance) or args.tolerance <= 0:
@@ -340,6 +344,7 @@ def main():
                '--tolerance', str(args.tolerance), '--output', str(output),
                '--mode', mode, '--worker-output', str(path),'--execution',args.execution,
                '--threads',str(args.threads),'--memory-limit-mib',str(args.memory_limit_mib)]
+        if mode=='hispid':cmd+=['--geometry',args.geometry]
         if args.krylov:cmd+=['--krylov',args.krylov]
         if args.krylov_maxit:cmd+=['--krylov-maxit',str(args.krylov_maxit)]
         if args.physical_check:cmd += ['--physical-check']

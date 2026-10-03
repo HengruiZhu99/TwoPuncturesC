@@ -11,6 +11,7 @@
 #include <chrono>
 #include <mutex>
 
+namespace hispid {struct AxisDerivatives;}
 namespace puncture {
 using Exec=Kokkos::DefaultExecutionSpace;
 using View=Kokkos::View<double*,Exec>;
@@ -69,7 +70,7 @@ int solve(View b,View x,const PK_Options&,const Action&A,const Action&M,PK_Resul
  * preallocated scratch, constant-annihilating off-diagonal differences. */
 struct Spectral {
  int na,nb,np,nv,total;bool regular;
- View D[3],D2[3],inverse,inverse_phi,inverse_phi2,coordinate[2],mapping;
+ View D[3],D2[3],inverse,inverse_phi,inverse_phi2,coordinate[2],coefficient[2],mapping;
  View work[10],scratch[6];
  Spectral(const int*n,int components,bool modal):na(n[0]),nb(n[1]),np(n[2]),nv(components),total(na*nb*np*nv),regular(modal){
   for(auto&w:work)w=View(Kokkos::view_alloc(Kokkos::WithoutInitializing,"derivative"),total);
@@ -107,6 +108,18 @@ struct Spectral {
 /* Frozen per-point Jacobian in Cartesian jets, shared across equation systems.
  * Transformation coefficients are compact meridional data, never a dense
  * global matrix. The same coordinate chain as TP_CoordTransf is used. */
+KOKKOS_INLINE_FUNCTION void prolate_coordinate_cache(double A,double B,double b,double*c,double*xrho){
+ const double a=.5*(A+1),X=2*std::atanh(a),R=.5*std::acos(-1.0)+2*std::atan(B);
+ const double sx=std::sinh(X),cx=std::cosh(X),cr=std::cos(R),sr=std::sin(R);
+ // Match TP_CoordTransf's complex hyperbolic products before scaling by b.
+ const double x=(cx*cr)*b,rho=(sx*sr)*b,u=(sx*cr)*b,v=(cx*sr)*b;
+ const double den=u*u+v*v,re=u/den,im=-v/den;
+ const double square_re=re*re-im*im,square_im=re*im+im*re;
+ const double product_re=re*x-im*rho,product_im=re*rho+im*x;
+ c[0]=re;c[1]=im;c[2]=-(square_re*product_re-square_im*product_im);
+ c[3]=-(square_re*product_im+square_im*product_re);c[4]=re*re+im*im;c[5]=1/rho;
+ xrho[0]=x;xrho[1]=rho;
+}
 KOKKOS_INLINE_FUNCTION void coordinate_chain(double A,double B,const double*c,double co,double si,double*f){
  double a=.5*(A+1),ax=1-a*a,axx=-a*ax,br=.5*(1+B*B),brr=B*br;
  double old[10];for(int d=0;d<10;d++)old[d]=f[d];
@@ -125,7 +138,7 @@ KOKKOS_INLINE_FUNCTION void coordinate_chain(double A,double B,const double*c,do
  f[9]=urr*sn2+ri2*cs2*(u33+ur/ri)-s2*ri2*(u3-ur3/ri);
 }
 struct Operator {
- Spectral spectral;View coefficients,chain,trig,fields;
+ Spectral spectral;View coefficients,chain,trig,positions,fields;
  Operator(const int*n,int nv,bool regular):spectral(n,nv,regular),fields(Kokkos::view_alloc(Kokkos::WithoutInitializing,"Cartesian fields"),size_t(n[0])*n[1]*n[2]*nv*10){}
  void physical_fields(View in){
   spectral.apply(in);auto s=spectral;auto coef=coefficients,c=chain,t=trig;const int points=s.total/s.nv,na=s.na,nb=s.nb,V=s.nv;
@@ -142,6 +155,9 @@ struct Operator {
  }
 };
 void initialize_spectral(Operator&,const int*,double b,const std::vector<double>*coordinates=nullptr);
+/* Builds mapped nodes, derivative/transform matrices and coordinate chains
+ * in Exec. Host copies are only the small tables used by sampling/modal LU. */
+void initialize_hispid_spectral(Operator&,hispid::AxisDerivatives&,const int*,double b);
 
 /* Block inverse data is shared by Fourier partners/components. On CUDA,
  * invert the small pivoted LU blocks once, then use row-parallel GEMV in

@@ -1,0 +1,89 @@
+serial
+Test project /Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial
+    Start 1: kokkos_independent
+1/4 Test #1: kokkos_independent ...............   Passed    0.22 sec
+    Start 2: hispid_kokkos_actual_kernels
+2/4 Test #2: hispid_kokkos_actual_kernels .....   Passed    0.41 sec
+    Start 3: hispid_kokkos_setup
+3/4 Test #3: hispid_kokkos_setup ..............   Passed    0.18 sec
+    Start 4: by_kokkos_actual_kernels
+4/4 Test #4: by_kokkos_actual_kernels .........   Passed    0.20 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   1.02 sec
+
+openmp1
+Test project /Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-openmp
+    Start 1: kokkos_independent
+1/4 Test #1: kokkos_independent ...............   Passed    0.25 sec
+    Start 2: hispid_kokkos_actual_kernels
+2/4 Test #2: hispid_kokkos_actual_kernels .....   Passed    0.41 sec
+    Start 3: hispid_kokkos_setup
+3/4 Test #3: hispid_kokkos_setup ..............   Passed    0.18 sec
+    Start 4: by_kokkos_actual_kernels
+4/4 Test #4: by_kokkos_actual_kernels .........   Passed    0.19 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   1.03 sec
+
+seed_cache_serial
+seed kind0 choice0 all jets 0.000e+00
+seed kind0 choice1 all jets 0.000e+00
+seed kind1 choice0 all jets 0.000e+00
+seed kind1 choice1 all jets 0.000e+00
+seed kind2 choice0 all jets 0.000e+00
+seed kind2 choice1 all jets 0.000e+00
+seed kind3 choice0 all jets 0.000e+00
+seed kind3 choice1 all jets 0.000e+00
+seed kind4 choice0 all jets 0.000e+00
+seed kind4 choice1 all jets 0.000e+00
+seed kind5 choice0 all jets 0.000e+00
+seed kind5 choice1 all jets 0.000e+00
+cache choice0 modified0 0.000e+00
+cache choice0 modified1 0.000e+00
+cache choice1 modified0 0.000e+00
+cache choice1 modified1 0.000e+00
+seed geometry all-jet maximum 0.000e+00
+HiSpID Serial execution-space setup: 620 checks
+
+seed_cache_openmp1
+seed kind0 choice0 all jets 0.000e+00
+seed kind0 choice1 all jets 0.000e+00
+seed kind1 choice0 all jets 0.000e+00
+seed kind1 choice1 all jets 0.000e+00
+seed kind2 choice0 all jets 0.000e+00
+seed kind2 choice1 all jets 0.000e+00
+seed kind3 choice0 all jets 0.000e+00
+seed kind3 choice1 all jets 0.000e+00
+seed kind4 choice0 all jets 0.000e+00
+seed kind4 choice1 all jets 0.000e+00
+seed kind5 choice0 all jets 0.000e+00
+seed kind5 choice1 all jets 0.000e+00
+cache choice0 modified0 0.000e+00
+cache choice0 modified1 0.000e+00
+cache choice1 modified0 0.000e+00
+cache choice1 modified1 0.000e+00
+seed geometry all-jet maximum 0.000e+00
+HiSpID OpenMP execution-space setup: 620 checks
+
+reference_geometry
+manufactured operators, seed derivatives and stable singular momentum identities passed
+
+failed_rational_coordinates
+seed kind0 choice0 all jets 0.000e+00
+seed kind0 choice1 all jets 0.000e+00
+seed kind1 choice0 all jets 0.000e+00
+seed kind1 choice1 all jets 0.000e+00
+seed kind2 choice0 all jets 0.000e+00
+seed kind2 choice1 all jets 0.000e+00
+seed kind3 choice0 all jets 0.000e+00
+seed kind3 choice1 all jets 0.000e+00
+seed kind4 choice0 all jets 0.000e+00
+seed kind4 choice1 all jets 0.000e+00
+seed kind5 choice0 all jets 0.000e+00
+seed kind5 choice1 all jets 0.000e+00
+cache choice0 modified0 1.646e-10
+line81: cache_error<=1e-10 ()
+seed geometry all-jet maximum 0.000e+00

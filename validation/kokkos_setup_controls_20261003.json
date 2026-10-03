@@ -1,0 +1,99 @@
+{
+  "observed_utc": "2026-10-03T15:29:14.267168+00:00",
+  "base_commit": "fba14d1514e4973ba57647ff6b56dbc9ca54f5da",
+  "source_sha256": {
+    "CMakeLists.txt": "494235afaf8b125d8c37f11f53f32bf46d5b3095fb72fc4833a6cc5efeca1ca0",
+    "include/HiSpID.h": "a429f5c2a9f36bf202d9759820e68c4eee1492900b4c8b3ea851d1bcea0deb7f",
+    "include/PunctureExecution.h": "0ec0f1a97596afed8796ab33c3335e88a297167acb16c08c8a0b001e1344cee6",
+    "python/hispid.py": "bd7912ea62fc511621368db66505eddb3dd57685a91dc35e431cffc429c6d835",
+    "src/HiSpID_jets.hpp": "2fb875ea8c5f2a6554ad85a69d5e38ebcd25047d6eaa7b0a655b9de9e03793b6",
+    "src/HiSpID_geometry_kernels.hpp": "9d6e07b15944291f1f5ed6a588fc3bb0f9e29c3ee4fe4a814e59b597a780756b",
+    "src/HiSpID_cache_kernels.hpp": "64c70e38c81df40735b00885533e1ce309f963c91ce43d2598bde9b48be3b600",
+    "src/HiSpID_geometry.cpp": "4bc715787ecfcfa3c7ce87db0f5ec72fa0316deed45a39ea78080ad9cf3d71e5",
+    "src/HiSpID_internal.hpp": "665cf369e5489da760b549e9a66324fa0c3a225ef4ab94056f229e2763e69930",
+    "src/HiSpID_axis.hpp": "f6d2a5acb34e5f4e22a54afb3da93c3bbf899065f1b4f8bbe5e8691f0a2e8967",
+    "src/HiSpID_solver.cpp": "7db7c62773c2a1f9b5ebc38fb6b08bd02b27fab52a63c989fc8a843fa8abaa3b",
+    "src/PunctureKokkos.hpp": "13fd0452cbeed4065083f117d9d488faeef8a7b3d1305a6750a09cc013305d25",
+    "src/HiSpID_setup_kokkos.cpp": "3d71d46116e2b841f6437b9a474d24d552433d075579e89f0eb5ab2443789bb0",
+    "tests/test_hispid_setup_kokkos.cpp": "c7f3d1a9e54441cf47b72484172493fdf39da609ba3f9bf5ee87a382c7256b08",
+    "validation/benchmark_bowen_york.py": "371348731ef0e6eee7864d6f2f8ac0050f8d2a0e009400069610f74d8a600ee4"
+  },
+  "host": {
+    "platform": "macOS arm64",
+    "reference_scalar_binary_digits": 53,
+    "execution_scalar_binary_digits": 53
+  },
+  "controls": {
+    "serial": {
+      "passed": true,
+      "setup_checks": 620,
+      "ctest_passed": 4,
+      "ctest_total": 4
+    },
+    "openmp": {
+      "passed": true,
+      "threads": 1,
+      "setup_checks": 620,
+      "ctest_passed": 4,
+      "ctest_total": 4
+    },
+    "reference_manufactured_geometry": "passed",
+    "python_selection_and_setup_statistics": "passed",
+    "seed_jet_max_scaled_difference": 0.0,
+    "cache_max_scaled_difference": 0.0
+  },
+  "cuda": {
+    "compilation": "success",
+    "execution": "pending",
+    "target": "sm_80",
+    "source_directory": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/setup-kernels-20261003T1515",
+    "build_directory": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-setup-cuda-20261003T1515",
+    "source_archive_sha256": "72209aeb6c320b03c1d7cd1bd0a9a20b7685c9659267daf7a2d74ad1f343c350",
+    "source_patch_sha256": "ee75c91781a089a2c2512cc626fef2c4e9542edcd2a2dd8e7ce7559afdf1e635",
+    "compiler": "CUDA13.2 nvcc_wrapper / GCC14",
+    "flags": "-O3 -DNDEBUG -Xptxas=-v; inherited pinned Kokkos4.7.2 A100 shared package",
+    "log_sha256": "abb8ecc53fc0b11ff8fddd74e4894b6747279b2e985d809deacf5fb6f164b90d",
+    "geometry_kernel": {
+      "stack_frame_bytes": 72928,
+      "registers": 255,
+      "spill_store_bytes": 4916,
+      "spill_load_bytes": 6436
+    },
+    "image_sha256": {
+      "libHiSpID.so": "1131223e2764501077ef13270fcb57cbfffa3505c6d142cac614c417bc686848",
+      "libTwoPunctures.so": "5c53cbea2f9567d5b80f43915888b9da8f060c61f1b1036a1c9b85da11c84742",
+      "test_hispid_setup_kokkos": "6a9d6377e15a21e0c010374086452f7cc5ca8033944fe110289dd2b697281ef4"
+    }
+  },
+  "retained_failures": [
+    {
+      "kind": "initial_serial_cache_comparison",
+      "scaled_difference": 1.646e-10,
+      "gate": 1e-10,
+      "reason": "rational coordinate rounding changed inputs",
+      "repair": "retained original transcendental expressions and multiplication order"
+    },
+    {
+      "kind": "first_CUDA_compilation",
+      "reason": "extended lambdas in constructor and first capture in constexpr-if",
+      "repair": "named initialization method and capture outside constexpr-if",
+      "remote_log": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/setup-build-cuda-20261003T1503.log"
+    }
+  ],
+  "log_file": "validation/kokkos_setup_controls_20261003.txt",
+  "log_sha256": "cea88ad1c070bc4376d0178bda246e1e2a0748b12228bf16b87d98c09cba3548",
+  "frozen_288_campaign_changed": false,
+  "new_physical_binary_study_run": false,
+  "new_setup_performance_measured": false,
+  "x86_extended_reference_agreement": "pending",
+  "local_image_sha256": {
+    "build-kokkos-serial/libHiSpID.dylib": "6834d4eb65b287c53c40fa8db1164274c21532459030d2bbc3d6fa92f6453591",
+    "build-kokkos-serial/libTwoPunctures.dylib": "6a8c0f6b09031f3c55170b605f89a8e96b728e895383ddc70ac403f7eeea5cd8",
+    "build-kokkos-serial/test_hispid_setup_kokkos": "a308fe539e336e33368fee5ef4fd531523de5c1eb00d9a94199ac8ee20fae540",
+    "build-kokkos-openmp/libHiSpID.dylib": "d4db4f685f24bb7abc1f185025f1ab9df1e22f53bd73d6d52d4e579512f70b96",
+    "build-kokkos-openmp/libTwoPunctures.dylib": "0560541b5425c2c184712b61152b8bf8ac19d2d6222fb70ed5b212b898434561",
+    "build-kokkos-openmp/test_hispid_setup_kokkos": "cdb7eb42e3fd3ed78f283b05effc058768476a3bf09b94eefa4518e6f6625776",
+    "build-setup-reference/libHiSpID.dylib": "ee00452eab0fab0173fb46348a0c2c36049098be66cf562d91e5c931cb2c3214",
+    "build-setup-reference/libTwoPunctures.dylib": "654131f04099677e6bc6481cb728e68879c322a5af1ff0512fb26f06b4877d3c"
+  }
+}

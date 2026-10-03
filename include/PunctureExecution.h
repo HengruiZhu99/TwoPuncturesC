@@ -6,7 +6,9 @@ extern "C" {
 #endif
 /* The historical entry points always default to REFERENCE. KOKKOS denotes
  * the execution space compiled into this image (Serial, OpenMP or CUDA).
- * Runtime/geometry setup is CPU work; linear vectors/operators stay resident.
+ * Linear vectors/operators stay resident. HiSpID also offers an explicit
+ * execution-space geometry/cache builder; its historical constructors use
+ * host reference geometry setup.
  * No implicit fallback to a different execution space or preconditioner. */
 /* Kokkos API operations and initialization are serialized process-wide.
  * Do not mutate/destroy a context concurrently with a caller using it.

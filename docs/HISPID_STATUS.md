@@ -1,5 +1,17 @@
 # HiSpID milestone status
 
+October3 follow-up: an explicit execution-space HiSpID setup path now builds
+spinning/boosted seed geometry and coordinate/derivative/operator coefficient
+caches in Kokkos kernels. The host reference constructors retain their default
+behavior and precision. Serial/OpenMP setup controls pass620 checks each;
+all four CTest suites, native manufactured geometry and Python selection
+controls pass. CUDA compilation passes for A100; actual GPU execution and
+x86 extended-precision comparisons remain pending. The compiler's large
+geometry stack frame/spills require device performance and VRAM measurements.
+This is separate
+from the frozen 288-attempt campaign, which retains its original images.
+See `geometry='execution'` and phase statistics in [the port interface](HISPID_KOKKOS.md).
+
 The optional Kokkos port is in progress on the same isolated branch. Serial,
 OpenMP and one allocated Perlmutter A100 pass actual execution-space derivative,
 coupled HiSpID Jacobian, original BY Jacobian, production modal inverse and

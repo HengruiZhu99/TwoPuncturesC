@@ -1,6 +1,7 @@
 #ifndef HISPID_AXIS_HPP
 #define HISPID_AXIS_HPP
 #include "HiSpID_spectral.hpp"
+#include "HiSpID_jets.hpp"
 #include <algorithm>
 #ifndef HISPID_RADIAL_STRETCH
 #define HISPID_RADIAL_STRETCH .2
@@ -25,36 +26,43 @@ struct AxisDerivatives {
  static constexpr double radial_stretch=HISPID_RADIAL_STRETCH,angular_stretch=HISPID_ANGULAR_STRETCH;
  static_assert(radial_stretch>=.001&&radial_stretch<=1,"radial map stretch must be in[.001,1]");
  static_assert(angular_stretch>=.1&&angular_stretch<=6,"angular map stretch must be in[.1,6]");
- static double radial_t(double s){return radial_stretch*s/(1-(1-radial_stretch)*s);}
- static double angular_eta(double z){return std::tanh(angular_stretch*z)/std::tanh(angular_stretch);}
- static int exponent(int m){return m<=4?m:(m%2?3:4);}
- static double radial(double a,int r){return (1+a)*std::pow(a,r);}
- static double angular(double eta,int r){return std::pow(std::max(0.,1-eta*eta),.5*r);}
+ HISPID_GEOMETRY_INLINE static double radial_t(double s){return radial_stretch*s/(1-(1-radial_stretch)*s);}
+ HISPID_GEOMETRY_INLINE static double angular_eta(double z){return std::tanh(angular_stretch*z)/std::tanh(angular_stretch);}
+ HISPID_GEOMETRY_INLINE static int exponent(int m){return m<=4?m:(m%2?3:4);}
+ HISPID_GEOMETRY_INLINE static double radial(double a,int r){return (1+a)*std::pow(a,r);}
+ HISPID_GEOMETRY_INLINE static double angular(double eta,int r){double q=1-eta*eta;return std::pow(q>0?q:0.,.5*r);}
+ HISPID_GEOMETRY_INLINE static void node(int axis,int N,int i,double out[3]){
+  const double pi=std::acos(-1.0),z=-std::cos(pi*(i+.5)/N);
+  if(axis==0){const double t=radial_t(.5*(1+z)),a=std::sqrt(t),den=radial_stretch+(1-radial_stretch)*t;
+   out[0]=2*a-1;out[1]=2*a*radial_stretch/(den*den);
+   out[2]=radial_stretch/(den*den)-4*(1-radial_stretch)*t*radial_stretch/(den*den*den);
+  }else{const double eta=angular_eta(z),B=-eta/(1+std::sqrt(1-eta*eta)),den=1+B*B,eb=-2*(1-B*B)/(den*den),ebb=4*B*(3-B*B)/(den*den*den),T=std::tanh(angular_stretch),Q=1-T*T*eta*eta;
+   out[0]=B;out[1]=T*eb/(angular_stretch*Q);
+   out[2]=T*ebb/(angular_stretch*Q)+2*T*T*T*eta*eb*eb/(angular_stretch*Q*Q);
+  }
+ }
+ HISPID_GEOMETRY_INLINE static double coefficient_at(int N,int i,int j){return (2./N)*(i%2?-1:1)*std::cos(std::acos(-1.0)*i*(j+.5)/N);}
+ HISPID_GEOMETRY_INLINE static void fourier(int N,int k,int mode,double out[3]){
+  const int half=N/2,m=mode<=half?mode:mode-half;const bool cosine=mode<=half;
+  const double phi=2*std::acos(-1.0)*k/N,normal=std::sqrt((m==0||m==half?1.:2.)/N);
+  out[0]=normal*(cosine?std::cos(m*phi):std::sin(m*phi));
+  out[1]=(m==0||m==half)?0:normal*m*(cosine?-std::sin(m*phi):std::cos(m*phi));
+  out[2]=-m*m*out[0];
+ }
  void initialize(const int*shape,bool sampling_only=false){
-  std::copy(shape,shape+3,n.begin());const double pi=std::acos(-1.0);
+  std::copy(shape,shape+3,n.begin());
   for(int axis=0;axis<2;axis++){
    const int N=n[axis];coefficient[axis].resize(N*N);
-   for(int i=0;i<N;i++)for(int j=0;j<N;j++)coefficient[axis][i*N+j]=(2./N)*(i%2?-1:1)*std::cos(pi*i*(j+.5)/N);
+   for(int i=0;i<N;i++)for(int j=0;j<N;j++)coefficient[axis][i*N+j]=coefficient_at(N,i,j);
    coordinate[axis].resize(N);first_map[axis].resize(N);second_map[axis].resize(N);
    for(int i=0;i<N;i++){
-    const double z=-std::cos(pi*(i+.5)/N);
-    if(axis==0){const double t=radial_t(.5*(1+z)),a=std::sqrt(t),den=radial_stretch+(1-radial_stretch)*t;
-     coordinate[0][i]=2*a-1;first_map[0][i]=2*a*radial_stretch/(den*den);
-     second_map[0][i]=radial_stretch/(den*den)-4*(1-radial_stretch)*t*radial_stretch/(den*den*den);}
-    else{const double eta=angular_eta(z),B=-eta/(1+std::sqrt(1-eta*eta)),den=1+B*B,eb=-2*(1-B*B)/(den*den),ebb=4*B*(3-B*B)/(den*den*den),T=std::tanh(angular_stretch),Q=1-T*T*eta*eta;
-     coordinate[1][i]=B;first_map[1][i]=T*eb/(angular_stretch*Q);
-     second_map[1][i]=T*ebb/(angular_stretch*Q)+2*T*T*T*eta*eb*eb/(angular_stretch*Q*Q);}
+    double values[3];node(axis,N,i,values);coordinate[axis][i]=values[0];first_map[axis][i]=values[1];second_map[axis][i]=values[2];
    }
   }
-  const int N=n[2],half=N/2;
+  const int N=n[2];
   forward.resize(N*N);inverse.resize(N*N);inverse_phi.resize(N*N);inverse_phi2.resize(N*N);
   for(int k=0;k<N;k++)for(int mode=0;mode<N;mode++){
-   const int m=mode<=half?mode:mode-half;const bool cosine=mode<=half;
-   const double phi=2*pi*k/N,normal=std::sqrt((m==0||m==half?1.:2.)/N);
-   const double value=normal*(cosine?std::cos(m*phi):std::sin(m*phi));
-   forward[mode*N+k]=inverse[k*N+mode]=value;
-   inverse_phi[k*N+mode]=(m==0||m==half)?0:normal*m*(cosine?-std::sin(m*phi):std::cos(m*phi));
-   inverse_phi2[k*N+mode]=-m*m*value;
+   double values[3];fourier(N,k,mode,values);forward[mode*N+k]=inverse[k*N+mode]=values[0];inverse_phi[k*N+mode]=values[1];inverse_phi2[k*N+mode]=values[2];
   }
   raw.n=n;
   if(sampling_only)return;
