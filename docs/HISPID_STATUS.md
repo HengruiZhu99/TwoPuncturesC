@@ -1,5 +1,17 @@
 # HiSpID milestone status
 
+October3 setup measurement follow-up: a separate, restartable126-worker
+host-versus-execution setup protocol is prepared for the new images. Six
+protocol tests reject missing arrays, nonfinite values, skipped suites and
+changed source/test/image witnesses. A12x16x8 ARM Serial worker pair passes
+all22 retained residual/JVP/field/gradient comparisons (maximum2.0993e-15).
+It is a small local driver control, with no wider host precision oracle,
+nonlinear solve or physical acceptance. The matching new x86 OpenMP image
+also compiles. Actual new GPU execution and setup performance remain pending.
+The original campaign is independently live at20:01UTC:238/288 attempts,
+61 failed stopping checks and two process timeouts; no failed gate is promoted
+to a qualified speedup. The final report and new extreme binaries are pending.
+
 October3 seed export follow-up: the optional public Kokkos batch API now
 evaluates exact seed physical/conformal values for the unchanged Cartesian
 FD and charge verifier. Serial/OpenMP export controls pass7629 checks each;

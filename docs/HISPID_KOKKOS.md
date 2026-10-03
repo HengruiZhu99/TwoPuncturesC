@@ -184,6 +184,41 @@ The frozen 288-attempt campaign retains those images unchanged.
 For a separate setup-path measurement, `validation/benchmark_bowen_york.py`
 accepts `--execution kokkos --geometry execution` and records the selection
 and setup phase statistics. Its default remains `--geometry host`.
+
+`validation/benchmark_geometry_setup.py` prepares a separate paired setup
+campaign without changing the frozen solve matrix. Supply a build manifest
+with the new Serial, OpenMP1/2/4/8/16 and CUDA images, and a fresh `--output`.
+The default three grids and three repeats declare126 fresh workers. Both
+sides use the same image and Kokkos execution; only `geometry='host'` versus
+`'execution'` changes. Pair/variant order alternates on successive repeats.
+Each image must execute the strict native setup and public seed-export suites;
+compilation or a skipped wider-precision comparison cannot qualify timings.
+Run these sequentially after the frozen matrix, using the same fractional
+one-GPU allocation. The largest legacy serial construction takes about15min,
+so this supplement also requires substantial compute time.
+
+Runtime initialization, constructor wall time, spectral/geometry phases and
+first sample are separate. Coefficient-transform time is a subset of first
+sample time. Ready time is construction plus first sample; an additional
+instrumented wall time exposes the intervening metadata-query gap. RSS is the
+process lifetime high-water through the snapshot, including frozen input
+loading. Exact Kokkos allocation peaks reset after runtime initialization.
+Both memory snapshots precede untimed residual/JVP/field verification.
+Whole-worker driver observations also include verification, CUDA stack and
+runtime; their1Hz peak remains a lower bound on transient VRAM usage.
+
+Frozen zero/nonzero unknowns, a JVP direction and off-grid points produce22
+retained arrays. Every declared shape, float64 dtype, finite value and scaled
+difference must pass the unchanged1e-10 bound; missing outputs cannot pass.
+Qualified pair ratios additionally require both worker protocols and both
+native suites. Sources, inputs, test executables and native/runtime images
+are hash-bound and rechecked. Interrupted attempts and failed gates remain
+retained; `--resume` and `STOP_AFTER_WORKER` permit later allocations. This
+setup control does not establish nonlinear-solve or physical-binary acceptance
+and does not unlock the extreme runner's completed-report prerequisite.
+The small ARM Serial control passes all22 comparisons, with maximum scaled
+difference2.0993e-15, but lacks a wider host oracle and is explicitly not the
+declared performance campaign. See `validation/geometry_setup_driver_20261003.json`.
 `check_far_source_floor.py` and `run_extreme_kokkos.py` also accept
 `--geometry execution`. Floors, binary solves and resumes must select the
 same path; execution-built floors retain native mode/precision witnesses.

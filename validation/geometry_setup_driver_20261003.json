@@ -1,0 +1,637 @@
+{
+  "created_utc": "2026-10-03T20:07:00.082169+00:00",
+  "purpose": "Supplemental setup driver preparation and small local control",
+  "declared_setup_completed": false,
+  "new_gpu_setup_executed": false,
+  "nonlinear_solve": false,
+  "physical_binary_acceptance": false,
+  "default_protocol": {
+    "grids": [
+      [
+        40,
+        80,
+        16
+      ],
+      [
+        80,
+        160,
+        16
+      ],
+      [
+        128,
+        256,
+        28
+      ]
+    ],
+    "variants": [
+      "serial",
+      "openmp1",
+      "openmp2",
+      "openmp4",
+      "openmp8",
+      "openmp16",
+      "cuda"
+    ],
+    "geometries": [
+      "host",
+      "execution"
+    ],
+    "repeats": 3,
+    "workers": 126,
+    "bound": 1e-10
+  },
+  "local_control": {
+    "platform": "ARM macOS Serial",
+    "grid": [
+      12,
+      16,
+      8
+    ],
+    "actual_threads": 1,
+    "workers": {
+      "host": {
+        "initialization_seconds": 3.595799999999566e-05,
+        "creation_seconds": 0.038261292,
+        "first_sample_seconds": 0.00025179099999998733,
+        "ready_to_sample_seconds": 0.03851308299999999,
+        "wall_creation_through_sample_seconds": 0.03853633299999999,
+        "instrumentation_gap_seconds": 2.3250000000002435e-05,
+        "initialization_rss_bytes": 29409280,
+        "constructor_rss_bytes": 33603584,
+        "max_rss_bytes": 33685504,
+        "initialization_statistics": {
+          "operator_seconds": 0.0,
+          "precondition_seconds": 0.0,
+          "setup_seconds": 0.0,
+          "linear_seconds": 0.0,
+          "transfer_seconds": 0.0,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 0,
+          "peak_workspace_bytes": 0,
+          "host_to_device_bytes": 0,
+          "device_to_host_bytes": 0,
+          "kokkos_host_current_bytes": 0,
+          "kokkos_host_peak_bytes": 0,
+          "kokkos_device_current_bytes": 0,
+          "kokkos_device_peak_bytes": 0,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 1
+        },
+        "constructor_statistics": {
+          "operator_seconds": 0.0,
+          "precondition_seconds": 0.0,
+          "setup_seconds": 0.0,
+          "linear_seconds": 0.0,
+          "transfer_seconds": 1.5624449588358402e-05,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 0,
+          "peak_workspace_bytes": 0,
+          "host_to_device_bytes": 202848,
+          "device_to_host_bytes": 0,
+          "kokkos_host_current_bytes": 2073696,
+          "kokkos_host_peak_bytes": 2073696,
+          "kokkos_device_current_bytes": 0,
+          "kokkos_device_peak_bytes": 0,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 1
+        },
+        "execution_statistics": {
+          "operator_seconds": 0.0,
+          "precondition_seconds": 0.0,
+          "setup_seconds": 0.0,
+          "linear_seconds": 0.0,
+          "transfer_seconds": 1.5624449588358402e-05,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 0,
+          "peak_workspace_bytes": 0,
+          "host_to_device_bytes": 202848,
+          "device_to_host_bytes": 0,
+          "kokkos_host_current_bytes": 2073696,
+          "kokkos_host_peak_bytes": 2073696,
+          "kokkos_device_current_bytes": 0,
+          "kokkos_device_peak_bytes": 0,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 1
+        },
+        "constructor_setup_statistics": {
+          "geometry_execution": 0,
+          "scalar_digits": 53,
+          "spectral_seconds": 0.00010166696405410766,
+          "geometry_seconds": 0.037865,
+          "coefficient_seconds": 0.0
+        },
+        "setup_statistics": {
+          "geometry_execution": 0,
+          "scalar_digits": 53,
+          "spectral_seconds": 0.00010166696405410766,
+          "geometry_seconds": 0.037865,
+          "coefficient_seconds": 3.65e-05
+        },
+        "config": {
+          "hole": [
+            {
+              "mass": 0.6,
+              "center": [
+                3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                0.072,
+                0.054,
+                0.108
+              ],
+              "velocity": [
+                0.03,
+                0.06,
+                0.01
+              ]
+            },
+            {
+              "mass": 0.4,
+              "center": [
+                -3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                -0.032,
+                0.048,
+                0.016
+              ],
+              "velocity": [
+                -0.02,
+                -0.07,
+                0.025
+              ]
+            }
+          ],
+          "n": [
+            12,
+            16,
+            8
+          ],
+          "conformal_choice": 1,
+          "inner_flatten": 1,
+          "omega": [
+            0.5,
+            0.5
+          ],
+          "attenuation_power": 4,
+          "inner_min": [
+            0.045,
+            0.03
+          ],
+          "inner_max": [
+            0.09,
+            0.06
+          ],
+          "far_radius": 0.0,
+          "tolerance": 1e-12,
+          "max_newton": 24,
+          "max_krylov": 2000,
+          "krylov_restart": 64,
+          "memory_limit_mib": 32768
+        },
+        "geometry": "host",
+        "execution": "kokkos",
+        "compiled_execution": "Serial",
+        "cpu_threads": 1,
+        "requested_threads": 1,
+        "device": null,
+        "library_sha256": "a3b04dee0e41740e96a79b85c3adf30c58142d2c7898c101dac989da87d9124a",
+        "dependency_images": {
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/libTwoPunctures.dylib": "6a8c0f6b09031f3c55170b605f89a8e96b728e895383ddc70ac403f7eeea5cd8"
+        },
+        "runtime_images": {
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/algorithms/src/libkokkosalgorithms.4.7.2.dylib": "34df0cfba86fa27b6742e0edfc76202cd1f66e718af6746b960a7e86070a633d",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/containers/src/libkokkoscontainers.4.7.2.dylib": "138fdbc639e5cefb3da82f0411ad79283fef196a483b05047638c9bbd406edaa",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/core/src/libkokkoscore.4.7.2.dylib": "a00aa55a0dab8a808cf75b5bac221c8a806096d8ca06f6a15016de4401e98e46",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/simd/src/libkokkossimd.4.7.2.dylib": "4ba78ddf564fe66920588741424914c3ed0eaf0bfd8d7e2d149a51708cd928f9"
+        },
+        "loaded_image_verified": true,
+        "input_sha256": "ae3c12b0f56a87395dd28cf58a56ff33a07bd5c928f8cee612827ce1631e038d",
+        "input_arrays_sha256": "0e43dd28910efbf49634128c68b8c8589fc4afe5549f776d2b382ae5dbf951c9",
+        "all_arrays_finite": true,
+        "initial_unknowns_zero": true,
+        "work_statistics": {
+          "jvp_applications": 2,
+          "preconditioner_applications": 0
+        },
+        "diagnostics": {
+          "converged": 0,
+          "newton_iterations": 0,
+          "krylov_iterations": 0,
+          "npoints": 1536,
+          "scaled_linf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "unscaled_linf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "seconds": 0.0
+        },
+        "memory_window": "RSS is lifetime high-water through first sample; Kokkos counters reset after initialization; both captured before verification",
+        "coefficient_timing_is_subset_of_first_sample": true,
+        "note": "No nonlinear solve. Callback peaks exclude CUDA stack/runtime; whole-worker driver observations also include verification."
+      },
+      "execution": {
+        "initialization_seconds": 1.795899999999795e-05,
+        "creation_seconds": 0.040150208,
+        "first_sample_seconds": 0.0002891659999999935,
+        "ready_to_sample_seconds": 0.04043937399999999,
+        "wall_creation_through_sample_seconds": 0.040461832999999996,
+        "instrumentation_gap_seconds": 2.245900000000245e-05,
+        "initialization_rss_bytes": 29327360,
+        "constructor_rss_bytes": 33439744,
+        "max_rss_bytes": 33521664,
+        "initialization_statistics": {
+          "operator_seconds": 0.0,
+          "precondition_seconds": 0.0,
+          "setup_seconds": 0.0,
+          "linear_seconds": 0.0,
+          "transfer_seconds": 0.0,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 0,
+          "peak_workspace_bytes": 0,
+          "host_to_device_bytes": 0,
+          "device_to_host_bytes": 0,
+          "kokkos_host_current_bytes": 0,
+          "kokkos_host_peak_bytes": 0,
+          "kokkos_device_current_bytes": 0,
+          "kokkos_device_peak_bytes": 0,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 1
+        },
+        "constructor_statistics": {
+          "operator_seconds": 0.0,
+          "precondition_seconds": 0.0,
+          "setup_seconds": 0.0,
+          "linear_seconds": 0.0,
+          "transfer_seconds": 5.250913091003895e-06,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 0,
+          "peak_workspace_bytes": 0,
+          "host_to_device_bytes": 0,
+          "device_to_host_bytes": 14880,
+          "kokkos_host_current_bytes": 5138656,
+          "kokkos_host_peak_bytes": 5144800,
+          "kokkos_device_current_bytes": 0,
+          "kokkos_device_peak_bytes": 0,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 1
+        },
+        "execution_statistics": {
+          "operator_seconds": 0.0,
+          "precondition_seconds": 0.0,
+          "setup_seconds": 0.0,
+          "linear_seconds": 0.0,
+          "transfer_seconds": 8.0430181697011e-06,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 0,
+          "peak_workspace_bytes": 0,
+          "host_to_device_bytes": 49152,
+          "device_to_host_bytes": 64032,
+          "kokkos_host_current_bytes": 5138656,
+          "kokkos_host_peak_bytes": 5144800,
+          "kokkos_device_current_bytes": 0,
+          "kokkos_device_peak_bytes": 0,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 1
+        },
+        "constructor_setup_statistics": {
+          "geometry_execution": 1,
+          "scalar_digits": 53,
+          "spectral_seconds": 8.395803160965443e-05,
+          "geometry_seconds": 0.03997412498574704,
+          "coefficient_seconds": 0.0
+        },
+        "setup_statistics": {
+          "geometry_execution": 1,
+          "scalar_digits": 53,
+          "spectral_seconds": 8.395803160965443e-05,
+          "geometry_seconds": 0.03997412498574704,
+          "coefficient_seconds": 5.4375e-05
+        },
+        "config": {
+          "hole": [
+            {
+              "mass": 0.6,
+              "center": [
+                3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                0.072,
+                0.054,
+                0.108
+              ],
+              "velocity": [
+                0.03,
+                0.06,
+                0.01
+              ]
+            },
+            {
+              "mass": 0.4,
+              "center": [
+                -3.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                -0.032,
+                0.048,
+                0.016
+              ],
+              "velocity": [
+                -0.02,
+                -0.07,
+                0.025
+              ]
+            }
+          ],
+          "n": [
+            12,
+            16,
+            8
+          ],
+          "conformal_choice": 1,
+          "inner_flatten": 1,
+          "omega": [
+            0.5,
+            0.5
+          ],
+          "attenuation_power": 4,
+          "inner_min": [
+            0.045,
+            0.03
+          ],
+          "inner_max": [
+            0.09,
+            0.06
+          ],
+          "far_radius": 0.0,
+          "tolerance": 1e-12,
+          "max_newton": 24,
+          "max_krylov": 2000,
+          "krylov_restart": 64,
+          "memory_limit_mib": 32768
+        },
+        "geometry": "execution",
+        "execution": "kokkos",
+        "compiled_execution": "Serial",
+        "cpu_threads": 1,
+        "requested_threads": 1,
+        "device": null,
+        "library_sha256": "a3b04dee0e41740e96a79b85c3adf30c58142d2c7898c101dac989da87d9124a",
+        "dependency_images": {
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/libTwoPunctures.dylib": "6a8c0f6b09031f3c55170b605f89a8e96b728e895383ddc70ac403f7eeea5cd8"
+        },
+        "runtime_images": {
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/algorithms/src/libkokkosalgorithms.4.7.2.dylib": "34df0cfba86fa27b6742e0edfc76202cd1f66e718af6746b960a7e86070a633d",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/containers/src/libkokkoscontainers.4.7.2.dylib": "138fdbc639e5cefb3da82f0411ad79283fef196a483b05047638c9bbd406edaa",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/core/src/libkokkoscore.4.7.2.dylib": "a00aa55a0dab8a808cf75b5bac221c8a806096d8ca06f6a15016de4401e98e46",
+          "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-serial/kokkos/simd/src/libkokkossimd.4.7.2.dylib": "4ba78ddf564fe66920588741424914c3ed0eaf0bfd8d7e2d149a51708cd928f9"
+        },
+        "loaded_image_verified": true,
+        "input_sha256": "ae3c12b0f56a87395dd28cf58a56ff33a07bd5c928f8cee612827ce1631e038d",
+        "input_arrays_sha256": "0e43dd28910efbf49634128c68b8c8589fc4afe5549f776d2b382ae5dbf951c9",
+        "all_arrays_finite": true,
+        "initial_unknowns_zero": true,
+        "work_statistics": {
+          "jvp_applications": 2,
+          "preconditioner_applications": 0
+        },
+        "diagnostics": {
+          "converged": 0,
+          "newton_iterations": 0,
+          "krylov_iterations": 0,
+          "npoints": 1536,
+          "scaled_linf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "unscaled_linf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "seconds": 0.0
+        },
+        "memory_window": "RSS is lifetime high-water through first sample; Kokkos counters reset after initialization; both captured before verification",
+        "coefficient_timing_is_subset_of_first_sample": true,
+        "note": "No nonlinear solve. Callback peaks exclude CUDA stack/runtime; whole-worker driver observations also include verification."
+      }
+    },
+    "comparison": {
+      "bound": 1e-10,
+      "arrays": {
+        "initial_unknowns": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "zero_residual": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 2.0992555913239063e-15,
+          "passed": true
+        },
+        "zero_jvp": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 8.668220863130713e-19,
+          "passed": true
+        },
+        "initial_gamma": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "initial_Kij": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "initial_psi": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "initial_conformal_metric": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "initial_Atilde": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "initial_mean_curvature": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "initial_correction": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "initial_attenuation": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "nonzero_residual": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 2.0992555124255313e-15,
+          "passed": true
+        },
+        "nonzero_jvp": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 8.668220863111014e-19,
+          "passed": true
+        },
+        "gamma": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "Kij": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "psi": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "conformal_metric": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "Atilde": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "mean_curvature": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "correction": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "attenuation": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        },
+        "dgamma": {
+          "finite": true,
+          "declared_shape": true,
+          "dtype_float64": true,
+          "max_scaled_difference": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true
+    },
+    "strict_wider_reference_available": false,
+    "qualified_campaign_timing": false,
+    "protocol_tests": 6,
+    "protocol_tests_exit": 0
+  },
+  "source_sha256": {
+    "validation/benchmark_geometry_setup.py": "24968918fac29144d07b56865a52e9a74bd7ae664d6d207af388f3f1aa5d161b",
+    "tests/test_geometry_setup_protocol.py": "4d8246d9ec085d4bfb6658f48670ec6af195512b2a3d23bb02115376b4f0cca1",
+    "docs/HISPID_KOKKOS.md": "92523f3a4cf3729f1160f68e0b12ff1fea55a6bd78e88eb1cf9b62e2df6bea0e",
+    "docs/HISPID_STATUS.md": "09bcb1e907f277aebe5f8e876d03366cad6f2630cdc95f2b9c352c547ded999a"
+  },
+  "artifacts_sha256": {
+    "validation/raw/geometry_setup_local_20261003/host.json": "7038895e4810ad7ccaa6b0b7b9a4b253c45907b814926d96bff24be10a09b038",
+    "validation/raw/geometry_setup_local_20261003/host.npz": "9ab315591146f3cc3c9736b4a29339e3c8e00888d342974ac57a0db746a9ff09",
+    "validation/raw/geometry_setup_local_20261003/input.json": "ae3c12b0f56a87395dd28cf58a56ff33a07bd5c928f8cee612827ce1631e038d",
+    "validation/raw/geometry_setup_local_20261003/protocol_tests.log": "91bf10ce34b2b5f6f6efdd64fd681002bb5816631b2608575fab164709c80992",
+    "validation/raw/geometry_setup_local_20261003/execution.npz": "bfd92f08270ae905d3ec288a5b2b8e80529ecad4f29abbd8d9421814f545c681",
+    "validation/raw/geometry_setup_local_20261003/comparison.json": "a8f52a136f5ccd964ef34e9c4e8a79664c7f43fc5c430f5e294f2133f30f3bf8",
+    "validation/raw/geometry_setup_local_20261003/execution.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation/raw/geometry_setup_local_20261003/input.npz": "0e43dd28910efbf49634128c68b8c8589fc4afe5549f776d2b382ae5dbf951c9",
+    "validation/raw/geometry_setup_local_20261003/execution.json": "0b21e0b0682b067cbfe2ae3ab4f222cec20982dd891bbd2a6b7c4c1918176fb5",
+    "validation/raw/geometry_setup_local_20261003/host.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "remote_openmp_build": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-seed-export-openmp-20261003T1855",
+    "source_stage": "seed-export-20261003T1855",
+    "compiled": true,
+    "executed": false,
+    "images_sha256": {
+      "libHiSpID.so": "52f48572b9b5ecadb1a00c1cb010d00865a162e79754efd1ef5c3a9038605b87",
+      "libTwoPunctures.so": "eb985e445b9d7e0091a507f0124140b6faa903dbe024dbaad3d474cf1c2be32f"
+    }
+  },
+  "note": "Frozen288-worker campaign source/images untouched. Full setup campaign and actual CUDA control remain pending. The local control has no wider precision oracle; no nonlinear/physical acceptance follows."
+}
