@@ -1,0 +1,54 @@
+{
+  "purpose": "Gamma10_physical_solver_trial_preparation",
+  "created_utc": "2026-10-04T01:07:02.468492+00:00",
+  "physical_acceptance": false,
+  "performance_campaign_started": false,
+  "producer_rebuilt": false,
+  "parent_row_sha256": "260d97ea2fe472ae2610ac3a82eab1ebfa63c7b1967084055d9d96b56486fb0c",
+  "source_library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+  "physical_free_data_unchanged": true,
+  "resolution": [
+    128,
+    256,
+    8
+  ],
+  "coordinate_separation": 25.0,
+  "input_lorentz_factor": 10.0,
+  "solver_control_changes": {
+    "krylov_restart": [
+      80,
+      200
+    ],
+    "max_krylov": [
+      2400,
+      4800
+    ]
+  },
+  "unchanged_controls": {
+    "outer_tolerance": 1e-14,
+    "linear_rtol": 0.001,
+    "row_scaling": "sin3_alpha_beta",
+    "krylov": "gmres",
+    "preconditioner": "modal",
+    "geometry": "host"
+  },
+  "initial_guess": "Exact original failed 128x256x8 checkpoint; source SHA, basis, exact grid and all physical free data checked before context creation; acceptance_inherited=false.",
+  "source_sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/run_validation.py": "a4b54f783ec92db72298886ace36a369ee5a6f36e23eae8d2d51f92231e24e87",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/run_extreme_kokkos.py": "473d672640435f993841919209ff2eb1fcca08c5ab65ea33d809d249ab0d7df1",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_gamma10_gmres200_plan_20261003.json": "91dc96cb5bac2c4375d8ca68a5dcc05a62b7e01ee73bb2c0c418c3f61537021f",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/tests/test_initial_checkpoint.py": "814af68db00594ed0745d29d496fcead177309f410ca8edb0e3d988ae931877c"
+  },
+  "controls_tested": {
+    "initial_checkpoint_guards": 4,
+    "existing_extreme_guards": 16,
+    "portable_reader_guards": 2,
+    "all_exit_codes": 0
+  },
+  "independent_review": {
+    "reviewer": "/root/formulation_review",
+    "maximum_supported_restart": 200,
+    "other_launch_blockers_found": false
+  },
+  "scope": "One actual Gamma10 solver trial at the existing finest grid, not a new performance comparison or a qualified resolution sequence."
+}

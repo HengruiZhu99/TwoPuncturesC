@@ -1,0 +1,179 @@
+{
+  "status": "One Gamma10 GMRES restart200 physical solver trial, initialized from the retained failed finest-grid state; no acceptance transfer.",
+  "predecessor": "HUMAN OVERRIDE on October3: preserve collected performance results, stop further performance work, and proceed directly to high-spin/high-boost investigations; no performance-completion sequencing prerequisite",
+  "provenance": "Explicit library/runtime hashes, exact continuous basis/maps, execution selection, every configuration and each failed iterate; Kokkos initialization and backend.create(..., execution='kokkos') must both be explicit",
+  "acceptance_inherited": false,
+  "reference_reproduction": false,
+  "cases": [
+    {
+      "label": "aligned_spin99_kokkos",
+      "seed_rest_masses": [
+        0.5,
+        0.5
+      ],
+      "centers": [
+        [
+          6,
+          0,
+          0
+        ],
+        [
+          -6,
+          0,
+          0
+        ]
+      ],
+      "rest_spins": [
+        [
+          0,
+          0,
+          0.2475
+        ],
+        [
+          0,
+          0,
+          0.2475
+        ]
+      ],
+      "velocities": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "seed_rest_chi": 0.99,
+      "grids": [
+        [
+          80,
+          160,
+          16
+        ],
+        [
+          104,
+          208,
+          20
+        ],
+        [
+          128,
+          256,
+          28
+        ]
+      ],
+      "isolated_horizon": "QI radius m*sqrt(1-chi^2)/2; area 8*pi*m^2*(1+sqrt(1-chi^2)); Mirr=sqrt(A/(16*pi))",
+      "reported_spin": "Seed chi, coordinate-rotation horizon spin and its Christodoulou mass are distinct; no approximate-Killing-vector spin claim"
+    },
+    {
+      "label": "headon_gamma10_kokkos",
+      "seed_rest_masses": [
+        0.5,
+        0.5
+      ],
+      "initial_centers": [
+        [
+          12.5,
+          0,
+          0
+        ],
+        [
+          -12.5,
+          0,
+          0
+        ]
+      ],
+      "rest_spins": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "velocity_definition": "Hole0=(-sqrt(0.99),0,0), hole1=(sqrt(0.99),0,0)",
+      "input_lorentz_factor": 10,
+      "initial_separation": 25,
+      "target_separation_ratio": "d divided by the mean of the measured equal component Mirr values about50; report each component ratio separately and their symmetry error",
+      "ratio_target_relative_tolerance": 0.05,
+      "calibration": "If component horizons are measured and the ratio misses the target, change d and retain each distinct configuration/solve; never substitute seed masses for measured areas. If component measurement fails, leave this target unverified.",
+      "grids": [
+        [
+          128,
+          256,
+          8
+        ]
+      ],
+      "independent_fourier_control": [
+        128,
+        256,
+        16
+      ],
+      "isolated_horizon": "Ellipsoid X^T(I+Gamma^2*v*v^T)X=(m/2)^2, minimum coordinate radius m/(2*Gamma), area16*pi*m^2, Mirr=m",
+      "interaction_scale": "Initial d=25 and total isolated seed energy2*Gamma*m=10 imply d/Eseed=2.5; this is not the thesis Table4.3 d/MADM=100--400 regime. Measure global ADM energy and both component masses.",
+      "horizons": "Refine individual searches and independently attempt common searches with explicit configured centers/radii. A failed common search does not establish absence.",
+      "investigation_suffix": "gmres200",
+      "rationale": "Revisit the exact failed 128x256x8 Gamma10 physical configuration with restart200 (largest supported by the preserved producer) and max_krylov4800. Keep outer tolerance1e-14, linear_rtol.001, actual metric operator and modal preconditioner unchanged. The source checkpoint is diagnostic only. This one solver trial cannot establish a new resolution sequence."
+    }
+  ],
+  "common_free_data": {
+    "conformal_choice": 0,
+    "omega": [
+      1,
+      1
+    ],
+    "attenuation_power": 4,
+    "inner_flatten": 0,
+    "inner_min": "0.1 times the isolated minimum QI horizon radius for each hole",
+    "inner_max": "0.3 times the isolated minimum QI horizon radius for each hole; screening only, requiring fresh continuous binary enclosure",
+    "far_radius": 0,
+    "maps": [
+      0.2,
+      2
+    ],
+    "departure": "Fully specified local targets using smooth equation windows and the actual metric operator; not historical step stuffing or a claim of published parameter-file reproduction"
+  },
+  "solve_controls": {
+    "execution": "Kokkos CUDA one allocated A100, with CPU/host comparison only as explicitly retained separate workers",
+    "krylov": "gmres",
+    "linear_rtol": 0.001,
+    "outer_tolerance": 1e-14,
+    "max_newton": 24,
+    "max_krylov": 4800,
+    "restart": 200,
+    "memory_limit_mib": 32768,
+    "row_power": 3,
+    "initial_guess": "Exact bits from the original diagnostic 128x256x8 checkpoint, same producer/basis/maps/grid/physical free data; fresh solve and physical checks required."
+  },
+  "criteria": {
+    "isolated_far_source_floor": "Before each distinct binary configuration, target-specific spin99 or gamma10 zero-correction exact isolated controls on every declared grid at both target focus positions and inward velocity signs, same mass/charts/norm/producer; far weighted Linf below1e-14 and finite physical-equivalent summaries. Recompute from bound arrays. This target calibration does not claim general-orientation qualification. Numerical failure remains failed even in a diagnostic investigation.",
+    "physical_exterior_H_M_RMS": 1e-06,
+    "physical_exterior_H_M_max": 0.0001,
+    "physical_method": "Independent fourth-order Cartesian differences of physical gamma/K at identical off-grid points on at least three solved grids; all g=1 stencils verified. Report modified-region norms separately.",
+    "raw_decrease": "Preserve all raw monotonic flags; plateaus require independent exact-seed and multiple-step calibration, without relabeling the raw failures",
+    "charges": "Separate angular and radial refinement; retain absolute uncertainty1e-5 and existing preliminary stability flags. Report global ADM energy, momentum and angular momentum; do not infer component momentum from input Gamma.",
+    "covariance": "Fresh solved rotations/translations and fixed-origin charge accounting, retaining the existing thresholds and failures",
+    "horizon_expansion_RMS": 1e-07,
+    "horizon_area_spectral_relative_change": 1e-05,
+    "horizon_area_quadrature_relative_change": 1e-07,
+    "horizon_shape_uniform_change": 0.0001,
+    "enclosure": "Continuous retained-surface bounds, center offsets, rounding allowance and observed refinement buffer; sampled minimum radius alone cannot certify the modified balls. An inconclusive highly contracted bound remains failed.",
+    "athenak": "Initial time/cycle zero with ADM/Z4c round trip, explicit acceptance label, diagnostic override where required, and no evolution"
+  },
+  "consumer_preparation": [
+    "Preserve the producer's32GiB budget metadata; align portable reader cap with native65536MiB support and measure actual sampler RAM independently",
+    "Use a pure CPU consumer to avoid injecting a second Kokkos runtime; explicit migration needs both library hashes, exact basis/maps, checkpoint hash and separate-process gamma/K/derivative comparisons including horizon-point samples",
+    "Choose and record a mesh domain containing all component/common trial surfaces; native callback must reject out-of-domain points",
+    "Keep component and common finder roles explicit; no single-hole seed ellipsoid for a common horizon",
+    "Fresh chi.99 and Gamma10 isolated seed, charge, area/spin/expansion and angular/quadrature controls; previous.95/.885 controls cannot qualify them"
+  ],
+  "pending_all_results": true,
+  "reference": "Ian Ruchlin thesis (August2015), Chapter4 Section4.5 and Table4.3, printed pages117--119 (PDF pages142--144); primary construction arXiv1410.8607"
+}

@@ -70,7 +70,7 @@ def seeds(backend):
     return {'records':records,'passed':all(r['passed'] for r in records)}
 
 def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=False,previous_records=None,initial_record=None,initial_guess=None,
-               execution='reference',solve_options=None,output_report=None,raw_directory=None,geometry='host'):
+               execution='reference',solve_options=None,output_report=None,raw_directory=None,geometry='host',initial_checkpoint=None):
     report_path=REPORT if output_report is None else Path(output_report)
     raw_root=RAW if raw_directory is None else Path(raw_directory)
     options=dict(solve_options or {})
@@ -82,6 +82,20 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
     validate_krylov(options.get('krylov'),options.get('linear_rtol'))
     records=list(previous_records or [])
     previous_values=None;previous_shape=None;previous_config=None
+    checkpoint_values=None;checkpoint_receipt=None
+    if initial_checkpoint is not None:
+        if records or initial_record or initial_guess is not None or not levels:
+            raise ValueError('portable initial checkpoint requires a fresh solve without other warm starts')
+        from checkpoint_export import read_checkpoint
+        initial_cfg,checkpoint_values,checkpoint_receipt=read_checkpoint(initial_checkpoint)
+        target_cfg=factory(backend,*levels[0])
+        if (checkpoint_receipt['source_library_sha256']!=backend.library_sha256()
+            or checkpoint_receipt['parameterization']!=backend.parameterization()
+            or list(initial_cfg.n)!=list(target_cfg.n) or free_data(initial_cfg)!=free_data(target_cfg)):
+            raise ValueError('initial checkpoint producer, continuous basis, grid or physical free data differ')
+        if (report_path.exists() and label in json.loads(report_path.read_text())) or any(
+                (raw_root/f'{label}_{n}_{nphi}{suffix}.npz').exists() for n,nphi in levels for suffix in ('','_collocation','_solve')):
+            raise ValueError('portable initial checkpoint requires fresh report/raw evidence')
     if initial_guess is not None and (records or initial_record):raise ValueError('remapped guess cannot be combined with checkpoint warm starts')
     if initial_guess is not None:
         if (report_path.exists() and label in json.loads(report_path.read_text())) or any(
@@ -135,6 +149,11 @@ def solve_case(backend,factory,levels,label,horizon_scaled=False,adaptive_steps=
                     rec['setup_statistics']['geometry_execution']!=1 or rec['setup_statistics']['scalar_digits']!=53):
                 raise ValueError('execution-built double geometry witness required')
             comparable=free_data(cfg)
+            if initial_checkpoint is not None and not records:
+                if hashlib.sha256(Path(initial_checkpoint).read_bytes()).hexdigest()!=checkpoint_receipt['file_sha256']:
+                    raise ValueError('initial checkpoint changed before context initialization')
+                s.set_unknowns(checkpoint_values)
+                rec['portable_initial_guess']={**checkpoint_receipt,'acceptance_inherited':False,'fresh_solve_required':True}
             if initial_guess is not None and not records:
                 s.set_unknowns(guess_values)
                 rec['remapped_initial_guess']=dict(metadata_file=str(Path(initial_guess).resolve()),

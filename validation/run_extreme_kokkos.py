@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 
 import numpy as np
@@ -242,6 +243,7 @@ def main():
     p.add_argument('--case',choices=('aligned_spin99_kokkos','headon_gamma10_kokkos'),required=True)
     p.add_argument('--grid-index',type=int,required=True)
     p.add_argument('--separation',type=float,help='retain a separately labeled separation-calibration case')
+    p.add_argument('--initial-checkpoint',help='same-producer/basis/grid/free-data coefficients as an unaccepted initial guess only')
     p.add_argument('--output-directory',required=True);p.add_argument('--threads',type=int,default=16)
     p.add_argument('--geometry',choices=('host','execution'),default='host')
     p.add_argument('--allow-diagnostic-investigation',action='store_true',help='retain failed prerequisite gates while measuring unqualified data')
@@ -262,6 +264,8 @@ def main():
     spin_free_data=case.get('spin_free_data','inner-window')
     if spin_free_data not in ('inner-window','hs99uu') or (spin_free_data=='hs99uu' and not a.case.startswith('aligned')):
         raise ValueError('invalid target/free-data recipe in the bound plan')
+    suffix=case.get('investigation_suffix','')
+    if suffix and not re.fullmatch('[a-z0-9_]+',suffix):raise ValueError('invalid distinct investigation suffix')
     controls=plan['solve_controls'];validate_krylov(controls['krylov'],controls['linear_rtol'])
     grids=case['grids']+([case['independent_fourier_control']] if 'independent_fourier_control' in case else [])
     if not 0<=a.grid_index<len(grids):raise ValueError('grid index outside declared case')
@@ -307,6 +311,7 @@ def main():
         raise ValueError('actual one-GPU CUDA execution and requested host concurrency required')
     label=a.case+(('_d'+format(separation,'.17g').replace('.','p')) if a.separation is not None else '')
     if spin_free_data!='inner-window':label+='_'+spin_free_data
+    if suffix:label+='_'+suffix
     fourier=a.grid_index==len(case['grids'])
     if fourier:label+='_fourier_control'
     root=Path(a.output_directory).resolve();root.mkdir(parents=True,exist_ok=True)
@@ -326,13 +331,17 @@ def main():
         human_override=inputs.get('human_override'))
     # Keep old inner-window bindings unchanged. The separate physical recipe
     # always gets a new label and immutable source/config witnesses.
-    if spin_free_data!='inner-window':
+    if spin_free_data!='inner-window' or suffix or a.initial_checkpoint:
         source_paths=[Path(__file__).resolve()]
         for module in ('configs','run_validation','physical','prolong','checkpoint_export','hispid','execution','native_loader'):
             source_paths.append(Path(__import__(module).__file__).resolve())
         binding.update(spin_free_data=spin_free_data,
             physical_free_data=free_data(binary_config(backend,grid,a.case,separation,controls,spin_free_data)),
             workflow_sources_sha256={str(path):digest(path) for path in source_paths})
+    if a.initial_checkpoint:
+        if a.grid_index!=0:raise ValueError('portable initial checkpoint is only for the first fresh grid')
+        path=Path(a.initial_checkpoint).resolve(strict=True)
+        binding['initial_checkpoint']=dict(path=str(path),sha256=digest(path),acceptance_inherited=False)
     binding_path=root/(label+'_attempt_binding.json')
     if binding_path.exists():
         bound_bytes=binding_path.read_bytes()
@@ -354,6 +363,8 @@ def main():
         if digest(binding_path)!=binding_sha:raise ValueError('immutable attempt binding changed')
         if any(digest(path)!=sha for path,sha in binding.get('workflow_sources_sha256',{}).items()):
             raise ValueError('bound physical workflow source changed')
+        if 'initial_checkpoint' in binding and digest(binding['initial_checkpoint']['path'])!=binding['initial_checkpoint']['sha256']:
+            raise ValueError('bound portable initial checkpoint changed')
         if any(digest(path)!=sha for path,sha in measured.items()):
             raise ValueError('measured CUDA build/dependencies changed during the attempt')
         if any(digest(path)!=sha for path,sha in floor_artifacts.items()):
@@ -371,9 +382,31 @@ def main():
     verify_attempt()
     def factory(_backend,n,nphi):
         return binary_config(_backend,grid,a.case,separation,controls,spin_free_data)
-    result=solve_case(backend,factory,[(grid[0],grid[2])],label,horizon_scaled=True,adaptive_steps=True,
-        previous_records=previous,execution='kokkos',geometry=a.geometry,solve_options=dict(krylov=controls['krylov'],linear_rtol=controls['linear_rtol']),
-        output_report=report_path,raw_directory=raw)
+    try:
+        result=solve_case(backend,factory,[(grid[0],grid[2])],label,horizon_scaled=True,adaptive_steps=True,
+            previous_records=previous,execution='kokkos',geometry=a.geometry,solve_options=dict(krylov=controls['krylov'],linear_rtol=controls['linear_rtol']),
+            output_report=report_path,raw_directory=raw,initial_checkpoint=a.initial_checkpoint)
+    except Exception as error:
+        # A physical callback can reject an iterate after the solve completes.
+        # Preserve that state without turning the incomplete row into a pass.
+        verify_attempt()
+        saved=json.loads(report_path.read_text()).get(label,{}) if report_path.exists() else {}
+        pending=saved.get('incomplete_attempt',{});record=pending.get('record',{})
+        failure=dict(stage=pending.get('stage','solve_not_retained'),completed=False,
+            physical_acceptance=False,binary_validation_complete=False,error_type=type(error).__name__,error=str(error),
+            attempt_binding_sha256=binding_sha,original_result_modified=False,
+            result_sha256=digest(report_path) if report_path.exists() else None,record=record)
+        artifact=record.get('solve_artifact')
+        if artifact:
+            if digest(artifact['path'])!=artifact['sha256']:raise ValueError('incomplete solve state changed') from error
+            with np.load(artifact['path']) as data:values=data['unknowns'].copy()
+            failure['portable_checkpoint']=write_checkpoint(
+                root/f'{label}_{grid[0]}_{grid[1]}_{grid[2]}_postsolve_failed.checkpoint',
+                factory(backend,grid[0],grid[2]),values,backend.library_sha256(),'diagnostic',backend.parameterization())
+            if digest(artifact['path'])!=artifact['sha256']:raise ValueError('incomplete solve state changed while decoding') from error
+        with (root/f'{label}_{grid[0]}_{grid[1]}_{grid[2]}_failure.json').open('x') as stream:
+            stream.write(json.dumps(failure,indent=2)+'\n')
+        raise
     verify_attempt()
     record=result['records'][-1];cfg=factory(backend,grid[0],grid[2])
     row_path=root/f'{label}_{grid[0]}_{grid[1]}_{grid[2]}_row_binding.json'
