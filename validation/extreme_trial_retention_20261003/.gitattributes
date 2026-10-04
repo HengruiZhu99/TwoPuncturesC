@@ -1,0 +1,2 @@
+# Keep scheduler evidence byte-for-byte, including its final blank line.
+originals/*/allocation.txt -whitespace

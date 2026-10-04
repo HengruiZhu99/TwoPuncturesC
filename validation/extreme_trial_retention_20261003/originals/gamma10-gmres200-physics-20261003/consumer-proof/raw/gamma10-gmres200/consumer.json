@@ -1,0 +1,23 @@
+{
+  "library_path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libHiSpID.so",
+  "library_sha256": "48ef22c57d62b03b0d9676bd39c0cb3c37ff0cce0a3e84804b264cb542507aff",
+  "dependency_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so": "686ed7d4dfb0fe434c4f8e10858a283d004b5436890d80fd8b78cfc6eb6109fc"
+  },
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/gamma10-gmres200-physics-20261003/results/headon_gamma10_kokkos_gmres200_128_256_8.checkpoint",
+    "file_sha256": "635b7992c9b3d4171f76f8e79b5f9d1f370d24816a8da08c72b46dc6e1971352",
+    "source_library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_mapped_v2"
+  },
+  "compiled_execution": "reference",
+  "runtime_images": {},
+  "parameterization": "modal_P_C2prolate_mapped_v2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "point_count": 2454,
+  "artifact_sha256": "38fe11a1fa0ec0391558a15ea78fd70fc92e837f94648a8fb83782ec8942d6d7"
+}

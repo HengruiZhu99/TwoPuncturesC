@@ -1,0 +1,10 @@
+{
+  "archive": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/physical-trials-preserved-20261003-v1/complete-trials.tar.gz",
+  "archive_bytes": 49254760,
+  "archive_sha256": "b823ac1827517fa7e0b837d4dfec04b1d9cc66f90c08638c8b5cd1404a80a946",
+  "inventory": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/physical-trials-preserved-20261003-v1/inventory.json",
+  "inventory_sha256": "8f5725116e57747dabdaa287bc3fd81046caf9e2badf87b2f10e52a05ba8c5a4",
+  "artifact_count": 172,
+  "artifact_bytes": 64571543,
+  "originals_unchanged_after_archive": true
+}

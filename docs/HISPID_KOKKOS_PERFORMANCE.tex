@@ -828,6 +828,32 @@ and worsens at smaller steps. Original and supplemental failed flags remain
 unchanged. No Gamma10 horizon mass or measured binary separation calibration
 is claimed. Compact receipts and the raw/checkpoint retention manifest are
 under \nolinkurl{validation/extreme_physics_20261003}.
+\paragraph{Separately retained follow-ups.}
+The current-basis HS99UU recipe ($f$ width0.2, no inner/far attenuation)
+stopped at $80\times160\times16$. Newton line search failed after20 Newton
+and1195 Krylov steps, at weighted maximum $5.44\,10^{-14}$. Subsequent
+independent sampling rejected a nonpositive solved conformal factor. Its
+exact coefficients, exception log and incomplete measurement record remain
+retained; no successful physical row, finer grid, charges or horizons are
+created from that attempt. Historical HS99UU acceptance is not transferred.
+
+A distinct $\Gamma=10$ trial uses the original failed
+$128\times256\times8$ checkpoint as an unaccepted initial guess, unchanged
+physical free data, restart200 and maximum4800 Krylov steps. It reaches the
+original $10^{-14}$ internal criterion in2 additional Newton/574 Krylov steps
+at weighted maximum $7.91\,10^{-15}$. Independent near-hole $H/M$ RMS remain
+.00128942/.217375 and bulk $H/M$ RMS are $2.15\,10^{-6}$/.00121164, so
+physical acceptance still fails. The incremental retry is not a standalone
+performance comparison or proof of the effect of restart alone.
+Fresh separate-process producer/CPU samples, including metric derivatives,
+agree exactly; AthenaK import-only passes at relative error
+$4.60\,10^{-16}$ with time/cycle zero and no finder constructed.
+
+The completed follow-ups and frozen workflow sources are separately archived
+and hash-bound in \nolinkurl{validation/extreme_trial_retention_20261003}.
+Allocation59293910 was released. No further solve, horizon search or
+performance check was started during preservation. All original failed
+flags and existing performance tables remain unchanged.
 \section{Reproducibility and sources}
 Measurement JSON SHA256:\par{\footnotesize\ttfamily a065bb0a19674ccc996b481dad933a0ed64e469f5c4cea18b7233961d41dcf2d}\par
 Acceptance plan SHA256:\par{\footnotesize\ttfamily 9474a2c51fa197ea9204400f18ab1711d1e71bc5f3d9d0cdc4f7ecdb0e92870c}\par

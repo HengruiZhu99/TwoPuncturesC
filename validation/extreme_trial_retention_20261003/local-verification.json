@@ -1,0 +1,10 @@
+{
+  "purpose": "preservation_rehash_only_no_numerical_rerun",
+  "archive_sha256": "b823ac1827517fa7e0b837d4dfec04b1d9cc66f90c08638c8b5cd1404a80a946",
+  "inventory_sha256": "8f5725116e57747dabdaa287bc3fd81046caf9e2badf87b2f10e52a05ba8c5a4",
+  "artifacts_verified": 172,
+  "all_original_artifact_bytes_match": true,
+  "full_new_trial_archive_copied_locally": true,
+  "original_result_flags_modified": false,
+  "physical_acceptance": false
+}

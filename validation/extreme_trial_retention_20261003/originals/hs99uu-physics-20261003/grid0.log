@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/hs99uu-physical-d115c01/validation/run_extreme_kokkos.py", line 409, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/hs99uu-physical-d115c01/validation/run_extreme_kokkos.py", line 374, in main
+    result=solve_case(backend,factory,[(grid[0],grid[2])],label,horizon_scaled=True,adaptive_steps=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/hs99uu-physical-d115c01/validation/run_validation.py", line 180, in solve_case
+    r=constraints(s.sample,x,step)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/hs99uu-physical-d115c01/validation/physical.py", line 27, in constraints
+    values=sample(pts.reshape(-1,3))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/hs99uu-physical-d115c01/python/hispid.py", line 218, in sample
+    if self.backend.lib.HiSpID_sample(self.context,len(x),ptr(x),out):raise ValueError(self.backend.error())
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: nonpositive solved conformal factor
+srun: error: nid200292: task 0: Exited with exit code 1
+srun: Terminating StepId=59293910.0

@@ -1,5 +1,23 @@
 # HiSpID milestone status
 
+October 3 latest trial preservation: the performance campaign remains stopped
+under the HUMAN OVERRIDE. Two distinct physical follow-ups are retained in
+`validation/extreme_trial_retention_20261003`; no numerical work was launched
+during preservation. Allocation59293910 completed and was released.
+
+The new current-basis HS99UU recipe stopped at80×160×16: Newton line search
+failed (weighted maximum5.44e-14), then physical sampling rejected a nonpositive
+solved conformal factor. Its exact solve state and incomplete measurement
+record are preserved; finer grids and subsequent consumers were not run.
+The Γ10 restart200/budget4800 retry from the prior failed128×256×8 checkpoint
+internally converges in2 additional Newton/574 Krylov steps (7.91e-15), while
+independent near-hole momentum RMS remains0.217375. It still fails physical
+acceptance. Fresh producer/CPU samples agree exactly and AthenaK import-only
+passes at4.59847e-16 with time/cycle zero and no finder. Import compatibility
+does not establish binary horizons or the requested separation/Mirr calibration.
+Original failure flags and all existing performance tables remain unchanged.
+These entries supersede earlier descriptions of pending/running work below.
+
 October 3 retained Cartesian diagnosis: no further performance checks were
 started. The completed six-point ARM reconstruction of the failed coarse
 spin binary reproduces its large off-grid Hamiltonian residuals, but fails the

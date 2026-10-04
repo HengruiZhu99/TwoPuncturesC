@@ -1,0 +1,366 @@
+{
+  "aligned_spin99_kokkos_hs99uu": {
+    "records": [],
+    "passed": false,
+    "incomplete_attempt": {
+      "stage": "post_solve_measurement",
+      "record": {
+        "case": "aligned_spin99_kokkos_hs99uu",
+        "config": {
+          "hole": [
+            {
+              "mass": 0.5,
+              "center": [
+                6.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                0.0,
+                0.0,
+                0.2475
+              ],
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "mass": 0.5,
+              "center": [
+                -6.0,
+                0.0,
+                0.0
+              ],
+              "spin": [
+                0.0,
+                0.0,
+                0.2475
+              ],
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "n": [
+            80,
+            160,
+            16
+          ],
+          "conformal_choice": 0,
+          "inner_flatten": 0,
+          "omega": [
+            0.2,
+            0.2
+          ],
+          "attenuation_power": 4,
+          "inner_min": [
+            0.0,
+            0.0
+          ],
+          "inner_max": [
+            0.0,
+            0.0
+          ],
+          "far_radius": 0.0,
+          "tolerance": 1e-14,
+          "max_newton": 24,
+          "max_krylov": 2400,
+          "krylov_restart": 80,
+          "memory_limit_mib": 32768
+        },
+        "resolution": [
+          80,
+          160,
+          16
+        ],
+        "verifier_order": 4,
+        "verifier_step": 0.002,
+        "library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+        "residual_scaling": "sin3_alpha_beta",
+        "near_sample_count": 48,
+        "bulk_sample_count": 18,
+        "attenuation_sample_count": 0,
+        "horizon_scaled": true,
+        "verifier_steps": [
+          5.290025992374737e-05,
+          5.2900259923747224e-05,
+          5.290025992374707e-05,
+          5.290025992374702e-05,
+          5.2900259923747265e-05,
+          5.290025992374721e-05,
+          0.0001058005198474941,
+          0.00010580051984749407,
+          0.00010580051984749414,
+          0.00010580051984749404,
+          0.00010580051984749419,
+          0.00010580051984749442,
+          0.0003000000000000002,
+          0.0003,
+          0.00030000000000000003,
+          0.0003000000000000001,
+          0.0002999999999999999,
+          0.00029999999999999976,
+          0.0005000000000000001,
+          0.0004999999999999999,
+          0.0005,
+          0.0004999999999999999,
+          0.0004999999999999999,
+          0.0004999999999999998,
+          5.290025992374737e-05,
+          5.2900259923747224e-05,
+          5.290025992374707e-05,
+          5.290025992374702e-05,
+          5.2900259923747265e-05,
+          5.290025992374721e-05,
+          0.0001058005198474941,
+          0.00010580051984749407,
+          0.00010580051984749414,
+          0.00010580051984749404,
+          0.00010580051984749419,
+          0.00010580051984749442,
+          0.0003000000000000002,
+          0.0003,
+          0.00030000000000000003,
+          0.0003000000000000001,
+          0.0002999999999999999,
+          0.00029999999999999976,
+          0.0005000000000000001,
+          0.0004999999999999999,
+          0.0005,
+          0.0004999999999999999,
+          0.0004999999999999999,
+          0.0004999999999999998,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002,
+          0.002
+        ],
+        "unknown_parameterization": "modal P: u=W-2(1-t)q^r P, t=a^2, q=a sin(R), parity cap r<=4",
+        "unknown_parameterization_id": "modal_P_C2prolate_mapped_v2",
+        "collocation_maps": {
+          "radial_stretch": 0.2,
+          "angular_stretch": 2.0
+        },
+        "geometry": "host",
+        "setup_statistics": null,
+        "creation_seconds": 14.00162979401648,
+        "diagnostics": {
+          "converged": 0,
+          "newton_iterations": 20,
+          "krylov_iterations": 1195,
+          "npoints": 204800,
+          "scaled_linf": [
+            5.439778493264064e-14,
+            3.7076465803318486e-15,
+            2.6108731993481082e-15,
+            1.3115596851155496e-15
+          ],
+          "unscaled_linf": [
+            2.416868483123835e-09,
+            3.064215547965432e-14,
+            1.7591483825185605e-13,
+            1.099120794378905e-14
+          ],
+          "seconds": 17.560166307,
+          "status": 1,
+          "error": "Newton line search failed"
+        },
+        "solve_artifact": {
+          "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/hs99uu-physics-20261003/results/raw/aligned_spin99_kokkos_hs99uu_80_16_solve.npz",
+          "sha256": "e08cc11e0d69bde866a5e6be7a4e33371888d84d691be9a257403ae1cfee3453"
+        },
+        "execution": "kokkos",
+        "requested_solve_options": {
+          "krylov": "gmres",
+          "linear_rtol": 0.001
+        },
+        "resolved_solve_options": {
+          "system": "hispid",
+          "krylov": "gmres",
+          "linear_rtol": 0.001,
+          "preconditioner": "modal",
+          "execution": "kokkos",
+          "geometry": "host",
+          "native_verified": true
+        },
+        "compiled_execution": "Cuda",
+        "execution_concurrency": 16,
+        "device": {
+          "name": "NVIDIA A100-SXM4-80GB",
+          "uuid": "GPU-21e11d69-bea3-f1ce-23fc-22b1e6e2e28a",
+          "visible_ordinal": 0,
+          "visible_count": 1,
+          "total_bytes": 85093777408,
+          "free_bytes": 83923501056,
+          "sm_count": 108,
+          "compute_major": 8,
+          "compute_minor": 0
+        },
+        "execution_statistics": {
+          "operator_seconds": 2.5087672603549436,
+          "precondition_seconds": 6.849338734871708,
+          "setup_seconds": 4.047321283025667,
+          "linear_seconds": 12.75340126780793,
+          "transfer_seconds": 0.7430451128166169,
+          "nonlinear_seconds": 0.0,
+          "resident_bytes": 1010075904,
+          "peak_workspace_bytes": 681574400,
+          "host_to_device_bytes": 7035650176,
+          "device_to_host_bytes": 541491200,
+          "kokkos_host_current_bytes": 0,
+          "kokkos_host_peak_bytes": 0,
+          "kokkos_device_current_bytes": 681279616,
+          "kokkos_device_peak_bytes": 1692379520,
+          "nonlinear_calls": 0,
+          "workspace_creations": 0,
+          "memory_tracking_available": 1
+        },
+        "linear_history": [
+          [
+            0.0,
+            0.001,
+            0.00045981004004237496,
+            30.0
+          ],
+          [
+            1.0,
+            0.001,
+            0.000641991480380355,
+            38.0
+          ],
+          [
+            2.0,
+            0.001,
+            0.0008382767729013256,
+            35.0
+          ],
+          [
+            3.0,
+            0.001,
+            0.0005578175660847664,
+            35.0
+          ],
+          [
+            4.0,
+            0.001,
+            0.0008714936872614357,
+            47.0
+          ],
+          [
+            5.0,
+            0.001,
+            0.0008675702305849017,
+            71.0
+          ],
+          [
+            6.0,
+            0.001,
+            0.0008766512353572747,
+            64.0
+          ],
+          [
+            7.0,
+            0.001,
+            0.0009142864190889929,
+            50.0
+          ],
+          [
+            8.0,
+            0.001,
+            0.0008729601009873989,
+            72.0
+          ],
+          [
+            9.0,
+            0.001,
+            0.0004637637637699074,
+            49.0
+          ],
+          [
+            10.0,
+            0.001,
+            0.000841431981221763,
+            69.0
+          ],
+          [
+            11.0,
+            0.001,
+            0.0008283796959910103,
+            76.0
+          ],
+          [
+            12.0,
+            0.001,
+            0.0007132422056158945,
+            72.0
+          ],
+          [
+            13.0,
+            0.001,
+            0.0008159576539023643,
+            70.0
+          ],
+          [
+            14.0,
+            0.001,
+            0.0009037781505600459,
+            69.0
+          ],
+          [
+            15.0,
+            0.001,
+            0.0005241679652075731,
+            71.0
+          ],
+          [
+            16.0,
+            0.001,
+            0.0005562301331657778,
+            68.0
+          ],
+          [
+            17.0,
+            0.001,
+            0.0007106846413111636,
+            69.0
+          ],
+          [
+            18.0,
+            0.001,
+            0.0005941807498907064,
+            72.0
+          ],
+          [
+            19.0,
+            0.001,
+            0.0009514057428440562,
+            68.0
+          ]
+        ],
+        "work_statistics": {
+          "jvp_applications": 1248,
+          "preconditioner_applications": 1195
+        },
+        "stopping_verified": false
+      }
+    }
+  }
+}

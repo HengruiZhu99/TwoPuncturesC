@@ -1,0 +1,7 @@
+*.tar.gz
+*.tar
+*.npz
+*.checkpoint
+__pycache__/
+originals/hs99uu-physical-d115c01/
+originals/gamma10-physical-cacdace/

@@ -1,0 +1,42 @@
+{
+  "schema": "hispid_allocation_release_v1",
+  "job_id": 59293910,
+  "node": "nid200292",
+  "controller_session_id": 93203,
+  "release_command": "exit from salloc shell after all workers terminal",
+  "controller_terminal_message": "salloc: Relinquishing job allocation 59293910",
+  "squeue_empty": true,
+  "sacct_job_state": "COMPLETED",
+  "sacct_exit_code": "0:0",
+  "sacct_elapsed": "00:35:21",
+  "sacct_end": "2026-10-03T18:31:20",
+  "sacct_end_timezone": "scheduler_reported_unspecified",
+  "job_steps": [
+    {
+      "step": 0,
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed": "00:00:57"
+    },
+    {
+      "step": 1,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:01:26"
+    },
+    {
+      "step": 2,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:00:15"
+    },
+    {
+      "step": 3,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:00:10"
+    }
+  ],
+  "active": false,
+  "additional_numerical_work_started": false
+}
