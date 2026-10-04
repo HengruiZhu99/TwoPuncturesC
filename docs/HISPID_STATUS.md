@@ -1,5 +1,16 @@
 # HiSpID milestone status
 
+October 3 retained Cartesian diagnosis: no further performance checks were
+started. The completed six-point ARM reconstruction of the failed coarse
+spin binary reproduces its large off-grid Hamiltonian residuals, but fails the
+unchanged 1e-12 sampler comparison (maximum scaled difference5.02e-10).
+It remains diagnostic only: native seed/tensor algebra is reused, ARM has
+53-bit long double, and complete run-time dynamic-image binding is unavailable.
+Exact executed sources, images, inputs and outputs were copied and rehashed
+without changing the original receipts. See
+`validation/extreme_reconstruction_20261003/README.md`. No new elliptic solve
+or physical acceptance follows from this retention.
+
 October 3 completed extreme attempts: further performance work remains stopped
 under the HUMAN OVERRIDE. All seven initial binary grids have been retained:
 three aligned seed chi=.99 grids, three head-on Gamma10 grids, and one Gamma10

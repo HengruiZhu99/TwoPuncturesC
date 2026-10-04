@@ -1,0 +1,2 @@
+inputs/*.checkpoint
+inputs/*_solve.npz

@@ -1,0 +1,267 @@
+{
+  "purpose": "post_run_retention_of_completed_ARM_diagnostic",
+  "created_utc": "2026-10-04T00:41:32.830350+00:00",
+  "original_result_sha256": "4f2130a009130a069b57a436b28ef00fe7c00111f4e6091182aa7c93e96e52eb",
+  "original_build_receipt_sha256": "dc1b233a66b6e057514bb9e894ac9c52817aa4e5a32c6bb213613aaac8b2093b",
+  "original_result_modified": false,
+  "original_build_receipt_modified": false,
+  "solve_performed": false,
+  "physical_acceptance": false,
+  "new_numerical_runs_performed": false,
+  "six_point_sampler_passed": false,
+  "six_point_sampler_scaled_linf_tolerance": 1e-12,
+  "largest_sampler_scaled_difference": 5.021895878490761e-10,
+  "retention_binding": "post_run_copy_and_rehash; not retroactive preflight image qualification",
+  "scope": "six retained points from the failed coarse aligned-spin binary only",
+  "limitations": [
+    "ARM long double has 53 mantissa digits; retained x86 CPU fields differ beyond the unchanged 1e-12 sampler gate.",
+    "C++ continuous momentum vectors use the local frame; this checkpoint frame is identity.",
+    "Executed wrapper checked finiteness of reconstructed fields, but not retained fields. Current retained field arrays are separately checked below.",
+    "Build receipt lists GSL and CBLAS dependency paths but did not hash their run-time bytes. This retention does not assert complete run-time image binding.",
+    "Native seed and tensor algebra are reused. No independent physical acceptance follows from this diagnostic."
+  ],
+  "entries": [
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/aligned_spin99_kokkos_80_160_16.checkpoint",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/883e6c2ca73bd2000fbd1271629f8af8e269f432b8630689159b849c2dd4cd3a.checkpoint",
+      "sha256": "883e6c2ca73bd2000fbd1271629f8af8e269f432b8630689159b849c2dd4cd3a",
+      "bytes": 18921956
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/aligned_spin99_kokkos_80_16_solve.npz",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/edcfa84dbcf4a25acb5818742df634c59c260d2ef170ac169a5ee6fcd60855c9.npz",
+      "sha256": "edcfa84dbcf4a25acb5818742df634c59c260d2ef170ac169a5ee6fcd60855c9",
+      "bytes": 6364069
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/physical_step_1.npz",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/cfaca450ba39c80f9c588af4992119d78500f18fbc165805d6b1808f136a0e04.npz",
+      "sha256": "cfaca450ba39c80f9c588af4992119d78500f18fbc165805d6b1808f136a0e04",
+      "bytes": 7222
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_physics_20261003/originals/spin99-coarse-reference-replay/result.json",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/82574db1a663c8a8a189fc68ab60691ce397d92c7dea2cd7562064e0c4650279.json",
+      "sha256": "82574db1a663c8a8a189fc68ab60691ce397d92c7dea2cd7562064e0c4650279",
+      "bytes": 9966
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_physics_20261003/originals/spin99-coarse-reference-replay/binding-supplement.json",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/53ca5f41df5dcec78e4e5ed1acce22f68597fe50220cbb495a629d247107893d.json",
+      "sha256": "53ca5f41df5dcec78e4e5ed1acce22f68597fe50220cbb495a629d247107893d",
+      "bytes": 1593
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_physics_20261003/originals/results/aligned_spin99_kokkos_80_160_16_row_binding.json",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/4ce6cf732fe6a674e4c61503248b0e09769709d1638ec349f3f17e4866167ec4.json",
+      "sha256": "4ce6cf732fe6a674e4c61503248b0e09769709d1638ec349f3f17e4866167ec4",
+      "bytes": 14337
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-reconstruction-20261003/reconstruct_iterate.x",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/3953f571c31aa6dcee873f3409f5e180de2af8fe8e9ade0bc36cca3bd4df8dcf.x",
+      "sha256": "3953f571c31aa6dcee873f3409f5e180de2af8fe8e9ade0bc36cca3bd4df8dcf",
+      "bytes": 360856
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/build-receipt.json",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/dc1b233a66b6e057514bb9e894ac9c52817aa4e5a32c6bb213613aaac8b2093b.json",
+      "sha256": "dc1b233a66b6e057514bb9e894ac9c52817aa4e5a32c6bb213613aaac8b2093b",
+      "bytes": 4678
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_cache_kernels.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/64c70e38c81df40735b00885533e1ce309f963c91ce43d2598bde9b48be3b600.hpp",
+      "sha256": "64c70e38c81df40735b00885533e1ce309f963c91ce43d2598bde9b48be3b600",
+      "bytes": 4529
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_geometry_kernels.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/d948b4c85b7a0a91efb3f5767cc975b49ed0c5b5cb1ee2c5f6f24006483fb02e.hpp",
+      "sha256": "d948b4c85b7a0a91efb3f5767cc975b49ed0c5b5cb1ee2c5f6f24006483fb02e",
+      "bytes": 15670
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_jets.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/4e51b4f508bb3f391cd00121c881c4c878ee4b64bf75b24d75889ff557edc612.hpp",
+      "sha256": "4e51b4f508bb3f391cd00121c881c4c878ee4b64bf75b24d75889ff557edc612",
+      "bytes": 5276
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_internal.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/665cf369e5489da760b549e9a66324fa0c3a225ef4ab94056f229e2763e69930.hpp",
+      "sha256": "665cf369e5489da760b549e9a66324fa0c3a225ef4ab94056f229e2763e69930",
+      "bytes": 823
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/PunctureKokkos_controller.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/16c1db727c7ee7c4a8ddb4f4ca03b1f72d05cb9f0e2c61c8a1f1aa568b8b7ccc.hpp",
+      "sha256": "16c1db727c7ee7c4a8ddb4f4ca03b1f72d05cb9f0e2c61c8a1f1aa568b8b7ccc",
+      "bytes": 4577
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_axis.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/f6d2a5acb34e5f4e22a54afb3da93c3bbf899065f1b4f8bbe5e8691f0a2e8967.hpp",
+      "sha256": "f6d2a5acb34e5f4e22a54afb3da93c3bbf899065f1b4f8bbe5e8691f0a2e8967",
+      "bytes": 5765
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_spectral.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/944e7c2eac93e8a32b903d7ac533932639c2be95638744e5bfb0712d862cbfb8.hpp",
+      "sha256": "944e7c2eac93e8a32b903d7ac533932639c2be95638744e5bfb0712d862cbfb8",
+      "bytes": 3397
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/PunctureKokkos.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/13fd0452cbeed4065083f117d9d488faeef8a7b3d1305a6750a09cc013305d25.hpp",
+      "sha256": "13fd0452cbeed4065083f117d9d488faeef8a7b3d1305a6750a09cc013305d25",
+      "bytes": 10938
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/HiSpID.h",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/fd5b8dc8a441c14f804de8a55d06feba00c969a6dd7797f58e3f95b031b4fac5.h",
+      "sha256": "fd5b8dc8a441c14f804de8a55d06feba00c969a6dd7797f58e3f95b031b4fac5",
+      "bytes": 7565
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TwoPunctures.h",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/4a7f1a0607a15d7d5d1d34ca40d36c6a649c4d89ab2a179892c4b7588b5c5066.h",
+      "sha256": "4a7f1a0607a15d7d5d1d34ca40d36c6a649c4d89ab2a179892c4b7588b5c5066",
+      "bytes": 12743
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TP_LineCache.h",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/a26688a1fc466c2a8846a0fe1ad4645361f364dccf5302506dce7c206e5d9bc7.h",
+      "sha256": "a26688a1fc466c2a8846a0fe1ad4645361f364dccf5302506dce7c206e5d9bc7",
+      "bytes": 3616
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/PunctureKrylov.h",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/5814839cfdc46d07233831d78b7f4c39c686dbed801f094032486295d6d12cbb.h",
+      "sha256": "5814839cfdc46d07233831d78b7f4c39c686dbed801f094032486295d6d12cbb",
+      "bytes": 1821
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TP_Modal.h",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/42726931b3f2d58218e32f85531015b9399e46879d43e7451f499f3ba784e7b0.h",
+      "sha256": "42726931b3f2d58218e32f85531015b9399e46879d43e7451f499f3ba784e7b0",
+      "bytes": 1405
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/PunctureExecution.h",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/0ec0f1a97596afed8796ab33c3335e88a297167acb16c08c8a0b001e1344cee6.h",
+      "sha256": "0ec0f1a97596afed8796ab33c3335e88a297167acb16c08c8a0b001e1344cee6",
+      "bytes": 3322
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_solver.cpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/55ee7da1f1b84eb8f5777b367b62e3dffebd7f3d8c3cbce7f77e620655d56073.cpp",
+      "sha256": "55ee7da1f1b84eb8f5777b367b62e3dffebd7f3d8c3cbce7f77e620655d56073",
+      "bytes": 58419
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_geometry.cpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/5ed62d504e174dd40f1d2aa887af2b9d104edc02331551324ee051e815db8a59.cpp",
+      "sha256": "5ed62d504e174dd40f1d2aa887af2b9d104edc02331551324ee051e815db8a59",
+      "bytes": 9521
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/tests/hispid_cartesian_oracle.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/fd5cd26671e107c1941486384c8bdfdd3428b568423bab967e1e1726acbd8085.hpp",
+      "sha256": "fd5cd26671e107c1941486384c8bdfdd3428b568423bab967e1e1726acbd8085",
+      "bytes": 1892
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/reconstruct_iterate.cpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/e7a89a62d868ab2ff546e08327ca1e7baefbd23c0f2bfa34a532e2a786b45697.cpp",
+      "sha256": "e7a89a62d868ab2ff546e08327ca1e7baefbd23c0f2bfa34a532e2a786b45697",
+      "bytes": 6006
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-reference/lib/libTwoPunctures.a",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/7ac6beaf49c38deb09702fc7a2eb36ae6acf8addd7359e9223fc3ce4e2ddabb0.a",
+      "sha256": "7ac6beaf49c38deb09702fc7a2eb36ae6acf8addd7359e9223fc3ce4e2ddabb0",
+      "bytes": 145856
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK/src/pgen/z4c/hispid_checkpoint.hpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/a261effde8d9017945343db891e7f206945fbf4750cfc86911d0d2ecd968f769.hpp",
+      "sha256": "a261effde8d9017945343db891e7f206945fbf4750cfc86911d0d2ecd968f769",
+      "bytes": 4028
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/diagnose_cartesian_iterate.py",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/814c566275f8bde2d740eda5ed176478698dd41d1e7928a123b53f2135da12c7.py",
+      "sha256": "814c566275f8bde2d740eda5ed176478698dd41d1e7928a123b53f2135da12c7",
+      "bytes": 7883
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/python/checkpoint_export.py",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/e249be7bd6066e57b786107aba15040ce401650c201bde011d00ac8d793a4085.py",
+      "sha256": "e249be7bd6066e57b786107aba15040ce401650c201bde011d00ac8d793a4085",
+      "bytes": 6910
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/examples/configs.py",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/52d133c422ebf269df16b96f8c43c80e35513bd984be7f54c4d8fd09c823452d.py",
+      "sha256": "52d133c422ebf269df16b96f8c43c80e35513bd984be7f54c4d8fd09c823452d",
+      "bytes": 3136
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/python/hispid.py",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/70b8bf2a8e38e38a279598ae2ee42c99af519c9ae65601a6581ff998e1382961.py",
+      "sha256": "70b8bf2a8e38e38a279598ae2ee42c99af519c9ae65601a6581ff998e1382961",
+      "bytes": 16154
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/points.txt",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/f0d03b3e52fb71d935f002d7311b3c0626a7e4f4ac364777804fe7836b96676e.txt",
+      "sha256": "f0d03b3e52fb71d935f002d7311b3c0626a7e4f4ac364777804fe7836b96676e",
+      "bytes": 376
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/run.log",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/8fd1ddd63ff53ba3da114118e6251393d04360d9a015d76d6d8ac01fa46772e8.log",
+      "sha256": "8fd1ddd63ff53ba3da114118e6251393d04360d9a015d76d6d8ac01fa46772e8",
+      "bytes": 220
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/Cartesian.json",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/7f036a6020786f7735d182760938304241f30940626c3dbfaaaca0656eae8a4f.json",
+      "sha256": "7f036a6020786f7735d182760938304241f30940626c3dbfaaaca0656eae8a4f",
+      "bytes": 20159
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/result.json",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/4f2130a009130a069b57a436b28ef00fe7c00111f4e6091182aa7c93e96e52eb.json",
+      "sha256": "4f2130a009130a069b57a436b28ef00fe7c00111f4e6091182aa7c93e96e52eb",
+      "bytes": 10861
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/hessian-control.log",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/80ea8090c68fd688ab84e725b0e5da951f510b523877d3e7c3c2448a05eb1190.log",
+      "sha256": "80ea8090c68fd688ab84e725b0e5da951f510b523877d3e7c3c2448a05eb1190",
+      "bytes": 333
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-reconstruction-20261003/test_hessian.x",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/artifacts/ccdb230eea498a6cf8e6ac3fe2c2879963c912079ae65381ef9aab0557b96bb1.x",
+      "sha256": "ccdb230eea498a6cf8e6ac3fe2c2879963c912079ae65381ef9aab0557b96bb1",
+      "bytes": 355408
+    },
+    {
+      "original_path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/tests/test_hispid_solver.cpp",
+      "retained_path": "validation/extreme_reconstruction_20261003/retained-arm-v1/sources/ac7a99c0c033507a26ee09188e4594c3338ccbe25cd921cc72489e97310f5cd1.cpp",
+      "sha256": "ac7a99c0c033507a26ee09188e4594c3338ccbe25cd921cc72489e97310f5cd1",
+      "bytes": 14361
+    }
+  ],
+  "post_run_retained_field_finiteness": {
+    "sampled_gamma": true,
+    "sampled_Kij": true,
+    "sampled_psi": true,
+    "sampled_dgamma": true,
+    "H": true,
+    "M": true
+  }
+}

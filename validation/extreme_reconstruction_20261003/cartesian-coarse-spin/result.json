@@ -1,0 +1,192 @@
+{
+  "purpose": "fixed_iterate_Cartesian_reconstruction_diagnostic",
+  "solve_performed": false,
+  "physical_acceptance": false,
+  "completed": true,
+  "checkpoint": {
+    "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/aligned_spin99_kokkos_80_160_16.checkpoint",
+    "file_sha256": "883e6c2ca73bd2000fbd1271629f8af8e269f432b8630689159b849c2dd4cd3a",
+    "source_library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_mapped_v2"
+  },
+  "bound_artifacts_sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/aligned_spin99_kokkos_80_160_16.checkpoint": "883e6c2ca73bd2000fbd1271629f8af8e269f432b8630689159b849c2dd4cd3a",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/aligned_spin99_kokkos_80_16_solve.npz": "edcfa84dbcf4a25acb5818742df634c59c260d2ef170ac169a5ee6fcd60855c9",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/physical_step_1.npz": "cfaca450ba39c80f9c588af4992119d78500f18fbc165805d6b1808f136a0e04",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_physics_20261003/originals/spin99-coarse-reference-replay/result.json": "82574db1a663c8a8a189fc68ab60691ce397d92c7dea2cd7562064e0c4650279",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_physics_20261003/originals/spin99-coarse-reference-replay/binding-supplement.json": "53ca5f41df5dcec78e4e5ed1acce22f68597fe50220cbb495a629d247107893d",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_physics_20261003/originals/results/aligned_spin99_kokkos_80_160_16_row_binding.json": "4ce6cf732fe6a674e4c61503248b0e09769709d1638ec349f3f17e4866167ec4",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-reconstruction-20261003/reconstruct_iterate.x": "3953f571c31aa6dcee873f3409f5e180de2af8fe8e9ade0bc36cca3bd4df8dcf",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/build-receipt.json": "dc1b233a66b6e057514bb9e894ac9c52817aa4e5a32c6bb213613aaac8b2093b",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_cache_kernels.hpp": "64c70e38c81df40735b00885533e1ce309f963c91ce43d2598bde9b48be3b600",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_geometry_kernels.hpp": "d948b4c85b7a0a91efb3f5767cc975b49ed0c5b5cb1ee2c5f6f24006483fb02e",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_jets.hpp": "4e51b4f508bb3f391cd00121c881c4c878ee4b64bf75b24d75889ff557edc612",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_internal.hpp": "665cf369e5489da760b549e9a66324fa0c3a225ef4ab94056f229e2763e69930",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/PunctureKokkos_controller.hpp": "16c1db727c7ee7c4a8ddb4f4ca03b1f72d05cb9f0e2c61c8a1f1aa568b8b7ccc",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_axis.hpp": "f6d2a5acb34e5f4e22a54afb3da93c3bbf899065f1b4f8bbe5e8691f0a2e8967",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_spectral.hpp": "944e7c2eac93e8a32b903d7ac533932639c2be95638744e5bfb0712d862cbfb8",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/PunctureKokkos.hpp": "13fd0452cbeed4065083f117d9d488faeef8a7b3d1305a6750a09cc013305d25",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/HiSpID.h": "fd5b8dc8a441c14f804de8a55d06feba00c969a6dd7797f58e3f95b031b4fac5",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TwoPunctures.h": "4a7f1a0607a15d7d5d1d34ca40d36c6a649c4d89ab2a179892c4b7588b5c5066",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TP_LineCache.h": "a26688a1fc466c2a8846a0fe1ad4645361f364dccf5302506dce7c206e5d9bc7",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/PunctureKrylov.h": "5814839cfdc46d07233831d78b7f4c39c686dbed801f094032486295d6d12cbb",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TP_Modal.h": "42726931b3f2d58218e32f85531015b9399e46879d43e7451f499f3ba784e7b0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/PunctureExecution.h": "0ec0f1a97596afed8796ab33c3335e88a297167acb16c08c8a0b001e1344cee6",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_solver.cpp": "55ee7da1f1b84eb8f5777b367b62e3dffebd7f3d8c3cbce7f77e620655d56073",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_geometry.cpp": "5ed62d504e174dd40f1d2aa887af2b9d104edc02331551324ee051e815db8a59",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/tests/hispid_cartesian_oracle.hpp": "fd5cd26671e107c1941486384c8bdfdd3428b568423bab967e1e1726acbd8085",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/reconstruct_iterate.cpp": "e7a89a62d868ab2ff546e08327ca1e7baefbd23c0f2bfa34a532e2a786b45697",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-reference/lib/libTwoPunctures.a": "7ac6beaf49c38deb09702fc7a2eb36ae6acf8addd7359e9223fc3ce4e2ddabb0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK/src/pgen/z4c/hispid_checkpoint.hpp": "a261effde8d9017945343db891e7f206945fbf4750cfc86911d0d2ecd968f769",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/diagnose_cartesian_iterate.py": "814c566275f8bde2d740eda5ed176478698dd41d1e7928a123b53f2135da12c7",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/python/checkpoint_export.py": "e249be7bd6066e57b786107aba15040ce401650c201bde011d00ac8d793a4085",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/examples/configs.py": "52d133c422ebf269df16b96f8c43c80e35513bd984be7f54c4d8fd09c823452d",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/python/hispid.py": "70b8bf2a8e38e38a279598ae2ee42c99af519c9ae65601a6581ff998e1382961",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/points.txt": "f0d03b3e52fb71d935f002d7311b3c0626a7e4f4ac364777804fe7836b96676e",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/run.log": "8fd1ddd63ff53ba3da114118e6251393d04360d9a015d76d6d8ac01fa46772e8",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/Cartesian.json": "7f036a6020786f7735d182760938304241f30940626c3dbfaaaca0656eae8a4f"
+  },
+  "command": [
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-reconstruction-20261003/reconstruct_iterate.x",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/inputs/aligned_spin99_kokkos_80_160_16.checkpoint",
+    "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/points.txt",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_reconstruction_20261003/cartesian-coarse-spin/Cartesian.json"
+  ],
+  "criteria": {
+    "six_point_sampler_scaled_linf": 1e-12
+  },
+  "original_result_modified": false,
+  "returncode": 0,
+  "six_point_sampler_differences": {
+    "gamma": 1.5369486325307672e-10,
+    "Kij": 6.636781489365024e-12,
+    "psi": 4.229826142335938e-11,
+    "dgamma": 5.021895878490761e-10
+  },
+  "six_point_sampler_passed": false,
+  "scalar_digits": 53,
+  "continuous_tensor_HM": [
+    [
+      3.7165660484136703e-11,
+      -4.1302508843294274e-12,
+      5.370476833172134e-12,
+      3.812492039094031e-11
+    ],
+    [
+      -2.7397966610456196e-10,
+      3.893271047618416e-12,
+      -2.3140486833540927e-12,
+      1.507437972957615e-11
+    ],
+    [
+      -2.869236757051585e-09,
+      -3.160311622178681e-13,
+      1.2117777806653048e-11,
+      -5.529113747252713e-13
+    ],
+    [
+      -41.482618099308475,
+      0.0019628277551694243,
+      0.009769278696799574,
+      0.015136759106202992
+    ],
+    [
+      -43.99232441764447,
+      0.002899817139577595,
+      0.003666212179671162,
+      -0.01008695358155618
+    ],
+    [
+      -164.12206454441142,
+      0.011803535951961416,
+      -0.05672452425856408,
+      0.08741034821134847
+    ]
+  ],
+  "continuous_equation_HM": [
+    [
+      3.716630763946564e-11,
+      -4.130251584259998e-12,
+      5.3704771424716555e-12,
+      3.8124920597317424e-11
+    ],
+    [
+      -2.73979646866087e-10,
+      3.89327319052401e-12,
+      -2.3140486428382673e-12,
+      1.5074379128605935e-11
+    ],
+    [
+      -2.869242922144114e-09,
+      -3.1603249572552575e-13,
+      1.2117778997512164e-11,
+      -5.529127939355051e-13
+    ],
+    [
+      -41.48261809930848,
+      0.0019628277551694247,
+      0.00976927869679957,
+      0.01513675910620299
+    ],
+    [
+      -43.99232441764447,
+      0.002899817139577595,
+      0.003666212179671164,
+      -0.01008695358155618
+    ],
+    [
+      -164.12206454441142,
+      0.011803535951961416,
+      -0.05672452425856408,
+      0.08741034821134847
+    ]
+  ],
+  "original_FD_H": [
+    -9.959555391986183e-08,
+    -1.7704616615356382e-07,
+    9.302793760359626e-05,
+    -41.48259214184103,
+    -43.99233221116867,
+    -164.12312378292404
+  ],
+  "original_FD_M": [
+    [
+      -9.666689245118703e-11,
+      8.76131650789811e-11,
+      1.0771392468062038e-09
+    ],
+    [
+      6.285899794205179e-10,
+      4.5122241827214943e-11,
+      -2.98868558532105e-10
+    ],
+    [
+      -2.2469658926283622e-10,
+      1.8447214377000094e-10,
+      -1.2949733814786974e-11
+    ],
+    [
+      0.0019628275803532463,
+      0.009769278639352376,
+      0.01513675715906814
+    ],
+    [
+      0.002899816518837086,
+      0.0036662119044956662,
+      -0.010086952906077485
+    ],
+    [
+      0.01180353372195678,
+      -0.05672452331853766,
+      0.08741034542822028
+    ]
+  ],
+  "node_derivative_scaled_errors": {
+    "value": 6.05244468349157e-11,
+    "gradient": 2.9985604198835476e-10,
+    "Hessian": 1.197521798176103e-10
+  },
+  "note": "Diagnostic Cartesian polynomial Hessians bypass collocation differentiation and A/B transforms. Native seed/tensor algebra is reused; this is not an independent physical acceptance gate. The sampler comparison covers only six retained points and no acceptance transfers."
+}

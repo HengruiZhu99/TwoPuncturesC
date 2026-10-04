@@ -1,0 +1,31 @@
+{
+  "purpose": "post_build_binding_of_private_CPU_Cartesian_diagnostic",
+  "executable": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-reconstruction-20261003/reconstruct_iterate.x",
+  "executable_sha256": "3953f571c31aa6dcee873f3409f5e180de2af8fe8e9ade0bc36cca3bd4df8dcf",
+  "bound_artifacts_sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_cache_kernels.hpp": "64c70e38c81df40735b00885533e1ce309f963c91ce43d2598bde9b48be3b600",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_geometry_kernels.hpp": "d948b4c85b7a0a91efb3f5767cc975b49ed0c5b5cb1ee2c5f6f24006483fb02e",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_jets.hpp": "4e51b4f508bb3f391cd00121c881c4c878ee4b64bf75b24d75889ff557edc612",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_internal.hpp": "665cf369e5489da760b549e9a66324fa0c3a225ef4ab94056f229e2763e69930",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/PunctureKokkos_controller.hpp": "16c1db727c7ee7c4a8ddb4f4ca03b1f72d05cb9f0e2c61c8a1f1aa568b8b7ccc",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_axis.hpp": "f6d2a5acb34e5f4e22a54afb3da93c3bbf899065f1b4f8bbe5e8691f0a2e8967",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_spectral.hpp": "944e7c2eac93e8a32b903d7ac533932639c2be95638744e5bfb0712d862cbfb8",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/PunctureKokkos.hpp": "13fd0452cbeed4065083f117d9d488faeef8a7b3d1305a6750a09cc013305d25",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/HiSpID.h": "fd5b8dc8a441c14f804de8a55d06feba00c969a6dd7797f58e3f95b031b4fac5",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TwoPunctures.h": "4a7f1a0607a15d7d5d1d34ca40d36c6a649c4d89ab2a179892c4b7588b5c5066",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TP_LineCache.h": "a26688a1fc466c2a8846a0fe1ad4645361f364dccf5302506dce7c206e5d9bc7",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/PunctureKrylov.h": "5814839cfdc46d07233831d78b7f4c39c686dbed801f094032486295d6d12cbb",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/TP_Modal.h": "42726931b3f2d58218e32f85531015b9399e46879d43e7451f499f3ba784e7b0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/include/PunctureExecution.h": "0ec0f1a97596afed8796ab33c3335e88a297167acb16c08c8a0b001e1344cee6",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_solver.cpp": "55ee7da1f1b84eb8f5777b367b62e3dffebd7f3d8c3cbce7f77e620655d56073",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/src/HiSpID_geometry.cpp": "5ed62d504e174dd40f1d2aa887af2b9d104edc02331551324ee051e815db8a59",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/tests/hispid_cartesian_oracle.hpp": "fd5cd26671e107c1941486384c8bdfdd3428b568423bab967e1e1726acbd8085",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/reconstruct_iterate.cpp": "e7a89a62d868ab2ff546e08327ca1e7baefbd23c0f2bfa34a532e2a786b45697",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-kokkos-reference/lib/libTwoPunctures.a": "7ac6beaf49c38deb09702fc7a2eb36ae6acf8addd7359e9223fc3ce4e2ddabb0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK/src/pgen/z4c/hispid_checkpoint.hpp": "a261effde8d9017945343db891e7f206945fbf4750cfc86911d0d2ecd968f769"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "dependencies": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/build-reconstruction-20261003/reconstruct_iterate.x:\n\t/opt/homebrew/opt/gsl/lib/libgsl.28.dylib (compatibility version 29.0.0, current version 29.0.0)\n\t/opt/homebrew/opt/gsl/lib/libgslcblas.0.dylib (compatibility version 1.0.0, current version 1.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n\t/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 2200.27.0)\n",
+  "command": "clang++ -std=c++17 -O3 -DHISPID_ROW_POWER=3 -Iinclude -I../AthenaK/src/pgen/z4c -I/opt/homebrew/opt/gsl/include validation/reconstruct_iterate.cpp src/HiSpID_geometry.cpp build-kokkos-reference/lib/libTwoPunctures.a -L/opt/homebrew/opt/gsl/lib -lgsl -lgslcblas -lm -o build-reconstruction-20261003/reconstruct_iterate.x",
+  "solve_performed": false
+}
