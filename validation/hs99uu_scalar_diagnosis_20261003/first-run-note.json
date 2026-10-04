@@ -1,0 +1,12 @@
+{
+  "purpose": "preserve_first_scalar_diagnosis_without_relabeling",
+  "source_sha256": "3ce0ae53b50c4e8d1d7da7d9021a1755d7b72ffd1a0a036810da6d41cce66bf4",
+  "result_sha256": "94158c2a483cbb374893c36f00987abec2b80235408a1f69b95f4511501616a7",
+  "warnings_observed": [
+    "divide by zero in matmul",
+    "overflow in matmul",
+    "invalid value in matmul"
+  ],
+  "physical_acceptance": false,
+  "next_action": "replace small dot product with explicit Cartesian sum; require all reconstructed values finite; retain first result unchanged"
+}

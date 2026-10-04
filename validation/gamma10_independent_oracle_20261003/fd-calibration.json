@@ -1,0 +1,91 @@
+{
+  "kind": "post_run_retained_single_point_calibration",
+  "preflight": false,
+  "completed": true,
+  "oracle_precision_decimal_digits": 80,
+  "inputs": {
+    "mass": 1,
+    "velocity": [
+      0.99498743710662,
+      0,
+      0
+    ],
+    "center": [
+      0,
+      0,
+      0
+    ],
+    "xyz": [
+      0.075,
+      0.002,
+      -0.003
+    ]
+  },
+  "input_binary64_bits_hex": {
+    "mass": "3ff0000000000000",
+    "velocity": [
+      "3fefd6efe4c9b8a5",
+      "0000000000000000",
+      "0000000000000000"
+    ],
+    "center": [
+      "0000000000000000",
+      "0000000000000000",
+      "0000000000000000"
+    ],
+    "xyz": [
+      "3fb3333333333333",
+      "3f60624dd2f1a9fc",
+      "bf689374bc6a7efa"
+    ]
+  },
+  "sources_sha256": {
+    "validation/boosted_schwarzschild_oracle.py": "546b737e11ee175a791df2a3707cd39b131adefa36e19009d79c27fa664fd644",
+    "validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d"
+  },
+  "sampling": "Decimal80 isolated exact fields rounded once to binary64; unchanged physical.py stencil",
+  "unchanged_constraint_rms_bound": 1e-7,
+  "rows": [
+    {
+      "factor": 2,
+      "h": 0.00015017323330074504,
+      "H": 1.1884919090543455e-9,
+      "Mnorm": 2.0743010704503382e-11,
+      "H_bound_passed": true
+    },
+    {
+      "factor": 1,
+      "h": 0.00007508661665037252,
+      "H": 1.3808280220628522e-8,
+      "Mnorm": 1.2986846127135272e-12,
+      "H_bound_passed": true
+    },
+    {
+      "factor": 0.5,
+      "h": 0.00003754330832518626,
+      "H": 2.4635131955219602e-8,
+      "Mnorm": 1.964834357685863e-13,
+      "H_bound_passed": true
+    },
+    {
+      "factor": 0.25,
+      "h": 0.00001877165416259313,
+      "H": 2.399689904286628e-7,
+      "Mnorm": 5.061087071814211e-13,
+      "H_bound_passed": false
+    },
+    {
+      "factor": 0.125,
+      "h": 0.000009385827081296565,
+      "H": 7.79615864393568e-7,
+      "Mnorm": 2.874506163321298e-13,
+      "H_bound_passed": false
+    }
+  ],
+  "analytic_Decimal_H": "2.6e-80",
+  "physical_acceptance": false,
+  "native_field_validation": false,
+  "full_seed_validation": false,
+  "supersedes_failed_seed_controls": false,
+  "limitation": "Single point only; no attribution of complete native seed failure."
+}

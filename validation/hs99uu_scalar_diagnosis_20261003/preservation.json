@@ -1,0 +1,17 @@
+{
+  "kind": "post_run_preservation_only",
+  "observed_at_utc": "2026-10-04T02:18:46.571176+00:00",
+  "verified_result_sha256": "7bcbb97bef9c8696b163779735a1a008b851c383d882e7a54eaa5921d0597527",
+  "first_result_sha256": "94158c2a483cbb374893c36f00987abec2b80235408a1f69b95f4511501616a7",
+  "first_source_sha256": "3ce0ae53b50c4e8d1d7da7d9021a1755d7b72ffd1a0a036810da6d41cce66bf4",
+  "all_input_source_bindings_verified": true,
+  "bound_artifacts_sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_trial_retention_20261003/originals/hs99uu-physics-20261003/results/results.json": "2f2cafcc7e8f39f048c14aef0cdeb0ec72aeca48b5cf60f0cc6602e91a95e643",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_trial_retention_20261003/originals/hs99uu-physics-20261003/results/raw/aligned_spin99_kokkos_hs99uu_80_16_solve.npz": "e08cc11e0d69bde866a5e6be7a4e33371888d84d691be9a257403ae1cfee3453",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/inspect_scalar_positivity.py": "91fa9803669fb28ebd4bc46fe7ec4dd2ed08b72c539de60902138b51605435ba",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/prolong.py": "6b7927dedc543077d0af1fe97d72bd869ad57b6cd9332b1c54e394dd1803cf5f"
+  },
+  "numerical_rerun_performed": false,
+  "physical_acceptance": false,
+  "review": "Independent reviewer found no blocking inconsistency; the reconstruction establishes nonpositive values in a retained coarse iterate, not their cause."
+}

@@ -1,0 +1,12 @@
+{
+  "purpose": "unchanged_completed_native_seed_witness_retention",
+  "files": {
+    "producer.npz": "fd5566e9b8b408eaa37c64a8f810d2b8f158edb443ca890379c2308110dd7149",
+    "gamma10-migration.json": "8df6304da195abb77fd1f5ebe5505aabea1cfbedf709773b761d5bcf967e73e8",
+    "gamma10.checkpoint": "2c442ab70ebc00ebf0cbb00f1bd832d0ef69bc90c82c98397f52236b521dfb54"
+  },
+  "source_library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+  "consumer_library_sha256": "48ef22c57d62b03b0d9676bd39c0cb3c37ff0cce0a3e84804b264cb542507aff",
+  "native_rerun_performed": false,
+  "physical_acceptance": false
+}

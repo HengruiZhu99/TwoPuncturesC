@@ -1,0 +1,12 @@
+{
+  "kind": "post_run_document_preservation",
+  "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/docs/HISPID_KOKKOS_PERFORMANCE.tex",
+  "prior_source_sha256": "b3cf99523d011959b1f2940324e7d1e9f9dc399baf6c89ba0760d9ce1c77afd5",
+  "source_sha256": "951d27386740d2e1867c7180d9d2a5e9e76242bd0cc355c64bfecb2a77500735",
+  "only_appended_physical_diagnostic_text": true,
+  "prior_source_byte_preserved_after_removing_appendix": true,
+  "compiler": "mcp__codex_app__compile_latex_document",
+  "compile_result": "success",
+  "message": "The current source compiled successfully with the desktop editor compiler.",
+  "no_numerical_rerun": true
+}

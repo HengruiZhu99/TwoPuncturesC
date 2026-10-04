@@ -1,0 +1,9 @@
+{
+  "purpose": "retain_pre_comparison_harness_error",
+  "old_source_sha256": "546b737e11ee175a791df2a3707cd39b131adefa36e19009d79c27fa664fd644",
+  "error": "retained dgamma shape (1512,3,3,3) rejected by helper requiring (N,27)",
+  "numerical_differences_computed": false,
+  "native_rerun_performed": false,
+  "next_action": "accept explicit flat or derivative-i-j tensor layout; flatten in the same declared order",
+  "physical_acceptance": false
+}

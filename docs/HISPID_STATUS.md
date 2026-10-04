@@ -1,5 +1,37 @@
 # HiSpID milestone status
 
+October 3 preservation checkpoint: the latest instruction is to preserve
+existing results and not proceed in that work. Further runs are held while
+the scope of that stop is clarified; the performance campaign remains stopped.
+The following completed diagnostics are preserved separately, without changing
+any original measurement, tolerance or failed acceptance flag.
+
+An independent Decimal boosted-Schwarzschild oracle matches eight selected
+exterior points from the retained Gamma10 seed witness within the unchanged
+1e-12 field/gradient bound (largest difference1.37e-14). This is a supplemental
+selected-point comparison, not full native-seed or binary validation. A separate
+one-point rounding calibration reproduces a Hamiltonian FD floor at shrinking
+steps; it does not explain or waive the complete original failed seed gate.
+See `validation/gamma10_independent_oracle_20261003/README.md`.
+
+A fixed-coefficient, pure Python reconstruction of the failed current-basis
+HS99UU80×160×16 attempt finds122 nonpositive scalar values among4026 retained
+sample/stencil points, with minimum-2.09799 in the bulk. The saved coefficients
+were not solved again. This diagnoses a bulk positivity failure; it does not
+identify its sole cause or establish convergence. Both the first warning-bearing
+record and the later finite, warning-free result remain retained in
+`validation/hs99uu_scalar_diagnosis_20261003/`.
+
+The exact Gamma10 L96 finder with alpha=.02 retains45 complete iteration
+snapshots with positive minimum radii and expansion RMS falling from.443830
+to.0790216. It times out at900s, far above the unchanged1e-7 criterion.
+Its area is an attempt diagnostic, not a qualified horizon mass. Native
+import error is4.65942e-16, but terminal time/cycle verification is unavailable
+after timeout. The full raw trace and source archive are retained by AthenaK
+under `docs/hispid-gamma10-damped-20261003/`. Allocation59296178 completed and
+is no longer queued. No new solver or finder run was started during preservation.
+These entries supersede pending/running descriptions below.
+
 October 3 latest trial preservation: the performance campaign remains stopped
 under the HUMAN OVERRIDE. Two distinct physical follow-ups are retained in
 `validation/extreme_trial_retention_20261003`; no numerical work was launched

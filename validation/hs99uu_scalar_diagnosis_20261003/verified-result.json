@@ -1,0 +1,228 @@
+{
+  "purpose": "fixed_iterate_scalar_positivity_diagnosis",
+  "solve_performed": false,
+  "physical_acceptance": false,
+  "source_library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+  "config": {
+    "hole": [
+      {
+        "mass": 0.5,
+        "center": [
+          6.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.0,
+          0.0,
+          0.2475
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "mass": 0.5,
+        "center": [
+          -6.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.0,
+          0.0,
+          0.2475
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "n": [
+      80,
+      160,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 0,
+    "omega": [
+      0.2,
+      0.2
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.0,
+      0.0
+    ],
+    "inner_max": [
+      0.0,
+      0.0
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-14,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 80,
+    "memory_limit_mib": 32768
+  },
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "bound_artifacts_sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_trial_retention_20261003/originals/hs99uu-physics-20261003/results/results.json": "2f2cafcc7e8f39f048c14aef0cdeb0ec72aeca48b5cf60f0cc6602e91a95e643",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_trial_retention_20261003/originals/hs99uu-physics-20261003/results/raw/aligned_spin99_kokkos_hs99uu_80_16_solve.npz": "e08cc11e0d69bde866a5e6be7a4e33371888d84d691be9a257403ae1cfee3453",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/inspect_scalar_positivity.py": "91fa9803669fb28ebd4bc46fe7ec4dd2ed08b72c539de60902138b51605435ba",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/prolong.py": "6b7927dedc543077d0af1fe97d72bd869ad57b6cd9332b1c54e394dd1803cf5f"
+  },
+  "native_image_loaded": false,
+  "all_values_finite": true,
+  "method": "barycentric mapped modal P and analytic unboosted Kerr QI scalar",
+  "point_count": 66,
+  "stencil_point_count": 4026,
+  "negative_or_zero_count": 122,
+  "min_scalar": -2.0979918717274204,
+  "center_sample_min_scalar": -2.017660586629952,
+  "worst": [
+    {
+      "index": 3820,
+      "sample_index": 58,
+      "offset": [
+        0.0,
+        2.0,
+        -2.0
+      ],
+      "xyz": [
+        3.1221862958786817,
+        5.848092297413942,
+        -4.487139296646312
+      ],
+      "seed_scalar": 1.052565378332419,
+      "correction": -3.150557250059839,
+      "scalar": -2.0979918717274204
+    },
+    {
+      "index": 1114,
+      "sample_index": 58,
+      "offset": [
+        -2.0,
+        2.0,
+        0.0
+      ],
+      "xyz": [
+        3.1181862958786817,
+        5.848092297413942,
+        -4.483139296646312
+      ],
+      "seed_scalar": 1.0525763809544924,
+      "correction": -3.1339049862997226,
+      "scalar": -2.08132860534523
+    },
+    {
+      "index": 3886,
+      "sample_index": 58,
+      "offset": [
+        0.0,
+        2.0,
+        -1.0
+      ],
+      "xyz": [
+        3.1221862958786817,
+        5.848092297413942,
+        -4.485139296646312
+      ],
+      "seed_scalar": 1.0525710010625131,
+      "correction": -3.132891711153851,
+      "scalar": -2.0803207100913377
+    },
+    {
+      "index": 3556,
+      "sample_index": 58,
+      "offset": [
+        0.0,
+        1.0,
+        -2.0
+      ],
+      "xyz": [
+        3.1221862958786817,
+        5.846092297413942,
+        -4.487139296646312
+      ],
+      "seed_scalar": 1.0525731116219323,
+      "correction": -3.1291994340523983,
+      "scalar": -2.076626322430466
+    },
+    {
+      "index": 1972,
+      "sample_index": 58,
+      "offset": [
+        -2.0,
+        0.0,
+        -2.0
+      ],
+      "xyz": [
+        3.1181862958786817,
+        5.844092297413942,
+        -4.487139296646312
+      ],
+      "seed_scalar": 1.0525806026929936,
+      "correction": -3.1262450791354306,
+      "scalar": -2.073664476442437
+    },
+    {
+      "index": 1378,
+      "sample_index": 58,
+      "offset": [
+        -1.0,
+        2.0,
+        0.0
+      ],
+      "xyz": [
+        3.120186295878682,
+        5.848092297413942,
+        -4.483139296646312
+      ],
+      "seed_scalar": 1.0525765024501474,
+      "correction": -3.1249023691260303,
+      "scalar": -2.072325866675883
+    },
+    {
+      "index": 2236,
+      "sample_index": 58,
+      "offset": [
+        -1.0,
+        0.0,
+        -2.0
+      ],
+      "xyz": [
+        3.120186295878682,
+        5.844092297413942,
+        -4.487139296646312
+      ],
+      "seed_scalar": 1.0525807247629713,
+      "correction": -3.1172700782309763,
+      "scalar": -2.064689353468005
+    },
+    {
+      "index": 586,
+      "sample_index": 58,
+      "offset": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "xyz": [
+        3.1221862958786817,
+        5.848092297413942,
+        -4.483139296646312
+      ],
+      "seed_scalar": 1.0525766232479503,
+      "correction": -3.1149490379916522,
+      "scalar": -2.062372414743702
+    }
+  ]
+}

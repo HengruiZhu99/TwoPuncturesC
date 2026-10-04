@@ -1,0 +1,19 @@
+{
+  "kind": "post_run_preservation_only",
+  "observed_at_utc": "2026-10-04T02:18:46.567350+00:00",
+  "selected_comparison_sha256": "6d2fec642c98f8ad33701fd1740712bb19d06514453fc01c211d7e9638d05e32",
+  "all_comparison_bindings_verified": true,
+  "bound_artifacts_sha256": {
+    "validation/gamma10_independent_oracle_20261003/producer.npz": "fd5566e9b8b408eaa37c64a8f810d2b8f158edb443ca890379c2308110dd7149",
+    "validation/gamma10_independent_oracle_20261003/gamma10-migration.json": "8df6304da195abb77fd1f5ebe5505aabea1cfbedf709773b761d5bcf967e73e8",
+    "validation/gamma10_independent_oracle_20261003/gamma10.checkpoint": "2c442ab70ebc00ebf0cbb00f1bd832d0ef69bc90c82c98397f52236b521dfb54",
+    "validation/boosted_schwarzschild_oracle.py": "670049a0444ee0bbee2b0cdf44b8197875015bf089db383e016a586ed406b057",
+    "tests/test_boosted_schwarzschild_oracle.py": "9218788c04e1f1fa77bc347e4e8423dcd4fcbd2b9295c95e51a84f30be4b453f",
+    "python/checkpoint_export.py": "e249be7bd6066e57b786107aba15040ce401650c201bde011d00ac8d793a4085",
+    "python/hispid.py": "70b8bf2a8e38e38a279598ae2ee42c99af519c9ae65601a6581ff998e1382961"
+  },
+  "witness_bytes_verified": true,
+  "native_rerun_performed": false,
+  "physical_acceptance": false,
+  "review": "Independent reviewer found no blocking inconsistency; runtime numerical-library hashes for the FD calibration were not captured."
+}
