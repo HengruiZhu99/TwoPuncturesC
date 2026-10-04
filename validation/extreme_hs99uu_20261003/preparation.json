@@ -1,0 +1,28 @@
+{
+  "purpose": "physical_recipe_preparation",
+  "created_utc": "2026-10-04T00:53:10.225552+00:00",
+  "new_numerical_runs_performed": false,
+  "performance_campaign_started": false,
+  "physical_acceptance": false,
+  "workflow_sources_sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/run_extreme_kokkos.py": "dc5ae2e339c3e961d8069767d9a4db0e90968fe17ab5311efb7831ee68b335f7",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/validation/extreme_hs99uu_plan_20261003.json": "e96134a804acc4a03c9d9cfe9609ca92ed6e64204f12d8515df538380d2dc27c",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC/examples/configs.py": "52d133c422ebf269df16b96f8c43c80e35513bd984be7f54c4d8fd09c823452d"
+  },
+  "prerequisite_guard_suite": {
+    "command": "PYTHONPATH=python:examples:validation OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python3 -m unittest discover -s tests -p test_extreme_prerequisites.py",
+    "tests_run": 16,
+    "exit_code": 0
+  },
+  "configuration_guard": {
+    "default_spin_config_exactly_matches_retained_row": true,
+    "default_boost_config_exactly_matches_retained_row": true,
+    "incompatible_boost_recipe_rejected": true
+  },
+  "independent_review": {
+    "reviewer": "/root/formulation_review",
+    "clearance": "fresh separate HS99UU recipe is justified; no acceptance transfer from the historical legacy state"
+  },
+  "scope": "Aligned equal-mass seed chi=.99 at separation12; HS99UU omega.2 no g/F free data, current regular mapped basis, existing CUDA producer and host geometry.",
+  "failure_preservation": "The existing seven extreme binary rows, original performance evidence and diagnostic Cartesian result are unchanged."
+}

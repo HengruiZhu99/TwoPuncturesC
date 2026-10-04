@@ -14,14 +14,38 @@ from pathlib import Path
 
 import numpy as np
 from checkpoint_export import write_checkpoint
-from configs import as_dict
+from configs import as_dict,hs99uu
 from execution import select,name,concurrency,device_description
 from hispid import Backend,Hole
-from run_validation import solve_case
+from run_validation import solve_case,free_data
 from native_loader import loaded_kokkos_images,validate_krylov
 
 
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def binary_config(backend,grid,case,separation,controls,spin_free_data='inner-window'):
+    """Build distinct physical free data; solver controls never imply acceptance."""
+    if spin_free_data not in ('inner-window','hs99uu'):
+        raise ValueError('unknown spin free-data recipe')
+    if spin_free_data=='hs99uu':
+        if case!='aligned_spin99_kokkos':
+            raise ValueError('HS99UU free data require the aligned-spin case')
+        cfg=hs99uu(backend,grid[0],grid[2])
+        for h,sign in enumerate((1,-1)):cfg.hole[h].center[:]=[sign*separation/2,0,0]
+    else:
+        cfg=backend.config()
+        spin=.99 if case.startswith('aligned') else 0.;speed=0. if spin else float(np.sqrt(.99))
+        for h,sign in enumerate((1,-1)):
+            cfg.hole[h]=Hole(.5,(sign*separation/2,0,0),(0,0,.25*spin),(-sign*speed,0,0))
+            radius=.25*np.sqrt(1-spin*spin)*np.sqrt(1-speed*speed)
+            cfg.inner_min[h]=.1*radius;cfg.inner_max[h]=.3*radius
+        cfg.conformal_choice=0;cfg.inner_flatten=0;cfg.omega[:]=[1,1]
+        cfg.attenuation_power=4;cfg.far_radius=0
+    cfg.n[:]=grid
+    for field in ('max_newton','max_krylov','memory_limit_mib'):setattr(cfg,field,controls[field])
+    cfg.tolerance=controls['outer_tolerance'];cfg.krylov_restart=controls['restart']
+    return cfg
 
 
 def frozen_inputs(paths):
@@ -235,6 +259,9 @@ def main():
     verify_artifacts(performance,performance_artifact_root)
     if not 1<=a.threads<=16:raise ValueError('one allocated GPU with at most16 host threads required')
     plan=inputs['plan'];case=next(c for c in plan['cases'] if c['label']==a.case)
+    spin_free_data=case.get('spin_free_data','inner-window')
+    if spin_free_data not in ('inner-window','hs99uu') or (spin_free_data=='hs99uu' and not a.case.startswith('aligned')):
+        raise ValueError('invalid target/free-data recipe in the bound plan')
     controls=plan['solve_controls'];validate_krylov(controls['krylov'],controls['linear_rtol'])
     grids=case['grids']+([case['independent_fourier_control']] if 'independent_fourier_control' in case else [])
     if not 0<=a.grid_index<len(grids):raise ValueError('grid index outside declared case')
@@ -279,6 +306,7 @@ def main():
     if name(backend.lib)!='Cuda' or concurrency(backend.lib)!=a.threads or not device or device['visible_count']!=1 or device['visible_ordinal']!=0:
         raise ValueError('actual one-GPU CUDA execution and requested host concurrency required')
     label=a.case+(('_d'+format(separation,'.17g').replace('.','p')) if a.separation is not None else '')
+    if spin_free_data!='inner-window':label+='_'+spin_free_data
     fourier=a.grid_index==len(case['grids'])
     if fourier:label+='_fourier_control'
     root=Path(a.output_directory).resolve();root.mkdir(parents=True,exist_ok=True)
@@ -296,6 +324,15 @@ def main():
         prerequisite_sha256=input_hashes,measured_images=measured,loaded_images=actual_images,
         producer=str(library),coordinate_separation=separation,host_threads=a.threads,geometry=a.geometry,
         human_override=inputs.get('human_override'))
+    # Keep old inner-window bindings unchanged. The separate physical recipe
+    # always gets a new label and immutable source/config witnesses.
+    if spin_free_data!='inner-window':
+        source_paths=[Path(__file__).resolve()]
+        for module in ('configs','run_validation','physical','prolong','checkpoint_export','hispid','execution','native_loader'):
+            source_paths.append(Path(__import__(module).__file__).resolve())
+        binding.update(spin_free_data=spin_free_data,
+            physical_free_data=free_data(binary_config(backend,grid,a.case,separation,controls,spin_free_data)),
+            workflow_sources_sha256={str(path):digest(path) for path in source_paths})
     binding_path=root/(label+'_attempt_binding.json')
     if binding_path.exists():
         bound_bytes=binding_path.read_bytes()
@@ -315,6 +352,8 @@ def main():
     def verify_attempt():
         verify_hashes(input_paths,input_hashes)
         if digest(binding_path)!=binding_sha:raise ValueError('immutable attempt binding changed')
+        if any(digest(path)!=sha for path,sha in binding.get('workflow_sources_sha256',{}).items()):
+            raise ValueError('bound physical workflow source changed')
         if any(digest(path)!=sha for path,sha in measured.items()):
             raise ValueError('measured CUDA build/dependencies changed during the attempt')
         if any(digest(path)!=sha for path,sha in floor_artifacts.items()):
@@ -331,17 +370,7 @@ def main():
                 raise ValueError('retained row raw artifacts are missing or changed')
     verify_attempt()
     def factory(_backend,n,nphi):
-        cfg=_backend.config();cfg.n[:]=grid
-        spin=.99 if a.case.startswith('aligned') else 0.;speed=0. if spin else float(np.sqrt(.99))
-        for h,sign in enumerate((1,-1)):
-            cfg.hole[h]=Hole(.5,(sign*separation/2,0,0),(0,0,.25*spin),(-sign*speed,0,0))
-            radius=.25*np.sqrt(1-spin*spin)*np.sqrt(1-speed*speed)
-            cfg.inner_min[h]=.1*radius;cfg.inner_max[h]=.3*radius
-        cfg.conformal_choice=0;cfg.inner_flatten=0;cfg.omega[:]=[1,1]
-        cfg.attenuation_power=4;cfg.far_radius=0
-        for field in ('max_newton','max_krylov','memory_limit_mib'):setattr(cfg,field,controls[field])
-        cfg.tolerance=controls['outer_tolerance'];cfg.krylov_restart=controls['restart']
-        return cfg
+        return binary_config(_backend,grid,a.case,separation,controls,spin_free_data)
     result=solve_case(backend,factory,[(grid[0],grid[2])],label,horizon_scaled=True,adaptive_steps=True,
         previous_records=previous,execution='kokkos',geometry=a.geometry,solve_options=dict(krylov=controls['krylov'],linear_rtol=controls['linear_rtol']),
         output_report=report_path,raw_directory=raw)
