@@ -1,0 +1,37 @@
+{
+  "source_commit": "22153d6693d833639d456c89d8d44224ca719fd3",
+  "source_witness_sha256": "d160508b5d0e4bf531348c8831fe95566e9ef9ed103708c79e0304715bdd00c5",
+  "prior_failed_paired_seed_sha256": "b1ad612c9c63e769b9d45b5105c565d3bbd42545c5403eaf5e94c72b509e7031",
+  "performance_campaign": false,
+  "changes_scientific_tolerances": false,
+  "paired_admission_replaced": false,
+  "FD_factors": [
+    2,
+    1,
+    0.5,
+    0.25,
+    0.125
+  ],
+  "quadratures": [
+    [
+      128,
+      16
+    ],
+    [
+      192,
+      16
+    ],
+    [
+      192,
+      32
+    ]
+  ],
+  "radii": [
+    10240,
+    20480,
+    40960,
+    81920,
+    163840
+  ],
+  "all_adjacent_angular_changes_required": true
+}

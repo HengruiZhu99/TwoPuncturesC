@@ -1,0 +1,2 @@
+# Transport archives are separate from the compact committed evidence.
+*.tar.gz*

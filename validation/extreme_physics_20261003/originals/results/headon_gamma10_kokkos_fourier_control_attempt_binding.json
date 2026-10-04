@@ -1,0 +1,62 @@
+{
+  "schema": "hispid_extreme_attempt_binding_v1",
+  "case": "headon_gamma10_kokkos",
+  "label": "headon_gamma10_kokkos_fourier_control",
+  "prerequisite_sha256": {
+    "performance": "b7f870beb0d0f77d4b8dc2df091809cba9026721f7b355ba93b4d65a3f441e6c",
+    "plan": "da59455d22d75e42f2b456223ec57d780818f163f58351359cc402926a6b8524",
+    "seed": "b1ad612c9c63e769b9d45b5105c565d3bbd42545c5403eaf5e94c72b509e7031",
+    "floor": "5c24e5aa87fb3d917ed407fb33c5a681cf29900e6828b9d79f3fed575d0c0046",
+    "human_override": "8b49546d0d15ab45727c6fe9e3a5cbf86588a3c1c082f050cc2bdb142ff2c56f"
+  },
+  "measured_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libHiSpID.so": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libTwoPunctures.so": "65cc78cb116fd4c8374f6e05e50073dfad3acd2b554656df27e7a9a446558813",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/algorithms/src/libkokkosalgorithms.so.4.7.2": "302f2e822ac5627d1190a7f116ae3f59cd8059171c599a45dfc34048f3091b05",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/containers/src/libkokkoscontainers.so.4.7.2": "19f8a863ba37b93cd5e3f96a9314059da1b568f5440787dbf946a128806fbc92",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/core/src/libkokkoscore.so.4.7.2": "37bdc354e47e0e546b80b71af9f09babd07d7cf6fa5fea65ae0e25841947c3cd",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/simd/src/libkokkossimd.so.4.7.2": "03ea16f181ee997913c70e0d6fbd11c6e9723a4098993c348b689171e9757117",
+    "/usr/lib64/libgsl.so.25.0.0": "28b03fd01c3a46d5be158256da489e1ac70ed39d5b9f488dc224bd98b71ef13d",
+    "/usr/lib64/libgslcblas.so.0.0.0": "a1e0bb2fa975891f95a0cc177739317d6a787802d8e9b8840639d11cb95855d0",
+    "/usr/local/cuda-13.2/compat/libcuda.so.595.91.07": "4839b5da17cd8f58a8e9c57e97c9b61f3c41be7934479f48afc983416b2492c3",
+    "/opt/nvidia/hpc_sdk/Linux_x86_64/26.5/cuda/13.2/targets/x86_64-linux/lib/libcudart.so.13.2.75": "c7eaa64c99c20484b7401352aff99a8c5ab947abaab3a9bbb70142312da1fe18",
+    "/usr/lib64/libgomp.so.1.0.0": "cb06b8a9873b2057ef7942ebcc564f30640a1667eef4abf1d2152ff358235fbb",
+    "/usr/lib64/libstdc++.so.6.0.34": "496b08c0e61b91e68bd07ab41787b0fb446fda25bff2566ec1a845022a786bb9",
+    "/lib64/libm.so.6": "e925aac2864d57d0c482ff0fc15db69f5da3d7aa00624533e689e32bb4ed19c2",
+    "/lib64/libgcc_s.so.1": "ef0d1a4b5bbf6f5d02de1ca93561b5e1df1ffdfbee0c2c11efce2ae541149e98",
+    "/lib64/libc.so.6": "65c86292fe42d335817dcfd6e5f650dd5fbc61404649e80f2c0d901b6fc5c5af",
+    "/lib64/ld-linux-x86-64.so.2": "002ce1000a0c8b3555415641b252949f875e6481f306a751f65608500c87caf0",
+    "/lib64/libpthread.so.0": "729cb3c2f88ccc3be6cc40fdd07f680aa2826d30f4001dc08e1e6a2c65880809",
+    "/lib64/libdl.so.2": "71df6c54897e15385f0fec889ef41fed8b44357512b18302c75b8c7d8369c5ff",
+    "/lib64/librt.so.1": "2b2b0d03bd0e2c66bae9f88fd7d722f46ce7149a41c9b72c69f28d7d8a5b56dd"
+  },
+  "loaded_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libTwoPunctures.so": "65cc78cb116fd4c8374f6e05e50073dfad3acd2b554656df27e7a9a446558813",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/algorithms/src/libkokkosalgorithms.so.4.7.2": "302f2e822ac5627d1190a7f116ae3f59cd8059171c599a45dfc34048f3091b05",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/containers/src/libkokkoscontainers.so.4.7.2": "19f8a863ba37b93cd5e3f96a9314059da1b568f5440787dbf946a128806fbc92",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/core/src/libkokkoscore.so.4.7.2": "37bdc354e47e0e546b80b71af9f09babd07d7cf6fa5fea65ae0e25841947c3cd",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/simd/src/libkokkossimd.so.4.7.2": "03ea16f181ee997913c70e0d6fbd11c6e9723a4098993c348b689171e9757117"
+  },
+  "producer": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libHiSpID.so",
+  "coordinate_separation": 25.0,
+  "host_threads": 16,
+  "geometry": "host",
+  "human_override": {
+    "schema": "hispid_human_override_v1",
+    "authority": "explicit_user_request",
+    "scope": "stop_performance_and_proceed_to_extreme_investigations",
+    "instruction": "no please mark that as human overwrite, and proceed to high spin and high boost; preserve the existing results but do not proceed in that",
+    "created_utc": "2026-10-03T21:29:17.840567+00:00",
+    "performance_sha256": "b7f870beb0d0f77d4b8dc2df091809cba9026721f7b355ba93b4d65a3f441e6c",
+    "performance_attempts_preserved": 244,
+    "original_performance_completed": false,
+    "scientific_acceptance_waived": false,
+    "performance_results_relabelled": false,
+    "requested_targets": {
+      "seed_spin": 0.99,
+      "input_lorentz_factor": 10
+    },
+    "stop_receipt": "validation/human_override_performance_stop_20261003.json",
+    "stop_receipt_sha256": "a797feefda4bf4d211a9c2540b38504e0afcb6a343a10961885cf417e4cc66ed"
+  }
+}

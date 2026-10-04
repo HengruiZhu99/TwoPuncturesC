@@ -1,5 +1,52 @@
 # HiSpID milestone status
 
+October 3 completed extreme attempts: further performance work remains stopped
+under the HUMAN OVERRIDE. All seven initial binary grids have been retained:
+three aligned seed chi=.99 grids, three head-on Gamma10 grids, and one Gamma10
+Fourier refinement. No binary passes the physical acceptance gates.
+
+The spin sequence internally converges at all three grids, but independent
+bulk Hamiltonian RMS is 43.17, 15.16 and 3.648. A fixed-iterate pure CPU replay
+agrees with the GPU collocation equations within 1.54e-14 and retains the
+original 1e-14 stopping condition. Its three worst off-grid samples retain
+Hamiltonian RMS about101 across three FD steps. This rules out a gross
+GPU-only collocation defect; it does not identify the reconstruction or
+between-node error's cause. The separately bound post-run audit verifies the
+exact retained coefficient bits, reference basis/maps/norm and raw images.
+The replay's original inputs/results are unchanged. The new replay driver
+adds those guards before context creation for future use.
+
+All four Gamma10 binary attempts hit the nonlinear/linear solve budget and
+fail independent constraints. The additional Fourier row is retained
+separately. No extra elliptic solve is justified until the existing failures
+are diagnosed. The initial separation d=25 has not been calibrated against
+measured binary irreducible masses.
+
+Both coarse binary checkpoints remain diagnostic and have fresh separate-
+process producer/CPU sampler proofs at2454 points, with zero difference in
+every field and metric derivative. AthenaK imports the spin checkpoint with
+ADM/Z4c error4.633e-16; its first component search fails (last attempted
+expansion RMS1.941e-5). The Gamma checkpoint passes an import-only check with
+error4.809e-16, time/cycle zero and no finder constructed. These are data
+interchange results only; no binary horizon/enclosure acceptance transfers.
+
+The exact isolated chi=.99 seed passes independent constraints/charges and
+AthenaK L8/12/16 horizon controls: area28.6781506783, expansion RMS below1e-7,
+Christodoulou mass1 and coordinate-axial chi=.99 within1.4e-12. Fixed-L quadrature refinement is
+not asserted. The exact Gamma10 L64/96 searches fail invalid-surface checks;
+L160 times out at900s. A separate Gamma-only charge refinement reduces the
+ADM error to8.213e-7, with adjacent angular changes below1e-8 and radial-fit
+change5.587e-6, but the near-hole FD Hamiltonian check still fails and worsens
+at the smallest steps. Both original and supplemental seed results remain
+retained with failed aggregate admission flags.
+
+Compact receipts/logs are in `validation/extreme_physics_20261003`; its
+retention receipt binds the full remote archive of raw arrays and
+checkpoints. No science tolerance, old performance result or failed flag is
+overwritten. These entries supersede the pending/running descriptions below.
+Allocation59284155 completed and was released after retention; no compute
+worker or performance campaign remains running for this task.
+
 October 3 physical follow-up: performance work remains stopped under the
 human override below. Commit `c130785` fixes worker dispatch in the isolated
 CPU sampler comparison. Fresh separate-process comparisons for exact Kerr

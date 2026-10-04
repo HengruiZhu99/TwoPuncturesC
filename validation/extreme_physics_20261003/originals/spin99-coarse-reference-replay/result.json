@@ -1,0 +1,247 @@
+{
+  "purpose": "fixed_iterate_CPU_equation_and_reconstruction_diagnostic",
+  "completed": true,
+  "solve_performed": false,
+  "physical_acceptance": false,
+  "bound_artifacts_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/results/aligned_spin99_kokkos_80_160_16.checkpoint": "883e6c2ca73bd2000fbd1271629f8af8e269f432b8630689159b849c2dd4cd3a",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/results/aligned_spin99_kokkos_80_160_16_row_binding.json": "4ce6cf732fe6a674e4c61503248b0e09769709d1638ec349f3f17e4866167ec4",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/results/raw/aligned_spin99_kokkos_80_16.npz": "b5c423854b78fa9fa489ec6083464396e341dc474306aa647671841e29f0b802",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/results/raw/aligned_spin99_kokkos_80_16_collocation.npz": "fcf4b4a91cf45521306e22dcaf28daf47d3ba0328a4e04e675035b32f6608d6e",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/results/raw/aligned_spin99_kokkos_80_16_solve.npz": "edcfa84dbcf4a25acb5818742df634c59c260d2ef170ac169a5ee6fcd60855c9",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/diagnose_reference_iterate.py": "45958b198f04bae1a6856081394cd215f636b86e021610b01790d77b973d2c8f",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/python/checkpoint_export.py": "e249be7bd6066e57b786107aba15040ce401650c201bde011d00ac8d793a4085",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/python/hispid.py": "70b8bf2a8e38e38a279598ae2ee42c99af519c9ae65601a6581ff998e1382961",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/examples/configs.py": "52d133c422ebf269df16b96f8c43c80e35513bd984be7f54c4d8fd09c823452d",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/python/native_loader.py": "8ec38e786142c3e1035e32fa5be3b18ecf86db23fbc78344f49f398e279e6a98",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-workflow-0606071/python/execution.py": "35a8a7017d3ff7f3e5941b66309f8e9596e6c189f0cfc1205af1dc8a0ca0de5f",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libHiSpID.so": "48ef22c57d62b03b0d9676bd39c0cb3c37ff0cce0a3e84804b264cb542507aff",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so": "686ed7d4dfb0fe434c4f8e10858a283d004b5436890d80fd8b78cfc6eb6109fc"
+  },
+  "FD_records": [
+    {
+      "step_factor": 2,
+      "collocation_nodes": {
+        "count": 3,
+        "H_rms": 2.5792142606741182e-06,
+        "H_max": 4.345039424301781e-06,
+        "M_rms": 3.200602473357582e-09,
+        "M_max": 4.069050928461894e-09,
+        "M_components_rms": [
+          2.0299191053241733e-09,
+          1.121620488663425e-09,
+          1.6173986884814178e-09
+        ],
+        "M_components_max": [
+          3.242533200302926e-09,
+          1.6551943678171272e-09,
+          1.895892218424277e-09
+        ],
+        "normalized_H_max": 0.551992427272196,
+        "normalized_M_max": 0.40690509284618936
+      },
+      "offgrid": {
+        "count": 3,
+        "H_rms": 100.98226199654682,
+        "H_max": 164.12227324284714,
+        "M_rms": 0.05538116446503971,
+        "M_max": 0.09294898510527612,
+        "M_components_rms": [
+          0.0071083270350524,
+          0.03329940174187658,
+          0.05154749941566301
+        ],
+        "M_components_max": [
+          0.011803530011682365,
+          0.05672451529242597,
+          0.08741033318172536
+        ],
+        "normalized_H_max": 1.0,
+        "normalized_M_max": 0.9999999999991136
+      },
+      "raw_artifact": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/spin99-coarse-reference-replay/physical_step_2.npz",
+      "raw_sha256": "1cae8705626019903b456a7e121b0463e6719069f92f8906d0c909bc27bdbb3f"
+    },
+    {
+      "step_factor": 1,
+      "collocation_nodes": {
+        "count": 3,
+        "H_rms": 5.370983286574228e-05,
+        "H_max": 9.302793760359626e-05,
+        "M_rms": 8.725571524142703e-10,
+        "M_max": 1.24252629527716e-09,
+        "M_components_rms": [
+          3.894262478529185e-10,
+          1.207505075624534e-10,
+          6.454246839343245e-10
+        ],
+        "M_components_max": [
+          6.285899794205179e-10,
+          1.8447214377000094e-10,
+          1.0771392468062038e-09
+        ],
+        "normalized_H_max": 0.9634763945623914,
+        "normalized_M_max": 0.124252629527716
+      },
+      "offgrid": {
+        "count": 3,
+        "H_rms": 100.98272212685555,
+        "H_max": 164.12312378292404,
+        "M_rms": 0.05538117332613288,
+        "M_max": 0.09294899837082422,
+        "M_components_rms": [
+          0.007108329299220896,
+          0.03329940670431079,
+          0.05154750729215014
+        ],
+        "M_components_max": [
+          0.01180353372195678,
+          0.05672452331853766,
+          0.08741034542822028
+        ],
+        "normalized_H_max": 1.0,
+        "normalized_M_max": 0.999999999999864
+      },
+      "raw_artifact": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/spin99-coarse-reference-replay/physical_step_1.npz",
+      "raw_sha256": "cfaca450ba39c80f9c588af4992119d78500f18fbc165805d6b1808f136a0e04"
+    },
+    {
+      "step_factor": 0.5,
+      "collocation_nodes": {
+        "count": 3,
+        "H_rms": 0.0005846320902040777,
+        "H_max": 0.0010126104413515288,
+        "M_rms": 2.8452693612487864e-09,
+        "M_max": 4.25766079674147e-09,
+        "M_components_rms": [
+          4.2882478068562444e-10,
+          2.287120809095274e-09,
+          1.0338822961226075e-09
+        ],
+        "M_components_max": [
+          6.012784041538701e-10,
+          3.7604701576480156e-09,
+          1.4128682597434501e-09
+        ],
+        "normalized_H_max": 0.9965294867316365,
+        "normalized_M_max": 0.42576607967414704
+      },
+      "offgrid": {
+        "count": 3,
+        "H_rms": 100.98394615092542,
+        "H_max": 164.1254405737533,
+        "M_rms": 0.05538117978491284,
+        "M_max": 0.09294900951784571,
+        "M_components_rms": [
+          0.00710833246059518,
+          0.03329940982964905,
+          0.051547513559655096
+        ],
+        "M_components_max": [
+          0.01180353922101701,
+          0.05672452893605441,
+          0.08741035612944045
+        ],
+        "normalized_H_max": 1.0,
+        "normalized_M_max": 0.9999999999999805
+      },
+      "raw_artifact": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/spin99-coarse-reference-replay/physical_step_0.5.npz",
+      "raw_sha256": "1d037d0c014ec21d410e03ac3783d7df35a156cb5727b82b7c05583574cf0fce"
+    }
+  ],
+  "reference_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libHiSpID.so": "48ef22c57d62b03b0d9676bd39c0cb3c37ff0cce0a3e84804b264cb542507aff",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-reference/libTwoPunctures.so": "686ed7d4dfb0fe434c4f8e10858a283d004b5436890d80fd8b78cfc6eb6109fc"
+  },
+  "source_diagnostics": {
+    "converged": 1,
+    "newton_iterations": 5,
+    "krylov_iterations": 173,
+    "npoints": 204800,
+    "scaled_linf": [
+      2.8650842421342277e-15,
+      2.4690571186617697e-16,
+      2.2693921790304293e-16,
+      1.589590355857803e-16
+    ],
+    "unscaled_linf": [
+      4.0031977732724044e-11,
+      1.0622977633124926e-14,
+      1.12805841081193e-14,
+      5.378081050161752e-15
+    ],
+    "seconds": 4.028465744,
+    "status": 0,
+    "error": ""
+  },
+  "CPU_weighted_linf": [
+    2.726934828696384e-15,
+    4.2325271968068304e-16,
+    1.8895539589828588e-16,
+    2.590015578399038e-16
+  ],
+  "CPU_internal_stopping_verified": true,
+  "collocation_differences": {
+    "xyz": 0.0,
+    "attenuation": 0.0,
+    "psi": 1.453529700121574e-16,
+    "physical_equivalent": 1.5375074927686503e-14
+  },
+  "node_indices": [
+    18750,
+    70670,
+    186285
+  ],
+  "node_xyz": [
+    [
+      -1.567409194384587,
+      3.4509950809136494,
+      1.4294489661972702
+    ],
+    [
+      1.0076896265987743,
+      -1.4506610145420067,
+      3.5022054957132265
+    ],
+    [
+      3.2283229503246273,
+      5.090575388151775,
+      -5.090575388151778
+    ]
+  ],
+  "native_node_psi": [
+    1.0701014326204392,
+    1.0692705440573702,
+    1.0523853300581085
+  ],
+  "sampled_node_psi": [
+    1.070101432620189,
+    1.0692705440573627,
+    1.052385330115484
+  ],
+  "node_psi_scaled_difference": 2.7955490079722964e-11,
+  "worst_offgrid_xyz": [
+    [
+      -1.6461018864310275,
+      3.292203772862055,
+      1.5658042334343922
+    ],
+    [
+      0.8811462356444218,
+      -2.0426571826302506,
+      3.324324434476682
+    ],
+    [
+      3.1221862958786817,
+      5.844092297413942,
+      -4.483139296646312
+    ]
+  ],
+  "output_artifacts_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/spin99-coarse-reference-replay/physical_step_0.5.npz": "1d037d0c014ec21d410e03ac3783d7df35a156cb5727b82b7c05583574cf0fce",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/spin99-coarse-reference-replay/physical_step_1.npz": "cfaca450ba39c80f9c588af4992119d78500f18fbc165805d6b1808f136a0e04",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/spin99-coarse-reference-replay/CPU_collocation.npz": "da378b840b3297de5aff80a326b904bd8b0ce85407925c5fb5654205947ee1b5",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/spin99-coarse-reference-replay/physical_step_2.npz": "1cae8705626019903b456a7e121b0463e6719069f92f8906d0c909bc27bdbb3f"
+  }
+}

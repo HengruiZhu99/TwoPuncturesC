@@ -1,0 +1,7 @@
+{
+  "job_id": 59284155,
+  "squeue_empty": true,
+  "sacct": "59284155|codex-hispid-extremes|COMPLETED|2026-10-03T14:23:27|2026-10-03T17:11:15|0:0",
+  "released": true,
+  "utc": "2026-10-04T00:12:12.109791+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "job_id": 59284155,
+  "controller_pid": 417084,
+  "controller_command_sha256": "10d22befc6036ecef51c9cb5eef32b0399630dbfffcd3388507c87c92f469929",
+  "reason": "Retain allocation while already authorized CPU consumer and fixed-state physics diagnostics finish",
+  "performance_campaign": false,
+  "scientific_workers_paused": false,
+  "controller_signal": "SIGSTOP",
+  "resume_signal": "SIGCONT",
+  "utc": "2026-10-03T23:41:30.592241+00:00"
+}

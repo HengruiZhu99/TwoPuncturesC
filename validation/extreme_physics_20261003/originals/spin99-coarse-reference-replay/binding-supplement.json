@@ -1,0 +1,24 @@
+{
+  "purpose": "post-run fixed-iterate and reference-image binding audit",
+  "passed": true,
+  "parent_result_sha256": "82574db1a663c8a8a189fc68ab60691ce397d92c7dea2cd7562064e0c4650279",
+  "original_replay_script_sha256": "45958b198f04bae1a6856081394cd215f636b86e021610b01790d77b973d2c8f",
+  "retained_iterate_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/results/raw/aligned_spin99_kokkos_80_16.npz": "b5c423854b78fa9fa489ec6083464396e341dc474306aa647671841e29f0b802",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/results/raw/aligned_spin99_kokkos_80_16_solve.npz": "edcfa84dbcf4a25acb5818742df634c59c260d2ef170ac169a5ee6fcd60855c9"
+  },
+  "checkpoint_sha256": "883e6c2ca73bd2000fbd1271629f8af8e269f432b8630689159b849c2dd4cd3a",
+  "row_receipt_sha256": "4ce6cf732fe6a674e4c61503248b0e09769709d1638ec349f3f17e4866167ec4",
+  "compiled_execution": "reference",
+  "runtime_images": {},
+  "parameterization": "modal_P_C2prolate_mapped_v2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "norm": "sin3_alpha_beta",
+  "numerical_replay_repeated": false,
+  "original_result_modified": false,
+  "physical_acceptance": false,
+  "note": "Independent review identified missing early guards in the original replay driver. This supplement checks the actual immutable inputs and loaded reference images after completion; every output hash is reverified. The revised driver enforces these guards before future replays. Numerical failures and reconstruction differences remain unchanged."
+}

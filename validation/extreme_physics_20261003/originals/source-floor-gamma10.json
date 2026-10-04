@@ -1,0 +1,846 @@
+{
+  "schema": "hispid_source_floor_v3",
+  "library_sha256": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+  "residual_scaling": "sin3_alpha_beta",
+  "weighted_far_source_bound": 1e-14,
+  "far_radius_minimum": 100.0,
+  "exact_correction": 0.0,
+  "records": [
+    {
+      "case": "gamma10",
+      "active_hole": 0,
+      "resolution": [
+        80,
+        160,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.99498743710662,
+              -0.0,
+              -0.0
+            ]
+          },
+          {
+            "mass": 0.0,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          80,
+          160,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 15360,
+      "far_radius_range": [
+        106.51828386877096,
+        51885.61272368232
+      ],
+      "weighted_far_source_linf": [
+        6.1752996307363e-22,
+        1.4351434237580643e-20,
+        2.578157018436537e-21,
+        2.449925021173701e-21
+      ],
+      "physical_equivalent_far_linf": [
+        5.954446075987064e-20,
+        1.5894041684707415e-19,
+        3.335800867606558e-20,
+        3.335800867606558e-20
+      ],
+      "seconds": 9.187135839019902,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole0_80_160_8.npz",
+        "sha256": "1f150b101d4cece37870126dbcfbebceac8cdc9eec8a91e1a35adea61c64d6c0"
+      }
+    },
+    {
+      "case": "gamma10",
+      "active_hole": 1,
+      "resolution": [
+        80,
+        160,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.0,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.99498743710662,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          80,
+          160,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 15360,
+      "far_radius_range": [
+        106.51828386877096,
+        51885.61272368232
+      ],
+      "weighted_far_source_linf": [
+        7.13203619324474e-22,
+        1.394040721764498e-20,
+        3.1743071658076743e-21,
+        3.1743071658076743e-21
+      ],
+      "physical_equivalent_far_linf": [
+        6.876965890576609e-20,
+        1.5894041684707415e-19,
+        3.985721686068052e-20,
+        3.985721686068052e-20
+      ],
+      "seconds": 9.129267324926332,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole1_80_160_8.npz",
+        "sha256": "ba9544188837697ee9d1cc57bbdb2b16d4e4876a40e08c82785d0bd899c0811f"
+      }
+    },
+    {
+      "case": "gamma10",
+      "active_hole": 0,
+      "resolution": [
+        104,
+        208,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.99498743710662,
+              -0.0,
+              -0.0
+            ]
+          },
+          {
+            "mass": 0.0,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          104,
+          208,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 26192,
+      "far_radius_range": [
+        100.008889634385,
+        87680.36046784329
+      ],
+      "weighted_far_source_linf": [
+        6.38151436242779e-22,
+        1.4947789006042003e-20,
+        3.1074501581402358e-21,
+        3.1074501581402358e-21
+      ],
+      "physical_equivalent_far_linf": [
+        6.638055429300983e-20,
+        2.1224731131626722e-19,
+        3.979637087180011e-20,
+        3.979637087180011e-20
+      ],
+      "seconds": 15.197328537004068,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole0_104_208_8.npz",
+        "sha256": "46d32a98862ff493cab0f6b0f272b5180bde6fe5fe8718a5074313c112c0fc3a"
+      }
+    },
+    {
+      "case": "gamma10",
+      "active_hole": 1,
+      "resolution": [
+        104,
+        208,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.0,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.99498743710662,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          104,
+          208,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 26192,
+      "far_radius_range": [
+        100.008889634385,
+        87680.36046784329
+      ],
+      "weighted_far_source_linf": [
+        7.1085223277676645e-22,
+        1.7402981448819744e-20,
+        2.8271041473540648e-21,
+        2.8271041473540648e-21
+      ],
+      "physical_equivalent_far_linf": [
+        8.06649773687208e-20,
+        2.1224731131626722e-19,
+        3.979637087180011e-20,
+        3.979637087180011e-20
+      ],
+      "seconds": 15.274464481975883,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole1_104_208_8.npz",
+        "sha256": "806acea68f8b9712d141ed8c64e2ea21016060bbf24fb8872b49f934bb178937"
+      }
+    },
+    {
+      "case": "gamma10",
+      "active_hole": 0,
+      "resolution": [
+        128,
+        256,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.99498743710662,
+              -0.0,
+              -0.0
+            ]
+          },
+          {
+            "mass": 0.0,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          128,
+          256,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 38912,
+      "far_radius_range": [
+        105.45366296058454,
+        132812.86850319075
+      ],
+      "weighted_far_source_linf": [
+        8.483348130466401e-22,
+        2.6121984164038026e-20,
+        3.3402021358083346e-21,
+        3.3402021358083346e-21
+      ],
+      "physical_equivalent_far_linf": [
+        8.526163867888975e-20,
+        3.1760513022336497e-19,
+        4.0001089235417187e-20,
+        4.0001089235417187e-20
+      ],
+      "seconds": 23.031135521945544,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole0_128_256_8.npz",
+        "sha256": "16080305d8f1ab6a8c974c779e719ed812fde1c10aaff7a03791e4c6e1819642"
+      }
+    },
+    {
+      "case": "gamma10",
+      "active_hole": 1,
+      "resolution": [
+        128,
+        256,
+        8
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.0,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.99498743710662,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          128,
+          256,
+          8
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 38912,
+      "far_radius_range": [
+        105.45366296058454,
+        132812.86850319075
+      ],
+      "weighted_far_source_linf": [
+        1.0313965358619677e-21,
+        2.2911532996616727e-20,
+        3.83137764550681e-21,
+        3.83137764550681e-21
+      ],
+      "physical_equivalent_far_linf": [
+        9.021791121497173e-20,
+        2.6467094185280415e-19,
+        4.651052457668016e-20,
+        4.651052457668016e-20
+      ],
+      "seconds": 23.105415983940475,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole1_128_256_8.npz",
+        "sha256": "2da16111134369b966fbd91ac2421e2c40d439d592047238a2d0df867c560674"
+      }
+    },
+    {
+      "case": "gamma10",
+      "active_hole": 0,
+      "resolution": [
+        128,
+        256,
+        16
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.5,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              -0.99498743710662,
+              -0.0,
+              -0.0
+            ]
+          },
+          {
+            "mass": 0.0,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          128,
+          256,
+          16
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 77824,
+      "far_radius_range": [
+        105.45366296058452,
+        132812.86850319075
+      ],
+      "weighted_far_source_linf": [
+        8.789484165833012e-22,
+        2.6121984164038026e-20,
+        3.3629938151617197e-21,
+        3.3402021358083346e-21
+      ],
+      "physical_equivalent_far_linf": [
+        8.526163867888975e-20,
+        3.1760513022336497e-19,
+        4.651052457668016e-20,
+        4.651052457668016e-20
+      ],
+      "seconds": 46.35684987902641,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole0_128_256_16.npz",
+        "sha256": "5b055afa8632f13ab39927fe2e55b11d6ae2da4baf838c7c7e4018043fc6447e"
+      }
+    },
+    {
+      "case": "gamma10",
+      "active_hole": 1,
+      "resolution": [
+        128,
+        256,
+        16
+      ],
+      "config": {
+        "hole": [
+          {
+            "mass": 0.0,
+            "center": [
+              12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "mass": 0.5,
+            "center": [
+              -12.5,
+              0.0,
+              0.0
+            ],
+            "spin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "velocity": [
+              0.99498743710662,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "n": [
+          128,
+          256,
+          16
+        ],
+        "conformal_choice": 0,
+        "inner_flatten": 0,
+        "omega": [
+          0.0,
+          0.0
+        ],
+        "attenuation_power": 4,
+        "inner_min": [
+          0.0,
+          0.0
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "far_radius": 0.0,
+        "tolerance": 1e-10,
+        "max_newton": 12,
+        "max_krylov": 600,
+        "krylov_restart": 32,
+        "memory_limit_mib": 32768
+      },
+      "completed": true,
+      "passed": true,
+      "setup_statistics": null,
+      "far_node_count": 77824,
+      "far_radius_range": [
+        105.45366296058452,
+        132812.86850319075
+      ],
+      "weighted_far_source_linf": [
+        1.0313965358619677e-21,
+        2.746504766377344e-20,
+        3.83137764550681e-21,
+        3.83137764550681e-21
+      ],
+      "physical_equivalent_far_linf": [
+        9.021791121497173e-20,
+        3.1760513022336497e-19,
+        4.651052457668016e-20,
+        4.651052457668016e-20
+      ],
+      "seconds": 46.48671730805654,
+      "raw_artifact": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/extreme-human-override-20261003/raw/source-floor-gamma10/gamma10_hole1_128_256_16.npz",
+        "sha256": "5d8cc9ddb256b3d799178c58ac6249ee57258205594c2679b23dff0d16a640c3"
+      }
+    }
+  ],
+  "passed": true,
+  "extreme_controls": true,
+  "execution": "kokkos",
+  "geometry": "host",
+  "compiled_execution": "Cuda",
+  "seed_mass": 0.5,
+  "coordinate_separation": 25.0,
+  "execution_concurrency": 16,
+  "device": {
+    "name": "NVIDIA A100-SXM4-80GB",
+    "uuid": "GPU-a5e46c98-df24-c9ea-6d96-0288a18dc5c9",
+    "visible_ordinal": 0,
+    "visible_count": 1,
+    "total_bytes": 85093777408,
+    "free_bytes": 84642824192,
+    "sm_count": 108,
+    "compute_major": 8,
+    "compute_minor": 0
+  },
+  "bound_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libHiSpID.so": "7645fee2138e0c44d8bdb81be6a278e7246141de6433aaf27ed21baecb115236",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/libTwoPunctures.so": "65cc78cb116fd4c8374f6e05e50073dfad3acd2b554656df27e7a9a446558813",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/algorithms/src/libkokkosalgorithms.so.4.7.2": "302f2e822ac5627d1190a7f116ae3f59cd8059171c599a45dfc34048f3091b05",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/containers/src/libkokkoscontainers.so.4.7.2": "19f8a863ba37b93cd5e3f96a9314059da1b568f5440787dbf946a128806fbc92",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/core/src/libkokkoscore.so.4.7.2": "37bdc354e47e0e546b80b71af9f09babd07d7cf6fa5fea65ae0e25841947c3cd",
+    "/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/build-cuda/kokkos/simd/src/libkokkossimd.so.4.7.2": "03ea16f181ee997913c70e0d6fbd11c6e9723a4098993c348b689171e9757117"
+  },
+  "unknown_parameterization_id": "modal_P_C2prolate_mapped_v2",
+  "collocation_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "acceptance": false,
+  "note": "Exact isolated vacuum seeds with all attenuation disabled; zero corrections. The far source floor is measured before any binary in a new norm. This does not accept a binary.",
+  "control_scope": "requested_target",
+  "target_case": "gamma10"
+}

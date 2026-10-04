@@ -779,6 +779,55 @@ fresh seed controls, at least three resolutions, independent exterior
 constraint convergence, charges/covariance, initial-time AthenaK import,
 individual/common horizon searches and enclosure of modified regions.
 No high-parameter validation is inherited from the performance case.
+\paragraph{Retained physical attempts, October 3.}
+All seven initial target grids completed as diagnostic attempts; none passes
+binary physical acceptance. The aligned-spin sequence internally converges
+at all three resolutions. The four head-on attempts exhaust their solve
+budgets. The independent Cartesian FD norms below are physical Hamiltonian
+and momentum RMS in the retained near-hole and bulk sample sets; they are
+not the weighted collocation stopping norm. No additional performance
+campaign was run for these cases.
+\begin{center}\small
+\begin{tabular}{llrrrr}\toprule
+Target & Grid & Near $H$ & Near $M$ & Bulk $H$ & Bulk $M$\\\midrule
+$\chi=.99$ & $80\times160\times16$ & .420 & $2.78\,10^{-4}$ & 43.2 & .0249\\
+$\chi=.99$ & $104\times208\times20$ & .220 & $2.94\,10^{-4}$ & 15.2 & .0202\\
+$\chi=.99$ & $128\times256\times28$ & .0524 & $1.01\,10^{-4}$ & 3.65 & .00421\\
+$\Gamma=10$ & $80\times160\times8$ & $5.87\,10^{-4}$ & .0238 & $1.60\,10^{-5}$ & $1.90\,10^{-5}$\\
+$\Gamma=10$ & $104\times208\times8$ & .00158 & .234 & $1.44\,10^{-6}$ & $1.08\,10^{-4}$\\
+$\Gamma=10$ & $128\times256\times8$ & .00129 & .217 & $2.15\,10^{-6}$ & .00121\\
+$\Gamma=10$ & $128\times256\times16$ & $1.93\,10^{-4}$ & .0261 & $1.68\,10^{-5}$ & $1.50\,10^{-4}$\\
+\bottomrule\end{tabular}\end{center}
+The last row is a separately retained Fourier refinement. A pure CPU replay
+of the coarse spin coefficients meets the original $10^{-14}$ internal
+stopping tolerance and agrees with GPU collocation equations within
+$1.54\,10^{-14}$. Its three worst off-grid samples retain $H$ RMS about101
+across three FD steps. This excludes a gross device-only collocation error;
+reconstruction and between-node accuracy remain unresolved. The oscillatory
+coarse finite-radius energy fit is unqualified as a continuum ADM estimate.
+The original replay and a separate post-run coefficient/image binding audit
+are preserved without relabeling the audit as a preflight check.
+
+Both coarse binary checkpoints sample identically on the producer and pure
+CPU consumer at2454 witness points, including metric derivatives, and load
+into AthenaK with ADM/Z4c relative errors below $5\,10^{-16}$.
+The spin component finder fails its first angular level (last attempted
+expansion RMS $1.94\,10^{-5}$). The Gamma binary import-only control confirms
+time/cycle zero with no finder constructed. Neither import establishes
+constraints, binary horizons or enclosure.
+
+The exact isolated Kerr seed at $\chi=.99$ passes independent constraints
+and charge checks. AthenaK L8/12/16 controls recover area28.6781506783,
+Christodoulou mass1 and coordinate-axial spin.99, with expansion RMS below $10^{-7}$ and spin error below
+$1.4\,10^{-12}$. Fixed-L quadrature refinement is not asserted here.
+The exact $\Gamma=10$ L64/96 finder attempts fail invalid-surface checks;
+L160 times out at900s. A separate seed-charge refinement gives ADM error
+$8.21\,10^{-7}$, adjacent angular changes below $10^{-8}$ and radial-fit
+change $5.59\,10^{-6}$, but its near-hole FD Hamiltonian gate still fails
+and worsens at smaller steps. Original and supplemental failed flags remain
+unchanged. No Gamma10 horizon mass or measured binary separation calibration
+is claimed. Compact receipts and the raw/checkpoint retention manifest are
+under \nolinkurl{validation/extreme_physics_20261003}.
 \section{Reproducibility and sources}
 Measurement JSON SHA256:\par{\footnotesize\ttfamily a065bb0a19674ccc996b481dad933a0ed64e469f5c4cea18b7233961d41dcf2d}\par
 Acceptance plan SHA256:\par{\footnotesize\ttfamily 9474a2c51fa197ea9204400f18ab1711d1e71bc5f3d9d0cdc4f7ecdb0e92870c}\par

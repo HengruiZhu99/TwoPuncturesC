@@ -1,0 +1,15 @@
+{
+  "job_id": 59284155,
+  "controller_pid": 417084,
+  "controller_command_sha256": "10d22befc6036ecef51c9cb5eef32b0399630dbfffcd3388507c87c92f469929",
+  "hold_receipt_sha256": "56cbdab4add608aeaf1361ddb301a854c44daa9051a791d6f9c3ef13711b0d44",
+  "physical_retention_receipt_sha256": "f567e0ced25b1fffac60bbfcee90b5133edbaff15aa73e65c907bc32f716654c",
+  "controller_signal": "SIGCONT",
+  "signal_sent": true,
+  "scientific_workers_paused": false,
+  "reason": "All authorized physical, import and retention steps completed; release allocation",
+  "active_steps_before_signal": [
+    "59284155.extern"
+  ],
+  "utc": "2026-10-04T00:11:15.518430+00:00"
+}
