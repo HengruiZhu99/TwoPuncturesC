@@ -490,3 +490,22 @@ This closes the consumer/horizon obligation for this checkpoint, independently
 of the still-failed constraint-resolution gate. The schedule used113.24,106.63,
 154.98 and283.23s on16 CPU threads. The allocation released; the queued
 same-grid tolerance control started as59406434.
+
+The same-grid tighter-stop control completed its diagnostics but **failed**
+the requested nonlinear convergence: after4 Newton/76 Krylov iterations,
+the line search stopped above1e-14 (largest weighted residual9.56e-14).
+Bulk H RMS changes only2.622e-7 to2.601e-7; bulk M worsens2.857e-7 to2.976e-7.
+Near H/M RMS become1.700e-7/1.320e-7. Extra iterations therefore do not resolve
+the failed bulk-resolution trend. The failed checkpoint is retained remotely;
+result and raw physical observer are in `convergence/moderate256tight`.
+The run took127.05s solving and436.16s total; allocation59406434 released.
+
+A small local differentiation diagnostic compares the current D*D matrix
+with an analytic barycentric second-derivative formula on Chebyshev T2/T17
+at192/256/384/512 nodes. At512 nodes the T2 scaled endpoint error falls from
+1.97e-7 to6.70e-8, while T17 endpoint error is essentially unchanged. Interior
+errors are smaller. This identifies a candidate matrix-construction improvement,
+not the cause of the binary failure. The diagnostic, raw output, compiler and
+platform receipt are retained; Apple arm64 long double is not extended precision.
+The attempted remote step found an already-released allocation and ran no work.
+No production matrix construction or acceptance criterion has changed.

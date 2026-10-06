@@ -1,0 +1,264 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      256,
+      512,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.0826630035142687,
+      0.0554766275110519
+    ],
+    "inner_max": [
+      0.27554334504756234,
+      0.18492209170350635
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-14,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "trumpet_r0_m"
+  },
+  "library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+  "kind": "moderate_trumpet_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": true,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/run_trumpet_tolerance.py": "050a7ba0e9eeba701ff9bd485cf1b9557ad82fc2e72a9a09df112d0551aedc5d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/examples/trumpet_configs.py": "3bb7b06b7df4f2981d6420b68235f8227fe68ef2a52c953afbf7d07253e7e723",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/run_validation.py": "421d672ad71ce03ad0ca14858e08969669581de8e94611c213fc9f1e41ff879e",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/remapped_guess.py": "0d530c112ab7d20d4b7bd5ef95bfd5dbaf59d56cb5877c21854e55e6f9e674e8",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/prolong.py": "6b7927dedc543077d0af1fe97d72bd869ad57b6cd9332b1c54e394dd1803cf5f",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-polar/python/checkpoint_export.py": "77cd4915788b5fd45a30b7aee2c2b9e6b9cc28fb8526dcc56be24fe4300604e0"
+  },
+  "setup_seconds": 117.46650274796411,
+  "initial_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate256/diagnostic.checkpoint",
+    "file_sha256": "c1d55c986b7409ac5891fe7bae2696db49b574a717a912d79dec959ff5218bc1",
+    "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_mapped_v2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2,
+    "acceptance_inherited": false
+  },
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 4,
+    "krylov_iterations": 76,
+    "npoints": 2097152,
+    "scaled_linf": [
+      3.669850711477953e-14,
+      3.837752182715296e-14,
+      9.56144858030072e-14,
+      8.71105180671368e-14
+    ],
+    "unscaled_linf": [
+      5.556698268877058e-08,
+      3.2743354704257643e-09,
+      6.99829193553491e-10,
+      9.754404073688663e-10
+    ],
+    "seconds": 127.049025882,
+    "status": 1,
+    "error": "Newton line search failed"
+  },
+  "solve_artifact_sha256": "f44541fee0ec22817a6ffdaee22e14b4cd4de84944ab74d61ef4817096188dc5",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate256tight/diagnostic.checkpoint",
+    "file_sha256": "3eced5060289159090ead98ba36916af9d0f63b30325e187824448186d689564",
+    "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+    "acceptance": "diagnostic",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 1.700494634852202e-07,
+      "H_max": 7.886373674104163e-07,
+      "M_rms": 1.3195999536825806e-07,
+      "M_max": 4.536649865694947e-07,
+      "M_components_rms": [
+        4.879350009768791e-08,
+        4.964668637531493e-08,
+        3.155292054837258e-08
+      ],
+      "M_components_max": [
+        1.0631316903592588e-07,
+        2.9243418788125067e-07,
+        1.265077699038176e-07
+      ],
+      "normalized_H_max": 2.860116628688606e-06,
+      "normalized_M_max": 1.6087278467349147e-06
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 2.600775653582111e-07,
+      "H_max": 1.0625190089515093e-06,
+      "M_rms": 2.976038744720252e-07,
+      "M_max": 1.0955681505913434e-06,
+      "M_components_rms": [
+        3.049359972042728e-08,
+        1.3808159706185132e-07,
+        2.047836033311904e-07
+      ],
+      "M_components_max": [
+        9.084849472406033e-08,
+        4.405016235328252e-07,
+        8.455845564547705e-07
+      ],
+      "normalized_H_max": 0.0006646660030278204,
+      "normalized_M_max": 0.0001303055824290396
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.16808124347257222,
+      "H_max": 0.43956939112835514,
+      "M_rms": 0.010327086647236885,
+      "M_max": 0.022257537219157828,
+      "M_components_rms": [
+        0.0009894099139734613,
+        0.0010396294017053199,
+        0.0010231335878572198
+      ],
+      "M_components_max": [
+        0.0028533274188861524,
+        0.0027005489652789046,
+        0.002679960180310841
+      ],
+      "normalized_H_max": 0.021015313363521804,
+      "normalized_M_max": 0.011298877168285
+    }
+  },
+  "exterior_stencil_unmodified": true,
+  "minimum_psi": 1.0289968595813535,
+  "minimum_metric_eigenvalue": 1.1197702987917564,
+  "charge_radii": [
+    256.0,
+    512.0,
+    1024.0
+  ],
+  "charges": [
+    [
+      0.9725498111113801,
+      0.0045063297419933625,
+      0.007347782276998975,
+      0.016816760828888326,
+      0.039889614888042234,
+      0.11213367743502785,
+      0.30948755219032137
+    ],
+    [
+      0.9706728308431455,
+      0.0045097853251892875,
+      0.00735800950788796,
+      0.016840788270954775,
+      0.03997315958918195,
+      0.11227840730060971,
+      0.31010373124254936
+    ],
+    [
+      0.9697271915790893,
+      0.004511601071024591,
+      0.007363139108378713,
+      0.016852859569086744,
+      0.04001900242179663,
+      0.11232033625689829,
+      0.31042431233032947
+    ]
+  ],
+  "charges_extrapolated": [
+    0.9687767862284072,
+    0.004513475453018123,
+    0.007368279365566972,
+    0.016864969251951217,
+    0.04006755890910786,
+    0.1123419745621853,
+    0.31075322112588694
+  ],
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.0418772330171343,
+      17.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.06340823762916417,
+      20.0
+    ],
+    [
+      2.0,
+      0.1,
+      0.05738990621911445,
+      20.0
+    ],
+    [
+      3.0,
+      0.1,
+      0.09970588644429164,
+      19.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 84,
+    "preconditioner_applications": 76
+  },
+  "total_seconds": 436.15651324403007,
+  "process_peak_rss_kib": 10377652
+}

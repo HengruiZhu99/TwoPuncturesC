@@ -1,0 +1,20 @@
+{
+  "platform": "macOS-26.7.1-arm64-arm-64bit",
+  "architecture": "arm64",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "command": "c++ -O2 -std=c++17 -Iinclude -I/opt/homebrew/include validation/inspect_spectral_roundoff.cpp -o build-roundoff/inspect_spectral_roundoff",
+  "source_sha256": "601b54d8fa8fde9292999b4edfa1dd066ee7017d60e79f628cd846cb1f98f8c9",
+  "columns": [
+    "N",
+    "Chebyshev_degree",
+    "existing_scaled_max",
+    "analytic_scaled_max",
+    "existing_middle_scaled_max",
+    "analytic_middle_scaled_max"
+  ],
+  "notes": [
+    "Apple arm64 long double has double precision; this is a local formula comparison, not x86 extended-precision production evidence.",
+    "Remote step was not run because allocation59406434 had completed; local first compile attempts lacked include search paths, then succeeded with the recorded command.",
+    "No production code changed and no binary acceptance inferred."
+  ]
+}
