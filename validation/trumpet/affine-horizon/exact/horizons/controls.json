@@ -1,0 +1,334 @@
+{
+  "executable_sha256": "5a1ca54c46c37f68ff05bbfc9c532eb8cad4c4afe0b45ac5ba358f7a32012f6f",
+  "manifest_sha256": "f9340283a11e89348cb51884e3dcdd60353319c4d3df3dd31a92a98c554a9c07",
+  "input_template_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+  "initial_time": 0,
+  "evolution_steps": 0,
+  "records": [
+    {
+      "case": "gamma10",
+      "lmax": 4,
+      "ntheta": 6,
+      "initial_scale": 1.02,
+      "returncode": 1,
+      "seconds": 0.01717123994603753,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-affine/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/horizons/gamma10_l4_n6_s1.02/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "problem/hispid_source_sha256=fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=4",
+        "fastflow/ntheta=6",
+        "problem/hispid_horizon_guess_scale=1.02",
+        "problem/hispid_horizon_affine_chart=true",
+        "fastflow/flow_alpha_beta_const_0=0.2",
+        "fastflow/flow_iterations_0=600",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "file_sha256": "30e6a2b42e60379291b2a26cbae5d2a8f1f3fa24981d07da4d99d81ff05b9ea9",
+        "source_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99498743710662,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+        "seed_family": "trumpet_r0_m"
+      },
+      "passed": false,
+      "input_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/migration.json",
+        "file_sha256": "4ec2d74592bd5efb7ea6a588948d69c557f61f96d25cf747365cbca302f89cee",
+        "consumer_library_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.03,
+          "angular_stretch": 3.5
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 4680,
+        "records": [],
+        "serial_allocation_verified": false,
+        "passed": false,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 0.2,
+      "flow_iteration_limit": 600,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "passed": false
+      },
+      "zero_evolution_verified": false
+    },
+    {
+      "case": "gamma10",
+      "lmax": 8,
+      "ntheta": 10,
+      "initial_scale": 1.02,
+      "returncode": 1,
+      "seconds": 0.0088869440369308,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-affine/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/horizons/gamma10_l8_n10_s1.02/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "problem/hispid_source_sha256=fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=8",
+        "fastflow/ntheta=10",
+        "problem/hispid_horizon_guess_scale=1.02",
+        "problem/hispid_horizon_affine_chart=true",
+        "fastflow/flow_alpha_beta_const_0=0.2",
+        "fastflow/flow_iterations_0=600",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "file_sha256": "30e6a2b42e60379291b2a26cbae5d2a8f1f3fa24981d07da4d99d81ff05b9ea9",
+        "source_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99498743710662,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+        "seed_family": "trumpet_r0_m"
+      },
+      "passed": false,
+      "input_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/migration.json",
+        "file_sha256": "4ec2d74592bd5efb7ea6a588948d69c557f61f96d25cf747365cbca302f89cee",
+        "consumer_library_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.03,
+          "angular_stretch": 3.5
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 22440,
+        "records": [],
+        "serial_allocation_verified": false,
+        "passed": false,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 0.2,
+      "flow_iteration_limit": 600,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "passed": false
+      },
+      "zero_evolution_verified": false
+    },
+    {
+      "case": "gamma10",
+      "lmax": 12,
+      "ntheta": 14,
+      "initial_scale": 1.02,
+      "returncode": 1,
+      "seconds": 0.008800164912827313,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-affine/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/horizons/gamma10_l12_n14_s1.02/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "problem/hispid_source_sha256=fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=12",
+        "fastflow/ntheta=14",
+        "problem/hispid_horizon_guess_scale=1.02",
+        "problem/hispid_horizon_affine_chart=true",
+        "fastflow/flow_alpha_beta_const_0=0.2",
+        "fastflow/flow_iterations_0=600",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "file_sha256": "30e6a2b42e60379291b2a26cbae5d2a8f1f3fa24981d07da4d99d81ff05b9ea9",
+        "source_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99498743710662,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+        "seed_family": "trumpet_r0_m"
+      },
+      "passed": false,
+      "input_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/migration.json",
+        "file_sha256": "4ec2d74592bd5efb7ea6a588948d69c557f61f96d25cf747365cbca302f89cee",
+        "consumer_library_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.03,
+          "angular_stretch": 3.5
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 62728,
+        "records": [],
+        "serial_allocation_verified": false,
+        "passed": false,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 0.2,
+      "flow_iteration_limit": 600,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "passed": false
+      },
+      "zero_evolution_verified": false
+    }
+  ],
+  "passed": false,
+  "harmonic_storage": "factorized",
+  "diagnostic_single_boost_level": false,
+  "worker_timeout_seconds": 300.0,
+  "horizon_chart": "boost_affine",
+  "full_precision_trace": false,
+  "workflow_source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/check_hispid_controls.py": "825325c42cc89ce4e08ff2a19101e12189c2876448365156ce830af953665ac6",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/check_hispid_binary.py": "84d1082ec7fa42572bacea1522e061492635e40c3cde6e8a0513bd2232c0243d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/hispid_sampler_proof.py": "28fe4fe470089143b294a06d4ad65b5f65d3119ee7ec9e50dc70b75577cd5031",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/fastflow_storage.py": "6c3a6f30967d638f233b34a7e3c88dc9f3cf2bcf90d54fdb98970d5c3f53110c"
+  },
+  "consumer_memory_screen": {
+    "budget_mib": 32768,
+    "other_allowance_bytes": 1073741824,
+    "estimates": [
+      {
+        "case": "gamma10",
+        "lmax": 4,
+        "ntheta": 6,
+        "harmonic_table_bytes": 4680
+      },
+      {
+        "case": "gamma10",
+        "lmax": 8,
+        "ntheta": 10,
+        "harmonic_table_bytes": 22440
+      },
+      {
+        "case": "gamma10",
+        "lmax": 12,
+        "ntheta": 14,
+        "harmonic_table_bytes": 62728
+      }
+    ],
+    "note": "Single-copy Serial harmonic data only, plus an explicit allowance; not a measured peak or a complete allocation guarantee."
+  },
+  "case_qualification": {
+    "gamma10": false
+  }
+}

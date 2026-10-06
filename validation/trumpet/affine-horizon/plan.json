@@ -1,0 +1,15 @@
+{
+  "build_job": 59411280,
+  "first_exact_job": 59411376,
+  "corrected_template_job": 59411393,
+  "chart": "x=c+J(y-c), J=I-vv^T/(1+sqrt(1-v^2))",
+  "physical_slice_changed": false,
+  "rotation_generators": "J inverse times physical Cartesian rotation generators times J",
+  "acceptance": "Original area, shape, expansion and mass stabilization tolerances unchanged",
+  "first_failure": "Missing default input declaration rejected the command-line option before numerical work; fixed template, preserved first outputs, reused exact seed and migration proof.",
+  "current": "Affine l4 flow at 600 iterations has area 50.26548249059487 and expansion RMS4.36055e-10, but fails mass stabilization. Higher orders still running; do not claim pass.",
+  "consumer_source": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine",
+  "consumer_executable": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-affine/src/athena",
+  "extended_iteration_job": 59411500,
+  "extended_iteration_reason": "Orders4 and8 satisfy expansion but not mass-stabilization by600 iterations; allow1000 without changing tolerances."
+}

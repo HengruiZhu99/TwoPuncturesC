@@ -1,0 +1,130 @@
+{
+  "schema": "hispid_portable_sampler_migration_v1",
+  "purpose": "sampling_only_no_acceptance_transfer",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+    "file_sha256": "30e6a2b42e60379291b2a26cbae5d2a8f1f3fa24981d07da4d99d81ff05b9ea9",
+    "source_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+    "acceptance": "analytic_seed",
+    "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "producer_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+  "consumer_library_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+  "isolated_processes": true,
+  "loaded_images_verified": true,
+  "criteria": {
+    "field_scaled_linf": 1e-12
+  },
+  "workers": [
+    {
+      "side": "producer",
+      "command": [
+        "/opt/cray/pe/python/3.12.12/bin/python3",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-axisym/validation/portable_sampler_migration.py",
+        "--checkpoint",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "--worker-library",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axisym-cuda/libHiSpID.so",
+        "--worker-sha",
+        "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "--worker-output",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/raw/migration/producer.npz"
+      ],
+      "passed": true,
+      "returncode": 0,
+      "library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axisym-cuda/libHiSpID.so",
+      "library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+      "dependency_images": {
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axisym-cuda/libTwoPunctures.so": "252ce06f32c3d0393f2d826e8f1925a0a79c5125b4f920d474a18f7bd9da5427"
+      },
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "file_sha256": "30e6a2b42e60379291b2a26cbae5d2a8f1f3fa24981d07da4d99d81ff05b9ea9",
+        "source_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "acceptance": "analytic_seed",
+        "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "compiled_execution": "Cuda",
+      "runtime_images": {
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/algorithms/src/libkokkosalgorithms.so.4.7.2": "8e5337e867f169a3899af13089474d1228010897c5d76e1dee8e3d08dbebd318",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/containers/src/libkokkoscontainers.so.4.7.2": "d738dbba12cac5af166241a062926ef3696f514f7510e0917891203f41256cd3",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/core/src/libkokkoscore.so.4.7.2": "159fb3ccd8ec1416f3ae848e8622945eaf2fc006a22a7694426e4f976d5f8112",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/simd/src/libkokkossimd.so.4.7.2": "10495d3cca8f532fe99cef555dbd08b89943a30500a9bc83ce66aa52d23504e4"
+      },
+      "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+      "maps": {
+        "radial_stretch": 0.03,
+        "angular_stretch": 3.5
+      },
+      "point_count": 1512,
+      "artifact_sha256": "c98b4789306cc0eb4676d75ee6efb2fb8adf4ff7c94bfae920bf37c86f494f07",
+      "artifact": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/raw/migration/producer.npz"
+    },
+    {
+      "side": "consumer",
+      "command": [
+        "/opt/cray/pe/python/3.12.12/bin/python3",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-axisym/validation/portable_sampler_migration.py",
+        "--checkpoint",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "--worker-library",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so",
+        "--worker-sha",
+        "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+        "--worker-output",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/raw/migration/consumer.npz"
+      ],
+      "passed": true,
+      "returncode": 0,
+      "library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so",
+      "library_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+      "dependency_images": {
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+      },
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/gamma10.checkpoint",
+        "file_sha256": "30e6a2b42e60379291b2a26cbae5d2a8f1f3fa24981d07da4d99d81ff05b9ea9",
+        "source_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+        "acceptance": "analytic_seed",
+        "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "compiled_execution": "reference",
+      "runtime_images": {},
+      "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+      "maps": {
+        "radial_stretch": 0.03,
+        "angular_stretch": 3.5
+      },
+      "point_count": 1512,
+      "artifact_sha256": "c98b4789306cc0eb4676d75ee6efb2fb8adf4ff7c94bfae920bf37c86f494f07",
+      "artifact": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/affine-horizon/exact/raw/migration/consumer.npz"
+    }
+  ],
+  "differences": {
+    "gamma": 0.0,
+    "Kij": 0.0,
+    "psi": 0.0,
+    "conformal_metric": 0.0,
+    "Atilde": 0.0,
+    "mean_curvature": 0.0,
+    "correction": 0.0,
+    "attenuation": 0.0,
+    "dgamma": 0.0
+  },
+  "passed": true,
+  "pure_reference_consumer": true,
+  "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+  "maps": {
+    "radial_stretch": 0.03,
+    "angular_stretch": 3.5
+  },
+  "point_count": 1512,
+  "positive_metric": true,
+  "note": "Identical coefficients and exact basis/maps; separate loaded-image witnesses, off-grid and trial-horizon fields/derivatives. This empirical sampler comparison does not establish physical constraints, exact PDE equivalence, or horizon accuracy. Source acceptance is preserved."
+}

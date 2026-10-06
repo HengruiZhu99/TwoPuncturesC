@@ -1,0 +1,9 @@
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
+
+### FATAL ERROR in /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/src/parameter_input.cpp at line 402
+Parameter 'hispid_horizon_affine_chart' in block 'problem' on command line not found
