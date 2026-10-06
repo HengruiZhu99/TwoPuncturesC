@@ -165,6 +165,7 @@ void initialize_hispid_spectral(Operator&,hispid::AxisDerivatives&,const int*,do
 struct ModalPointers {const double*lu,*transfer,*lower;const size_t*permutation;};
 struct Modal {
  int na,nb,np,nv,groups;bool modal_output,diagonal_lower;
+ bool compensated_projection=false; // opt-in by HiSpID; BY defaults unchanged
  View lu,transfer,lower,row_scale,forward,workspace,column,inverse;
  Indices permutation,block;
  Kokkos::View<ModalPointers*,Exec>native_blocks; // borrowed only during CPU apply

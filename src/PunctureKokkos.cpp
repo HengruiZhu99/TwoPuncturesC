@@ -1,4 +1,5 @@
 #include "PunctureKokkos.hpp"
+#include "PunctureModalProjection.hpp"
 #include "PunctureKokkos_controller.hpp"
 #include "HiSpID_spectral.hpp"
 #include "TP_Modal.h"
@@ -83,13 +84,17 @@ void Modal::apply(View in,View out,bool projected){
  const int a=na,b=nb,N=np,V=nv,stride=a*b,total=stride*N*V;
  auto f=forward,scale=row_scale,mod=column,y=workspace,L=lu,T=transfer,lower_=lower,inv=inverse;auto rows=block,perm=permutation;auto native=native_blocks;
  const bool diag=diagonal_lower,output_modal=modal_output;
+ const bool compensated=compensated_projection;
  if(projected)copy(mod,in);
  else Kokkos::parallel_for("modal Fourier projection",Range(0,stride*V),KOKKOS_LAMBDA(int line){
   int v=line%V,row=line/V;double sum=0,error=0;
   for(int k=0;k<N;k++){double z=in(V*(row+stride*k)+v)-error,t=sum+z;error=(t-sum)-z;sum=t;}
   double mean=sum/N;
   for(int mode=0;mode<N;mode++){double value=mode==0?sum/Kokkos::sqrt(double(N)):0;
-   if(mode)for(int k=0;k<N;k++)value+=f(mode*N+k)*(in(V*(row+stride*k)+v)-mean);
+   if(mode){
+    if(compensated)value=puncture::compensated_projection(in.data()+V*row+v,V*stride,f.data()+mode*N,N,mean);
+    else for(int k=0;k<N;k++)value+=f(mode*N+k)*(in(V*(row+stride*k)+v)-mean);
+   }
    int p=V*(row+stride*mode)+v;mod(p)=value/scale(p);
   }
  });

@@ -1,0 +1,159 @@
+HiSpID device inverse mode=0 component=0 reference_l2=0.00012227209178111229 difference_l2=9.8900923942776955e-19 difference_linf=6.2680438096818225e-20
+HiSpID device inverse mode=0 component=1 reference_l2=1.4442866191086879e-09 difference_l2=1.6522295778082401e-23 difference_linf=1.6640547479094111e-25
+HiSpID device inverse mode=0 component=2 reference_l2=2.2573844957399708e-07 difference_l2=1.9302876792980263e-21 difference_linf=1.2738581433316626e-22
+HiSpID device inverse mode=0 component=3 reference_l2=2.9344401021573903e-07 difference_l2=1.036089757007118e-20 difference_linf=5.5917409408584671e-22
+HiSpID device inverse mode=1 component=0 reference_l2=7.2253551932263274e-08 difference_l2=1.1700687782886747e-15 difference_linf=1.0855557363050956e-15
+HiSpID device inverse mode=1 component=1 reference_l2=9.2633458792819507e-09 difference_l2=3.1340111970265306e-12 difference_linf=2.9347306661872641e-12
+HiSpID device inverse mode=1 component=2 reference_l2=2.1086701832403805e-06 difference_l2=9.2013143382044848e-08 difference_linf=8.2911893873582325e-08
+HiSpID device inverse mode=1 component=3 reference_l2=3.1359268524768684e-06 difference_l2=1.0445517640887284e-07 difference_linf=9.4590578129307448e-08
+HiSpID device inverse mode=2 component=0 reference_l2=3.4352957922072404e-07 difference_l2=2.5924202005143704e-13 difference_linf=1.5945087554126995e-13
+HiSpID device inverse mode=2 component=1 reference_l2=1.1272388780446151e-07 difference_l2=5.7856323089513694e-10 difference_linf=5.0808753654024363e-10
+HiSpID device inverse mode=2 component=2 reference_l2=0.0013487740210685335 difference_l2=3.1264325688835301e-05 difference_linf=2.0063799154779259e-05
+HiSpID device inverse mode=2 component=3 reference_l2=0.0011405299701877174 difference_l2=4.1158752515801125e-05 difference_linf=3.84991205894353e-05
+HiSpID device inverse mode=3 component=0 reference_l2=8.9167994598304197e-05 difference_l2=4.0548806663503092e-10 difference_linf=3.3275333955200529e-10
+HiSpID device inverse mode=3 component=1 reference_l2=4.5636389654511668e-05 difference_l2=1.2358957942569041e-06 difference_linf=7.1515636557844002e-07
+HiSpID device inverse mode=3 component=2 reference_l2=0.47370863337954383 difference_l2=0.017114818946685449 difference_linf=0.011953460400010246
+HiSpID device inverse mode=3 component=3 reference_l2=0.3646958086776359 difference_l2=0.01456607567510124 difference_linf=0.01014457948321898
+HiSpID device inverse mode=4 component=0 reference_l2=0.29232592693811055 difference_l2=4.6037121454264308e-07 difference_linf=3.6265076079951952e-07
+HiSpID device inverse mode=4 component=1 reference_l2=6.8279518254362559 difference_l2=0.00042150370300382995 difference_linf=0.00031564296951044121
+HiSpID device inverse mode=4 component=2 reference_l2=227.00231182410764 difference_l2=15.882125747879828 difference_linf=12.080957175557188
+HiSpID device inverse mode=4 component=3 reference_l2=227.12153139750069 difference_l2=18.040202202745135 difference_linf=12.239325549962672
+HiSpID device inverse mode=5 component=0 reference_l2=1.0050184709130201e-07 difference_l2=4.2908369176503716e-20 difference_linf=3.8156187295846061e-20
+HiSpID device inverse mode=5 component=1 reference_l2=2.1561442961234043e-07 difference_l2=1.4405579523549915e-18 difference_linf=7.9849068018723846e-19
+HiSpID device inverse mode=5 component=2 reference_l2=0.000186070466134681 difference_l2=3.574884504954897e-18 difference_linf=1.7210187475880285e-18
+HiSpID device inverse mode=5 component=3 reference_l2=0.00018607056035101194 difference_l2=5.0151961534657922e-18 difference_linf=3.237914962596959e-18
+HiSpID device inverse mode=6 component=0 reference_l2=0.00077980553725957543 difference_l2=7.6773289697950711e-15 difference_linf=5.6213273781895862e-15
+HiSpID device inverse mode=6 component=1 reference_l2=0.00058155434163274398 difference_l2=6.2602373540612148e-14 difference_linf=3.557026092941562e-14
+HiSpID device inverse mode=6 component=2 reference_l2=0.0035529709915529534 difference_l2=1.574730305469904e-13 difference_linf=7.9404581868058877e-14
+HiSpID device inverse mode=6 component=3 reference_l2=0.0038111401488630276 difference_l2=1.7615946722748805e-13 difference_linf=1.1777021415373956e-13
+HiSpID device inverse mode=7 component=0 reference_l2=3.3304347628773752e-08 difference_l2=2.5750162550272264e-20 difference_linf=1.6208500705400008e-20
+HiSpID device inverse mode=7 component=1 reference_l2=8.6960128962133919e-09 difference_l2=1.5713203602182717e-18 difference_linf=1.2392331900708054e-18
+HiSpID device inverse mode=7 component=2 reference_l2=1.4591258240844036e-08 difference_l2=1.8227690067971285e-18 difference_linf=1.2046111319420922e-18
+HiSpID device inverse mode=7 component=3 reference_l2=1.9863016258030554e-08 difference_l2=2.2325821883223672e-18 difference_linf=1.4260362149842682e-18
+HiSpID device inverse mode=8 component=0 reference_l2=8.0867325101194033e-06 difference_l2=1.6724385192243979e-17 difference_linf=1.1715206814355821e-17
+HiSpID device inverse mode=8 component=1 reference_l2=0.00032730365087520067 difference_l2=9.9728800825229725e-16 difference_linf=7.7791251765950767e-16
+HiSpID device inverse mode=8 component=2 reference_l2=0.00069827092929185903 difference_l2=8.5817498741680652e-15 difference_linf=8.3952416958348042e-15
+HiSpID device inverse mode=8 component=3 reference_l2=0.00047847492921872014 difference_l2=6.0179213742622489e-15 difference_linf=5.7595055569410747e-15
+HiSpID matched projection inverse mode=0 component=0 reference_l2=0.00012227209178111229 difference_l2=9.8900923942776955e-19 difference_linf=6.2680438096818225e-20
+HiSpID matched projection inverse mode=0 component=1 reference_l2=1.4442866191086879e-09 difference_l2=1.6522295778082401e-23 difference_linf=1.6640547479094111e-25
+HiSpID matched projection inverse mode=0 component=2 reference_l2=2.2573844957399708e-07 difference_l2=1.9302876792980263e-21 difference_linf=1.2738581433316626e-22
+HiSpID matched projection inverse mode=0 component=3 reference_l2=2.9344401021573903e-07 difference_l2=1.036089757007118e-20 difference_linf=5.5917409408584671e-22
+HiSpID matched projection inverse mode=1 component=0 reference_l2=7.2253551932263274e-08 difference_l2=1.0748474587198058e-21 difference_linf=9.5125770443598183e-23
+HiSpID matched projection inverse mode=1 component=1 reference_l2=9.2633458792819507e-09 difference_l2=6.2317089267747996e-23 difference_linf=1.7577588016751838e-24
+HiSpID matched projection inverse mode=1 component=2 reference_l2=2.1086701832403805e-06 difference_l2=4.3737247633186606e-22 difference_linf=2.1175823681357508e-22
+HiSpID matched projection inverse mode=1 component=3 reference_l2=3.1359268524768684e-06 difference_l2=6.6309523099441203e-22 difference_linf=5.2939559203393771e-23
+HiSpID matched projection inverse mode=2 component=0 reference_l2=3.4352957922072404e-07 difference_l2=7.7096667102244677e-22 difference_linf=5.7902642878711937e-23
+HiSpID matched projection inverse mode=2 component=1 reference_l2=1.1272388780446151e-07 difference_l2=2.6943863225052775e-22 difference_linf=1.3234889800848443e-23
+HiSpID matched projection inverse mode=2 component=2 reference_l2=0.0013487740210685335 difference_l2=2.3638085635553346e-19 difference_linf=2.1684043449710089e-19
+HiSpID matched projection inverse mode=2 component=3 reference_l2=0.0011405299701877174 difference_l2=2.3291438308570159e-19 difference_linf=2.1684043449710089e-19
+HiSpID matched projection inverse mode=3 component=0 reference_l2=8.9167994598304197e-05 difference_l2=1.4533462299097824e-20 difference_linf=1.3552527156068805e-20
+HiSpID matched projection inverse mode=3 component=1 reference_l2=4.5636389654511668e-05 difference_l2=1.2644843433551327e-20 difference_linf=6.7762635780344027e-21
+HiSpID matched projection inverse mode=3 component=2 reference_l2=0.47370863337954383 difference_l2=9.022971513117935e-17 difference_linf=8.3266726846886741e-17
+HiSpID matched projection inverse mode=3 component=3 reference_l2=0.3646958086776359 difference_l2=6.4079717760978631e-17 difference_linf=5.5511151231257827e-17
+HiSpID matched projection inverse mode=4 component=0 reference_l2=0.29232592693811055 difference_l2=6.6530249980313629e-17 difference_linf=5.5511151231257827e-17
+HiSpID matched projection inverse mode=4 component=1 reference_l2=6.8279518254362559 difference_l2=1.4754416183130662e-15 difference_linf=8.8817841970012523e-16
+HiSpID matched projection inverse mode=4 component=2 reference_l2=227.00231182410764 difference_l2=5.974923700947864e-14 difference_linf=5.6843418860808015e-14
+HiSpID matched projection inverse mode=4 component=3 reference_l2=227.12153139750069 difference_l2=2.9567951858252642e-14 difference_linf=2.8421709430404007e-14
+HiSpID matched projection inverse mode=5 component=0 reference_l2=1.0050184709130201e-07 difference_l2=4.3104382495668871e-20 difference_linf=3.8427502536763454e-20
+HiSpID matched projection inverse mode=5 component=1 reference_l2=2.1561442961234043e-07 difference_l2=1.9783231188199409e-20 difference_linf=1.4106738166479334e-20
+HiSpID matched projection inverse mode=5 component=2 reference_l2=0.000186070466134681 difference_l2=1.0611959632583382e-19 difference_linf=8.5654552429866016e-20
+HiSpID matched projection inverse mode=5 component=3 reference_l2=0.00018607056035101194 difference_l2=5.5557142516911047e-20 difference_linf=3.7754177518145289e-20
+HiSpID matched projection inverse mode=6 component=0 reference_l2=0.00077980553725957543 difference_l2=7.6757425672390135e-15 difference_linf=5.6216085931280746e-15
+HiSpID matched projection inverse mode=6 component=1 reference_l2=0.00058155434163274398 difference_l2=2.3392925461950502e-14 difference_linf=1.6207013216282956e-14
+HiSpID matched projection inverse mode=6 component=2 reference_l2=0.0035529709915529534 difference_l2=5.5118084388927265e-14 difference_linf=4.6932144043450308e-14
+HiSpID matched projection inverse mode=6 component=3 reference_l2=0.0038111401488630276 difference_l2=3.1102912537074807e-14 difference_linf=2.3320931232147235e-14
+HiSpID matched projection inverse mode=7 component=0 reference_l2=3.3304347628773752e-08 difference_l2=2.5839783053272639e-20 difference_linf=1.6204364802337243e-20
+HiSpID matched projection inverse mode=7 component=1 reference_l2=8.6960128962133919e-09 difference_l2=4.68297559741349e-20 difference_linf=3.0634013600441965e-20
+HiSpID matched projection inverse mode=7 component=2 reference_l2=1.4591258240844036e-08 difference_l2=2.7036932435006454e-19 difference_linf=2.5261341105060511e-19
+HiSpID matched projection inverse mode=7 component=3 reference_l2=1.9863016258030554e-08 difference_l2=3.7082425573404899e-20 difference_linf=3.2262939021712015e-20
+HiSpID matched projection inverse mode=8 component=0 reference_l2=8.0867325101194033e-06 difference_l2=1.6724385192243979e-17 difference_linf=1.1715206814355821e-17
+HiSpID matched projection inverse mode=8 component=1 reference_l2=0.00032730365087520067 difference_l2=9.9728800825229725e-16 difference_linf=7.7791251765950767e-16
+HiSpID matched projection inverse mode=8 component=2 reference_l2=0.00069827092929185903 difference_l2=8.5817498741680652e-15 difference_linf=8.3952416958348042e-15
+HiSpID matched projection inverse mode=8 component=3 reference_l2=0.00047847492921872014 difference_l2=6.0179213742622489e-15 difference_linf=5.7595055569410747e-15
+HiSpID residual mode=0 component=0 initial_l2=4.5774193376217392e-09 remaining_l2=4.5775284113959349e-09 tau_l2=0
+HiSpID residual mode=0 component=1 initial_l2=8.8827704582817022e-09 remaining_l2=8.8827699667619295e-09 tau_l2=0
+HiSpID residual mode=0 component=2 initial_l2=5.7684454880050859e-09 remaining_l2=5.7684451076304901e-09 tau_l2=0
+HiSpID residual mode=0 component=3 initial_l2=8.3551676344125034e-09 remaining_l2=8.3551671766489508e-09 tau_l2=0
+HiSpID residual mode=1 component=0 initial_l2=9.8954844144836806e-10 remaining_l2=9.8955101756424008e-10 tau_l2=0
+HiSpID residual mode=1 component=1 initial_l2=4.5410152190657089e-09 remaining_l2=4.5410143734829069e-09 tau_l2=0
+HiSpID residual mode=1 component=2 initial_l2=1.3160197117896696e-08 remaining_l2=1.3160196624641399e-08 tau_l2=0
+HiSpID residual mode=1 component=3 initial_l2=1.6707899137707653e-08 remaining_l2=1.6707898304442035e-08 tau_l2=0
+HiSpID residual mode=2 component=0 initial_l2=4.720363685004079e-10 remaining_l2=4.7203617912471604e-10 tau_l2=0
+HiSpID residual mode=2 component=1 initial_l2=3.9890127725570971e-09 remaining_l2=3.9889717465195634e-09 tau_l2=0
+HiSpID residual mode=2 component=2 initial_l2=6.1697373395652793e-09 remaining_l2=6.1697504416699263e-09 tau_l2=0
+HiSpID residual mode=2 component=3 initial_l2=7.2354693716353364e-09 remaining_l2=7.2356645453025679e-09 tau_l2=0
+HiSpID residual mode=3 component=0 initial_l2=1.5767210617067491e-10 remaining_l2=1.5767230559381387e-10 tau_l2=0
+HiSpID residual mode=3 component=1 initial_l2=5.5911913614714847e-09 remaining_l2=5.5916016999686583e-09 tau_l2=0
+HiSpID residual mode=3 component=2 initial_l2=4.2842058600871391e-09 remaining_l2=4.2841918647920056e-09 tau_l2=0
+HiSpID residual mode=3 component=3 initial_l2=4.0094138841888455e-09 remaining_l2=4.0096001992781244e-09 tau_l2=0
+HiSpID residual mode=4 component=0 initial_l2=1.3390402030167059e-10 remaining_l2=1.3390402906398575e-10 tau_l2=0
+HiSpID residual mode=4 component=1 initial_l2=3.9516834502802773e-09 remaining_l2=3.951628151443609e-09 tau_l2=0
+HiSpID residual mode=4 component=2 initial_l2=5.0665805436923568e-09 remaining_l2=5.0665362075178941e-09 tau_l2=0
+HiSpID residual mode=4 component=3 initial_l2=6.3983972739566458e-09 remaining_l2=6.3974131980784482e-09 tau_l2=0
+HiSpID residual mode=5 component=0 initial_l2=5.856999447096294e-11 remaining_l2=5.8570667518725507e-11 tau_l2=2.1522618795138342e-19
+HiSpID residual mode=5 component=1 initial_l2=8.0803081274557582e-09 remaining_l2=8.0809020925206361e-09 tau_l2=6.3682238877691846e-18
+HiSpID residual mode=5 component=2 initial_l2=2.608922483670317e-09 remaining_l2=2.6092096334134354e-09 tau_l2=2.0416164649671964e-17
+HiSpID residual mode=5 component=3 initial_l2=3.6108090133390566e-09 remaining_l2=3.6099260414600721e-09 tau_l2=1.7118619326130822e-17
+HiSpID residual mode=6 component=0 initial_l2=3.2789066537648754e-10 remaining_l2=3.2789063526592402e-10 tau_l2=9.1573649005562024e-18
+HiSpID residual mode=6 component=1 initial_l2=1.5525073178039286e-09 remaining_l2=1.5526006186438451e-09 tau_l2=8.3472828299735932e-17
+HiSpID residual mode=6 component=2 initial_l2=2.8147947034286324e-09 remaining_l2=2.8154030553929365e-09 tau_l2=3.9111701005462031e-16
+HiSpID residual mode=6 component=3 initial_l2=3.2364314367459215e-09 remaining_l2=3.2353964364801067e-09 tau_l2=5.7923165237517484e-16
+HiSpID residual mode=7 component=0 initial_l2=2.467823386267903e-11 remaining_l2=2.4678230660711976e-11 tau_l2=1.139200539506966e-21
+HiSpID residual mode=7 component=1 initial_l2=1.679035079661556e-09 remaining_l2=1.6790251996935059e-09 tau_l2=6.7361881107552856e-20
+HiSpID residual mode=7 component=2 initial_l2=1.3553245393895688e-09 remaining_l2=1.3552849376490114e-09 tau_l2=1.7788416886798006e-19
+HiSpID residual mode=7 component=3 initial_l2=1.3786169391219773e-09 remaining_l2=1.3785756918923676e-09 tau_l2=1.3933747957681358e-19
+HiSpID residual mode=8 component=0 initial_l2=4.7846724991588392e-12 remaining_l2=4.7846729083368025e-12 tau_l2=1.0440197704253089e-19
+HiSpID residual mode=8 component=1 initial_l2=1.6434755383038691e-11 remaining_l2=1.6434635264927182e-11 tau_l2=5.009250758784184e-18
+HiSpID residual mode=8 component=2 initial_l2=8.726013528564392e-10 remaining_l2=8.7260160804442044e-10 tau_l2=1.3308828140209889e-17
+HiSpID residual mode=8 component=3 initial_l2=4.4682440287492983e-10 remaining_l2=4.4682429023784503e-10 tau_l2=5.968164828124662e-18
+HiSpID action probe iterations=1 recurrence=3.23259636561332e-08 true=3.23259636561332e-08 relative=0.99999883349638408
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-polar-sequence-v3/moderate240/diagnostic.checkpoint",
+    "file_sha256": "d852ca6013190b37fb395c342eb0559767d6b1adba0ab21d83cc387fe45066fc",
+    "source_library_sha256": "9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "library_sha256": "7cdea853552bf0e09d28d6bcf44cd86caa4411c6ff0aa9fd8e83244f85f34ceb",
+  "driver_sha256": "517234cb1c17fdb3ecb4fbd03c425e86875539e85914bc748e01eda2c269780f",
+  "linear_rtol": 0.1,
+  "max_krylov": 1,
+  "krylov_restart": 64,
+  "binary_acceptance": false,
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 1,
+    "npoints": 1843200,
+    "scaled_linf": [
+      4.6053358312761576e-11,
+      7.205386920938402e-10,
+      8.165924650072908e-10,
+      1.6155751962118865e-09
+    ],
+    "unscaled_linf": [
+      0.00013906424820900884,
+      0.00011548990501861955,
+      0.008340959732976817,
+      0.014520055097839522
+    ],
+    "seconds": 32.377865641,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.9999988334963841,
+      1.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 4,
+    "preconditioner_applications": 1
+  }
+}

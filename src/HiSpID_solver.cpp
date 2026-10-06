@@ -6,6 +6,10 @@
 #include "HiSpID_modal_block.hpp"
 #include "PunctureKrylov.h"
 #include "PunctureExecution.h"
+#include "PunctureModalProjection.hpp"
+#ifndef HISPID_COMPENSATED_MODAL_PROJECTION
+#define HISPID_COMPENSATED_MODAL_PROJECTION 0
+#endif
 #ifdef PUNCTURES_KOKKOS
 #include "PunctureKokkos.hpp"
 #include <memory>
@@ -407,7 +411,10 @@ struct Sparse {
     const double mean=sum/N;
     for(int mode=0;mode<N;mode++){
      double value=mode==0?sum/std::sqrt(double(N)):0;
-     if(mode>0)for(int k=0;k<N;k++)value+=modal->forward[mode*N+k]*(b[4*(line+k*stride)+v]-mean);
+     if(mode>0){
+      if(HISPID_COMPENSATED_MODAL_PROJECTION)value=puncture::compensated_projection(b+4*line+v,4*stride,modal->forward.data()+mode*N,N,mean);
+      else for(int k=0;k<N;k++)value+=modal->forward[mode*N+k]*(b[4*(line+k*stride)+v]-mean);
+     }
      const int row=4*(line+mode*stride)+v;x[row]=value/row_scale[row];
     }
    }
@@ -588,6 +595,7 @@ struct TauPolarDevice {
 puncture::Modal device_preconditioner(const Sparse&M){
  const int a=M.modal->n[0],b=M.modal->n[1],p=M.modal->n[2],groups=M.blocks.size();
  puncture::Modal d(a,b,p,4,groups,true,true);
+ d.compensated_projection=bool(HISPID_COMPENSATED_MODAL_PROJECTION);
  std::vector<int>rows(4*p);
  if constexpr(Kokkos::SpaceAccessibility<puncture::Exec,Kokkos::HostSpace>::accessible){
   std::vector<puncture::ModalPointers>ptrs;for(const auto&B:M.blocks)ptrs.push_back({B.lu.data(),B.transfer.data(),B.lower.data(),B.permutation.data()});

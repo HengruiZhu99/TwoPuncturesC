@@ -177,8 +177,14 @@ witness, not the approximation quality or the GPU inverse application.
 The subsequent actual-RHS comparison finds a $7.48\%$ global GPU/host
 preconditioner discrepancy, dominated by mode-4 momentum components.
 The remaining residual energy is $99.72\%$ momentum and $70.92\%$ modes 0--1;
-tau rows contribute negligibly. Fourier projection/scaling must be separated
-from inverse-kernel error before changing the mathematical preconditioner.
+tau rows contribute negligibly. Feeding identical projected input to both
+inverse routines reduces the discrepancy to $2.98\times10^{-16}$, isolating
+Fourier projection before near-axis row scaling. An opt-in compensated
+projection preserves subtraction and product rounding errors during summation.
+Exact dyadic cancellation controls pass on the host; the small nonlinear
+control retains five Newton/53 Krylov iterations and changes sampled fields
+by only $3.12\times10^{-13}$ (scaled), with bitwise unchanged residual/JVP
+witnesses. The corrected GPU replay is pending; binary acceptance remains open.
 
 \begin{center}\small
 \begin{tabularx}{\linewidth}{@{}lX@{}}

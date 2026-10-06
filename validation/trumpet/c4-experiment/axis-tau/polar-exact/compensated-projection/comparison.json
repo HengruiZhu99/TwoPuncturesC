@@ -1,0 +1,8 @@
+{
+  "residual_bitwise_equal": true,
+  "jvp_bitwise_equal": true,
+  "converged": true,
+  "field_scaled_difference": 3.1167251903433133e-13,
+  "newton": 5,
+  "krylov": 53
+}

@@ -1631,3 +1631,22 @@ Job59422608 uses one shared GPU and only1 Krylov step; its useful observations
 are the two pre-solve actual-RHS comparisons. Separate source/build directories
 axis-tau-matched-probe preserve the earlier images. Outputs are
 axis-tau-matched-probe-v1; no numerical result yet.
+
+Matched-projection job59422608 completed4:04, allocation released. Ordinary
+GPU/host inverse relative difference0.0748324 falls to2.98125e-16 when both
+consume the identical host-projected/scaled RHS. This isolates Fourier
+projection, not inverse application. Raw records in matched-probe/gpu-v1.
+
+Added opt-in HISPID_COMPENSATED_MODAL_PROJECTION (defaultOFF). A shared
+host/device helper compensates mean subtraction, product error via FMA, and
+summation; HiSpID selects it for its modal preconditioner. The shared device
+Modal default remains uncompensated, preserving BY behavior. Equations and
+checkpoint basis are unchanged. Exact dyadic cancellation tests verify lost
+product and subtraction bits and constant annihilation; host controls pass.
+Small nonlinear control5Newton53Krylov, residual/JVP bitwise equal, sampled
+fields scaled difference3.11673e-13. Job59422875 builds the GPU implementation,
+runs the same exact cancellation tests on-device, then resumes the saved240
+state with restart64/forcing0.1 and all final criteria unchanged. Actual-RHS
+host/device diagnostics remain enabled during this corrective replay. Remote
+source/build axis-tau-compensated, outputs axis-tau-compensated-v1; local
+controls/scripts in polar-exact/compensated-projection. No GPU result yet.
