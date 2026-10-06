@@ -1088,3 +1088,11 @@ attempt is prepared in `axial-factors/consumer_perlmutter.sh`. It uses the rebui
 radial512 CPU sampler/consumer, new output directory and the actual producer
 image; it is not launched before a solved checkpoint and reviewed diagnostics
 exist. No physical accuracy or whole-solver timing conclusion is added here.
+
+The qualified batched image also has a prepared radial512 command in
+`batched-transfer/solve_perlmutter.sh`. It retains the current physical inputs,
+grid, tolerances and initial radial256 checkpoint, pins the tested native image
+hash and writes a fresh output directory. This is a contingency for a terminal
+runtime failure of59413586, not a second concurrent run or a performance sweep.
+At the latest observation59413586 remained RUNNING at44:23 with no solved
+checkpoint;59414246 remained queued behind it. Neither job was interrupted.
