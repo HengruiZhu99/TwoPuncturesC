@@ -536,3 +536,22 @@ host caches and1.68e-13/4.29e-14 for device caches. The candidate image is
 Build, image/source hashes and control evidence are retained in
 `validation/trumpet/analytic-matrices`. The binary comparison is running;
 these controls alone do not establish an accuracy improvement or adoption.
+
+The analytic-matrix warm-start trial completed, but the initial checkpoint
+already satisfies its1e-12 stopping criterion (largest weighted residual
+4.14e-13), so it took **zero Newton/Krylov iterations**. This is a compatibility
+result, not an independently recomputed nonlinear solution or proof of improved
+accuracy. Independent near H/M RMS remain1.703e-7/1.389e-7; bulk remains
+2.622e-7/2.857e-7. The matrix option stays experimental and OFF by default.
+The trial and physical arrays are retained under `analytic-matrices/moderate256`.
+
+With the seed, operator, checkpoint and moderate-binary horizon checks passed,
+and two moderate grids within physical-error bounds, an exploratory equal-mass
+aligned-spin chi=.99 case is now underway. It does not wait on further matrix
+microdiagnostics, and does not waive the unresolved bulk-convergence gate.
+The declared configuration is160x320x32, separation12, seed mass.5 per hole,
+using the established host-geometry/CUDA-GMRES image and original matrices.
+See `extreme-pilots/plan.json`; allocation59407208 started only after59406945
+released. This case remains diagnostic until its independent physical and
+horizon checks and the remaining solver convergence obligations are satisfied.
+The separate Gamma10 head-on investigation remains required.
