@@ -1607,3 +1607,15 @@ residual/JVP/field witnesses and iteration histories remain bitwise equal.
 Job59422392 is the bounded64-step240 replay with these diagnostics on one shared
 GPU, using separate source/build directories axis-tau-action-probe and output
 axis-tau-action-probe-v1. No new physical resolution or acceptance claim.
+
+Action-probe job59422392 completed4:08 and released its allocation. The
+actual-RHS GPU/host preconditioner comparison differs7.48324 percent globally
+in L2 (worst mode/component7.94297 percent), dominated by mode4 transverse
+momentum. High tau modes alone agree closely; looking only at those would
+misdiagnose the result. Reference mode4 transverse correction norms are227.0
+and227.1, with device differences15.88 and18.04. Remaining true-residual energy
+is99.7173 percent momentum and70.9224 percent modes0/1; tau rows contribute
+only7.002e-16 of energy. The next distinction is Fourier projection/row scaling
+versus CUDA inverse application on identical projected input. Do not replace
+the mathematical preconditioner before isolating this concrete discrepancy.
+Raw records and parsed analysis in action-probe/gpu-v1. No full solve launched.
