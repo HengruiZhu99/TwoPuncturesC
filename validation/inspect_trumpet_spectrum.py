@@ -20,7 +20,9 @@ def main():
     for run in a.runs:
         meta=json.loads((run/'result.json').read_text());na,nb,nphi=meta['config']['n']
         with np.load(run/'solve.npz') as z:values=z['unknowns'].reshape(nphi,nb,na,4)
+        if not np.isfinite(values).all():raise ValueError('nonfinite nodal coefficients')
         coefficients=transform(transform(values,2),1)
+        if not np.isfinite(coefficients).all():raise ValueError('nonfinite transformed coefficients')
         # Check the FFT transform convention against direct native Chebyshev
         # coefficient sums on a small selection of actual input lines.
         witness=0.
@@ -28,7 +30,9 @@ def main():
             moved=np.moveaxis(values,axis,-1).reshape(-1,n)
             lines=moved[[0,len(moved)//2,-1]]
             modes=np.arange(n);nodes=np.arange(n)+.5
-            direct=lines@((2./n)*(-1.)**modes[:,None]*np.cos(np.pi*modes[:,None]*nodes/n)).T
+            matrix=(2./n)*(-1.)**modes[:,None]*np.cos(np.pi*modes[:,None]*nodes/n)
+            direct=np.einsum('ij,kj->ik',lines,matrix,optimize=False)
+            if not np.isfinite(direct).all():raise ValueError('nonfinite direct coefficient witness')
             witness=max(witness,float(np.max(abs(transform(lines,1)-direct))/(1+np.max(abs(direct)))))
         if witness>1e-11:raise ValueError('FFT/direct coefficient convention mismatch')
         axes={}

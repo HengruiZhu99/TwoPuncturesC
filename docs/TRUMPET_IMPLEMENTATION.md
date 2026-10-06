@@ -850,3 +850,27 @@ The Gamma10 radial-map control passed (image d51f846821ea7cdd5cd14399090634072ff
 the targeted solve remains running under59410842. Largest fixed-observer errors
 from the preceding Gamma10 and spin checkpoints, explicitly separated from
 modified-region errors, are retained in `axisymmetric/error-localization.json`.
+
+Gamma10 stronger radial focusing59410842 completed, but is rejected. At the
+same256x320x8 grid, map.003 converged in11 Newton/441 Krylov iterations,
+187.33s solve and308.10s total. Independent near H/M RMS are.20795/1.39340;
+bulk6.362e-4/5.585e-3. Both greatly worsen relative to.03. Radial final-eighth
+modal tails rise from2.35e-7 to1.54e-5 (scalar),2.30e-5 to2.02e-4 (axial
+vector), and4.25e-5 to1.72e-4 (transverse vector). Node counts in one transition
+are therefore insufficient to select a map. All failures are preserved under
+`gamma-radial-focused`; no new physical acceptance is claimed.
+
+The local spectrum witness encountered platform matrix-multiplication warnings.
+Its independent direct sum now uses explicit einsum summation and rejects
+nonfinite inputs, transforms or witnesses; the original and corrected records
+are retained separately. Corrected FFT/direct checks pass for both actual
+checkpoints, without changing their polynomial spectra.
+
+For Gamma10 horizon measurement, the existing isolated-seed history records
+slow/nonconvergent high-order spherical-harmonic searches of the Lorentz-flattened
+surface. A prospective improvement is a per-hole affine spatial chart, stretching
+the boost direction for the finder while pulling back gamma, K and spatial
+metric derivatives consistently. This changes no slice or initial data. It
+requires a separate tensor-transformation/invariant-area control, chart-aware
+seed guesses and enclosure, and explicit spin-coordinate conventions before
+application to binary data. It is not yet implemented or validated.
