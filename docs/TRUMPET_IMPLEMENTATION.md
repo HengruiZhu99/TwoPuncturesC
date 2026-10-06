@@ -1655,3 +1655,14 @@ Job59422875 built successfully and passed the three exact cancellation
 witnesses on both CPU and CUDA (answers -2^-54,2^-53,0). Pinned image/source
 hashes and cancellation output are retained in compensated-projection/gpu-v1.
 The resumed240 physical workflow remains live; no solve result yet.
+
+The first corrected replay59422875 failed3:46 before solving: its command
+omitted --initial-source-library, so the provenance guard correctly refused
+the old-image checkpoint. Retained failed-launch.log and incomplete-result.json;
+no numerical failure or accepted step occurred. Job59422941 reuses the built
+and qualified image7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea,
+explicitly pins old source image9489bca4..., and passes its path via the existing
+source-library interface. Same maps/grid use the identity prolongation path;
+all physical free data and final criteria are unchanged. Outputs
+axis-tau-compensated-v2; script resume_perlmutter.sh. Previous allocation release
+verified before the single-GPU retry. No rebuild or duplicate test campaign.

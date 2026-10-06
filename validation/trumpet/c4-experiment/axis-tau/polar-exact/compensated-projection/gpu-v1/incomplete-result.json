@@ -1,0 +1,89 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      240,
+      480,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.0826630035142687,
+      0.0554766275110519
+    ],
+    "inner_max": [
+      0.27554334504756234,
+      0.18492209170350635
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "trumpet_r0_m"
+  },
+  "library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+  "kind": "moderate_trumpet_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": false,
+  "axisymmetric": false,
+  "linear_rtol": 0.1,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/run_trumpet_pilot.py": "ddc38185f4c52ee7afc37f16ea385813410a560c85f9094eb4344ba9285c7bbc",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/examples/trumpet_configs.py": "3bb7b06b7df4f2981d6420b68235f8227fe68ef2a52c953afbf7d07253e7e723",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/run_validation.py": "421d672ad71ce03ad0ca14858e08969669581de8e94611c213fc9f1e41ff879e",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/remapped_guess.py": "53430354e6104612ea1246494b48458a1c64a4a62324a18ba44cffd17d622c99",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/prolong.py": "44ccf8c9c76c44ca52083505513c9167aaea86b5b518ff3137a624916cf78e9d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/python/checkpoint_export.py": "6b848283081399c4104f30de12532c33a3016f505be898858ae807fdb99bf6ed"
+  },
+  "setup_seconds": 102.11146275210194
+}

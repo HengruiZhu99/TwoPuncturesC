@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/run_trumpet_pilot.py", line 88, in <module>
+    run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart,a.tolerance,a.axisymmetric,a.linear_rtol)
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/run_trumpet_pilot.py", line 49, in run
+    if meta['source_library_sha256']!=b.loaded_sha256 or meta['parameterization']!=b.parameterization():raise ValueError('incompatible initial checkpoint; explicit source library required for remapped guess')
+                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: incompatible initial checkpoint; explicit source library required for remapped guess
