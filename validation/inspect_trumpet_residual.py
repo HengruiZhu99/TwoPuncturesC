@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import time
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,16 +17,27 @@ for name in ('library', 'source-library', 'checkpoint', 'output'):
     p.add_argument('--' + name, type=Path, required=True)
 p.add_argument('--compare-reference', action='store_true')
 a = p.parse_args()
-if a.output.exists() or a.output.with_suffix('.npz').exists():
+partial_json = a.output.with_suffix('.cuda.json')
+partial_array = a.output.with_suffix('.cuda.npy')
+if any(path.exists() for path in (a.output, a.output.with_suffix('.npz'),
+                                  partial_json, partial_array)):
     raise FileExistsError(a.output)
 c, values, meta = read_checkpoint(a.checkpoint)
 sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+driver_sha = sha(Path(__file__))
+started = time.monotonic()
+def progress(stage):
+    print(json.dumps(dict(stage=stage, elapsed_seconds=time.monotonic()-started)),
+          flush=True)
 assert sha(a.source_library) == meta['source_library_sha256']
 b = Backend(str(a.library.resolve()))
 assert b.parameterization() == meta['parameterization']
+progress('cuda_context_start')
 with b.create(c, execution='kokkos', geometry='host') as s:
+    progress('cuda_context_ready')
     s.set_unknowns(values)
     residual = s.residual(values)
+progress('cuda_residual_complete')
 assert np.isfinite(residual).all()
 na, nb, np_ = map(int, c.n)
 r = residual.reshape(np_, nb, na, 4)
@@ -52,14 +64,23 @@ out = dict(library_sha256=b.loaded_sha256, checkpoint_sha256=sha(a.checkpoint),
            radial_energy_fraction=(energy.sum(axis=(0,1))/total).tolist(),
            polar_energy_fraction=(energy.sum(axis=(0,2))/total).tolist(),
            azimuthal_point_energy_fraction=(energy.sum(axis=(1,2))/total).tolist(),
-           endpoint_layers=layers, driver_sha256=sha(Path(__file__)),
+           endpoint_layers=layers, driver_sha256=driver_sha,
            scope='weighted collocation residual localization only', binary_acceptance=False)
 if a.compare_reference:
+    # Keep a completed stage if the slower serial reference exceeds wall time.
+    # These are explicitly partial artifacts, never a successful comparison.
+    np.save(partial_array, residual, allow_pickle=False)
+    partial = dict(out, stage='cuda_only_reference_pending',
+                   residual_array_sha256=sha(partial_array))
+    partial_json.write_text(json.dumps(partial, indent=2) + '\n')
     # Sequential contexts avoid retaining both full geometry caches at once.
     # Neither execution path is treated as an exact continuum reference.
+    progress('reference_context_start')
     with b.create(c, execution='reference', geometry='host') as s:
+        progress('reference_context_ready')
         s.set_unknowns(values)
         reference = s.residual(values)
+    progress('reference_residual_complete')
     assert np.isfinite(reference).all()
     delta = reference-residual
     out['reference_comparison'] = dict(

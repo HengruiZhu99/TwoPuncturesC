@@ -1820,3 +1820,13 @@ with a hash for later analysis, along with component differences and unknown
 magnitudes. Same source checkpoint hash and parameterization guards; output
 axis-tau-residual-reference-v1, script reference_perlmutter.sh. Previous
 localization allocation release was verified. Result pending.
+
+At10:11, job59424759 remains RUNNING. Code inspection confirms that native
+reference context creation builds geometry serially, unlike the production
+host Kokkos path. An attempted extension from15 to35minutes was denied by
+Slurm; the live job was left intact. The diagnostic driver now saves a hashed
+CUDA-only partial result before starting the reference context and emits
+flushed stage progress. This change is for subsequent invocations; it does
+not alter the running process or any numerical implementation. Partial files
+explicitly indicate reference_pending and cannot establish backend agreement.
+Python syntax and diff checks pass; no numerical rerun was added for logging.
