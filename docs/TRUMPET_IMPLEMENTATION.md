@@ -1891,3 +1891,9 @@ Job59426128 (session43880) is building the spectral-radial image on one shared
 axis-tau-spectral-radial, output axis-tau-spectral-radial-v1. The small CUDA
 solve must converge and agree with retained CPU fields within1e-10 before
 the frozen240 probe executes. No other compute allocation remains active.
+
+GPU qualification in59426128 passes: mapped-polynomial error3.65731e-14;
+small nonlinear solve5Newton48Krylov, CPU/GPU field difference2.39090e-13.
+Pinned GPU image2dfa13fc56247439e8037ac0b4a857e4821aeabb9c39bf853fa6b9514ecb08b8.
+Records saved in spectral-radial/gpu-v1. The frozen240 probe is running;
+no fine-grid convergence or physical acceptance is inferred from these controls.
