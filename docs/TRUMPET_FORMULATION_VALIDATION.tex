@@ -202,8 +202,19 @@ residual $0.00895$ (target $0.001$), without a Newton update. Its independent
 physical constraints fail. Exact radial endpoint rows now replace the local
 approximation in the preconditioner at unchanged matrix storage. The small
 solve uses 61 rather than 69 Krylov iterations, with sampled fields agreeing
-to $1.01\times10^{-13}$. A bounded fine-grid replay is pending; no new horizon
-or binary acceptance is claimed.
+to $1.01\times10^{-13}$. However, the fine-grid replay again exhausts 2400
+iterations, now at relative residual $0.0162$, so radial rows alone are
+insufficient. An opt-in rank-$2n_A$ Woodbury correction now enforces exact
+polar endpoint rows while retaining the block-tridiagonal base factors.
+Its response columns are built with batched triangular solves. An independent
+dense-matrix control, including nontrivial pivots and inhomogeneous endpoint
+data, gives solution error below $6.7\times10^{-15}$. The small coupled CPU
+solve uses 53 Krylov iterations, preserves the residual/JVP witnesses bitwise,
+and agrees in sampled fields/gradients to $2.53\times10^{-13}$. Host/device
+allocation bounds include the additional response and Schur matrices.
+Shared-GPU job 59420201 checks this correction and then replays the fine-grid
+linear solve if the small control passes. No new horizon or binary acceptance
+is claimed.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

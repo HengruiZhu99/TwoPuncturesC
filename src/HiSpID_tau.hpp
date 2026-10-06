@@ -4,7 +4,16 @@
 #ifndef HISPID_AXIS_TAU
 #define HISPID_AXIS_TAU 0
 #endif
+#ifndef HISPID_EXACT_POLAR_TAU
+#define HISPID_EXACT_POLAR_TAU 0
+#endif
 namespace hispid {
+// Conservative peak per factor bank: W, inverse, Schur work, permuted RHS.
+inline long double polar_border_bytes(int na,int nb,int np){
+ if(!HISPID_EXACT_POLAR_TAU)return 0;
+ const long double groups=2*std::max(0,np/2-4),a=na,b=nb;
+ return groups*8*(2*a*a*b+12*a*a+4*b+4*a)+128.L*np*na;
+}
 // C2 modal variables; replace independent near-axis rows with endpoint P=0.
 // Polar rows include corners; radial rows exclude them to avoid redundancy.
 HISPID_GEOMETRY_INLINE int tau_count(int na,int nb){return 2*na+nb-2;}

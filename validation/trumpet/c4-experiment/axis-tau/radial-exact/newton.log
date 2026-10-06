@@ -1,0 +1,48 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-v1/moderate192/diagnostic.checkpoint",
+    "file_sha256": "7c01f0713fd4e3d32d0d881ae7fb6a3c09990c0b417053a01d99dd76ee7f633b",
+    "source_library_sha256": "03abf09a3c2f2100966d21c7462718a47fe918f02725e2017fdc25f1862f942e",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "library_sha256": "6019e93f6af829e437854a46446daab6ab789a855f645d8a9c8abca97d18582b",
+  "driver_sha256": "bff2a70b9632173e739108e9ed240031691896f4e013e7b62bd43cdde2bcc0e2",
+  "linear_rtol": 0.001,
+  "binary_acceptance": false,
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 2400,
+    "npoints": 1179648,
+    "scaled_linf": [
+      0.037897539881291215,
+      0.13964416184638007,
+      0.2854983988462951,
+      0.3027599325756685
+    ],
+    "unscaled_linf": [
+      2.7232940370417147,
+      22.94038102056797,
+      21.7870536390595,
+      22.22962294989336
+    ],
+    "seconds": 235.034637344,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.001,
+      0.016168439571478104,
+      2400.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 2439,
+    "preconditioner_applications": 2400
+  }
+}

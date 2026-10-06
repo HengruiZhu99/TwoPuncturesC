@@ -1,4 +1,5 @@
 #include "HiSpID_internal.hpp"
+#include "HiSpID_tau.hpp"
 #include <algorithm>
 #include <cstring>
 #include <limits>
@@ -88,7 +89,7 @@ bool valid(const HiSpID_Config&c,bool sampler_only){
  // Two dense matrices per radial block, scalar/vector factor groups, shared
  // by real-Fourier partners. Add permutations/diagonal couplings explicitly.
  const double block_bytes=sampler_only?0:2.0*(c.n[2]/2+1)*c.n[1]*(16.0*c.n[0]*c.n[0]+24.0*c.n[0]);
- double extra=0;
+ double extra=sampler_only?0:double(polar_border_bytes(c.n[0],c.n[1],c.n[2]));
 #if HISPID_AXIS_TAU
  if(!sampler_only)extra+=8.0*((2*c.n[0]+c.n[1]-2)*4*c.n[2]+2*c.n[1]+c.n[0]);
 #endif

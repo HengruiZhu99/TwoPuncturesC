@@ -28,3 +28,4 @@ validation/*.log
 /build-c4-monotone/
 /build-axis-tau/
 /build-axis-tau-radial/
+/build-axis-tau-polar/

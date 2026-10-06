@@ -3,7 +3,7 @@
 #include "HiSpID_axis.hpp"
 #include "HiSpID_tau.hpp"
 #include "HiSpID_symmetry.hpp"
-#include "HiSpID_modal_transfer.hpp"
+#include "HiSpID_modal_block.hpp"
 #include "PunctureKrylov.h"
 #include "PunctureExecution.h"
 #ifdef PUNCTURES_KOKKOS
@@ -327,41 +327,7 @@ void jvp(HiSpID_Data&s,const double*v,double*r){
  * polar row is a dense radial block after elimination. Cosine/sine partners
  * share factors, as do the three approximate vector equations. This removes
  * the long-wavelength error of ILU(0); residuals/JVPs remain pseudospectral. */
-struct ModalBlock {
- int na=0,nb=0;
- std::vector<double>lu,transfer,lower,upper;
- std::vector<size_t>permutation;
- void factor(){
-  std::vector<double>rhs(na);int sign=0;
-  for(int j=0;j<nb;j++){
-   double*block=lu.data()+j*na*na;
-   if(j)for(int i=0;i<na;i++)for(int q=0;q<na;q++)
-    block[i*na+q]-=lower[j*na+i]*transfer[((j-1)*na+i)*na+q];
-   auto A=gsl_matrix_view_array(block,na,na);
-   gsl_permutation p{size_t(na),permutation.data()+j*na};gsl_permutation_init(&p);
-   if(gsl_linalg_LU_decomp(&A.matrix,&p,&sign))throw std::runtime_error("Modal block factorization failed");
-   for(int i=0;i<na;i++)if(!std::isfinite(block[i*na+i])||std::abs(block[i*na+i])<1e-30)
-    throw std::runtime_error("Modal block singular pivot");
-   if(j+1<nb)hispid::modal_transfer(&A.matrix,&p,upper.data()+j*na,
-       transfer.data()+j*na*na,bool(HISPID_BATCHED_MODAL_TRANSFER),rhs);
-  }
- }
- void solve(double*x,int mode,int component)const{
-  std::vector<double>f(na*nb);
-  for(int j=0;j<nb;j++){
-   for(int i=0;i<na;i++)f[j*na+i]=x[4*(i+na*(j+nb*mode))+component]-(j?lower[j*na+i]*f[(j-1)*na+i]:0);
-   auto A=gsl_matrix_const_view_array(lu.data()+j*na*na,na,na);
-   gsl_permutation p{size_t(na),const_cast<size_t*>(permutation.data()+j*na)};
-   auto y=gsl_vector_view_array(f.data()+j*na,na);
-   if(gsl_linalg_LU_svx(&A.matrix,&p,&y.vector))throw std::runtime_error("Modal forward solve failed");
-  }
-  for(int j=nb-2;j>=0;j--)for(int i=0;i<na;i++){
-   double sum=0;for(int q=0;q<na;q++)sum+=transfer[(j*na+i)*na+q]*f[(j+1)*na+q];f[j*na+i]-=sum;
-  }
-  for(int j=0;j<nb;j++)for(int i=0;i<na;i++)x[4*(i+na*(j+nb*mode))+component]=f[j*na+i];
- }
- void solve(std::vector<double>&x,int mode,int component)const{solve(x.data(),mode,component);}
-};
+using hispid::ModalBlock;
 struct Sparse {
  std::vector<std::vector<int>>col;
  std::vector<std::vector<double>>val;
@@ -391,6 +357,7 @@ struct Sparse {
      throw std::runtime_error("Incomplete modal vector cache");
    for(int mode=0;mode<=half;mode++)for(int v=0;v<2;v++){
     auto&B=blocks[2*mode+v];B.na=na;B.nb=nb;
+    if(HISPID_EXACT_POLAR_TAU&&mode>=5)B.polar_endpoint=hispid::tau_weights(na,nb);
     if(v&&reuse){
      B=std::move((*vector_cache)[mode]);
      if(B.na!=na||B.nb!=nb)throw std::runtime_error("Modal vector cache grid mismatch");
@@ -493,7 +460,8 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
  if(compact){mat.blocks.resize(2*(factor_half+1));if(reuse&&vector_cache->size()!=size_t(factor_half+1))throw std::runtime_error("invalid compact vector factors");
   for(int mode=0;mode<=factor_half;mode++)for(int v=0;v<2;v++){auto&B=mat.blocks[2*mode+v];
    if(v&&reuse){B=std::move((*vector_cache)[mode]);continue;}
-   B.na=na;B.nb=nb;B.lu.assign(size_t(na)*na*nb,0);B.transfer.assign(size_t(na)*na*nb,0);B.lower.assign(na*nb,0);B.upper.assign(na*nb,0);B.permutation.resize(na*nb);
+   B.na=na;B.nb=nb;
+    if(HISPID_EXACT_POLAR_TAU&&mode>=5)B.polar_endpoint=hispid::tau_weights(na,nb);B.lu.assign(size_t(na)*na*nb,0);B.transfer.assign(size_t(na)*na*nb,0);B.lower.assign(na*nb,0);B.upper.assign(na*nb,0);B.permutation.resize(na*nb);
   }
  }
  for(int k=0;k<(compact?half+1:np);k++)for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
@@ -561,6 +529,58 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
 }
 struct HiLinearContext { HiSpID_Data&data;const Sparse&preconditioner; };
 #ifdef PUNCTURES_KOKKOS
+// HiSpID-only modal Woodbury update. Shared Bowen-York machinery is unchanged.
+struct TauPolarDevice {
+ int na=0,nb=0,np=0,groups=0;
+ puncture::View response,inverse,delta,g,z;
+ puncture::Indices map;
+ explicit TauPolarDevice(const Sparse&M){
+  na=M.modal->n[0];nb=M.modal->n[1];np=M.modal->n[2];
+  std::vector<int>indices(M.blocks.size(),-1),tasks(4*np);
+  for(size_t i=0;i<M.blocks.size();i++)if(!M.blocks[i].polar_inverse.empty())indices[i]=groups++;
+  if(!groups)return;
+  const size_t rank=2*na,wide=size_t(na)*nb*rank,square=rank*rank;
+  response=puncture::View(Kokkos::view_alloc(Kokkos::WithoutInitializing,"polar responses"),groups*wide);
+  inverse=puncture::View(Kokkos::view_alloc(Kokkos::WithoutInitializing,"polar inverses"),groups*square);
+  delta=puncture::View(Kokkos::view_alloc(Kokkos::WithoutInitializing,"polar differences"),groups*2*nb);
+  {puncture::Timed timer(puncture::statistics().transfer_seconds);
+   for(size_t i=0;i<M.blocks.size();i++)if(indices[i]>=0){
+    size_t k=indices[i];const auto&B=M.blocks[i];
+    Kokkos::deep_copy(Kokkos::subview(response,std::make_pair(k*wide,(k+1)*wide)),puncture::Host(B.polar_response.data(),wide));
+    Kokkos::deep_copy(Kokkos::subview(inverse,std::make_pair(k*square,(k+1)*square)),puncture::Host(B.polar_inverse.data(),square));
+    Kokkos::deep_copy(Kokkos::subview(delta,std::make_pair(k*2*nb,(k+1)*2*nb)),puncture::Host(B.polar_delta.data(),2*nb));
+   }
+   puncture::statistics().host_to_device_bytes+=8*(response.extent(0)+inverse.extent(0)+delta.extent(0));
+  }
+  for(int k=0;k<np;k++)for(int v=0;v<4;v++)tasks[4*k+v]=indices[M.factor_group(k<=np/2?k:k-np/2,v)];
+  map=puncture::Indices("polar task map",tasks.size());
+  using H=Kokkos::View<const int*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
+  Kokkos::deep_copy(map,H(tasks.data(),tasks.size()));
+  g=puncture::View("polar moments",4*np*rank);z=puncture::View("polar Schur solution",4*np*rank);
+ }
+ unsigned long long bytes()const{return 8*(response.extent(0)+inverse.extent(0)+delta.extent(0)+g.extent(0)+z.extent(0))+4*map.extent(0);}
+ void apply(puncture::View x)const{
+  if(!groups)return;
+  const int a=na,b=nb,rank=2*a,tasks=4*np,N=a*b;
+  auto W=response,S=inverse,V=delta,G=g,Z=z;auto mapping=map;
+  Kokkos::parallel_for("polar boundary moments",Kokkos::RangePolicy<puncture::Exec>(0,tasks*rank),KOKKOS_LAMBDA(int q){
+   int task=q/rank,k=q%rank,group=mapping(task);if(group<0)return;
+   int side=k/a,i=k%a,mode=task/4,v=task%4;double sum=0;
+   for(int j=0;j<b;j++)sum+=V((group*2+side)*b+j)*x(4*(i+a*j+N*mode)+v);
+   G(q)=sum;
+  });
+  Kokkos::parallel_for("polar Schur solve",Kokkos::RangePolicy<puncture::Exec>(0,tasks*rank),KOKKOS_LAMBDA(int q){
+   int task=q/rank,i=q%rank,group=mapping(task);if(group<0)return;double sum=0;
+   for(int k=0;k<rank;k++)sum+=S((size_t(group)*rank+i)*rank+k)*G(task*rank+k);
+   Z(q)=sum;
+  });
+  Kokkos::parallel_for("polar boundary correction",Kokkos::RangePolicy<puncture::Exec>(0,tasks*N),KOKKOS_LAMBDA(int q){
+   int task=q/N,row=q%N,group=mapping(task);if(group<0)return;double sum=0;
+   for(int k=0;k<rank;k++)sum+=W((size_t(group)*N+row)*rank+k)*Z(task*rank+k);
+   x(4*(row+N*(task/4))+task%4)-=sum;
+  });
+ }
+};
 puncture::Modal device_preconditioner(const Sparse&M){
  const int a=M.modal->n[0],b=M.modal->n[1],p=M.modal->n[2],groups=M.blocks.size();
  puncture::Modal d(a,b,p,4,groups,true,true);
@@ -606,10 +626,10 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
 #ifdef PUNCTURES_KOKKOS
  if(s.device){
   auto&Mstats=puncture::statistics();
-  double begin=puncture::seconds();auto d=device_preconditioner(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
+  double begin=puncture::seconds();auto d=device_preconditioner(M);TauPolarDevice polar(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
   auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
-  Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)));
-  status=puncture::solve(b,solution,options,[&](auto in,auto out){s.device->apply(in,out);project_axisymmetry(s,out,false);},[&](auto in,auto out){d.apply(in,out);project_axisymmetry(s,out,true);},result);
+  Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+polar.bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)));
+  status=puncture::solve(b,solution,options,[&](auto in,auto out){s.device->apply(in,out);project_axisymmetry(s,out,false);},[&](auto in,auto out){d.apply(in,out);polar.apply(out);project_axisymmetry(s,out,true);},result);
   puncture::download(solution,x.data());s.jvp_applications+=result.operator_calls;s.preconditioner_applications+=result.preconditioner_calls;
  }else
 #endif
@@ -800,11 +820,11 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   // Retained CPU data, device data (or extra host copies for OpenMP), lazy
   // maximum Krylov basis, packed factor mirrors and LU/inverse overlap.
   long double small=0;for(int axis=0;axis<3;axis++)small+=16.L*c->n[axis]*c->n[axis];small+=32.L*c->n[2]*c->n[2]+160.L*c->n[0]*c->n[1];
-  if(cpu+device+radial*16+small+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2]>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="Kokkos aggregate allocation bound exceeds memory_limit_mib";return nullptr;}
+  if(cpu+device+radial*16+small+2*hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2]>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="Kokkos aggregate allocation bound exceeds memory_limit_mib";return nullptr;}
 #ifdef KOKKOS_ENABLE_CUDA
   if constexpr(std::is_same_v<puncture::Exec,Kokkos::Cuda>){
    auto free=Puncture_execution_device_free_bytes();
-   if(!free||device+small+HISPID_AXIS_TAU*32.L*(2*c->n[0]+c->n[1])*c->n[2]+512.L*1024*1024>free){hispid::last_error="Kokkos device allocation bound exceeds available GPU memory or query failed";return nullptr;}
+   if(!free||device+small+hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+HISPID_AXIS_TAU*32.L*(2*c->n[0]+c->n[1])*c->n[2]+512.L*1024*1024>free){hispid::last_error="Kokkos device allocation bound exceeds available GPU memory or query failed";return nullptr;}
   }
 #endif
  }

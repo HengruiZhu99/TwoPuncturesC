@@ -1425,3 +1425,25 @@ versus5/69, with converged sampled fields agreeing to1.01e-13. An isolated
 CUDA build/replay from the zero-correction checkpoint tests the fine-grid
 linear solve before any further full solve. Records and command are
 `axis-tau/radial-exact`; no physical acceptance is claimed.
+
+
+Exact-radial replay59419101 completed6:40 but exhausted2400 Krylov steps at
+true relative residual0.01616844 (target0.001), with no Newton update;
+solve235.035s. Image6019e93f6af829e437854a46446daab6ab789a855f645d8a9c8abca97d18582b.
+The JSON, trace and image hash are retained in `axis-tau/radial-exact`.
+
+`HISPID_EXACT_POLAR_TAU` (off by default, requires axis tau) now adds exact
+polar endpoint rows through a rank-2na Woodbury update. `HiSpID_modal_block.hpp`
+shares the existing base factors and batches their matrix-RHS solves; CPU
+and Kokkos apply the same response/Schur correction. Only the preconditioner
+changes; defaults, physical residual/JVP and checkpoint representation remain.
+Memory guards account for response banks, Schur setup and device copies.
+The independent dense-matrix test uses Chebyshev-series endpoint evaluation,
+pivoted factors, nonzero boundary data and interleaved component isolation:
+solution error<=6.67e-15, scaled matrix residual<=1.85e-15. The small coupled
+CPU solve takes5 Newton/53 Krylov, versus5/61 for exact radial alone;
+residual/JVP witnesses are bitwise unchanged and sampled field/gradient
+relative difference2.53e-13. Records: `axis-tau/polar-exact`.
+Perlmutter shared-GPU job59420201 runs the matrix and small coupled GPU controls,
+then only on success the original fine-grid zero-state replay. No full binary
+or physical-convergence claim is made from these controls.
