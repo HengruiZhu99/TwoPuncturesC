@@ -1867,3 +1867,21 @@ cause. A targeted next candidate is exact spectral radial differentiation in
 the already-dense radial preconditioner blocks, retaining polar FD structure,
 tau conditions, memory guards, and the unchanged residual/JVP. This tests
 high-frequency approximation quality without filtering or another method sweep.
+
+Opt-in HISPID_SPECTRAL_RADIAL_PRECONDITIONER now replaces the radial FD
+derivative contribution with exact polynomial differentiation transformed
+through t=lambda*s/(1-(1-lambda)*s), s=(1+z)/2. Off-diagonal differences
+annihilate constants. Polar FD and tau rows are unchanged; scalar/vector
+factors use the existing dense-radial block storage on CPU and CUDA.
+CPU uses compact assembly for this option to avoid dense rows in per-point
+sparse containers. Added host derivative/map tables cost16*na^2+24*na bytes
+and are included in the aggregate guard. DefaultOFF; no BY change.
+The constant/degree3/degree(n-1) manufactured operator control over12/32 nodes,
+three radial stretches and regularity exponents0/1/4 has worst scaled
+error7.00031e-13. Small native binary converges5Newton48Krylov (baseline53);
+sampled-field difference1.91263e-13 and residual/JVP witnesses bitwise unchanged.
+Caching radial map factors retains identical sampled fields and iterations.
+Records and production qualification/probe script are in polar-exact/spectral-radial.
+Fine-grid improvement is not yet established. The planned single-GPU run
+checks the changed small solve against this CPU result before a frozen240
+GMRES probe with unchanged restart64, target0.1 and budget2400.

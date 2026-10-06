@@ -1,0 +1,1 @@
+mapped polynomial radial operator worst scaled error=7.00031e-13

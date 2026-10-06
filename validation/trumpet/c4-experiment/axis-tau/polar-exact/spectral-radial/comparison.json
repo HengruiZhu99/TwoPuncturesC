@@ -1,0 +1,7 @@
+{
+  "equation_witness_bitwise": {
+    "residual": true,
+    "jvp": true
+  },
+  "field_scaled_difference": 1.91263217368902e-13
+}

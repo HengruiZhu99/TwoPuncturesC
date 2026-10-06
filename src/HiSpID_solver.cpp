@@ -34,6 +34,10 @@ static_assert(HISPID_ROW_POWER==3||HISPID_ROW_POWER==6,"row power must be3or6");
 #ifndef HISPID_MONOTONE_PRECONDITIONER
 #define HISPID_MONOTONE_PRECONDITIONER 0
 #endif
+#ifndef HISPID_SPECTRAL_RADIAL_PRECONDITIONER
+#define HISPID_SPECTRAL_RADIAL_PRECONDITIONER 0
+#endif
+#include "HiSpID_radial_preconditioner.hpp"
 #ifndef HISPID_NEWTON_BACKTRACKS
 #define HISPID_NEWTON_BACKTRACKS 10
 #endif
@@ -449,22 +453,23 @@ AzimuthalAverage azimuthal_average(const HiSpID_Data&s,int i,int j){
  return out;
 }
 Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr,bool share_averages=true){
- bool compact=false;
+ bool compact=bool(HISPID_SPECTRAL_RADIAL_PRECONDITIONER);
 #ifdef PUNCTURES_KOKKOS
  puncture::TimedIf setup_timer(puncture::statistics().setup_seconds,bool(s.device));
- compact=bool(s.device);if(compact)share_averages=true;
+ compact=compact||bool(s.device);if(compact)share_averages=true;
 #endif
  Sparse mat;if(!compact){mat.col.resize(s.ntotal);mat.val.resize(s.ntotal);}mat.row_scale.resize(s.ntotal);mat.modal=&s.derivatives;
  const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],half=np/2;
  mat.maximum_mode=s.axisymmetric?1:half;
  const int factor_half=mat.mode_limit();
+ const hispid::RadialPreconditioner radial(HISPID_SPECTRAL_RADIAL_PRECONDITIONER?na:0,hispid::AxisDerivatives::radial_stretch);
  const double ha=Pi/na,hb=Pi/nb;
  const auto endpoint=HISPID_AXIS_TAU?hispid::tau_weights(na,nb):std::vector<double>{};
  std::vector<AzimuthalAverage>averages;
  if(share_averages){
   averages.resize(na*nb);
 #ifdef PUNCTURES_KOKKOS
-  if(compact){static_assert(sizeof(AzimuthalAverage)==2*sizeof(double));s.device->azimuthal_averages(reinterpret_cast<double*>(averages.data()));}else
+  if(s.device){static_assert(sizeof(AzimuthalAverage)==2*sizeof(double));s.device->azimuthal_averages(reinterpret_cast<double*>(averages.data()));}else
 #endif
   for(int j=0;j<nb;j++)for(int i=0;i<na;i++)averages[i+na*j]=azimuthal_average(s,i,j);
  }
@@ -498,7 +503,15 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
   // residual or its JVP. High regularity powers otherwise give cell Pe > 1.
   aa=std::max(aa,std::abs(ab)*ha/2);ba=std::max(ba,std::abs(bb)*hb/2);
 #endif
-  add(1,0,aa/(ha*ha)+ab/(2*ha));add(-1,0,aa/(ha*ha)-ab/(2*ha));add(0,0,-2*aa/(ha*ha));
+  if(HISPID_SPECTRAL_RADIAL_PRECONDITIONER){
+   // Off-diagonal differences preserve the constant radial mode exactly.
+   double diagonal=0;for(int ii=0;ii<na;ii++)if(ii!=i){
+    const double value=radial.entry(i,ii,r);
+    add(ii-i,0,value);diagonal-=value;
+   }add(0,0,diagonal);
+  }else{
+   add(1,0,aa/(ha*ha)+ab/(2*ha));add(-1,0,aa/(ha*ha)-ab/(2*ha));add(0,0,-2*aa/(ha*ha));
+  }
   add(0,1,ba/(hb*hb)+bb/(2*hb));add(0,-1,ba/(hb*hb)-bb/(2*hb));add(0,0,-2*ba/(hb*hb));
   const bool tau_boundary=HISPID_AXIS_TAU&&mode>=5&&(i==0||j==0||j==nb-1);
   if(tau_boundary){
@@ -530,11 +543,15 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
  }
  if(compact){
   for(int k=half+1;k<np;k++)for(int row=0;row<4*na*nb;row++)mat.row_scale[row+4*na*nb*k]=mat.row_scale[row+4*na*nb*(k-half)];
+  auto factor_one=[&](int group){if(!(group%2)||!reuse)mat.blocks[group].factor(group);};
 #ifdef PUNCTURES_KOKKOS
-  std::mutex lock;std::string error;
-  Kokkos::parallel_for("host modal factorizations",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,2*(factor_half+1)),[&](int group){if((group%2)&&reuse)return;try{mat.blocks[group].factor(group);}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
-  Kokkos::DefaultHostExecutionSpace().fence();if(!error.empty())throw std::runtime_error(error);
+  if(s.device){
+   std::mutex lock;std::string error;
+   Kokkos::parallel_for("host modal factorizations",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,2*(factor_half+1)),[&](int group){try{factor_one(group);}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
+   Kokkos::DefaultHostExecutionSpace().fence();if(!error.empty())throw std::runtime_error(error);
+  }else
 #endif
+  for(int group=0;group<2*(factor_half+1);group++)factor_one(group);
   mat.scalar_factorizations=factor_half+1;mat.vector_factorizations=reuse?0:factor_half+1;
   if(vector_cache)vector_cache->clear();
  }else mat.factor(vector_cache);return mat;
@@ -899,6 +916,8 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
 #endif
  }
 #endif
+ if(!sampler_only)allocation_bound+=HISPID_SPECTRAL_RADIAL_PRECONDITIONER*(16.L*c->n[0]*c->n[0]+24.L*c->n[0]);
+ if(allocation_bound>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="radial preconditioner allocation bound exceeds memory_limit_mib";return nullptr;}
  HiSpID_Data*s=nullptr;try{
   s=new HiSpID_Data;s->allocation_bound=allocation_bound;s->seed_family=family;s->config=s->local=*c;s->sampler_only=sampler_only;s->setup.geometry_execution=geometry_execution;
   if(geometry_execution)s->setup.scalar_digits=std::numeric_limits<double>::digits;
