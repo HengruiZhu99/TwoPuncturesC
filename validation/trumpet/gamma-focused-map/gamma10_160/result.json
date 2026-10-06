@@ -1,0 +1,287 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.5,
+        "center": [
+          12.5,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "velocity": [
+          -0.99498743710662,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "mass": 0.5,
+        "center": [
+          -12.5,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "velocity": [
+          0.99498743710662,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "n": [
+      160,
+      320,
+      8
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.007500000000000003,
+      0.007500000000000003
+    ],
+    "inner_max": [
+      0.025000000000000012,
+      0.025000000000000012
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "trumpet_r0_m"
+  },
+  "library_sha256": "47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd",
+  "kind": "gamma10_trumpet_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": true,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/run_trumpet_tolerance.py": "050a7ba0e9eeba701ff9bd485cf1b9557ad82fc2e72a9a09df112d0551aedc5d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/examples/trumpet_configs.py": "3bb7b06b7df4f2981d6420b68235f8227fe68ef2a52c953afbf7d07253e7e723",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/run_validation.py": "421d672ad71ce03ad0ca14858e08969669581de8e94611c213fc9f1e41ff879e",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/remapped_guess.py": "0d530c112ab7d20d4b7bd5ef95bfd5dbaf59d56cb5877c21854e55e6f9e674e8",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-polar/validation/prolong.py": "6b7927dedc543077d0af1fe97d72bd869ad57b6cd9332b1c54e394dd1803cf5f",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-polar/python/checkpoint_export.py": "77cd4915788b5fd45a30b7aee2c2b9e6b9cc28fb8526dcc56be24fe4300604e0"
+  },
+  "setup_seconds": 22.547128597972915,
+  "remapped_initial_guess": {
+    "source_maps": {
+      "radial_stretch": 0.2,
+      "angular_stretch": 2.0
+    },
+    "target_maps": {
+      "radial_stretch": 0.03,
+      "angular_stretch": 3.5
+    },
+    "source_library": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-polar-cuda/libHiSpID.so",
+    "source_checkpoint": {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/extreme-pilots/gamma10_160/diagnostic.checkpoint",
+      "file_sha256": "11e0cbc5edef5db174a4e033946cf14522bad161c008ef4b8e664aab2079ce2e",
+      "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+      "acceptance": "diagnostic",
+      "parameterization": "modal_P_C2prolate_mapped_v2",
+      "seed_family": "trumpet_r0_m",
+      "format_version": 2
+    },
+    "target_library_sha256": "47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd",
+    "acceptance_inherited": false,
+    "fresh_solve_required": true
+  },
+  "initial_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/extreme-pilots/gamma10_160/diagnostic.checkpoint",
+    "file_sha256": "11e0cbc5edef5db174a4e033946cf14522bad161c008ef4b8e664aab2079ce2e",
+    "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_mapped_v2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2,
+    "acceptance_inherited": false
+  },
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 4,
+    "krylov_iterations": 3500,
+    "npoints": 409600,
+    "scaled_linf": [
+      1.4533258590692416e-06,
+      2.1686008071857517e-06,
+      1.1551609197266173e-05,
+      1.1772030035358854e-05
+    ],
+    "unscaled_linf": [
+      0.0003344627120733256,
+      0.2848959931457321,
+      0.02338335763453813,
+      0.031450821502227666
+    ],
+    "seconds": 196.196108979,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "solve_artifact_sha256": "23dd1f7a1b174f65c77cdc247bba940a8b42bea24ae55f099f7d616c91e67d3c",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/gamma-focused-map/gamma10_160/diagnostic.checkpoint",
+    "file_sha256": "4cb0a437a1e11851a111db7abe0b6c5ac89426a92abe4ed00276c054ad7de0c2",
+    "source_library_sha256": "47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd",
+    "acceptance": "diagnostic",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 0.0036395418098403415,
+      "H_max": 0.012728431236146004,
+      "M_rms": 0.052423474995326014,
+      "M_max": 0.1583662852963247,
+      "M_components_rms": [
+        0.006541567045266832,
+        0.001181187480056785,
+        0.0014851481751450226
+      ],
+      "M_components_max": [
+        0.017348634999510476,
+        0.005346438174374404,
+        0.006331543727416565
+      ],
+      "normalized_H_max": 0.03629252077447389,
+      "normalized_M_max": 0.9586706727652279
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 2.618750560518842e-05,
+      "H_max": 8.111792299932206e-05,
+      "M_rms": 0.000374631596220358,
+      "M_max": 0.0009915133529132469,
+      "M_components_rms": [
+        0.0002129918440573169,
+        6.982305448335237e-05,
+        7.512262996361318e-05
+      ],
+      "M_components_max": [
+        0.0006028114826956523,
+        0.00013809831688603064,
+        0.00013116264099920967
+      ],
+      "normalized_H_max": 0.04530031724468091,
+      "normalized_M_max": 0.7963226686685094
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.0441721073685264,
+      "H_max": 0.11656164165556326,
+      "M_rms": 0.009367070290828203,
+      "M_max": 0.033162090042919326,
+      "M_components_rms": [
+        0.00013225164231946092,
+        0.0001993516737444343,
+        0.0002712521592472942
+      ],
+      "M_components_max": [
+        0.0004259353754492487,
+        0.0006175089509031727,
+        0.000731206471520981
+      ],
+      "normalized_H_max": 0.00746872558488775,
+      "normalized_M_max": 0.02744954352344938
+    }
+  },
+  "exterior_stencil_unmodified": true,
+  "minimum_psi": 0.9955051430095688,
+  "minimum_metric_eigenvalue": 0.9821413553985242,
+  "charge_radii": [
+    256.0,
+    512.0,
+    1024.0
+  ],
+  "charges": [
+    [
+      9.71653486759164,
+      0.0004773835223848259,
+      4.950146726784706e-08,
+      2.0586726479361756e-08,
+      -9.51664303668072e-12,
+      -0.07176780426430981,
+      0.007326705441175419
+    ],
+    [
+      9.931866311950033,
+      0.00047477625590979444,
+      5.5534070481330306e-08,
+      2.1405649107498937e-08,
+      2.245984419389153e-13,
+      -0.0912362769405802,
+      0.007721144284803094
+    ],
+    [
+      9.793858568485568,
+      0.0004700949805547251,
+      5.839907309667512e-08,
+      2.0226949984633956e-08,
+      -3.6502536190119703e-13,
+      -0.10181573487110028,
+      0.007865658781414812
+    ]
+  ],
+  "charges_extrapolated": [
+    9.492068514591997,
+    0.00046316194378795346,
+    6.11632097177554e-08,
+    1.7989477237146603e-08,
+    -4.5948121945079266e-12,
+    -0.11295867386321028,
+    0.007975036661225121
+  ],
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.09853079853251305,
+      18.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.09589943206664489,
+      60.0
+    ],
+    [
+      2.0,
+      0.1,
+      0.09974271543392016,
+      1022.0
+    ],
+    [
+      3.0,
+      0.1,
+      0.18349290725842618,
+      2400.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 3560,
+    "preconditioner_applications": 3500
+  },
+  "total_seconds": 287.18141680699773,
+  "process_peak_rss_kib": 1632608
+}

@@ -713,3 +713,32 @@ mass or spin from this attempt is accepted. The next focused angular sequence
 isl12/16/20 with alpha=.2 and unchanged strict tolerance, using the same bound
 checkpoint and previously-passed migration proof. It tests angular truncation
 without changing initial data or launching a flow-parameter sweep.
+
+### Gamma10 focused-map failure and symmetry diagnosis
+
+Allocation59408624 completed the focused-map Gamma10 trial in287.18s total
+(196.20s solve). It **fails** after4 Newton/3500 Krylov iterations; the final
+linear solve uses2400 iterations with relative residual0.1835. Largest weighted
+nonlinear residual is1.177e-5. Near H/M RMS are3.640e-3/5.242e-2; bulk are
+2.619e-5/3.746e-4. The map does not improve this case and is not adopted as
+validated boost data. Retained results are under `gamma-focused-map/gamma10_160`.
+The unaccepted iterate has spurious transverse angular momentum; its charges
+are diagnostics only.
+
+For exactly coaxial nonspinning data, rotational symmetry about the local
+puncture x axis implies scalar andb_x have onlym0, whileb_y/b_z have matching
+cos(phi)/sin(phi) coefficients, with no azimuthal circulation. Inspection of
+the retained modal-P vectors finds forbidden-sector relative maxima0.053--0.305
+in the original-map failed iterate, and0.993--1.000 in the focused-map failed
+iterate. These auxiliary-coefficient norms are not physical-field error norms.
+They motivate an opt-in symmetry-preserving Krylov search, with full unprojected
+Newton stopping/line search and independent physical acceptance retained.
+`inspect_trumpet_axisymmetry.py`, `gamma-focused-map/axisymmetry.json` and
+`spectrum.json` bind this evidence; no coefficients are changed by those scripts.
+
+The spin fixed-polynomial directional replay59408748 completed without solving.
+Refining only radial192->224 gives bulk native-equivalent component RMS
+(3.759e-5,1.110e-4,3.626e-5,3.395e-5); refining only polar384->448 gives
+(1.590e-5,1.001e-5,3.280e-5,2.942e-5). Both directions have unresolved error,
+with the radial Hamiltonian andx-momentum contributions larger. This is not
+a physical convergence result. See `spin-focused-map/directional-replay.json`.
