@@ -1,0 +1,12 @@
+{
+  "allocation": "59402564",
+  "root": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics",
+  "workflow_commit": "afae002",
+  "state_at_receipt": "running",
+  "completed_evidence": "kerr99 migration has zero field/gradient differences; horizon orders8 and12 pass",
+  "remaining_worker_sequence": "horizon order16, then24x48x8 diagnostic moderate binary pilot",
+  "extra_near_seed_check": "not executed: two additional step requests could not start while the main step held reserved ports; pending requests cancelled without disturbing the main step",
+  "near_seed_script": "validation/check_trumpet_near_seed.py",
+  "binary_acceptance": false,
+  "note": "This receipt is not a live process or a completion proof. Revalidate the job and inspect final outputs before continuing; do not restart a live worker."
+}
