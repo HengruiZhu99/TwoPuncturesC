@@ -1,0 +1,20 @@
+{
+  "scope": "First exploratory aligned-spin trumpet binary, not final validation",
+  "case": "spin99",
+  "seed_mass_each": 0.5,
+  "seed_chi_each": 0.99,
+  "spin_axis": "+z",
+  "coordinate_separation": 12,
+  "boost_each": 0,
+  "resolution": [160, 320, 32],
+  "nonlinear_tolerance": 1e-12,
+  "krylov": "gmres",
+  "restart": 64,
+  "geometry_backend": "host long double",
+  "elliptic_backend": "CUDA, one GPU",
+  "baseline_image": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+  "readiness": "Seed, operator, sampler portability and moderate-binary AthenaK horizon checks pass; two moderate grids meet exterior physical-error bounds.",
+  "unresolved": "Moderate-binary decreasing bulk-error sequence still fails. This exploratory run cannot establish the solver's fully validated range.",
+  "acceptance": "Always diagnostic; retain internal convergence, positivity, independent fixed near/bulk/modified constraints and charges. No horizon or resolution acceptance inferred from a single run.",
+  "next": "Diagnose this result before selecting further spin grids. The separate Gamma10 head-on target remains required."
+}
