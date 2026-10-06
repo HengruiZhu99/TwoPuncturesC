@@ -151,11 +151,15 @@ iterate with standard forcing $0.1$ takes one additional Newton step and
 $3.35\times10^{-13}$ against the unchanged $10^{-12}$ tolerance.
 Independent near $H/M$ RMS errors are $2.071\times10^{-7}/1.651\times10^{-7}$;
 bulk errors are $5.023\times10^{-8}/4.336\times10^{-7}$. All per-grid physical
-bounds pass. Job 59421025 has advanced to the $240\times480$ level; the final
-$256\times512$ level and three-grid convergence assessment remain pending.
-Both use $n_\phi=16$ and the same native image and physical acceptance criteria.
-GMRES restart 24 fits the unchanged aggregate memory bound with the new
-boundary matrices; each completed grid must pass physical bounds before
+bounds pass. The subsequent $240\times480$ run with restart 24 fails a late
+linear solve (relative residual $0.873$ after 2400 iterations); bulk momentum
+RMS is $1.72\times10^{-6}$ and the nonlinear maximum is $1.62\times10^{-9}$.
+It remains unvalidated. Job 59421758 resumes that saved state with restart 64,
+then uses restart 32 for $256\times512$ if the preceding level passes. The
+unchanged aggregate allocation estimates are 60.72 and 63.55 GiB, respectively.
+The passing 224-grid result is reused. All levels use $n_\phi=16$, the same
+native image, and unchanged nonlinear and physical acceptance criteria.
+Each completed grid must pass nonlinear and physical bounds before
 continuing, and the final assessment checks decreasing errors and charges.
 A matching CPU sampler and AthenaK consumer built successfully in job
 59420409; new-checkpoint import and horizon measurements remain to be run.

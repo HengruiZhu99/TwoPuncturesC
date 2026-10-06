@@ -1536,3 +1536,19 @@ overestimated4096-byte cache used in the initial preflight; no guard or native
 code is changed. `restart-memory-preflight.json` records source hashes and
 estimates, not measured peak memory. A larger restart is a feasible targeted
 retry if the live240 linear solve fails; it has not been applied to that run.
+
+Sequence-v2 job59421025 terminated after failing240;256 was not launched.
+The240 level accepted four full Newton steps, then exhausted2400 Krylov steps
+at relative0.8729704 vs0.1. Total5 attempted Newton/4311 Krylov, nonlinear
+max1.61556e-9>1e-12. Near H/M RMS7.51953e-7/2.19342e-7; bulk1.12602e-7/1.72401e-6
+also fails momentum bound. Solve824.584s, workflow1084.748s, RSS12152192KiB.
+Checkpoint8c920fe6ef5ed7392db21e6cbea8df5a064b7a47aad2a137f80c70085810a275.
+Records retained under `axis-tau/polar-exact/sequence-v2/moderate240`.
+
+Job59421758 resumes that state with restart64 at240, keeping forcing0.1 and
+all final criteria unchanged. Existing allocation estimate60.71624GiB fits
+64GiB; if240 passes,256 uses restart32 (63.55018GiB). No guard modification.
+The passed224 result is reused by the final three-grid assessment. Outputs:
+`axis-tau-polar-sequence-v3`; command `sequence_larger_restart.sh`. Old job
+terminal failure/released allocation verified before this single-GPU launch.
+Prepared, unlaunched horizon script now targets this sequence's256 dataset.

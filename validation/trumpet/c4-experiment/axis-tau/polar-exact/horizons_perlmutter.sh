@@ -3,7 +3,7 @@ set -euo pipefail
 module load cray-python/3.12.12
 : "${SLURM_JOB_ID:?compute allocation required}"
 PUNCTURE_ROOT=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005
-PUNCTURE_DATA="$PUNCTURE_ROOT/axis-tau-polar-sequence-v2/moderate256"
+PUNCTURE_DATA="$PUNCTURE_ROOT/axis-tau-polar-sequence-v3/moderate256"
 PUNCTURE_RUN="$PUNCTURE_ROOT/axis-tau-polar-horizon-v1"
 # Individual physical bounds gate this consumer run; the separate three-grid
 # assessment still governs convergence and is never inherited by this test.

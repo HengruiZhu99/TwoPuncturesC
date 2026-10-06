@@ -1,0 +1,92 @@
+HiSpID Newton trace it=0 residual_l2=0.0006009554784475391 step_linf=327.32021390070992 linear_relative=0.090948517777530657 slope=-0.99172836711460144
+HiSpID Newton trial it=0 damping=1 residual_ratio=0.090948517773395465 directional_remainder=1.5398074419056657e-08 min_psi=1.0000043005668982 nonfinite=0
+HiSpID Newton trace it=1 residual_l2=5.4656010012605389e-05 step_linf=339.67662481389044 linear_relative=0.061581101673449171 slope=-0.99620776791745991
+HiSpID Newton trial it=1 damping=1 residual_ratio=0.061581101429541492 directional_remainder=1.6750850950696541e-07 min_psi=1.0000043005262607 nonfinite=0
+HiSpID Newton trace it=2 residual_l2=3.365777296320288e-06 step_linf=154.7368500211401 linear_relative=0.096045407105455921 slope=-0.99077527977407454
+HiSpID Newton trial it=2 damping=1 residual_ratio=0.096045404993877481 directional_remainder=2.7203307072348985e-06 min_psi=1.0000043004287222 nonfinite=0
+HiSpID Newton trace it=3 residual_l2=3.2326744354428002e-07 step_linf=98.87388739070127 linear_relative=0.099997740730794205 slope=-0.94692201216307059
+HiSpID Newton trial it=3 damping=1 residual_ratio=0.09999770888958126 directional_remainder=2.9815855138280982e-05 min_psi=1.000004300492833 nonfinite=0
+{
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 5,
+    "krylov_iterations": 4311,
+    "npoints": 1843200,
+    "scaled_linf": [
+      4.6053381086890876e-11,
+      7.205385225125141e-10,
+      8.165912458037365e-10,
+      1.6155560734307614e-09
+    ],
+    "unscaled_linf": [
+      0.00013940742097161754,
+      0.00011550051630129203,
+      0.008341935785229326,
+      0.014515915263775069
+    ],
+    "seconds": 824.583739396,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 7.519525399539113e-07,
+      "H_max": 1.5051510585673e-06,
+      "M_rms": 2.1934214648943393e-07,
+      "M_max": 5.73323763492442e-07,
+      "M_components_rms": [
+        6.12152646617924e-08,
+        7.32259979504002e-08,
+        9.361786078630302e-08
+      ],
+      "M_components_max": [
+        1.384867449103991e-07,
+        3.4532948359438744e-07,
+        3.8512694413260024e-07
+      ],
+      "normalized_H_max": 9.879794237285008e-06,
+      "normalized_M_max": 3.3934706500422875e-06
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 1.1260166992468469e-07,
+      "H_max": 2.9973421349777096e-07,
+      "M_rms": 1.724014997351129e-06,
+      "M_max": 3.56294105535583e-06,
+      "M_components_rms": [
+        1.6202987109540144e-07,
+        9.471443950238698e-07,
+        1.1863607143050907e-06
+      ],
+      "M_components_max": [
+        4.5969021074461383e-07,
+        2.699901339620404e-06,
+        3.1254620123756128e-06
+      ],
+      "normalized_H_max": 0.0004139609196963569,
+      "normalized_M_max": 0.0022424982585341467
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.16808123778518813,
+      "H_max": 0.43956953920300634,
+      "M_rms": 0.010327077216443003,
+      "M_max": 0.022257537364150346,
+      "M_components_rms": [
+        0.0009894060004072044,
+        0.0010396301185207097,
+        0.0010231296643629663
+      ],
+      "M_components_max": [
+        0.00285331982395243,
+        0.002700553671007152,
+        0.0026799384024964444
+      ],
+      "normalized_H_max": 0.02101532028968315,
+      "normalized_M_max": 0.011298876450042789
+    }
+  },
+  "minimum_psi": 1.0289968594556251,
+  "total_seconds": 1084.7478663770016
+}
