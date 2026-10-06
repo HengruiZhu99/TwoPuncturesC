@@ -1,0 +1,12 @@
+No new solve is required for these diagnostics.
+Perlmutter artifacts under /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/c4-continuation-v1:
+  coarse/diagnostic.checkpoint -> /tmp/trumpet-c4-continuation-coarse.checkpoint
+  coarse/physical.npz -> /tmp/trumpet-c4-continuation-physical.npz
+  moderate192/solve.npz -> /tmp/trumpet-c4-continuation-fine.npz
+Use build-c4-experiment/libHiSpID.dylib (hash recorded in result JSON), or a matching C4 sampler.
+
+python3 validation/diagnose_trumpet_transfer.py --library build-c4-experiment/libHiSpID.dylib --checkpoint /tmp/trumpet-c4-continuation-coarse.checkpoint --points /tmp/trumpet-c4-continuation-physical.npz --shape 192 384 16 --output /tmp/trumpet-transfer.json
+python3 validation/diagnose_trumpet_step_modes.py --library build-c4-experiment/libHiSpID.dylib --checkpoint /tmp/trumpet-c4-continuation-coarse.checkpoint --points /tmp/trumpet-c4-continuation-physical.npz --final /tmp/trumpet-c4-continuation-fine.npz --shape 192 384 16 --output /tmp/trumpet-step-modes.json
+
+Field scaling is abs(fine-coarse)/(1+abs(coarse)); this is a transfer diagnostic, not a physical acceptance norm.
+The step decomposition adds one Fourier mode pair of final-minus-prolonged to the prolonged state. Physical K and metric gradients depend nonlinearly on that state, so these per-mode changes must not be added as if independent linear tensor contributions.

@@ -144,6 +144,13 @@ relative residual $0.0181$ against $0.001$. The coarse solution already fails
 independent physical bounds; the final fine iterate is substantially worse
 (near-hole $H/M$ RMS $0.559/0.155$, bulk $7.35/3.50$). Algebraic coarse
 convergence therefore does not supply a successful fine-grid initial guess.
+A no-solve comparison of the coarse and prolonged fields at 102 observer
+points gives maximum scaled field difference $1.64\times10^{-13}$ and
+metric-gradient difference $3.19\times10^{-12}$. A gross transfer defect at
+these points is therefore excluded. Decomposing the accepted step identifies
+$m=6$ as the largest sampled perturbation ($\max|\Delta K_{ij}|=0.505$,
+$\max|\Delta\partial\gamma|=0.572$), motivating investigation of high-mode
+conditioning. No modes are removed from an accepted solution.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

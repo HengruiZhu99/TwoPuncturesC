@@ -1,0 +1,66 @@
+{
+  "purpose": "Compare retained fields before/after modal prolongation; no elliptic solve.",
+  "checkpoint": {
+    "path": "/private/tmp/trumpet-c4-continuation-coarse.checkpoint",
+    "file_sha256": "9738e21d5391e7320b9c4dc40359f912764b6a21f021bbb1de578ae2e7782493",
+    "source_library_sha256": "02747bf1f1779993978799890c8e157d321616c3bf7d4ee28a172597c7602d62",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C4prolate_map_v4_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "library_sha256": "323209afa86ea0403d8a23aeb0738cd1074a0840687ba9c37fe94d3a89033bed",
+  "driver_sha256": "319f1323f88657141f3b72b981c4b84bd67476085f6a1bf6064bf2da36041434",
+  "points_sha256": "dccb9c8db6cd938d87b05baa579e96b8a1ea600c040753ab88e31569e09bd8e0",
+  "old_shape": [
+    12,
+    24,
+    16
+  ],
+  "new_shape": [
+    192,
+    384,
+    16
+  ],
+  "point_count": 102,
+  "binary_acceptance": false,
+  "errors": {
+    "gamma": {
+      "absolute_linf": 9.947598300641403e-14,
+      "scaled_linf": 8.738424383357471e-15
+    },
+    "Kij": {
+      "absolute_linf": 1.7985612998927536e-13,
+      "scaled_linf": 1.3452094371020355e-13
+    },
+    "psi": {
+      "absolute_linf": 4.218847493575595e-15,
+      "scaled_linf": 2.0760304066931297e-15
+    },
+    "conformal_metric": {
+      "absolute_linf": 0.0,
+      "scaled_linf": 0.0
+    },
+    "Atilde": {
+      "absolute_linf": 4.263256414560601e-13,
+      "scaled_linf": 1.6381310923330048e-13
+    },
+    "mean_curvature": {
+      "absolute_linf": 0.0,
+      "scaled_linf": 0.0
+    },
+    "correction": {
+      "absolute_linf": 4.484433657747644e-14,
+      "scaled_linf": 4.420496360233477e-14
+    },
+    "attenuation": {
+      "absolute_linf": 0.0,
+      "scaled_linf": 0.0
+    },
+    "dgamma": {
+      "absolute_linf": 6.45741238258779e-11,
+      "scaled_linf": 3.1867666122704318e-12
+    }
+  },
+  "seconds": 0.848206917
+}

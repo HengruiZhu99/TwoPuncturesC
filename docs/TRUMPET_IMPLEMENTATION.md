@@ -1227,3 +1227,20 @@ The next diagnostic should compare unchanged coarse and prolonged fields
 before any Newton step, and localize high-mode corrections; the final failed
 iterate alone cannot distinguish transfer error from nonlinear-step damage.
 Do not repeat this coarse-to-fine solve or infer a converged C4 physical result.
+
+A no-solve transfer check now compares coarse and prolonged physical fields
+and metric gradients at all102 existing near/bulk/modified observer points.
+The same C4 CPU sampler evaluates both representations: maximum scaled field
+error is1.64e-13 and gradient error3.19e-12. This rules out a gross transfer
+defect at those points, not all possible interpolation errors. The source
+checkpoint hash is9738e21d5391e7320b9c4dc40359f912764b6a21f021bbb1de578ae2e7782493.
+A separate decomposition of the retained accepted step identifies m6 as the
+largest sampled field perturbation: its auxiliary coefficient change reaches
+2.083e9, physical correction0.0266, Kij0.505 and metric gradient0.572. Modes
+above4 are strongly amplified. This is evidence for investigating C4 high-mode
+conditioning/source precision, not a justification to filter accepted data.
+No mode-filtered field is saved as a solution and no new physical acceptance
+is claimed. Scripts are `diagnose_trumpet_transfer.py` and
+`diagnose_trumpet_step_modes.py`; results are `continuation-v1/transfer.json`
+and `step-modes.json`. Both use the existing local C4 sampler image with the
+same explicit basis/maps; their image hashes are recorded.
