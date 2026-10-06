@@ -157,6 +157,22 @@ case and 161.3 seconds (273 seconds total, 3.53 GiB RSS) for the listed boost
 case. Host RSS excludes GPU allocation. The radial-512 run retains the existing
 64 GiB aggregate guard; its conservative estimate is 63.74 GiB.
 
+The longer radial-512 attempt exposed a host factor-construction bottleneck:
+a live stack snapshot found active threads in the modal preconditioner's
+column-wise triangular solves. The qualified opt-in implementation constructs
+$A^{-1}\operatorname{diag}(U)$ with two matrix-right-hand-side triangular solves,
+retaining the same LU factors, pivots and block recurrence. On a 512-row
+pivoted control, the original-matrix residual is $7.41\times10^{-16}$ and the
+old/new transfer difference is $5.11\times10^{-16}$. Necessary kernel timings
+on Perlmutter are $0.556$ versus $0.107$ seconds (a factor of $5.19$);
+\textbf{this is not a whole-solver speedup measurement}. A local small-solve
+field/gradient comparison agrees within $1.31\times10^{-16}$, and the separate
+CUDA axisymmetric control passes. The option remains off by default. A
+continuation command pins the tested image and preserves the radial-512
+configuration; it is reserved for a terminal runtime failure, not a duplicate
+run. Evidence is in \path{validation/trumpet/batched-transfer/} and
+\path{validation/trumpet/axial-factors/stack-snapshot.txt}.
+
 \section{Reproducibility and remaining work}
 The native and consumer branches are \path{codex/hispid-trumpet} and
 \path{codex/hispid-trumpet-pgen}; neither is merged. Detailed evidence, failed
