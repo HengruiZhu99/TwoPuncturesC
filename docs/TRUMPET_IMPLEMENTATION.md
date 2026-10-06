@@ -1853,3 +1853,17 @@ rather than another Krylov or tolerance sweep. Physical acceptance unchanged.
 Raw JSON/log/job ID are in residual-localization/reference-v2. Both arrays
 remain in remote axis-tau-residual-reference-v2/residual240.npz with SHA256
 1f52fef6a78aa4d8c9867c74ab99239474365c5089072aa8d2aad8c41fe8d414.
+
+Reanalysis of those saved arrays (no new solve) finds a grid-scale residual:
+orthonormal radial/polar DCT-II median degrees238/477 on240/480 nodes.
+The last eight radial/polar modes carry93.59864%/78.55749% of squared residual;
+upper halves carry98.66988%/87.67540%. CPU reference gives the same pattern.
+Script residual-localization/spectrum.py validates the array hash and Parseval
+identity (maximum discrepancy2.0e-15); a known product of degree3 radial and
+degree7 polar cosine modes is recovered to1e-13. Result reference-v2/spectrum240.json.
+These are weighted residual spectra, not spectra of the solution or independent
+physical constraints. They identify grid-scale stagnation but do not prove its
+cause. A targeted next candidate is exact spectral radial differentiation in
+the already-dense radial preconditioner blocks, retaining polar FD structure,
+tau conditions, memory guards, and the unchanged residual/JVP. This tests
+high-frequency approximation quality without filtering or another method sweep.

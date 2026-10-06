@@ -217,6 +217,12 @@ $1.42\times10^{-4}$ of the CUDA residual norm $1.48\times10^{-9}$.
 Backend-specific evaluation differences therefore do not account for the
 dominant stalled residual; common discretization or precision errors remain
 possible. Neither backend is assumed to be exact.
+Reanalysis of these saved arrays finds $93.60\%$ of weighted residual energy
+in the last eight radial DCT modes and $78.56\%$ in the last eight polar modes;
+median degrees are 238 and 477 on 240 and 480 nodes. Both backends agree.
+This identifies grid-scale stagnation and motivates improving the spectral
+operator's low-order preconditioner, without establishing the cause or
+justifying residual filtering.
 Final nonlinear and physical criteria remain unchanged. Binary acceptance
 remains open.
 
