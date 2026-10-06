@@ -480,6 +480,7 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
  mat.maximum_mode=s.axisymmetric?1:half;
  const int factor_half=mat.mode_limit();
  const double ha=Pi/na,hb=Pi/nb;
+ const auto endpoint=HISPID_AXIS_TAU?hispid::tau_weights(na,nb):std::vector<double>{};
  std::vector<AzimuthalAverage>averages;
  if(share_averages){
   averages.resize(na*nb);
@@ -526,8 +527,9 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
     int next=j==0?1:nb-2;double z0=-std::cos(hb*(j+.5)),z1=-std::cos(hb*(next+.5)),end=j==0?-1:1;
     add(0,0,(z1-end)/(z1-z0));add(0,next-j,(end-z0)/(z1-z0));
    }else{
-    double z0=-std::cos(ha*.5),z1=-std::cos(ha*1.5);
-    add(0,0,(z1+1)/(z1-z0));add(1,0,(-1-z0)/(z1-z0));
+    // The radial blocks are already dense: enforce the exact endpoint row
+    // at no additional matrix storage, instead of a two-point approximation.
+    for(int ii=0;ii<na;ii++)add(ii,0,endpoint[2*nb+ii]);
    }
   }
   for(int v=0;v<4;v++){

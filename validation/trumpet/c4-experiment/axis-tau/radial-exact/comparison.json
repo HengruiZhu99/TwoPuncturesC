@@ -1,0 +1,6 @@
+{
+  "residual_bitwise_equal": true,
+  "jvp_bitwise_equal": true,
+  "binary_acceptance": false,
+  "field_scaled_linf": 1.0116082263636922e-13
+}

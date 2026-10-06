@@ -1,0 +1,10 @@
+{
+  "row_error_linf": 3.3306690738754696e-16,
+  "jvp_relative_l2": 9.996945933235859e-12,
+  "checkpoint_roundtrip": true,
+  "library_sha256": "03abf09a3c2f2100966d21c7462718a47fe918f02725e2017fdc25f1862f942e",
+  "driver_sha256": "d233e663738d494d34b426857df768ac303b12a6e9705561fda8fcd6d6feac24",
+  "execution": "kokkos",
+  "binary_acceptance": false,
+  "passed": true
+}

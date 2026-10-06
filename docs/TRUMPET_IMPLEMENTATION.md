@@ -1408,3 +1408,20 @@ against its linked sampler. Therefore tau integration requires a matching
 CPU sampler build, not a weaker reader check. The prepared
 `axis-tau/build_consumer_perlmutter.sh` builds that sampler and the existing
 AthenaK pgen in separate output directories. It has not been launched.
+
+The first native tau fine-grid run59418528 completed8:32, but its first linear
+solve exhausted2400 iterations at relative residual0.008948 versus0.001; no
+Newton update was accepted. Solve235.606s, workflow406.938s. The retained
+zero-correction checkpoint is7c01f0713fd4e3d32d0d881ae7fb6a3c09990c0b417053a01d99dd76ee7f633b.
+Near H/M RMS0.1874/0.04975 and bulk0.000941/0.001329 fail physical bounds.
+Full logs and result are `axis-tau/gpu-v1`; no horizon run is warranted yet.
+
+The radial tau rows of the preconditioner now use exact endpoint weights:
+its existing dense radial blocks can store these with no additional matrix
+size. Polar endpoint rows still use local two-point approximations to retain
+block-tridiagonal storage. Residual and JVP witnesses remain bitwise equal
+to the original tau path. The small nonlinear control takes5 Newton/61 Krylov
+versus5/69, with converged sampled fields agreeing to1.01e-13. An isolated
+CUDA build/replay from the zero-correction checkpoint tests the fine-grid
+linear solve before any further full solve. Records and command are
+`axis-tau/radial-exact`; no physical acceptance is claimed.
