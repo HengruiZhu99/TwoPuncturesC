@@ -21,7 +21,7 @@ def main():
     p.add_argument('--linear-rtol', type=float, default=.001)
     p.add_argument('--max-krylov', type=int)
     p.add_argument('--krylov-restart', type=int)
-    p.add_argument('--krylov', choices=('gmres', 'bicgstab'), default='gmres')
+    p.add_argument('--krylov', choices=('gmres', 'bicgstab', 'lgmres'), default='gmres')
     a = p.parse_args()
     if a.output.exists():
         raise FileExistsError(a.output)

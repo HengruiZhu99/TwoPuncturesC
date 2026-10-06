@@ -1747,3 +1747,21 @@ converges in90 iterations to true4.26767e-13. This is an algorithm control,
 not an equal-memory performance claim or evidence about the binary system.
 A direct C-as-C++ compile attempt failed on existing C void-pointer conversions;
 it is not a Kokkos compilation test. CUDA qualification remains pending.
+
+HiSpID now explicitly selects lgmres through native/Python options, preserving
+old enum values/ABI and default choices. Its allocation guard adds ten vectors
+plus1MiB scalar headroom to the existing aggregate bound before solving.
+A20x28x8/restart64 context fits40MiB but the augmented solve is correctly
+rejected. The production240/restart64 estimate is61.266533GiB below64GiB.
+Small CPU nonlinear restart5 augmentation:5Newton68Krylov, sampled field
+scaled difference9.46951e-14 from the retained compensated baseline; residual
+and JVP witnesses bitwise unchanged. Records in polar-exact/augmented-gmres.
+Job59424143 builds the selected CUDA implementation in source/build-axis-tau-lgmres,
+runs only shared Krylov controls and the small augmented HiSpID solve, then
+probes one Newton step of the saved240 state with restart64/target0.1/max2400.
+No physical acceptance is inherited. Script run_perlmutter.sh; output
+axis-tau-lgmres-v1. CUDA results pending. A local follow-up guard explicitly
+rejects LGMRES in the BY-specific Kokkos wrapper (its capacity formula supports
+only the existing two methods); this guard is not in the already dispatched
+source snapshot and is irrelevant to the HiSpID-only probe. It will be included
+in the next source build. BY's Python adapter continues to reject lgmres.

@@ -72,14 +72,7 @@ void equations(const Background&b,const Jet u[4],double out[4],const Jet *du){
  }
 }
 
-bool valid(const HiSpID_Config&c,bool sampler_only){
- if(c.conformal_choice<0||c.conformal_choice>1||c.attenuation_power<2||c.attenuation_power%2)return false;
- if(!std::isfinite(c.far_radius)||!std::isfinite(c.tolerance)||c.tolerance<=0||c.max_newton<0||c.max_krylov<1||c.krylov_restart<2||c.krylov_restart>200)return false;
- const int limit[3]={HISPID_MAX_RADIAL_POINTS,HISPID_MAX_POLAR_POINTS,HISPID_MAX_AZIMUTHAL_POINTS};
- for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>limit[k]||(k==2&&c.n[k]%2))return false;
- /* Bound the compact cache, four-field modal FD stencil and Krylov basis before
-  * allocation. Larger grids require an explicit per-context budget. */
- if(c.memory_limit_mib<16||c.memory_limit_mib>65536)return false;
+double allocation_bound(const HiSpID_Config&c,bool sampler_only){
  const double npt=(double)c.n[0]*c.n[1]*c.n[2];
  // Sampler: values, coefficients and SpecCoef's two padded scalar scratch
  // arrays/pointer tables, with headroom for the smallest allowed grids.
@@ -96,7 +89,18 @@ bool valid(const HiSpID_Config&c,bool sampler_only){
 #if HISPID_STABLE_SCALAR_SOURCE
  if(!sampler_only)extra+=16*npt;
 #endif
- if(npt*bytes_per_point+block_bytes+extra>(double)c.memory_limit_mib*1024*1024)return false;
+ return npt*bytes_per_point+block_bytes+extra;
+}
+
+bool valid(const HiSpID_Config&c,bool sampler_only){
+ if(c.conformal_choice<0||c.conformal_choice>1||c.attenuation_power<2||c.attenuation_power%2)return false;
+ if(!std::isfinite(c.far_radius)||!std::isfinite(c.tolerance)||c.tolerance<=0||c.max_newton<0||c.max_krylov<1||c.krylov_restart<2||c.krylov_restart>200)return false;
+ const int limit[3]={HISPID_MAX_RADIAL_POINTS,HISPID_MAX_POLAR_POINTS,HISPID_MAX_AZIMUTHAL_POINTS};
+ for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>limit[k]||(k==2&&c.n[k]%2))return false;
+ /* Bound the compact cache, four-field modal FD stencil and Krylov basis before
+  * allocation. Larger grids require an explicit per-context budget. */
+ if(c.memory_limit_mib<16||c.memory_limit_mib>65536)return false;
+ if(allocation_bound(c,sampler_only)>(double)c.memory_limit_mib*1024*1024)return false;
  bool active=false;for(int h=0;h<2;h++){
   const auto&v=c.hole[h];if(!std::isfinite(v.mass)||v.mass<0)return false;
   for(int k=0;k<3;k++)if(!std::isfinite(v.center[k])||!std::isfinite(v.spin[k])||!std::isfinite(v.velocity[k]))return false;

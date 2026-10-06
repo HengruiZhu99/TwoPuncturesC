@@ -8,7 +8,7 @@
 using namespace puncture;
 static int checks;
 #define CHECK(c) do{checks++;if(!(c)){fprintf(stderr,"line%d: %s\n",__LINE__,#c);return 1;}}while(0)
-int main(){
+int main(int argc,char**argv){
  initialize();{
  const int n=19;std::vector<double>matrix(n*n,0),exact(n),rhs(n,0),answer(n);
  for(int i=0;i<n;i++){exact[i]=std::sin(i+.2);for(int j=0;j<n;j++)matrix[n*i+j]=i==j?4+.1*i:(j==i+1?-.8:(i==j+2?.35:0));}
@@ -16,7 +16,7 @@ int main(){
  auto a=upload(matrix,"matrix"),b=upload(rhs,"RHS");View x("solution",n);
  Action A=[=](View in,View out){Kokkos::parallel_for("dense A",Range(0,n),KOKKOS_LAMBDA(int i){double sum=0;for(int j=0;j<n;j++)sum+=a(n*i+j)*in(j);out(i)=sum;});};
  Action M=[=](View in,View out){each(out,KOKKOS_LAMBDA(int i){out(i)=in(i)/a(n*i+i);});};
- for(int method=0;method<2;method++)for(int restart:{3,19}){
+ for(int method=0;method<3;method++)for(int restart:{3,19}){
   PK_Options o{method,200,restart,1,0,0,1e-11,nullptr,nullptr};PK_Result r{};zero(x);
   CHECK(solve(b,x,o,A,M,r)==PK_SUCCESS);CHECK(r.true_residual<=o.absolute_tolerance);download(x,answer.data());
   double residual=0;for(int i=0;i<n;i++){double d=rhs[i];for(int j=0;j<n;j++)d-=matrix[n*i+j]*answer[j];residual+=d*d;CHECK(std::abs(answer[i]-exact[i])<1e-10);}CHECK(std::sqrt(residual)<=o.absolute_tolerance);
@@ -27,20 +27,32 @@ int main(){
  PK_Options valid{PK_GMRES,200,19,1,0,0,1e-11,nullptr,nullptr};PK_Result r{};
  Action identity=[](View in,View out){copy(out,in);};Action empty;
  View z("zero RHS",n);zero(z);
- for(int method:{PK_GMRES,PK_BICGSTAB}){
+ for(int method:{PK_GMRES,PK_BICGSTAB,PK_LGMRES}){
   valid.method=method;
   for(auto rhs_view:{b,z}){zero(x);CHECK(solve(rhs_view,x,valid,empty,M,r)==PK_INVALID);CHECK(solve(rhs_view,x,valid,A,empty,r)==PK_INVALID);}
   zero(x);CHECK(solve(z,x,valid,identity,identity,r)==PK_SUCCESS);CHECK(r.iterations==0&&r.true_residual==0);
   copy(x,b);CHECK(solve(b,x,valid,identity,identity,r)==PK_SUCCESS);CHECK(r.true_residual<=valid.absolute_tolerance);
   if(method==PK_BICGSTAB)CHECK(r.iterations==0); // nonzero initial guess is retained
   for(int bad=0;bad<8;bad++){
-   auto o=valid;switch(bad){case 0:o.method=2;break;case 1:o.max_iterations=0;break;case 2:o.restart=4097;break;case 3:o.verify_true_residual=2;break;case 4:o.legacy_bicgstab=2;break;case 5:o.eager_gmres_basis=2;break;case 6:o.absolute_tolerance=NAN;break;case 7:o.absolute_tolerance=-1;}
+   auto o=valid;switch(bad){case 0:o.method=3;break;case 1:o.max_iterations=0;break;case 2:o.restart=4097;break;case 3:o.verify_true_residual=2;break;case 4:o.legacy_bicgstab=2;break;case 5:o.eager_gmres_basis=2;break;case 6:o.absolute_tolerance=NAN;break;case 7:o.absolute_tolerance=-1;}
    zero(x);CHECK(solve(b,x,o,A,M,r)==PK_INVALID);
   }
   zero(x);CHECK(solve(b,b,valid,A,M,r)==PK_INVALID);
  }
  valid.method=PK_BICGSTAB;valid.verify_true_residual=0;zero(x);CHECK(solve(b,x,valid,A,M,r)==PK_INVALID);
  valid.verify_true_residual=1;Action singular=[](View,View out){zero(out);};CHECK(solve(b,x,valid,singular,identity,r)==PK_BREAKDOWN);
+ {
+  const int dim=9;std::vector<double>spectrum={.01,.02,.04,1,2,4,8,16,32},answer(dim);
+  auto diagonal=upload(spectrum,"separated spectrum");View solution("augmented solution",dim);
+  Action diagonal_A=[=](View in,View out){each(out,KOKKOS_LAMBDA(int i){out(i)=diagonal(i)*in(i);});};
+  PK_Options options{PK_LGMRES,300,5,1,0,0,1e-10,nullptr,nullptr};PK_Result result{};
+  zero(solution);CHECK(solve(diagonal,solution,options,diagonal_A,identity,result)==PK_SUCCESS);
+  download(solution,answer.data());double error=0;
+  for(int i=0;i<dim;i++){CHECK(std::abs(answer[i]-1)<1e-8);double r=spectrum[i]*(1-answer[i]);error+=r*r;}
+  CHECK(std::sqrt(error)<=options.absolute_tolerance);
+  printf("augmented restart witness: %d iterations, independent residual %.9g\n",result.iterations,std::sqrt(error));
+ }
+ if(argc==2&&std::strcmp(argv[1],"--krylov-only")==0){printf("Kokkos %s Krylov controls: %d passed\n",Exec::name(),checks);return 0;}
  int shape[3]={12,16,10};Operator op(shape,1,false);initialize_spectral(op,shape,2.);
  std::vector<double>v(12*16*10,1),out(v.size());auto in=upload(v,"constant");op.spectral.apply(in);
  for(int d=1;d<10;d++){download(op.spectral.work[d],out.data());for(double z:out)CHECK(z==0);}

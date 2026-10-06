@@ -61,8 +61,8 @@ def loaded_kokkos_images():
     else:raise ValueError('runtime image verification requires Linux or macOS')
     return {str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(paths)}
 
-def validate_krylov(krylov,linear_rtol):
-    if krylov not in (None,'gmres','bicgstab'):raise ValueError('krylov must be gmres or bicgstab')
+def validate_krylov(krylov,linear_rtol,allow_lgmres=False):
+    if krylov not in ((None,'gmres','bicgstab','lgmres') if allow_lgmres else (None,'gmres','bicgstab')):raise ValueError('krylov must be gmres or bicgstab')
     if linear_rtol is not None:
         import math
         if not math.isfinite(linear_rtol) or not 0<linear_rtol<1:

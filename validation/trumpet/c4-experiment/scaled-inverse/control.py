@@ -15,6 +15,8 @@ p = argparse.ArgumentParser()
 p.add_argument('--library', type=Path, required=True)
 p.add_argument('--output', type=Path, required=True)
 p.add_argument('--solve', action='store_true')
+p.add_argument('--krylov', choices=['gmres','bicgstab','lgmres'], default='gmres')
+p.add_argument('--krylov-restart', type=int)
 p.add_argument('--execution', choices=['reference','kokkos'], default='reference')
 a = p.parse_args()
 if a.output.exists() or a.output.with_suffix('.npz').exists():
@@ -22,6 +24,7 @@ if a.output.exists() or a.output.with_suffix('.npz').exists():
 b = Backend(str(a.library.resolve()))
 c = trumpet_moderate(b, 12, 16)
 c.memory_limit_mib = 2048
+if a.krylov_restart is not None:c.krylov_restart=a.krylov_restart
 with b.create(c, execution=a.execution, geometry='host') as s:
     k = np.arange(s.size)
     base, direction = 1e-8*np.sin(.13*k), 1e-7*np.cos(.27*k)
@@ -32,7 +35,8 @@ with b.create(c, execution=a.execution, geometry='host') as s:
                   residual_scaling=b.residual_scaling(), binary_acceptance=False,
                   driver_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     if a.solve:
-        result['diagnostics'] = s.solve(krylov='gmres', linear_rtol=.001)
+        result['diagnostics'] = s.solve(krylov=a.krylov, linear_rtol=.001)
+        result['resolved_options'] = s.resolved_options
         result['linear_history'] = s.linear_history()
         if result['diagnostics']['converged']:
             xyz = np.array([[3.3,.4,.2],[2.7,-.5,.3],[-3.2,.3,-.4],[-2.7,-.4,-.3],[.3,1.2,.7],[4,2,-3]])

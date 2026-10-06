@@ -217,6 +217,7 @@ struct HiKokkos {
 }
 struct HiSpID_Data {
  HiSpID_Config config,local;
+ long double allocation_bound=0;
  int seed_family=HISPID_SEED_QI;
  double origin[3],frame[3][3],b;
  int npt,ntotal;
@@ -878,6 +879,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  if(execution){hispid::last_error="library was built without Kokkos";return nullptr;}
 #endif
  if(!c||!hispid::valid(*c,sampler_only)){hispid::last_error="invalid HiSpID configuration";return nullptr;}
+ long double allocation_bound=hispid::allocation_bound(*c,sampler_only);
 #ifdef PUNCTURES_KOKKOS
  if(execution&&!sampler_only){
   try{puncture::initialize();}catch(const std::exception&e){hispid::last_error=e.what();return nullptr;}
@@ -887,7 +889,8 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   // Retained CPU data, device data (or extra host copies for OpenMP), lazy
   // maximum Krylov basis, packed factor mirrors and LU/inverse overlap.
   long double small=0;for(int axis=0;axis<3;axis++)small+=16.L*c->n[axis]*c->n[axis];small+=32.L*c->n[2]*c->n[2]+160.L*c->n[0]*c->n[1];
-  if(cpu+device+radial*16+small+2*hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2]>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="Kokkos aggregate allocation bound exceeds memory_limit_mib";return nullptr;}
+  allocation_bound=cpu+device+radial*16+small+2*hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2];
+  if(allocation_bound>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="Kokkos aggregate allocation bound exceeds memory_limit_mib";return nullptr;}
 #ifdef KOKKOS_ENABLE_CUDA
   if constexpr(std::is_same_v<puncture::Exec,Kokkos::Cuda>){
    auto free=Puncture_execution_device_free_bytes();
@@ -897,7 +900,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  }
 #endif
  HiSpID_Data*s=nullptr;try{
-  s=new HiSpID_Data;s->seed_family=family;s->config=s->local=*c;s->sampler_only=sampler_only;s->setup.geometry_execution=geometry_execution;
+  s=new HiSpID_Data;s->allocation_bound=allocation_bound;s->seed_family=family;s->config=s->local=*c;s->sampler_only=sampler_only;s->setup.geometry_execution=geometry_execution;
   if(geometry_execution)s->setup.scalar_digits=std::numeric_limits<double>::digits;
   double sep[3],len=0;for(int i=0;i<3;i++){s->origin[i]=.5*(c->hole[0].center[i]+c->hole[1].center[i]);sep[i]=c->hole[0].center[i]-c->hole[1].center[i];len+=sep[i]*sep[i];}
   len=std::sqrt(len);
@@ -979,6 +982,22 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES)
 
  if(sampling_context(s))return -1;
  if(!s)return -1;hispid::last_error.clear();auto start=std::chrono::steady_clock::now();
+ if(method==PK_LGMRES){
+  // Three appended Arnoldi/search pairs, three saved corrections and scratch.
+  // One MiB additionally bounds scalar banks for the allowed restart <=200.
+  const long double extra=80.L*s->ntotal+1024.L*1024;
+  if(s->allocation_bound+extra>(long double)s->local.memory_limit_mib*1024*1024){
+   hispid::last_error="LGMRES aggregate allocation bound exceeds memory_limit_mib";return -1;
+  }
+#ifdef KOKKOS_ENABLE_CUDA
+  if(s->device){
+   if constexpr(std::is_same_v<puncture::Exec,Kokkos::Cuda>){
+    auto free=Puncture_execution_device_free_bytes();
+    if(!free||extra+512.L*1024*1024>free){hispid::last_error="LGMRES workspace exceeds available GPU memory";return -1;}
+   }
+  }
+#endif
+ }
  s->resolved_options={int(sizeof(HiSpID_SolveOptions)),method,fixed_forcing};
  s->diag={};s->diag.npoints=s->npt;s->coefficients_valid=false;
  s->jvp_applications=s->preconditioner_applications=0;s->linear_history.clear();
@@ -1065,7 +1084,7 @@ int HiSpID_solve_with_forcing(HiSpID_Data*s,double rtol){
 }
 void HiSpID_default_solve_options(HiSpID_SolveOptions*out){if(out)*out={int(sizeof(*out)),PK_GMRES,0};}
 int HiSpID_solve_with_options(HiSpID_Data*s,const HiSpID_SolveOptions*o){
- if(!o||o->struct_size!=sizeof(*o)||(o->krylov!=PK_GMRES&&o->krylov!=PK_BICGSTAB)||
+ if(!o||o->struct_size!=sizeof(*o)||(o->krylov!=PK_GMRES&&o->krylov!=PK_BICGSTAB&&o->krylov!=PK_LGMRES)||
     !std::isfinite(o->linear_rtol)||o->linear_rtol<0||o->linear_rtol>=1){hispid::last_error="invalid linear solve options";return -1;}
  return solve_context(s,o->linear_rtol,o->krylov);
 }

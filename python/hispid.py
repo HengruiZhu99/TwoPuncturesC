@@ -213,7 +213,7 @@ class Solution:
         return {name:getattr(out,name) for name,_ in out._fields_ if name!='struct_size'}
     def solve(self,linear_rtol=None,krylov=None,axisymmetric=False):
         self._check()
-        validate_krylov(krylov,linear_rtol)
+        validate_krylov(krylov,linear_rtol,allow_lgmres=True)
         if not isinstance(axisymmetric,bool):raise ValueError('axisymmetric must be boolean')
         if hasattr(self.backend.lib,'HiSpID_set_axisymmetric'):
             if self.backend.lib.HiSpID_set_axisymmetric(self.context,int(axisymmetric)):
@@ -221,7 +221,7 @@ class Solution:
         elif axisymmetric:raise ValueError('library lacks axisymmetric solve API')
         if krylov is not None:
             if not hasattr(self.backend.lib,'HiSpID_solve_with_options'):raise ValueError('library lacks selectable Krylov API')
-            options=SolveOptions(C.sizeof(SolveOptions),0 if krylov=='gmres' else 1,0 if linear_rtol is None else float(linear_rtol))
+            options=SolveOptions(C.sizeof(SolveOptions),{'gmres':0,'bicgstab':1,'lgmres':2}[krylov],0 if linear_rtol is None else float(linear_rtol))
             r=self.backend.lib.HiSpID_solve_with_options(self.context,C.byref(options))
         elif linear_rtol is None:r=self.backend.lib.HiSpID_solve(self.context)
         else:
@@ -233,7 +233,7 @@ class Solution:
         if hasattr(self.backend.lib,'HiSpID_resolved_solve_options'):
             actual=SolveOptions(C.sizeof(SolveOptions),0,0)
             if self.backend.lib.HiSpID_resolved_solve_options(self.context,C.byref(actual))==0:
-                self.resolved_options.update(krylov='gmres' if actual.krylov==0 else 'bicgstab',linear_rtol=actual.linear_rtol or None,native_verified=True)
+                self.resolved_options.update(krylov={0:'gmres',1:'bicgstab',2:'lgmres'}[actual.krylov],linear_rtol=actual.linear_rtol or None,native_verified=True)
         d=self.diagnostics();d['status']=r;d['error']=self.backend.error() if r else '';return d
     def work_statistics(self):
         self._check()

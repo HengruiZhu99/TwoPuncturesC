@@ -1,0 +1,13 @@
+{
+  "shape": [
+    240,
+    480,
+    16
+  ],
+  "restart": 64,
+  "previous_bound_bytes": 65193566208,
+  "extra_bytes": 590872576,
+  "augmented_bound_gib": 61.26653289794922,
+  "limit_gib": 64,
+  "passed": true
+}

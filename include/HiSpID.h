@@ -96,7 +96,7 @@ int HiSpID_set_axisymmetric(HiSpID_Data *, int enabled);
  * retains its adaptive forcing. Residual row scaling is fixed by the build. */
 int HiSpID_solve_with_forcing(HiSpID_Data *, double rtol);
 /* ABI-safe options separate the linear backend from the equation-system config.
- * krylov: PK_GMRES=0 or PK_BICGSTAB=1 (PunctureKrylov.h).
+ * krylov: PK_GMRES=0, PK_BICGSTAB=1 or PK_LGMRES=2 (PunctureKrylov.h).
  * rtol=0 retains adaptive forcing; positive rtol selects fixed relative L2. */
 typedef struct { int struct_size,krylov; double linear_rtol; } HiSpID_SolveOptions;
 void HiSpID_default_solve_options(HiSpID_SolveOptions *);

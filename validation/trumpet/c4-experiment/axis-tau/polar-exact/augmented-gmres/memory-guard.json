@@ -1,0 +1,13 @@
+{
+  "library_sha256": "4c073aa0d7140fd22bf3d45e3ca183946c99e1e3a9466f678a168fab5b1d2f61",
+  "grid": [
+    20,
+    28,
+    8
+  ],
+  "restart": 64,
+  "budget_mib": 40,
+  "context_created": true,
+  "lgmres_rejected": true,
+  "error": "LGMRES aggregate allocation bound exceeds memory_limit_mib"
+}
