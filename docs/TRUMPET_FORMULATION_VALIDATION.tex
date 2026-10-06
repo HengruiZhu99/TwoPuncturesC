@@ -143,8 +143,15 @@ All Newton steps are undamped. The independent near-hole $H/M$ RMS errors
 are $1.128\times10^{-6}/3.789\times10^{-7}$; bulk errors are
 $5.739\times10^{-8}/4.548\times10^{-7}$. Only the near-hole Hamiltonian RMS
 exceeds its bound. The workflow takes 246.6 seconds and peaks at 6.025 GiB
-host RSS. This grid remains diagnostic. Job 59420603 runs the required
-$224\times448$, $240\times480$, $256\times512$ sequence with $n_\phi=16$.
+host RSS. This grid remains diagnostic. The $224\times448\times16$ continuation passes
+all physical bounds (near $H/M$: $2.08\times10^{-7}/1.68\times10^{-7}$;
+bulk: $4.87\times10^{-8}/5.04\times10^{-7}$), but its third linear solve
+exhausts 2400 iterations at relative residual $0.0245$ against $0.001$.
+Its nonlinear maximum $4.34\times10^{-12}$ remains above $10^{-12}$, so the
+sequence stops without promoting the data. Job 59421025 resumes its saved
+iterate using the standard inner forcing $0.1$; the nonlinear $10^{-12}$
+tolerance and all physical bounds remain unchanged. The planned sequence is
+$224\times448$, $240\times480$, $256\times512$, with $n_\phi=16$.
 GMRES restart 24 fits the unchanged aggregate memory bound with the new
 boundary matrices; each completed grid must pass physical bounds before
 continuing, and the final assessment checks decreasing errors and charges.

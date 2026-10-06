@@ -1497,3 +1497,24 @@ sampler migration, then strict l8/12/16 plus quadrature horizon checks with
 launched: sequence59420603 is still running its224 level. This avoids a
 redundant consumer/horizon campaign on each intermediate grid. Remote script:
 `/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/horizons-polar-tau.sh`.
+
+Sequence59420603 failed10:36 at the224 gate, and did not launch240/256.
+It accepted two undamped Newton steps, then exhausted2400 Krylov iterations
+on the third linear solve (true relative0.0244754 vs0.001). Total3 attempted
+Newton/2428 Krylov, nonlinear max4.33725e-12>1e-12. Nevertheless, all independent
+physical bounds pass: near H/M RMS2.08042e-7/1.68057e-7, bulk4.87446e-8/5.03784e-7.
+This is retained as a failed solve, not accepted by its physical checks alone.
+Solve392.298s, workflow625.940s, RSS9930348KiB. Checkpoint
+7687a64d90a29e1f2272255e99c91a6bde01f7c44aa3ab51cd858861bbc17721.
+Records `axis-tau/polar-exact/sequence-v1` preserve JSON, physical observers,
+trace and job id; large checkpoint/coefficients remain remote.
+
+Job59421025 resumes that retained224 iterate with the existing standard
+linear forcing0.1. This targets the observed inner-solve stagnation without
+changing final nonlinear tolerance1e-12, native equations/image, free data,
+resolution or any physical/horizon acceptance criterion. It continues to240
+and256 only after completed nonlinear and physical gates pass. New outputs
+`axis-tau-polar-sequence-v2`; script `sequence_standard_forcing.sh`. The prepared
+horizon workflow now points to this sequence's finest checkpoint and has not
+been launched. No duplicate of the still-running old job was created: its
+terminal FAILED state and released allocation were verified before restart.
