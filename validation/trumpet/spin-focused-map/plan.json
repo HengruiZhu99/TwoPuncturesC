@@ -1,0 +1,13 @@
+{
+  "case": "spin99",
+  "resolution": [160, 320, 32],
+  "radial_stretch": 0.03,
+  "angular_stretch": 3.5,
+  "source_maps": [0.2, 2.0],
+  "physical_free_data_changed": false,
+  "matrices": "original production matrices; analytic option not adopted",
+  "evidence": "Doubled-azimuth fixed-polynomial replay has native-equivalent RMS at most3.01e-8, versus off-grid physical bulk RMS of order1e-2. Current shell has only5 projected radial nodes; candidate map gives14 at the same grid size.",
+  "initial_guess": "Explicitly bound remap of the failed original spin pilot; no acceptance transfer",
+  "checks": "One small changed-map residual/JVP consistency control, then one fresh solve with the existing independent physical observer",
+  "acceptance": "Unchanged physical bounds. A single improved result cannot establish resolution convergence or horizon properties."
+}

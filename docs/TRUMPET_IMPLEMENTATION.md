@@ -605,3 +605,17 @@ ADM energy extrapolates to9.4900 in this unaccepted iterate; it must not be
 interpreted as a validated physical measurement. No component horizons or
 measured-Mirr separation calibration have been established for this case.
 The same allocation proceeds to the already-declared spin azimuthal replay.
+
+The spin pilot's doubled-azimuth replay completed at160x320x64 without a new
+solve. Native-equivalent residual RMS is at most7.50e-9 near the holes and
+3.01e-8 in the bulk, far below the original off-grid errors of order1e-2.
+This supports meridional under-resolution, rather than missing azimuthal modes,
+as the dominant problem. Raw replay evidence is retained under `extreme-pilots`.
+
+A focused-map spin trial is now declared in `spin-focused-map/plan.json` and
+its build/run script. It keeps160x320x32 and all physical inputs fixed, changing
+only the radial/polar maps from(.2,2) to(.03,3.5). The failed source coefficients
+supply an explicitly image-bound remapped guess; a fresh solve and independent
+physical observer are required, with no inherited acceptance. It uses the
+original matrix construction and the selected host-geometry/CUDA-GMRES path.
+The separate Gamma10 result and its failure remain intact.
