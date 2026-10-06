@@ -181,6 +181,16 @@ takes 59 Krylov iterations and 16.4 s solve time, but retains a modal-step
 maximum $1.43\times10^{12}$. Its first accepted damping is $1/1024$, with
 residual ratio $0.999441$. It therefore does not resolve the large-update
 problem and has no production or physical-accuracy qualification.
+A standalone scalar experiment instead imposes endpoint regularity on C2
+modal variables, replacing near-axis collocation rows by independent
+endpoint constraints. For an analytic $m=6$ field, errors decrease from
+$5.82\times10^{-6}$ to $2.93\times10^{-9}$ to $2.40\times10^{-14}$ on
+$12\times24$, $20\times40$, and $32\times64$ grids. An independent Cartesian
+Hessian verifies the forcing to $7.81\times10^{-17}$ in scaled maximum norm.
+An absolute $10^{-16}$ source perturbation gives finest-grid field noise
+$2.17\times10^{-11}$, versus $3.43\times10^{-6}$ with factored C4 variables.
+This motivates a native tau prototype; curved/vector/nonlinear and GPU
+qualification remain outstanding.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

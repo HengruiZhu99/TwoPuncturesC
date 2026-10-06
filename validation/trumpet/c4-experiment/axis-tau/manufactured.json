@@ -1,0 +1,85 @@
+{
+  "purpose": "Flat scalar m6 manufactured solve: C4 factoring versus C2 endpoint constraints.\n\nAn isolated representation experiment, not a replacement binary solver.\nBoth use the analytic Laplacian of -2(1-t)[sqrt(t)*sqrt(1-eta^2)]^6.\nA deterministic 1e-16 source perturbation probes inverse amplification.\n",
+  "driver_sha256": "84b1dfaef5406fd92a225ecba7a52fedcf934d7ece15d074eac16402a1f6ceb5",
+  "binary_acceptance": false,
+  "rows": [
+    {
+      "independent_cartesian_source_scaled_linf": 5.347227934766332e-17,
+      "formulation": "factored_C4",
+      "n": [
+        12,
+        24
+      ],
+      "replaced_rows": 0,
+      "manufactured_field_linf": 3.1086244689504383e-15,
+      "noise_field_linf": 1.0434563756100967e-07,
+      "unknown_noise_linf": 0.0008753599651220023,
+      "clean_linear_relative": 6.991131190176061e-14
+    },
+    {
+      "independent_cartesian_source_scaled_linf": 5.347227934766332e-17,
+      "formulation": "C2_endpoint_tau",
+      "n": [
+        12,
+        24
+      ],
+      "replaced_rows": 46,
+      "manufactured_field_linf": 5.815578706436231e-06,
+      "noise_field_linf": 6.412093078722592e-13,
+      "unknown_noise_linf": 4.894793893123195e-10,
+      "clean_linear_relative": 4.07740273614652e-15
+    },
+    {
+      "independent_cartesian_source_scaled_linf": 7.779946307659319e-17,
+      "formulation": "factored_C4",
+      "n": [
+        20,
+        40
+      ],
+      "replaced_rows": 0,
+      "manufactured_field_linf": 6.050715484207103e-15,
+      "noise_field_linf": 5.0358342779111e-07,
+      "unknown_noise_linf": 0.09056479834375752,
+      "clean_linear_relative": 2.6188701980201597e-13
+    },
+    {
+      "independent_cartesian_source_scaled_linf": 7.779946307659319e-17,
+      "formulation": "C2_endpoint_tau",
+      "n": [
+        20,
+        40
+      ],
+      "replaced_rows": 78,
+      "manufactured_field_linf": 2.927135506203271e-09,
+      "noise_field_linf": 9.266198919277713e-13,
+      "unknown_noise_linf": 2.8171606029740726e-08,
+      "clean_linear_relative": 1.336497622285081e-14
+    },
+    {
+      "independent_cartesian_source_scaled_linf": 7.806572642380213e-17,
+      "formulation": "factored_C4",
+      "n": [
+        32,
+        64
+      ],
+      "replaced_rows": 0,
+      "manufactured_field_linf": 4.449218771185315e-14,
+      "noise_field_linf": 3.4312967256144855e-06,
+      "unknown_noise_linf": 2.0290405125510285,
+      "clean_linear_relative": 9.091249276251987e-13
+    },
+    {
+      "independent_cartesian_source_scaled_linf": 7.806572642380213e-17,
+      "formulation": "C2_endpoint_tau",
+      "n": [
+        32,
+        64
+      ],
+      "replaced_rows": 126,
+      "manufactured_field_linf": 2.400857290751901e-14,
+      "noise_field_linf": 2.1720653053947103e-11,
+      "unknown_noise_linf": 3.928078884287388e-06,
+      "clean_linear_relative": 4.1021881660053753e-14
+    }
+  ]
+}

@@ -1344,3 +1344,24 @@ raises the axis order by two. A tau formulation would require a nonsingular
 choice of independent endpoint rows, matching JVP and preconditioner changes,
 and manufactured/physical convergence evidence. This is a proposed direction,
 not an implemented replacement or an accepted change to physical equations.
+
+A standalone dense flat-scalar m6 experiment now tests this axis-tau proposal
+before touching the native solver. Unknowns are nodal C2 P with r=4; polar
+endpoint interpolation conditions replace the first/last polar rows for
+every radial node, and radial endpoint conditions replace the first radial
+row only at remaining polar nodes. This gives2*na+nb-2 independent boundary
+rows without duplicate corner conditions. All remaining rows retain the
+analytical mapped Laplacian. The physical field is
+-2*(1-t)*(sqrt(t)*sqrt(1-eta^2))^6, and its source is checked independently
+using Cartesian distance-mode Hessians (maximum scaled discrepancy7.81e-17).
+
+On12x24,20x40,32x64, tau off-grid field errors are5.82e-6,2.93e-9,2.40e-14.
+With the same deterministic absolute1e-16 source perturbation, finest-grid
+field noise is2.17e-11 versus3.43e-6 for factored C4 (about1.58e5 less).
+This supports a native prototype, not binary acceptance: curved coefficients,
+vector coupling, nonlinear solve and GPU integration remain untested. The
+initial prototype emitted macOS BLAS floating-status warnings despite finite
+outputs; explicit einsum contractions and finite checks remove those warnings
+and reproduce the conclusion. Both outputs are retained under
+`c4-experiment/axis-tau`; `manufactured.json` is authoritative. The standalone
+driver is `validation/diagnose_trumpet_axis_tau.py` and uses NumPy only.
