@@ -1,0 +1,49 @@
+{
+  "adopted": false,
+  "binary_acceptance": false,
+  "reason": "Both near and bulk momentum residuals worsen; retain original production map.",
+  "comparison": {
+    "near": {
+      "H_rms": {
+        "original": 2.248287853173077e-06,
+        "focused": 3.418306322284962e-06,
+        "focused_over_original": 1.5204042122367039
+      },
+      "M_rms": {
+        "original": 1.278227594052006e-06,
+        "focused": 7.40360187053888e-05,
+        "focused_over_original": 57.92084214884862
+      }
+    },
+    "bulk": {
+      "H_rms": {
+        "original": 2.1839844179640536e-08,
+        "focused": 1.2058172570639696e-06,
+        "focused_over_original": 55.211806785144205
+      },
+      "M_rms": {
+        "original": 2.859943639416408e-06,
+        "focused": 0.000190994644900595,
+        "focused_over_original": 66.7826604231854
+      }
+    }
+  },
+  "completed_allocation": 59404341,
+  "collocation_observer_failed_allocation": 59404489,
+  "observer_failure": "Numerical observer finished, JSON serialization rejected numpy int64 indices. No output was recovered; corrected driver stores raw observer arrays before JSON.",
+  "files": {
+    "build.log": "52bc0f8afd4be7830f959f4fce169ca238c93bfc28600101fb32453d373e370f",
+    "configure.log": "e0c8ddfa7d2011406aec597159d95df6e35fb4695e02218e5fdcc743d8e7deb8",
+    "control.json": "ea4e58249495a467777bd19c23e47f891124bc715cba77871ff249896010a34e",
+    "control.log": "ea4e58249495a467777bd19c23e47f891124bc715cba77871ff249896010a34e",
+    "images.sha256": "5163164d9641a4ac55d778f371bb12b285726585de55aca6784e4e75189a3f54",
+    "job-id.txt": "16c8262d82e7d23998c631f4b259767073763e28ea969e5e4923289efa4b7bc9",
+    "moderate160x256/physical.npz": "a6b41f747b07ff293204a24aec84758dc8b545bc398eb673cbf4704edc6bfae4",
+    "moderate160x256/result.json": "cd41a8118c67a609dccf8e978cf07af4d1eab3695fa4ee61c1ab7c98da793ca4",
+    "plan.json": "f9cce1d882b8b0fa61960b3df2baaf8dbfe112c13bc2e68dbae3e1968ade3eb5",
+    "run_perlmutter.sh": "222d19cb10d8709679b60110496e5bbaea712ca7626f142d62bac691a33bb919",
+    "solve.log": "78e6390c0db6884091191f65b70628e78a9da751f47aa919cf14fd65509f24f5",
+    "workflow.sha256": "992918e95201cf84deaf1774aa52e0675d7271d26815ea58977331bb14dd7982"
+  },
+  "collocation_observer_completed_allocation": 59404514
+}

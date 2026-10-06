@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "scope": "standalone_actual_reader_and_sampler_only",
+  "athenak_evolution_or_horizon_run": false,
+  "records": [
+    {
+      "family": "trumpet_r0_m",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/polar-refinement/reader384/trumpet_r0_m.checkpoint",
+        "file_sha256": "1a7c22eb13bb8861c05929c2e152eacb48daf82a60546f201cb8431bbdbbf792",
+        "source_library_sha256": "10b346af069371c96c01534f2f293d855ebf25e58f1953a9d5c0ba1d88c499f5",
+        "acceptance": "analytic_seed",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "case": "oversized_polar",
+      "error": "Invalid checkpoint grid extent"
+    }
+  ],
+  "compile_command": [
+    "c++",
+    "-std=c++17",
+    "-O2",
+    "-I/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-polar/include",
+    "-I/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-polar/src/pgen/z4c",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-polar/tst/test_suite/z4c/hispid_checkpoint_probe.cpp",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-polar-sampler/libHiSpID.so",
+    "-Wl,-rpath,/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-polar-sampler",
+    "-o",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/polar-refinement/reader384/reader"
+  ],
+  "execution_cwd": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-polar",
+  "sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-polar-sampler/libHiSpID.so": "10b346af069371c96c01534f2f293d855ebf25e58f1953a9d5c0ba1d88c499f5",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-polar/src/pgen/z4c/hispid_checkpoint.hpp": "9981bba1a8cebf346de07ae2dc9dab82b264451498cb84b1fce3cbf27890a892",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-polar/tst/test_suite/z4c/check_trumpet_checkpoint.py": "9c304d5eadaf1d9af6a993e5fe34e775ac28f5ca1b3ae279569b4acb73627026",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-polar/tst/test_suite/z4c/hispid_checkpoint_probe.cpp": "52454535cc1e718092dd71368cb58dba6a558dd3a20c7a8a8ad43ab7b66a7358",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-polar/python/checkpoint_export.py": "77cd4915788b5fd45a30b7aee2c2b9e6b9cc28fb8526dcc56be24fe4300604e0",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-polar/python/hispid.py": "e1ea73652634909962f5ce31f470fe3692724e652bb93c0a3eaab966493b8137",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/polar-refinement/reader384/reader": "e4a097de78dc001234a82b556aef86622f71ca8ba35427f2656aa8235eb2a242"
+  }
+}

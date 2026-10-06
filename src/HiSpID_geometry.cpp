@@ -74,7 +74,8 @@ void equations(const Background&b,const Jet u[4],double out[4],const Jet *du){
 bool valid(const HiSpID_Config&c,bool sampler_only){
  if(c.conformal_choice<0||c.conformal_choice>1||c.attenuation_power<2||c.attenuation_power%2)return false;
  if(!std::isfinite(c.far_radius)||!std::isfinite(c.tolerance)||c.tolerance<=0||c.max_newton<0||c.max_krylov<1||c.krylov_restart<2||c.krylov_restart>200)return false;
- for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>256||(k==2&&c.n[k]%2))return false;
+ const int limit[3]={HISPID_MAX_RADIAL_POINTS,HISPID_MAX_POLAR_POINTS,HISPID_MAX_AZIMUTHAL_POINTS};
+ for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>limit[k]||(k==2&&c.n[k]%2))return false;
  /* Bound the compact cache, four-field modal FD stencil and Krylov basis before
   * allocation. Larger grids require an explicit per-context budget. */
  if(c.memory_limit_mib<16||c.memory_limit_mib>65536)return false;

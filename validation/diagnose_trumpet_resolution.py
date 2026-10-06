@@ -21,7 +21,7 @@ def run(library,checkpoint,output,axes=(0,1,2),same_grid=False):
     for axis in ([-1] if same_grid else [])+list(axes):
         shape=old.copy()
         if axis>=0:shape[axis]*=2
-        if any(n>256 for n in shape):raise ValueError('diagnostic grid exceeds native cap')
+        if any(n>limit for n,limit in zip(shape,(256,512,256))):raise ValueError('diagnostic grid exceeds native cap')
         fine=Config.from_buffer_copy(c);fine.seed_family=c.seed_family;fine.n[:]=shape
         # No nonlinear or Krylov solve is run; avoid reserving a full solve basis.
         fine.max_newton=0;fine.max_krylov=1;fine.krylov_restart=2

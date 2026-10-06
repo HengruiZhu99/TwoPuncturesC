@@ -1,0 +1,28 @@
+{
+  "job": 59404717,
+  "state_at_receipt": "running",
+  "reader384_passed": true,
+  "reader_scaled_error": 0.0,
+  "oversized_polar513_rejected": true,
+  "full_binary_acceptance": false,
+  "native_header_sha256": "01e26f49589f3f65fb72dbfb90187b4c6e4c9857f8d887072da67b537f256e0b",
+  "native_geometry_source_sha256": "af2a2ca102e33007a72f3a011ab9f91eed7c2a46f168d3d9b100743f5baf58bf",
+  "files": {
+    "archives.sha256": "53fe7a7a1a33f753837cbf85ee72176353fdce2c5cd1ac2f17042c456f1f8b08",
+    "build-cuda.log": "e086ecd863272e79e464d2152c902629378180237f88bdf7d372a64f2519ab5a",
+    "build-sampler.log": "950c6e12685df022092d71202adf6842d21f4c42b2b2dc786619299a44cc259e",
+    "configure-cuda.log": "c08e727cd13520590695cc1c3de74143a181241fdd42987b0190b88313b3389c",
+    "configure-sampler.log": "b230910459d39ec54a671385486178dd5627874c8f1fdad53a0efc12273d6cf3",
+    "images-cuda.sha256": "27721d45c0a855ed94a69d3517d31a482d7ada61a6b283230ca4c6d55814acd4",
+    "images-sampler.sha256": "2c186457798da27784a82377fb91b5c2c07892178a73a3cc026a466e3019417f",
+    "job-id.txt": "b7de2d90078ed438c0a2395fccea1331c57136e1bf83ee78ccd34fe1d4801a6c",
+    "plan.json": "b77322673233cd61b62a747e4a12d145cc1d42c8a8ff4b6216f359d369116ea1",
+    "reader.log": "4ef41e39b14ef068847929417f73f81fa0a51adbd3933b444d65c57ce2d26590",
+    "reader384/oversized_polar.checkpoint": "3de2c60432e02d288904c262899eec95fa79c45aa07bcd093f1a8f758f0a7468",
+    "reader384/result.json": "4ef41e39b14ef068847929417f73f81fa0a51adbd3933b444d65c57ce2d26590",
+    "reader384/trumpet_r0_m.checkpoint": "1a7c22eb13bb8861c05929c2e152eacb48daf82a60546f201cb8431bbdbbf792",
+    "run_perlmutter.sh": "353c266138761a4981cec606fcd63b4b47c1563ca7ec859a4c6f362f5b5a1fe9",
+    "solve.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "consumer_commit": "9196c1d2"
+}

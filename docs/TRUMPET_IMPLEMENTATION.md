@@ -333,3 +333,70 @@ verifier incorrectly required the header-only summary file to be absent;
 without rerunning the numerical case. This changes no physical tolerance.
 The selected horizon backend is now this OpenMP consumer. Neither target
 binary is yet physically accepted; the moderate convergence gate is unresolved.
+
+## Focused-map trial
+
+The next change uses the existing invertible map family with radial stretch
+0.05 and polar stretch 3, concentrating points toward the two punctures. The
+physical free data, interior modification and tolerances are unchanged. These
+map parameters already have independent Cartesian Hessian and flat-vector
+inverse evidence in `private_operator_controls_focus05_k3.json`; the new image
+gets one small CUDA/host residual/JVP comparison, not repeated seed tests.
+The map-independent trumpet geometry and legacy-QI evidence remain applicable.
+
+CMake now exposes `HISPID_RADIAL_STRETCH` and `HISPID_ANGULAR_STRETCH` and
+propagates their definitions to derivative-header consumers. Defaults remain
+0.2 and 2. The existing versioned map identifier distinguishes checkpoints.
+`run_trumpet_pilot.py --initial-source-library <original image>` explicitly
+permits a changed-map initial guess only after checking that image's hash,
+the source map identifier, seed family and physical configuration. It reuses
+the existing modal remapper and always solves afresh. It does not load source
+and target native libraries into one process or inherit physical acceptance.
+
+`validation/trumpet/focused-map/plan.json` and `run_perlmutter.sh` bind the
+single 160 x 256 x 16 trial, its source checkpoint and build/run recipe.
+The new image reuses the existing pinned CUDA Kokkos package. No binary pass
+or adoption of the focused map is claimed before the physical observer runs.
+
+
+The shared pilot runner also accepts `--case spin99` and `--case gamma10`,
+using the already specified separate target factories. For the boost case,
+`--measured-mirr <component value>` sets the next separation to50 times that
+value; it does not certify the new trial's measured separation ratio. The
+moderate default and all physical acceptance requirements are retained.
+
+
+The focused-map build and selected host-cache CUDA control pass (residual/JVP
+relative differences 6.49e-15/1.81e-16). Its 160 x 256 x 16 solve converges in
+7 Newton/64 Krylov iterations, with 17.46s solve time. Physical accuracy worsens:
+near H/M RMS 3.42e-6/7.40e-5 and bulk 1.21e-6/1.91e-4. **The focused map is
+not adopted.** All results and the image hash are retained. The next observer
+samples physical tensors at actual collocation nodes, to distinguish
+interpolation error from any solver/sampler inconsistency before another
+representation change. The preliminary serialization failure is recorded;
+the corrected observer retains raw arrays before assembling its JSON report.
+
+
+At twelve actual collocation nodes nearest the largest retained off-grid
+momentum errors, the independent physical observer finds near H/M RMS
+4.45e-9/4.87e-11 and bulk 2.75e-9/1.17e-12. All stencils are exterior.
+This supports genuine meridional interpolation error rather than a mismatch
+between the native equations and sampled physical tensors at those nodes.
+The original map is retained. The next single trial increases only the polar
+extent from256 to384, holding radial256 and azimuthal16 fixed.
+
+The native/consumer extent limits are now declared together in `HiSpID.h`:
+256 radial,512 polar,256 azimuthal. Only the former hard-coded polar cap changes;
+the conservative aggregate and device-memory checks remain in force. The
+largest permitted integer grid product remains within32-bit index range, and
+memory checks reject impractical combinations before constructing workspaces.
+The source audit found dynamically sized polar matrices/loops, with no fixed
+256-entry buffers. A small actual reader/sampler check at polar384 and an
+oversized-polar rejection are scheduled before the full trial. Full AthenaK
+horizon qualification of a refined solved checkpoint remains separate.
+
+
+The polar384 actual-reader control passed: native and consumer tensors and
+metric gradients agree exactly, and polar513 is rejected. The refined
+production binary solve is running under allocation59404717; its result is
+not yet a physical acceptance claim.

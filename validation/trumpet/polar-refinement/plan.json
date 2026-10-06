@@ -1,0 +1,25 @@
+{
+  "kind": "targeted_polar_refinement",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "grid": [
+    256,
+    384,
+    16
+  ],
+  "memory_mib": 65536,
+  "previous_grid": [
+    256,
+    256,
+    16
+  ],
+  "physical_free_data": "unchanged moderate trumpet",
+  "reason": "Independent physical constraints are small at actual nodes but fail between nodes; azimuthal replay is negligible and a focused-map trial worsened errors.",
+  "new_core_change": "Raise only polar extent cap from256 to512; memory guards and numerical equations unchanged.",
+  "check": "Actual consumer reader and native CPU sampler at polar384, reject polar513, then one production CUDA solve.",
+  "binary_acceptance": false,
+  "aggregate_preflight_gib": 50.5900993347168,
+  "device_preflight_gib": 23.334239959716797
+}

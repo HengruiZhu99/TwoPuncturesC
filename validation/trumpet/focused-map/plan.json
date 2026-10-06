@@ -1,0 +1,36 @@
+{
+  "kind": "focused_map_plan",
+  "core_baseline": "ff5e8ae",
+  "parent_branch_commit": "5246cf6",
+  "physical_config": "unchanged trumpet_moderate",
+  "old_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "new_maps": {
+    "radial_stretch": 0.05,
+    "angular_stretch": 3.0
+  },
+  "trial_grid": [
+    160,
+    256,
+    16
+  ],
+  "selected_backend": {
+    "geometry": "host OpenMP16",
+    "solve": "CUDA GMRES",
+    "sampler": "CPU"
+  },
+  "reason": "Original collocation residual below4.3e-13, azimuth replay below2e-8 max, off-grid physical residual up to2.4e-5; target radial/polar distribution.",
+  "reuse": "Existing Cartesian Hessian and vector inverse evidence for these map parameters; seed and QI tests unchanged.",
+  "required_new_control": "One small host-cache CUDA residual/JVP comparison against host derivatives on the changed map; no repeated seed/backend matrix.",
+  "acceptance": {
+    "H_M_rms": 1e-06,
+    "H_M_max": 0.0001,
+    "new_trial_always_diagnostic": true,
+    "three_grid_convergence_still_required": true
+  },
+  "initial_guess": "Explicit source-image-hashed portable checkpoint, maps decoded from versioned identifier; physical free data must match; no acceptance inherited.",
+  "library_sha256": "422864d9702a1ee6f77590b17a5c0528a2ac71c1ab38acabb86671a3d7d759c4",
+  "allocation": 59404341
+}

@@ -32,14 +32,20 @@ def map_pair(maps):
 def modal_family(token):
     return token=='modal_P_C2prolate_mapped_v2' or token.startswith('modal_P_C2prolate_map_v3_')
 
-def check_map_id(token,maps):
-    actual=map_pair(maps)
+def maps_from_id(token):
     if token=='modal_P_C2prolate_mapped_v2':expected=(.2,2.)
     elif token.startswith('modal_P_C2prolate_map_v3_r'):
         try:expected=tuple(map(float,token.removeprefix('modal_P_C2prolate_map_v3_r').split('_k')))
         except ValueError:raise ValueError('malformed source map identifier') from None
     else:raise ValueError('supported mapped modal P identifier required')
-    if expected!=actual:raise ValueError('source map identifier/parameters mismatch')
+    if len(expected)!=2:raise ValueError('two map parameters required')
+    maps=dict(zip(('radial_stretch','angular_stretch'),expected))
+    map_pair(maps)
+    return maps
+
+
+def check_map_id(token,maps):
+    if map_pair(maps_from_id(token))!=map_pair(maps):raise ValueError('source map identifier/parameters mismatch')
 
 
 def load_guess(path,backend):
