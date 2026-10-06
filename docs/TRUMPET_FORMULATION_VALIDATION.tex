@@ -195,8 +195,10 @@ these endpoint equations in CPU and Kokkos residuals/JVPs, with matching
 approximate-inverse boundary rows and a distinct checkpoint identifier.
 Its small coupled solve converges in 5 Newton/69 Krylov steps. Endpoint-row
 reconstruction agrees to $1.11\times10^{-16}$ and the directional derivative
-check to $9.74\times10^{-12}$. A CUDA structural check and moderate fine-grid
-physical solve are pending; no new horizon or binary acceptance is claimed.
+check to $9.74\times10^{-12}$. The CUDA structural check also passes (endpoint-row error
+$3.33\times10^{-16}$, directional derivative error $1.00\times10^{-11}$ and
+exact checkpoint roundtrip). The moderate fine-grid physical solve remains
+in progress; no new horizon or binary acceptance is claimed.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

@@ -1395,3 +1395,16 @@ runs the same structural control on CUDA, then starts the moderate192x384x16
 solve only on success. It uses the original source assembly and preconditioner
 interior stencil,10 backtracking halvings and unchanged physical bounds.
 No native tau physical solution or consumer/horizon acceptance is yet claimed.
+
+The tau CUDA structural control passed in job59418528: endpoint-row error
+3.33e-16, directional JVP relative error1.00e-11 and exact checkpoint roundtrip.
+Image03abf09a3c2f2100966d21c7462718a47fe918f02725e2017fdc25f1862f942e,
+records `axis-tau/gpu-v1`. The moderate fine-grid solve completed setup in
+65.148s and is still running; no linear/Newton completion or physical result
+is available at this checkpoint.
+
+AthenaK's existing reader already compares the checkpoint identifier exactly
+against its linked sampler. Therefore tau integration requires a matching
+CPU sampler build, not a weaker reader check. The prepared
+`axis-tau/build_consumer_perlmutter.sh` builds that sampler and the existing
+AthenaK pgen in separate output directories. It has not been launched.
