@@ -1,0 +1,18 @@
+{
+  "kind": "initial_seed_algebra_smoke_only",
+  "samples": 54,
+  "rejected": 0,
+  "min_slice_margin": 0.013269794758177689,
+  "max_reference_scaled_difference": 2.2029317924061404e-13,
+  "max_native_H": 2.213784711102562e-12,
+  "max_abs_metric_dt": 96855.51458355463,
+  "independent_physical_acceptance": false,
+  "production_backend_qualified": false,
+  "command": "c++ -std=c++17 -O2 -Iinclude -Isrc -Itests tests/test_trumpet_seed.cpp -o build-hispid-trumpet/test_trumpet_seed; build-hispid-trumpet/test_trumpet_seed",
+  "sha256": {
+    "src/HiSpID_trumpet.hpp": "c582447b54354933967d3c8cb6dd0bbfdaefa9aac0883b9a26f5be693de51be3",
+    "tests/test_trumpet_seed.cpp": "5e315f9841eed4eed626d21b13e350c456395605203945f600b769d0a1d3be7d",
+    "tests/reference/kerr_trumpet_81c7d803.hpp": "39d0ccf5c32d5ac38c6ef9a3317b139d39628daab7aed98b97260bcb3378e1e6",
+    "build-hispid-trumpet/test_trumpet_seed": "e52485f20e9b646d4d4241147425aa80a99f9707b08dd81dda0eb91d813b9a44"
+  }
+}
