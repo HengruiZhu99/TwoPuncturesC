@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "criterion": 1e-12,
+  "field_gradient_scaled_errors": {
+    "gamma": 0.0,
+    "Kij": 1.3017250843913363e-16,
+    "psi": 0.0,
+    "conformal_metric": 0.0,
+    "Atilde": 1.3029518583419743e-16,
+    "mean_curvature": 0.0,
+    "correction": 4.393208252708493e-17,
+    "attenuation": 0.0,
+    "dgamma": 1.2194644523058342e-16
+  },
+  "baseline_sha256": "e6612a3dd9f57675ef653b4dae8522b021b9ce0657e462f7cd1cb6235aab7add",
+  "batched_sha256": "cd866c829173d86b045561e7d7365ac2ee7cfdce72dddb07eb3743979ac13d2a"
+}

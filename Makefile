@@ -97,7 +97,7 @@ HISPID_FLAGS = -std=c++17 -O3 -fPIC -Wall -Wextra $(shell gsl-config --cflags)
 HISPID_FLAGS += $(HISPID_MAP_FLAGS)
 HISPID_FLAGS += $(HISPID_EXPERIMENT_FLAGS)
 
-HISPID_KERNEL_HEADERS = $(SRCD)/HiSpID_geometry_types.hpp $(SRCD)/HiSpID_trumpet.hpp $(SRCD)/HiSpID_geometry_kernels.hpp $(SRCD)/HiSpID_cache_kernels.hpp
+HISPID_KERNEL_HEADERS = $(SRCD)/HiSpID_modal_transfer.hpp $(SRCD)/HiSpID_geometry_types.hpp $(SRCD)/HiSpID_trumpet.hpp $(SRCD)/HiSpID_geometry_kernels.hpp $(SRCD)/HiSpID_cache_kernels.hpp
 $(HISPID_DIR)/%.o: $(SRCD)/%.cpp $(INCD)/HiSpID.h $(INCD)/PunctureKrylov.h $(INCD)/PunctureExecution.h $(SRCD)/HiSpID_jets.hpp $(SRCD)/HiSpID_internal.hpp $(SRCD)/HiSpID_spectral.hpp $(SRCD)/HiSpID_axis.hpp $(HISPID_KERNEL_HEADERS)
 	@mkdir -p $(HISPID_DIR)
 	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) -c $< -o $@
@@ -123,12 +123,17 @@ $(HISPID_DIR)/test_charge_rings.x: tests/test_hispid_charge_rings.cpp $(SRCD)/Hi
 $(HISPID_DIR)/test_preconditioner_reuse.x: tests/test_hispid_preconditioner_reuse.cpp $(SRCD)/HiSpID_solver.cpp $(SRCD)/HiSpID_axis.hpp $(SRCD)/HiSpID_spectral.hpp $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB)
 	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(HISPID_DIR)/HiSpID_geometry.o $(STATIC_LIB) $(LFLAGS) -o $@
 
-test-hispid-native: $(HISPID_DIR)/test_geometry.x $(HISPID_DIR)/test_axis.x $(HISPID_DIR)/test_solver.x $(HISPID_DIR)/test_charge_rings.x $(HISPID_DIR)/test_preconditioner_reuse.x
+$(HISPID_DIR)/test_modal_transfer.x: tests/test_hispid_modal_transfer.cpp $(SRCD)/HiSpID_modal_transfer.hpp
+	@mkdir -p $(HISPID_DIR)
+	$(CXX) $(HISPID_FLAGS) $(INC_PARAMS) $< $(LFLAGS) -o $@
+
+test-hispid-native: $(HISPID_DIR)/test_modal_transfer.x $(HISPID_DIR)/test_geometry.x $(HISPID_DIR)/test_axis.x $(HISPID_DIR)/test_solver.x $(HISPID_DIR)/test_charge_rings.x $(HISPID_DIR)/test_preconditioner_reuse.x
 	$(HISPID_DIR)/test_geometry.x
 	$(HISPID_DIR)/test_axis.x
 	$(HISPID_DIR)/test_solver.x
 	$(HISPID_DIR)/test_charge_rings.x
 	$(HISPID_DIR)/test_preconditioner_reuse.x
+	$(HISPID_DIR)/test_modal_transfer.x
 
 PYTHON ?= python3
 test-hispid: test-hispid-native

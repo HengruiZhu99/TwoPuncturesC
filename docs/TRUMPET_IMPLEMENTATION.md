@@ -1037,3 +1037,31 @@ metadata control on CUDA, then (only if that passes) a zero-start moderate
 192x384x16 solve with unchanged physical inputs and acceptance bounds. No C2
 checkpoint is reused as C4 coefficients. Default production remains C2 pending
 this actual binary comparison.
+
+### Batched modal transfer construction
+
+A live snapshot during59413586 found the allocated GPU idle with4647MiB resident;
+this is one phase observation, not a whole-run utilization profile. Inspection
+identified a costly host operation: each radial-block transfer A^{-1}diag(U)
+was built by n separate strided vector LU solves. The opt-in
+`HISPID_BATCHED_MODAL_TRANSFER=ON` instead forms P diag(U), then uses lower/unit
+and upper/nonunit matrix-RHS triangular solves. The Schur recurrence, LU pivots,
+preconditioner matrix, PDE and nonlinear stopping are unchanged. Default is OFF.
+The shared helper retains the original path and avoids repeating factor logic.
+
+An independent pivoted dense-matrix control at64 and512 rows compares both
+transfers and checks A*T=diag(U) against the original matrix, with explicit
+finite checks. At512, transfer disagreement is5.11e-16 and independent scaled
+residual is7.41e-16 on Perlmutter. The necessary target-node kernel comparison
+was0.555839s column-wise versus0.107008s batched (5.19x); local timings were
+0.128710s versus0.0321041s. These are single-matrix diagnostics on allocated CPU
+cores, not a matched-accuracy whole-solver benchmark. No solve-level speedup
+is claimed. Test/source/command records are under `batched-transfer`.
+
+The small axial solve control passes locally. Separate processes loading the
+old and batched images produce field/metric-gradient witnesses differing by
+at most1.303e-16 scaled, against1e-12. The existing control can now retain its
+last axial field witness for direct cross-image comparison; it does not rerun
+another physical suite. The matrix test is registered in CMake and Makefile.
+Neither the active boost image nor queued C4 image was changed. CUDA compilation
+and adoption of this option remain future work if those runs need continuation.

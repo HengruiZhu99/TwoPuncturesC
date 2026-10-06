@@ -1,0 +1,94 @@
+{
+  "kind": "axisymmetric_full_system_equivalence",
+  "rows": [
+    {
+      "execution": "reference",
+      "axisymmetric": false,
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 12,
+        "krylov_iterations": 57,
+        "npoints": 2304,
+        "scaled_linf": [
+          2.0096378215940512e-14,
+          8.429765458410211e-14,
+          6.402980617441735e-14,
+          7.837909226372885e-14
+        ],
+        "unscaled_linf": [
+          5.5365489970427006e-11,
+          6.206087421944694e-11,
+          2.589140990524313e-12,
+          2.2653376926603735e-12
+        ],
+        "seconds": 0.137898375,
+        "status": 0,
+        "error": ""
+      },
+      "field_scaled_errors": {
+        "gamma": 0.0,
+        "Kij": 0.0,
+        "psi": 0.0,
+        "conformal_metric": 0.0,
+        "Atilde": 0.0,
+        "mean_curvature": 0.0,
+        "correction": 0.0,
+        "attenuation": 0.0,
+        "dgamma": 0.0
+      },
+      "seconds": 0.18037379199999998,
+      "passed": true
+    },
+    {
+      "execution": "reference",
+      "axisymmetric": true,
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 11,
+        "krylov_iterations": 40,
+        "npoints": 2304,
+        "scaled_linf": [
+          3.8026368161143836e-14,
+          9.134846388062132e-14,
+          2.2312425933739516e-13,
+          1.7863477907928592e-13
+        ],
+        "unscaled_linf": [
+          7.764811016386375e-11,
+          1.7422762803382502e-10,
+          1.980685486686425e-10,
+          1.9807137732482916e-10
+        ],
+        "seconds": 0.109811083,
+        "status": 0,
+        "error": ""
+      },
+      "field_scaled_errors": {
+        "gamma": 4.11849162859059e-12,
+        "Kij": 7.872099709472142e-11,
+        "psi": 9.034132883411179e-13,
+        "conformal_metric": 0.0,
+        "Atilde": 9.353258334769318e-11,
+        "mean_curvature": 0.0,
+        "correction": 4.552087509427454e-11,
+        "attenuation": 0.0,
+        "dgamma": 2.6560154348327086e-11
+      },
+      "seconds": 0.15173254199999997,
+      "passed": true
+    }
+  ],
+  "spinning_configuration_rejected": true,
+  "transverse_boost_rejected": true,
+  "forbidden_initial_guess_injected": true,
+  "passed": true,
+  "binary_acceptance": false,
+  "library_sha256": "aa5fd558d9a57dc66160b643ee7c504c66861a34085c4b4468209343e0663248",
+  "driver_sha256": "6ced5b4b1566a8ec2dc3c26e0fd7f11f9d0b9380dd1a0fe50826470eff8e89f0",
+  "field_witness": {
+    "path": "validation/trumpet/batched-transfer/batched-fields.npz",
+    "sha256": "cd866c829173d86b045561e7d7365ac2ee7cfdce72dddb07eb3743979ac13d2a",
+    "execution": "reference",
+    "axisymmetric": true
+  }
+}

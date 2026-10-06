@@ -2,6 +2,7 @@
 #include "HiSpID_cache_kernels.hpp"
 #include "HiSpID_axis.hpp"
 #include "HiSpID_symmetry.hpp"
+#include "HiSpID_modal_transfer.hpp"
 #include "PunctureKrylov.h"
 #include "PunctureExecution.h"
 #ifdef PUNCTURES_KOKKOS
@@ -279,12 +280,8 @@ struct ModalBlock {
    if(gsl_linalg_LU_decomp(&A.matrix,&p,&sign))throw std::runtime_error("Modal block factorization failed");
    for(int i=0;i<na;i++)if(!std::isfinite(block[i*na+i])||std::abs(block[i*na+i])<1e-30)
     throw std::runtime_error("Modal block singular pivot");
-   if(j+1<nb)for(int q=0;q<na;q++){
-    std::fill(rhs.begin(),rhs.end(),0);rhs[q]=upper[j*na+q];
-    auto b=gsl_vector_view_array(rhs.data(),na);
-    auto x=gsl_vector_view_array_with_stride(transfer.data()+j*na*na+q,na,na);
-    if(gsl_linalg_LU_solve(&A.matrix,&p,&b.vector,&x.vector))throw std::runtime_error("Modal transfer solve failed");
-   }
+   if(j+1<nb)hispid::modal_transfer(&A.matrix,&p,upper.data()+j*na,
+       transfer.data()+j*na*na,bool(HISPID_BATCHED_MODAL_TRANSFER),rhs);
   }
  }
  void solve(double*x,int mode,int component)const{
