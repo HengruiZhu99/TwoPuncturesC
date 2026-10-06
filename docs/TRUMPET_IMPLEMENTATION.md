@@ -1718,3 +1718,12 @@ it cannot by itself prove that restart is the cause. No equation/preconditioner
 change or new library build. One shared GPU,30-minute allocation; output
 axis-tau-bicgstab-probe-v1, script bicgstab_probe_perlmutter.sh. Driver help and
 shell syntax checked. Physical acceptance remains false for diagnostic output.
+
+BiCGStab probe59423677 completed but did not produce a usable Newton step:
+1200 iterations/2402JVPs/2400preconditioner applications,401.789s solve,
+true relative residual1.73413e103. No update was accepted. This rejects the
+existing BiCGStab backend for this particular frozen240 system; it does not
+establish the cause of GMRES stagnation. Raw probe JSON/log/job ID retained
+in compensated-projection/bicgstab-probe. Next investigate retaining useful
+GMRES directions across restarts while preserving true-residual checks and
+the memory bound; do not repeat the backend matrix or relax physical gates.

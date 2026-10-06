@@ -195,6 +195,9 @@ residual $0.547$ after 2400 iterations. Bulk momentum RMS remained
 $2.53\times10^{-6}$; this continuation also fails acceptance.
 For $Js=-r+e$ and $\|e\|\leq\eta\|r\|$,
 $r^TJs\leq-(1-\eta)\|r\|^2$; the existing line search verifies actual decrease.
+An existing BiCGStab-backend probe of this frozen system diverges to true
+relative residual $1.73\times10^{103}$ after 1200 iterations (2402 JVPs,
+401.8 seconds), with no accepted Newton update.
 Final nonlinear and physical criteria remain unchanged. Binary acceptance
 remains open.
 
