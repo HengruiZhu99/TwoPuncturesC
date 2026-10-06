@@ -1673,3 +1673,25 @@ GPU/host inverse relative L2 difference2.816881431e-16, down from
 Initial36-row snapshot preserved in compensated-projection/gpu-v2. This
 qualifies the targeted projection correction on the failing240 state, not the
 nonlinear solve or physical acceptance, both still pending.
+
+Corrected replay59422941 finished13:12 and released its allocation. The job
+completed its diagnostics, but the solve did not converge: first inner solve
+319 iterations/relative0.0917176 accepted a full Newton step; second inner
+solve2400/relative0.305647 failed target0.1. Total2attemptedNewton/2719Krylov,
+solve524.666s, workflow787.662s, RSS12275884KiB. Nonlinear max2.16684e-11
+still exceeds1e-12. Near H/M RMS5.23509e-7/2.57229e-7; bulk5.40303e-8/2.53470e-6
+still fails momentum bound. Saved checkpoint
+2a354f2337771e9c4e40d5750fae0a880d64513379c789be22a091fe158c4042.
+Final JSON/raw physical observers/log retained in compensated-projection/gpu-v2.
+
+Job59423304 resumes this improved state with inexact-Newton forcing0.5,
+restart64 and the same image/grid/physical free data. This is justified by the
+measured true linear residual0.306, not a recurrence-only estimate: if
+Js=-r+e and ||e||<=eta||r|| then r.Js<=-(1-eta)||r||^2. Eta0.5 admits a descent
+direction, and the existing line search verifies actual nonlinear decrease.
+The final nonlinear1e-12 and physical/horizon thresholds are unchanged; no
+failed solution is accepted. Routine inverse probes are disabled after the
+actual-state correction was qualified. Script inexact_newton_perlmutter.sh;
+remote output axis-tau-compensated-v3. A final explicit per-grid gate now
+makes job failure reflect nonconvergence or failed physical bounds. No rebuild
+or additional resolution launched.

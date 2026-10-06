@@ -184,7 +184,16 @@ projection preserves subtraction and product rounding errors during summation.
 Exact dyadic cancellation controls pass on the host; the small nonlinear
 control retains five Newton/53 Krylov iterations and changes sampled fields
 by only $3.12\times10^{-13}$ (scaled), with bitwise unchanged residual/JVP
-witnesses. The corrected GPU replay is pending; binary acceptance remains open.
+witnesses. GPU cancellation controls also pass, and the corrected actual-state
+GPU/host inverse difference is $2.82\times10^{-16}$. A full Newton step now
+converges in 319 Krylov iterations, but the next inner solve stops at relative
+residual $0.306$ after 2400 iterations. The nonlinear maximum improves to
+$2.17\times10^{-11}$ but still fails $10^{-12}$; bulk momentum RMS
+$2.53\times10^{-6}$ also fails. A continuation with inexact-Newton forcing
+$\eta=0.5$ is pending. For $Js=-r+e$ and $\|e\|\leq\eta\|r\|$,
+$r^TJs\leq-(1-\eta)\|r\|^2$; the existing line search verifies actual decrease.
+Final nonlinear and physical criteria remain unchanged. Binary acceptance
+remains open.
 
 \begin{center}\small
 \begin{tabularx}{\linewidth}{@{}lX@{}}
