@@ -1650,3 +1650,8 @@ state with restart64/forcing0.1 and all final criteria unchanged. Actual-RHS
 host/device diagnostics remain enabled during this corrective replay. Remote
 source/build axis-tau-compensated, outputs axis-tau-compensated-v1; local
 controls/scripts in polar-exact/compensated-projection. No GPU result yet.
+
+Job59422875 built successfully and passed the three exact cancellation
+witnesses on both CPU and CUDA (answers -2^-54,2^-53,0). Pinned image/source
+hashes and cancellation output are retained in compensated-projection/gpu-v1.
+The resumed240 physical workflow remains live; no solve result yet.
