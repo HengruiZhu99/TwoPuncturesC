@@ -1595,3 +1595,15 @@ has not been isolated from the approximation quality and remains the next
 specific diagnostic distinction. Native image9b3eb7bb24020bc497095223e30ff748d0b1b64c832f88ca3169d64fd552b3b6.
 Raw records and parsed per-group analysis in factor-probe/gpu-v1. No physical
 acceptance is claimed from this deliberately iteration-capped diagnostic.
+
+Added opt-in HISPID_PROBE_LINEAR_ACTION=1 to distinguish device inverse error
+from preconditioner approximation. It compares the actual Newton RHS through
+host triangular/Woodbury solves and GPU inverse/Woodbury kernels, reporting
+absolute differences per Fourier mode/component. After the bounded Krylov run,
+it resolves the initial and remaining true residual norms by Fourier mode and
+component, including the tau-row share. The additional JVP is counted as
+work; neither the operator nor the solver tolerance is changed. Small reference
+residual/JVP/field witnesses and iteration histories remain bitwise equal.
+Job59422392 is the bounded64-step240 replay with these diagnostics on one shared
+GPU, using separate source/build directories axis-tau-action-probe and output
+axis-tau-action-probe-v1. No new physical resolution or acceptance claim.

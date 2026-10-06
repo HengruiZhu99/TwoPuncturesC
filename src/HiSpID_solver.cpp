@@ -621,6 +621,8 @@ int hi_linear_precondition(void*context,const double*input,double*output){
 bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
                   std::vector<double>&x,double rtol,int method,bool eager=false){
  x.assign(s.ntotal,0);HiLinearContext context{s,M};
+ const char*action_probe_setting=std::getenv("HISPID_PROBE_LINEAR_ACTION");
+ const bool action_probe=action_probe_setting&&std::strcmp(action_probe_setting,"1")==0;
  PK_Options options{method,s.local.max_krylov,s.local.krylov_restart,1,0,int(eager),rtol*norm2v(rhs),nullptr,nullptr};
  PK_Result result{};int status;
 #ifdef PUNCTURES_KOKKOS
@@ -628,6 +630,25 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
   auto&Mstats=puncture::statistics();
   double begin=puncture::seconds();auto d=device_preconditioner(M);TauPolarDevice polar(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
   auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
+  if(action_probe){
+   std::vector<double>reference,device(s.ntotal);M.solve(rhs,reference);
+   project_axisymmetry(s,reference.data(),true);
+   d.apply(b,solution);polar.apply(solution);project_axisymmetry(s,solution,true);
+   puncture::download(solution,device.data());
+   const int np=s.local.n[2],stride=s.local.n[0]*s.local.n[1];
+   for(int mode=0;mode<=np/2;mode++)for(int v=0;v<4;v++){
+    long double norm=0,error=0;double maximum=0;
+    for(int slot=0;slot<np;slot++)if((slot<=np/2?slot:slot-np/2)==mode)
+     for(int i=0;i<stride;i++){
+      int q=4*(i+stride*slot)+v;long double delta=(long double)device[q]-reference[q];
+      norm+=(long double)reference[q]*reference[q];error+=delta*delta;
+      maximum=std::max(maximum,double(std::abs(delta)));
+     }
+    std::fprintf(stderr,"HiSpID device inverse mode=%d component=%d reference_l2=%.17g difference_l2=%.17g difference_linf=%.17g\n",
+      mode,v,double(std::sqrt(norm)),double(std::sqrt(error)),maximum);
+   }
+   std::fflush(stderr);Kokkos::deep_copy(solution,0.);
+  }
   Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+polar.bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)));
   status=puncture::solve(b,solution,options,[&](auto in,auto out){s.device->apply(in,out);project_axisymmetry(s,out,false);},[&](auto in,auto out){d.apply(in,out);polar.apply(out);project_axisymmetry(s,out,true);},result);
   puncture::download(solution,x.data());s.jvp_applications+=result.operator_calls;s.preconditioner_applications+=result.preconditioner_calls;
@@ -635,6 +656,28 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
 #endif
  status=PK_solve(s.ntotal,rhs.data(),x.data(),&options,hi_linear_action,hi_linear_precondition,&context,nullptr,nullptr,&result);
  s.diag.krylov_iterations+=result.iterations;s.last_gmres_relative=result.relative_residual;
+ if(action_probe){
+  std::vector<double>action(s.ntotal);jvp(s,x.data(),action.data());project_axisymmetry(s,action.data(),false);
+  const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],stride=na*nb;
+  for(int mode=0;mode<=np/2;mode++)for(int v=0;v<4;v++){
+   long double initial=0,remaining=0,boundary=0;
+   for(int slot=0;slot<np;slot++)if((slot<=np/2?slot:slot-np/2)==mode)
+    for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
+     long double bmode=0,rmode=0;
+     for(int k=0;k<np;k++){
+      int q=4*(i+na*j+stride*k)+v;double w=s.derivatives.forward[slot*np+k];
+      bmode+=(long double)w*rhs[q];rmode+=(long double)w*(rhs[q]-action[q]);
+     }
+     initial+=bmode*bmode;remaining+=rmode*rmode;
+     if(HISPID_AXIS_TAU&&mode>=5&&(i==0||j==0||j==nb-1))boundary+=rmode*rmode;
+    }
+   std::fprintf(stderr,"HiSpID residual mode=%d component=%d initial_l2=%.17g remaining_l2=%.17g tau_l2=%.17g\n",
+      mode,v,double(std::sqrt(initial)),double(std::sqrt(remaining)),double(std::sqrt(boundary)));
+  }
+  std::fprintf(stderr,"HiSpID action probe iterations=%d recurrence=%.17g true=%.17g relative=%.17g\n",
+    result.iterations,result.recurrence_residual,result.true_residual,result.relative_residual);
+  std::fflush(stderr);
+ }
  const char*probe_setting=std::getenv("HISPID_PROBE_MODAL_FACTORS");
  if(probe_setting&&std::strcmp(probe_setting,"1")==0){
   std::fprintf(stderr,"HiSpID linear probe iterations=%d status=%d recurrence=%.17g true=%.17g relative=%.17g\n",
