@@ -1,0 +1,23 @@
+{
+  "kind": "gamma10_radial256_to512_comparison",
+  "binary_acceptance": false,
+  "completed": true,
+  "source_sha256": {
+    "validation/trumpet/axisymmetric/gamma10_256x320/result.json": "1949e5516fb9adb009c87e3265eb70cd63db9fa9ec5488c1a9b55e7481d6490d",
+    "validation/trumpet/axial-factors/gamma10_512x320-v1/result.json": "499b2388b9ae113b197682487dfa0ce7287a6355a47dfa4d305c3b9a7e2e8173"
+  },
+  "rms_improvement": {
+    "near": {
+      "H_rms": 8.094879333188048,
+      "M_rms": 3.953884417574191
+    },
+    "bulk": {
+      "H_rms": 4.175349192626196,
+      "M_rms": 3.392579302524194
+    }
+  },
+  "exterior_bounds_passed": false,
+  "relative_extrapolated_energy_change": 5.484703270997038e-06,
+  "process_peak_rss_gib": 5.585506439208984,
+  "next_action": "Diagnostic checkpoint-bound import and affine horizons on CPU; no duplicate radial512 solve."
+}

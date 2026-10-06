@@ -1,0 +1,441 @@
+{
+  "library_sha256": "a044e8762c16f27ae2400f2e1de60e043d498a5610b79b6f6dea6ba17717a379",
+  "parameterization": "modal_P_C4prolate_map_v4_r0.20000000000000001_k2",
+  "execution": "kokkos",
+  "regularity_cap": 6,
+  "collocation_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "amplitude": 0.0001,
+  "records": [
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 5,
+      "sine": false,
+      "component": 0,
+      "physical_error_max": [
+        8.230790551157781e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_error_max": [
+        1.7675312867759372e-20,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "normalized_conformal_error": [
+        1.767531286775937e-16,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 5,
+      "sine": false,
+      "component": 1,
+      "physical_error_max": [
+        8.230790556115038e-18,
+        9.740878893424454e-21,
+        3.970466940254533e-22,
+        7.411538288475128e-22
+      ],
+      "conformal_error_max": [
+        3.101927297073854e-25,
+        1.9439449575648857e-20,
+        7.923688685726436e-22,
+        1.3886938490504504e-21
+      ],
+      "normalized_conformal_error": [
+        3.1019272970738538e-21,
+        1.9439449575648856e-16,
+        7.923688685726435e-18,
+        1.3886938490504503e-17
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 5,
+      "sine": true,
+      "component": 0,
+      "physical_error_max": [
+        8.230790529044432e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_error_max": [
+        1.5896617754229632e-20,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "normalized_conformal_error": [
+        1.589661775422963e-16,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 5,
+      "sine": true,
+      "component": 1,
+      "physical_error_max": [
+        8.230790556115038e-18,
+        1.1011428314305904e-20,
+        5.293955920339377e-22,
+        4.499862532288471e-22
+      ],
+      "conformal_error_max": [
+        3.101927297073854e-25,
+        2.063202290017812e-20,
+        9.508426422871725e-22,
+        8.71605755429908e-22
+      ],
+      "normalized_conformal_error": [
+        3.1019272970738538e-21,
+        2.0632022900178118e-16,
+        9.508426422871724e-18,
+        8.71605755429908e-18
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 6,
+      "sine": false,
+      "component": 0,
+      "physical_error_max": [
+        8.230790555640089e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_error_max": [
+        2.3332555880139252e-20,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "normalized_conformal_error": [
+        2.333255588013925e-16,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 6,
+      "sine": false,
+      "component": 1,
+      "physical_error_max": [
+        8.230790556115038e-18,
+        1.3129010682441655e-20,
+        4.003554164756654e-22,
+        6.485096002415737e-22
+      ],
+      "conformal_error_max": [
+        3.101927297073854e-25,
+        2.382593003754844e-20,
+        7.737200136561165e-22,
+        1.294202485335318e-21
+      ],
+      "normalized_conformal_error": [
+        3.1019272970738538e-21,
+        2.382593003754844e-16,
+        7.737200136561165e-18,
+        1.294202485335318e-17
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 6,
+      "sine": true,
+      "component": 0,
+      "physical_error_max": [
+        8.230790555512293e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_error_max": [
+        2.6605356466558194e-20,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "normalized_conformal_error": [
+        2.6605356466558195e-16,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 6,
+      "sine": true,
+      "component": 1,
+      "physical_error_max": [
+        8.230790556115038e-18,
+        1.4399560103323106e-20,
+        4.499862532288471e-22,
+        9.26442286059391e-22
+      ],
+      "conformal_error_max": [
+        3.101927297073854e-25,
+        2.873657763356788e-20,
+        7.923688685726436e-22,
+        1.735867311313063e-21
+      ],
+      "normalized_conformal_error": [
+        3.1019272970738538e-21,
+        2.8736577633567877e-16,
+        7.923688685726435e-18,
+        1.735867311313063e-17
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 8,
+      "sine": false,
+      "component": 0,
+      "physical_error_max": [
+        4.479889495392214e-16,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_error_max": [
+        7.178576277537694e-17,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "normalized_conformal_error": [
+        7.178576277537694e-13,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    },
+    {
+      "resolution": [
+        40,
+        40,
+        16
+      ],
+      "m": 8,
+      "sine": false,
+      "component": 1,
+      "physical_error_max": [
+        8.230790556115038e-18,
+        5.557552573524915e-17,
+        6.420159015607874e-18,
+        6.420159015607874e-18
+      ],
+      "conformal_error_max": [
+        1.311127619425214e-22,
+        8.775575506844923e-17,
+        1.2506961890286917e-17,
+        1.2506961890286917e-17
+      ],
+      "normalized_conformal_error": [
+        1.3111276194252139e-18,
+        8.775575506844923e-13,
+        1.2506961890286918e-13,
+        1.2506961890286918e-13
+      ],
+      "conformal_factor_error": 5.684341886080802e-14,
+      "seed_physical_error_max": [
+        8.230790556115038e-18,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_conformal_cancellation_max": [
+        5.062378082949129e-10,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "passed": true
+    }
+  ],
+  "all_levels_passed": true,
+  "passed": true,
+  "metadata": {
+    "roundtrip_exact": true,
+    "parameterization_preserved": true,
+    "distinct_from_default": true,
+    "constant_mode_prolongation_error": 3.3306690738754696e-16
+  }
+}

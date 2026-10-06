@@ -1096,3 +1096,26 @@ hash and writes a fresh output directory. This is a contingency for a terminal
 runtime failure of59413586, not a second concurrent run or a performance sweep.
 At the latest observation59413586 remained RUNNING at44:23 with no solved
 checkpoint;59414246 remained queued behind it. Neither job was interrupted.
+
+### Completed radial512 boost refinement
+
+Job59413586 completed in55:10 and produced checkpoint
+`d90bc47d886c395a3acf14e4beb4cd3f5cc72882e948e2682a9e073900b4933b`.
+The nonlinear solve converged in10 Newton/352 Krylov iterations,3119.562s;
+total workflow3294.567s and peak host RSS5856828KiB (5.59GiB).
+Independent near H/M RMS are1.01625e-4/6.12380e-3; bulk1.06906e-6/3.75054e-5.
+Relative to radial256 these improve by8.09/3.95 and4.18/3.39, respectively,
+but still fail the existing physical bounds. Minimum psi0.99550695, minimum
+metric eigenvalue0.98214848, and exterior stencils remain unmodified.
+Extrapolated energy9.49075644 changes relatively5.48e-6 from radial256;
+net momentum/angular momentum remain at about1e-12 or below.
+Results, physical samples and comparison are retained in `axial-factors`.
+
+The batched duplicate is unnecessary and was not submitted. The diagnostic
+radial512 consumer was submitted as CPU job59415301 using the prepared
+checkpoint-bound migration and affine-horizon script. Its outcome is pending;
+no horizon acceptance or boost separation calibration is inferred here.
+The dependent C4 production-path job59414246 has started on its single GPU.
+Its CUDA manufactured/metadata control passed, with largest normalized error
+8.77558e-13 and exact checkpoint roundtrip; the moderate192 solve is running.
+The result is retained as `c4-experiment/cuda-operator-control.json`.

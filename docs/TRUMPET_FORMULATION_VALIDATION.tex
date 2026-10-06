@@ -12,7 +12,8 @@ interface, portable checkpoint, and AthenaK consumer are implemented. Independen
 seed checks and selected horizon measurements pass. \textbf{No complete binary
 physical-validation claim is supported yet.} The moderate three-grid sequence
 fails its convergence requirement; both extreme binaries exceed the declared
-physical-constraint tolerances. A radial-512 boost attempt reached its allocation time limit before producing a checkpoint; a reduced-factor retry is running.
+physical-constraint tolerances. The reduced-factor radial-512 boost retry has
+completed and improves the constraint errors, but still fails their bounds.
 
 \section{Construction and its limits}
 The reference is the $R_0=M$ stationary Kerr trumpet of Dennison, Baumgarte and
@@ -104,6 +105,7 @@ Moderate $224\!\times\!448\!\times\!16$ & $2.08\,10^{-7}$ & $1.65\,10^{-7}$ & $8
 Moderate $256\!\times\!512\!\times\!16$ & $1.70\,10^{-7}$ & $1.39\,10^{-7}$ & $2.62\,10^{-7}$ & $2.86\,10^{-7}$\\
 Spin $160\!\times\!320\!\times\!32$ & $3.15\,10^{-6}$ & $1.44\,10^{-5}$ & $8.30\,10^{-5}$ & $3.00\,10^{-4}$\\
 Boost $256\!\times\!320\!\times\!8$ & $8.23\,10^{-4}$ & $2.42\,10^{-2}$ & $4.46\,10^{-6}$ & $1.27\,10^{-4}$\\
+Boost $512\!\times\!320\!\times\!8$ & $1.02\,10^{-4}$ & $6.12\,10^{-3}$ & $1.07\,10^{-6}$ & $3.75\,10^{-5}$\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -119,13 +121,18 @@ and numerical conditioning need investigation. The retained $m=6$ polynomial
 also has a forbidden $\rho^4$ axis term: its largest sampled coefficient grows
 from $4.89\times10^{-8}$ to $8.92\times10^{-7}$ across the sequence.
 An opt-in C4 basis, with exact powers through $m=6$, has passed local
-manufactured-operator and metadata checks; its CUDA control and one moderate
-binary comparison are queued. It has a distinct basis identifier and has not
+manufactured-operator and metadata checks. Its CUDA control also passes
+(maximum normalized error $8.78\times10^{-13}$); the moderate binary
+comparison is running. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
 Radial refinement from 160 to 256 improved its errors by factors 2--6.
 Stronger focusing, $\lambda=0.003$, worsened both independent errors and radial
 tails and is rejected. Radial-512 mapped-operator controls pass at normalized
-error $5.49\times10^{-10}$; the larger solve timed out before physical diagnostics were available.
+error $5.49\times10^{-10}$. After the original timeout, the reduced-factor
+retry completed: relative to radial 256, near-hole Hamiltonian/momentum RMS
+errors improve by factors $8.09/3.95$ and bulk errors by $4.18/3.39$.
+Extrapolated energy changes by $5.48\times10^{-6}$ relatively. These improvements
+do not meet the physical bounds; a diagnostic horizon check is running.
 
 \section{Horizon measurements and computational cost}
 The finest moderate checkpoint passes import and horizon angular/quadrature
@@ -156,6 +163,9 @@ Necessary production solves, not a matched-accuracy benchmark, took
 case and 161.3 seconds (273 seconds total, 3.53 GiB RSS) for the listed boost
 case. Host RSS excludes GPU allocation. The radial-512 run retains the existing
 64 GiB aggregate guard; its conservative estimate is 63.74 GiB.
+The completed radial-512 retry took 3119.6 seconds in the nonlinear solve
+(3294.6 seconds total, 5.59 GiB peak host RSS), with 10 Newton steps and
+352 Krylov iterations. It used the original column-wise transfer construction.
 
 The longer radial-512 attempt exposed a host factor-construction bottleneck:
 a live stack snapshot found active threads in the modal preconditioner's
@@ -169,8 +179,9 @@ on Perlmutter are $0.556$ versus $0.107$ seconds (a factor of $5.19$);
 field/gradient comparison agrees within $1.31\times10^{-16}$, and the separate
 CUDA axisymmetric control passes. The option remains off by default. A
 continuation command pins the tested image and preserves the radial-512
-configuration; it is reserved for a terminal runtime failure, not a duplicate
-run. Evidence is in \path{validation/trumpet/batched-transfer/} and
+configuration. It was not launched because the original run completed;
+future necessary solves can use the qualified optimization.
+Evidence is in \path{validation/trumpet/batched-transfer/} and
 \path{validation/trumpet/axial-factors/stack-snapshot.txt}.
 
 \section{Reproducibility and remaining work}
