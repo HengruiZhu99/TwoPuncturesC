@@ -5,8 +5,10 @@ Dedicated branches: codex/hispid-trumpet and codex/hispid-trumpet-pgen.
 The prior worktrees and raw results are unchanged. No previous benchmark
 campaign is resumed. Current status: seed-family API, context/cache/sampler
 dispatch and versioned checkpoint integration implemented; CUDA controls and
-full consumer build pass. Isolated spin.99 horizon convergence passes; two moderate binary grids
-converge internally but fail physical accuracy. No binary acceptance yet.
+full consumer build pass. Isolated spin.99 and the finest moderate binary
+horizon checks pass, including angular convergence and modified-region
+enclosure. Two grids in the declared sequence meet the physical error bounds,
+but the sequence fails decreasing bulk errors. No full binary acceptance yet.
 
 ## Pinned geometry and conventions
 
@@ -43,8 +45,8 @@ derivation below; physical convergence and measured enclosure remain required.
 | Derivatives and vacuum | Independent metric/K finite differences at3 steps; expected convergence before rounding; mass-normalized exterior H/M RMS<1e-7 | pass at the sampled exterior, axis, horizon and interior points |
 | Boost and causal slice | Generic spin/boost andGamma10; positive metric and slice margin at every evaluated point; E/P/J extrapolation error<1e-4 with two angular levels | sampled checks and charges pass; nonspinning global slicing proved |
 | Linearization | One curved manufactured operator case and centered JVP difference sequence; relative error<1e-7 | pass; small device control also passes |
-| Moderate binary | Three increasing resolutions; independent fixed exterior near/bulk H/M RMS<1e-6 and max<1e-4 with decreasing errors; positivepsi; charge changes<1e-3 | one passing grid; convergence pending |
-| Consumer/horizons | Bound checkpoint and field/gradient roundtrip<1e-12; initial-time expansion RMS<1e-7 at3 angular orders, mass/spin changes<1e-4; modified-region enclosure | isolated spin.99 passes; binary pending |
+| Moderate binary | Three increasing resolutions; independent fixed exterior near/bulk H/M RMS<1e-6 and max<1e-4 with decreasing errors; positivepsi; charge changes<1e-3 | two sequence grids meet bounds; bulk convergence fails |
+| Consumer/horizons | Bound checkpoint and field/gradient roundtrip<1e-12; initial-time expansion RMS<1e-7 at3 angular orders, mass/spin changes<1e-4; modified-region enclosure | isolated spin.99 and finest moderate binary pass |
 | QI compatibility | One unchanged saved generic QI fixture, default-path bitwise comparison on identical build/platform | pass |
 | Extreme binaries | Separatechi=.99 andGamma10; same independent physical requirements, measured horizon properties andd/Mirr calibration to50 within1% | pending |
 
@@ -465,3 +467,26 @@ below1e-12. A single same-grid tighter-stop control is declared in
 `convergence/tolerance-plan.json`; no free data, basis or physical gate changes.
 It tests a specific possible source of modal contamination before another
 representation change. Its result is not yet known.
+
+### Moderate binary horizon qualification
+
+Allocation59406161 completed the checkpoint-bound CPU migration and AthenaK
+initial-time horizon schedule l=8,12,16 plus the l=16 quadrature increase from
+32 to48 polar points. All rows and the aggregate horizon/enclosure checks
+pass. Results and raw finder logs are under
+`convergence/horizon256/surfaces`; the binary data remain diagnostic.
+
+| Component | Horizon mass | Irreducible mass | Coordinate-spin magnitude / mass² | Final expansion RMS | Enclosure margin after refinement buffer |
+|---|---:|---:|---:|---:|---:|
+| +x | 0.6007648746315 | 0.5887780113536 | 0.3895967639598 | 2.571e-10 | 0.2507675204490 |
+| -x | 0.4008630456157 | 0.3935773862669 | 0.3726775137246 | 3.149e-9 | 0.1596480351485 |
+
+Maximum mass and dimensionless spin-vector changes are1.63e-11 and1.01e-11;
+maximum area changes are3.34e-11 spectrally and9.88e-12 with quadrature.
+The spin is the coordinate rotation integral, not an approximate-Killing-vector
+measurement. Continuous enclosure applies to the retained harmonic surfaces
+with an empirical refinement buffer, not a rigorous exact-surface error bound.
+This closes the consumer/horizon obligation for this checkpoint, independently
+of the still-failed constraint-resolution gate. The schedule used113.24,106.63,
+154.98 and283.23s on16 CPU threads. The allocation released; the queued
+same-grid tolerance control started as59406434.
