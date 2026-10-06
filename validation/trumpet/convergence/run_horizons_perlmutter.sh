@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+: "${SLURM_JOB_ID:?compute allocation required}"
+PUNCTURE_ROOT=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005
+PUNCTURE_RUN="$PUNCTURE_ROOT/convergence/horizon256"
+mkdir -p "$PUNCTURE_RUN"
+printf '%s\n' "$SLURM_JOB_ID" > "$PUNCTURE_RUN/job-id.txt"
+export PYTHONPATH="$PUNCTURE_ROOT/source-polar/python:$PUNCTURE_ROOT/workflow-polar/validation:$PUNCTURE_ROOT/workflow-polar/examples"
+export OMP_NUM_THREADS=16 OPENBLAS_NUM_THREADS=1 OMP_PROC_BIND=spread OMP_PLACES=cores
+python3 "$PUNCTURE_ROOT/workflow-polar/validation/portable_sampler_migration.py" --checkpoint "$PUNCTURE_ROOT/convergence/moderate256/diagnostic.checkpoint" --producer-library "$PUNCTURE_ROOT/build-polar-cuda/libHiSpID.so" --consumer-library "$PUNCTURE_ROOT/build-polar-sampler/libHiSpID.so" --output "$PUNCTURE_RUN/migration.json" > "$PUNCTURE_RUN/migration.log" 2>&1
+python3 "$PUNCTURE_ROOT/athenak-polar/tst/test_suite/z4c/check_hispid_binary.py" --executable "$PUNCTURE_ROOT/build-athenak-polar/src/athena" --checkpoint "$PUNCTURE_ROOT/convergence/moderate256/diagnostic.checkpoint" --allow-diagnostic --migration-proof "$PUNCTURE_RUN/migration.json" --harmonic-storage factorized --geometry-threads 16 --strict-expansion --levels 8,12,16 --timeout 1500 --output "$PUNCTURE_RUN/surfaces" > "$PUNCTURE_RUN/horizons.log" 2>&1

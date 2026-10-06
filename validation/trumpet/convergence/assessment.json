@@ -1,0 +1,241 @@
+{
+  "passed": false,
+  "scope": "three-grid physical constraints and charge stability; horizon enclosure separate",
+  "binary_acceptance": false,
+  "library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+  "records": [
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate192",
+      "resolution": [
+        192,
+        384,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 1.1277704174728733e-06,
+          "H_max": 7.396899039058269e-06,
+          "M_rms": 3.771598239171177e-07,
+          "M_max": 1.4686704270846376e-06,
+          "M_components_rms": [
+            1.0302302797721081e-07,
+            1.2117972249273328e-07,
+            9.922701005221707e-08
+          ],
+          "M_components_max": [
+            3.2325705619409825e-07,
+            5.519613474893498e-07,
+            4.850706288028887e-07
+          ],
+          "normalized_H_max": 1.5217059108480481e-06,
+          "normalized_M_max": 3.1448137538113794e-06
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 5.763579448467515e-08,
+          "H_max": 1.7424794381427217e-07,
+          "M_rms": 4.41858063559076e-07,
+          "M_max": 1.0658088560092934e-06,
+          "M_components_rms": [
+            8.678206015398611e-08,
+            2.276259313003659e-07,
+            2.8799671253924687e-07
+          ],
+          "M_components_max": [
+            2.640265790437866e-07,
+            5.588825768495214e-07,
+            8.126132278122326e-07
+          ],
+          "normalized_H_max": 0.0006112491501498538,
+          "normalized_M_max": 0.0005299844066305483
+        }
+      },
+      "physical_bounds_passed": false,
+      "charges": [
+        0.9687767856417873,
+        0.004513475172665307,
+        0.007368279361760364,
+        0.01686496927302106,
+        0.04006751370431093,
+        0.1123423174650638,
+        0.3107530903727567
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate192/diagnostic.checkpoint",
+        "file_sha256": "347769fcc6e6487fd89f4d4440ec328e1858b3fde31ee7011fd1d52b7e2f1181",
+        "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "result_sha256": "1eec6a29f3135efbac039efab138c0c02d4fb8e8f4854f7b5ff9efcafddbd5b7",
+      "observer_sha256": "90d09ba5371fb157432c0ba3492d3998bef8ad392c3df0324c9d1c4fdb3335e3"
+    },
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate224",
+      "resolution": [
+        224,
+        448,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 2.0805501580075246e-07,
+          "H_max": 1.1072115086996348e-06,
+          "M_rms": 1.654148106550133e-07,
+          "M_max": 6.026666671066088e-07,
+          "M_components_rms": [
+            6.365498558576866e-08,
+            4.331075404267435e-08,
+            3.115564309897335e-08
+          ],
+          "M_components_max": [
+            1.8203422150184408e-07,
+            1.9064444085287338e-07,
+            1.2357023420154444e-07
+          ],
+          "normalized_H_max": 1.2852741276746557e-06,
+          "normalized_M_max": 9.99470169235539e-07
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 8.708188939489872e-08,
+          "H_max": 2.7528346096725685e-07,
+          "M_rms": 4.438423787651155e-07,
+          "M_max": 1.3007309160536812e-06,
+          "M_components_rms": [
+            2.2240436194364332e-08,
+            2.8715774770561245e-07,
+            2.3169867258835755e-07
+          ],
+          "M_components_max": [
+            5.3580626187991685e-08,
+            1.0608985641767025e-06,
+            9.451158434762914e-07
+          ],
+          "normalized_H_max": 0.0008390560401629378,
+          "normalized_M_max": 0.00026407652001686493
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9687767860183333,
+        0.0045134755132328445,
+        0.007368279360604135,
+        0.016864969231137398,
+        0.04006752536536773,
+        0.1123422277928316,
+        0.3107531227308301
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate224/diagnostic.checkpoint",
+        "file_sha256": "9d2f9cf0f4687fbdd23bae91b68a4ce6a62a8c6ec10fb7a1c3e9c5609521ec4d",
+        "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "result_sha256": "1b52eee44c50121d3568672bd9419b0d0f77c14a2a3cb419dd3e17ba6e2f8da1",
+      "observer_sha256": "8e0a853c39afa185f2302439100e2e475efcf6f1bac4f8032a33727e7fd78b0f"
+    },
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate256",
+      "resolution": [
+        256,
+        512,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 1.7025208387551688e-07,
+          "H_max": 7.928510479260353e-07,
+          "M_rms": 1.389233932307049e-07,
+          "M_max": 5.909491502503397e-07,
+          "M_components_rms": [
+            4.933542163098499e-08,
+            5.5437052090396467e-08,
+            3.509900037013019e-08
+          ],
+          "M_components_max": [
+            1.1692385209789504e-07,
+            3.409941921107858e-07,
+            1.864022552158701e-07
+          ],
+          "normalized_H_max": 2.8147524947484984e-06,
+          "normalized_M_max": 2.095545695164508e-06
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 2.621973702791158e-07,
+          "H_max": 1.0709601219126806e-06,
+          "M_rms": 2.8569965259374244e-07,
+          "M_max": 8.715736288725171e-07,
+          "M_components_rms": [
+            3.226823932622408e-08,
+            1.3810618141225215e-07,
+            1.9139587524928592e-07
+          ],
+          "M_components_max": [
+            9.859224214609373e-08,
+            5.514959573742897e-07,
+            7.148860832594205e-07
+          ],
+          "normalized_H_max": 0.0006279644819210772,
+          "normalized_M_max": 9.194308881836694e-05
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9687767862284061,
+        0.00451347545301735,
+        0.007368279365567039,
+        0.016864969251951113,
+        0.040067558908938386,
+        0.11234197456213561,
+        0.3107532211256837
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate256/diagnostic.checkpoint",
+        "file_sha256": "c1d55c986b7409ac5891fe7bae2696db49b574a717a912d79dec959ff5218bc1",
+        "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "result_sha256": "f0195ccc6a4b5e4525e6161b089dacf369955a32dd0b0a22801b19b9a03fedbe",
+      "observer_sha256": "d03e3449172be3d7a5507b8c7edc5edd1c3789b4f7f582301162de5c7aa1a831"
+    }
+  ],
+  "increasing_resolutions": true,
+  "decreasing_rms": false,
+  "rms_changes": {
+    "near": {
+      "H_rms": [
+        -9.197154016721208e-07,
+        -3.780293192523558e-08
+      ],
+      "M_rms": [
+        -2.1174501326210438e-07,
+        -2.6491417424308396e-08
+      ]
+    },
+    "bulk": {
+      "H_rms": [
+        2.9446094910223565e-08,
+        1.7511548088421712e-07
+      ],
+      "M_rms": [
+        1.984315206039498e-09,
+        -1.5814272617137308e-07
+      ]
+    }
+  },
+  "charge_scaled_changes": [
+    8.061568640350757e-08,
+    2.2765543490481253e-07
+  ],
+  "driver_sha256": "b01abb8732589fb35c70d5a79eebb098d81cfce81a8eb19c5fa2d82b3cc6c8a9"
+}

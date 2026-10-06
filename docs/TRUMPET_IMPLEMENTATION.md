@@ -413,3 +413,28 @@ value. A uniform restart64 keeps the finest conservative allocation bound
 within64GiB; it changes a solver control, not the equation or physical gate.
 The existing 256x384 result remains a directional control, not a selectively
 chosen member of the new sequence. No sequence acceptance has been assigned.
+
+### Declared sequence result (allocation 59405258)
+
+The three prescribed solves completed. The independent assessment is retained
+in `validation/trumpet/convergence/assessment.json` and **fails** the declared
+convergence gate:
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS |
+|---|---:|---:|---:|---:|
+| 192x384x16 | 1.128e-6 | 3.772e-7 | 5.764e-8 | 4.419e-7 |
+| 224x448x16 | 2.081e-7 | 1.654e-7 | 8.708e-8 | 4.438e-7 |
+| 256x512x16 | 1.703e-7 | 1.389e-7 | 2.622e-7 | 2.857e-7 |
+
+The coarse near-H error exceeds the 1e-6 RMS bound; both finer grids meet
+all exterior pointwise/RMS bounds. Near errors decrease, but bulk H increases
+and bulk M is not strictly decreasing. Adjacent scaled charge changes are
+8.06e-8 and 2.28e-7. This is not accepted resolution convergence. The finest
+solve used 165.51s, 468.29s total and 10,357,364 KiB peak resident memory.
+No thresholds have been relaxed and no alternative subset is substituted.
+
+The full OpenMP AthenaK consumer now builds with the larger polar extent;
+its image and source hashes are retained under `convergence/consumer`.
+The finest checkpoint remains diagnostic. A separate-process producer/CPU
+sampler comparison followed by three-order initial-time horizon measurements
+is the next independent obligation, not a transfer of physical acceptance.
