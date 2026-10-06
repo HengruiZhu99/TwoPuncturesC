@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-batched-transfer/validation/check_trumpet_axisymmetric.py", line 8, in <module>
+    from trumpet_configs import regularize_trumpet
+ImportError: cannot import name 'regularize_trumpet' from 'trumpet_configs' (/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-batched-transfer/examples/trumpet_configs.py)

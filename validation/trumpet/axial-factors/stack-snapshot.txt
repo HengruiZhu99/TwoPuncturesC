@@ -1,0 +1,153 @@
+Lmod has detected the following error: The following module(s) are unknown:
+"cray-hdf5/1.12.2.9"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "cray-hdf5/1.12.2.9"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+[New LWP 1060591]
+[New LWP 1060590]
+[New LWP 1060585]
+[New LWP 1060584]
+[New LWP 1060583]
+[New LWP 1060582]
+[New LWP 1060581]
+[New LWP 1060580]
+[New LWP 1060579]
+[New LWP 1060578]
+[New LWP 1060577]
+[New LWP 1060576]
+[New LWP 1060575]
+[New LWP 1060574]
+[New LWP 1060573]
+[New LWP 1060572]
+[New LWP 1060571]
+[New LWP 1060570]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+0x00007fe7e464cc04 in cblas_dtrsv () from /usr/lib64/libgslcblas.so.0
+
+Thread 19 (Thread 0x7fe7dd9cd6c0 (LWP 1060570) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 18 (Thread 0x7fe7dd1cc6c0 (LWP 1060571) "python3"):
+#0  0x00007fe7e464ce24 in cblas_dtrsv () from /usr/lib64/libgslcblas.so.0
+#1  0x00007fe7e378a5be in gsl_blas_dtrsv () from /usr/lib64/libgsl.so.25
+#2  0x00007fe7e37e4a6e in gsl_linalg_LU_svx () from /usr/lib64/libgsl.so.25
+#3  0x00007fe7e3b86aa2 in (anonymous namespace)::ModalBlock::factor() () from /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axial-factors-cuda/libHiSpID.so
+#4  0x00007fe7e3b5d572 in std::enable_if<!(is_same_v<Kokkos::RangePolicy<Kokkos::OpenMP>::schedule_type::type, Kokkos::Dynamic>), void>::type Kokkos::Impl::ParallelFor<(anonymous namespace)::preconditioner(HiSpID_Data&, std::vector<(anonymous namespace)::ModalBlock, std::allocator<(anonymous namespace)::ModalBlock> >*, bool)::{lambda(int)#1}, Kokkos::RangePolicy<Kokkos::OpenMP>, Kokkos::OpenMP>::execute_parallel<Kokkos::RangePolicy<Kokkos::OpenMP> >() const [clone ._omp_fn.0] () from /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axial-factors-cuda/libHiSpID.so
+
+Thread 17 (Thread 0x7fe7dc9cb6c0 (LWP 1060572) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 16 (Thread 0x7fe7dc1ca6c0 (LWP 1060573) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 15 (Thread 0x7fe7db9c96c0 (LWP 1060574) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 14 (Thread 0x7fe7db1c86c0 (LWP 1060575) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 13 (Thread 0x7fe7da9c76c0 (LWP 1060576) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 12 (Thread 0x7fe7da1c66c0 (LWP 1060577) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 11 (Thread 0x7fe7d99c56c0 (LWP 1060578) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 10 (Thread 0x7fe7d91c46c0 (LWP 1060579) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 9 (Thread 0x7fe7d89c36c0 (LWP 1060580) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 8 (Thread 0x7fe7d81c26c0 (LWP 1060581) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 7 (Thread 0x7fe7d79c16c0 (LWP 1060582) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 6 (Thread 0x7fe7d71c06c0 (LWP 1060583) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 5 (Thread 0x7fe7d69bf6c0 (LWP 1060584) "python3"):
+#0  0x00007fe7e42cd9c3 in ?? () from /usr/lib64/libgomp.so.1
+#1  0x00007fe7e42ca95a in ?? () from /usr/lib64/libgomp.so.1
+#2  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+#3  0x00007fe7e941b898 in clone3 () from /lib64/libc.so.6
+
+Thread 4 (Thread 0x7fe7d61be6c0 (LWP 1060585) "cuda00001400006"):
+#0  0x00007fe7e940d34f in poll () from /lib64/libc.so.6
+#1  0x00007fe7de2678d7 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#2  0x00007fe7de343215 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#3  0x00007fe7de252373 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#4  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+
+Thread 3 (Thread 0x7fe7c7fff6c0 (LWP 1060590) "cuda-EvtHandlr"):
+#0  0x00007fe7e940d34f in poll () from /lib64/libc.so.6
+#1  0x00007fe7de2678d7 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#2  0x00007fe7de343215 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#3  0x00007fe7de252373 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#4  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+
+Thread 2 (Thread 0x7fe7c55db6c0 (LWP 1060591) "python3"):
+#0  0x00007fe7e940d34f in poll () from /lib64/libc.so.6
+#1  0x00007fe7de2678d7 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#2  0x00007fe7de343215 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#3  0x00007fe7de252373 in ?? () from /usr/local/cuda-13.2/compat/libcuda.so.1
+#4  0x00007fe7e939444c in start_thread () from /lib64/libc.so.6
+
+Thread 1 (Thread 0x7fe7e92eb740 (LWP 1060483) "python3"):
+#0  0x00007fe7e464cc04 in cblas_dtrsv () from /usr/lib64/libgslcblas.so.0
+#1  0x00007fe7e378a5be in gsl_blas_dtrsv () from /usr/lib64/libgsl.so.25
+#2  0x00007fe7e37e4a54 in gsl_linalg_LU_svx () from /usr/lib64/libgsl.so.25
+#3  0x00007fe7e3b86aa2 in (anonymous namespace)::ModalBlock::factor() () from /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axial-factors-cuda/libHiSpID.so
+#4  0x00007fe7e3b5d572 in std::enable_if<!(is_same_v<Kokkos::RangePolicy<Kokkos::OpenMP>::schedule_type::type, Kokkos::Dynamic>), void>::type Kokkos::Impl::ParallelFor<(anonymous namespace)::preconditioner(HiSpID_Data&, std::vector<(anonymous namespace)::ModalBlock, std::allocator<(anonymous namespace)::ModalBlock> >*, bool)::{lambda(int)#1}, Kokkos::RangePolicy<Kokkos::OpenMP>, Kokkos::OpenMP>::execute_parallel<Kokkos::RangePolicy<Kokkos::OpenMP> >() const [clone ._omp_fn.0] () from /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axial-factors-cuda/libHiSpID.so
+[Inferior 1 (process 1060483) detached]

@@ -1065,3 +1065,26 @@ last axial field witness for direct cross-image comparison; it does not rerun
 another physical suite. The matrix test is registered in CMake and Makefile.
 Neither the active boost image nor queued C4 image was changed. CUDA compilation
 and adoption of this option remain future work if those runs need continuation.
+
+A short read-only debugger snapshot of the running59413586 solver confirms an
+active CPU thread inside `cblas_dtrsv -> gsl_linalg_LU_svx -> ModalBlock::factor`;
+the debugger detached cleanly. The stack is retained in
+`axial-factors/stack-snapshot.txt`. This identifies the transfer-construction
+phase directly, rather than inferring it solely from GPU utilization.
+
+The batched C2 CUDA image built successfully. Its first control failed before
+solving because the isolated source snapshot had an older Python example module.
+Only the queued experimental workflows were refreshed with the current Python,
+example and validation sources; the active production workflow was untouched.
+The failed import log is retained. The corrected control passes with image
+fdaf287805d5f66dc66a72cd9b445188bfa1a1834d818c4eacfc270fedbd1b61;
+records are in `batched-transfer/cuda/control-v2.json`. The queued C4 pilot also
+passes an import-only preflight, and its refreshed workflow source manifest is
+retained as `c4-experiment/workflow-manifest-v2.sha256`. This refresh changes
+neither native image nor mathematical input configuration.
+
+The checkpoint-bound migration and affine-horizon command for the active boost
+attempt is prepared in `axial-factors/consumer_perlmutter.sh`. It uses the rebuilt
+radial512 CPU sampler/consumer, new output directory and the actual producer
+image; it is not launched before a solved checkpoint and reviewed diagnostics
+exist. No physical accuracy or whole-solver timing conclusion is added here.

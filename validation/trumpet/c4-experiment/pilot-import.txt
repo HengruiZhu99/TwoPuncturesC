@@ -1,0 +1,29 @@
+usage: run_trumpet_pilot.py [-h] --library LIBRARY --output OUTPUT [--n N]
+                            [--nphi NPHI] [--initial INITIAL]
+                            [--memory-mib MEMORY_MIB] [--npolar NPOLAR]
+                            [--initial-source-library INITIAL_SOURCE_LIBRARY]
+                            [--case {moderate,spin99,gamma10}]
+                            [--separation SEPARATION]
+                            [--measured-mirr MEASURED_MIRR]
+                            [--krylov-restart KRYLOV_RESTART]
+                            [--tolerance TOLERANCE] [--axisymmetric]
+
+options:
+  -h, --help            show this help message and exit
+  --library LIBRARY
+  --output OUTPUT
+  --n N
+  --nphi NPHI
+  --initial INITIAL
+  --memory-mib MEMORY_MIB
+  --npolar NPOLAR
+  --initial-source-library INITIAL_SOURCE_LIBRARY
+  --case {moderate,spin99,gamma10}
+  --separation SEPARATION
+  --measured-mirr MEASURED_MIRR
+  --krylov-restart KRYLOV_RESTART
+  --tolerance TOLERANCE
+                        override nonlinear stopping tolerance; physical
+                        acceptance bounds remain fixed
+  --axisymmetric        opt-in no-swirl sector; full residual acceptance
+                        remains unchanged
