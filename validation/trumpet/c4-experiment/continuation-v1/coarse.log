@@ -1,0 +1,96 @@
+HiSpID Newton trace it=0 residual_l2=2.878719128907727 step_linf=4876.413997911568 linear_relative=0.00091374535935585441 slope=-0.99999916506941933
+HiSpID Newton trial it=0 damping=1 residual_ratio=0.026243502264021432 directional_remainder=0.026271799695581535 min_psi=1.0016927943875635 nonfinite=0
+HiSpID Newton trace it=1 residual_l2=0.075547671976971736 step_linf=3108.0119109311454 linear_relative=0.00075551091244224669 slope=-0.99999942920326113
+HiSpID Newton trial it=1 damping=1 residual_ratio=0.0096266334001028474 directional_remainder=0.0096267620360215925 min_psi=1.0018447949283709 nonfinite=0
+HiSpID Newton trace it=2 residual_l2=0.00072726974235353 step_linf=273.52633137131886 linear_relative=0.00065145852123810546 slope=-0.99999957560187502
+HiSpID Newton trial it=2 damping=1 residual_ratio=0.037535694311265098 directional_remainder=0.037510711913904406 min_psi=1.0018979913915225 nonfinite=0
+HiSpID Newton trace it=3 residual_l2=2.7298574730814632e-05 step_linf=1.0163190006324438 linear_relative=0.00058482965069964134 slope=-0.99999965797427426
+HiSpID Newton trial it=3 damping=1 residual_ratio=0.00058485950195560259 directional_remainder=2.9162892715040262e-06 min_psi=1.0018980768623877 nonfinite=0
+HiSpID Newton trace it=4 residual_l2=1.5965830821162044e-08 step_linf=0.25068051493386623 linear_relative=0.00086854092810811998 slope=-0.99999924563678055
+HiSpID Newton trial it=4 damping=1 residual_ratio=0.00086847411315551777 directional_remainder=4.6823705575254282e-06 min_psi=1.001898074435787 nonfinite=0
+HiSpID Newton trace it=5 residual_l2=1.3865910763199739e-11 step_linf=0.27395799421186912 linear_relative=0.00091357670855034896 slope=-0.99999918143767974
+HiSpID Newton trial it=5 damping=1 residual_ratio=0.0027256264568386785 directional_remainder=0.0025557956386623899 min_psi=1.0018980733138421 nonfinite=0
+{
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 6,
+    "krylov_iterations": 133,
+    "npoints": 4608,
+    "scaled_linf": [
+      6.309586158150546e-15,
+      1.139143620038538e-15,
+      1.2792217536272002e-15,
+      1.322876298667221e-15
+    ],
+    "unscaled_linf": [
+      8.536227280586672e-14,
+      3.5889636431106195e-13,
+      1.7162494133059014e-13,
+      9.80627176385835e-14
+    ],
+    "seconds": 0.187260549,
+    "status": 0,
+    "error": ""
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 0.008144232936050513,
+      "H_max": 0.045679118293754595,
+      "M_rms": 0.0038039468039679034,
+      "M_max": 0.012805977468917954,
+      "M_components_rms": [
+        0.0005258405995736596,
+        0.0014870223878916088,
+        0.001284820705979402
+      ],
+      "M_components_max": [
+        0.0019906718983581776,
+        0.005188979032051623,
+        0.004300688500191626
+      ],
+      "normalized_H_max": 0.04716357177693731,
+      "normalized_M_max": 0.03286514093946306
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 0.0038539983826794775,
+      "H_max": 0.008402124479485618,
+      "M_rms": 0.0220220749583386,
+      "M_max": 0.053836759892776656,
+      "M_components_rms": [
+        0.005061550150430747,
+        0.012914043849290692,
+        0.012637903017149203
+      ],
+      "M_components_max": [
+        0.010834379330996069,
+        0.031862857058654034,
+        0.03562147069602212
+      ],
+      "normalized_H_max": 0.9954219685832274,
+      "normalized_M_max": 0.9991079119275168
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.1828740184593346,
+      "H_max": 0.47453456715363274,
+      "M_rms": 0.011232204681043634,
+      "M_max": 0.024084289859496306,
+      "M_components_rms": [
+        0.0010895392644041124,
+        0.0011525277144328195,
+        0.0011223519711835083
+      ],
+      "M_components_max": [
+        0.003118759541544002,
+        0.002914020455676597,
+        0.003214668240313462
+      ],
+      "normalized_H_max": 0.023091849238524077,
+      "normalized_M_max": 0.012199070261952414
+    }
+  },
+  "minimum_psi": 1.0307218748549234,
+  "total_seconds": 10.119392417022027
+}

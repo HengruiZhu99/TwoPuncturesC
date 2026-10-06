@@ -1,0 +1,96 @@
+HiSpID Newton trace it=0 residual_l2=22.694337425250286 step_linf=2133020332458.772 linear_relative=0.000824725751331238 slope=-0.99999288857420277
+HiSpID Newton trial it=0 damping=1 residual_ratio=34636.865153999119 directional_remainder=34637.099695325371 min_psi=0.93614103319371189 nonfinite=0
+HiSpID Newton trial it=0 damping=0.5 residual_ratio=6958.0566432117894 directional_remainder=13916.206223014051 min_psi=0.98188881608448408 nonfinite=0
+HiSpID Newton trial it=0 damping=0.25 residual_ratio=1568.9009773996313 directional_remainder=6275.6418910217881 min_psi=0.99759778947256017 nonfinite=0
+HiSpID Newton trial it=0 damping=0.125 residual_ratio=373.02685264035603 directional_remainder=2984.2179447769263 min_psi=1.0000010333221787 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0625 residual_ratio=90.982271024969862 directional_remainder=1455.6298800389241 min_psi=1.0000032124489295 nonfinite=0
+HiSpID Newton trial it=0 damping=0.03125 residual_ratio=22.48831973146611 directional_remainder=718.92374152678519 min_psi=1.0000043020123051 nonfinite=0
+HiSpID Newton trial it=0 damping=0.015625 residual_ratio=5.6696165018065257 directional_remainder=357.26694937654963 min_psi=1.0000048467939928 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0078125 residual_ratio=1.7098739808060468 directional_remainder=178.0881867715951 min_psi=1.0000051191848367 nonfinite=0
+HiSpID Newton trial it=0 damping=0.00390625 residual_ratio=1.055317546257224 directional_remainder=88.908199094095096 min_psi=1.0000052553802585 nonfinite=0
+HiSpID Newton trial it=0 damping=0.001953125 residual_ratio=1.0019203097081768 directional_remainder=44.420179272482152 min_psi=1.0000053234779696 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0009765625 residual_ratio=0.99928619835723509 directional_remainder=22.201616219762755 min_psi=1.0000053575268251 nonfinite=0
+{
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 2,
+    "krylov_iterations": 2526,
+    "npoints": 1179648,
+    "scaled_linf": [
+      0.009113793358589958,
+      0.14647477164209327,
+      0.21364218586325254,
+      0.27191566979443044
+    ],
+    "unscaled_linf": [
+      1200.2184957665654,
+      7157.850839896889,
+      1156.2899653087854,
+      1760.487231007566
+    ],
+    "seconds": 252.723404497,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 0.5586395517668727,
+      "H_max": 2.2382578982973875,
+      "M_rms": 0.15544162250190557,
+      "M_max": 0.7884875374889634,
+      "M_components_rms": [
+        0.03618736427357482,
+        0.04131057277343246,
+        0.09208238368420513
+      ],
+      "M_components_max": [
+        0.2113043029737483,
+        0.15738302350490627,
+        0.47517260885034474
+      ],
+      "normalized_H_max": 0.983302488606857,
+      "normalized_M_max": 0.9042589980173965
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 7.347138435456437,
+      "H_max": 14.81409740116561,
+      "M_rms": 3.5028743448911577,
+      "M_max": 10.602587786529623,
+      "M_components_rms": [
+        1.2716336089391695,
+        1.7595294080316057,
+        2.1425357904105216
+      ],
+      "M_components_max": [
+        3.233425301492948,
+        5.703720964577265,
+        5.882448536606707
+      ],
+      "normalized_H_max": 0.9999983223356698,
+      "normalized_M_max": 0.9999472257960128
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.18263424880237353,
+      "H_max": 0.4739559398216926,
+      "M_rms": 0.011218299158481906,
+      "M_max": 0.024055040480458208,
+      "M_components_rms": [
+        0.0010879058733893436,
+        0.0011515160336889997,
+        0.001120976609286096
+      ],
+      "M_components_max": [
+        0.0031157415662797744,
+        0.0029132887040013186,
+        0.003211517745229911
+      ],
+      "normalized_H_max": 0.023062372517342996,
+      "normalized_M_max": 0.012183878087933723
+    }
+  },
+  "minimum_psi": 1.0208084152459522,
+  "total_seconds": 429.35274434497114
+}

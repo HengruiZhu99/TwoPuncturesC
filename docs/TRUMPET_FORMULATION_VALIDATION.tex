@@ -136,8 +136,14 @@ next linear solve exhausts 2400 iterations at relative residual $0.0346$
 (target $0.001$). The default remains 10 and acceptance bounds are unchanged.
 Two preconditioner-only scaling prototypes also fail a small convergence
 control and are rejected. The original C4 solver converges on that small grid
-in 6 Newton/135 Krylov steps; continuation from a converged coarse C4 checkpoint
-is the next experiment.
+in 6 Newton/135 Krylov steps. A CUDA coarse-to-fine continuation also fails:
+the coarse $12\times24\times16$ solve converges in 6 Newton/133 Krylov
+steps, but the $192\times384\times16$ solve stops after 2 Newton/2526 Krylov
+steps (252.7 s solve, 429.4 s workflow). Its second linear solve reaches only
+relative residual $0.0181$ against $0.001$. The coarse solution already fails
+independent physical bounds; the final fine iterate is substantially worse
+(near-hole $H/M$ RMS $0.559/0.155$, bulk $7.35/3.50$). Algebraic coarse
+convergence therefore does not supply a successful fine-grid initial guess.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

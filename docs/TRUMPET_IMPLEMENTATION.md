@@ -1209,3 +1209,21 @@ extended-backtracking image and unchanged preconditioner to generate a12x24x16
 C4 checkpoint, then initializes the same192x384x16 problem from it only if the
 coarse nonlinear solve converges. Basis-aware prolongation and all physical
 acceptance bounds are unchanged; coarse physical acceptance is not inherited.
+
+The continuation job59416379 completed in7:26 (scheduler exit0), but the fine
+nonlinear solve failed. Coarse12x24x16 converged in6 Newton/133 Krylov with
+near H/M RMS0.00814/0.00380 and bulk0.00385/0.0220, already outside physical
+bounds. Fine192x384x16 accepted its first step at1/1024, then exhausted2400
+linear iterations at relative residual0.01810 versus0.001. Total2 Newton/2526
+Krylov,252.723s solve,429.353s workflow. Final near H/M RMS0.55864/0.15544
+and bulk7.34714/3.50287 are not accepted. Logs and both result records are
+retained in `c4-experiment/continuation-v1`; larger artifacts remain in the
+matching Perlmutter directory. No job remains running from this experiment.
+
+Source inspection confirms the continuation selects C4 modal-P interpolation
+with matching image, basis and map metadata, rather than physical-Fourier
+interpolation. This is not yet a numerical verification of transferred fields.
+The next diagnostic should compare unchanged coarse and prolonged fields
+before any Newton step, and localize high-mode corrections; the final failed
+iterate alone cannot distinguish transfer error from nonlinear-step damage.
+Do not repeat this coarse-to-fine solve or infer a converged C4 physical result.
