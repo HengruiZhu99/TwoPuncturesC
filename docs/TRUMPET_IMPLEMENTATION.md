@@ -220,4 +220,7 @@ execution-cache residual/JVP differences<=1.69e-13. It uses one8x12x4 generic
 binary state and three seed cases, not nonlinear solutions. Necessary control
 times are recorded, but their small-grid/warmup ordering does not justify a
 large-grid setup speed ratio. The full AthenaK build fromea925d1e with its
-pinned Kokkos6739bc6 and the CPU sampler library is in progress in that allocation.
+pinned Kokkos6739bc6 and the CPU sampler library completed in that allocation.
+The allocation released normally. Executable hash begins49459b582a17; full
+consumer build records are committed in AthenaK branch codex/hispid-trumpet-pgen
+atfbcc1db7. Full import and horizon runs are still pending.
