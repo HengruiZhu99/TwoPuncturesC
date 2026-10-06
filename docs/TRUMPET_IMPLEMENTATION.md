@@ -1552,3 +1552,17 @@ The passed224 result is reused by the final three-grid assessment. Outputs:
 `axis-tau-polar-sequence-v3`; command `sequence_larger_restart.sh`. Old job
 terminal failure/released allocation verified before this single-GPU launch.
 Prepared, unlaunched horizon script now targets this sequence's256 dataset.
+
+Job59421758 terminated FAILED11:40 and released its allocation. Restart64
+reduced the failed240 inner relative residual to0.1210990354, still above0.1
+after2400 iterations; no Newton update was accepted. Nonlinear max1.61558e-9,
+bulk momentum RMS1.72401e-6 remain failures. Solve430.714s, total692.763s,
+RSS12098548KiB. No256 run launched. Checkpoint
+ d852ca6013190b37fb395c342eb0559767d6b1adba0ab21d83cc387fe45066fc.
+Raw result/physical observers/log preserved in polar-exact/sequence-v3/moderate240;
+large state artifacts remain remote. The next step is targeted diagnosis of
+linear operator/preconditioner error; no further blind restart/forcing sweep.
+Source review confirms GMRES uses two-pass orthogonalization and explicitly
+recomputes the true residual at restarts and termination. The current Newton
+trace starts only after a successful inner solve, explaining the empty trace
+while this failed solve was running; it does not imply lack of computation.

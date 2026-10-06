@@ -154,10 +154,13 @@ bulk errors are $5.023\times10^{-8}/4.336\times10^{-7}$. All per-grid physical
 bounds pass. The subsequent $240\times480$ run with restart 24 fails a late
 linear solve (relative residual $0.873$ after 2400 iterations); bulk momentum
 RMS is $1.72\times10^{-6}$ and the nonlinear maximum is $1.62\times10^{-9}$.
-It remains unvalidated. Job 59421758 resumes that saved state with restart 64,
-then uses restart 32 for $256\times512$ if the preceding level passes. The
-unchanged aggregate allocation estimates are 60.72 and 63.55 GiB, respectively.
-The passing 224-grid result is reused. All levels use $n_\phi=16$, the same
+Resuming that saved state with restart 64 also fails after 2400 iterations:
+the true relative residual improves to $0.121$, but exceeds the required
+$0.1$. No Newton update is accepted. This retry takes 430.7 solve seconds
+and 692.8 workflow seconds; peak host RSS is 11.54 GiB. The allocation is
+released and the $256\times512$ level is not launched. Further work must
+diagnose the linear operator/preconditioner rather than relaxing the final
+criteria. The passing 224-grid result is retained. All levels use $n_\phi=16$, the same
 native image, and unchanged nonlinear and physical acceptance criteria.
 Each completed grid must pass nonlinear and physical bounds before
 continuing, and the final assessment checks decreasing errors and charges.
