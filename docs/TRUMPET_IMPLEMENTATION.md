@@ -576,3 +576,15 @@ allocation released. A fixed-polynomial azimuthal replay of the spin pilot is
 scheduled afterward, to distinguish Fourier aliasing from meridional error
 before another resolution or map is selected. No further spin solve has been
 launched and neither physical acceptance threshold nor failed flag is changed.
+
+A geometric resolution diagnostic now binds the input configurations and counts
+nodes across each fixed g-transition shell. At the failed spin160x320x32 grid,
+only5 radial-axis projected nodes and12 polar-axis projected nodes span the
+transition, with187 actual meridional nodes in the shell. The moderate finest
+grid has26--31 radial projections and3928--5294 shell nodes. These are geometric
+counts, not a physical convergence test, but they identify a concrete possible
+source of the high-spin interpolation failure. Candidate map(.03,3.5) raises
+the spin counts to14 radial projections,22 polar projections and1115 shell
+nodes without changing the physical attenuation radii or grid size. It is not
+yet selected or solved; the pending azimuthal replay will guide that choice.
+See `extreme-pilots/transition-resolution-bound.json` and its reproducible driver.

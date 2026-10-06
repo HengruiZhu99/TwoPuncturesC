@@ -1,0 +1,122 @@
+{
+  "rows": [
+    {
+      "run": "validation/trumpet/convergence/moderate256",
+      "input_sha256": "f0195ccc6a4b5e4525e6161b089dacf369955a32dd0b0a22801b19b9a03fedbe",
+      "resolution": [
+        256,
+        512,
+        16
+      ],
+      "radial_stretch": 0.2,
+      "angular_stretch": 2.0,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.0826630035142687,
+          "inner_max": 0.27554334504756234,
+          "radial_axis_nodes_in_transition": 31,
+          "polar_axis_nodes_in_transition": 47,
+          "meridional_nodes_in_transition": 5294
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.0554766275110519,
+          "inner_max": 0.18492209170350635,
+          "radial_axis_nodes_in_transition": 26,
+          "polar_axis_nodes_in_transition": 43,
+          "meridional_nodes_in_transition": 3928
+        }
+      ]
+    },
+    {
+      "run": "validation/trumpet/convergence/moderate256",
+      "input_sha256": "f0195ccc6a4b5e4525e6161b089dacf369955a32dd0b0a22801b19b9a03fedbe",
+      "resolution": [
+        256,
+        512,
+        16
+      ],
+      "radial_stretch": 0.03,
+      "angular_stretch": 3.5,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.0826630035142687,
+          "inner_max": 0.27554334504756234,
+          "radial_axis_nodes_in_transition": 48,
+          "polar_axis_nodes_in_transition": 32,
+          "meridional_nodes_in_transition": 11734
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.0554766275110519,
+          "inner_max": 0.18492209170350635,
+          "radial_axis_nodes_in_transition": 46,
+          "polar_axis_nodes_in_transition": 33,
+          "meridional_nodes_in_transition": 10402
+        }
+      ]
+    },
+    {
+      "run": "validation/trumpet/extreme-pilots/spin99_160",
+      "input_sha256": "1a6698db184585da0fe44d3fb41948746e7aa58fee40d46200d37c47a4959333",
+      "resolution": [
+        160,
+        320,
+        32
+      ],
+      "radial_stretch": 0.2,
+      "angular_stretch": 2.0,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.01058005198474942,
+          "inner_max": 0.035266839949164734,
+          "radial_axis_nodes_in_transition": 5,
+          "polar_axis_nodes_in_transition": 12,
+          "meridional_nodes_in_transition": 187
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.01058005198474942,
+          "inner_max": 0.035266839949164734,
+          "radial_axis_nodes_in_transition": 5,
+          "polar_axis_nodes_in_transition": 12,
+          "meridional_nodes_in_transition": 187
+        }
+      ]
+    },
+    {
+      "run": "validation/trumpet/extreme-pilots/spin99_160",
+      "input_sha256": "1a6698db184585da0fe44d3fb41948746e7aa58fee40d46200d37c47a4959333",
+      "resolution": [
+        160,
+        320,
+        32
+      ],
+      "radial_stretch": 0.03,
+      "angular_stretch": 3.5,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.01058005198474942,
+          "inner_max": 0.035266839949164734,
+          "radial_axis_nodes_in_transition": 14,
+          "polar_axis_nodes_in_transition": 22,
+          "meridional_nodes_in_transition": 1115
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.01058005198474942,
+          "inner_max": 0.035266839949164734,
+          "radial_axis_nodes_in_transition": 14,
+          "polar_axis_nodes_in_transition": 22,
+          "meridional_nodes_in_transition": 1115
+        }
+      ]
+    }
+  ],
+  "driver_sha256": "99b3650893191a241ffee9e5e83c8620eb2f2e0d820be440c37062c4e0a2e62e",
+  "note": "Geometric node counts only. Axis projections are not actual endpoint collocation nodes. The candidate map is not a solved or selected configuration."
+}
