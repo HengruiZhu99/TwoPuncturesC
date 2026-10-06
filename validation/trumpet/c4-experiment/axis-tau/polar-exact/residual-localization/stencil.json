@@ -1,0 +1,114 @@
+[
+  {
+    "n": 224,
+    "axis": "radial",
+    "exponent": 0,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.9996313386932774
+  },
+  {
+    "n": 448,
+    "axis": "polar",
+    "exponent": 0,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.3332656724555812
+  },
+  {
+    "n": 240,
+    "axis": "radial",
+    "exponent": 0,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.9996788381335456
+  },
+  {
+    "n": 480,
+    "axis": "polar",
+    "exponent": 0,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.33327439272066667
+  },
+  {
+    "n": 224,
+    "axis": "radial",
+    "exponent": 1,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.9999704924321943
+  },
+  {
+    "n": 448,
+    "axis": "polar",
+    "exponent": 1,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.9999945986018745
+  },
+  {
+    "n": 240,
+    "axis": "radial",
+    "exponent": 1,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.9999742959230034
+  },
+  {
+    "n": 480,
+    "axis": "polar",
+    "exponent": 1,
+    "interior_negative_neighbor_rows": [],
+    "maximum_cell_peclet": 0.9999952942756675
+  },
+  {
+    "n": 224,
+    "axis": "radial",
+    "exponent": 4,
+    "interior_negative_neighbor_rows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "maximum_cell_peclet": 3.00007376184453
+  },
+  {
+    "n": 448,
+    "axis": "polar",
+    "exponent": 4,
+    "interior_negative_neighbor_rows": [
+      1,
+      2,
+      3,
+      4,
+      443,
+      444,
+      445,
+      446
+    ],
+    "maximum_cell_peclet": 3.0001813770407546
+  },
+  {
+    "n": 240,
+    "axis": "radial",
+    "exponent": 4,
+    "interior_negative_neighbor_rows": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "maximum_cell_peclet": 3.0000642548232688
+  },
+  {
+    "n": 480,
+    "axis": "polar",
+    "exponent": 4,
+    "interior_negative_neighbor_rows": [
+      1,
+      2,
+      3,
+      4,
+      475,
+      476,
+      477,
+      478
+    ],
+    "maximum_cell_peclet": 3.0001579989406704
+  }
+]

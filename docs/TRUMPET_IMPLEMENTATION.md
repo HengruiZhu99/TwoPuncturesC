@@ -1782,3 +1782,19 @@ probe JSON/log retained alongside qualification records. Further Krylov-method
 sweeps are not justified; inspect the actual operator/preconditioner and spatial
 error structure before another expensive solve. Physical acceptance remains
 unchanged and false.
+
+The centered-stencil audit at224/240 finds no negative interior neighbor
+weights for modes0/1, and the same negative-row pattern for mode4 at both
+resolutions. This does not explain the resolution-specific failure; do not
+launch a monotone-preconditioner trial solely from that sign pattern.
+Reanalysis of retained corrected-GMRES diagnostics (v2 final failed step)
+shows98.53% momentum residual energy, but only26.57% in modes0/1, unlike the
+older pre-correction70.92% result. Remaining energy spans modes0--7;
+tau-row fraction1.94e-13. Records/scripts in polar-exact/residual-localization.
+Job59424678 evaluates the saved224 and240 residual once each with the same
+qualified CUDA image2cfec4d7..., no Newton or Krylov solve. It records spatial
+energy concentration, component fractions and endpoint layers. Checkpoint
+source hashes and basis identities are checked; physical acceptance is not
+inherited. Script run_perlmutter.sh, remote axis-tau-residual-localization-v1.
+The observations will distinguish endpoint concentration from bulk operator
+error before changing the preconditioner. No new build or resolution sweep.

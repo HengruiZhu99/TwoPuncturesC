@@ -1,0 +1,18 @@
+{
+  "source": "compensated-projection/gpu-v2/solve240.log",
+  "scope": "final failed corrected-GMRES inner solve",
+  "momentum_energy_fraction": 0.9853487840494527,
+  "low_modes_0_1_fraction": 0.26569341965492577,
+  "tau_energy_fraction": 1.939021458571243e-13,
+  "mode_energy_fraction": [
+    0.12157342285219759,
+    0.1441199968027282,
+    0.10080714461765997,
+    0.07047884375654642,
+    0.14470239662722603,
+    0.20167722241899752,
+    0.131942307595923,
+    0.07590946203848306,
+    0.008789203290238025
+  ]
+}
