@@ -527,3 +527,12 @@ production-path trial, with its small host/device cache controls, is declared
 in `validation/trumpet/analytic-matrices/plan.json`. Its independent physical
 errors must improve before considering adoption. No geometry-seed tests or
 backend benchmark matrix are repeated.
+
+The analytic-matrix CUDA build passed its prerequisite controls on Perlmutter
+(allocation59406945). Independent modal AD error is2.44e-13. Small coupled
+residual/JVP comparisons against the host reference give1.80e-15/2.03e-16 for
+host caches and1.68e-13/4.29e-14 for device caches. The candidate image is
+`ee663d0cf6ff7f5cee51825cf7121754aa10cdc160daea4b71d4c6c2b0ad15cd`.
+Build, image/source hashes and control evidence are retained in
+`validation/trumpet/analytic-matrices`. The binary comparison is running;
+these controls alone do not establish an accuracy improvement or adoption.

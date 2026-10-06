@@ -1,0 +1,58 @@
+{
+  "kind": "trumpet_small_device_control",
+  "backend": "Cuda",
+  "device": {
+    "name": "NVIDIA A100-SXM4-80GB",
+    "uuid": "GPU-ed537f18-2e7a-8c65-2061-789a5e6742db",
+    "visible_ordinal": 0,
+    "visible_count": 1,
+    "total_bytes": 85093777408,
+    "free_bytes": 65877508096,
+    "sm_count": 108,
+    "compute_major": 8,
+    "compute_minor": 0
+  },
+  "library_sha256": "ee663d0cf6ff7f5cee51825cf7121754aa10cdc160daea4b71d4c6c2b0ad15cd",
+  "collocation_maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "seed_control_performed": false,
+  "driver_sha256": "ede6c763cd0ad1f87fdf51d911654f96fc74b2a2058e8958066bf569c765663c",
+  "seed_scaled_errors": [],
+  "rows": [
+    {
+      "geometry": "host",
+      "residual_relative_l2": 1.799075901877664e-15,
+      "jvp_relative_l2": 2.0330507465225243e-16,
+      "seconds": 0.36765661695972085
+    },
+    {
+      "geometry": "execution",
+      "residual_relative_l2": 1.6816047173178295e-13,
+      "jvp_relative_l2": 4.285641521757e-14,
+      "seconds": 0.009573894902132452
+    }
+  ],
+  "statistics": {
+    "operator_seconds": 0.0,
+    "precondition_seconds": 0.0,
+    "setup_seconds": 0.0,
+    "linear_seconds": 0.0,
+    "transfer_seconds": 0.0006407039472833276,
+    "nonlinear_seconds": 0.0,
+    "resident_bytes": 0,
+    "peak_workspace_bytes": 0,
+    "host_to_device_bytes": 865888,
+    "device_to_host_bytes": 179040,
+    "kokkos_host_current_bytes": 0,
+    "kokkos_host_peak_bytes": 0,
+    "kokkos_device_current_bytes": 0,
+    "kokkos_device_peak_bytes": 1289952,
+    "nonlinear_calls": 0,
+    "workspace_creations": 0,
+    "memory_tracking_available": 1
+  },
+  "passed": true,
+  "binary_acceptance": false
+}

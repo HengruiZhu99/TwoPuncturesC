@@ -1,0 +1,5 @@
+ee663d0cf6ff7f5cee51825cf7121754aa10cdc160daea4b71d4c6c2b0ad15cd  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-analytic-cuda/libHiSpID.so
+b11d6408e2bf725f8819f78dade2c47d26f94453f1845b2aa50546d3d6a108c5  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-analytic-cuda/libTwoPunctures.so
+30ae87ead6853a03df0cebf0aee63df1a9175318eb91450d2a8585a9986a5130  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-analytic/src/HiSpID_spectral.hpp
+93314eaefc714fb2ff09bf2179d5b82b271f1a50c2fcd6130eecb39cc8f54ddb  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-analytic/src/HiSpID_setup_kokkos.cpp
+81411ebd3370d60864aca605f66c244c9baa151831bf1822936db82fd308826b  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-analytic/CMakeLists.txt
