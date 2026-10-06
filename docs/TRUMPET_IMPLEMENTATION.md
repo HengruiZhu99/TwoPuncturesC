@@ -985,3 +985,12 @@ initial modes and rejection of unsupported spin/transverse boosts. Complete
 build/source hashes and control records are retained in `axial-factors`. This
 qualifies the factor reduction for the next production attempt, not an accuracy
 or speedup claim for the unresolved radial512 physical case.
+
+The next radial512 Gamma10 production attempt is running as59413586 with the
+qualified reduced-factor image, identical physical configuration/maps and the
+same retained radial256 initial checkpoint. It uses a fresh output directory
+`axial-factors/gamma10_512x320-v1` and a one-hour single80GBGPU shared allocation.
+The longer limit addresses the observed runtime failure; no convergence bound
+or memory guard changed. Consumer migration will be scheduled only after an
+actual solved checkpoint is available. The cancelled timeout-dependent job is
+not reused.
