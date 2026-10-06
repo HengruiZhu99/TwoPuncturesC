@@ -1119,3 +1119,18 @@ The dependent C4 production-path job59414246 has started on its single GPU.
 Its CUDA manufactured/metadata control passed, with largest normalized error
 8.77558e-13 and exact checkpoint roundtrip; the moderate192 solve is running.
 The result is retained as `c4-experiment/cuda-operator-control.json`.
+
+The C4 moderate192 workflow completed but the solve failed its second Newton
+line search (31 total Krylov iterations,18.852s solve,202.761s workflow).
+Both linear solves met the requested0.1 forcing (0.07662 and0.07208 relative
+residuals); physical bounds also fail. The first accepted iterate is retained
+in checkpoint0f6ae4f8880fc7778a52d056c6cd7346899d1c0c9e8e560a9770bed6ea99aa90.
+This does not establish whether C4 improves the converged solution.
+
+One targeted inexact-Newton diagnostic resumes that same C4 checkpoint with
+linear forcing0.001, otherwise identical inputs and native image, as single-GPU
+job59415408. The pilot now exposes `--linear-rtol` (default0.1 unchanged) and
+saves linear history before physical postprocessing, so a later timeout cannot
+hide the completed solve's history. The separately named remote driver preserves
+the executed original source. CLI import/help and Python syntax checks pass.
+No new operator or backend matrix is scheduled.

@@ -122,8 +122,11 @@ also has a forbidden $\rho^4$ axis term: its largest sampled coefficient grows
 from $4.89\times10^{-8}$ to $8.92\times10^{-7}$ across the sequence.
 An opt-in C4 basis, with exact powers through $m=6$, has passed local
 manufactured-operator and metadata checks. Its CUDA control also passes
-(maximum normalized error $8.78\times10^{-13}$); the moderate binary
-comparison is running. It has a distinct basis identifier and has not
+(maximum normalized error $8.78\times10^{-13}$), but the moderate binary
+trial failed its second Newton line search after 31 Krylov iterations.
+A targeted retry from its retained iterate uses linear forcing $0.001$
+instead of $0.1$, with identical free data, grid and native image. No conclusion
+about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
 Radial refinement from 160 to 256 improved its errors by factors 2--6.
 Stronger focusing, $\lambda=0.003$, worsened both independent errors and radial
