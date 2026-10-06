@@ -33,7 +33,9 @@ def points(config,horizon_scaled=False):
         if horizon_scaled:
             chi=np.linalg.norm(list(h.spin))/h.mass**2
             velocity=np.array(h.velocity);v2=velocity@velocity;G=1/np.sqrt(1-v2)
-            rh=.5*h.mass*np.sqrt(1-chi**2)
+            family=getattr(config,'seed_family','qi')
+            if family not in ('qi','trumpet_r0_m'):raise ValueError('unknown seed family')
+            rh=(1. if family=='trumpet_r0_m' else .5)*h.mass*np.sqrt(1-chi**2)
             ray_horizon=rh/np.sqrt(1+(G*G-1)*(directions@(velocity/np.sqrt(v2) if v2 else np.zeros(3)))**2)
             for factor in (1.5,3):near.extend(center+factor*ray_horizon[:,None]*directions)
             radii=(.6*h.mass,h.mass)

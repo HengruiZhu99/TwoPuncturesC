@@ -1,0 +1,9 @@
+{
+  "points": 6,
+  "flat_operator_absolute_error": 0,
+  "passed": true,
+  "library_sha256": "439c82359e044269ecab3aa01d2f43f7e3ccae69b85077d062b644d8b356c71e",
+  "driver_sha256": "644deed055e287cd5ca9825793ae6115e920d746d4d6b2a0abe2c0e9066b76db",
+  "binary_acceptance": false,
+  "purpose": "actual coupled residual reduces to flat homogeneous correction operators inside the regularization plateau"
+}
