@@ -168,6 +168,13 @@ A matching CPU sampler and AthenaK consumer built successfully in job
 59420409; new-checkpoint import and horizon measurements remain to be run.
 The option and distinct checkpoint representation remain experimental.
 
+A bounded 64-step replay diagnoses genuine slow linear convergence: the
+true relative residual is $0.922$, and recurrence versus explicit residual
+differ by only $1.97\times10^{-13}$ relatively. A manufactured matrix witness
+at the failing resolution is recovered by all host modal factors to
+$1.12\times10^{-9}$ or better. This checks host factor accuracy for that
+witness, not the approximation quality or the GPU inverse application.
+
 \begin{center}\small
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \toprule

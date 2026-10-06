@@ -1,0 +1,142 @@
+{
+  "job": 59422127,
+  "job_state": "COMPLETED",
+  "elapsed": "00:04:15",
+  "groups": [
+    {
+      "group": 0,
+      "n": 115200,
+      "forward_linf": 4.546141241235091e-12,
+      "backward_max": 2.2736007497875893e-15,
+      "relative_l2": 7.277309124683971e-16
+    },
+    {
+      "group": 1,
+      "n": 115200,
+      "forward_linf": 1.6835421945415874e-12,
+      "backward_max": 2.407661137101407e-15,
+      "relative_l2": 7.222781760218006e-16
+    },
+    {
+      "group": 2,
+      "n": 115200,
+      "forward_linf": 7.016609515630989e-13,
+      "backward_max": 2.354645687516803e-15,
+      "relative_l2": 6.841646739268655e-16
+    },
+    {
+      "group": 3,
+      "n": 115200,
+      "forward_linf": 1.1181056080999952e-12,
+      "backward_max": 2.2141376927709108e-15,
+      "relative_l2": 6.842463320640495e-16
+    },
+    {
+      "group": 4,
+      "n": 115200,
+      "forward_linf": 3.2529534621517087e-13,
+      "backward_max": 2.2277492326355158e-15,
+      "relative_l2": 6.315605862876461e-16
+    },
+    {
+      "group": 5,
+      "n": 115200,
+      "forward_linf": 2.7833291227352674e-13,
+      "backward_max": 2.050658027352983e-15,
+      "relative_l2": 6.350182566622442e-16
+    },
+    {
+      "group": 6,
+      "n": 115200,
+      "forward_linf": 2.1549428907974288e-13,
+      "backward_max": 2.1391345007139788e-15,
+      "relative_l2": 5.632191572028422e-16
+    },
+    {
+      "group": 7,
+      "n": 115200,
+      "forward_linf": 1.2589929099249275e-13,
+      "backward_max": 2.2407373162804856e-15,
+      "relative_l2": 5.656043899172359e-16
+    },
+    {
+      "group": 8,
+      "n": 115200,
+      "forward_linf": 8.981704269217516e-14,
+      "backward_max": 2.173236102198026e-15,
+      "relative_l2": 5.000241022653185e-16
+    },
+    {
+      "group": 9,
+      "n": 115200,
+      "forward_linf": 1.0380585280245214e-13,
+      "backward_max": 2.102446461162336e-15,
+      "relative_l2": 5.030414132297027e-16
+    },
+    {
+      "group": 10,
+      "n": 115200,
+      "forward_linf": 2.9325430972448885e-12,
+      "backward_max": 1.267531924651477e-12,
+      "relative_l2": 5.25158127046986e-16
+    },
+    {
+      "group": 11,
+      "n": 115200,
+      "forward_linf": 5.53290746552193e-12,
+      "backward_max": 1.5656806611895115e-12,
+      "relative_l2": 5.218251904333763e-16
+    },
+    {
+      "group": 12,
+      "n": 115200,
+      "forward_linf": 1.1174505765154663e-09,
+      "backward_max": 3.1718984063347955e-10,
+      "relative_l2": 4.833416442303957e-16
+    },
+    {
+      "group": 13,
+      "n": 115200,
+      "forward_linf": 5.558155047324931e-10,
+      "backward_max": 2.4144909151236917e-10,
+      "relative_l2": 4.816238771424525e-16
+    },
+    {
+      "group": 14,
+      "n": 115200,
+      "forward_linf": 2.2556900791670387e-11,
+      "backward_max": 9.744705837579225e-12,
+      "relative_l2": 4.36793361764305e-16
+    },
+    {
+      "group": 15,
+      "n": 115200,
+      "forward_linf": 1.4717116414431075e-11,
+      "backward_max": 6.359320498764607e-12,
+      "relative_l2": 4.321056367709289e-16
+    },
+    {
+      "group": 16,
+      "n": 115200,
+      "forward_linf": 4.066547099057516e-10,
+      "backward_max": 1.3723787709487252e-10,
+      "relative_l2": 3.947046419236663e-16
+    },
+    {
+      "group": 17,
+      "n": 115200,
+      "forward_linf": 1.9386969807300147e-10,
+      "backward_max": 5.529148978619573e-11,
+      "relative_l2": 3.939023659824785e-16
+    }
+  ],
+  "linear": {
+    "iterations": 64.0,
+    "status": 1.0,
+    "recurrence": 2.9788492841399357e-08,
+    "true": 2.9788492841393478e-08,
+    "relative": 0.9215025547229775
+  },
+  "recurrence_true_relative_gap": 1.9737822337411948e-13,
+  "interpretation": "Host factors are accurate for this witness. The 64-step recurrence agrees with explicit true residual; slow reduction is real. Device inverse accuracy has not been isolated by this probe."
+}

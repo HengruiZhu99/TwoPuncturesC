@@ -1,0 +1,69 @@
+HiSpID modal probe group=0 n=115200 forward_linf=4.546141241235091e-12 backward_max=2.2736007497875893e-15 relative_l2=7.2773091246839708e-16
+HiSpID modal probe group=2 n=115200 forward_linf=7.0166095156309893e-13 backward_max=2.3546456875168028e-15 relative_l2=6.8416467392686548e-16
+HiSpID modal probe group=4 n=115200 forward_linf=3.2529534621517087e-13 backward_max=2.2277492326355158e-15 relative_l2=6.3156058628764606e-16
+HiSpID modal probe group=7 n=115200 forward_linf=1.2589929099249275e-13 backward_max=2.2407373162804856e-15 relative_l2=5.6560438991723593e-16
+HiSpID modal probe group=6 n=115200 forward_linf=2.1549428907974288e-13 backward_max=2.1391345007139788e-15 relative_l2=5.6321915720284217e-16
+HiSpID modal probe group=5 n=115200 forward_linf=2.7833291227352674e-13 backward_max=2.0506580273529832e-15 relative_l2=6.3501825666224424e-16
+HiSpID modal probe group=9 n=115200 forward_linf=1.0380585280245214e-13 backward_max=2.102446461162336e-15 relative_l2=5.0304141322970268e-16
+HiSpID modal probe group=8 n=115200 forward_linf=8.9817042692175164e-14 backward_max=2.1732361021980261e-15 relative_l2=5.0002410226531845e-16
+HiSpID modal probe group=1 n=115200 forward_linf=1.6835421945415874e-12 backward_max=2.4076611371014071e-15 relative_l2=7.2227817602180059e-16
+HiSpID modal probe group=3 n=115200 forward_linf=1.1181056080999952e-12 backward_max=2.2141376927709108e-15 relative_l2=6.8424633206404953e-16
+HiSpID modal probe group=11 n=115200 forward_linf=5.5329074655219301e-12 backward_max=1.5656806611895115e-12 relative_l2=5.2182519043337634e-16
+HiSpID modal probe group=12 n=115200 forward_linf=1.1174505765154663e-09 backward_max=3.1718984063347955e-10 relative_l2=4.8334164423039566e-16
+HiSpID modal probe group=13 n=115200 forward_linf=5.5581550473249308e-10 backward_max=2.4144909151236917e-10 relative_l2=4.8162387714245246e-16
+HiSpID modal probe group=14 n=115200 forward_linf=2.2556900791670387e-11 backward_max=9.7447058375792248e-12 relative_l2=4.36793361764305e-16
+HiSpID modal probe group=17 n=115200 forward_linf=1.9386969807300147e-10 backward_max=5.529148978619573e-11 relative_l2=3.939023659824785e-16
+HiSpID modal probe group=10 n=115200 forward_linf=2.9325430972448885e-12 backward_max=1.2675319246514769e-12 relative_l2=5.2515812704698596e-16
+HiSpID modal probe group=15 n=115200 forward_linf=1.4717116414431075e-11 backward_max=6.3593204987646073e-12 relative_l2=4.3210563677092891e-16
+HiSpID modal probe group=16 n=115200 forward_linf=4.0665470990575159e-10 backward_max=1.3723787709487252e-10 relative_l2=3.947046419236663e-16
+HiSpID linear probe iterations=64 status=1 recurrence=2.9788492841399357e-08 true=2.9788492841393478e-08 relative=0.92150255472297748
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-polar-sequence-v3/moderate240/diagnostic.checkpoint",
+    "file_sha256": "d852ca6013190b37fb395c342eb0559767d6b1adba0ab21d83cc387fe45066fc",
+    "source_library_sha256": "9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "library_sha256": "9b3eb7bb24020bc497095223e30ff748d0b1b64c832f88ca3169d64fd552b3b6",
+  "driver_sha256": "517234cb1c17fdb3ecb4fbd03c425e86875539e85914bc748e01eda2c269780f",
+  "linear_rtol": 0.1,
+  "max_krylov": 64,
+  "krylov_restart": 64,
+  "binary_acceptance": false,
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 64,
+    "npoints": 1843200,
+    "scaled_linf": [
+      4.6053358312761576e-11,
+      7.205386920938402e-10,
+      8.165924650072908e-10,
+      1.6155751962118865e-09
+    ],
+    "unscaled_linf": [
+      0.00013906424820900884,
+      0.00011548990501861955,
+      0.008340959732976817,
+      0.014520055097839522
+    ],
+    "seconds": 37.441317056,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.9215025547229775,
+      64.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 66,
+    "preconditioner_applications": 64
+  }
+}

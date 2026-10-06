@@ -1582,3 +1582,16 @@ Job59422127 runs one bounded64-Krylov replay of the failed240 checkpoint, using
 a separately built diagnostic image/source directory and one shared GPU. It does
 not run physical observers or launch a new resolution. Records/scripts are in
 polar-exact/factor-probe; remote outputs axis-tau-factor-probe-v1. No result yet.
+
+Factor-probe job59422127 completed4:15, allocation released. All18 host modal
+factors recover the manufactured witness with forward error<=1.11745e-9
+(worst scalar m6); componentwise backward error<=3.17190e-10 and relative
+L2 residual<=7.27731e-16. These are witness-specific accuracy measurements,
+not condition-number bounds. After64 GPU Krylov steps, true relative residual
+is0.92150255; recurrence2.9788492841399357e-8 and explicittrue
+2.9788492841393478e-8 differ relatively1.974e-13. This is real slow convergence,
+not a recurrence-only false residual decrease. GPU application of the inverse
+has not been isolated from the approximation quality and remains the next
+specific diagnostic distinction. Native image9b3eb7bb24020bc497095223e30ff748d0b1b64c832f88ca3169d64fd552b3b6.
+Raw records and parsed per-group analysis in factor-probe/gpu-v1. No physical
+acceptance is claimed from this deliberately iteration-capped diagnostic.
