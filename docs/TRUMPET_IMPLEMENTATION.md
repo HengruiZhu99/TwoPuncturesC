@@ -211,3 +211,13 @@ has alpha=r/R, beta=m*x/R^2 and gamma^ij=(r/R)^2 delta^ij, R=r+m. For speedv<1,
 `q^2-alpha^2 v_i gamma^ij v_j` are positive for everyr>0, includingGamma10.
 This establishes the nonspinning target's direct-boost slicing, not a global
 claim for arbitrary spinning/boosted combinations.
+
+The native CPU sampler and CUDA libraries compiled successfully and allocation
+59402081 released. CUDA image`dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74`
+passes the one small device control on A100-80GB in allocation59402262:
+seed differences<=4.33e-15, host-cache residual/JVP differences<=1.80e-15,
+execution-cache residual/JVP differences<=1.69e-13. It uses one8x12x4 generic
+binary state and three seed cases, not nonlinear solutions. Necessary control
+times are recorded, but their small-grid/warmup ordering does not justify a
+large-grid setup speed ratio. The full AthenaK build fromea925d1e with its
+pinned Kokkos6739bc6 and the CPU sampler library is in progress in that allocation.

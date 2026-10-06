@@ -1,0 +1,63 @@
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
+
+{
+  "kind": "trumpet_small_device_control",
+  "backend": "Cuda",
+  "device": {
+    "name": "NVIDIA A100-SXM4-80GB",
+    "uuid": "GPU-4a7e9cf7-68c4-e78c-6844-2d36b568fab5",
+    "visible_ordinal": 0,
+    "visible_count": 1,
+    "total_bytes": 85093777408,
+    "free_bytes": 65877508096,
+    "sm_count": 108,
+    "compute_major": 8,
+    "compute_minor": 0
+  },
+  "library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+  "seed_scaled_errors": [
+    2.2160578754532552e-16,
+    4.327203769260086e-15,
+    3.34210490535439e-16
+  ],
+  "rows": [
+    {
+      "geometry": "host",
+      "residual_relative_l2": 1.7990751011113336e-15,
+      "jvp_relative_l2": 2.1431908554030682e-16,
+      "seconds": 0.33548965805675834
+    },
+    {
+      "geometry": "execution",
+      "residual_relative_l2": 1.6816046916093444e-13,
+      "jvp_relative_l2": 4.2846378755595553e-14,
+      "seconds": 0.014667044044472277
+    }
+  ],
+  "statistics": {
+    "operator_seconds": 0.0,
+    "precondition_seconds": 0.0,
+    "setup_seconds": 0.0,
+    "linear_seconds": 0.0,
+    "transfer_seconds": 0.0007264713058248162,
+    "nonlinear_seconds": 0.0,
+    "resident_bytes": 0,
+    "peak_workspace_bytes": 0,
+    "host_to_device_bytes": 866104,
+    "device_to_host_bytes": 182136,
+    "kokkos_host_current_bytes": 0,
+    "kokkos_host_peak_bytes": 0,
+    "kokkos_device_current_bytes": 0,
+    "kokkos_device_peak_bytes": 1289952,
+    "nonlinear_calls": 0,
+    "workspace_creations": 0,
+    "memory_tracking_available": 1
+  },
+  "passed": true,
+  "binary_acceptance": false
+}
