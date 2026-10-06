@@ -22,3 +22,5 @@ tests/*.log
 validation/*.log
 
 /build-c4-experiment/
+/build-c4-scale/
+/build-c4-floor/

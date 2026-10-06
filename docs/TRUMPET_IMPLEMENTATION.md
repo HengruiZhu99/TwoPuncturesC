@@ -1187,3 +1187,25 @@ iterate with the existing strict residual and physical bounds; the old source,
 images and failed results are untouched. Command is
 `c4-experiment/newton-trace/backtrack_perlmutter.sh`. Default local build and
 shell syntax checks pass. No new physical acceptance is claimed.
+
+The extended-backtracking job59415954 completed: the first resumed step was
+accepted at1/2048, but the second linear solve exhausted2400 iterations at
+relative residual0.03459 (target0.001). Totals were2 Newton/2445 Krylov,
+245.303s solve and424.004s workflow. Thus deeper damping resolves the immediate
+cutoff failure but does not give convergence. Records are `c4-experiment/backtrack-v1`.
+
+Two local preconditioner-only scaling prototypes were screened on the generic
+12x24x16 C4 problem. Limiting inverse axis powers to3/4 failed after2689 Krylov;
+a1e-12 floor on the dimensionless axis factor failed after3359. Both leave
+residual/JVP witnesses bitwise unchanged, but neither reaches the original
+nonlinear tolerance. The unmodified C4 baseline converges in6 Newton/135 Krylov.
+Both prototypes are rejected and removed from production source; patches,
+build options and results are retained in `c4-experiment/scaled-inverse`.
+No GPU trial or physical acceptance is assigned to these changes.
+
+The successful coarse baseline motivates continuation rather than another
+preconditioner parameter trial. Single-GPU job59416379 uses the existing
+extended-backtracking image and unchanged preconditioner to generate a12x24x16
+C4 checkpoint, then initializes the same192x384x16 problem from it only if the
+coarse nonlinear solve converges. Basis-aware prolongation and all physical
+acceptance bounds are unchanged; coarse physical acceptance is not inherited.

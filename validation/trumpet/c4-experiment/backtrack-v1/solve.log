@@ -1,0 +1,97 @@
+HiSpID Newton trace it=0 residual_l2=3.4787953508456213 step_linf=2299371226492.7764 linear_relative=0.00090786681106541341 slope=-0.99999917577851427
+HiSpID Newton trial it=0 damping=1 residual_ratio=3486368.983753067 directional_remainder=3486370.4205305562 min_psi=0.44573804696994557 nonfinite=0
+HiSpID Newton trial it=0 damping=0.5 residual_ratio=47623.11314740462 directional_remainder=95246.265779822745 min_psi=0.75216529196078974 nonfinite=0
+HiSpID Newton trial it=0 damping=0.25 residual_ratio=5585.9470378086244 directional_remainder=22343.798454073607 min_psi=0.904572011050499 nonfinite=0
+HiSpID Newton trial it=0 damping=0.125 residual_ratio=1118.9044457605214 directional_remainder=8951.2401633481677 min_psi=0.97887080776036595 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0625 residual_ratio=263.48228434357327 directional_remainder=4215.6998244615315 min_psi=1.0000066707995667 nonfinite=0
+HiSpID Newton trial it=0 damping=0.03125 residual_ratio=64.874059218346957 directional_remainder=2075.7565015133828 min_psi=1.0000066704956365 nonfinite=0
+HiSpID Newton trial it=0 damping=0.015625 residual_ratio=16.183491765883868 directional_remainder=1033.8612262417782 min_psi=1.000006670332354 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0078125 residual_ratio=4.1542330498105837 directional_remainder=516.42402409390706 min_psi=1.0000066702492352 nonfinite=0
+HiSpID Newton trial it=0 damping=0.00390625 residual_ratio=1.4170139242975592 directional_remainder=258.14747459364759 min_psi=1.0000066702030532 nonfinite=0
+HiSpID Newton trial it=0 damping=0.001953125 residual_ratio=1.0292528588905097 directional_remainder=129.06536343919831 min_psi=1.0000066701799624 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0009765625 residual_ratio=1.0009740094153663 directional_remainder=64.531558208478117 min_psi=1.0000066701684167 nonfinite=0
+HiSpID Newton trial it=0 damping=0.00048828125 residual_ratio=0.99962708637644937 directional_remainder=32.265619466597535 min_psi=1.000006670162644 nonfinite=0
+{
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 2,
+    "krylov_iterations": 2445,
+    "npoints": 1179648,
+    "scaled_linf": [
+      0.011884136158036187,
+      0.0072074610698395665,
+      0.01600830486524828,
+      0.016176542014500757
+    ],
+    "unscaled_linf": [
+      0.9662101447280969,
+      2.7329488093096295,
+      1.300887660654541,
+      1.3905252139377198
+    ],
+    "seconds": 245.303127468,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 2.2436464376926146,
+      "H_max": 8.340732010717302,
+      "M_rms": 0.0465438856428925,
+      "M_max": 0.2628655813153795,
+      "M_components_rms": [
+        0.00833920775387443,
+        0.029949071407067766,
+        0.0075820368382467414
+      ],
+      "M_components_max": [
+        0.03572461521278805,
+        0.17398398047909955,
+        0.041120462621915994
+      ],
+      "normalized_H_max": 0.9953961957163525,
+      "normalized_M_max": 0.7694406821989095
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 34.509147860149,
+      "H_max": 82.97949939964438,
+      "M_rms": 1.2674702772705273,
+      "M_max": 2.8860884137803375,
+      "M_components_rms": [
+        0.2373727803482837,
+        1.056532057222217,
+        0.2656010358009563
+      ],
+      "M_components_max": [
+        0.48109637073027317,
+        2.3698550232152362,
+        0.7540070327366577
+      ],
+      "normalized_H_max": 0.9999991257466078,
+      "normalized_M_max": 0.9998717947581569
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.3328935934925269,
+      "H_max": 0.7283146817322201,
+      "M_rms": 0.017042798000939476,
+      "M_max": 0.03706883950819605,
+      "M_components_rms": [
+        0.0015718205476909458,
+        0.0016607509972909123,
+        0.001669294948044451
+      ],
+      "M_components_max": [
+        0.00459826662815619,
+        0.004080796323039781,
+        0.004226388728525664
+      ],
+      "normalized_H_max": 0.041460838159622086,
+      "normalized_M_max": 0.01907085837014414
+    }
+  },
+  "minimum_psi": 1.0165594180917883,
+  "total_seconds": 424.00431244494393
+}

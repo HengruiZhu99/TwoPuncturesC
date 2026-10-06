@@ -1,0 +1,62 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 251b3ff..01177d3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,6 +13,7 @@ if(NOT HISPID_REGULARITY_CAP MATCHES "^(4|6)$")
+ endif()
+ set(HISPID_ROW_POWER 6 CACHE STRING "Positive residual row power: 3 or 6")
+ set(HISPID_NEWTON_BACKTRACKS 10 CACHE STRING "Maximum Newton step halvings (10 preserves the original cutoff)")
++set(HISPID_MODAL_SCALE_CAP 0 CACHE STRING "Optional preconditioner-only axis scale cap (0 uses the basis exponent, 4 limits inverse amplification)")
+ set(HISPID_RADIAL_STRETCH .2 CACHE STRING "HiSpID puncture radial map stretch")
+ set(HISPID_ANGULAR_STRETCH 2. CACHE STRING "HiSpID puncture polar map stretch")
+ option(PUNCTURES_BENCHMARK "Add fenced/timing-only BY Newton instrumentation" OFF)
+@@ -37,7 +38,7 @@ target_link_libraries(TwoPunctures PUBLIC GSL::gsl GSL::gslcblas m)
+ add_library(HiSpID SHARED src/HiSpID_geometry.cpp src/HiSpID_solver.cpp)
+ target_include_directories(HiSpID PUBLIC include)
+ target_link_libraries(HiSpID PRIVATE TwoPunctures)
+-target_compile_definitions(HiSpID PRIVATE HISPID_ROW_POWER=${HISPID_ROW_POWER} HISPID_NEWTON_BACKTRACKS=${HISPID_NEWTON_BACKTRACKS} HISPID_BATCHED_MODAL_TRANSFER=$<BOOL:${HISPID_BATCHED_MODAL_TRANSFER}>)
++target_compile_definitions(HiSpID PRIVATE HISPID_ROW_POWER=${HISPID_ROW_POWER} HISPID_NEWTON_BACKTRACKS=${HISPID_NEWTON_BACKTRACKS} HISPID_MODAL_SCALE_CAP=${HISPID_MODAL_SCALE_CAP} HISPID_BATCHED_MODAL_TRANSFER=$<BOOL:${HISPID_BATCHED_MODAL_TRANSFER}>)
+ # Both DSOs compile the shared spectral header; keep its inline definition
+ # consistent, including the host-cache path implemented in TwoPunctures.
+ foreach(t TwoPunctures HiSpID)
+diff --git a/src/HiSpID_solver.cpp b/src/HiSpID_solver.cpp
+index 3b59c0f..fb5e8d8 100644
+--- a/src/HiSpID_solver.cpp
++++ b/src/HiSpID_solver.cpp
+@@ -31,6 +31,11 @@ static_assert(HISPID_ROW_POWER==3||HISPID_ROW_POWER==6,"row power must be3or6");
+ #endif
+ static_assert(HISPID_NEWTON_BACKTRACKS>=10&&HISPID_NEWTON_BACKTRACKS<=40,
+               "Newton backtracking depth must be between 10 and 40");
++#ifndef HISPID_MODAL_SCALE_CAP
++#define HISPID_MODAL_SCALE_CAP 0
++#endif
++static_assert(HISPID_MODAL_SCALE_CAP==0||HISPID_MODAL_SCALE_CAP==4,
++              "modal inverse scale cap must be 0 or 4");
+ #ifndef HISPID_INFINITY_EQUILIBRATION
+ #define HISPID_INFINITY_EQUILIBRATION 0
+ #endif
+@@ -443,6 +448,15 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
+   const int mode=k<=half?k:k-half,r=hispid::AxisDerivatives::exponent(mode),p=pindex(s,i,j,k);
+   const double a=.5*(s.derivatives.coordinate[0][i]+1),t=a*a,B=s.derivatives.coordinate[1][j],eta=-2*B/(1+B*B),s2=1-eta*eta,h2=4*t/((1-t)*(1-t)),D=s.b*s.b*(h2+s2);
+   const double c=-2*(1-t)*std::pow(a*std::sqrt(s2),r),weight=row_weight(s,pindex(s,i,j,0));
++  // Optional row rescaling of the approximate inverse only. The C4 basis,
++  // PDE, Jacobian and true linear/nonlinear acceptance residuals are unchanged.
++  // It bounds amplification of unresolved high-mode RHS near the axes without
++  // clipping the geometry, modifying coefficients, or deleting Krylov modes.
++  double inverse_scale=c;
++  if constexpr(HISPID_MODAL_SCALE_CAP){
++   const int capped=std::min(r,mode%2?HISPID_MODAL_SCALE_CAP-1:HISPID_MODAL_SCALE_CAP);
++   if(capped<r)inverse_scale=-2*(1-t)*std::pow(a*std::sqrt(s2),capped);
++  }
+   const auto average=share_averages?averages[i+na*j]:azimuthal_average(s,i,j);
+   const double mu=average.mu,potential=average.potential;
+   const double ctt=t*(1-t)*(1-t),ct=(1-t)*((r+1)*(1-t)-2*t),cee=s2,ce=-2*(r+1)*eta;
+@@ -458,7 +472,7 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
+   add(1,0,aa/(ha*ha)+ab/(2*ha));add(-1,0,aa/(ha*ha)-ab/(2*ha));add(0,0,-2*aa/(ha*ha));
+   add(0,1,ba/(hb*hb)+bb/(2*hb));add(0,-1,ba/(hb*hb)-bb/(2*hb));add(0,0,-2*ba/(hb*hb));
+   for(int v=0;v<4;v++){
+-   const int row=4*p+v;mat.row_scale[row]=weight*mu*(v?4./3:1.)*c/D;
++   const int row=4*p+v;mat.row_scale[row]=weight*mu*(v?4./3:1.)*inverse_scale/D;
+    for(auto entry:stencil){int col=4*(entry.first+na*nb*k)+v;double value=entry.second;
+     if(col==row&&v==0)value+=potential*D/mu;
+     if(compact){

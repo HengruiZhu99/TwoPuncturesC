@@ -1,0 +1,6 @@
+{
+  "library_sha256": "323209afa86ea0403d8a23aeb0738cd1074a0840687ba9c37fe94d3a89033bed",
+  "parameterization": "modal_P_C4prolate_map_v4_r0.20000000000000001_k2",
+  "residual_scaling": "sin3_alpha_beta",
+  "binary_acceptance": false
+}

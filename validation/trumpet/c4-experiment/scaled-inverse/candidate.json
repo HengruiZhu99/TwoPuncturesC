@@ -1,0 +1,47 @@
+{
+  "library_sha256": "abe5adaf0bed395d5acf97799b577071bc034d42a31e220e1a2d557263065aad",
+  "parameterization": "modal_P_C4prolate_map_v4_r0.20000000000000001_k2",
+  "residual_scaling": "sin3_alpha_beta",
+  "binary_acceptance": false,
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 3,
+    "krylov_iterations": 2689,
+    "npoints": 4608,
+    "scaled_linf": [
+      5.568564222031415e-05,
+      1.3033628406844509e-05,
+      2.669749237986429e-05,
+      2.8623315661911263e-05
+    ],
+    "unscaled_linf": [
+      0.00021792973899992514,
+      0.001821577924801193,
+      0.0018830640997193923,
+      0.0017537526191132716
+    ],
+    "seconds": 10.654252959,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.001,
+      0.0005678372939313555,
+      11.0
+    ],
+    [
+      1.0,
+      0.001,
+      0.000998064026006937,
+      278.0
+    ],
+    [
+      2.0,
+      0.001,
+      0.011030747234911252,
+      2400.0
+    ]
+  ]
+}

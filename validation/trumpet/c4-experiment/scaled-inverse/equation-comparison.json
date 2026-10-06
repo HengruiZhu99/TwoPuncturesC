@@ -1,0 +1,11 @@
+{
+  "purpose": "Preconditioner scaling leaves the C4 residual and JVP unchanged",
+  "bitwise_equal": {
+    "residual": true,
+    "jvp": true
+  },
+  "scaled_errors": {
+    "residual": 0.0,
+    "jvp": 0.0
+  }
+}

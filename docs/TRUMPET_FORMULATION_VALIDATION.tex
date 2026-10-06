@@ -131,8 +131,13 @@ trace reproduces failure with positive $\psi$, finite residuals and normalized
 linear descent slope $-0.999999$. Its nonlinear residual remains $1.073$ times
 the initial value at the final allowed damping $1/1024$. The modal-step maximum
 is $3.35\times10^{12}$ and the small-step Taylor remainder decreases with damping.
-An isolated build permits 24 halvings to investigate this large nonlinear step;
-the default remains 10 and the acceptance bounds are unchanged.
+An isolated build permitting 24 halvings accepts a step at $1/2048$, but its
+next linear solve exhausts 2400 iterations at relative residual $0.0346$
+(target $0.001$). The default remains 10 and acceptance bounds are unchanged.
+Two preconditioner-only scaling prototypes also fail a small convergence
+control and are rejected. The original C4 solver converges on that small grid
+in 6 Newton/135 Krylov steps; continuation from a converged coarse C4 checkpoint
+is the next experiment.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

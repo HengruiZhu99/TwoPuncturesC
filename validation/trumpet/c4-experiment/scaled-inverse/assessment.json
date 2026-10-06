@@ -1,0 +1,32 @@
+{
+  "baseline_commit": "d29b9e1",
+  "purpose": "Rejected preconditioner-only regularization prototypes; no production adoption",
+  "floor_equations_bitwise_equal": {
+    "residual": true,
+    "jvp": true
+  },
+  "experiments": [
+    {
+      "patch": "rejected-cap4.patch",
+      "cmake_option": "HISPID_MODAL_SCALE_CAP=4",
+      "result": "candidate.json",
+      "converged": false
+    },
+    {
+      "patch": "rejected-floor.patch",
+      "cmake_option": "HISPID_MODAL_SCALE_FLOOR=1e-12",
+      "result": "floor-fields.json",
+      "converged": false
+    }
+  ],
+  "common_cmake_options": {
+    "HISPID_REGULARITY_CAP": 6,
+    "HISPID_ROW_POWER": 3,
+    "HISPID_RADIAL_STRETCH": 0.2,
+    "HISPID_ANGULAR_STRETCH": 2,
+    "HISPID_NEWTON_BACKTRACKS": 24
+  },
+  "baseline_result": "baseline-fields.json",
+  "baseline_converged": true,
+  "action": "Both prototypes removed from production source; preserve patches and results."
+}
