@@ -1,0 +1,254 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      240,
+      480,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.0826630035142687,
+      0.0554766275110519
+    ],
+    "inner_max": [
+      0.27554334504756234,
+      0.18492209170350635
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "trumpet_r0_m"
+  },
+  "library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+  "kind": "moderate_trumpet_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": true,
+  "axisymmetric": false,
+  "linear_rtol": 0.5,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/run_trumpet_pilot.py": "ddc38185f4c52ee7afc37f16ea385813410a560c85f9094eb4344ba9285c7bbc",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/examples/trumpet_configs.py": "3bb7b06b7df4f2981d6420b68235f8227fe68ef2a52c953afbf7d07253e7e723",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/run_validation.py": "421d672ad71ce03ad0ca14858e08969669581de8e94611c213fc9f1e41ff879e",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/remapped_guess.py": "53430354e6104612ea1246494b48458a1c64a4a62324a18ba44cffd17d622c99",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/validation/prolong.py": "44ccf8c9c76c44ca52083505513c9167aaea86b5b518ff3137a624916cf78e9d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-axis-tau-compensated/python/checkpoint_export.py": "6b848283081399c4104f30de12532c33a3016f505be898858ae807fdb99bf6ed"
+  },
+  "setup_seconds": 101.34146333904937,
+  "initial_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-compensated-v2/moderate240/diagnostic.checkpoint",
+    "file_sha256": "2a354f2337771e9c4e40d5750fae0a880d64513379c789be22a091fe158c4042",
+    "source_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2,
+    "acceptance_inherited": false
+  },
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 2,
+    "krylov_iterations": 2969,
+    "npoints": 1843200,
+    "scaled_linf": [
+      5.896566575460396e-13,
+      9.4409105061969e-12,
+      1.0420729533691972e-11,
+      2.1364295974665134e-11
+    ],
+    "unscaled_linf": [
+      5.707187247695165e-06,
+      2.7227723249810233e-05,
+      0.0011292522671190505,
+      0.011989074144232304
+    ],
+    "seconds": 552.286035295,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.5,
+      0.49963865049849243,
+      569.0
+    ],
+    [
+      1.0,
+      0.5,
+      0.5468691337799617,
+      2400.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 3019,
+    "preconditioner_applications": 2969
+  },
+  "solve_artifact_sha256": "a5828d9ec2d7c747fb7aa712f9e86bcef130c06f3e652fa417b9cf6f85cc1e52",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-compensated-v3/moderate240/diagnostic.checkpoint",
+    "file_sha256": "e997e7af3cc437b39d2d533a208163666a53d5f7bbcb07e94127db155de6666a",
+    "source_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+    "acceptance": "diagnostic",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 5.211247973212065e-07,
+      "H_max": 2.5456490702069345e-06,
+      "M_rms": 2.5712771269424974e-07,
+      "M_max": 7.68923188521763e-07,
+      "M_components_rms": [
+        6.390118413473797e-08,
+        7.265284002148697e-08,
+        1.305956961960581e-07
+      ],
+      "M_components_max": [
+        1.531883444203709e-07,
+        3.711350998093252e-07,
+        5.235833063200078e-07
+      ],
+      "normalized_H_max": 4.406110323387461e-06,
+      "normalized_M_max": 5.202052615871655e-06
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 5.379604886158894e-08,
+      "H_max": 1.7084473371859615e-07,
+      "M_rms": 2.5342632280399927e-06,
+      "M_max": 6.130352254866911e-06,
+      "M_components_rms": [
+        2.5217907629062284e-07,
+        4.5426220125489125e-07,
+        2.1945305205137086e-06
+      ],
+      "M_components_max": [
+        5.209807474405233e-07,
+        8.434766815967969e-07,
+        5.506713951095265e-06
+      ],
+      "normalized_H_max": 0.00033678482152357575,
+      "normalized_M_max": 0.004429298411126116
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.1680811753170259,
+      "H_max": 0.43956913646263374,
+      "M_rms": 0.010327077266709148,
+      "M_max": 0.022257537462693218,
+      "M_components_rms": [
+        0.0009894060055827616,
+        0.0010396301239231451,
+        0.0010231296704179807
+      ],
+      "M_components_max": [
+        0.0028533198371040167,
+        0.0027005537123136305,
+        0.0026799384212245446
+      ],
+      "normalized_H_max": 0.02101530144503265,
+      "normalized_M_max": 0.011298876497695096
+    }
+  },
+  "exterior_stencil_unmodified": true,
+  "minimum_psi": 1.02899685964478,
+  "minimum_metric_eigenvalue": 1.1197702990916285,
+  "charge_radii": [
+    256.0,
+    512.0,
+    1024.0
+  ],
+  "charges": [
+    [
+      0.9725499916447691,
+      0.0045063297566359135,
+      0.007347782154725542,
+      0.016816760690172766,
+      0.03988961307156498,
+      0.11213369511571014,
+      0.3094875429372332
+    ],
+    [
+      0.9706725882236248,
+      0.004509785362213521,
+      0.007358009653706402,
+      0.016840788386364478,
+      0.03997316169131791,
+      0.11227838122636852,
+      0.31010374920382444
+    ],
+    [
+      0.9697269639810487,
+      0.004511601101669827,
+      0.007363139242213425,
+      0.01685285966382119,
+      0.040018999462682205,
+      0.11232034006784433,
+      0.3104243245877778
+    ]
+  ],
+  "charges_extrapolated": [
+    0.9687767247171368,
+    0.004513475465571135,
+    0.007368279390064843,
+    0.01686496922751848,
+    0.04006754620837171,
+    0.11234204276675124,
+    0.31075321480550305
+  ],
+  "total_seconds": 813.3148347949609,
+  "process_peak_rss_kib": 12149240
+}

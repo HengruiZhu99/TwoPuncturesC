@@ -1695,3 +1695,15 @@ actual-state correction was qualified. Script inexact_newton_perlmutter.sh;
 remote output axis-tau-compensated-v3. A final explicit per-grid gate now
 makes job failure reflect nonconvergence or failed physical bounds. No rebuild
 or additional resolution launched.
+
+Continuation59423304 finished its diagnostic workflow in813.315s but failed
+nonlinear and physical acceptance. Forcing0.5 admitted one full step after569
+Krylov iterations (true relative0.499639); the second inner solve exhausted2400
+at0.546869. Total2969Krylov,552.286s solve; nonlinear maximum2.13643e-11
+still exceeds1e-12. Near H/M RMS5.21125e-7/2.57128e-7 pass, but bulk momentum
+RMS2.53426e-6 fails. No threshold is relaxed and no finer grid is launched.
+Raw physical observers, full log and final JSON are retained under
+polar-exact/compensated-projection/gpu-v3. Saved diagnostic checkpoint SHA256
+ e997e7af3cc437b39d2d533a208163666a53d5f7bbcb07e94127db155de6666a.
+The relaxed forcing does not cure linear stagnation; further work must address
+that difficulty rather than treating another tolerance relaxation as validation.
