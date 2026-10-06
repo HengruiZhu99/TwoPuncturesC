@@ -24,16 +24,16 @@ int main(void){
   Matrix m={0};double exact[N],rhs[N],x[N];PK_Result result;
   for(int i=0;i<N;i++){exact[i]=sin(i+.25);for(int j=0;j<N;j++)m.a[i][j]=i==j?4+i*.1:(j==i+1?-.8:(i==j+2?.35:0));}
   apply(&m,exact,rhs);
-  for(int method=0;method<2;method++)for(int diagonal=0;diagonal<2;diagonal++)for(int guess=0;guess<2;guess++){
+  for(int method=0;method<3;method++)for(int diagonal=0;diagonal<2;diagonal++)for(int guess=0;guess<2;guess++){
     PK_Options o={method,200,3,1,0,0,1e-11,NULL,NULL};m.diagonal=diagonal;
     for(int i=0;i<N;i++)x[i]=guess?.3*cos(i):0;
     CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_SUCCESS);
     CHECK(residual(&m,rhs,x)<=o.absolute_tolerance);
     CHECK(result.true_residual<=o.absolute_tolerance);
-    CHECK(result.operator_calls>result.iterations&&result.preconditioner_calls>=result.iterations);
+    CHECK(result.operator_calls>result.iterations&&(method==PK_LGMRES?result.preconditioner_calls<=result.iterations:result.preconditioner_calls>=result.iterations));
     for(int i=0;i<N;i++)CHECK(fabs(x[i]-exact[i])<1e-10);
   }
-  for(int method=0;method<2;method++){
+  for(int method=0;method<3;method++){
     memset(&m,0,sizeof(m));for(int i=0;i<N;i++)for(int j=0;j<N;j++)m.a[i][j]=i==j?4+i*.1:(j==i+1?-.8:(i==j+2?.35:0));
     PK_Options o={method,1,4,1,0,0,1e-15,NULL,NULL};memset(x,0,sizeof(x));m.diagonal=0;
     CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_LIMIT);
@@ -51,8 +51,8 @@ int main(void){
     double zero[N]={0};memset(x,0,sizeof(x));
     CHECK(PK_solve(N,zero,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_SUCCESS);
     CHECK(result.iterations==0&&result.preconditioner_calls==0&&result.true_residual==0);
-    CHECK(result.operator_calls==(method==PK_GMRES?0:2));
-    o.method=2;CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_INVALID);o.method=method;
+    CHECK(result.operator_calls==(method!=PK_BICGSTAB?0:2));
+    o.method=3;CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_INVALID);o.method=method;
     o.restart=4097;CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_INVALID);o.restart=4;
     o.verify_true_residual=2;CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_INVALID);o.verify_true_residual=1;
     CHECK(PK_solve(N,rhs,rhs,&o,apply,precondition,&m,NULL,NULL,&result)==PK_INVALID);
@@ -62,5 +62,20 @@ int main(void){
   }
   {double b[2]={0,2},z[2]={0};PK_Options o={PK_GMRES,10,2,1,0,0,1e-10,NULL,NULL};
    CHECK(PK_solve(2,b,z,&o,null_operator,huge_precondition,NULL,NULL,NULL,&result)==PK_NONFINITE);}
+  /* A separated diagonal spectrum exposes restart loss without relying on
+   * the puncture operator or preconditioner. The exact solution is all ones. */
+  {
+    const double spectrum[N]={.01,.02,.04,1,2,4,8,16,32};
+    memset(&m,0,sizeof(m));
+    for(int i=0;i<N;i++){m.a[i][i]=spectrum[i];rhs[i]=spectrum[i];}
+    PK_Options o={PK_GMRES,300,5,1,0,0,1e-10,NULL,NULL};
+    CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_LIMIT);
+    CHECK(residual(&m,rhs,x)>1e-8);
+    o.method=PK_LGMRES;
+    CHECK(PK_solve(N,rhs,x,&o,apply,precondition,&m,NULL,NULL,&result)==PK_SUCCESS);
+    CHECK(residual(&m,rhs,x)<=o.absolute_tolerance);
+    for(int i=0;i<N;i++)CHECK(fabs(x[i]-1)<1e-8);
+    printf("augmented restart witness: %d iterations, true residual %.9g\n",result.iterations,result.true_residual);
+  }
   printf("shared Krylov independent controls: %d passed\n",checks);return 0;
 }

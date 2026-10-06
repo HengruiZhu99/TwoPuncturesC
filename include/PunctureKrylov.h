@@ -7,7 +7,11 @@ extern "C" {
  * apply/precondition return0 on success. Callbacks may reuse private scratch,
  * but must not retain the supplied vectors; input/output do not alias.
  * A and M remain fixed for the duration of one solve. */
-enum { PK_GMRES=0, PK_BICGSTAB=1 };
+enum { PK_GMRES=0, PK_BICGSTAB=1, PK_LGMRES=2 };
+/* LGMRES adds up to three directions to the restart dimension using normalized
+ * previous-cycle corrections. It recomputes their operator images, stores
+ * at most ten additional vectors, and never recycles across separate solves.
+ * The option/result struct layouts and existing method values are unchanged. */
 enum { PK_SUCCESS=0, PK_LIMIT=1, PK_BREAKDOWN=2, PK_CALLBACK=3,
        PK_INVALID=4, PK_ALLOCATION=5, PK_NONFINITE=6 };
 typedef int (*PK_Apply)(void *,const double *,double *);

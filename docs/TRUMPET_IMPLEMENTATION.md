@@ -1727,3 +1727,23 @@ establish the cause of GMRES stagnation. Raw probe JSON/log/job ID retained
 in compensated-projection/bicgstab-probe. Next investigate retaining useful
 GMRES directions across restarts while preserving true-residual checks and
 the memory bound; do not repeat the backend matrix or relax physical gates.
+
+An opt-in shared PK_LGMRES controller now appends up to three normalized
+previous-cycle corrections to each ordinary restart subspace, recomputing
+operator images and retaining true-residual verification. Source reference:
+https://docs.scipy.org/doc/scipy-0.18.0/reference/generated/generated/scipy.sparse.linalg.lgmres.html
+This is right-preconditioned augmentation of the existing shared Arnoldi
+controller, not a SciPy dependency or cross-Newton recycling. Existing method
+values, option/result struct layouts and default arithmetic are unchanged.
+Three saved directions plus a correction scratch and six extra Arnoldi/search
+vectors require at most ten additional vectors. HiSpID selection/memory guards
+and CUDA qualification are not yet wired, so this is not a production change.
+CPU independent controls cover all three methods, failures, zero RHS and
+initial guesses:227 checks pass, also under AddressSanitizer/UBSan. A separate
+nine-dimensional diagonal spectrum(.01,.02,.04,1,2,4,8,16,32), exact solution
+all ones, gives ordinary GMRES(5) residual5.53915e-7 after300 iterations;
+augmented GMRES with five new directions plus up to three saved directions
+converges in90 iterations to true4.26767e-13. This is an algorithm control,
+not an equal-memory performance claim or evidence about the binary system.
+A direct C-as-C++ compile attempt failed on existing C void-pointer conversions;
+it is not a Kokkos compilation test. CUDA qualification remains pending.
