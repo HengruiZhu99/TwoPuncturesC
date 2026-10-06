@@ -1,0 +1,21 @@
+{
+  "case": "gamma10",
+  "resolution": [
+    160,
+    320,
+    8
+  ],
+  "maps": [
+    0.03,
+    3.5
+  ],
+  "initial_separation": 25,
+  "measured_Mirr_calibrated": false,
+  "physical_free_data_changed": false,
+  "backend": "host long-double geometry, CUDA GMRES, restart64",
+  "reason": "Original transition has3 radial-axis projected nodes and67 meridional nodes. Focused map raises counts to8 and472 at fixed grid. Spin trial independently supports this map for small transition scales; boost improvement remains unproven.",
+  "source": "extreme-pilots/gamma10_160/diagnostic.checkpoint",
+  "source_acceptance": false,
+  "criteria": "Unchanged nonlinear and independent physical thresholds. No inherited acceptance.",
+  "dependency_job": 59408144
+}

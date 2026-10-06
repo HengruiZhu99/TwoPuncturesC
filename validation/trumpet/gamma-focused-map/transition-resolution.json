@@ -1,0 +1,64 @@
+{
+  "rows": [
+    {
+      "run": "validation/trumpet/extreme-pilots/gamma10_160",
+      "input_sha256": "5ac955ecde48a21a598851a7e161f4137c6bb4ec9a6024328a362916554e2fd2",
+      "resolution": [
+        160,
+        320,
+        8
+      ],
+      "radial_stretch": 0.2,
+      "angular_stretch": 2.0,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 3,
+          "polar_axis_nodes_in_transition": 8,
+          "meridional_nodes_in_transition": 67
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 3,
+          "polar_axis_nodes_in_transition": 8,
+          "meridional_nodes_in_transition": 67
+        }
+      ]
+    },
+    {
+      "run": "validation/trumpet/extreme-pilots/gamma10_160",
+      "input_sha256": "5ac955ecde48a21a598851a7e161f4137c6bb4ec9a6024328a362916554e2fd2",
+      "resolution": [
+        160,
+        320,
+        8
+      ],
+      "radial_stretch": 0.03,
+      "angular_stretch": 3.5,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 8,
+          "polar_axis_nodes_in_transition": 18,
+          "meridional_nodes_in_transition": 472
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 8,
+          "polar_axis_nodes_in_transition": 18,
+          "meridional_nodes_in_transition": 472
+        }
+      ]
+    }
+  ],
+  "driver_sha256": "99b3650893191a241ffee9e5e83c8620eb2f2e0d820be440c37062c4e0a2e62e",
+  "note": "Geometric node counts only. Axis projections are not actual endpoint collocation nodes. The candidate map is not a solved or selected configuration."
+}

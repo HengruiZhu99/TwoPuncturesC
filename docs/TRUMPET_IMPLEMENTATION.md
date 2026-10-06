@@ -637,3 +637,15 @@ conservative aggregate allocation formula bounds this at61.032GiB (device27.559G
 within the64GiB context limit; larger224x448x32 would exceed that limit and is
 not requested. See `refine-plan.json` and `refine_perlmutter.sh`. The Fourier
 resolution, production backend and all acceptance thresholds remain unchanged.
+
+The spin192 refinement is running as allocation59408144. A single focused-map
+Gamma10 trial is queued as59408229 with an afterany dependency, so it requests
+no concurrent GPU. Its original160x320x8 grid, separation25, physical free data
+and tolerances are unchanged. The original map resolves its transition with
+only3 radial-axis projections/67 meridional nodes; the focused map gives8/472.
+This geometric evidence motivates the trial but is not proof of physical
+accuracy or improved linear conditioning. The already-passed changed-map
+operator control is reused. The failed original checkpoint supplies only an
+explicitly image-bound remapped initial guess. See `gamma-focused-map/plan.json`,
+`transition-resolution.json`, and the run script. Separation calibration using
+measured component Mirr and binary horizon validation remain required.
