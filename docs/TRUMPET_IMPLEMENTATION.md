@@ -555,3 +555,24 @@ See `extreme-pilots/plan.json`; allocation59407208 started only after59406945
 released. This case remains diagnostic until its independent physical and
 horizon checks and the remaining solver convergence obligations are satisfied.
 The separate Gamma10 head-on investigation remains required.
+
+### First aligned-spin chi=.99 pilot
+
+The equal-mass seed-chi=.99 case at separation12 and160x320x32 completed
+under allocation59407208. It converges internally in9 Newton/132 Krylov
+iterations (54.44s solve,267.73s total), with minimum sampled psi1.02894396.
+It **fails** the unchanged independent exterior constraints: near H/M RMS
+2.773e-4/7.106e-4 and bulk2.451e-2/1.729e-2. It is not validated high-spin
+binary data. Complete result and physical arrays are retained under
+`validation/trumpet/extreme-pilots/spin99_160`; the image-bound checkpoint and
+unknowns remain in the recorded Perlmutter paths. No horizon properties are
+claimed for this pilot.
+
+The separate nonspinning head-on Gamma10 pilot starts at separation25, to be
+calibrated against measured component Mirr later, with160x320x8 on the same
+production backend. Its configuration and limitations are declared in
+`extreme-pilots/gamma10-plan.json`; allocation59407326 began after the spin
+allocation released. A fixed-polynomial azimuthal replay of the spin pilot is
+scheduled afterward, to distinguish Fourier aliasing from meridional error
+before another resolution or map is selected. No further spin solve has been
+launched and neither physical acceptance threshold nor failed flag is changed.
