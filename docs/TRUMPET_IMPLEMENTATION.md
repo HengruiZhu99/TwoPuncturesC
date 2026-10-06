@@ -1453,3 +1453,14 @@ field/gradient agreement2.82e-13 with the CPU result. Matrix control also
 passed. Image9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6;
 records `axis-tau/polar-exact/gpu-v1`. The job has entered the fine-grid replay;
 its terminal result is not yet available. Implementation commitede4316 pushed.
+
+Fine-grid replay59420201 completed3:13. The exact polar correction reaches
+the0.001 linear target in6 Krylov steps, true relative5.73775e-4. Full Newton
+step accepted, residual ratio0.02631594, positive minpsi1.00000668; solve13.008s.
+The one-Newton-step diagnostic intentionally reports its iteration limit;
+this does not indicate a failed linear solve or establish physical acceptance.
+Raw trace/JSON retained in `axis-tau/polar-exact/gpu-v1`.
+This justifies full moderate192x384x16 zero-start solve59420346, same pinned
+image, forcing0.001 and unchanged physical bounds. Command:
+`axis-tau/polar-exact/full_perlmutter.sh`; remote output
+`axis-tau-polar-full-v1/moderate192`. Allocation is one shared GPU,20minutes.

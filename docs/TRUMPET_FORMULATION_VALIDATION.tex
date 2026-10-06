@@ -213,9 +213,15 @@ solve uses 53 Krylov iterations, preserves the residual/JVP witnesses bitwise,
 and agrees in sampled fields/gradients to $2.53\times10^{-13}$. Host/device
 allocation bounds include the additional response and Schur matrices.
 The CUDA small control also passes (5 Newton/54 Krylov, field/gradient
-agreement $2.82\times10^{-13}$). Shared-GPU job 59420201 has proceeded to the
-fine-grid linear replay; its result is pending. No new horizon or binary
-acceptance is claimed.
+agreement $2.82\times10^{-13}$). The fine-grid replay in job 59420201 reaches
+the linear target in 6 Krylov iterations (true relative residual
+$5.74\times10^{-4}$), accepting a full Newton step with residual ratio
+$0.0263$. Its one-step solve takes 13.01 seconds. The reported Newton iteration
+limit is the deliberate one-step cap, not a failed linear solve. This is a
+substantial improvement over the 2400-iteration failures but does not prove
+nonlinear or physical convergence. Job 59420346 runs the full moderate solve
+and independent physical observers with the same image and configuration.
+No new horizon or binary acceptance is claimed.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

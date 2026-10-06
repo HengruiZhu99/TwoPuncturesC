@@ -1,0 +1,48 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-v1/moderate192/diagnostic.checkpoint",
+    "file_sha256": "7c01f0713fd4e3d32d0d881ae7fb6a3c09990c0b417053a01d99dd76ee7f633b",
+    "source_library_sha256": "03abf09a3c2f2100966d21c7462718a47fe918f02725e2017fdc25f1862f942e",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "library_sha256": "9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6",
+  "driver_sha256": "bff2a70b9632173e739108e9ed240031691896f4e013e7b62bd43cdde2bcc0e2",
+  "linear_rtol": 0.001,
+  "binary_acceptance": false,
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 6,
+    "npoints": 1179648,
+    "scaled_linf": [
+      0.0013728164865586046,
+      0.004437089035187441,
+      0.008703677136695866,
+      0.009711035900992291
+    ],
+    "unscaled_linf": [
+      0.583216397162418,
+      33.3003539521271,
+      17.247361110759968,
+      20.167183270677118
+    ],
+    "seconds": 13.007631492,
+    "status": 1,
+    "error": "Newton iteration limit"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.001,
+      0.0005737753178252853,
+      6.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 9,
+    "preconditioner_applications": 6
+  }
+}
