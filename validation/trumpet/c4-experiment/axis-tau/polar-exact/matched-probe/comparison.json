@@ -1,0 +1,6 @@
+{
+  "residual_bitwise_equal": true,
+  "jvp_bitwise_equal": true,
+  "field_witness_bitwise_equal": true,
+  "linear_history_equal": true
+}

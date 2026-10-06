@@ -1619,3 +1619,15 @@ only7.002e-16 of energy. The next distinction is Fourier projection/row scaling
 versus CUDA inverse application on identical projected input. Do not replace
 the mathematical preconditioner before isolating this concrete discrepancy.
 Raw records and parsed analysis in action-probe/gpu-v1. No full solve launched.
+
+Factored the existing host Fourier/row-scaling operation into project_rhs,
+without changing its arithmetic. Modal::apply now optionally accepts already
+projected/scaled input (defaultfalse, all production callers unchanged). The
+opt-in action probe compares both ordinary device inversion and inversion of
+the exact host-projected RHS against the same host solution. This isolates
+projection from inverse-kernel differences without duplicating either inverse.
+Small reference residual/JVP/fields/iteration histories remain bitwise equal.
+Job59422608 uses one shared GPU and only1 Krylov step; its useful observations
+are the two pre-solve actual-RHS comparisons. Separate source/build directories
+axis-tau-matched-probe preserve the earlier images. Outputs are
+axis-tau-matched-probe-v1; no numerical result yet.

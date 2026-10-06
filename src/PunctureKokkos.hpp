@@ -172,7 +172,9 @@ struct Modal {
   workspace=View("modal workspace",a*b*p*v);column=View("modal RHS",a*b*p*v);
  }
  void prepare();
- void apply(View in,View out);
+ // projected=true accepts modal RHS values after Fourier projection and row
+ // scaling, enabling inverse-only diagnostics without duplicating the kernel.
+ void apply(View in,View out,bool projected=false);
 };
 Modal import_BY_modal(TP_Modal*);
 }

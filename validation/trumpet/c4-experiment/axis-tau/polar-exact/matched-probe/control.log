@@ -1,0 +1,902 @@
+HiSpID residual mode=0 component=0 initial_l2=0.32810338102527659 remaining_l2=0.001034391189074313 tau_l2=0
+HiSpID residual mode=0 component=1 initial_l2=1.0722360455420217 remaining_l2=0.00050338380147141055 tau_l2=0
+HiSpID residual mode=0 component=2 initial_l2=0.089023411285379606 remaining_l2=0.00043405850104598397 tau_l2=0
+HiSpID residual mode=0 component=3 initial_l2=0.099666185725360859 remaining_l2=0.00035829271035897316 tau_l2=0
+HiSpID residual mode=1 component=0 initial_l2=0.027735813201452412 remaining_l2=7.4518765452735058e-05 tau_l2=0
+HiSpID residual mode=1 component=1 initial_l2=0.27398205235397544 remaining_l2=0.00044876372342788755 tau_l2=0
+HiSpID residual mode=1 component=2 initial_l2=1.863350907860376 remaining_l2=0.0010495340355470453 tau_l2=0
+HiSpID residual mode=1 component=3 initial_l2=1.8406293269978669 remaining_l2=0.0010155529903350645 tau_l2=0
+HiSpID residual mode=2 component=0 initial_l2=0.027204196321315748 remaining_l2=2.3873384648626962e-05 tau_l2=0
+HiSpID residual mode=2 component=1 initial_l2=0.092541526666418503 remaining_l2=0.00066363865985162086 tau_l2=0
+HiSpID residual mode=2 component=2 initial_l2=0.12073098132764613 remaining_l2=0.00065774063255399765 tau_l2=0
+HiSpID residual mode=2 component=3 initial_l2=0.12020333658609755 remaining_l2=0.00069555205405036683 tau_l2=0
+HiSpID residual mode=3 component=0 initial_l2=0.00068586316894175803 remaining_l2=1.9373538877931629e-05 tau_l2=0
+HiSpID residual mode=3 component=1 initial_l2=0.0055239377909022756 remaining_l2=0.0011405094526877868 tau_l2=0
+HiSpID residual mode=3 component=2 initial_l2=0.1372468023889751 remaining_l2=0.00063147434929326947 tau_l2=0
+HiSpID residual mode=3 component=3 initial_l2=0.13700512991961158 remaining_l2=0.00055747361613570252 tau_l2=0
+HiSpID residual mode=4 component=0 initial_l2=0.00046850383212438393 remaining_l2=3.2936803705245901e-05 tau_l2=0
+HiSpID residual mode=4 component=1 initial_l2=0.0011548764032599638 remaining_l2=0.00017275602479383136 tau_l2=0
+HiSpID residual mode=4 component=2 initial_l2=0.0031224308838212417 remaining_l2=0.00056558528921126991 tau_l2=0
+HiSpID residual mode=4 component=3 initial_l2=0.0031171849304323725 remaining_l2=0.00054310128698484706 tau_l2=0
+HiSpID residual mode=5 component=0 initial_l2=1.4261887409364914e-05 remaining_l2=1.1615200886032493e-06 tau_l2=1.1687264894584186e-17
+HiSpID residual mode=5 component=1 initial_l2=5.3294685920368208e-05 remaining_l2=5.4648918934126949e-05 tau_l2=3.5007509142066666e-16
+HiSpID residual mode=5 component=2 initial_l2=0.0018784538285886278 remaining_l2=0.00014108941298386019 tau_l2=1.0955946261785101e-15
+HiSpID residual mode=5 component=3 initial_l2=0.001878242856712837 remaining_l2=0.00013408680263570459 tau_l2=2.1629945746733501e-15
+HiSpID residual mode=6 component=0 initial_l2=7.3627106112071049e-06 remaining_l2=1.942548463309046e-07 tau_l2=7.4065300415506288e-16
+HiSpID residual mode=6 component=1 initial_l2=1.4649766047050219e-05 remaining_l2=7.5531438584597807e-06 tau_l2=8.111948406977234e-15
+HiSpID residual mode=6 component=2 initial_l2=5.1912221013650341e-05 remaining_l2=2.8802082565337132e-05 tau_l2=2.3601338866774028e-14
+HiSpID residual mode=6 component=3 initial_l2=5.1975287161064082e-05 remaining_l2=2.9116436854414575e-05 tau_l2=2.9671982851346822e-14
+HiSpID residual mode=7 component=0 initial_l2=2.7005615044201687e-07 remaining_l2=1.8197463004694517e-08 tau_l2=2.2743220034084658e-19
+HiSpID residual mode=7 component=1 initial_l2=6.5242207482334548e-07 remaining_l2=1.1034821148262163e-06 tau_l2=1.4526807432862284e-18
+HiSpID residual mode=7 component=2 initial_l2=2.6371420883643078e-05 remaining_l2=5.0787224619664708e-06 tau_l2=1.9738653924934271e-18
+HiSpID residual mode=7 component=3 initial_l2=2.5795523989478651e-05 remaining_l2=5.0572773022788939e-06 tau_l2=1.5696990125130601e-18
+HiSpID residual mode=8 component=0 initial_l2=1.0407898178260778e-07 remaining_l2=3.0555175324455758e-09 tau_l2=3.9708935603191647e-18
+HiSpID residual mode=8 component=1 initial_l2=1.6322864387883865e-07 remaining_l2=8.4672634738190195e-08 tau_l2=3.3431222542151005e-17
+HiSpID residual mode=8 component=2 initial_l2=4.8531854984787922e-07 remaining_l2=2.6896633302993525e-07 tau_l2=4.025788952677795e-16
+HiSpID residual mode=8 component=3 initial_l2=1.0828083505999954e-06 remaining_l2=9.0872930032914246e-07 tau_l2=1.0148088190113378e-16
+HiSpID action probe iterations=10 recurrence=0.0028348658214391717 true=0.0028348658214390979 relative=0.00098476638202452766
+HiSpID residual mode=0 component=0 initial_l2=0.010163412176865819 remaining_l2=1.5900442610023653e-06 tau_l2=0
+HiSpID residual mode=0 component=1 initial_l2=0.028018843556450967 remaining_l2=7.5224614234189348e-06 tau_l2=0
+HiSpID residual mode=0 component=2 initial_l2=0.0021375165860441627 remaining_l2=5.9564946569192321e-06 tau_l2=0
+HiSpID residual mode=0 component=3 initial_l2=0.002604871583698141 remaining_l2=3.857709451247647e-06 tau_l2=0
+HiSpID residual mode=1 component=0 initial_l2=0.00074636478116820424 remaining_l2=8.4615423606699581e-07 tau_l2=0
+HiSpID residual mode=1 component=1 initial_l2=0.0071025303372588347 remaining_l2=6.1424747041732832e-06 tau_l2=0
+HiSpID residual mode=1 component=2 initial_l2=0.048670468506974457 remaining_l2=1.3844670881592782e-05 tau_l2=0
+HiSpID residual mode=1 component=3 initial_l2=0.04775388939483928 remaining_l2=1.3321503700436028e-05 tau_l2=0
+HiSpID residual mode=2 component=0 initial_l2=0.00067298779187424239 remaining_l2=5.2433257199095707e-07 tau_l2=0
+HiSpID residual mode=2 component=1 initial_l2=0.0028463738266116096 remaining_l2=1.3837716661398074e-05 tau_l2=0
+HiSpID residual mode=2 component=2 initial_l2=0.0035125711251020129 remaining_l2=1.2877843500964594e-05 tau_l2=0
+HiSpID residual mode=2 component=3 initial_l2=0.0035288082283410683 remaining_l2=1.4196075226275463e-05 tau_l2=0
+HiSpID residual mode=3 component=0 initial_l2=3.4685089976608389e-05 remaining_l2=8.3290164244652668e-07 tau_l2=0
+HiSpID residual mode=3 component=1 initial_l2=0.0011672013739910945 remaining_l2=1.4210414659950647e-05 tau_l2=0
+HiSpID residual mode=3 component=2 initial_l2=0.0040036490303132508 remaining_l2=1.03387740432492e-05 tau_l2=0
+HiSpID residual mode=3 component=3 initial_l2=0.0039722269191053783 remaining_l2=1.2859974152071783e-05 tau_l2=0
+HiSpID residual mode=4 component=0 initial_l2=3.5721612847997243e-05 remaining_l2=1.6983188442708238e-06 tau_l2=0
+HiSpID residual mode=4 component=1 initial_l2=0.00018078191193929174 remaining_l2=9.9337912683725113e-06 tau_l2=0
+HiSpID residual mode=4 component=2 initial_l2=0.00057936845249440178 remaining_l2=1.9206877538728297e-05 tau_l2=0
+HiSpID residual mode=4 component=3 initial_l2=0.00055736902469138289 remaining_l2=1.9760954123360825e-05 tau_l2=0
+HiSpID residual mode=5 component=0 initial_l2=1.7738912478004906e-06 remaining_l2=2.2594821748615842e-07 tau_l2=2.0719773177703168e-18
+HiSpID residual mode=5 component=1 initial_l2=5.4666487659532257e-05 remaining_l2=2.1603680791579873e-06 tau_l2=8.018988283441763e-18
+HiSpID residual mode=5 component=2 initial_l2=0.00016970879193347008 remaining_l2=7.6390589295535511e-06 tau_l2=3.7292079472371215e-17
+HiSpID residual mode=5 component=3 initial_l2=0.00016386752179317626 remaining_l2=7.3983935931840985e-06 tau_l2=3.8844080568228779e-17
+HiSpID residual mode=6 component=0 initial_l2=4.1927651059329959e-07 remaining_l2=2.7928915804552436e-08 tau_l2=1.5216261938792287e-17
+HiSpID residual mode=6 component=1 initial_l2=7.5818465815378086e-06 remaining_l2=2.5625220439089346e-07 tau_l2=2.6751881264262026e-16
+HiSpID residual mode=6 component=2 initial_l2=2.8897623901160571e-05 remaining_l2=6.9083645476475684e-07 tau_l2=3.6387524971006588e-16
+HiSpID residual mode=6 component=3 initial_l2=2.9215737011609044e-05 remaining_l2=7.1253735337784385e-07 tau_l2=4.9264460599006936e-16
+HiSpID residual mode=7 component=0 initial_l2=5.5495542908464027e-08 remaining_l2=2.1768644070191218e-09 tau_l2=6.3749366158118413e-21
+HiSpID residual mode=7 component=1 initial_l2=1.103289440268601e-06 remaining_l2=2.2398220719922108e-08 tau_l2=8.9641353390511754e-20
+HiSpID residual mode=7 component=2 initial_l2=5.2783484978789313e-06 remaining_l2=1.6088531153949507e-07 tau_l2=4.9783820900406131e-19
+HiSpID residual mode=7 component=3 initial_l2=5.2473947169928681e-06 remaining_l2=1.660489610587771e-07 tau_l2=2.1727372131790486e-19
+HiSpID residual mode=8 component=0 initial_l2=3.2384825797515132e-08 remaining_l2=5.3875907257510775e-10 tau_l2=2.0025177257256473e-19
+HiSpID residual mode=8 component=1 initial_l2=8.6466751454421224e-08 remaining_l2=3.4718874042066321e-09 tau_l2=2.1935479746021305e-18
+HiSpID residual mode=8 component=2 initial_l2=2.6899249542164969e-07 remaining_l2=6.1406216604119469e-09 tau_l2=7.2688074389153443e-18
+HiSpID residual mode=8 component=3 initial_l2=9.1125396805716737e-07 remaining_l2=1.8276225488299327e-08 tau_l2=2.9703731020554496e-18
+HiSpID action probe iterations=11 recurrence=5.0308683997071229e-05 true=5.0308683997081271e-05 relative=0.0006682795288043403
+HiSpID residual mode=0 component=0 initial_l2=1.2864279452913522e-05 remaining_l2=3.5519906103753859e-08 tau_l2=0
+HiSpID residual mode=0 component=1 initial_l2=7.9872977642312493e-05 remaining_l2=4.4158598181672179e-08 tau_l2=0
+HiSpID residual mode=0 component=2 initial_l2=7.3196157043355034e-06 remaining_l2=1.31279243873622e-08 tau_l2=0
+HiSpID residual mode=0 component=3 initial_l2=9.2220724092065341e-06 remaining_l2=1.5830531380355633e-08 tau_l2=0
+HiSpID residual mode=1 component=0 initial_l2=1.48004052471153e-06 remaining_l2=4.9648313725652804e-09 tau_l2=0
+HiSpID residual mode=1 component=1 initial_l2=1.9332135873355363e-05 remaining_l2=2.7111527061382085e-08 tau_l2=0
+HiSpID residual mode=1 component=2 initial_l2=0.00013894413125947199 remaining_l2=6.9182778043600657e-08 tau_l2=0
+HiSpID residual mode=1 component=3 initial_l2=0.0001349511195491397 remaining_l2=6.8917334233054804e-08 tau_l2=0
+HiSpID residual mode=2 component=0 initial_l2=1.1970822970441113e-06 remaining_l2=4.7143111629445229e-09 tau_l2=0
+HiSpID residual mode=2 component=1 initial_l2=1.5733158976376676e-05 remaining_l2=4.323575606604149e-08 tau_l2=0
+HiSpID residual mode=2 component=2 initial_l2=1.4021330486601346e-05 remaining_l2=4.4725747289404379e-08 tau_l2=0
+HiSpID residual mode=2 component=3 initial_l2=1.5087220385171311e-05 remaining_l2=4.9004572679312976e-08 tau_l2=0
+HiSpID residual mode=3 component=0 initial_l2=8.5145281003972388e-07 remaining_l2=2.9414235839889939e-09 tau_l2=0
+HiSpID residual mode=3 component=1 initial_l2=1.4215921220469474e-05 remaining_l2=8.4026184064134377e-08 tau_l2=0
+HiSpID residual mode=3 component=2 initial_l2=1.2989498810247493e-05 remaining_l2=3.880326402120118e-08 tau_l2=0
+HiSpID residual mode=3 component=3 initial_l2=1.498228232403327e-05 remaining_l2=4.3328154618723209e-08 tau_l2=0
+HiSpID residual mode=4 component=0 initial_l2=1.7013634050219706e-06 remaining_l2=4.2144389151448546e-09 tau_l2=0
+HiSpID residual mode=4 component=1 initial_l2=9.9348491836046396e-06 remaining_l2=1.0995301865236066e-08 tau_l2=0
+HiSpID residual mode=4 component=2 initial_l2=1.9201631923432884e-05 remaining_l2=5.6852642412778456e-08 tau_l2=0
+HiSpID residual mode=4 component=3 initial_l2=1.9755163709146418e-05 remaining_l2=5.3033417493618105e-08 tau_l2=0
+HiSpID residual mode=5 component=0 initial_l2=2.2698224217451321e-07 remaining_l2=3.6326701852414961e-10 tau_l2=1.3238679338491501e-20
+HiSpID residual mode=5 component=1 initial_l2=2.1604121079692002e-06 remaining_l2=5.2693465894890254e-09 tau_l2=5.9508961131847188e-20
+HiSpID residual mode=5 component=2 initial_l2=7.640512466596988e-06 remaining_l2=8.936476061784839e-09 tau_l2=1.1586495698151572e-19
+HiSpID residual mode=5 component=3 initial_l2=7.3998137700878725e-06 remaining_l2=9.1669485695488252e-09 tau_l2=1.2385551267824136e-19
+HiSpID residual mode=6 component=0 initial_l2=2.8160891730743643e-08 remaining_l2=3.827361422468937e-11 tau_l2=2.8920519691638263e-19
+HiSpID residual mode=6 component=1 initial_l2=2.5623317010382445e-07 remaining_l2=6.8146497503139634e-10 tau_l2=1.7850961351749113e-18
+HiSpID residual mode=6 component=2 initial_l2=6.9082268064270692e-07 remaining_l2=3.0778577259528153e-09 tau_l2=3.5491931899462035e-18
+HiSpID residual mode=6 component=3 initial_l2=7.1252486951701712e-07 remaining_l2=3.3471938458564508e-09 tau_l2=7.3957051437340566e-18
+HiSpID residual mode=7 component=0 initial_l2=4.3685605744118409e-09 remaining_l2=7.450183589851919e-12 tau_l2=2.3013346009659227e-23
+HiSpID residual mode=7 component=1 initial_l2=2.2395617740446058e-08 remaining_l2=2.6261518382662721e-10 tau_l2=4.4409748436919476e-22
+HiSpID residual mode=7 component=2 initial_l2=1.6091054763217703e-07 remaining_l2=4.4836017709670799e-10 tau_l2=7.6346823143259552e-22
+HiSpID residual mode=7 component=3 initial_l2=1.6607303195195896e-07 remaining_l2=4.347122336338142e-10 tau_l2=8.6789607224349732e-22
+HiSpID residual mode=8 component=0 initial_l2=3.2725597500198143e-09 remaining_l2=3.9433745181697663e-12 tau_l2=4.2726118237428231e-21
+HiSpID residual mode=8 component=1 initial_l2=3.4716610407097107e-09 remaining_l2=2.3449557051114104e-11 tau_l2=1.290024798369245e-19
+HiSpID residual mode=8 component=2 initial_l2=6.1369476630944532e-09 remaining_l2=8.088912918758166e-11 tau_l2=4.442350583065248e-20
+HiSpID residual mode=8 component=3 initial_l2=1.8276597982328431e-08 remaining_l2=1.5014137354805381e-10 tau_l2=1.2806177915462331e-20
+HiSpID action probe iterations=10 recurrence=1.9254207616727375e-07 true=1.9254207616727123e-07 relative=0.00088978151250449996
+HiSpID residual mode=0 component=0 initial_l2=3.5517789333263144e-08 remaining_l2=9.2970273899481005e-12 tau_l2=0
+HiSpID residual mode=0 component=1 initial_l2=4.4168780677370811e-08 remaining_l2=4.563716287116158e-11 tau_l2=0
+HiSpID residual mode=0 component=2 initial_l2=1.3126277704469897e-08 remaining_l2=2.3759345296456892e-11 tau_l2=0
+HiSpID residual mode=0 component=3 initial_l2=1.583366496906995e-08 remaining_l2=2.835657079063241e-11 tau_l2=0
+HiSpID residual mode=1 component=0 initial_l2=4.9660548393765009e-09 remaining_l2=2.9368409314565869e-12 tau_l2=0
+HiSpID residual mode=1 component=1 initial_l2=2.7112647578016682e-08 remaining_l2=3.8149026135306901e-11 tau_l2=0
+HiSpID residual mode=1 component=2 initial_l2=6.9165436002605663e-08 remaining_l2=7.2358997157881255e-11 tau_l2=0
+HiSpID residual mode=1 component=3 initial_l2=6.8899447299962948e-08 remaining_l2=7.5971771296554026e-11 tau_l2=0
+HiSpID residual mode=2 component=0 initial_l2=4.7156135312753117e-09 remaining_l2=2.2502255989079355e-12 tau_l2=0
+HiSpID residual mode=2 component=1 initial_l2=4.3235483492690367e-08 remaining_l2=5.7803076456944712e-11 tau_l2=0
+HiSpID residual mode=2 component=2 initial_l2=4.4724409052420803e-08 remaining_l2=4.4883785986349141e-11 tau_l2=0
+HiSpID residual mode=2 component=3 initial_l2=4.9003521637694858e-08 remaining_l2=4.7665576497654294e-11 tau_l2=0
+HiSpID residual mode=3 component=0 initial_l2=2.9413531579034284e-09 remaining_l2=2.5848402480154833e-12 tau_l2=0
+HiSpID residual mode=3 component=1 initial_l2=8.4026185655748989e-08 remaining_l2=6.9236515724003385e-11 tau_l2=0
+HiSpID residual mode=3 component=2 initial_l2=3.8799288222370714e-08 remaining_l2=3.0192946376254503e-11 tau_l2=0
+HiSpID residual mode=3 component=3 initial_l2=4.3324770896501933e-08 remaining_l2=2.8864613720876144e-11 tau_l2=0
+HiSpID residual mode=4 component=0 initial_l2=4.2144840696251356e-09 remaining_l2=3.6920346065292102e-12 tau_l2=0
+HiSpID residual mode=4 component=1 initial_l2=1.0995300578049876e-08 remaining_l2=1.6380530789328797e-11 tau_l2=0
+HiSpID residual mode=4 component=2 initial_l2=5.6852657169163649e-08 remaining_l2=4.5597992939750944e-11 tau_l2=0
+HiSpID residual mode=4 component=3 initial_l2=5.3033432617810335e-08 remaining_l2=4.6587912180597698e-11 tau_l2=0
+HiSpID residual mode=5 component=0 initial_l2=3.6332303203555495e-10 remaining_l2=1.8912226787089763e-13 tau_l2=1.1505599159285313e-23
+HiSpID residual mode=5 component=1 initial_l2=5.2693465892792094e-09 remaining_l2=4.6970846374671889e-12 tau_l2=6.3627344017631274e-22
+HiSpID residual mode=5 component=2 initial_l2=8.9364788047791338e-09 remaining_l2=1.3210104009212529e-11 tau_l2=8.4820665066202291e-22
+HiSpID residual mode=5 component=3 initial_l2=9.1669513166559315e-09 remaining_l2=1.2244989387548861e-11 tau_l2=1.4292310217366721e-21
+HiSpID residual mode=6 component=0 initial_l2=3.8271942362023522e-11 remaining_l2=3.7115001489155767e-14 tau_l2=6.5465437414494439e-22
+HiSpID residual mode=6 component=1 initial_l2=6.8146501637820868e-10 remaining_l2=1.4232043144269091e-12 tau_l2=4.2602568938336743e-21
+HiSpID residual mode=6 component=2 initial_l2=3.0778577283017667e-09 remaining_l2=2.8363898378306551e-12 tau_l2=3.8364832983035016e-21
+HiSpID residual mode=6 component=3 initial_l2=3.347193797056215e-09 remaining_l2=2.9705719794184408e-12 tau_l2=8.1895715627150986e-21
+HiSpID residual mode=7 component=0 initial_l2=7.3942410891046101e-12 remaining_l2=4.9362616530534825e-15 tau_l2=9.7039002756538792e-26
+HiSpID residual mode=7 component=1 initial_l2=2.6261517803664541e-10 remaining_l2=2.8558620720192497e-13 tau_l2=8.3246099194572267e-24
+HiSpID residual mode=7 component=2 initial_l2=4.4835994929400866e-10 remaining_l2=1.2269938175603448e-12 tau_l2=1.1379261771928812e-23
+HiSpID residual mode=7 component=3 initial_l2=4.3471208230211778e-10 remaining_l2=1.4179988724646391e-12 tau_l2=6.5447138839769249e-24
+HiSpID residual mode=8 component=0 initial_l2=3.9706569118093254e-12 remaining_l2=1.7218695680765713e-15 tau_l2=2.367964003910016e-24
+HiSpID residual mode=8 component=1 initial_l2=2.3449511936108876e-11 remaining_l2=1.3142538853353071e-13 tau_l2=7.4962644745923523e-23
+HiSpID residual mode=8 component=2 initial_l2=8.0889170463409757e-11 remaining_l2=9.4164922117078176e-14 tau_l2=4.5312514091049957e-23
+HiSpID residual mode=8 component=3 initial_l2=1.5014136018707842e-10 remaining_l2=8.1709679742526397e-14 tau_l2=6.4247746202736463e-23
+HiSpID action probe iterations=11 recurrence=1.8731766351021889e-10 true=1.8731766351023507e-10 relative=0.00097292935601033838
+HiSpID residual mode=0 component=0 initial_l2=9.296994857367717e-12 remaining_l2=1.0626004599022066e-14 tau_l2=0
+HiSpID residual mode=0 component=1 initial_l2=4.5636978510032332e-11 remaining_l2=2.784928002117934e-14 tau_l2=0
+HiSpID residual mode=0 component=2 initial_l2=2.3758768354065637e-11 remaining_l2=2.5989193068397805e-14 tau_l2=0
+HiSpID residual mode=0 component=3 initial_l2=2.8357014525664463e-11 remaining_l2=2.3362829255293646e-14 tau_l2=0
+HiSpID residual mode=1 component=0 initial_l2=2.936854039621788e-12 remaining_l2=2.1707499120961672e-15 tau_l2=0
+HiSpID residual mode=1 component=1 initial_l2=3.8148836801436851e-11 remaining_l2=3.027776695716832e-14 tau_l2=0
+HiSpID residual mode=1 component=2 initial_l2=7.2359180278034585e-11 remaining_l2=5.4295235005910549e-14 tau_l2=0
+HiSpID residual mode=1 component=3 initial_l2=7.59721941395346e-11 remaining_l2=5.9240968378320005e-14 tau_l2=0
+HiSpID residual mode=2 component=0 initial_l2=2.2501783359982458e-12 remaining_l2=9.3886097847497218e-16 tau_l2=0
+HiSpID residual mode=2 component=1 initial_l2=5.7803090879885495e-11 remaining_l2=5.3775530634243836e-14 tau_l2=0
+HiSpID residual mode=2 component=2 initial_l2=4.4883824853267293e-11 remaining_l2=4.8899580893702708e-14 tau_l2=0
+HiSpID residual mode=2 component=3 initial_l2=4.7665198065216815e-11 remaining_l2=4.7067899368161102e-14 tau_l2=0
+HiSpID residual mode=3 component=0 initial_l2=2.5848353957234959e-12 remaining_l2=1.590253478008118e-15 tau_l2=0
+HiSpID residual mode=3 component=1 initial_l2=6.9236497743905121e-11 remaining_l2=7.7769481041688464e-14 tau_l2=0
+HiSpID residual mode=3 component=2 initial_l2=3.0193011146059023e-11 remaining_l2=3.4744637089134394e-14 tau_l2=0
+HiSpID residual mode=3 component=3 initial_l2=2.8864657278416562e-11 remaining_l2=3.7573780902337504e-14 tau_l2=0
+HiSpID residual mode=4 component=0 initial_l2=3.6920501138629112e-12 remaining_l2=2.1252394621775999e-15 tau_l2=0
+HiSpID residual mode=4 component=1 initial_l2=1.6380543538853203e-11 remaining_l2=1.8453126242898112e-14 tau_l2=0
+HiSpID residual mode=4 component=2 initial_l2=4.5597965933466663e-11 remaining_l2=5.5636870260168761e-14 tau_l2=0
+HiSpID residual mode=4 component=3 initial_l2=4.6587953456244823e-11 remaining_l2=5.5122246788572178e-14 tau_l2=0
+HiSpID residual mode=5 component=0 initial_l2=1.891232088005716e-13 remaining_l2=5.465534298672528e-16 tau_l2=1.7467366112502097e-23
+HiSpID residual mode=5 component=1 initial_l2=4.6970650803511795e-12 remaining_l2=2.3878695215521261e-14 tau_l2=2.2149105045431977e-21
+HiSpID residual mode=5 component=2 initial_l2=1.321005264171402e-11 remaining_l2=7.9221753577829069e-15 tau_l2=3.9477236160274326e-21
+HiSpID residual mode=5 component=3 initial_l2=1.2245019332290939e-11 remaining_l2=8.3962295308296131e-15 tau_l2=3.6161620326408308e-21
+HiSpID residual mode=6 component=0 initial_l2=3.7136063199756724e-14 remaining_l2=5.9039833151149654e-17 tau_l2=3.6196079762041597e-22
+HiSpID residual mode=6 component=1 initial_l2=1.4232369636316551e-12 remaining_l2=1.7599245588580363e-15 tau_l2=6.5309995302431753e-21
+HiSpID residual mode=6 component=2 initial_l2=2.8364539886652656e-12 remaining_l2=7.116849815500894e-15 tau_l2=1.1551081723026514e-20
+HiSpID residual mode=6 component=3 initial_l2=2.9705997281144769e-12 remaining_l2=7.4501687536492677e-15 tau_l2=3.907737865842668e-21
+HiSpID residual mode=7 component=0 initial_l2=4.9517696638972116e-15 remaining_l2=1.3222040284691422e-17 tau_l2=2.3635751021894379e-25
+HiSpID residual mode=7 component=1 initial_l2=2.8558637404985056e-13 remaining_l2=6.102775391821014e-16 tau_l2=2.0344676326862027e-23
+HiSpID residual mode=7 component=2 initial_l2=1.2270233141773644e-12 remaining_l2=1.0910853244095425e-15 tau_l2=3.7406336044233736e-23
+HiSpID residual mode=7 component=3 initial_l2=1.4180018004721887e-12 remaining_l2=1.4532825008549207e-15 tau_l2=2.9400738746928381e-23
+HiSpID residual mode=8 component=0 initial_l2=1.7331910701238061e-15 remaining_l2=2.7307720480705715e-17 tau_l2=2.7399448390902812e-24
+HiSpID residual mode=8 component=1 initial_l2=1.3142502824062596e-13 remaining_l2=2.5996202161714629e-16 tau_l2=1.2340415465449867e-22
+HiSpID residual mode=8 component=2 initial_l2=9.4230153891280153e-14 remaining_l2=1.8103199529352239e-16 tau_l2=1.2679937041503725e-22
+HiSpID residual mode=8 component=3 initial_l2=8.1819452066876683e-14 remaining_l2=3.9408324974398031e-16 tau_l2=1.1660876897451067e-22
+HiSpID action probe iterations=11 recurrence=1.8153074923240622e-13 true=1.8153074923240867e-13 relative=0.00096910598185649015
+{
+  "execution": "reference",
+  "library_sha256": "65140fd98a2ee4a0666e5b049230678457d649e6ab2de15bd063a90876546405",
+  "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+  "residual_scaling": "sin3_alpha_beta_with_axis_tau",
+  "binary_acceptance": false,
+  "driver_sha256": "2dfbdd6187bcaab8d27ad11afb6ccd44b9c30279d913d402e97823c19827c014",
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 5,
+    "krylov_iterations": 53,
+    "npoints": 4608,
+    "scaled_linf": [
+      1.2563785080267145e-15,
+      1.4726955447060112e-14,
+      9.893646084682441e-15,
+      1.3898791241841322e-14
+    ],
+    "unscaled_linf": [
+      6.007703467174586e-13,
+      2.7354525334461085e-12,
+      7.449731928410017e-12,
+      5.200006859785859e-12
+    ],
+    "seconds": 0.252370542,
+    "status": 0,
+    "error": ""
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.001,
+      0.0009847663820245277,
+      10.0
+    ],
+    [
+      1.0,
+      0.001,
+      0.0006682795288043403,
+      11.0
+    ],
+    [
+      2.0,
+      0.001,
+      0.0008897815125045,
+      10.0
+    ],
+    [
+      3.0,
+      0.001,
+      0.0009729293560103384,
+      11.0
+    ],
+    [
+      4.0,
+      0.001,
+      0.0009691059818564902,
+      11.0
+    ]
+  ],
+  "field_witness": {
+    "gamma": [
+      [
+        5.034814354104307,
+        -0.0007544324142747708,
+        -0.014940190180260236,
+        -0.0007544324142747626,
+        4.5761939520923045,
+        -0.10647774292026377,
+        -0.014940190180260236,
+        -0.10647774292026378,
+        4.726478040135912
+      ],
+      [
+        4.271622828785235,
+        0.05758885003696676,
+        -0.19101507101233503,
+        0.05758885003696675,
+        3.7274354894294772,
+        0.04273089368693265,
+        -0.19101507101233506,
+        0.042730893686932656,
+        3.9144888074459057
+      ],
+      [
+        3.285451572717957,
+        0.12156094197185477,
+        -0.11991072268699436,
+        0.12156094197185477,
+        3.5537884680143974,
+        -0.13462518934772827,
+        -0.11991072268699436,
+        -0.13462518934772827,
+        3.336314978227634
+      ],
+      [
+        3.274241499219892,
+        0.020579628996343656,
+        -0.0284242880882525,
+        0.020579628996343653,
+        3.1183332280899143,
+        -0.035565744837559886,
+        -0.0284242880882525,
+        -0.03556574483755988,
+        3.2059933775504574
+      ],
+      [
+        1.6978136656626341,
+        0.009477172430743417,
+        0.01079481943038668,
+        0.009477172430743417,
+        1.7018159976766947,
+        -0.0060654119366629535,
+        0.01079481943038668,
+        -0.0060654119366629535,
+        1.6881667571620793
+      ],
+      [
+        1.456180745560688,
+        0.0001123900126058979,
+        -0.0043601421416555675,
+        0.00011239001260589853,
+        1.4416664102722545,
+        0.009954129516558162,
+        -0.004360142141655568,
+        0.009954129516558162,
+        1.4555614988105336
+      ]
+    ],
+    "Kij": [
+      [
+        0.2678486124759771,
+        -1.6338058290131583,
+        -0.8193319371921755,
+        -1.6338058290131583,
+        0.29159960473060703,
+        -0.7832666679354161,
+        -0.8193319371921755,
+        -0.7832666679354161,
+        1.4757225484595313
+      ],
+      [
+        0.2872468537098293,
+        -1.1349722077547826,
+        0.8274267851537321,
+        -1.1349722077547824,
+        0.32295150915033977,
+        0.8386692091264826,
+        0.8274267851537321,
+        0.8386692091264826,
+        0.6904072691925955
+      ],
+      [
+        1.2907890224976013,
+        0.41644481116873094,
+        -0.39334906743924397,
+        0.41644481116873094,
+        0.14775258373834166,
+        1.3321165386950828,
+        -0.39334906743924386,
+        1.3321165386950833,
+        -0.08884378268083881
+      ],
+      [
+        0.4069760308360837,
+        0.7730163874489465,
+        0.6247746777748061,
+        0.7730163874489465,
+        0.2939366843641782,
+        -0.6917396734809349,
+        0.624774677774806,
+        -0.691739673480935,
+        0.5579305810078924
+      ],
+      [
+        -0.05081971350408895,
+        0.02477086269046623,
+        0.006910113499331807,
+        0.024770862690466224,
+        0.06840840619528642,
+        -0.015061668997381938,
+        0.006910113499331812,
+        -0.01506166899738194,
+        0.09192413385897302
+      ],
+      [
+        0.029738548153996826,
+        -0.015307713478555213,
+        0.025145337269039194,
+        -0.015307713478555213,
+        0.03127627304749078,
+        0.03215544393082856,
+        0.025145337269039194,
+        0.03215544393082856,
+        -0.009503043590955718
+      ]
+    ],
+    "psi": [
+      1.4783967306576842,
+      1.4006204872067671,
+      1.348364866603108,
+      1.3367869607904248,
+      1.139690853762607,
+      1.0971780689501303
+    ],
+    "conformal_metric": [
+      [
+        1.0539487371127947,
+        -0.00015792699280236036,
+        -0.0031274627951027004,
+        -0.00015792699280235863,
+        0.9579447219656061,
+        -0.022289219579655607,
+        -0.0031274627951027004,
+        -0.02228921957965561,
+        0.9894040198983273
+      ],
+      [
+        1.1099693854720687,
+        0.01496430350892034,
+        -0.049634738244846315,
+        0.014964303508920338,
+        0.9685638094516398,
+        0.011103504618137151,
+        -0.04963473824484632,
+        0.011103504618137153,
+        1.0171690971306202
+      ],
+      [
+        0.9939518778445658,
+        0.03677598767512004,
+        -0.036276744718485805,
+        0.03677598767512004,
+        1.0751321829172815,
+        -0.040728331188475526,
+        -0.036276744718485805,
+        -0.04072833118847553,
+        1.0093396491450843
+      ],
+      [
+        1.025325847583317,
+        0.006444492731722344,
+        -0.008901040831283718,
+        0.006444492731722342,
+        0.9765033095146739,
+        -0.01113738173533975,
+        -0.008901040831283718,
+        -0.011137381735339747,
+        1.0039540082692788
+      ],
+      [
+        1.0063331354815344,
+        0.005617337662320521,
+        0.006398337287559917,
+        0.005617337662320521,
+        1.0087054095457648,
+        -0.003595108895431651,
+        0.0063983372875599165,
+        -0.003595108895431651,
+        1.0006151913540922
+      ],
+      [
+        1.0048628994693698,
+        7.75566867525614e-05,
+        -0.0030087920664516187,
+        7.755668675256183e-05,
+        0.9948470294709032,
+        0.006869020537591914,
+        -0.003008792066451619,
+        0.006869020537591914,
+        1.0044355774581812
+      ]
+    ],
+    "Atilde": [
+      [
+        -0.9568162866006049,
+        -3.5707078780558232,
+        -1.7862020851968323,
+        -3.5707078780558232,
+        -0.7644222492633315,
+        -1.6793364136668478,
+        -1.7862020851968323,
+        -1.6793364136668478,
+        1.777629886216684
+      ],
+      [
+        -0.4230447952761782,
+        -2.2398181915805657,
+        1.667310027571141,
+        -2.2398181915805653,
+        -0.22731945691871852,
+        1.6353801816752505,
+        1.667310027571141,
+        1.6353801816752505,
+        0.45033169241810755
+      ],
+      [
+        1.507435726269441,
+        0.7260781455053981,
+        -0.6845096356789333,
+        0.7260781455053981,
+        -0.63925673645399,
+        2.4562974501592882,
+        -0.6845096356789331,
+        2.4562974501592887,
+        -1.0138519033199143
+      ],
+      [
+        -0.029548149171285995,
+        1.3766229915478372,
+        1.1230420019327485,
+        1.3766229915478372,
+        -0.19551247313882217,
+        -1.2279176364543767,
+        1.1230420019327483,
+        -1.227917636454377,
+        0.2559825316457512
+      ],
+      [
+        -0.11337880842902527,
+        0.03191034077835994,
+        0.008674336030731693,
+        0.031910340778359934,
+        0.04137436315419957,
+        -0.01939430405231174,
+        0.0086743360307317,
+        -0.019394304052311743,
+        0.0722996463399498
+      ],
+      [
+        0.015120676121261476,
+        -0.01842901712349281,
+        0.030331866290646575,
+        -0.01842901712349281,
+        0.0171779005752002,
+        0.038567360041956975,
+        0.030331866290646575,
+        0.038567360041956975,
+        -0.0321095471872562
+      ]
+    ],
+    "mean_curvature": [
+      0.4204440183114255,
+      0.3531876714131968,
+      0.42154616606621526,
+      0.388038965648651,
+      0.06443981635909232,
+      0.03538933808624343
+    ],
+    "correction": [
+      [
+        -0.017126363146889978,
+        0.016947167155104772,
+        0.015306455617392125,
+        0.00808964458664844
+      ],
+      [
+        -0.017454793421350537,
+        0.00040527946794502077,
+        -0.016548556440091233,
+        0.008321092326814527
+      ],
+      [
+        -0.020289310053520523,
+        -0.011629604065481596,
+        0.01770507758514123,
+        -0.023695943471998836
+      ],
+      [
+        -0.01971778514299458,
+        0.01813389981746435,
+        -0.023395490714038472,
+        -0.017811288999705813
+      ],
+      [
+        -0.009030109504416794,
+        0.0029875042440752615,
+        0.010011839882396283,
+        0.00527249404484077
+      ],
+      [
+        -0.005112088454050359,
+        0.007517418748336329,
+        0.006038522852531273,
+        -0.008882300022898066
+      ]
+    ],
+    "attenuation": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "dgamma": [
+      [
+        [
+          [
+            -5.7310913631242375,
+            -0.9475252146390734,
+            0.161379898582242
+          ],
+          [
+            -0.9475252146390734,
+            -5.138773591999519,
+            0.3956238199828368
+          ],
+          [
+            0.161379898582242,
+            0.39562381998283674,
+            -4.881997442272783
+          ]
+        ],
+        [
+          [
+            -7.4262719779337365,
+            0.576955311943661,
+            -0.2085431846349244
+          ],
+          [
+            0.576955311943661,
+            -6.794294401081151,
+            0.135043364066169
+          ],
+          [
+            -0.2085431846349244,
+            0.13504336406616904,
+            -7.038243223835655
+          ]
+        ],
+        [
+          [
+            -4.5161165516434405,
+            0.21402950408712562,
+            0.2569326766051746
+          ],
+          [
+            0.2140295040871256,
+            -2.28232688062296,
+            0.028025548994141895
+          ],
+          [
+            0.2569326766051746,
+            0.028025548994141856,
+            -3.3753278562325
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            2.7010474843487167,
+            0.6284070920660938,
+            -0.6399351546289145
+          ],
+          [
+            0.6284070920660939,
+            2.217908854846002,
+            -0.14163439991573737
+          ],
+          [
+            -0.6399351546289143,
+            -0.1416343999157374,
+            2.819679860689141
+          ]
+        ],
+        [
+          [
+            5.163902079220806,
+            -0.5058987904912329,
+            -0.36862524692708426
+          ],
+          [
+            -0.5058987904912328,
+            3.797716926328463,
+            0.4298710657325006
+          ],
+          [
+            -0.36862524692708426,
+            0.42987106573250067,
+            4.14100534198722
+          ]
+        ],
+        [
+          [
+            -3.234943161646723,
+            -0.2311143460228936,
+            0.0021249719758291343
+          ],
+          [
+            -0.23111434602289355,
+            -2.265381966239404,
+            0.20376739300804358
+          ],
+          [
+            0.002124971975829124,
+            0.20376739300804364,
+            -2.5457632863535182
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            2.396726950613722,
+            0.576388536349299,
+            -0.3001567007407638
+          ],
+          [
+            0.5763885363492988,
+            2.1752939885603477,
+            0.1082056196440361
+          ],
+          [
+            -0.3001567007407638,
+            0.10820561964403604,
+            1.399453826439038
+          ]
+        ],
+        [
+          [
+            -2.5557506493464364,
+            -0.04533152206866483,
+            0.4619806772146386
+          ],
+          [
+            -0.045331522068664816,
+            -2.9465255617636292,
+            0.6011944385854531
+          ],
+          [
+            0.4619806772146386,
+            0.6011944385854531,
+            -3.0780651056989847
+          ]
+        ],
+        [
+          [
+            3.509478724089608,
+            0.25779544271912885,
+            -0.11010600463449849
+          ],
+          [
+            0.25779544271912885,
+            4.448535312391853,
+            -0.12139221287789576
+          ],
+          [
+            -0.1101060046344984,
+            -0.12139221287789578,
+            3.785063014512956
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            -2.1386978648386146,
+            0.07217590758393354,
+            0.24740047496178674
+          ],
+          [
+            0.07217590758393354,
+            -1.849379086126843,
+            0.006190905900577913
+          ],
+          [
+            0.24740047496178677,
+            0.006190905900577898,
+            -2.3921782026771634
+          ]
+        ],
+        [
+          [
+            3.3107864330647363,
+            0.04871278488535774,
+            -0.044219282004116844
+          ],
+          [
+            0.04871278488535777,
+            2.913049876574322,
+            -0.2181215946173984
+          ],
+          [
+            -0.04421928200411683,
+            -0.2181215946173984,
+            2.770392045843742
+          ]
+        ],
+        [
+          [
+            2.13029250735876,
+            0.002984829105516108,
+            0.13155460461610904
+          ],
+          [
+            0.0029848291055161007,
+            2.241587109350145,
+            0.12166535244768337
+          ],
+          [
+            0.13155460461610902,
+            0.1216653524476834,
+            2.250555147681562
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            0.07210254988792895,
+            -0.0025252616617441642,
+            0.0021652906477021526
+          ],
+          [
+            -0.002525261661744165,
+            0.07826958386526105,
+            -0.005732011377222822
+          ],
+          [
+            0.0021652906477021526,
+            -0.005732011377222822,
+            0.07083388905425489
+          ]
+        ],
+        [
+          [
+            -0.10124609480432553,
+            0.003837295737788079,
+            -0.0028112252788411066
+          ],
+          [
+            0.00383729573778808,
+            -0.09648343504042706,
+            -0.0022036308918162145
+          ],
+          [
+            -0.0028112252788411066,
+            -0.0022036308918162145,
+            -0.09344581685427401
+          ]
+        ],
+        [
+          [
+            -0.05484789162529318,
+            -0.004543390305149638,
+            -0.0042148163748891125
+          ],
+          [
+            -0.004543390305149638,
+            -0.05571703562887974,
+            0.0031295035065905434
+          ],
+          [
+            -0.0042148163748891125,
+            0.003129503506590543,
+            -0.06198784456203187
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            -0.040603768376884404,
+            -0.005165046649175879,
+            0.0013354840776578151
+          ],
+          [
+            -0.005165046649175881,
+            -0.038607204504765145,
+            -8.126078496656221e-05
+          ],
+          [
+            0.0013354840776578151,
+            -8.126078496656216e-05,
+            -0.04308797985348396
+          ]
+        ],
+        [
+          [
+            -0.05874761469819385,
+            0.002230467728823659,
+            0.00039945193269616324
+          ],
+          [
+            0.002230467728823659,
+            -0.06108550623910188,
+            -0.0056301685092369986
+          ],
+          [
+            0.00039945193269616324,
+            -0.005630168509237001,
+            -0.05803723343555462
+          ]
+        ],
+        [
+          [
+            0.0889250063662518,
+            -0.0011926873465902582,
+            -0.0026971873575365644
+          ],
+          [
+            -0.0011926873465902582,
+            0.07935772427947313,
+            0.0019637657147522896
+          ],
+          [
+            -0.002697187357536564,
+            0.0019637657147522887,
+            0.08734421759572843
+          ]
+        ]
+      ]
+    ]
+  }
+}

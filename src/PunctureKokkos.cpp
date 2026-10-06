@@ -79,11 +79,12 @@ void Modal::prepare(){
  }
 #endif
 }
-void Modal::apply(View in,View out){
+void Modal::apply(View in,View out,bool projected){
  const int a=na,b=nb,N=np,V=nv,stride=a*b,total=stride*N*V;
  auto f=forward,scale=row_scale,mod=column,y=workspace,L=lu,T=transfer,lower_=lower,inv=inverse;auto rows=block,perm=permutation;auto native=native_blocks;
  const bool diag=diagonal_lower,output_modal=modal_output;
- Kokkos::parallel_for("modal Fourier projection",Range(0,stride*V),KOKKOS_LAMBDA(int line){
+ if(projected)copy(mod,in);
+ else Kokkos::parallel_for("modal Fourier projection",Range(0,stride*V),KOKKOS_LAMBDA(int line){
   int v=line%V,row=line/V;double sum=0,error=0;
   for(int k=0;k<N;k++){double z=in(V*(row+stride*k)+v)-error,t=sum+z;error=(t-sum)-z;sum=t;}
   double mean=sum/N;

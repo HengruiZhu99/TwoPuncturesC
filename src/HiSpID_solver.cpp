@@ -399,9 +399,8 @@ struct Sparse {
   const int half=mode_limit();cache.resize(half+1);
   for(int mode=0;mode<=half;mode++)cache[mode]=std::move(blocks[2*mode+1]);
  }
- void solve(const double*b,double*x)const{
-  int n=col.size();std::copy(b,b+n,x);
-  if(modal){
+ void project_rhs(const double*b,double*x)const{
+   if(!modal)throw std::runtime_error("Modal projection requires modal factors");
    const int N=modal->n[2],stride=modal->n[0]*modal->n[1];
    for(int line=0;line<stride;line++)for(int v=0;v<4;v++){
     double sum=0,error=0;for(int k=0;k<N;k++){double y=b[4*(line+k*stride)+v]-error,t=sum+y;error=(t-sum)-y;sum=t;}
@@ -412,7 +411,12 @@ struct Sparse {
      const int row=4*(line+mode*stride)+v;x[row]=value/row_scale[row];
     }
    }
-   const int half=N/2;
+ }
+ void solve(const double*b,double*x)const{
+  int n=col.size();std::copy(b,b+n,x);
+  if(modal){
+   project_rhs(b,x);
+   const int N=modal->n[2],half=N/2;
    for(int k=0;k<N;k++)for(int v=0;v<4;v++)
     blocks[factor_group(k<=half?k:k-half,v)].solve(x,k,v);
    return;
@@ -633,7 +637,12 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
   if(action_probe){
    std::vector<double>reference,device(s.ntotal);M.solve(rhs,reference);
    project_axisymmetry(s,reference.data(),true);
-   d.apply(b,solution);polar.apply(solution);project_axisymmetry(s,solution,true);
+   for(int matched=0;matched<2;matched++){
+   if(matched){
+    std::vector<double>projected(s.ntotal);M.project_rhs(rhs.data(),projected.data());
+    auto input=puncture::upload(projected,"matched modal RHS");d.apply(input,solution,true);
+   }else d.apply(b,solution);
+   polar.apply(solution);project_axisymmetry(s,solution,true);
    puncture::download(solution,device.data());
    const int np=s.local.n[2],stride=s.local.n[0]*s.local.n[1];
    for(int mode=0;mode<=np/2;mode++)for(int v=0;v<4;v++){
@@ -644,8 +653,9 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
       norm+=(long double)reference[q]*reference[q];error+=delta*delta;
       maximum=std::max(maximum,double(std::abs(delta)));
      }
-    std::fprintf(stderr,"HiSpID device inverse mode=%d component=%d reference_l2=%.17g difference_l2=%.17g difference_linf=%.17g\n",
-      mode,v,double(std::sqrt(norm)),double(std::sqrt(error)),maximum);
+    std::fprintf(stderr,"HiSpID %s inverse mode=%d component=%d reference_l2=%.17g difference_l2=%.17g difference_linf=%.17g\n",
+      matched?"matched projection":"device",mode,v,double(std::sqrt(norm)),double(std::sqrt(error)),maximum);
+   }
    }
    std::fflush(stderr);Kokkos::deep_copy(solution,0.);
   }
