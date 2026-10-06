@@ -3,10 +3,25 @@
 #include <array>
 #include <vector>
 #include <cmath>
+#include "HiSpID_jets.hpp"
+#ifndef HISPID_ANALYTIC_MATRICES
+#define HISPID_ANALYTIC_MATRICES 0
+#endif
 extern "C" {
 #include "TwoPunctures.h"
 }
 namespace hispid {
+// Chebyshev-root barycentric entries, using a trigonometric node difference
+// to avoid subtracting almost equal cosines near the endpoints. The second
+// derivative identity is D2_ij=2 D_ij (D_ii-1/(x_i-x_j)), i!=j.
+// Host builders use long double; device cache builders use double.
+template<class Real> HISPID_GEOMETRY_INLINE Real chebyshev_offdiagonal(int N,int i,int j,int order){
+ const Real pi=std::acos(Real(-1)),ti=pi*(Real(i)+Real(.5))/Real(N),tj=pi*(Real(j)+Real(.5))/Real(N);
+ const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+ const Real d=(std::abs(i-j)%2?Real(-1):Real(1))*std::sin(tj)/(si*dx);
+ return order==1?d:Real(2)*d*(-std::cos(ti)/(Real(2)*si*si)-Real(1)/dx);
+}
+
 /* Differentiation matrices for exactly the inherited interpolant. Reusing
  * them avoids repeated slow trigonometric transforms in every Krylov call.
  * Fourier D2 is formed separately: D*D would lose the cosine Nyquist mode. */
@@ -18,6 +33,16 @@ struct SpectralDerivatives {
   for(int axis=0;axis<3;axis++){
    const int N=n[axis]=shape[axis];D[axis].assign(N*N,0);D2[axis].assign(N*N,0);
    if(axis<2){
+#if HISPID_ANALYTIC_MATRICES
+    for(int i=0;i<N;i++){
+     long double diagonal=0,diagonal2=0;
+     for(int j=0;j<N;j++)if(j!=i){
+      const long double d=chebyshev_offdiagonal<long double>(N,i,j,1),d2=chebyshev_offdiagonal<long double>(N,i,j,2);
+      D[axis][i*N+j]=double(d);D2[axis][i*N+j]=double(d2);diagonal-=d;diagonal2-=d2;
+     }
+     D[axis][i*N+i]=double(diagonal);D2[axis][i*N+i]=double(diagonal2);
+    }
+#else
     std::vector<double>x(N),w(N);
     for(int i=0;i<N;i++){const double t=pi*(i+.5)/N;x[i]=-std::cos(t);w[i]=(i%2?-1:1)*std::sin(t);}
     for(int i=0;i<N;i++)for(int j=0;j<N;j++)if(i!=j){
@@ -31,6 +56,7 @@ struct SpectralDerivatives {
      double diagonal=0;for(int j=0;j<N;j++)if(i!=j)diagonal-=D2[axis][i*N+j];
      D2[axis][i*N+i]=diagonal;
     }
+#endif
    }else{
     for(int i=0;i<N;i++){
      D2[axis][i*N+i]=-(N*N+2.0)/12;

@@ -509,3 +509,21 @@ not the cause of the binary failure. The diagnostic, raw output, compiler and
 platform receipt are retained; Apple arm64 long double is not extended precision.
 The attempted remote step found an already-released allocation and ran no work.
 No production matrix construction or acceptance criterion has changed.
+
+### Opt-in analytic differentiation matrices
+
+`HISPID_ANALYTIC_MATRICES=ON` now constructs Chebyshev-root derivative matrices
+using barycentric off-diagonal identities and trigonometric node differences.
+It avoids the cubic D*D product; construction is quadratic. Host construction
+uses long double, device construction double, with the same mathematical
+entries and row-sum diagonals. Both shared libraries receive the same build
+option to keep shared inline definitions consistent. The default is OFF,
+retaining the existing path. The interpolant, maps, checkpoint parameterization
+and physical equations are unchanged.
+
+The independent modal automatic-differentiation control passes locally
+(maximum scaled error2.44e-13). The analytic option is experimental: a single
+production-path trial, with its small host/device cache controls, is declared
+in `validation/trumpet/analytic-matrices/plan.json`. Its independent physical
+errors must improve before considering adoption. No geometry-seed tests or
+backend benchmark matrix are repeated.

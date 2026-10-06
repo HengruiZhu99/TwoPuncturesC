@@ -9,6 +9,13 @@ void initialize_hispid_spectral(Operator&o,hispid::AxisDerivatives&axis,const in
   const int N=n[a];auto D=View("D kernel cache",N*N),D2=View("D2 kernel cache",N*N);
   o.spectral.D[a]=D;o.spectral.D2[a]=D2;
   if(a<2){
+#if HISPID_ANALYTIC_MATRICES
+   Kokkos::parallel_for("analytic Chebyshev caches",Range(0,N),KOKKOS_LAMBDA(int i){
+    double diagonal=0,diagonal2=0;
+    for(int j=0;j<N;j++)if(j!=i){double d=hispid::chebyshev_offdiagonal<double>(N,i,j,1),d2=hispid::chebyshev_offdiagonal<double>(N,i,j,2);D(i*N+j)=d;D2(i*N+j)=d2;diagonal-=d;diagonal2-=d2;}
+    D(i*N+i)=diagonal;D2(i*N+i)=diagonal2;
+   });
+#else
    View nodes("barycentric nodes",2*N);
    Kokkos::parallel_for("barycentric nodes",Range(0,N),KOKKOS_LAMBDA(int i){double t=Pi*(i+.5)/N;nodes(2*i)=-std::cos(t);nodes(2*i+1)=(i%2?-1:1)*std::sin(t);});
    Kokkos::parallel_for("first derivative cache",Range(0,N),KOKKOS_LAMBDA(int i){double diagonal=0;
@@ -16,6 +23,7 @@ void initialize_hispid_spectral(Operator&o,hispid::AxisDerivatives&axis,const in
    });
    Kokkos::parallel_for("second derivative cache",Range(0,N*N),KOKKOS_LAMBDA(int q){int i=q/N,j=q%N;double value=0;for(int k=0;k<N;k++)value+=D(i*N+k)*D(k*N+j);D2(q)=value;});
    Kokkos::parallel_for("constant derivative identity",Range(0,N),KOKKOS_LAMBDA(int i){double diagonal=0;for(int j=0;j<N;j++)if(j!=i)diagonal-=D2(i*N+j);D2(i*N+i)=diagonal;});
+#endif
    auto coordinate=View("mapped nodes",N),ma=View("first map",N),mma=View("second map",N),coefficient=View("Chebyshev coefficient cache",N*N);const int direction=a;
    o.spectral.coordinate[a]=coordinate;o.spectral.coefficient[a]=coefficient;first[a]=ma;second[a]=mma;
    Kokkos::parallel_for("mapped coordinate cache",Range(0,N),KOKKOS_LAMBDA(int i){double values[3];hispid::AxisDerivatives::node(direction,N,i,values);coordinate(i)=values[0];ma(i)=values[1];mma(i)=values[2];});

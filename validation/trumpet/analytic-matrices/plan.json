@@ -1,0 +1,11 @@
+{
+  "hypothesis": "Avoiding the rounded D*D product and endpoint cosine subtraction may reduce high-resolution differentiation error.",
+  "production_default_changed": false,
+  "option": "HISPID_ANALYTIC_MATRICES=ON",
+  "same_interpolant_and_free_data": true,
+  "checks": ["Independent manufactured modal derivatives", "Small host-cache and device-cache residual/JVP controls, without repeating seed checks", "One 256x512x16 moderate binary with the fixed independent physical observer"],
+  "comparison": "convergence/moderate256; the prior checkpoint supplies only an initial guess, with a fresh solve required",
+  "nonlinear_tolerance": 1e-12,
+  "physical_thresholds_unchanged": true,
+  "adoption": "Do not adopt based on the matrix microdiagnostic alone; compare the independent binary physical errors. No three-grid or horizon acceptance transfers automatically."
+}
