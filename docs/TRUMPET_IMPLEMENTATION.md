@@ -834,3 +834,19 @@ with fresh geometry and every original acceptance check. Times fall from
 670.69/1226.91s to35.49/50.42s at orders12/16, with mass/spin agreement within
 1e-12. Higher-order and quadrature checks remain pending. This is horizon
 measurement on diagnostic data, not physical acceptance of the spin binary.
+
+The spin160 horizon schedule59410814 is now complete and passed: spectral
+orders12/16/20 and independent quadrature20x60, with strict expansion criteria
+at every order. Final component mass=.50001785189996, Mirr=.37776358547565,
+coordinate chi=.98992952098846, expansion RMS=5.976e-9. Maximum mass-relative
+and spin-vector changes are1.106e-11 and3.788e-11. The final continuous retained
+surface enclosure margin after empirical refinement buffer is.03226304058.
+All retained surface, input-guess and log hashes were checked after local copy.
+Evidence: `spin-focused-map/horizon160-warm/surfaces/binary.json` and adjacent
+artifacts. The allocation exited normally. These successful measurements do
+not change the failing independent physical constraints of the input data.
+
+The Gamma10 radial-map control passed (image d51f846821ea7cdd5cd14399090634072ff4d157d0a16e4647bc9aaad3e1a26f);
+the targeted solve remains running under59410842. Largest fixed-observer errors
+from the preceding Gamma10 and spin checkpoints, explicitly separated from
+modified-region errors, are retained in `axisymmetric/error-localization.json`.
