@@ -14,8 +14,9 @@ from checkpoint_export import read_checkpoint
 p = argparse.ArgumentParser(description=__doc__)
 for name in ('library', 'source-library', 'checkpoint', 'output'):
     p.add_argument('--' + name, type=Path, required=True)
+p.add_argument('--compare-reference', action='store_true')
 a = p.parse_args()
-if a.output.exists():
+if a.output.exists() or a.output.with_suffix('.npz').exists():
     raise FileExistsError(a.output)
 c, values, meta = read_checkpoint(a.checkpoint)
 sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
@@ -53,5 +54,23 @@ out = dict(library_sha256=b.loaded_sha256, checkpoint_sha256=sha(a.checkpoint),
            azimuthal_point_energy_fraction=(energy.sum(axis=(1,2))/total).tolist(),
            endpoint_layers=layers, driver_sha256=sha(Path(__file__)),
            scope='weighted collocation residual localization only', binary_acceptance=False)
+if a.compare_reference:
+    # Sequential contexts avoid retaining both full geometry caches at once.
+    # Neither execution path is treated as an exact continuum reference.
+    with b.create(c, execution='reference', geometry='host') as s:
+        s.set_unknowns(values)
+        reference = s.residual(values)
+    assert np.isfinite(reference).all()
+    delta = reference-residual
+    out['reference_comparison'] = dict(
+        reference_l2=float(np.linalg.norm(reference)),
+        reference_linf=float(np.max(abs(reference))),
+        difference_l2=float(np.linalg.norm(delta)),
+        difference_linf=float(np.max(abs(delta))),
+        difference_relative_to_cuda=float(np.linalg.norm(delta)/np.sqrt(total)),
+        component_difference_l2=np.linalg.norm(delta.reshape(-1,4),axis=0).tolist(),
+        unknown_component_linf=np.max(abs(values.reshape(-1,4)),axis=0).tolist())
+    np.savez_compressed(a.output.with_suffix('.npz'), cuda=residual, reference=reference)
+    out['residual_arrays_sha256'] = sha(a.output.with_suffix('.npz'))
 a.output.write_text(json.dumps(out, indent=2) + '\n')
 print(json.dumps({k:out[k] for k in ('shape','residual_l2','residual_linf','component_energy_fraction','endpoint_layers')},indent=2))

@@ -1809,3 +1809,14 @@ rows as the sole remaining problem. Raw224/240 JSON and job ID retained in
 residual-localization/gpu-v1. Before changing the preconditioner, compare
 actual-state residual evaluation precision between CPU and CUDA: a fine-grid
 roundoff floor has not yet been excluded by the small-grid controls.
+
+Job59424759 compares the actual failed240 residual between CUDA and native
+CPU reference execution in sequential contexts of the same qualified image.
+No solve, tolerance change or preconditioner modification. This tests whether
+backend evaluation differences are significant relative to the retained
+1.48e-9 L2 residual, rather than extrapolating small-grid agreement. Neither
+path is treated as exact truth. The driver retains both raw residual arrays
+with a hash for later analysis, along with component differences and unknown
+magnitudes. Same source checkpoint hash and parameterization guards; output
+axis-tau-residual-reference-v1, script reference_perlmutter.sh. Previous
+localization allocation release was verified. Result pending.
