@@ -1765,3 +1765,11 @@ rejects LGMRES in the BY-specific Kokkos wrapper (its capacity formula supports
 only the existing two methods); this guard is not in the already dispatched
 source snapshot and is irrelevant to the HiSpID-only probe. It will be included
 in the next source build. BY's Python adapter continues to reject lgmres.
+
+CUDA qualification in live job59424143 passes221 shared Krylov checks. The
+separated-spectrum witness converges in90 iterations, independent residual
+4.32480e-13. Small augmented HiSpID solve:5Newton68Krylov,0.07273s solve,
+CPU/GPU sampled-field scaled difference2.57439e-13. Pinned CUDA image
+2cfec4d71e54542add9805ee544dc73fbe4f54c3af8948e8ba1aabfabc61cdf1.
+Control records retained in augmented-gmres/gpu-v1. The one-step240 probe
+has started; no fine-system convergence or physical acceptance claim yet.

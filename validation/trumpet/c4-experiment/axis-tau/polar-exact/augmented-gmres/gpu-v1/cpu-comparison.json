@@ -1,0 +1,7 @@
+{
+  "field_scaled_linf": 2.574388659612074e-13,
+  "cpu_image": "4c073aa0d7140fd22bf3d45e3ca183946c99e1e3a9466f678a168fab5b1d2f61",
+  "gpu_image": "2cfec4d71e54542add9805ee544dc73fbe4f54c3af8948e8ba1aabfabc61cdf1",
+  "passed": true,
+  "binary_acceptance": false
+}
