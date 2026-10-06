@@ -1145,3 +1145,45 @@ radial256 l8 expansion1.83132e-5, the floor decreases by about1.93x but remains
 unacceptable. Raw surface outputs, migration receipt and failure log are
 retained under `axial-factors/consumer-v1`; producer sampling witnesses remain
 on Perlmutter under that directory's `raw/` subdirectory.
+
+The C4 tighter-forcing retry59415408 also failed the first resumed Newton line
+search:45 Krylov iterations reached true linear relative residual9.07867e-4,
+but no trial was accepted. It completed postprocessing in200.466s and is retained
+as `c4-experiment/moderate192-linear001`. Tightening linear forcing alone does
+not fix this failure.
+
+An opt-in `HISPID_TRACE_NEWTON=1` diagnostic now records the actual linear
+relative residual, descent slope, each existing trial's nonlinear reduction,
+directional Taylor remainder, minimum psi and nonfinite count. Default behavior
+is unchanged; no additional trial is accepted or generated. A small two-step
+local control has bitwise-identical iterates with tracing off/on. The retained
+C4 iterate is replayed for one step on CUDA; this is not a new physical solve
+or a convergence claim. The first two remote builds stopped before numerical
+work: omitted CMake test sources, then macOS sidecars in the C-source glob.
+The isolated source copy was corrected; both failures are retained in
+`c4-experiment/newton-trace`, and job59415685 runs the corrected build/replay.
+
+The existing boost coefficients were inspected on compute step59415685.1
+without solving. Radial256-to512 final-eighth modal-P tails change from
+(2.35e-7,2.30e-5,4.25e-5,4.25e-5) to
+(7.73e-9,2.86e-6,2.27e-6,2.27e-6); radial512 polar tails are
+(2.55e-9,1.69e-7,7.41e-7,7.41e-7). These are auxiliary-coefficient tails,
+not independent physical errors; both meridional directions remain relevant.
+Raw envelopes and transform witnesses are `axial-factors/radial512-spectrum.json`.
+
+The traced C4 replay completed and reproduced the line-search failure. The
+linear residual ratio is9.71539e-4 and normalized descent slope-0.999999056;
+the modal-P step infinity norm is3.34603e12. All11 tested damping factors keep
+psi positive (minimum0.6294 at a full step), and all residual entries are finite.
+The nonlinear residual ratio decreases from2.93039e6 at damping1 to1.073274
+at the final permitted1/1024 step. The directional Taylor remainder decreases
+approximately linearly at small damping, consistent with a large quadratic
+nonlinearity. This identifies insufficient tested damping as a concrete next
+hypothesis; it does not yet prove that smaller steps converge.
+
+`HISPID_NEWTON_BACKTRACKS` is a build option, default10 preserving the original
+trial sequence and cutoff. An isolated24-halving build resumes the same C4
+iterate with the existing strict residual and physical bounds; the old source,
+images and failed results are untouched. Command is
+`c4-experiment/newton-trace/backtrack_perlmutter.sh`. Default local build and
+shell syntax checks pass. No new physical acceptance is claimed.

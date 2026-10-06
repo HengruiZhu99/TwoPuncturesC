@@ -20,11 +20,17 @@
 #include <numeric>
 #include <limits>
 #include <cstdio>
+#include <cstdlib>
 #include <gsl/gsl_linalg.h>
 #ifndef HISPID_ROW_POWER
 #define HISPID_ROW_POWER 6
 #endif
 static_assert(HISPID_ROW_POWER==3||HISPID_ROW_POWER==6,"row power must be3or6");
+#ifndef HISPID_NEWTON_BACKTRACKS
+#define HISPID_NEWTON_BACKTRACKS 10
+#endif
+static_assert(HISPID_NEWTON_BACKTRACKS>=10&&HISPID_NEWTON_BACKTRACKS<=40,
+              "Newton backtracking depth must be between 10 and 40");
 #ifndef HISPID_INFINITY_EQUILIBRATION
 #define HISPID_INFINITY_EQUILIBRATION 0
 #endif
@@ -806,6 +812,8 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES)
  s->resolved_options={int(sizeof(HiSpID_SolveOptions)),method,fixed_forcing};
  s->diag={};s->diag.npoints=s->npt;s->coefficients_valid=false;
  s->jvp_applications=s->preconditioner_applications=0;s->linear_history.clear();
+ const char*trace_setting=std::getenv("HISPID_TRACE_NEWTON");
+ const bool trace=trace_setting&&std::strcmp(trace_setting,"1")==0;
  std::vector<double>r(s->ntotal),rhs(s->ntotal),step,trial(s->ntotal),rt(s->ntotal);
  // The normalized vector FD matrices depend only on this solve's fixed
  // map/grid/mode. Move their factors between Newton steps; scalar factors
@@ -826,9 +834,38 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES)
    s->linear_history.push_back({double(it),forcing,s->last_gmres_relative,double(s->diag.krylov_iterations-krylov_before)});
    if(!linear_ok)break;
    bool accepted=false;double old=norm2v(r);
-   for(double damping=1;damping>=1.0/1024;damping*=.5){
+   std::vector<double>trace_action;
+   double trace_action_norm=0;
+   if(trace){
+    trace_action.resize(s->ntotal);jvp(*s,step.data(),trace_action.data());
+    trace_action_norm=norm2v(trace_action);
+    for(int i=0;i<s->ntotal;i++)rt[i]=r[i]+trace_action[i];
+    std::fprintf(stderr,"HiSpID Newton trace it=%d residual_l2=%.17g step_linf=%.17g linear_relative=%.17g slope=%.17g\n",
+      it,old,norminf(step),norm2v(rt)/old,dot(r,trace_action)/(old*old));
+    std::fflush(stderr);
+   }
+   for(int backtrack=0;backtrack<=HISPID_NEWTON_BACKTRACKS;backtrack++){
+    const double damping=std::ldexp(1.0,-backtrack);
     for(int i=0;i<s->ntotal;i++)trial[i]=s->values[i]+damping*step[i];
     residual(*s,trial.data(),rt.data());
+    if(trace){
+     double remainder=0,min_psi=std::numeric_limits<double>::infinity();int nonfinite=0;
+     for(int i=0;i<s->ntotal;i++){
+      const double q=rt[i]-r[i]-damping*trace_action[i];remainder+=q*q;
+      if(!std::isfinite(rt[i]))nonfinite++;
+     }
+#ifdef PUNCTURES_KOKKOS
+     if(s->device){
+      auto c=s->device->geometry;auto b=s->device->base;
+      Kokkos::parallel_reduce("Newton trace minimum psi",puncture::Range(0,s->npt),
+        KOKKOS_LAMBDA(int p,double&v){const double psi=c(p).psi+b(40*p);if(psi<v)v=psi;},Kokkos::Min<double>(min_psi));
+     }else
+#endif
+     for(int p=0;p<s->npt;p++)min_psi=std::min(min_psi,s->geometry[p].psi+s->basefields[p][0][0]);
+     std::fprintf(stderr,"HiSpID Newton trial it=%d damping=%.17g residual_ratio=%.17g directional_remainder=%.17g min_psi=%.17g nonfinite=%d\n",
+       it,damping,norm2v(rt)/old,std::sqrt(remainder)/(damping*trace_action_norm),min_psi,nonfinite);
+     std::fflush(stderr);
+    }
     if(norm2v(rt)<old*(1-1e-4*damping)&&std::isfinite(norminf(rt))){s->values=trial;r=rt;accepted=true;break;}
    }
    if(!accepted){hispid::last_error="Newton line search failed";residual(*s,s->values.data(),r.data());break;}

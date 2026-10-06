@@ -1,0 +1,49 @@
+{
+  "purpose": "Newton tracing does not change the accepted iterates",
+  "unknowns_bitwise_equal": true,
+  "rows": [
+    {
+      "converged": 0,
+      "newton_iterations": 2,
+      "krylov_iterations": 7,
+      "npoints": 2304,
+      "scaled_linf": [
+        0.00035976405858944514,
+        0.0010351241946747268,
+        0.0008930093775051782,
+        0.0010905252061179042
+      ],
+      "unscaled_linf": [
+        0.038132817551732145,
+        1.0540691878796593,
+        1.0233251691927732,
+        1.0888529158539708
+      ],
+      "seconds": 0.024813625,
+      "status": 1,
+      "error": "Newton iteration limit"
+    },
+    {
+      "converged": 0,
+      "newton_iterations": 2,
+      "krylov_iterations": 7,
+      "npoints": 2304,
+      "scaled_linf": [
+        0.00035976405858944514,
+        0.0010351241946747268,
+        0.0008930093775051782,
+        0.0010905252061179042
+      ],
+      "unscaled_linf": [
+        0.038132817551732145,
+        1.0540691878796593,
+        1.0233251691927732,
+        1.0888529158539708
+      ],
+      "seconds": 0.024347959,
+      "status": 1,
+      "error": "Newton iteration limit"
+    }
+  ],
+  "library_sha256": "6ab278fbd482e7c1da53975cea0367a5a4be7c6683f698dfa06904a5435776e6"
+}

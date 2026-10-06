@@ -1,0 +1,4 @@
+HiSpID Newton trace it=0 residual_l2=2.03556319838943 step_linf=679.9891875760494 linear_relative=0.079318412002936878 slope=-0.99370858951733976
+HiSpID Newton trial it=0 damping=1 residual_ratio=0.078511230542795019 directional_remainder=0.012363271207325891 min_psi=1.0016972498557939 nonfinite=0
+HiSpID Newton trace it=1 residual_l2=0.15981457155318174 step_linf=600.30929910601321 linear_relative=0.064187706510277498 slope=-0.99587993833294064
+HiSpID Newton trial it=1 damping=1 residual_ratio=0.066158743497449948 directional_remainder=0.020521342699825706 min_psi=1.001704825964679 nonfinite=0

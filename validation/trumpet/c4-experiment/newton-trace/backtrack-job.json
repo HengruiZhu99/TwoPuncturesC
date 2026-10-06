@@ -1,0 +1,9 @@
+{
+  "job_id": 59415954,
+  "backtracking_halvings": 24,
+  "default_halvings": 10,
+  "initial_checkpoint_sha256": "0f6ae4f8880fc7778a52d056c6cd7346899d1c0c9e8e560a9770bed6ea99aa90",
+  "purpose": "Diagnose whether the original Newton damping cutoff prevents progress",
+  "physical_acceptance": false,
+  "status_at_recording": "running build"
+}
