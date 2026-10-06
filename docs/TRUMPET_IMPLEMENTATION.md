@@ -1244,3 +1244,26 @@ is claimed. Scripts are `diagnose_trumpet_transfer.py` and
 `diagnose_trumpet_step_modes.py`; results are `continuation-v1/transfer.json`
 and `step-modes.json`. Both use the existing local C4 sampler image with the
 same explicit basis/maps; their image hashes are recorded.
+
+Source-precision probe59416928 completed on a Perlmutter CPU allocation,
+without an elliptic solve. `diagnose_trumpet_source_precision.cpp` uses the
+moderate free data and64 azimuthal samples on cylinders at x=0,2.7,3.5 with
+rho=0.1 down to0.0001. It compares the production cached scalar source with
+the same geometric jets assembled in64-mantissa-bit long double, recomputing
+curvature/laplacian before their existing double casts. At x=2.7,rho=0.001
+the m6 Fourier amplitudes are2.68e-16 cached versus1.44e-18 extended; at
+x=3.5,rho=0.003 they are6.44e-17 versus2.32e-19. At larger rho the extended
+coefficient follows approximately rho^6 before reaching its own roundoff
+floor. This demonstrates a scalar-source angular noise floor; it does not
+prove that this is the sole cause of the failed coupled Newton update.
+The mode-dependent inverse scaling contains `(a*sqrt(1-eta^2))^-r`, so C4
+can amplify such nonregular numerical components. Merely assembling the
+source in long double cannot be assumed to fix the finest-grid problem.
+
+Records, hashes and reproduction allocation script are in
+`c4-experiment/source-precision`. Source changes for a future remedy should
+address regular Fourier source evaluation near the axis and stable separation
+of background/correction terms, with a derivation and a focused unchanged-
+equation control. No source clipping, modal deletion, or acceptance relaxation
+has been introduced. Momentum-source precision remains unmeasured by this
+scalar-only probe.

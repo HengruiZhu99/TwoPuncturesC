@@ -1,0 +1,4 @@
+047d4728a32c11c4d2fd30eec88fa8fe794299144d2492bb5597b4eaf30c06cd  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/diagnose_trumpet_source_precision.cpp
+93538a97baa7c1cb87cce320201ffaeb3fef5f616cd474a21931fdcc7b4c758b  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-c4-backtrack/src/HiSpID_geometry_kernels.hpp
+64c70e38c81df40735b00885533e1ce309f963c91ce43d2598bde9b48be3b600  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-c4-backtrack/src/HiSpID_cache_kernels.hpp
+1827d01b15c42c1282c42b3f7b8a9d6ed1cca979e3343ae55bd9964c6748528d  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/c4-source-precision-v1/probe

@@ -151,6 +151,15 @@ these points is therefore excluded. Decomposing the accepted step identifies
 $m=6$ as the largest sampled perturbation ($\max|\Delta K_{ij}|=0.505$,
 $\max|\Delta\partial\gamma|=0.572$), motivating investigation of high-mode
 conditioning. No modes are removed from an accepted solution.
+A scalar-source probe on a Perlmutter CPU provides evidence of an angular
+roundoff floor. At $x=2.7$, $\rho=10^{-3}$, the cached $m=6$ Fourier
+amplitude is $2.68\times10^{-16}$; recombining geometry in extended precision
+gives $1.44\times10^{-18}$. At $x=3.5$, $\rho=0.003$, the corresponding
+values are $6.44\times10^{-17}$ and $2.32\times10^{-19}$. The source should
+have sixth-order radial decay where smooth; both evaluations eventually
+reach a precision floor. These components can be amplified by the inverse
+axis factor in the C4 preconditioner. This scalar-only diagnostic does not
+establish the cause of all coupled-system errors or qualify a remedy.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
