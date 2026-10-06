@@ -619,3 +619,21 @@ supply an explicitly image-bound remapped guess; a fresh solve and independent
 physical observer are required, with no inherited acceptance. It uses the
 original matrix construction and the selected host-geometry/CUDA-GMRES path.
 The separate Gamma10 result and its failure remain intact.
+
+### Focused-map spin result and targeted refinement
+
+Allocation59407833 completed the spin99 trial on maps(.03,3.5) at160x320x32.
+It converged internally in11 Newton/478 Krylov iterations,94.15s solve and
+315.16s total. Independent near H/M RMS are3.146e-6/1.438e-5; bulk are
+8.296e-5/3.002e-4. Relative to the original map at the same grid, these are
+49--295 times smaller, but **all four RMS still fail** the1e-6 threshold.
+Minimum sampled psi is1.0289440. No horizon or physical acceptance is claimed.
+Compact results and physical arrays are retained in `spin-focused-map/spin99_160`,
+with the comparison in `spin-focused-map/comparison.json`.
+
+This improvement justifies one targeted192x384x32 refinement on the same map
+and physical data, using the retained solution as an initial guess. The existing
+conservative aggregate allocation formula bounds this at61.032GiB (device27.559GiB),
+within the64GiB context limit; larger224x448x32 would exceed that limit and is
+not requested. See `refine-plan.json` and `refine_perlmutter.sh`. The Fourier
+resolution, production backend and all acceptance thresholds remain unchanged.

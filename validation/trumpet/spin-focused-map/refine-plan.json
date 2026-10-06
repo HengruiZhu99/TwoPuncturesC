@@ -1,0 +1,20 @@
+{
+  "case": "spin99",
+  "resolution": [
+    192,
+    384,
+    32
+  ],
+  "maps": [
+    0.03,
+    3.5
+  ],
+  "initial": "spin-focused-map/spin99_160/diagnostic.checkpoint",
+  "physical_free_data_changed": false,
+  "backend": "host long-double geometry, CUDA GMRES, restart64",
+  "reason": "Same-grid map trial reduces near/bulk errors by 49 to295 times. Refine both meridional dimensions by20 percent; retain azimuth after fixed-polynomial diagnostic.",
+  "aggregate_conservative_GiB": 61.03184509277344,
+  "device_conservative_GiB": 27.558700561523438,
+  "memory_limit_MiB": 65536,
+  "acceptance": "Unchanged; no acceptance inherited. One refinement does not establish three-grid convergence."
+}

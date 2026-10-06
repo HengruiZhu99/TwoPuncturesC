@@ -1,0 +1,27 @@
+{
+  "original_maps": [
+    0.2,
+    2.0
+  ],
+  "focused_maps": [
+    0.03,
+    3.5
+  ],
+  "resolution": [
+    160,
+    320,
+    32
+  ],
+  "acceptance": false,
+  "completed": true,
+  "rms_reduction_factors": {
+    "near": {
+      "H_rms": 88.16098468271547,
+      "M_rms": 49.43224590416854
+    },
+    "bulk": {
+      "H_rms": 295.4428006382619,
+      "M_rms": 57.578927150521544
+    }
+  }
+}
