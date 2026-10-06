@@ -1,0 +1,39 @@
+{"stage": "cuda_context_start", "elapsed_seconds": 0.08095045201480389}
+{"stage": "cuda_context_ready", "elapsed_seconds": 99.09540540294256}
+{"stage": "cuda_residual_complete", "elapsed_seconds": 99.19910630898084}
+{"stage": "reference_context_start", "elapsed_seconds": 99.60458570497576}
+{"stage": "reference_context_ready", "elapsed_seconds": 1616.0066461570095}
+{"stage": "reference_residual_complete", "elapsed_seconds": 1631.691494687926}
+{
+  "shape": [
+    240,
+    480,
+    16
+  ],
+  "residual_l2": 1.481382400533222e-09,
+  "residual_linf": 2.1364295974665134e-11,
+  "component_energy_fraction": [
+    0.011233409319670696,
+    0.365640599258271,
+    0.2663367994924475,
+    0.3567891919292945
+  ],
+  "endpoint_layers": {
+    "1": {
+      "radial": 5.107852468284819e-11,
+      "polar": 9.440501911490933e-14
+    },
+    "2": {
+      "radial": 4.988848854914634e-09,
+      "polar": 1.7941747049695792e-11
+    },
+    "4": {
+      "radial": 1.7088644189241896e-07,
+      "polar": 6.786945710954643e-10
+    },
+    "8": {
+      "radial": 4.991741828265614e-06,
+      "polar": 3.285729293264251e-08
+    }
+  }
+}

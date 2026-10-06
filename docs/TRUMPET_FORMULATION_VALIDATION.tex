@@ -211,8 +211,12 @@ $26.57\%$. A separate evaluation of the retained 240-grid nonlinear state
 finds interior residual concentration: the outermost eight radial and polar
 layers carry only $4.99\times10^{-6}$ and $3.29\times10^{-8}$ of total squared
 residual, respectively. These observations do not support an endpoint-only
-repair or another Krylov-method sweep. A same-checkpoint CPU/CUDA residual
-comparison is pending; neither backend is assumed to be exact.
+repair or another Krylov-method sweep. The same-checkpoint CPU/CUDA residual
+comparison gives $\|F_{\rm CPU}-F_{\rm CUDA}\|_2=2.11\times10^{-13}$, only
+$1.42\times10^{-4}$ of the CUDA residual norm $1.48\times10^{-9}$.
+Backend-specific evaluation differences therefore do not account for the
+dominant stalled residual; common discretization or precision errors remain
+possible. Neither backend is assumed to be exact.
 Final nonlinear and physical criteria remain unchanged. Binary acceptance
 remains open.
 

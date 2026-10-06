@@ -1839,3 +1839,17 @@ driver ae0e037. Output axis-tau-residual-reference-v2; the script accepts
 PUNCTURE_RESIDUAL_OUTPUT to preserve the first attempt. No solve or numerical
 parameter was changed. This repeats the unfinished diagnostic because of
 insufficient wall time, not an additional backend/performance sweep.
+
+Reference comparison59425181 COMPLETED27:29; session31839 exited0 and the
+allocation was released. CUDA setup/residual completed at99.20s; serial
+reference context became ready at1616.01s. Same checkpoint/image residuals:
+CUDA L2=1.481382400533222e-9, CPU L2=1.4813825027858145e-9;
+difference L2=2.1104656688840964e-13, Linf=2.5677291872716226e-15,
+relative to CUDA=1.4246596072185256e-4 (0.01425%). This does not support a
+dominant backend-specific evaluation error; agreement does not exclude
+common discretization/precision errors. No additional backend comparison is
+justified by these results. Next inspect the operator/preconditioner mismatch
+rather than another Krylov or tolerance sweep. Physical acceptance unchanged.
+Raw JSON/log/job ID are in residual-localization/reference-v2. Both arrays
+remain in remote axis-tau-residual-reference-v2/residual240.npz with SHA256
+1f52fef6a78aa4d8c9867c74ab99239474365c5089072aa8d2aad8c41fe8d414.
