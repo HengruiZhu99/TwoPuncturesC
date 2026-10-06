@@ -438,3 +438,13 @@ its image and source hashes are retained under `convergence/consumer`.
 The finest checkpoint remains diagnostic. A separate-process producer/CPU
 sampler comparison followed by three-order initial-time horizon measurements
 is the next independent obligation, not a transfer of physical acceptance.
+
+The finest checkpoint's separate-process sampler migration passed at all2454
+witness points: every recorded field and metric-gradient scaled difference is
+zero. The consumer is the pure reference CPU library, with no Kokkos runtime
+images loaded. The report is retained in `convergence/horizon256/migration.json`;
+raw producer/consumer arrays remain in the report's Perlmutter artifact paths.
+Allocation59406161 then loaded that diagnostic checkpoint into the full AthenaK
+pgen, reporting ADM-to-Z4c roundtrip relative error4.13e-16 and16-thread horizon
+geometry. Horizon convergence and enclosure remain pending; successful import
+alone does not qualify them.
