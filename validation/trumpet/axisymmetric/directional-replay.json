@@ -1,0 +1,97 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axisymmetric/gamma10_160/diagnostic.checkpoint",
+    "file_sha256": "d0b8776e13aa6997b6720567f2e5cfc0b807ecd1ba97821a8a0dd4cce8924e8f",
+    "source_library_sha256": "fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "driver_sha256": "df44a867a7c9d8a59a0fba82544b4a5121b48712a5b73893076e101cfc337750",
+  "rows": [
+    {
+      "refined_axis": 0,
+      "resolution": [
+        192,
+        320,
+        8
+      ],
+      "seconds": 27.571839903015643,
+      "native_equivalent": {
+        "near": {
+          "count": 162112,
+          "component_rms": [
+            0.003178594451054627,
+            0.006443368265418997,
+            0.0014791094362924264,
+            0.0014791094362924294
+          ],
+          "component_linf": [
+            0.01803697699517091,
+            0.03114554236168727,
+            0.017592599688255845,
+            0.017592599688255845
+          ]
+        },
+        "bulk": {
+          "count": 252576,
+          "component_rms": [
+            0.00044117744593286904,
+            0.002054904644197112,
+            0.0003489444439243351,
+            0.0003489444439243347
+          ],
+          "component_linf": [
+            0.003555838051960942,
+            0.015222308269769554,
+            0.006758437968724923,
+            0.006758437968724922
+          ]
+        }
+      }
+    },
+    {
+      "refined_axis": 1,
+      "resolution": [
+        160,
+        384,
+        8
+      ],
+      "seconds": 27.168282667989843,
+      "native_equivalent": {
+        "near": {
+          "count": 162000,
+          "component_rms": [
+            0.00017220529879362646,
+            1.8980936528618485e-05,
+            1.2357109111003592e-05,
+            1.2357109111003614e-05
+          ],
+          "component_linf": [
+            0.0010406814583554436,
+            0.000135757464322523,
+            9.033934622514778e-05,
+            9.033934622514734e-05
+          ]
+        },
+        "bulk": {
+          "count": 252368,
+          "component_rms": [
+            2.7615355638151848e-05,
+            2.015690655271773e-05,
+            3.725503879879286e-06,
+            3.725503879879282e-06
+          ],
+          "component_linf": [
+            0.00035838895984158437,
+            0.0001230331854580872,
+            6.520793027784251e-05,
+            6.520793027784254e-05
+          ]
+        }
+      }
+    }
+  ],
+  "binary_acceptance": false
+}

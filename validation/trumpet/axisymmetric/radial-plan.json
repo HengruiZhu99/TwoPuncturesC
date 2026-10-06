@@ -1,0 +1,18 @@
+{
+  "case": "gamma10",
+  "resolution": [
+    256,
+    320,
+    8
+  ],
+  "maps": [
+    0.03,
+    3.5
+  ],
+  "axisymmetric": true,
+  "job": 59410256,
+  "physical_free_data_changed": false,
+  "source_checkpoint": "axisymmetric/gamma10_160/diagnostic.checkpoint",
+  "reason": "Halved finite-difference step leaves errors unchanged; fixed-polynomial radial replay is much worse than polar replay, especially x momentum.",
+  "acceptance": "Full unprojected nonlinear and independent physical requirements unchanged. One radial refinement is not a convergence sequence."
+}

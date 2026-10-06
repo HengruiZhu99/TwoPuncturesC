@@ -794,3 +794,17 @@ the dominant off-grid physical errors; the spatial accuracy problem remains.
 The result, arrays and comparison are retained under `axisymmetric/gamma10_160`
 and `axisymmetric/comparison.json`. No Gamma10 physical or horizon acceptance
 is claimed, and no stopping threshold was changed.
+
+The converged axial Gamma10 checkpoint was re-observed at half the finite-
+difference step: near H/M RMS3.63954e-3/5.24243e-2 and bulk2.61808e-5/3.74101e-4
+remain essentially unchanged. The observer step is not the dominant error.
+Fixed-polynomial replay59409707 separately refines radial160->192 and
+polar320->384. Near native-equivalentx-momentum RMS is6.443e-3 versus1.898e-5
+(about339 times larger in radial replay); bulk is2.055e-3 versus2.016e-5.
+No new nonlinear solve was used for either diagnostic. Evidence is retained
+in `axisymmetric/stencil.json` and `axisymmetric/directional-replay.json`.
+
+This motivates a single radial refinement to256x320x8, retaining maps, physical
+data, symmetry option, polar/azimuthal resolution and all tolerances. It is
+running under59410256. Commands and decision are in
+`axisymmetric/refine_radial_perlmutter.sh` and `radial-plan.json`.
