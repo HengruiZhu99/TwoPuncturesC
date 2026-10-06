@@ -1289,3 +1289,18 @@ A single-GPU shared job59417000 builds the same opt-in path and replays one
 Newton step from the original192-grid C4 iterate. It is bounded diagnostic
 work, with the existing preconditioner and24-halving option; no full solve
 or new physical acceptance is implied.
+
+The stable-source CUDA build59417000 succeeded, but its Python replay stopped
+before numerical work because the system interpreter lacks future annotations.
+The reproduction script now explicitly loads cray-python/3.12.12; all build
+and failure logs are preserved in `stable-source/gpu-v1`. Retry59417104 reused
+the image and completed in1:32. Its one Newton step used42 Krylov iterations,
+true linear residual9.62332e-4 and14.676s solve time. The step maximum remains
+1.63204e12; first accepted damping is1/2048, with residual ratio0.999574880.
+Thus scalar-source rearrangement alone does not cure the large-update behavior
+and does not justify a new full solve. Results are `stable-source/gpu-v2`;
+image316cc298e84f39c0d26fdabce6068f09d088fbd12f71ce7e165f494decb89e87.
+It remains opt-in, with no production or physical acceptance. No allocation
+from these two jobs remains active. Further work should address representation
+and preconditioner conditioning, retaining exact axis regularity rather than
+repeating precision-only or damping trials.

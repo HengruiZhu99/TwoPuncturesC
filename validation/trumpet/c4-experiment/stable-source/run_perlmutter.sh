@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+module load cray-python/3.12.12
 : "${SLURM_JOB_ID:?compute allocation required}"
 PUNCTURE_ROOT=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005
 PUNCTURE_RUN="$PUNCTURE_ROOT/c4-stable-source-v1"

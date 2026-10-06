@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-c4-stable-source/validation/diagnose_trumpet_newton.py", line 11, in <module>
+    from hispid import Backend
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-c4-stable-source/python/hispid.py", line 6
+    from __future__ import annotations
+    ^
+SyntaxError: future feature annotations is not defined

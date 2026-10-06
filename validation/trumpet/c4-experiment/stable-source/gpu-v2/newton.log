@@ -1,0 +1,61 @@
+HiSpID Newton trace it=0 residual_l2=3.4787953508456364 step_linf=1632040562208.8137 linear_relative=0.00096233233819536536 slope=-0.99999907391675646
+HiSpID Newton trial it=0 damping=1 residual_ratio=200613.14655926742 directional_remainder=200613.23945787872 min_psi=0.70928314578341234 nonfinite=0
+HiSpID Newton trial it=0 damping=0.5 residual_ratio=18227.418278810641 directional_remainder=36454.853853009023 min_psi=0.88327252651357657 nonfinite=0
+HiSpID Newton trial it=0 damping=0.25 residual_ratio=3434.4680901370948 directional_remainder=13737.880026969651 min_psi=0.96868699453987439 nonfinite=0
+HiSpID Newton trial it=0 damping=0.125 residual_ratio=796.54022288924205 directional_remainder=6372.3249539502112 min_psi=1.0000066733758339 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0625 residual_ratio=195.35363305966911 directional_remainder=3125.6324399170344 min_psi=1.0000066717820204 nonfinite=0
+HiSpID Newton trial it=0 damping=0.03125 residual_ratio=48.610450360088151 directional_remainder=1555.2445833557597 min_psi=1.000006670975546 nonfinite=0
+HiSpID Newton trial it=0 damping=0.015625 residual_ratio=12.174624288902768 directional_remainder=776.66260742051236 min_psi=1.0000066705709378 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0078125 residual_ratio=3.1904810573418017 directional_remainder=388.20765950053772 min_psi=1.0000066703639046 nonfinite=0
+HiSpID Newton trial it=0 damping=0.00390625 residual_ratio=1.2514404219342095 directional_remainder=194.08744102173296 min_psi=1.000006670260388 nonfinite=0
+HiSpID Newton trial it=0 damping=0.001953125 residual_ratio=1.0157736380862883 directional_remainder=97.041438200816742 min_psi=1.0000066702086297 nonfinite=0
+HiSpID Newton trial it=0 damping=0.0009765625 residual_ratio=1.0001183863175862 directional_remainder=48.520375366657092 min_psi=1.0000066701827506 nonfinite=0
+HiSpID Newton trial it=0 damping=0.00048828125 residual_ratio=0.99957487972865477 directional_remainder=24.260130104747759 min_psi=1.0000066701698109 nonfinite=0
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/c4-experiment/moderate192/diagnostic.checkpoint",
+    "file_sha256": "0f6ae4f8880fc7778a52d056c6cd7346899d1c0c9e8e560a9770bed6ea99aa90",
+    "source_library_sha256": "a044e8762c16f27ae2400f2e1de60e043d498a5610b79b6f6dea6ba17717a379",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C4prolate_map_v4_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "library_sha256": "316cc298e84f39c0d26fdabce6068f09d088fbd12f71ce7e165f494decb89e87",
+  "driver_sha256": "bff2a70b9632173e739108e9ed240031691896f4e013e7b62bd43cdde2bcc0e2",
+  "linear_rtol": 0.001,
+  "binary_acceptance": false,
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 42,
+    "npoints": 1179648,
+    "scaled_linf": [
+      0.011884136287600757,
+      0.007207461223420149,
+      0.016008305409328065,
+      0.016176541342132943
+    ],
+    "unscaled_linf": [
+      0.9662101530058,
+      2.7329487996486024,
+      1.3008879057825862,
+      1.3905252056195134
+    ],
+    "seconds": 14.676179705,
+    "status": 1,
+    "error": "Newton iteration limit"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.001,
+      0.0009623323381955464,
+      42.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 45,
+    "preconditioner_applications": 42
+  }
+}

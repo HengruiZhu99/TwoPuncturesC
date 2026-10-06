@@ -166,8 +166,11 @@ factored form. Default behavior is unchanged. The small nonlinear control
 converges in 6 Newton/129 Krylov iterations, and its directional derivative
 check reaches relative error $1.00\times10^{-11}$. Converged sampled fields
 differ from the original small-grid result by $1.03\times10^{-7}$ in scaled
-maximum norm, so strict field equivalence is not claimed. A bounded GPU
-Newton replay is pending; this change has not been qualified for production.
+maximum norm, so strict field equivalence is not claimed. The bounded GPU replay completes in 42 Krylov iterations (14.7 s solve),
+but the modal-step maximum remains $1.63\times10^{12}$ and the first accepted
+damping is $1/2048$, with residual ratio $0.999575$. This does not cure the
+large-update behavior or justify a full solve. The option remains experimental
+and has not been qualified for production.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
