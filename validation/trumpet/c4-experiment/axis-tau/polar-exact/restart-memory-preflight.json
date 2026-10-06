@@ -1,0 +1,47 @@
+{
+  "kind": "allocation preflight, not a runtime measurement or benchmark",
+  "cached_bytes": 1984,
+  "cached_size_evidence": "C++ sizeof(hispid::Cached), stable scalar source disabled; all members are double arrays",
+  "native_image": "9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6",
+  "memory_limit_mib": 65536,
+  "source_sha256": {
+    "src/HiSpID_solver.cpp": "9a096de38a033d4b2d83540df4c90c144a99a2f1073b0b97d73fed3e19f7558a",
+    "src/HiSpID_tau.hpp": "ed80852a76bcc0f1bea0202702369e58572b7425ceec0c2e2b3fc67627e052f6",
+    "src/HiSpID_cache_kernels.hpp": "2f3c1fc8a55f60d5bbde94437cc114bb65f72e87b64e55d84dc20489bde9ff7d"
+  },
+  "rows": [
+    {
+      "shape": [
+        240,
+        480,
+        16
+      ],
+      "restart": 64,
+      "aggregate_bytes": 65193566208,
+      "aggregate_gib": 60.71623992919922,
+      "passes_aggregate_limit": true
+    },
+    {
+      "shape": [
+        256,
+        512,
+        16
+      ],
+      "restart": 32,
+      "aggregate_bytes": 68236488704,
+      "aggregate_gib": 63.5501823425293,
+      "passes_aggregate_limit": true
+    },
+    {
+      "shape": [
+        256,
+        512,
+        16
+      ],
+      "restart": 64,
+      "aggregate_bytes": 76826423296,
+      "aggregate_gib": 71.5501823425293,
+      "passes_aggregate_limit": false
+    }
+  ]
+}

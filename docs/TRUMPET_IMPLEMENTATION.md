@@ -1527,3 +1527,12 @@ Checkpointd78a1b3f8cc8d517f9ef33b88258981c3669ab438647a0c3d0ea2353b98ca735.
 Records `axis-tau/polar-exact/sequence-v2/moderate224`.
 The job has advanced to240. This is one qualifying grid, not completed
 three-grid convergence or horizon acceptance.
+
+While240 remains live in59421025, checked the existing allocation bound with
+actual Cached size1984 bytes (all-double structure, stable scalar sourceOFF).
+At240x480x16, restart64 estimates60.71624GiB; at256x512x16, restart32 estimates
+63.55018GiB, while restart64 would exceed64GiB. This corrects the deliberately
+overestimated4096-byte cache used in the initial preflight; no guard or native
+code is changed. `restart-memory-preflight.json` records source hashes and
+estimates, not measured peak memory. A larger restart is a feasible targeted
+retry if the live240 linear solve fails; it has not been applied to that run.
