@@ -311,10 +311,18 @@ struct Sparse {
  std::vector<double>row_scale;
  std::vector<ModalBlock>blocks;
  int scalar_factorizations=0,vector_factorizations=0;
+ // Axial unknowns use only m0 and m1. Higher output modes are removed by
+ // project_axisymmetry; alias their temporary solves to m0 instead of
+ // allocating/factoring matrices whose answers cannot enter the iteration.
+ int maximum_mode=-1;
+ int mode_limit()const{return maximum_mode<0?modal->n[2]/2:maximum_mode;}
+ int factor_group(int mode,int component)const{
+  return 2*(mode<=mode_limit()?mode:0)+(component?1:0);
+ }
  void factor(std::vector<ModalBlock>*vector_cache=nullptr){
   scalar_factorizations=vector_factorizations=0;
   if(modal){
-   const int na=modal->n[0],nb=modal->n[1],half=modal->n[2]/2;
+   const int na=modal->n[0],nb=modal->n[1],half=mode_limit();
    blocks.resize(2*(half+1));
    const bool reuse=vector_cache&&!vector_cache->empty();
    if(reuse&&vector_cache->size()!=size_t(half+1))throw std::runtime_error("Invalid modal vector cache");
@@ -362,7 +370,7 @@ struct Sparse {
  }
  void retain_vectors(std::vector<ModalBlock>&cache){
   if(!modal)throw std::runtime_error("Vector reuse requires modal blocks");
-  const int half=modal->n[2]/2;cache.resize(half+1);
+  const int half=mode_limit();cache.resize(half+1);
   for(int mode=0;mode<=half;mode++)cache[mode]=std::move(blocks[2*mode+1]);
  }
  void solve(const double*b,double*x)const{
@@ -380,7 +388,7 @@ struct Sparse {
    }
    const int half=N/2;
    for(int k=0;k<N;k++)for(int v=0;v<4;v++)
-    blocks[2*(k<=half?k:k-half)+(v?1:0)].solve(x,k,v);
+    blocks[factor_group(k<=half?k:k-half,v)].solve(x,k,v);
    return;
   }
   for(int i=0;i<n;i++)for(int k=0;k<diag[i];k++)x[i]-=val[i][k]*x[col[i][k]];
@@ -410,6 +418,8 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
 #endif
  Sparse mat;if(!compact){mat.col.resize(s.ntotal);mat.val.resize(s.ntotal);}mat.row_scale.resize(s.ntotal);mat.modal=&s.derivatives;
  const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],half=np/2;
+ mat.maximum_mode=s.axisymmetric?1:half;
+ const int factor_half=mat.mode_limit();
  const double ha=Pi/na,hb=Pi/nb;
  std::vector<AzimuthalAverage>averages;
  if(share_averages){
@@ -420,8 +430,8 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
   for(int j=0;j<nb;j++)for(int i=0;i<na;i++)averages[i+na*j]=azimuthal_average(s,i,j);
  }
  const bool reuse=compact&&vector_cache&&!vector_cache->empty();
- if(compact){mat.blocks.resize(2*(half+1));if(reuse&&vector_cache->size()!=size_t(half+1))throw std::runtime_error("invalid compact vector factors");
-  for(int mode=0;mode<=half;mode++)for(int v=0;v<2;v++){auto&B=mat.blocks[2*mode+v];
+ if(compact){mat.blocks.resize(2*(factor_half+1));if(reuse&&vector_cache->size()!=size_t(factor_half+1))throw std::runtime_error("invalid compact vector factors");
+  for(int mode=0;mode<=factor_half;mode++)for(int v=0;v<2;v++){auto&B=mat.blocks[2*mode+v];
    if(v&&reuse){B=std::move((*vector_cache)[mode]);continue;}
    B.na=na;B.nb=nb;B.lu.assign(size_t(na)*na*nb,0);B.transfer.assign(size_t(na)*na*nb,0);B.lower.assign(na*nb,0);B.upper.assign(na*nb,0);B.permutation.resize(na*nb);
   }
@@ -449,7 +459,7 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
    for(auto entry:stencil){int col=4*(entry.first+na*nb*k)+v;double value=entry.second;
     if(col==row&&v==0)value+=potential*D/mu;
     if(compact){
-     if(v>1||(v&&reuse))continue;
+     if(k>factor_half||v>1||(v&&reuse))continue;
      auto&block=mat.blocks[2*k+v];int ci=entry.first%na,cj=entry.first/na;
      if(cj==j)block.lu[(j*na+i)*na+ci]+=value;
      else if(ci==i&&cj==j-1)block.lower[j*na+i]+=value;
@@ -464,10 +474,10 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
   for(int k=half+1;k<np;k++)for(int row=0;row<4*na*nb;row++)mat.row_scale[row+4*na*nb*k]=mat.row_scale[row+4*na*nb*(k-half)];
 #ifdef PUNCTURES_KOKKOS
   std::mutex lock;std::string error;
-  Kokkos::parallel_for("host modal factorizations",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,2*(half+1)),[&](int group){if((group%2)&&reuse)return;try{mat.blocks[group].factor();}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
+  Kokkos::parallel_for("host modal factorizations",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,2*(factor_half+1)),[&](int group){if((group%2)&&reuse)return;try{mat.blocks[group].factor();}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
   Kokkos::DefaultHostExecutionSpace().fence();if(!error.empty())throw std::runtime_error(error);
 #endif
-  mat.scalar_factorizations=half+1;mat.vector_factorizations=reuse?0:half+1;
+  mat.scalar_factorizations=factor_half+1;mat.vector_factorizations=reuse?0:factor_half+1;
   if(vector_cache)vector_cache->clear();
  }else mat.factor(vector_cache);return mat;
 }
@@ -496,7 +506,7 @@ puncture::Modal device_preconditioner(const Sparse&M){
   d.permutation=puncture::Indices("modal pivots",permutation.size());using H=Kokkos::View<const int*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;Kokkos::deep_copy(d.permutation,H(permutation.data(),permutation.size()));
   d.row_scale=puncture::upload(M.row_scale,"modal scaling");d.forward=puncture::upload(M.modal->forward,"modal Fourier");
  }
- for(int k=0;k<p;k++)for(int v=0;v<4;v++)rows[4*k+v]=2*(k<=p/2?k:k-p/2)+(v?1:0);
+ for(int k=0;k<p;k++)for(int v=0;v<4;v++)rows[4*k+v]=M.factor_group(k<=p/2?k:k-p/2,v);
  d.block=puncture::Indices("modal groups",rows.size());
  using H=Kokkos::View<const int*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
  Kokkos::deep_copy(d.block,H(rows.data(),rows.size()));d.prepare();return d;

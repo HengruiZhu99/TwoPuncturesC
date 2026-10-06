@@ -960,3 +960,28 @@ not checked in all regions, not exported as initial data, and not accepted.
 It does not prove the true solution has zero m6. The next mathematical target
 is the mode's representation/conditioning and axis regularity; further uniform
 refinement or simply discarding m6 is not justified by this result.
+
+The radial512 production attempt59412030 reached its30-minute allocation limit
+without returning from the nonlinear solve. Its preliminary result records
+73.11s setup and successful initial-guess transfer, but no final Newton/Krylov
+history, solved array, checkpoint or physical diagnostics. Slurm reports TIMEOUT;
+the partial result and accounting are retained under `radial512`. This is a
+runtime failure, not evidence of nonlinear or physical convergence. The dependent
+CPU migration59412182 was cancelled after Slurm marked DependencyNeverSatisfied.
+
+An opt-in-axisymmetry optimization now retains only the m0/m1 preconditioner
+factor families, four groups instead of ten at nphi8. Higher temporary output
+modes alias existing factors and are discarded by the existing projection;
+active equations, full nonlinear residual acceptance and default configurations
+are unchanged. The small local contaminated-guess/unrestricted-solution control
+passes with the same4.73e-11 maximum scaled field/gradient difference as before.
+The CUDA build/control is running under59413039; no production speedup is yet
+claimed. Memory guards remain conservative and unchanged.
+
+CUDA allocation59413039 completed successfully. The reduced-factor image
+39904a219550a69d54461fb88456b07f0b3c138801f2343008f82363e255dfc6 passes the
+same small CPU/reference and CUDA axial equivalence control, including excluded
+initial modes and rejection of unsupported spin/transverse boosts. Complete
+build/source hashes and control records are retained in `axial-factors`. This
+qualifies the factor reduction for the next production attempt, not an accuracy
+or speedup claim for the unresolved radial512 physical case.

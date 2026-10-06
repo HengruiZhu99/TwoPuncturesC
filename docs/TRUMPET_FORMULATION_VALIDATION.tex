@@ -12,7 +12,7 @@ interface, portable checkpoint, and AthenaK consumer are implemented. Independen
 seed checks and selected horizon measurements pass. \textbf{No complete binary
 physical-validation claim is supported yet.} The moderate three-grid sequence
 fails its convergence requirement; both extreme binaries exceed the declared
-physical-constraint tolerances. A radial-512 boost solve is in progress.
+physical-constraint tolerances. A radial-512 boost attempt reached its allocation time limit before producing a checkpoint.
 
 \section{Construction and its limits}
 The reference is the $R_0=M$ stationary Kerr trumpet of Dennison, Baumgarte and
@@ -109,11 +109,17 @@ Boost $256\!\times\!320\!\times\!8$ & $8.23\,10^{-4}$ & $2.42\,10^{-2}$ & $4.46\
 \end{center}
 The moderate sequence fails despite two grids satisfying pointwise bounds:
 bulk errors do not decrease. Tighter nonlinear stopping and halved observer
-steps did not resolve this. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
+steps did not resolve this. A targeted replay localizes most of the finest-grid
+bulk Hamiltonian error to the scalar $m=6$ contribution: removing just its
+cosine/sine pair reduces the RMS from $2.62\times10^{-7}$ to
+$5.20\times10^{-9}$, while momentum is unchanged. The unmodified replay matches
+the saved result exactly. This is a sensitivity experiment, not an accepted
+filtered solution or proof that the true mode vanishes; its axis regularity
+and numerical conditioning need investigation. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
 Radial refinement from 160 to 256 improved its errors by factors 2--6.
 Stronger focusing, $\lambda=0.003$, worsened both independent errors and radial
 tails and is rejected. Radial-512 mapped-operator controls pass at normalized
-error $5.49\times10^{-10}$; the larger physical solve is pending.
+error $5.49\times10^{-10}$; the larger solve timed out before physical diagnostics were available.
 
 \section{Horizon measurements and computational cost}
 The finest moderate checkpoint passes import and horizon angular/quadrature

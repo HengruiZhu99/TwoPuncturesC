@@ -1,0 +1,126 @@
+{
+  "kind": "axisymmetric_full_system_equivalence",
+  "rows": [
+    {
+      "execution": "reference",
+      "axisymmetric": false,
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 11,
+        "krylov_iterations": 46,
+        "npoints": 2304,
+        "scaled_linf": [
+          4.621018625196835e-14,
+          6.860807819986355e-13,
+          7.445294453178392e-13,
+          8.959994527464178e-13
+        ],
+        "unscaled_linf": [
+          7.398170964734163e-11,
+          1.1900169738510158e-09,
+          4.619131743766047e-10,
+          4.6144066345732426e-10
+        ],
+        "seconds": 0.250805151,
+        "status": 0,
+        "error": ""
+      },
+      "field_scaled_errors": {
+        "gamma": 0.0,
+        "Kij": 0.0,
+        "psi": 0.0,
+        "conformal_metric": 0.0,
+        "Atilde": 0.0,
+        "mean_curvature": 0.0,
+        "correction": 0.0,
+        "attenuation": 0.0,
+        "dgamma": 0.0
+      },
+      "seconds": 2.029327819007449,
+      "passed": true
+    },
+    {
+      "execution": "reference",
+      "axisymmetric": true,
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 11,
+        "krylov_iterations": 40,
+        "npoints": 2304,
+        "scaled_linf": [
+          1.4546712635491162e-14,
+          8.589517120507777e-14,
+          1.4279958889815195e-13,
+          1.4230202935495282e-13
+        ],
+        "unscaled_linf": [
+          8.557776709494647e-11,
+          1.6961365645329352e-10,
+          1.9290169461783077e-10,
+          1.928839310494368e-10
+        ],
+        "seconds": 0.232594492,
+        "status": 0,
+        "error": ""
+      },
+      "field_scaled_errors": {
+        "gamma": 2.2589744030261733e-13,
+        "Kij": 7.377694046920983e-11,
+        "psi": 4.955879309937057e-14,
+        "conformal_metric": 0.0,
+        "Atilde": 8.755603442901141e-11,
+        "mean_curvature": 0.0,
+        "correction": 4.044181957289141e-11,
+        "attenuation": 0.0,
+        "dgamma": 5.685806049919505e-12
+      },
+      "seconds": 1.9994389310013503,
+      "passed": true
+    },
+    {
+      "execution": "kokkos",
+      "axisymmetric": true,
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 11,
+        "krylov_iterations": 40,
+        "npoints": 2304,
+        "scaled_linf": [
+          1.7373848393409254e-14,
+          8.147601635128734e-14,
+          9.482749327883131e-14,
+          9.432993373563216e-14
+        ],
+        "unscaled_linf": [
+          6.116351869422942e-11,
+          1.7782144528767983e-10,
+          1.9610745071794464e-10,
+          1.9611027937413136e-10
+        ],
+        "seconds": 0.052079895,
+        "status": 0,
+        "error": ""
+      },
+      "field_scaled_errors": {
+        "gamma": 2.2589744030261733e-13,
+        "Kij": 7.377693035036672e-11,
+        "psi": 4.955879309937057e-14,
+        "conformal_metric": 0.0,
+        "Atilde": 8.75560210114995e-11,
+        "mean_curvature": 0.0,
+        "correction": 4.044183323504403e-11,
+        "attenuation": 0.0,
+        "dgamma": 5.685806049919505e-12
+      },
+      "seconds": 0.561533382977359,
+      "passed": true
+    }
+  ],
+  "spinning_configuration_rejected": true,
+  "transverse_boost_rejected": true,
+  "forbidden_initial_guess_injected": true,
+  "passed": true,
+  "binary_acceptance": false,
+  "library_sha256": "39904a219550a69d54461fb88456b07f0b3c138801f2343008f82363e255dfc6",
+  "driver_sha256": "48e60912fd30fb6e3fc3906262cb9db6b5766905554d95540620b4c866e2db90"
+}
