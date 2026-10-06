@@ -1,0 +1,20 @@
+{
+  "residual_linf": 1.5612511283791264e-16,
+  "jvp_linf": 0.0,
+  "converged_field_scaled_linf": 1.0314406247815265e-07,
+  "directional_errors": [
+    {
+      "h": 0.02,
+      "relative_l2": 5.6052002831353075e-11
+    },
+    {
+      "h": 0.01,
+      "relative_l2": 1.4568795754426242e-11
+    },
+    {
+      "h": 0.005,
+      "relative_l2": 1.0023703556459538e-11
+    }
+  ],
+  "binary_acceptance": false
+}

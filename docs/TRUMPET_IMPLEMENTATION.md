@@ -1267,3 +1267,25 @@ of background/correction terms, with a derivation and a focused unchanged-
 equation control. No source clipping, modal deletion, or acceptance relaxation
 has been introduced. Momentum-source precision remains unmeasured by this
 scalar-only probe.
+
+An opt-in `HISPID_STABLE_SCALAR_SOURCE=ON` now combines the background
+Hamiltonian source in the geometry scalar type before narrowing, then
+evaluates correction terms with factored differences of powers. Writing
+psi=psi0+u and A=M+L, it uses S0-u*R/8-K^2*(psi^5-psi0^5)/12
++(2 M:L+L:L)/(8 psi^7)+(M:M)*(psi^-7-psi0^-7)/8. The two power differences
+are evaluated without background-sized subtraction. The PDE and analytic
+JVP are unchanged algebraically; finite-precision constant-source values
+change intentionally. Momentum assembly remains unchanged. The option is
+OFF by default; its16-byte-per-point cache extension is included in the
+Kokkos aggregate memory bound.
+
+Local12x24x16 C4 control converges in6 Newton/129 Krylov (baseline135);
+residual witness changes1.56e-16, JVP witness is bitwise unchanged, and a
+centered directional difference reaches relative L2 error1.00e-11. Converged
+six-point physical fields/gradients change by1.03e-7 in scaled maximum norm;
+this is reported as sensitivity, not a strict field-equivalence pass or
+physical validation. Records and checker are in `c4-experiment/stable-source`.
+A single-GPU shared job59417000 builds the same opt-in path and replays one
+Newton step from the original192-grid C4 iterate. It is bounded diagnostic
+work, with the existing preconditioner and24-halving option; no full solve
+or new physical acceptance is implied.

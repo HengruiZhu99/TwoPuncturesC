@@ -64,7 +64,20 @@ HI_INLINE void eval(const Cached&c,const Fields&u,double*out,const Fields*du=nul
  for(int i=0;i<3;i++)for(int k=0;k<3;k++)for(int d=0;d<10;d++)out[i+1]+=c.vec[i][k][d]*v[k+1][d];
  double A2=contraction(c,A,A);
  if(!du){
+#if HISPID_STABLE_SCALAR_SOURCE
+  // Exact differences of powers avoid subtracting two background-sized terms.
+  // L must be accumulated separately; A-M would lose small corrections.
+  double L[9]={};for(int a=0;a<9;a++)for(int k=0;k<3;k++)for(int d=0;d<4;d++)L[a]+=c.L[a][k][d]*u[k+1][d];
+  double sum5=0;for(int k=0;k<5;k++)sum5+=std::pow(psi,4-k)*std::pow(c.psi,k);
+  const double ratio=c.psi/psi;double sum7=1,term=1;
+  for(int k=1;k<7;k++){term*=ratio;sum7+=term;}
+  const double inverse_difference=-u[0][0]/psi*sum7/std::pow(c.psi,7);
+  out[0]+=c.g*(c.scalar_source-u[0][0]*c.R/8-c.K*c.K*u[0][0]*sum5/12
+    +(2*contraction(c,c.M,L)+contraction(c,L,L))/(8*std::pow(psi,7))
+    +c.seed_norm2*inverse_difference/8);
+#else
   out[0]+=c.g*(-psi*c.R/8-std::pow(psi,5)*c.K*c.K/12+A2/(8*std::pow(psi,7))+c.lapPsi);
+#endif
   for(int k=0;k<3;k++)out[k+1]+=c.g*(c.divM[k]-2.0/3*std::pow(psi,6)*c.gradK[k]);
  }else{
   double DA[9]={};for(int a=0;a<9;a++)for(int k=0;k<3;k++)for(int d=0;d<4;d++)DA[a]+=c.L[a][k][d]*v[k+1][d];
@@ -712,7 +725,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  if(execution&&!sampler_only){
   try{puncture::initialize();}catch(const std::exception&e){hispid::last_error=e.what();return nullptr;}
   const long double points=(long double)c->n[0]*c->n[1]*c->n[2],radial=(long double)c->n[0]*c->n[0]*c->n[1]*2*(c->n[2]/2+1);
-  const long double cpu=points*(3192+4*(5*12+48)+32*(2*c->krylov_restart+30)+16.L/c->n[2])+radial*16+2.L*(c->n[2]/2+1)*c->n[1]*24*c->n[0];
+  const long double cpu=points*(3192+16*HISPID_STABLE_SCALAR_SOURCE+4*(5*12+48)+32*(2*c->krylov_restart+30)+16.L/c->n[2])+radial*16+2.L*(c->n[2]/2+1)*c->n[1]*24*c->n[0];
   const long double device=points*(sizeof(Cached)+8.L*(40+40+8+64+15+8+4*(2*c->krylov_restart+5)))+radial*24;
   // Retained CPU data, device data (or extra host copies for OpenMP), lazy
   // maximum Krylov basis, packed factor mirrors and LU/inverse overlap.

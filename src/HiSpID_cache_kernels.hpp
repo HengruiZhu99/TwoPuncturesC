@@ -2,6 +2,9 @@
 #define HISPID_CACHE_KERNELS_HPP
 #include "HiSpID_geometry_kernels.hpp"
 #include <array>
+#ifndef HISPID_STABLE_SCALAR_SOURCE
+#define HISPID_STABLE_SCALAR_SOURCE 0
+#endif
 namespace hispid {
 #ifdef PUNCTURES_KOKKOS
 using CachedFields=Kokkos::Array<Kokkos::Array<double,10>,4>;
@@ -15,6 +18,9 @@ struct Cached {
  double lap[10],vec[3][3][10],L[9][3][4];
  double far_correction[10];
  double weight;
+#if HISPID_STABLE_SCALAR_SOURCE
+ double scalar_source,seed_norm2;
+#endif
 };
 /* First-order tensor algebra for divergence of L. The scalar/vector fields
  * carry second derivatives, but background metric/connection need only
@@ -66,6 +72,22 @@ template<class Real> HISPID_GEOMETRY_INLINE void cache(const BackgroundT<Real>&b
    c.M[3*i+j]=b.M[i][j].v;c.inv[3*i+j]=b.inv[i][j].v;
   }
  }
+#if HISPID_STABLE_SCALAR_SOURCE
+ // Combine before narrowing: separate casts of R and lap(psi) otherwise
+ // introduce angular noise amplified by high-mode inverse axis factors.
+ Real A2=0,lap=0;
+ for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+  Real h=b.psi.h[i+1][j+1];
+  for(int k=0;k<3;k++)h-=b.C[k][i][j].v*b.psi.d[k+1];
+  lap+=b.inv[i][j].v*h;
+  for(int k=0;k<3;k++)for(int l=0;l<3;l++){
+   A2+=b.inv[i][k].v*b.inv[j][l].v*b.M[i][j].v*b.M[k][l].v;
+   c.seed_norm2+=c.inv[3*i+k]*c.inv[3*j+l]*c.M[3*i+j]*c.M[3*k+l];
+  }
+ }
+ const Real psi=b.psi.v,K=b.K.v;
+ c.scalar_source=-psi*curvature(b.inv,b.C)/8-std::pow(psi,5)*K*K/12+A2/(8*std::pow(psi,7))+lap;
+#endif
  for(int d=0;d<10;d++){
   JetT<Real> u;if(d==0)u.v=1;else if(d<4)u.d[d]=1;else u.h[hessian_i(d-4)][hessian_j(d-4)]=u.h[hessian_j(d-4)][hessian_i(d-4)]=1;
   c.lap[d]=geometry_laplacian(b.opinv,b.opC,u);
@@ -80,6 +102,9 @@ template<class Real> HISPID_GEOMETRY_INLINE void cache(const BackgroundT<Real>&b
 
 HISPID_GEOMETRY_INLINE bool finite_cache(const Cached&c){
  if(!std::isfinite(c.psi)||!std::isfinite(c.R)||!std::isfinite(c.K)||!std::isfinite(c.g)||!std::isfinite(c.lapPsi)||!std::isfinite(c.weight))return false;
+#if HISPID_STABLE_SCALAR_SOURCE
+ if(!std::isfinite(c.scalar_source)||!std::isfinite(c.seed_norm2))return false;
+#endif
  for(int i=0;i<3;i++)if(!std::isfinite(c.divM[i])||!std::isfinite(c.gradK[i]))return false;
  for(int i=0;i<9;i++)if(!std::isfinite(c.M[i])||!std::isfinite(c.inv[i]))return false;
  for(int d=0;d<10;d++){
