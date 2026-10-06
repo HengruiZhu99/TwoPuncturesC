@@ -1,0 +1,14 @@
+{
+  "purpose": "Distinguish incomplete modal convergence under weighted stopping from representation error",
+  "baseline": "moderate256/diagnostic.checkpoint",
+  "resolution": [256, 512, 16],
+  "nonlinear_tolerance": 1e-14,
+  "baseline_tolerance": 1e-12,
+  "krylov": "gmres",
+  "restart": 64,
+  "linear_rtol": 0.1,
+  "changes_to_free_data_or_representation": false,
+  "changes_to_physical_acceptance": false,
+  "evidence": "Growing high-Fourier scalar P tails and unweighted collocation residual with resolution; observer half-step leaves bulk physical residual unchanged.",
+  "interpretation": "Compare the existing independent off-grid observer and modal tails. A failed tighter solve is retained. A successful single-grid improvement is diagnostic and does not establish three-grid convergence."
+}

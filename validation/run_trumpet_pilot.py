@@ -17,7 +17,7 @@ from checkpoint_export import write_checkpoint,read_checkpoint
 from prolong import for_backend,remap_modal
 from remapped_guess import maps_from_id,map_pair
 
-def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_source_library=None,case='moderate',separation=None,measured_mirr=None,krylov_restart=80):
+def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_source_library=None,case='moderate',separation=None,measured_mirr=None,krylov_restart=80,tolerance=None):
     output.mkdir(parents=True,exist_ok=False)
     b=Backend(str(library.resolve()))
     if case=='moderate':
@@ -25,6 +25,9 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
         c=trumpet_moderate(b,n,nphi)
     else:c=trumpet_target(b,case,n,nphi,separation,measured_mirr)
     c.memory_limit_mib=memory_mib;c.krylov_restart=krylov_restart
+    if tolerance is not None:
+        if not np.isfinite(tolerance) or tolerance<=0:raise ValueError("finite positive solve tolerance required")
+        c.tolerance=tolerance
     if npolar is not None:c.n[1]=npolar
     if any(k<4 or k>limit for k,limit in zip(c.n,(256,512,256))) or c.n[2]%2:raise ValueError("grid limits are256 radial,512 polar,256 azimuthal with even nphi; older images may impose smaller limits")
     result=dict(config={**as_dict(c),'seed_family':c.seed_family},library_sha256=b.library_sha256(),
@@ -77,6 +80,6 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
     result.update(completed=True,total_seconds=time.monotonic()-start,process_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     save();print(json.dumps({k:result[k] for k in ('diagnostics','physical','minimum_psi','total_seconds')},indent=2))
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);ap.add_argument('--memory-mib',type=int,default=2048);ap.add_argument('--npolar',type=int);ap.add_argument('--initial-source-library',type=Path);ap.add_argument('--case',choices=['moderate','spin99','gamma10'],default='moderate');ap.add_argument('--separation',type=float);ap.add_argument('--measured-mirr',type=float);ap.add_argument('--krylov-restart',type=int,default=80);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);ap.add_argument('--memory-mib',type=int,default=2048);ap.add_argument('--npolar',type=int);ap.add_argument('--initial-source-library',type=Path);ap.add_argument('--case',choices=['moderate','spin99','gamma10'],default='moderate');ap.add_argument('--separation',type=float);ap.add_argument('--measured-mirr',type=float);ap.add_argument('--krylov-restart',type=int,default=80);ap.add_argument('--tolerance',type=float,help='override nonlinear stopping tolerance; physical acceptance bounds remain fixed');a=ap.parse_args()
     if a.initial_source_library and not a.initial:ap.error('--initial-source-library requires --initial')
-    run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart)
+    run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart,a.tolerance)

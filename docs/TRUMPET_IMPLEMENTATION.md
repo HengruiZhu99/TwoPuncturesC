@@ -454,3 +454,14 @@ at2.619e-7 (original2.622e-7) and bulk M RMS at2.857e-7. The increasing bulk H
 error is therefore not explained by the observer step size. This targeted
 replay is retained in `convergence/stencil256.json`; it makes no new solve or
 acceptance claim. Near H changes modestly from1.703e-7 to1.726e-7.
+
+A retained-polynomial DCT diagnosis (`convergence/spectrum_modes.json`) finds
+vector-component final-eighth coefficient envelopes decreasing across the
+sequence, chiefly in m=4 modes. Scalar tails instead grow and are dominated
+by m=6 at the finest grid. These are modal P coefficients, not physical errors.
+The FFT convention is checked against direct Chebyshev sums on selected lines.
+The unweighted collocation residual maxima also grow, despite weighted stopping
+below1e-12. A single same-grid tighter-stop control is declared in
+`convergence/tolerance-plan.json`; no free data, basis or physical gate changes.
+It tests a specific possible source of modal contamination before another
+representation change. Its result is not yet known.
