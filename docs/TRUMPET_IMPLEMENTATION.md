@@ -1304,3 +1304,22 @@ It remains opt-in, with no production or physical acceptance. No allocation
 from these two jobs remains active. Further work should address representation
 and preconditioner conditioning, retaining exact axis regularity rather than
 repeating precision-only or damping trials.
+
+A drift-stencil audit finds a separate preconditioner issue: the centered
+discretization of a*d2+b*d has negative neighbor weights when |b|h/(2a)>1.
+For r=6 on192x384, the maximum interior ratio is4.33; six radial rows and
+six polar rows at each axis end have this sign reversal. The opt-in
+`HISPID_MONOTONE_PRECONDITIONER=ON` replaces a by max(a,|b|h/2) only in the
+finite-difference approximate inverse. This is the minimum diffusion needed
+for nonnegative drift/diffusion neighbor weights; it does not assert that
+the full potential-bearing matrix is an M-matrix. Spectral residuals, JVPs,
+source values, modal basis, stopping norms and physical acceptance are unchanged.
+The default remains OFF and the scalar-source experiment is OFF in this trial.
+
+The12x24x16 nonlinear control converges in5 Newton/98 Krylov (baseline6/135).
+Residual and JVP witnesses are bitwise identical. Converged sampled fields
+differ by1.12e-7 in scaled maximum norm at the existing stopping threshold;
+this does not qualify fine-grid equivalence or physical accuracy. Stencil
+audit, control and reproduction script are `c4-experiment/monotone-preconditioner`.
+Single-GPU shared job59417256 is building this variant for one replay from
+the original retained192-grid C4 iterate before any full-solve decision.

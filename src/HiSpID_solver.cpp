@@ -26,6 +26,9 @@
 #define HISPID_ROW_POWER 6
 #endif
 static_assert(HISPID_ROW_POWER==3||HISPID_ROW_POWER==6,"row power must be3or6");
+#ifndef HISPID_MONOTONE_PRECONDITIONER
+#define HISPID_MONOTONE_PRECONDITIONER 0
+#endif
 #ifndef HISPID_NEWTON_BACKTRACKS
 #define HISPID_NEWTON_BACKTRACKS 10
 #endif
@@ -466,8 +469,14 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
   const double al=ha*(i+.5),be=hb*(j+.5),sa=std::sin(al),sb=std::sin(be);
   const double lambda=hispid::AxisDerivatives::radial_stretch,sigma=.5*(1-std::cos(al)),d=1-(1-lambda)*sigma,dt=lambda/(d*d),ddt=2*(1-lambda)*lambda/(d*d*d),ta=.5*sa*dt,taa=.5*std::cos(al)*dt+.25*sa*sa*ddt;
   const double kappa=hispid::AxisDerivatives::angular_stretch,zeta=-std::cos(be),T=std::tanh(kappa),tanh=std::tanh(kappa*zeta),de=kappa*(1-tanh*tanh)/T,dde=-2*kappa*kappa*tanh*(1-tanh*tanh)/T,eb=de*sb,ebb=de*std::cos(be)+dde*sb*sb;
-  const double aa=ctt/(ta*ta),ab=ct/ta-ctt*taa/(ta*ta*ta);
-  const double ba=cee/(eb*eb),bb=ce/eb-cee*ebb/(eb*eb*eb);
+  const double ab=ct/ta-ctt*taa/(ta*ta*ta),bb=ce/eb-cee*ebb/(eb*eb*eb);
+  double aa=ctt/(ta*ta),ba=cee/(eb*eb);
+#if HISPID_MONOTONE_PRECONDITIONER
+  // Minimal added diffusion makes both off-diagonal drift/diffusion weights
+  // nonnegative. This changes only the approximate inverse, not the spectral
+  // residual or its JVP. High regularity powers otherwise give cell Pe > 1.
+  aa=std::max(aa,std::abs(ab)*ha/2);ba=std::max(ba,std::abs(bb)*hb/2);
+#endif
   add(1,0,aa/(ha*ha)+ab/(2*ha));add(-1,0,aa/(ha*ha)-ab/(2*ha));add(0,0,-2*aa/(ha*ha));
   add(0,1,ba/(hb*hb)+bb/(2*hb));add(0,-1,ba/(hb*hb)-bb/(2*hb));add(0,0,-2*ba/(hb*hb));
   for(int v=0;v<4;v++){

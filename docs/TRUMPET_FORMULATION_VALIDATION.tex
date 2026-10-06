@@ -171,6 +171,13 @@ but the modal-step maximum remains $1.63\times10^{12}$ and the first accepted
 damping is $1/2048$, with residual ratio $0.999575$. This does not cure the
 large-update behavior or justify a full solve. The option remains experimental
 and has not been qualified for production.
+A separate preconditioner audit finds negative centered-stencil neighbor
+weights near the axis: the interior cell ratio $|b|h/(2a)$ reaches $4.33$ for
+regularity exponent six. An opt-in monotone variant uses
+$a_{\rm prec}=\max(a,|b|h/2)$ in the approximate inverse only. Residual and
+JVP witnesses remain bitwise identical. Its small nonlinear control takes
+5 Newton/98 Krylov iterations versus 6/135 previously; a fine-grid GPU replay
+is pending. This is not yet a production or physical-accuracy qualification.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
