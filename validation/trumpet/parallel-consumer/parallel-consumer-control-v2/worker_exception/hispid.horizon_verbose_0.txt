@@ -1,0 +1,6 @@
+time=0.0000, cycle=0
+
+Searching for horizon 0
+center = (0.000000, 0.000000, 0.000000)
+r_mean = 0.112854
+ iter      area            mass         meanradius       minradius        hmean            Sx              Sy              Sz             S

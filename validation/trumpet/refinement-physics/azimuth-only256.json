@@ -1,0 +1,56 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/refinement-physics/moderate256/diagnostic.checkpoint",
+    "file_sha256": "669ac6f1c42505d5c010c0049420f401d79deea907f4a0f7582aa6fcf72a4b29",
+    "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_mapped_v2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "driver_sha256": "5532d461542a53113d344397ccd58138a2f6099cf283e40e49af692507406586",
+  "rows": [
+    {
+      "refined_axis": 2,
+      "resolution": [
+        256,
+        256,
+        32
+      ],
+      "seconds": 115.14152059296612,
+      "native_equivalent": {
+        "near": {
+          "count": 428192,
+          "component_rms": [
+            8.134102733041645e-10,
+            1.467223473325029e-10,
+            9.770528094298732e-10,
+            5.97892365091089e-10
+          ],
+          "component_linf": [
+            1.9683719498912338e-08,
+            2.0710237129056724e-09,
+            1.8419069969379402e-08,
+            9.496027695459544e-09
+          ]
+        },
+        "bulk": {
+          "count": 1164064,
+          "component_rms": [
+            3.2151827227266595e-11,
+            4.279477104968731e-11,
+            3.598031114153644e-11,
+            5.311509675077623e-11
+          ],
+          "component_linf": [
+            3.0017916521150025e-10,
+            3.123441088378108e-10,
+            5.958453528419205e-10,
+            8.156288577880201e-10
+          ]
+        }
+      }
+    }
+  ],
+  "binary_acceptance": false
+}

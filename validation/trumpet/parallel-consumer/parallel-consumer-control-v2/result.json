@@ -1,0 +1,81 @@
+{
+  "executable_sha256": "68636ac303761ca25c29a818f60a30c156a907707919289413eaa0652a5bf4e5",
+  "baseline_sha256": "2d00a58bfb3ce95fd709e8718029b960fa630b7f6157b4241f10899636660b5a",
+  "threads": 16,
+  "rows": [
+    {
+      "case": "matched",
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-openmp/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/parallel-consumer-control-v2/matched/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "problem/hispid_source_sha256=dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=8",
+        "fastflow/ntheta=16",
+        "problem/hispid_horizon_guess_scale=0.8",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "returncode": 0,
+      "seconds": 12.285924662952311,
+      "parallel_witness": true,
+      "summary": [
+        0.0,
+        0.0,
+        0.9999999999954251,
+        3.907317983311063e-18,
+        2.898943069042268e-18,
+        0.9899999999986343,
+        0.9899999999986343,
+        28.67815067668706,
+        1.953519404827454e-21,
+        -1.260383156074772e-09,
+        0.1410673597391817,
+        0.1410673597386452
+      ],
+      "invariant_scaled_difference": 2.63357719910113e-15,
+      "expansion_rms": 4.4198635780162426e-11,
+      "import": {
+        "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "acceptance": "analytic_seed",
+        "consumer_library_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "adm_z4c_relative_error": 5.551115123125783e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "trumpet_r0_m",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        }
+      },
+      "zero_evolution": true,
+      "passed": true
+    },
+    {
+      "case": "worker_exception",
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-openmp/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/parallel-consumer-control-v2/worker_exception/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "problem/hispid_source_sha256=dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=8",
+        "fastflow/ntheta=16",
+        "problem/hispid_horizon_guess_scale=0.8",
+        "problem/hispid_allow_library_migration=true",
+        "mesh/x1min=-0.05",
+        "mesh/x1max=0.05"
+      ],
+      "returncode": 1,
+      "seconds": 5.576245849952102,
+      "parallel_witness": true,
+      "passed": false
+    }
+  ],
+  "passed": false,
+  "driver_sha256": "c206ba6db7d441ec291a5556f4056624e3bf0d485cafdb548cf55768452b3675",
+  "angular_convergence_claim": false
+}

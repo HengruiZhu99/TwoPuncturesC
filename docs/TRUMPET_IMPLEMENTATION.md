@@ -279,11 +279,57 @@ The warm-started40x80x12 run also converges internally (9 Newton/41 Krylov,
 already stable to4.71e-5 between these two grids, which does not override the
 constraint failure. Setup for the refined run uses the selected16-thread
 OpenMP host construction and the same CUDA solver; no backend matrix is run.
-A directional replay of the retained polynomial will distinguish radial,
-polar and azimuthal underresolution before more nonlinear grids are launched.
+A directional replay of the retained 40-grid polynomial identifies radial
+and polar underresolution as dominant at that resolution; azimuthal replay
+errors are much smaller. This diagnostic does not establish the asymptotic
+resolution requirements of subsequent grids.
 
 `first-physics/`, `refinement-physics/` and `first-physics-receipt.json` retain
 original logs, checkpoints, coefficients, observers and source/image bindings.
 The refinement allocation59403087 completed and released. The target factory
 now specifies both requested separate equal-mass cases and accepts a measured
 component Mirr for the Gamma10 separation update; no target binary has run.
+
+
+## Further refinement and production horizon backend
+
+The selected CUDA solver and 16-thread host geometry produced these additional
+moderate-binary results. All remain diagnostic, with positive sampled psi and
+unmodified exterior stencils. RMS tolerances remain 1e-6 for both constraints.
+
+| Grid | Near H RMS | Near M RMS | Bulk H RMS | Bulk M RMS | Solve seconds |
+|---|---:|---:|---:|---:|---:|
+| 80 x 160 x 16 | 2.597e-5 | 9.208e-6 | 1.048e-7 | 1.267e-5 | 2.345 |
+| 160 x 256 x 16 | 2.248e-6 | 1.278e-6 | 2.184e-8 | 2.860e-6 | 16.856 |
+| 256 x 256 x 16 | 7.857e-7 | 1.312e-6 | 3.291e-7 | 6.880e-6 | 83.469 |
+
+The attempted 160 x 320 x 20 input exceeded the native per-dimension cap of256
+and failed before solving; its receipt is preserved. The runner now checks
+this limit and accepts an explicit polar dimension. No failed physical test
+has been reclassified as accepted. Refining the radial dimension alone from160
+to256 worsens bulk errors, so further blind refinement is stopped. Halving the
+independent observer step at256 changes H by at most1.71e-8 and M norm by
+1.42e-9; the momentum failure is not explained by observer truncation.
+The same-grid replay gives native physical-equivalent residual maxima below
+4.3e-13 in the exterior bins. Doubling only the azimuthal sampling of the fixed
+polynomial gives near component RMS below9.8e-10 and bulk below5.4e-11. Thus
+azimuthal aliasing is much smaller than the off-grid physical errors; further
+Fourier refinement or tighter Newton tolerances is not justified. The evidence
+points to unresolved radial/polar structure. This is a diagnostic, not a new
+nonlinear solve or a physical acceptance test. The first doubled-azimuth
+context was rejected by the conservative full-solve memory bound; the replay
+then used minimal Krylov controls because it performs no solve.
+The remote retained checkpoints are bound by hashes in each result record;
+compact physical arrays and result JSON are mirrored locally.
+
+The AthenaK direct native callback now has an opt-in parallel host path, with
+a serial cache warmup and worker-exception propagation. The existing spin.99
+lmax8 control took12.286s with16threads versus102.03s previously; invariant
+mass/spin/area agreement is2.634e-15 scaled and expansion RMS4.420e-11.
+This is one matched backend control, not a new angular or performance matrix.
+A negative callback test correctly aborts with no horizon data. Its original
+verifier incorrectly required the header-only summary file to be absent;
+`parallel-consumer/assessment.json` corrects that assertion from retained logs,
+without rerunning the numerical case. This changes no physical tolerance.
+The selected horizon backend is now this OpenMP consumer. Neither target
+binary is yet physically accepted; the moderate convergence gate is unresolved.

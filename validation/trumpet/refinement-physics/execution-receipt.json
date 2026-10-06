@@ -1,0 +1,33 @@
+{
+  "binary_acceptance": false,
+  "failures": [
+    {
+      "job": 59403414,
+      "case": "moderate160",
+      "reason": "Requested npolar320 exceeds native256 cap; no solve."
+    },
+    {
+      "job": 59403626,
+      "case": "parallel-consumer-control",
+      "reason": "Override parameter absent from input; application failed before horizon search. Fixed driver; numerical backend unchanged."
+    },
+    {
+      "job": 59404021,
+      "case": "stencil256",
+      "reason": "Python adapter path absent; observer did not start. Reissued with explicit PYTHONPATH in job59404054."
+    },
+    {
+      "job": 59404082,
+      "case": "azimuth-replay256",
+      "reason": "Same-grid replay completed; doubled-phi context rejected conservative full-solve memory bound. Retry uses minimum Krylov controls because no solve is performed."
+    }
+  ],
+  "completed_solve_jobs": {
+    "moderate80": 59403334,
+    "moderate160x256": 59403519,
+    "moderate256": 59403708
+  },
+  "observer_job": 59404054,
+  "completed_azimuth_replay_job": 59404156,
+  "all_listed_allocations_released": true
+}

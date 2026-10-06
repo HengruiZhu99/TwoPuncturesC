@@ -15,9 +15,11 @@ from physical import constraints,norms
 from checkpoint_export import write_checkpoint,read_checkpoint
 from prolong import for_backend
 
-def run(library,output,n,nphi,initial=None):
+def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None):
     output.mkdir(parents=True,exist_ok=False)
-    b=Backend(str(library.resolve()));c=trumpet_moderate(b,n,nphi)
+    b=Backend(str(library.resolve()));c=trumpet_moderate(b,n,nphi);c.memory_limit_mib=memory_mib
+    if npolar is not None:c.n[1]=npolar
+    if any(k<4 or k>256 for k in c.n) or c.n[2]%2:raise ValueError("native grid dimensions must be4..256 with even nphi")
     result=dict(config={**as_dict(c),'seed_family':c.seed_family},library_sha256=b.library_sha256(),
         kind='moderate_trumpet_diagnostic_pilot',binary_acceptance=False,completed=False,
         criteria=dict(exterior_HM_rms=1e-6,exterior_HM_max=1e-4),
@@ -55,4 +57,4 @@ def run(library,output,n,nphi,initial=None):
     result.update(completed=True,total_seconds=time.monotonic()-start,process_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     save();print(json.dumps({k:result[k] for k in ('diagnostics','physical','minimum_psi','total_seconds')},indent=2))
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);a=ap.parse_args();run(a.library,a.output,a.n,a.nphi,a.initial)
+    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);ap.add_argument('--memory-mib',type=int,default=2048);ap.add_argument('--npolar',type=int);a=ap.parse_args();run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar)
