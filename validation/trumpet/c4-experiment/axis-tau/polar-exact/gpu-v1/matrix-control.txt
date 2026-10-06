@@ -1,0 +1,2 @@
+5x8 pivoted=1 solution_error=2.44249065417534e-15 scaled_residual=7.8657032959504e-16 interleaved_leak=0
+12x24 pivoted=1 solution_error=6.77236045021345e-15 scaled_residual=1.86672838338058e-15 interleaved_leak=0

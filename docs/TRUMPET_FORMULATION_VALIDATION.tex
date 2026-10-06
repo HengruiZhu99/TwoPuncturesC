@@ -212,9 +212,10 @@ data, gives solution error below $6.7\times10^{-15}$. The small coupled CPU
 solve uses 53 Krylov iterations, preserves the residual/JVP witnesses bitwise,
 and agrees in sampled fields/gradients to $2.53\times10^{-13}$. Host/device
 allocation bounds include the additional response and Schur matrices.
-Shared-GPU job 59420201 checks this correction and then replays the fine-grid
-linear solve if the small control passes. No new horizon or binary acceptance
-is claimed.
+The CUDA small control also passes (5 Newton/54 Krylov, field/gradient
+agreement $2.82\times10^{-13}$). Shared-GPU job 59420201 has proceeded to the
+fine-grid linear replay; its result is pending. No new horizon or binary
+acceptance is claimed.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

@@ -1447,3 +1447,9 @@ relative difference2.53e-13. Records: `axis-tau/polar-exact`.
 Perlmutter shared-GPU job59420201 runs the matrix and small coupled GPU controls,
 then only on success the original fine-grid zero-state replay. No full binary
 or physical-convergence claim is made from these controls.
+
+The polar-correction CUDA control passed in job59420201:5 Newton/54 Krylov,
+field/gradient agreement2.82e-13 with the CPU result. Matrix control also
+passed. Image9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6;
+records `axis-tau/polar-exact/gpu-v1`. The job has entered the fine-grid replay;
+its terminal result is not yet available. Implementation commitede4316 pushed.
