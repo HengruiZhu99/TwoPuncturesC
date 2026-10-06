@@ -1,0 +1,8 @@
+{
+  "all_overlaid_sources_match": true,
+  "overlaid_file_count": 80,
+  "retained_historical_extra_files": [
+    "validation/check_trumpet_near_seed_refined.py"
+  ],
+  "note": "The isolated source retains historical standalone scripts. The initial equality audit stopped on a path absent locally; every overlaid current source is now checked explicitly. No historical file was removed."
+}
