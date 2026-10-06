@@ -1,0 +1,58 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate256/diagnostic.checkpoint",
+    "file_sha256": "c1d55c986b7409ac5891fe7bae2696db49b574a717a912d79dec959ff5218bc1",
+    "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_mapped_v2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "driver_sha256": "85a0891f71d2967e8024f03875d54b6d2de755874884e8fc5748477cfab03174",
+  "half_step_physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 1.7264299993425258e-07,
+      "H_max": 7.96144854930958e-07,
+      "M_rms": 1.3898101425462828e-07,
+      "M_max": 5.91244461856112e-07,
+      "M_components_rms": [
+        4.9347805048509326e-08,
+        5.5459972700078984e-08,
+        3.512035987853919e-08
+      ],
+      "M_components_max": [
+        1.1687169951962588e-07,
+        3.4118467443399576e-07,
+        1.86523855380522e-07
+      ],
+      "normalized_H_max": 2.8100197538845474e-06,
+      "normalized_M_max": 2.0965928876557192e-06
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 2.6189264468339463e-07,
+      "H_max": 1.070261614451607e-06,
+      "M_rms": 2.8570058706450175e-07,
+      "M_max": 8.715760605358936e-07,
+      "M_components_rms": [
+        3.226894042064174e-08,
+        1.3810669189512165e-07,
+        1.913963448518074e-07
+      ],
+      "M_components_max": [
+        9.859681970670751e-08,
+        5.514981580889517e-07,
+        7.148880830390005e-07
+      ],
+      "normalized_H_max": 0.0006603641477991567,
+      "normalized_M_max": 9.19431091295918e-05
+    }
+  },
+  "H_stencil_change_linf": 4.674845621721602e-08,
+  "Mnorm_stencil_change_linf": 7.511492185497891e-10,
+  "charge_radii": [],
+  "charges": [],
+  "charges_extrapolated": null,
+  "binary_acceptance": false
+}

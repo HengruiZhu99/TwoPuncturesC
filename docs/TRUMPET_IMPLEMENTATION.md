@@ -448,3 +448,9 @@ Allocation59406161 then loaded that diagnostic checkpoint into the full AthenaK
 pgen, reporting ADM-to-Z4c roundtrip relative error4.13e-16 and16-thread horizon
 geometry. Horizon convergence and enclosure remain pending; successful import
 alone does not qualify them.
+
+Halving the finest checkpoint observer's spatial stencil leaves bulk H RMS
+at2.619e-7 (original2.622e-7) and bulk M RMS at2.857e-7. The increasing bulk H
+error is therefore not explained by the observer step size. This targeted
+replay is retained in `convergence/stencil256.json`; it makes no new solve or
+acceptance claim. Near H changes modestly from1.703e-7 to1.726e-7.
