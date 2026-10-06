@@ -1365,3 +1365,33 @@ outputs; explicit einsum contractions and finite checks remove those warnings
 and reproduce the conclusion. Both outputs are retained under
 `c4-experiment/axis-tau`; `manufactured.json` is authoritative. The standalone
 driver is `validation/diagnose_trumpet_axis_tau.py` and uses NumPy only.
+
+`HISPID_AXIS_TAU=ON` now implements the endpoint formulation in the native
+residual/JVP with shared CPU/device row algebra and two Kokkos kernels. It
+requires C2 modal variables (cap4); m>=5 rows at both polar ends and the
+remaining radial-axis edge are replaced by exact Chebyshev endpoint P=0
+conditions. Other modes/rows retain their spectral equations. The modal
+preconditioner uses matching local two-point endpoint extrapolation rows,
+unit scaling and no potential term on those rows. This changes the discrete
+boundary formulation, unlike the earlier preconditioner-only experiments.
+Defaults remain unchanged. Host/device scratch and optional source-cache
+allocation costs are included in memory accounting.
+
+The new identifier is `modal_P_C2tauC4_map_v5_r<lambda>_k<kappa>` and its
+residual label explicitly includes axis_tau. Checkpoint validation, map
+parsing and initial-guess prolongation recognize this encoding; older native
+consumers must reject it. The stored variables retain C2 encoding, so a
+verified C2 checkpoint may be used only as an explicitly sourced fresh initial
+guess, never inheriting physical acceptance. Unscaled internal diagnostics
+now mix PDE and endpoint rows; use the independent physical observer for
+physical constraint claims.
+
+The native12x24x16 moderate control converges in5 Newton/69 Krylov. A separate
+row-placement check reconstructs the modal endpoint conditions and agrees
+to1.11e-16; a centered JVP check has relative L2 error9.74e-12, and a checkpoint
+roundtrip preserves coefficients and the exact identifier. Records are in
+`axis-tau/native`. Single-GPU shared job59418528 builds the production path,
+runs the same structural control on CUDA, then starts the moderate192x384x16
+solve only on success. It uses the original source assembly and preconditioner
+interior stencil,10 backtracking halvings and unchanged physical bounds.
+No native tau physical solution or consumer/horizon acceptance is yet claimed.

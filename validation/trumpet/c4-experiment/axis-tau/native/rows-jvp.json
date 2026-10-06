@@ -1,0 +1,10 @@
+{
+  "row_error_linf": 1.1102230246251565e-16,
+  "jvp_relative_l2": 9.738667426467498e-12,
+  "checkpoint_roundtrip": true,
+  "library_sha256": "e88e88ad5878216305004434927147958bba80ea860f3feb4d35150fea0107b5",
+  "driver_sha256": "d233e663738d494d34b426857df768ac303b12a6e9705561fda8fcd6d6feac24",
+  "execution": "reference",
+  "binary_acceptance": false,
+  "passed": true
+}

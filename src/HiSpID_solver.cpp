@@ -1,6 +1,7 @@
 #include "HiSpID_internal.hpp"
 #include "HiSpID_cache_kernels.hpp"
 #include "HiSpID_axis.hpp"
+#include "HiSpID_tau.hpp"
 #include "HiSpID_symmetry.hpp"
 #include "HiSpID_modal_transfer.hpp"
 #include "PunctureKrylov.h"
@@ -93,10 +94,17 @@ struct HiKokkos {
  puncture::Operator op;
  Kokkos::View<Cached*,puncture::Exec>geometry;
  puncture::View base,input,output,averages;
+#if HISPID_AXIS_TAU
+ puncture::View tau_weight,tau_difference;
+#endif
  double spectral_setup_seconds=0,geometry_setup_seconds=0;
  HiKokkos(const int*n,hispid::AxisDerivatives&axis,std::vector<Cached>&g,double b,const HiSpID_Config*execution_geometry=nullptr,int family=HISPID_SEED_QI):
    op(n,4,true),
    base(Kokkos::view_alloc(Kokkos::WithoutInitializing,"frozen base fields"),40ull*n[0]*n[1]*n[2]),input("input",4ull*n[0]*n[1]*n[2]),output("output",4ull*n[0]*n[1]*n[2]),averages("azimuthal averages",2*n[0]*n[1]){
+#if HISPID_AXIS_TAU
+  tau_weight=puncture::upload(hispid::tau_weights(n[0],n[1]),"axis endpoint weights");
+  tau_difference=puncture::View("axis tau differences",4ull*hispid::tau_count(n[0],n[1])*n[2]);
+#endif
   if(execution_geometry){initialize_execution_geometry(n,axis,b,*execution_geometry,family);return;}
   auto start=puncture::seconds();puncture::initialize_spectral(op,n,b,axis.coordinate.data());
   spectral_setup_seconds=puncture::seconds()-start;start=puncture::seconds();
@@ -158,14 +166,30 @@ struct HiKokkos {
   op.physical_fields(input);auto f=op.fields;auto c=geometry;auto out=base;
   Kokkos::parallel_for("reference correction",puncture::Range(0,geometry.extent(0)),KOKKOS_LAMBDA(int p){for(int v=0;v<4;v++)for(int d=0;d<10;d++)out(40*p+10*v+d)=f(40*p+10*v+d)+(reference&&v==0?c(p).far_correction[d]:0);});
  }
+ void replace_axis_rows(puncture::View in,puncture::View out){
+#if HISPID_AXIS_TAU
+  const int na=op.spectral.na,nb=op.spectral.nb,np=op.spectral.np,count=hispid::tau_count(na,nb);
+  auto w=tau_weight,d=tau_difference,inv=op.spectral.inverse;
+  Kokkos::parallel_for("axis tau differences",puncture::Range(0,4*count*np),KOKKOS_LAMBDA(int z){
+   int v=z%4,m=(z/4)%np,q=z/(4*np);
+   d(z)=hispid::tau_delta(q,m,v,na,nb,np,w.data(),inv.data(),in.data(),out.data());
+  });
+  Kokkos::parallel_for("axis tau rows",puncture::Range(0,4*count*np),KOKKOS_LAMBDA(int z){
+   int v=z%4,k=(z/4)%np,q=z/(4*np),i,j;hispid::tau_node(q,na,nb,i,j);
+   double correction=0;for(int m=0;m<np;m++)correction+=inv(k*np+m)*d(4*(q*np+m)+v);
+   out(4*(i+na*(j+nb*k))+v)+=correction;
+  });
+#endif
+ }
  void residual(const double*v,double*r){
   fields(v,true);auto f=base,out=output;auto c=geometry;
   Kokkos::parallel_for("HiSpID nonlinear equations",puncture::Range(0,geometry.extent(0)),KOKKOS_LAMBDA(int p){Fields u{};for(int v=0;v<4;v++)for(int d=0;d<10;d++)u[v][d]=f(40*p+10*v+d);double result[4];eval(c(p),u,result);for(int v=0;v<4;v++)out(4*p+v)=result[v]*c(p).weight;});
-  puncture::download(output,r);
+  replace_axis_rows(input,output);puncture::download(output,r);
  }
  void apply(puncture::View in,puncture::View out){
   op.physical_fields(in);auto f=op.fields,b=base;auto c=geometry;
   Kokkos::parallel_for("HiSpID Jacobian",puncture::Range(0,geometry.extent(0)),KOKKOS_LAMBDA(int p){Fields u{},du{};for(int v=0;v<4;v++)for(int d=0;d<10;d++){u[v][d]=b(40*p+10*v+d);du[v][d]=f(40*p+10*v+d);}double result[4];eval(c(p),u,result,&du);for(int v=0;v<4;v++)out(4*p+v)=result[v]*c(p).weight;});
+  replace_axis_rows(in,out);
  }
  void azimuthal_averages(double*out){
   const int stride=op.spectral.na*op.spectral.nb,np=op.spectral.np;auto c=geometry;auto f=base,avg=averages;
@@ -178,7 +202,11 @@ struct HiKokkos {
   });puncture::download(averages,out);
  }
  unsigned long long bytes()const{
-  auto n=geometry.extent(0);return n*(sizeof(Cached)+8*(40+40+8+64+15))+8*(op.chain.extent(0)+op.trig.extent(0)+op.positions.extent(0)+op.spectral.coefficient[0].extent(0)+op.spectral.coefficient[1].extent(0));
+  unsigned long long extra=0;
+#if HISPID_AXIS_TAU
+  extra=8*(tau_weight.extent(0)+tau_difference.extent(0));
+#endif
+  auto n=geometry.extent(0);return extra+n*(sizeof(Cached)+8*(40+40+8+64+15))+8*(op.chain.extent(0)+op.trig.extent(0)+op.positions.extent(0)+op.spectral.coefficient[0].extent(0)+op.spectral.coefficient[1].extent(0));
  }
 };
 #endif
@@ -190,6 +218,9 @@ struct HiSpID_Data {
  int npt,ntotal;
  std::vector<Cached> geometry;
  std::vector<double> values,coefficients;
+#if HISPID_AXIS_TAU
+ std::vector<double> tau_weight,tau_difference;
+#endif
  derivs *work=nullptr;
  hispid::AxisDerivatives derivatives;
  std::vector<Fields> basefields;
@@ -266,6 +297,13 @@ void fields(HiSpID_Data&s,const double*values,std::vector<Fields>&f,bool include
   if(include_reference)for(int d=0;d<10;d++)f[p][0][d]+=s.geometry[p].far_correction[d];
  }
 }
+void replace_axis_rows(HiSpID_Data&s,const double*v,double*r){
+#if HISPID_AXIS_TAU
+ const auto*n=s.local.n;
+ if(s.tau_weight.empty())s.tau_weight=hispid::tau_weights(n[0],n[1]);
+ hispid::tau_apply(n[0],n[1],n[2],s.tau_weight.data(),s.derivatives.inverse.data(),v,r,s.tau_difference);
+#endif
+}
 void residual(HiSpID_Data&s,const double*v,double*r){
 #ifdef PUNCTURES_KOKKOS
  if(s.device){s.device->residual(v,r);return;}
@@ -273,6 +311,7 @@ void residual(HiSpID_Data&s,const double*v,double*r){
  fields(s,v,s.basefields);for(int p=0;p<s.npt;p++){
   eval(s.geometry[p],s.basefields[p],r+4*p);for(int k=0;k<4;k++)r[4*p+k]*=s.geometry[p].weight;
  }
+ replace_axis_rows(s,v,r);
 }
 void jvp(HiSpID_Data&s,const double*v,double*r){
  s.jvp_applications++;
@@ -282,6 +321,7 @@ void jvp(HiSpID_Data&s,const double*v,double*r){
  std::vector<Fields>d;fields(s,v,d,false);for(int p=0;p<s.npt;p++){
   eval(s.geometry[p],s.basefields[p],r+4*p,&d[p]);for(int k=0;k<4;k++)r[4*p+k]*=s.geometry[p].weight;
  }
+ replace_axis_rows(s,v,r);
 }
 /* Exact block elimination of the five-point modal FD approximation. Each
  * polar row is a dense radial block after elimination. Cosine/sine partners
@@ -479,10 +519,21 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
 #endif
   add(1,0,aa/(ha*ha)+ab/(2*ha));add(-1,0,aa/(ha*ha)-ab/(2*ha));add(0,0,-2*aa/(ha*ha));
   add(0,1,ba/(hb*hb)+bb/(2*hb));add(0,-1,ba/(hb*hb)-bb/(2*hb));add(0,0,-2*ba/(hb*hb));
+  const bool tau_boundary=HISPID_AXIS_TAU&&mode>=5&&(i==0||j==0||j==nb-1);
+  if(tau_boundary){
+   stencil.clear();
+   if(j==0||j==nb-1){
+    int next=j==0?1:nb-2;double z0=-std::cos(hb*(j+.5)),z1=-std::cos(hb*(next+.5)),end=j==0?-1:1;
+    add(0,0,(z1-end)/(z1-z0));add(0,next-j,(end-z0)/(z1-z0));
+   }else{
+    double z0=-std::cos(ha*.5),z1=-std::cos(ha*1.5);
+    add(0,0,(z1+1)/(z1-z0));add(1,0,(-1-z0)/(z1-z0));
+   }
+  }
   for(int v=0;v<4;v++){
-   const int row=4*p+v;mat.row_scale[row]=weight*mu*(v?4./3:1.)*c/D;
+   const int row=4*p+v;mat.row_scale[row]=tau_boundary?1:weight*mu*(v?4./3:1.)*c/D;
    for(auto entry:stencil){int col=4*(entry.first+na*nb*k)+v;double value=entry.second;
-    if(col==row&&v==0)value+=potential*D/mu;
+    if(col==row&&v==0&&!tau_boundary)value+=potential*D/mu;
     if(compact){
      if(k>factor_half||v>1||(v&&reuse))continue;
      auto&block=mat.blocks[2*k+v];int ci=entry.first%na,cj=entry.first/na;
@@ -698,10 +749,18 @@ void sample_fields(HiSpID_Data&s,const double*x,Fields&f,const MeridionalValues*
 }
 extern "C" {
 const char *HiSpID_residual_scaling(){
+#if HISPID_AXIS_TAU
+ return HISPID_ROW_POWER==3?"sin3_alpha_beta_with_axis_tau":"sin6_alpha_beta_with_axis_tau";
+#endif
  if constexpr(HISPID_ROW_POWER==3)return HISPID_INFINITY_EQUILIBRATION?"sin3_alpha_beta_times_one_minus_t_pow_minus6":"sin3_alpha_beta";
  return HISPID_INFINITY_EQUILIBRATION?"sin6_alpha_beta_times_one_minus_t_pow_minus6":"sin6_alpha_beta";
 }
 const char *HiSpID_unknown_parameterization(){
+#if HISPID_AXIS_TAU
+ static const auto tau=[](){std::array<char,128> value{};
+  std::snprintf(value.data(),value.size(),"modal_P_C2tauC4_map_v5_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();
+ return tau.data();
+#endif
  // Experimental C4 data must never be interpreted as the default C2 basis.
  // Consumers compare the full token, so default C2 readers reject C4 data.
  if constexpr(hispid::AxisDerivatives::regularity_cap==6){
@@ -739,11 +798,11 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   // Retained CPU data, device data (or extra host copies for OpenMP), lazy
   // maximum Krylov basis, packed factor mirrors and LU/inverse overlap.
   long double small=0;for(int axis=0;axis<3;axis++)small+=16.L*c->n[axis]*c->n[axis];small+=32.L*c->n[2]*c->n[2]+160.L*c->n[0]*c->n[1];
-  if(cpu+device+radial*16+small>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="Kokkos aggregate allocation bound exceeds memory_limit_mib";return nullptr;}
+  if(cpu+device+radial*16+small+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2]>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="Kokkos aggregate allocation bound exceeds memory_limit_mib";return nullptr;}
 #ifdef KOKKOS_ENABLE_CUDA
   if constexpr(std::is_same_v<puncture::Exec,Kokkos::Cuda>){
    auto free=Puncture_execution_device_free_bytes();
-   if(!free||device+small+512.L*1024*1024>free){hispid::last_error="Kokkos device allocation bound exceeds available GPU memory or query failed";return nullptr;}
+   if(!free||device+small+HISPID_AXIS_TAU*32.L*(2*c->n[0]+c->n[1])*c->n[2]+512.L*1024*1024>free){hispid::last_error="Kokkos device allocation bound exceeds available GPU memory or query failed";return nullptr;}
   }
 #endif
  }

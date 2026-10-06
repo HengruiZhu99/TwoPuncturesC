@@ -88,7 +88,14 @@ bool valid(const HiSpID_Config&c,bool sampler_only){
  // Two dense matrices per radial block, scalar/vector factor groups, shared
  // by real-Fourier partners. Add permutations/diagonal couplings explicitly.
  const double block_bytes=sampler_only?0:2.0*(c.n[2]/2+1)*c.n[1]*(16.0*c.n[0]*c.n[0]+24.0*c.n[0]);
- if(npt*bytes_per_point+block_bytes>(double)c.memory_limit_mib*1024*1024)return false;
+ double extra=0;
+#if HISPID_AXIS_TAU
+ if(!sampler_only)extra+=8.0*((2*c.n[0]+c.n[1]-2)*4*c.n[2]+2*c.n[1]+c.n[0]);
+#endif
+#if HISPID_STABLE_SCALAR_SOURCE
+ if(!sampler_only)extra+=16*npt;
+#endif
+ if(npt*bytes_per_point+block_bytes+extra>(double)c.memory_limit_mib*1024*1024)return false;
  bool active=false;for(int h=0;h<2;h++){
   const auto&v=c.hole[h];if(!std::isfinite(v.mass)||v.mass<0)return false;
   for(int k=0;k<3;k++)if(!std::isfinite(v.center[k])||!std::isfinite(v.spin[k])||!std::isfinite(v.velocity[k]))return false;

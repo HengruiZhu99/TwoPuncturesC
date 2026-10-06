@@ -190,7 +190,13 @@ Hessian verifies the forcing to $7.81\times10^{-17}$ in scaled maximum norm.
 An absolute $10^{-16}$ source perturbation gives finest-grid field noise
 $2.17\times10^{-11}$, versus $3.43\times10^{-6}$ with factored C4 variables.
 This motivates a native tau prototype; curved/vector/nonlinear and GPU
-qualification remain outstanding.
+qualification remain outstanding. The native opt-in tau path now implements
+these endpoint equations in CPU and Kokkos residuals/JVPs, with matching
+approximate-inverse boundary rows and a distinct checkpoint identifier.
+Its small coupled solve converges in 5 Newton/69 Krylov steps. Endpoint-row
+reconstruction agrees to $1.11\times10^{-16}$ and the directional derivative
+check to $9.74\times10^{-12}$. A CUDA structural check and moderate fine-grid
+physical solve are pending; no new horizon or binary acceptance is claimed.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

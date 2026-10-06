@@ -30,9 +30,11 @@ def map_pair(maps):
 
 
 def modal_family(token):
-    return token=='modal_P_C2prolate_mapped_v2' or token.startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_'))
+    return token=='modal_P_C2prolate_mapped_v2' or token.startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_','modal_P_C2tauC4_map_v5_'))
 
 def regularity_cap(token):
+    # Tau uses the C2 coefficient encoding, with additional solve constraints.
+    if token.startswith('modal_P_C2tauC4_map_v5_r'):return 4
     if token=='modal_P_C2prolate_mapped_v2' or token.startswith('modal_P_C2prolate_map_v3_r'):return 4
     if token.startswith('modal_P_C4prolate_map_v4_r'):return 6
     raise ValueError('unknown continuous modal regularity family')
@@ -40,8 +42,8 @@ def regularity_cap(token):
 
 def maps_from_id(token):
     if token=='modal_P_C2prolate_mapped_v2':expected=(.2,2.)
-    elif token.startswith(('modal_P_C2prolate_map_v3_r','modal_P_C4prolate_map_v4_r')):
-        try:expected=tuple(map(float,re.sub(r'^modal_P_(?:C2prolate_map_v3|C4prolate_map_v4)_r','',token).split('_k')))
+    elif token.startswith(('modal_P_C2prolate_map_v3_r','modal_P_C4prolate_map_v4_r','modal_P_C2tauC4_map_v5_r')):
+        try:expected=tuple(map(float,re.sub(r'^modal_P_(?:C2prolate_map_v3|C4prolate_map_v4|C2tauC4_map_v5)_r','',token).split('_k')))
         except ValueError:raise ValueError('malformed source map identifier') from None
     else:raise ValueError('supported mapped modal P identifier required')
     if len(expected)!=2:raise ValueError('two map parameters required')

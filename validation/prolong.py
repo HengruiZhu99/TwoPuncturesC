@@ -97,5 +97,5 @@ def remap_modal(values,oldshape,newshape,oldmaps,newmaps):
     return redistribute_modes(v,p,P).ravel()
 
 def for_backend(backend,values,oldshape,newshape):
-    if backend.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or backend.parameterization().startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_')):return prolong_modal(values,oldshape,newshape)
+    if backend.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or backend.parameterization().startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_','modal_P_C2tauC4_map_v5_')):return prolong_modal(values,oldshape,newshape)
     return prolong(values,oldshape,newshape)

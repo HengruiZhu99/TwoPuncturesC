@@ -26,3 +26,4 @@ validation/*.log
 /build-c4-floor/
 /build-c4-stable-source/
 /build-c4-monotone/
+/build-axis-tau/
