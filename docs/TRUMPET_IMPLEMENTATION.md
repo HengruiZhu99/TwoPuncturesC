@@ -939,3 +939,24 @@ consumer SHAde410d82ce2d935cac939cfbc05a9e82747508b9b427ab09e8586262f9b76bf8.
 Sources and build directories are isolated from earlier images. A checkpoint-bound
 producer/sampler comparison is queued under59412182 after the successful end of
 solve59412030; it transfers sampling compatibility only, never physical acceptance.
+
+### Moderate bulk Hamiltonian localization
+
+A targeted CPU-sampler replay on compute step59412030.2 compared the retained
+256x512x16 moderate checkpoint with the same polynomial after zeroing only the
+scalar cosine/sine m6 rows (6 and14). All physical free data and the18 existing
+bulk observer points/stencil sizes were held fixed. The unchanged replay matches
+the original H and M diagnostics exactly, using the already-qualified polar CPU
+sampler10b346af… and checkpointc1d55c98…. The saved source and result are
+`validation/diagnose_trumpet_scalar_mode6.py` and
+`validation/trumpet/convergence/scalar-mode6-probe.json`.
+
+Removing scalar m6 reduces bulk H RMS2.6219737e-7 to5.1987097e-9 (50.44x), and
+H maximum1.0709601e-6 to1.8493774e-8. Momentum RMS stays2.8570e-7. Thus this
+specific retained mode accounts for most of the finest-grid bulk Hamiltonian
+error, consistent with the earlier growing scalar-m6 coefficient tail. This
+is a sensitivity diagnosis only: the modified polynomial is not a new solve,
+not checked in all regions, not exported as initial data, and not accepted.
+It does not prove the true solution has zero m6. The next mathematical target
+is the mode's representation/conditioning and axis regularity; further uniform
+refinement or simply discarding m6 is not justified by this result.
