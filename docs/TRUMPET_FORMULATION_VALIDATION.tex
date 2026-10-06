@@ -176,7 +176,7 @@ $1.12\times10^{-9}$ or better. This checks host factor accuracy for that
 witness, not the approximation quality or the GPU inverse application.
 The subsequent actual-RHS comparison finds a $7.48\%$ global GPU/host
 preconditioner discrepancy, dominated by mode-4 momentum components.
-The remaining residual energy is $99.72\%$ momentum and $70.92\%$ modes 0--1;
+Before this correction, residual energy is $99.72\%$ momentum and $70.92\%$ modes 0--1;
 tau rows contribute negligibly. Feeding identical projected input to both
 inverse routines reduces the discrepancy to $2.98\times10^{-16}$, isolating
 Fourier projection before near-axis row scaling. An opt-in compensated
@@ -205,6 +205,14 @@ workspace raises the 240-grid allocation bound to 61.27 GiB, within 64 GiB.
 On the frozen failing system it reaches relative residual $0.471$ after
 2400 iterations (421.4 seconds), still above $0.1$, with no Newton update.
 Thus neither alternative resolves the large-system stagnation.
+After the projection correction, the failed GMRES residual instead has
+$98.53\%$ momentum energy spread over modes 0--7; modes 0--1 carry only
+$26.57\%$. A separate evaluation of the retained 240-grid nonlinear state
+finds interior residual concentration: the outermost eight radial and polar
+layers carry only $4.99\times10^{-6}$ and $3.29\times10^{-8}$ of total squared
+residual, respectively. These observations do not support an endpoint-only
+repair or another Krylov-method sweep. A same-checkpoint CPU/CUDA residual
+comparison is pending; neither backend is assumed to be exact.
 Final nonlinear and physical criteria remain unchanged. Binary acceptance
 remains open.
 
