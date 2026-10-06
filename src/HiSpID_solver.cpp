@@ -1,6 +1,7 @@
 #include "HiSpID_internal.hpp"
 #include "HiSpID_cache_kernels.hpp"
 #include "HiSpID_axis.hpp"
+#include "HiSpID_symmetry.hpp"
 #include "PunctureKrylov.h"
 #include "PunctureExecution.h"
 #ifdef PUNCTURES_KOKKOS
@@ -172,6 +173,7 @@ struct HiSpID_Data {
  HiSpID_Diagnostics diag{};
  bool coefficients_valid=false;
  bool sampler_only=false;
+ bool axisymmetric=false;
  HiSpID_SetupStatistics setup{int(sizeof(HiSpID_SetupStatistics)),0,std::numeric_limits<long double>::digits,0,0,0};
  int jvp_applications=0,preconditioner_applications=0;
  std::vector<std::array<double,4>>linear_history;
@@ -189,6 +191,24 @@ puncture::ExecutionLock execution_lock(const HiSpID_Data*s){
 }
 #endif
 int pindex(const HiSpID_Data&s,int i,int j,int k){return i+s.local.n[0]*(j+s.local.n[1]*k);}
+void project_axisymmetry(const HiSpID_Data&s,double*v,bool unknowns){
+ if(!s.axisymmetric)return;
+ const int stride=s.local.n[0]*s.local.n[1],np=s.local.n[2];
+ for(int row=0;row<stride;row++){
+  if(unknowns)hispid::axisymmetric_unknown_row(v,row,stride,np);
+  else hispid::axisymmetric_equation_row(v,row,stride,np);
+ }
+}
+#ifdef PUNCTURES_KOKKOS
+void project_axisymmetry(const HiSpID_Data&s,puncture::View v,bool unknowns){
+ if(!s.axisymmetric)return;
+ const int stride=s.local.n[0]*s.local.n[1],np=s.local.n[2];
+ Kokkos::parallel_for("axisymmetric sector",puncture::Range(0,stride),KOKKOS_LAMBDA(int row){
+  if(unknowns)hispid::axisymmetric_unknown_row(v.data(),row,stride,np);
+  else hispid::axisymmetric_equation_row(v.data(),row,stride,np);
+ });
+}
+#endif
 double row_weight(const HiSpID_Data&s,int p){
 #ifdef PUNCTURES_KOKKOS
  if(s.device)return s.row_weights[p%(s.local.n[0]*s.local.n[1])];
@@ -484,11 +504,11 @@ puncture::Modal device_preconditioner(const Sparse&M){
 #endif
 int hi_linear_action(void*context,const double*input,double*output){
  auto&c=*static_cast<HiLinearContext*>(context);
- try{jvp(c.data,input,output);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}
+ try{jvp(c.data,input,output);project_axisymmetry(c.data,output,false);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}
 }
 int hi_linear_precondition(void*context,const double*input,double*output){
  auto&c=*static_cast<HiLinearContext*>(context);c.data.preconditioner_applications++;
- try{c.preconditioner.solve(input,output);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}
+ try{c.preconditioner.solve(input,output);project_axisymmetry(c.data,output,true);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}
 }
 bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
                   std::vector<double>&x,double rtol,int method,bool eager=false){
@@ -501,7 +521,7 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
   double begin=puncture::seconds();auto d=device_preconditioner(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
   auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
   Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)));
-  status=puncture::solve(b,solution,options,[&](auto in,auto out){s.device->apply(in,out);},[&](auto in,auto out){d.apply(in,out);},result);
+  status=puncture::solve(b,solution,options,[&](auto in,auto out){s.device->apply(in,out);project_axisymmetry(s,out,false);},[&](auto in,auto out){d.apply(in,out);project_axisymmetry(s,out,true);},result);
   puncture::download(solution,x.data());s.jvp_applications+=result.operator_calls;s.preconditioner_applications+=result.preconditioner_calls;
  }else
 #endif
@@ -778,12 +798,14 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES)
  // are rebuilt from the current nonlinear potential at every step.
  std::vector<ModalBlock>vector_cache;
  try{
+  project_axisymmetry(*s,s->values.data(),true);
   residual(*s,s->values.data(),r.data());
   for(int it=0;it<=s->local.max_newton;it++){
    update_diag(*s,r);double err=norminf(r);if(err<=s->local.tolerance){s->diag.converged=1;break;}
    if(it==s->local.max_newton)break;
    s->diag.newton_iterations++;
    Sparse M=preconditioner(*s,&vector_cache);for(int i=0;i<s->ntotal;i++)rhs[i]=-r[i];
+   project_axisymmetry(*s,rhs.data(),false);
    double forcing=fixed_forcing>0?fixed_forcing:std::min(.05,std::max(1e-5,std::sqrt(err)));
    const int krylov_before=s->diag.krylov_iterations;
    const bool linear_ok=linear_solve(*s,M,rhs,step,forcing,method);M.retain_vectors(vector_cache);
@@ -805,6 +827,17 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES)
  return s->diag.converged?0:1;
 }
 int HiSpID_solve(HiSpID_Data*s){return solve_context(s,0);}
+int HiSpID_set_axisymmetric(HiSpID_Data*s,int enabled){
+ if(!s||s->sampler_only||(enabled!=0&&enabled!=1))return -1;
+ if(enabled)for(const auto&h:s->local.hole){
+  if(h.mass<=0)continue;
+  for(double spin:h.spin)if(spin!=0){hispid::last_error="axisymmetric no-swirl solve requires zero spins";return -1;}
+  if(h.velocity[1]!=0||h.velocity[2]!=0||h.center[1]!=0||h.center[2]!=0){
+   hispid::last_error="axisymmetric solve requires exactly coaxial local centers and boosts";return -1;
+  }
+ }
+ s->axisymmetric=enabled;return 0;
+}
 int HiSpID_solve_with_forcing(HiSpID_Data*s,double rtol){
  if(!std::isfinite(rtol)||rtol<=0||rtol>=1){hispid::last_error="invalid fixed relative linear tolerance";return -1;}
  return solve_context(s,rtol);

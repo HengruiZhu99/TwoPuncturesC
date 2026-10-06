@@ -742,3 +742,41 @@ Refining only radial192->224 gives bulk native-equivalent component RMS
 (1.590e-5,1.001e-5,3.280e-5,2.942e-5). Both directions have unresolved error,
 with the radial Hamiltonian andx-momentum contributions larger. This is not
 a physical convergence result. See `spin-focused-map/directional-replay.json`.
+
+### Opt-in axial Krylov sector for the nonspinning head-on case
+
+`HiSpID_set_axisymmetric(context,1)` or Python `solve(axisymmetric=True)` now
+restricts the linear search to the exact no-swirl axial sector. It is OFF by
+default and rejects nonzero spins or noncoaxial local centers/boosts. The shared
+projectors operate on modal unknowns and physical-phi equation rows separately,
+with the same algebra in reference and Kokkos kernels. Preconditioner outputs
+are projected in unknown space; Jacobian outputs and the linear RHS are
+projected in equation space. The initial guess is projected explicitly.
+
+Crucially, nonlinear convergence, diagnostics and line search still evaluate
+the full unprojected equations. No nonlinear or physical tolerance changes;
+no coefficient clipping or residual acceptance transfer. The full stored basis
+and checkpoint format are unchanged. Generic spinning binaries and the default
+QI/Bowen--York paths are unaffected by the opt-in setting.
+
+The compact control uses an unequal-mass boosted binary, compares unrestricted
+reference and restricted reference/CUDA solves, injects forbidden scalar/vector
+modes into the restricted initial guesses, and rejects spinning/transverse-boost
+configurations. Local reference and Perlmutter CUDA controls pass; full residual
+stopping passes in every control. Evidence and commands are in
+`validation/trumpet/axisymmetric/{local-control,control,plan}.json` and
+`run_perlmutter.sh`. These are algorithm-equivalence controls, not independent
+physical validation of the coarse test binary.
+
+Allocation59409143 passed the CUDA control and started the same160x320x8
+focused-map Gamma10 case with this option. It uses the same original-map source
+checkpoint, explicitly remapped, with identical physical data and tolerances.
+The symmetry option is a candidate; no Gamma10 improvement is claimed yet.
+
+The spin160l12/n24 horizon row passed for both components: mass0.500017851906,
+Mirr0.377763585531, coordinate chi0.989929520944, expansion RMS1.694e-8. Retained
+surface lower bound0.067529881 exceeds the modified-ball radius0.035266840.
+Thel16/20 and quadrature checks remain running under59408772, so these are
+preliminary measurements and not angular-convergence or initial-data acceptance.
+The completedl12 artifacts and partial metadata are retained under
+`spin-focused-map/horizon160-angular`.

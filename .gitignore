@@ -12,6 +12,7 @@ build-hispid/
 /build-krylov*/
 /build-kokkos*/
 /build-setup*/
+/build-axisym/
 __pycache__/
 .venv/
 validation/raw/

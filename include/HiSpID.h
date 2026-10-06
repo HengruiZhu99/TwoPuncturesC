@@ -87,6 +87,11 @@ HiSpID_Data *HiSpID_create_sampler(const HiSpID_Config *);
 /* 0 converged, 1 iteration/line-search/Krylov failure, -1 invalid context.
  * Failed solves remain sampleable for diagnosis. */
 int HiSpID_solve(HiSpID_Data *);
+/* Opt-in no-swirl axial sector for exactly coaxial, nonspinning data.
+ * Defaults OFF. Only the linear search is projected: Newton convergence and
+ * line search still use the full, unprojected equations. Does not change the
+ * stored field representation or checkpoint format. Rejects invalid geometry. */
+int HiSpID_set_axisymmetric(HiSpID_Data *, int enabled);
 /* Optional fixed RHS-relative L2 forcing, 0<rtol<1. The default entry point
  * retains its adaptive forcing. Residual row scaling is fixed by the build. */
 int HiSpID_solve_with_forcing(HiSpID_Data *, double rtol);

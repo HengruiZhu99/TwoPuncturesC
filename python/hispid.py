@@ -96,6 +96,7 @@ class Backend:
                   'HiSpID_setup_statistics':(C.c_int,[C.c_void_p,C.POINTER(SetupStatistics)]),
                   'HiSpID_default_solve_options':(None,[C.POINTER(SolveOptions)]),
                   'HiSpID_solve_with_options':(C.c_int,[C.c_void_p,C.POINTER(SolveOptions)]),
+                  'HiSpID_set_axisymmetric':(C.c_int,[C.c_void_p,C.c_int]),
                   'HiSpID_resolved_solve_options':(C.c_int,[C.c_void_p,C.POINTER(SolveOptions)]),
                   'HiSpID_linear_history':(C.c_int,[C.c_void_p,C.c_int,PTR]),
                   'HiSpID_solve_with_forcing':(C.c_int,[C.c_void_p,C.c_double]),
@@ -206,9 +207,14 @@ class Solution:
         out=SetupStatistics();out.struct_size=C.sizeof(out)
         if self.backend.lib.HiSpID_setup_statistics(self.context,C.byref(out)):raise ValueError('native setup-statistics query failed')
         return {name:getattr(out,name) for name,_ in out._fields_ if name!='struct_size'}
-    def solve(self,linear_rtol=None,krylov=None):
+    def solve(self,linear_rtol=None,krylov=None,axisymmetric=False):
         self._check()
         validate_krylov(krylov,linear_rtol)
+        if not isinstance(axisymmetric,bool):raise ValueError('axisymmetric must be boolean')
+        if hasattr(self.backend.lib,'HiSpID_set_axisymmetric'):
+            if self.backend.lib.HiSpID_set_axisymmetric(self.context,int(axisymmetric)):
+                raise ValueError(self.backend.error())
+        elif axisymmetric:raise ValueError('library lacks axisymmetric solve API')
         if krylov is not None:
             if not hasattr(self.backend.lib,'HiSpID_solve_with_options'):raise ValueError('library lacks selectable Krylov API')
             options=SolveOptions(C.sizeof(SolveOptions),0 if krylov=='gmres' else 1,0 if linear_rtol is None else float(linear_rtol))
@@ -218,6 +224,7 @@ class Solution:
             if not hasattr(self.backend.lib,'HiSpID_solve_with_forcing'):raise ValueError('library lacks fixed forcing API')
             r=self.backend.lib.HiSpID_solve_with_forcing(self.context,float(linear_rtol))
         self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal',execution=self.execution,geometry=self.geometry,seed_family=self.seed_family)
+        if axisymmetric:self.resolved_options['axisymmetric']=True
         self.resolved_options['native_verified']=False
         if hasattr(self.backend.lib,'HiSpID_resolved_solve_options'):
             actual=SolveOptions(C.sizeof(SolveOptions),0,0)

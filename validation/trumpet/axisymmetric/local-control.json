@@ -1,0 +1,88 @@
+{
+  "kind": "axisymmetric_full_system_equivalence",
+  "rows": [
+    {
+      "execution": "reference",
+      "axisymmetric": false,
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 11,
+        "krylov_iterations": 48,
+        "npoints": 2304,
+        "scaled_linf": [
+          6.459379543706573e-14,
+          8.770091840479369e-13,
+          4.347649496373359e-13,
+          6.827022142092725e-13
+        ],
+        "unscaled_linf": [
+          5.96003246755572e-11,
+          1.7073270963846705e-10,
+          5.6182638240493946e-11,
+          5.6498105700415064e-11
+        ],
+        "seconds": 0.121566583,
+        "status": 0,
+        "error": ""
+      },
+      "field_scaled_errors": {
+        "gamma": 0.0,
+        "Kij": 0.0,
+        "psi": 0.0,
+        "conformal_metric": 0.0,
+        "Atilde": 0.0,
+        "mean_curvature": 0.0,
+        "correction": 0.0,
+        "attenuation": 0.0,
+        "dgamma": 0.0
+      },
+      "seconds": 0.165169333,
+      "passed": true
+    },
+    {
+      "execution": "reference",
+      "axisymmetric": true,
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 11,
+        "krylov_iterations": 40,
+        "npoints": 2304,
+        "scaled_linf": [
+          3.8150758046943626e-14,
+          9.55788470448971e-14,
+          2.1715354481900555e-13,
+          1.731616241040954e-13
+        ],
+        "unscaled_linf": [
+          7.858602657506708e-11,
+          1.7120161165512513e-10,
+          1.93108960373037e-10,
+          1.9308810427136502e-10
+        ],
+        "seconds": 0.111343583,
+        "status": 0,
+        "error": ""
+      },
+      "field_scaled_errors": {
+        "gamma": 3.4382813425788354e-12,
+        "Kij": 3.980043211479693e-11,
+        "psi": 7.542063009796038e-13,
+        "conformal_metric": 0.0,
+        "Atilde": 4.732715373315719e-11,
+        "mean_curvature": 0.0,
+        "correction": 2.5210182764706974e-11,
+        "attenuation": 0.0,
+        "dgamma": 1.3870809218490432e-11
+      },
+      "seconds": 0.15334154199999997,
+      "passed": true
+    }
+  ],
+  "spinning_configuration_rejected": true,
+  "transverse_boost_rejected": true,
+  "forbidden_initial_guess_injected": true,
+  "passed": true,
+  "binary_acceptance": false,
+  "library_sha256": "0c8b5b0c612b3a5c16e6972fdbb63ce0f3b6c2f3b5f5e89741b9b0350231cd93",
+  "driver_sha256": "48e60912fd30fb6e3fc3906262cb9db6b5766905554d95540620b4c866e2db90"
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "opt_in_no_swirl_axisymmetric_krylov",
+  "default_enabled": false,
+  "applicability": "Exactly coaxial local centers/velocities; all active spins exactly zero.",
+  "projection": "Unknown scalar and bx: m0 only; by/bz: equal cos(phi)/sin(phi) coefficients. Equation rows use SO(2) average with no azimuthal circulation.",
+  "acceptance": "Full unprojected nonlinear residual and line search, unchanged physical observers and thresholds.",
+  "control": "Small unequal-mass boosted binary: unrestricted reference versus symmetry-restricted reference/CUDA, including a forbidden-mode initial guess and rejection of spinning/transverse-boost data.",
+  "target": "Same focused-map Gamma10 configuration and source guess as failed prior trial; only Krylov symmetry restriction changes.",
+  "job": 59409143,
+  "adopted": false
+}
