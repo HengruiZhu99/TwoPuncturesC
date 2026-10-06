@@ -30,3 +30,4 @@ validation/*.log
 /build-axis-tau-radial/
 /build-axis-tau-polar/
 /build-axis-tau-compensated/
+/build-axis-tau-spectral-radial/

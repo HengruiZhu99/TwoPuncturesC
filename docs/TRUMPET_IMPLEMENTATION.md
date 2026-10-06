@@ -1885,3 +1885,9 @@ Records and production qualification/probe script are in polar-exact/spectral-ra
 Fine-grid improvement is not yet established. The planned single-GPU run
 checks the changed small solve against this CPU result before a frozen240
 GMRES probe with unchanged restart64, target0.1 and budget2400.
+
+Job59426128 (session43880) is building the spectral-radial image on one shared
+80GiB GPU allocation with25minutes requested. Remote source/build suffix
+axis-tau-spectral-radial, output axis-tau-spectral-radial-v1. The small CUDA
+solve must converge and agree with retained CPU fields within1e-10 before
+the frozen240 probe executes. No other compute allocation remains active.
