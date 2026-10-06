@@ -588,3 +588,20 @@ the spin counts to14 radial projections,22 polar projections and1115 shell
 nodes without changing the physical attenuation radii or grid size. It is not
 yet selected or solved; the pending azimuthal replay will guide that choice.
 See `extreme-pilots/transition-resolution-bound.json` and its reproducible driver.
+
+### First head-on Gamma10 pilot
+
+The separate160x320x8 nonspinning Gamma10 case at initial separation25 completed
+its diagnostics in372.41s (279.12s solve). It **fails** nonlinear convergence:
+9 Newton/4903 Krylov iterations end with the final linear solve reaching2400
+iterations and true relative residual0.897. The largest weighted nonlinear
+residual is7.20e-12, above the unchanged1e-12 target. Independent near H/M RMS
+are4.321e-3/9.981e-3; bulk H/M RMS are4.560e-7/1.778e-5. The sampled psi minimum
+is0.99550 and metric minimum eigenvalue0.98212. Positivity alone is not validation.
+
+The full failed result, physical arrays and log are retained in
+`validation/trumpet/extreme-pilots/gamma10_160` and its parent directory.
+ADM energy extrapolates to9.4900 in this unaccepted iterate; it must not be
+interpreted as a validated physical measurement. No component horizons or
+measured-Mirr separation calibration have been established for this case.
+The same allocation proceeds to the already-declared spin azimuthal replay.
