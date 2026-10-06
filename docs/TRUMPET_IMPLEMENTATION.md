@@ -43,8 +43,8 @@ derivation below; physical convergence and measured enclosure remain required.
 | Derivatives and vacuum | Independent metric/K finite differences at3 steps; expected convergence before rounding; mass-normalized exterior H/M RMS<1e-7 | pass at the sampled exterior, axis, horizon and interior points |
 | Boost and causal slice | Generic spin/boost andGamma10; positive metric and slice margin at every evaluated point; E/P/J extrapolation error<1e-4 with two angular levels | sampled checks and charges pass; nonspinning global slicing proved |
 | Linearization | One curved manufactured operator case and centered JVP difference sequence; relative error<1e-7 | pass; small device control also passes |
-| Moderate binary | Three increasing resolutions; independent fixed exterior near/bulk H/M RMS<1e-6 and max<1e-4 with decreasing errors; positivepsi; charge changes<1e-3 | pending |
-| Consumer/horizons | Bound checkpoint and field/gradient roundtrip<1e-12; initial-time expansion RMS<1e-7 at3 angular orders, mass/spin changes<1e-4; modified-region enclosure | pending |
+| Moderate binary | Three increasing resolutions; independent fixed exterior near/bulk H/M RMS<1e-6 and max<1e-4 with decreasing errors; positivepsi; charge changes<1e-3 | one passing grid; convergence pending |
+| Consumer/horizons | Bound checkpoint and field/gradient roundtrip<1e-12; initial-time expansion RMS<1e-7 at3 angular orders, mass/spin changes<1e-4; modified-region enclosure | isolated spin.99 passes; binary pending |
 | QI compatibility | One unchanged saved generic QI fixture, default-path bitwise comparison on identical build/platform | pass |
 | Extreme binaries | Separatechi=.99 andGamma10; same independent physical requirements, measured horizon properties andd/Mirr calibration to50 within1% | pending |
 
@@ -397,6 +397,19 @@ horizon qualification of a refined solved checkpoint remains separate.
 
 
 The polar384 actual-reader control passed: native and consumer tensors and
-metric gradients agree exactly, and polar513 is rejected. The refined
-production binary solve is running under allocation59404717; its result is
-not yet a physical acceptance claim.
+metric gradients agree exactly, and polar513 is rejected. The refined production binary solve completed under allocation59404717,
+which has released. It is the first grid satisfying the near/bulk physical
+bounds: H RMS1.63e-7/4.09e-8 and M RMS4.42e-7/6.06e-7; the largest exterior
+H/M point residual is1.70e-6. The minimum sampled psi is1.02899686 and all
+exterior stencils are unmodified. It used6 Newton/44 Krylov iterations,
+126.0s solving and350.4s total. This single grid does not establish the
+required three-grid convergence or horizon enclosure.
+
+
+The next convergence sequence is declared in `polar-refinement/convergence-plan.json`:
+192x384x16,224x448x16,256x512x16 on the original map, with both meridional
+extents increasing and Fourier resolution held at its independently checked
+value. A uniform restart64 keeps the finest conservative allocation bound
+within64GiB; it changes a solver control, not the equation or physical gate.
+The existing 256x384 result remains a directional control, not a selectively
+chosen member of the new sequence. No sequence acceptance has been assigned.

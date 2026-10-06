@@ -1,6 +1,6 @@
 {
   "job": 59404717,
-  "state_at_receipt": "running",
+  "state_at_receipt": "completed_and_released",
   "reader384_passed": true,
   "reader_scaled_error": 0.0,
   "oversized_polar513_rejected": true,
@@ -16,13 +16,16 @@
     "images-cuda.sha256": "27721d45c0a855ed94a69d3517d31a482d7ada61a6b283230ca4c6d55814acd4",
     "images-sampler.sha256": "2c186457798da27784a82377fb91b5c2c07892178a73a3cc026a466e3019417f",
     "job-id.txt": "b7de2d90078ed438c0a2395fccea1331c57136e1bf83ee78ccd34fe1d4801a6c",
+    "moderate256x384/physical.npz": "9b7bb36de60a4e9e17ffbbff1650834f2322437e1967147cac9f58a00056d56e",
+    "moderate256x384/result.json": "6e0476d202b8c9478411f3d40c6368bf94a6110752878a8f9a3990ee8931b057",
     "plan.json": "b77322673233cd61b62a747e4a12d145cc1d42c8a8ff4b6216f359d369116ea1",
     "reader.log": "4ef41e39b14ef068847929417f73f81fa0a51adbd3933b444d65c57ce2d26590",
     "reader384/oversized_polar.checkpoint": "3de2c60432e02d288904c262899eec95fa79c45aa07bcd093f1a8f758f0a7468",
     "reader384/result.json": "4ef41e39b14ef068847929417f73f81fa0a51adbd3933b444d65c57ce2d26590",
     "reader384/trumpet_r0_m.checkpoint": "1a7c22eb13bb8861c05929c2e152eacb48daf82a60546f201cb8431bbdbbf792",
     "run_perlmutter.sh": "353c266138761a4981cec606fcd63b4b47c1563ca7ec859a4c6f362f5b5a1fe9",
-    "solve.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "solve.log": "94b39be8f5985dfd003b919bed935c6aa5e25d361dd143ed9f2d47a0ef743044"
   },
-  "consumer_commit": "9196c1d2"
+  "consumer_commit": "9196c1d2",
+  "single_grid_physical_bounds_pass": true
 }

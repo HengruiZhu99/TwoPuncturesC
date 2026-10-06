@@ -1,0 +1,39 @@
+{
+  "state": "declared_not_started",
+  "levels": [
+    [
+      192,
+      384,
+      16
+    ],
+    [
+      224,
+      448,
+      16
+    ],
+    [
+      256,
+      512,
+      16
+    ]
+  ],
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "krylov": "gmres",
+  "linear_rtol": 0.1,
+  "krylov_restart": 64,
+  "memory_mib": 65536,
+  "source": "Original-map polar-refinement/moderate256x384 diagnostic checkpoint",
+  "rationale": "Balanced meridional refinement beyond the old cap; retain independently sufficient Fourier resolution. Uniform restart64 is needed for the finest conservative memory bound.",
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001,
+    "decreasing_errors": true,
+    "positive_psi": true,
+    "charge_change": 0.001,
+    "horizon_enclosure_separate": true
+  },
+  "binary_acceptance": false
+}
