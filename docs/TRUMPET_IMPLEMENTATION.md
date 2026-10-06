@@ -808,3 +808,12 @@ This motivates a single radial refinement to256x320x8, retaining maps, physical
 data, symmetry option, polar/azimuthal resolution and all tolerances. It is
 running under59410256. Commands and decision are in
 `axisymmetric/refine_radial_perlmutter.sh` and `radial-plan.json`.
+
+The256x320x8 radial refinement59410256 converged in10 Newton/386 Krylov
+iterations,161.34s solve and272.65s total. Near H/M RMS improved to
+8.226e-4/2.421e-2; bulk to4.464e-6/1.272e-4. The reductions are respectively
+4.42/2.17 and5.87/2.94 times, but all four RMS remain above1e-6. This supports
+radial under-resolution while leaving substantial spatial error unresolved.
+The final weighted residual is7.678e-13; no tolerance or physical parameter
+changed. Results and comparison are retained under `axisymmetric/gamma10_256x320`
+and `radial-comparison.json`.
