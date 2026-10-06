@@ -1798,3 +1798,14 @@ source hashes and basis identities are checked; physical acceptance is not
 inherited. Script run_perlmutter.sh, remote axis-tau-residual-localization-v1.
 The observations will distinguish endpoint concentration from bulk operator
 error before changing the preconditioner. No new build or resolution sweep.
+
+Localization59424678 completed3:25 and released its allocation. The same CUDA
+image evaluates224 with L2=3.54850e-11/Linf=3.34966e-13 and240 with
+L2=1.48138e-9/Linf=2.13643e-11. Momentum carries98.90%/98.88% of energy.
+For240, the outermost eight radial/polar index layers contain only4.99e-6/
+3.29e-8 of residual energy. Largest point is(i,j,k)=(51,55,4); energy is
+spread across interior indices and azimuths. This does not support endpoint
+rows as the sole remaining problem. Raw224/240 JSON and job ID retained in
+residual-localization/gpu-v1. Before changing the preconditioner, compare
+actual-state residual evaluation precision between CPU and CUDA: a fine-grid
+roundoff floor has not yet been excluded by the small-grid controls.
