@@ -1,0 +1,38 @@
+[ 15%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureExecution.c.o
+[ 23%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureKrylov.c.o
+[ 23%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_CoordTransf.c.o
+[ 30%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Equations.c.o
+[ 38%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_FuncAndJacobian.c.o
+[ 46%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Modal.c.o
+[ 53%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Newton.c.o
+[ 61%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Utilities.c.o
+[ 69%] Building C object CMakeFiles/TwoPunctures.dir/src/TwoPunctures.c.o
+[ 76%] Linking C shared library libTwoPunctures.so
+[ 76%] Built target TwoPunctures
+[ 92%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_geometry.cpp.o
+[ 92%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_solver.cpp.o
+[100%] Linking CXX shared library libHiSpID.so
+[100%] Built target HiSpID
+	Command being timed: "cmake --build /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler --target HiSpID -j4"
+	User time (seconds): 13.93
+	System time (seconds): 1.09
+	Percent of CPU this job got: 167%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:08.98
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 309392
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 41
+	Minor (reclaiming a frame) page faults: 214461
+	Voluntary context switches: 2114
+	Involuntary context switches: 1797
+	Swaps: 0
+	File system inputs: 13372
+	File system outputs: 2864
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

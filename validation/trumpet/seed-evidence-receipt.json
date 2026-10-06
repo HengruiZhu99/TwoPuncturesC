@@ -1,0 +1,22 @@
+{
+  "kind": "focused_seed_evidence_receipt",
+  "derivative_exterior_passed": true,
+  "charge_passed": true,
+  "manufactured_operator_passed": true,
+  "full_seed_acceptance": false,
+  "binary_acceptance": false,
+  "library_sha256": "439c82359e044269ecab3aa01d2f43f7e3ccae69b85077d062b644d8b356c71e",
+  "probe_sha256": "00df381088294751ab522d973065d8004651e770c69d98b80259f6be3c555864",
+  "records": {
+    "validation/trumpet/seed-charges-initial.json": "459a40bbcfa93af2559aff4d57585fff4938e0de57fb056f5cc303150510d3fd",
+    "validation/trumpet/seed-charges-gamma10-far.json": "0bebda59ab2117db0e0b9becf32f7492bc93e7da9756a69166a428236952140a",
+    "validation/trumpet/seed-charges-gamma10-outer.json": "d2b94fcaf3086fb66e1e43244577fbc78f3931a34082377734c8f412e4172691",
+    "validation/trumpet/seed-coarse-refinement.json": "b86f54e15c96fd3da4eb99162f2ab16861d117e4781499a919f3a1a2c217a780",
+    "validation/trumpet/manufactured-operator.json": "47aafca914f9edc01efd2e56aa72790895adf80d5a3d6420ca9dc802cd022d2f"
+  },
+  "notes": [
+    "Initial charge runner failed its final bookkeeping call after saving all case results. Static and generic case evidence is reused after checking the unchanged image hash; failed Gamma10 short-radius evidence is retained.",
+    "Independent ADM metric-gradient observer is unchanged. NumPy emitted floating-point warnings at its frame matrix product; all retained quadrature vectors are finite.",
+    "Probe refinement uses the exact executed driver source embedded in its result. Production backend and high-spin near-horizon physical checks remain pending."
+  ]
+}

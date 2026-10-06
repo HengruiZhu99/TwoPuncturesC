@@ -14,7 +14,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'python'))
 from hispid import Hole, PTR, ptr
 from physical import constraints, norms
 
-def run(library):
+def run(library, step_scale=1.):
     lib=C.CDLL(str(library.resolve()))
     lib.trumpet_probe.argtypes=[C.POINTER(Hole),C.c_int,PTR,PTR,PTR,PTR,PTR]
     lib.trumpet_probe.restype=C.c_int
@@ -22,6 +22,7 @@ def run(library):
     for label,spin,velocity in [('static',(0,0,0),(0,0,0)),
                                 ('generic',(.2,-.3,.7),(.25,.1,-.2)),
                                 ('gamma10',(0,0,0),(np.sqrt(.99),0,0))]:
+        if not np.isfinite(step_scale) or step_scale<=0: raise ValueError("positive finite step scale required")
         hole=Hole(1,spin=spin,velocity=velocity)
         def sample(x):
             x=np.ascontiguousarray(x,dtype=float).reshape(-1,3);n=len(x)
@@ -34,12 +35,14 @@ def run(library):
         if label=='gamma10':x[:,0]/=10
         levels=[]
         for h in [.008,.004,.002]:
+            h*=step_scale
             if label=='gamma10':h/=10
             levels.append(dict(step=h,**norms(constraints(sample,x,h))))
         center=sample(x);derivative_error={}
         for field,key in [('gamma','dgamma'),('Kij','dKij')]:
             errs=[]
             for h in [.004,.002,.001]:
+                h*=step_scale
                 if label=='gamma10':h/=10
                 approx=np.empty_like(center[key])
                 for d in range(3):
@@ -59,7 +62,7 @@ def run(library):
 
 if __name__=='__main__':
     ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True)
-    ap.add_argument('--output',type=Path,required=True);args=ap.parse_args()
+    ap.add_argument('--output',type=Path,required=True);ap.add_argument('--step-scale',type=float,default=1.);args=ap.parse_args()
     if args.output.exists():raise FileExistsError(args.output)
-    result=run(args.library);args.output.write_text(json.dumps(result,indent=2)+'\n')
+    result=run(args.library,args.step_scale);args.output.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result['rows'],indent=2))

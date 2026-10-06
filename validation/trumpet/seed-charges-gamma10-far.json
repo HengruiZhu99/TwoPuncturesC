@@ -1,0 +1,177 @@
+{
+  "kind": "trumpet_independent_ADM",
+  "library_sha256": "439c82359e044269ecab3aa01d2f43f7e3ccae69b85077d062b644d8b356c71e",
+  "radii": [
+    2048.0,
+    4096.0,
+    8192.0,
+    16384.0
+  ],
+  "relative_tolerance": 0.0001,
+  "cases": [
+    {
+      "case": "gamma10",
+      "spin": [
+        0,
+        0,
+        0
+      ],
+      "velocity": [
+        0.99498743710662,
+        0,
+        0
+      ],
+      "expected": [
+        9.999999999999995,
+        9.949874371066194,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "quadratures": [
+        {
+          "ntheta": 96,
+          "nphi": 8,
+          "values": [
+            [
+              9.998183828194941,
+              9.291610710803125,
+              -1.1052221994715019e-13,
+              1.9734744660508565e-14,
+              2.8975667764794733e-13,
+              -5.638004446158473e-10,
+              -7.62828638246744e-10
+            ],
+            [
+              9.999091141217816,
+              9.600902154892578,
+              -1.1696942024595177e-13,
+              -2.5728687791797258e-14,
+              2.7094683473504614e-12,
+              7.3820699907543834e-09,
+              -3.567205681574387e-10
+            ],
+            [
+              9.999545182578897,
+              9.769885903325035,
+              -2.2868170919290336e-13,
+              4.186647698938939e-14,
+              9.195402633958767e-13,
+              1.0695847944251473e-08,
+              -1.2644220629627933e-08
+            ],
+            [
+              9.999772398009172,
+              9.858427029028888,
+              -5.856156094712724e-14,
+              2.0956012630206967e-13,
+              -1.2551975972581988e-11,
+              -8.221611085209433e-08,
+              4.208933388792538e-08
+            ]
+          ],
+          "fits": [
+            [
+              9.999999480506414,
+              9.94842833601598,
+              -4.1271979067155583e-13,
+              1.6967956244213594e-13,
+              -2.8702437664292734e-12,
+              1.3570187721623218e-08,
+              -3.32587567554419e-08
+            ],
+            [
+              9.99999974327261,
+              9.9496676557245,
+              2.62209449111484e-13,
+              4.66517820229475e-13,
+              -3.4407860337893606e-11,
+              -2.3817396816383662e-07,
+              1.3740775810433787e-07
+            ]
+          ]
+        },
+        {
+          "ntheta": 128,
+          "nphi": 8,
+          "values": [
+            [
+              9.998184284145289,
+              9.29161132915195,
+              -9.221400253225043e-15,
+              1.328599553465112e-13,
+              4.112189339027794e-13,
+              -1.0500459181160378e-09,
+              -3.641762869627888e-10
+            ],
+            [
+              9.999091537885514,
+              9.60090273060318,
+              3.459615078744754e-14,
+              -1.9733483838668295e-14,
+              1.8058868918387749e-12,
+              2.1661795026834772e-09,
+              -1.5620255824161224e-09
+            ],
+            [
+              9.999545567812087,
+              9.769886425937857,
+              -3.9538533018572967e-14,
+              1.5948625062038944e-13,
+              2.165943613065031e-12,
+              -1.2143542736339354e-08,
+              -1.0382750165773044e-08
+            ],
+            [
+              9.999772902635435,
+              9.858427513199041,
+              2.334955076090444e-14,
+              8.343133129267569e-14,
+              1.2478315942841517e-12,
+              2.0782018575591372e-08,
+              2.5342238662712026e-09
+            ]
+          ],
+          "fits": [
+            [
+              9.99999986644297,
+              9.948428784345246,
+              -1.7770218970883155e-13,
+              5.09050287780546e-13,
+              2.3011488291301272e-12,
+              -3.7065154941643944e-08,
+              -2.4684674706216828e-08
+            ],
+            [
+              10.000000450698826,
+              9.949668093522792,
+              1.528745849953738e-13,
+              -1.0306677907320005e-13,
+              -4.0237401075940174e-13,
+              8.042786150848363e-08,
+              2.7002755447463953e-08
+            ]
+          ]
+        }
+      ],
+      "completed": true,
+      "scaled_error": 2.0731673155775034e-05,
+      "angular_change": 3.1860182967232025e-07,
+      "radial_change": 0.00012455525882313,
+      "passed": false,
+      "seconds": 0.7695045420000001
+    }
+  ],
+  "completed": true,
+  "binary_acceptance": false,
+  "source_sha256": {
+    "validation/check_trumpet_charges.py": "8221077d8d48a6b6844acd39006a2dd67af3e02df49e92980b5fd404c116d193",
+    "validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "python/hispid.py": "e1ea73652634909962f5ce31f470fe3692724e652bb93c0a3eaab966493b8137",
+    "src/HiSpID_trumpet.hpp": "48ed6a44cc5fe84d914361956ef87fb542cba58408f7ab4d017422ea52146789"
+  },
+  "passed": false,
+  "executed_driver_source": "\"\"\"Distinct asymptotic seed gate: independent raw-tensor ADM surface integrals.\n\nOne host seed path; no elliptic solve or backend timing matrix. Charge observer\nuses Cartesian finite differences, not the seed's analytic metric derivatives.\n\"\"\"\nimport argparse\nimport hashlib\nimport json\nimport sys\nimport time\nfrom pathlib import Path\nimport numpy as np\nsys.path.insert(0, str(Path(__file__).resolve().parents[1]/'python'))\nfrom hispid import Backend, Hole\nfrom physical import charges, extrapolate\n\n\ndef run(library, output, only=None, radius_scale=1.):\n    backend = Backend(str(library.resolve()))\n    radii = [radius_scale*r for r in (256., 512., 1024., 2048.)]\n    result = dict(kind='trumpet_independent_ADM', library_sha256=backend.loaded_sha256,\n                  radii=radii, relative_tolerance=1e-4, cases=[], completed=False,\n                  binary_acceptance=False)\n    root = Path(__file__).resolve().parents[1]\n    result['source_sha256'] = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()\n        for p in [Path(__file__).resolve(), root/'validation/physical.py',\n                  root/'python/hispid.py', root/'src/HiSpID_trumpet.hpp']}\n    def save():\n        output.write_text(json.dumps(result, indent=2)+'\\n')\n    for name, spin, velocity, levels in [\n        ('spin99', (0, 0, .99), (0, 0, 0), [(16, 32), (24, 48)]),\n        ('generic', (.2, -.3, .7), (.25, .1, -.2), [(16, 32), (24, 48)]),\n        ('gamma10', (0, 0, 0), (np.sqrt(.99), 0, 0), [(96, 8), (128, 8)])]:\n        if only and name != only: continue\n        start = time.monotonic()\n        hole = Hole(1, spin=spin, velocity=velocity)\n        v, S = np.array(velocity), np.array(spin)\n        G = 1/np.sqrt(1-v@v)\n        expected = np.r_[G, G*v, G*S-G**2/(G+1)*(v@S)*v]\n        axis = v if np.linalg.norm(v) else S\n        axis = axis/np.linalg.norm(axis)\n        transverse = np.eye(3)[np.argmin(abs(axis))]\n        transverse -= (transverse@axis)*axis\n        transverse /= np.linalg.norm(transverse)\n        frame = np.column_stack([axis, transverse, np.cross(axis, transverse)])\n        row = dict(case=name, spin=spin, velocity=list(velocity), expected=expected.tolist(),\n                   quadratures=[], completed=False)\n        result['cases'].append(row); save()\n        sample = lambda x: backend.seed(hole, x, seed_family='trumpet_r0_m')\n        for nt, nf in levels:\n            q = dict(ntheta=nt, nphi=nf, values=[])\n            row['quadratures'].append(q)\n            for r in radii:\n                q['values'].append(charges(sample, r, ntheta=nt, nphi=nf,\n                                           polar_frame=frame).tolist()); save()\n            q['fits'] = [extrapolate(radii[i:i+3], q['values'][i:i+3]).tolist()\n                         for i in (0, 1)]\n            save()\n        final = np.array(row['quadratures'][-1]['fits'][-1])\n        # One mass unit is the absolute scale for a vanishing charge component.\n        scale = np.maximum(1., abs(expected))\n        row['scaled_error'] = float(np.max(abs(final-expected)/scale))\n        row['angular_change'] = float(np.max(abs(final-row['quadratures'][0]['fits'][-1])/scale))\n        row['radial_change'] = float(np.max(abs(final-row['quadratures'][-1]['fits'][0])/scale))\n        row['passed'] = max(row[k] for k in ('scaled_error','angular_change','radial_change')) < 1e-4\n        row['seconds'] = time.monotonic()-start\n        row['completed'] = True; save()\n        print(name, row['scaled_error'], row['angular_change'], row['radial_change'], flush=True)\n    result['completed'] = True\n    result['passed'] = all(row['passed'] for row in result['cases'])\n    backend.library_sha256(); save()\n    return result\n\nif __name__ == '__main__':\n    ap = argparse.ArgumentParser()\n    ap.add_argument('--library', type=Path, required=True)\n    ap.add_argument('--output', type=Path, required=True)\n    ap.add_argument('--case', choices=['spin99','generic','gamma10'])\n    ap.add_argument('--radius-scale', type=float, default=1.)\n    args = ap.parse_args()\n    if args.output.exists(): raise FileExistsError(args.output)\n    run(args.library, args.output, args.case, args.radius_scale)\n"
+}

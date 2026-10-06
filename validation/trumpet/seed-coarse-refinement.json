@@ -1,0 +1,249 @@
+{
+  "kind": "focused_development_seed_check",
+  "rows": [
+    {
+      "case": "static",
+      "constraints": [
+        {
+          "step": 0.064,
+          "count": 3,
+          "H_rms": 2.869312002784262e-07,
+          "H_max": 4.926387734416338e-07,
+          "M_rms": 4.058361182314724e-06,
+          "M_max": 7.019609053811354e-06,
+          "M_components_rms": [
+            1.2365977604555895e-06,
+            3.8806099344054183e-07,
+            2.020363481301237e-06
+          ],
+          "M_components_max": [
+            2.1325594228741237e-06,
+            6.687057393169513e-07,
+            3.4960817687734e-06
+          ],
+          "normalized_H_max": 2.9374933102425253e-06,
+          "normalized_M_max": 4.3428776081107844e-05
+        },
+        {
+          "step": 0.032,
+          "count": 3,
+          "H_rms": 1.9134046235565685e-08,
+          "H_max": 3.287921145067596e-08,
+          "M_rms": 2.5357431932985677e-07,
+          "M_max": 4.3859814029401705e-07,
+          "M_components_rms": [
+            7.790927380267879e-08,
+            2.1588878167415122e-08,
+            1.2632292220065058e-07
+          ],
+          "M_components_max": [
+            1.3436011008478643e-07,
+            3.7162483265028527e-08,
+            2.1859405394009435e-07
+          ],
+          "normalized_H_max": 1.960518206547617e-07,
+          "normalized_M_max": 2.7135277859860847e-06
+        },
+        {
+          "step": 0.016,
+          "count": 3,
+          "H_rms": 1.2170736791872445e-09,
+          "H_max": 2.0923332649802617e-09,
+          "M_rms": 1.5848251033222417e-08,
+          "M_max": 2.741212748702523e-08,
+          "M_components_rms": [
+            4.879257038788744e-09,
+            1.3074357510355942e-09,
+            7.8959983295759e-09
+          ],
+          "M_components_max": [
+            8.414671012957494e-09,
+            2.2498441050084014e-09,
+            1.3663572167512625e-08
+          ],
+          "normalized_H_max": 1.2476145358141806e-08,
+          "normalized_M_max": 1.6959397441168804e-07
+        }
+      ],
+      "derivative_scaled_linf": {
+        "gamma": [
+          4.4586757419120805e-07,
+          2.790581888447891e-08,
+          1.7446842860309059e-09
+        ],
+        "Kij": [
+          1.6124716449670792e-06,
+          1.0082368379647782e-07,
+          6.302173628941097e-09
+        ]
+      },
+      "fine_constraint_passed": true
+    },
+    {
+      "case": "generic",
+      "constraints": [
+        {
+          "step": 0.064,
+          "count": 3,
+          "H_rms": 7.796919447915871e-07,
+          "H_max": 1.114122420695085e-06,
+          "M_rms": 2.303972457113223e-06,
+          "M_max": 3.977338175193472e-06,
+          "M_components_rms": [
+            1.2252602940227328e-06,
+            5.183524854213014e-07,
+            1.5712461192834114e-07
+          ],
+          "M_components_max": [
+            2.117793031792033e-06,
+            8.961700982855598e-07,
+            2.1538104395700401e-07
+          ],
+          "normalized_H_max": 4.1560919723776124e-05,
+          "normalized_M_max": 3.5892979796502925e-05
+        },
+        {
+          "step": 0.032,
+          "count": 3,
+          "H_rms": 4.8663655185066995e-08,
+          "H_max": 6.98373561099086e-08,
+          "M_rms": 1.464403590246687e-07,
+          "M_max": 2.528273171798582e-07,
+          "M_components_rms": [
+            7.865341820888953e-08,
+            3.141584260114059e-08,
+            8.817805775691176e-09
+          ],
+          "M_components_max": [
+            1.3596353263029652e-07,
+            5.4302996242880655e-08,
+            1.1198341082171325e-08
+          ],
+          "normalized_H_max": 2.605295226693669e-06,
+          "normalized_M_max": 2.281661452989264e-06
+        },
+        {
+          "step": 0.016,
+          "count": 3,
+          "H_rms": 3.0401375490483724e-09,
+          "H_max": 4.3729095552946795e-09,
+          "M_rms": 9.191895615668376e-09,
+          "M_max": 1.5870121955062525e-08,
+          "M_components_rms": [
+            4.9484453129417795e-09,
+            1.9481737519444517e-09,
+            5.361630576749958e-10
+          ],
+          "M_components_max": [
+            8.554319628243813e-09,
+            3.3672744093784334e-09,
+            6.643316472388768e-10
+          ],
+          "normalized_H_max": 1.6313258188341693e-07,
+          "normalized_M_max": 1.4322147440414275e-07
+        }
+      ],
+      "derivative_scaled_linf": {
+        "gamma": [
+          5.782556551678686e-07,
+          3.60856650721752e-08,
+          2.254488331397436e-09
+        ],
+        "Kij": [
+          1.2475013700767859e-06,
+          7.816311501708091e-08,
+          4.8882377801303385e-09
+        ]
+      },
+      "fine_constraint_passed": true
+    },
+    {
+      "case": "gamma10",
+      "constraints": [
+        {
+          "step": 0.0064,
+          "count": 3,
+          "H_rms": 2.4045891781750717e-06,
+          "H_max": 4.138775975007225e-06,
+          "M_rms": 5.521816007694542e-06,
+          "M_max": 9.549743234282885e-06,
+          "M_components_rms": [
+            1.8651056223024957e-07,
+            2.8001993881206524e-06,
+            1.6030622282147264e-06
+          ],
+          "M_components_max": [
+            3.224310242580878e-07,
+            4.841660767353834e-06,
+            2.7671451245403265e-06
+          ],
+          "normalized_H_max": 1.655069838970093e-05,
+          "normalized_M_max": 4.773231497001437e-05
+        },
+        {
+          "step": 0.0032,
+          "count": 3,
+          "H_rms": 1.5310440792183158e-07,
+          "H_max": 2.6354906230985353e-07,
+          "M_rms": 3.4286434905579103e-07,
+          "M_max": 5.929626711446968e-07,
+          "M_components_rms": [
+            1.1757945105217737e-08,
+            1.735731363911283e-07,
+            9.936917268478466e-08
+          ],
+          "M_components_max": [
+            2.0327067117653252e-08,
+            3.0010998592542664e-07,
+            1.7152152721191364e-07
+          ],
+          "normalized_H_max": 1.053899383011749e-06,
+          "normalized_M_max": 2.9636519271439544e-06
+        },
+        {
+          "step": 0.0016,
+          "count": 3,
+          "H_rms": 9.2990207533549e-09,
+          "H_max": 1.585735040499081e-08,
+          "M_rms": 2.139379269614932e-08,
+          "M_max": 3.6999146756830205e-08,
+          "M_components_rms": [
+            7.364175573366785e-10,
+            1.0825741622981757e-08,
+            6.197686985063542e-09
+          ],
+          "M_components_max": [
+            1.2731216386287247e-09,
+            1.8717756742137053e-08,
+            1.0697767832591022e-08
+          ],
+          "normalized_H_max": 6.341147681756841e-08,
+          "normalized_M_max": 1.849227055023998e-07
+        }
+      ],
+      "derivative_scaled_linf": {
+        "gamma": [
+          4.0344376438491063e-07,
+          2.509908579708987e-08,
+          1.5668647712680907e-09
+        ],
+        "Kij": [
+          4.85239632568571e-06,
+          3.0357270782486984e-07,
+          1.898414798258489e-08
+        ]
+      },
+      "fine_constraint_passed": true
+    }
+  ],
+  "full_seed_acceptance": false,
+  "binary_acceptance": false,
+  "sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-hispid-trumpet/libtrumpet_probe.so": "00df381088294751ab522d973065d8004651e770c69d98b80259f6be3c555864",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/validation/check_trumpet_seed.py": "bfb989b14e251e2a6756324b38668b34363bd2c923d6b812542ca423e6228ee9",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tests/trumpet_probe.cpp": "2b91fe6c4e3b0d4f35cf43ec5f82d07d101f51e6981e2c5491311986590cf0c4",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/src/HiSpID_trumpet.hpp": "48ed6a44cc5fe84d914361956ef87fb542cba58408f7ab4d017422ea52146789"
+  },
+  "executed_driver_source": "\"\"\"Focused independent physical/derivative check of the development seed probe.\n\nUses raw physical tensors and the existing independent Cartesian observer.\nNo performance measurement or multi-backend matrix.\n\"\"\"\nimport argparse\nimport ctypes as C\nimport hashlib\nimport json\nimport sys\nfrom pathlib import Path\nimport numpy as np\nsys.path.insert(0,str(Path(__file__).resolve().parents[1]/'python'))\nfrom hispid import Hole, PTR, ptr\nfrom physical import constraints, norms\n\ndef run(library):\n    lib=C.CDLL(str(library.resolve()))\n    lib.trumpet_probe.argtypes=[C.POINTER(Hole),C.c_int,PTR,PTR,PTR,PTR,PTR]\n    lib.trumpet_probe.restype=C.c_int\n    rows=[]\n    for label,spin,velocity in [('static',(0,0,0),(0,0,0)),\n                                ('generic',(.2,-.3,.7),(.25,.1,-.2)),\n                                ('gamma10',(0,0,0),(np.sqrt(.99),0,0))]:\n        hole=Hole(1,spin=spin,velocity=velocity)\n        def sample(x):\n            x=np.ascontiguousarray(x,dtype=float).reshape(-1,3);n=len(x)\n            g=np.empty((n,3,3));k=np.empty_like(g)\n            dg=np.empty((n,3,3,3));dk=np.empty_like(dg)\n            status=lib.trumpet_probe(C.byref(hole),n,ptr(x),ptr(g),ptr(k),ptr(dg),ptr(dk))\n            if status:raise RuntimeError(f'{label}: rejected seed status {status}')\n            return dict(gamma=g,Kij=k,dgamma=dg,dKij=dk,attenuation=np.ones(n))\n        x=np.array([[1.2,.7,-.4],[2,-1,.8],[4,.3,2.]])\n        if label=='gamma10':x[:,0]/=10\n        levels=[]\n        for h in [.064,.032,.016]:\n            if label=='gamma10':h/=10\n            levels.append(dict(step=h,**norms(constraints(sample,x,h))))\n        center=sample(x);derivative_error={}\n        for field,key in [('gamma','dgamma'),('Kij','dKij')]:\n            errs=[]\n            for h in [.032,.016,.008]:\n                if label=='gamma10':h/=10\n                approx=np.empty_like(center[key])\n                for d in range(3):\n                    shift=np.zeros(3);shift[d]=h\n                    approx[:,d]=(sample(x-2*shift)[field]-8*sample(x-shift)[field]\n                        +8*sample(x+shift)[field]-sample(x+2*shift)[field])/(12*h)\n                errs.append(float(np.max(np.abs(approx-center[key])/(1+np.abs(center[key])))))\n            derivative_error[field]=errs\n        rows.append(dict(case=label,constraints=levels,derivative_scaled_linf=derivative_error,\n                         fine_constraint_passed=levels[-1]['H_rms']<1e-7 and levels[-1]['M_rms']<1e-7))\n    root=Path(__file__).resolve().parents[1]\n    return dict(kind='focused_development_seed_check',rows=rows,\n                full_seed_acceptance=False,binary_acceptance=False,\n                sha256={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in\n                    [library.resolve(),Path(__file__).resolve(),root/'validation/physical.py',\n                     root/'tests/trumpet_probe.cpp',root/'src/HiSpID_trumpet.hpp']})\n\n"
+}

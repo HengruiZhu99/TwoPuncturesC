@@ -150,3 +150,64 @@ excluded foci; endpoint approximation and coupled indicial behavior still
 need assessment before a binary resolution sequence is accepted. The family
 metadata is separate from the current basis identifier so future basis
 changes cannot silently reinterpret existing unknown arrays.
+
+## Independent seed/operator progress (2026-10-05)
+
+A three-level **coarser verifier** sequence resolves the previous roundoff
+ambiguity without changing the seed or tolerance. On the original exterior
+points, both physical constraints and metric/K derivative differences decrease
+approximately16-fold per halving for static, generic spinning/boosted, and
+Gamma10 seeds. Finest Gamma10 H/M RMS are9.299e-9/2.139e-8, below1e-7.
+The exact executed driver and probe hash are retained in
+`validation/trumpet/seed-coarse-refinement.json`; future runs can use
+`check_trumpet_seed.py --step-scale 8` with the compiled probe. These exterior
+points do not replace the pending high-spin near-horizon physical checks.
+
+The independent ADM observer uses raw physical tensors and Cartesian finite
+differences, not native conformal derivatives. Spin.99 and generic spin/boost
+extrapolated charge errors are5.49e-10 and3.19e-9 (scaled by max(1,|expected|)).
+Gamma10 energy is already accurate at the initial radii, but momentum has
+large finite-radius corrections: the initial256--2048 range fails. Moving
+outward and reusing completed surface integrals gives a4096--32768 range with
+scaled charge error2.78e-6, angular change4.93e-7 and adjacent radial-fit
+change1.80e-5, all below the original1e-4 criterion. This checks positive
+momentum in the input velocity direction and the Lorentz-transformed angular
+momentum of the generic case. Failed shorter-radius fits remain available.
+The first charge script's final bookkeeping call used a nonexistent method;
+case results were saved before that error. Their immutable executed source and
+subsequent image-hash verification are retained; no successful rerun is invented.
+
+A distinct manufactured case uses four sinusoidal scalar/vector fields on the
+generic curved trumpet background. The independent observer builds connections
+from metric values, forms contravariant longitudinal tensors and differences
+their fluxes. Scalar Laplacian, all three vector components, and conformal
+Ricci scalar converge at fourth order; finest scaled errors are at most2.12e-9
+against the native operator, below1e-7. Together with the earlier centered JVP
+control this completes the local operator obligation, not a binary solve.
+`validation/trumpet/seed-evidence-receipt.json` binds the retained results.
+
+Production selection uses the existing frozen measurements: at40x80x16,
+CUDA HiSpID/GMRES solve median.396s versus1.70s on OpenMP16, with ready times
+5.86s versus7.32s. Select CUDA/GMRES for the solve and existing host geometry
+construction; use the CPU sampler for the AthenaK consumer. These are historical
+selection data, not trumpet timings or acceptance of the optional GPU setup.
+A single small device control covers seed dispatch and residual/JVP cache
+consistency, including optional execution-space setup; no physical matrix is
+repeated. Production builds use row power3, as in the selected measurements.
+The local development library uses its original row convention; it is not
+substituted silently for the selected production image.
+
+Perlmutter build allocation59402081 uses one GPU and32 logical CPUs in
+shared_interactive, scratch root`/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005`.
+The archive contains source fromff5e8ae. Build commands are retained in
+`validation/perlmutter_trumpet_build.sh`. CPU sampler and CUDA solver images
+are separate stages; no old benchmark or baseline binaries are rebuilt.
+
+For the nonspinning boosted target, spacelikeness can also be established
+analytically over the entire punctured domain. The rest Schwarzschild trumpet
+has alpha=r/R, beta=m*x/R^2 and gamma^ij=(r/R)^2 delta^ij, R=r+m. For speedv<1,
+`q-alpha*sqrt(v_i gamma^ij v_j) >= 1-v*m*r/R^2-v*r^2/R^2
+=1-v*r/R >0`. Thus both factors of the slice margin
+`q^2-alpha^2 v_i gamma^ij v_j` are positive for everyr>0, includingGamma10.
+This establishes the nonspinning target's direct-boost slicing, not a global
+claim for arbitrary spinning/boosted combinations.

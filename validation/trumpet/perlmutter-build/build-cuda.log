@@ -1,0 +1,733 @@
+[  2%] Building CXX object kokkos/simd/src/CMakeFiles/kokkossimd.dir/Kokkos_SIMD_dummy.cpp.o
+[  6%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Abort.cpp.o
+[  6%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_CPUDiscovery.cpp.o
+[  8%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Command_Line_Parsing.cpp.o
+[ 10%] Linking CXX shared library libkokkossimd.so
+[ 10%] Built target kokkossimd
+[ 13%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Core.cpp.o
+[ 15%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Error.cpp.o
+[ 17%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_ExecPolicy.cpp.o
+[ 19%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostBarrier.cpp.o
+[ 21%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostSpace.cpp.o
+[ 23%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostSpace_deepcopy.cpp.o
+[ 26%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_HostThreadTeam.cpp.o
+[ 28%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_MemoryPool.cpp.o
+[ 30%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Profiling.cpp.o
+[ 32%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_SharedAlloc.cpp.o
+[ 34%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_Stacktrace.cpp.o
+[ 36%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/impl/Kokkos_hwloc.cpp.o
+[ 39%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/Cuda/Kokkos_CudaSpace.cpp.o
+[ 41%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/Cuda/Kokkos_Cuda_Instance.cpp.o
+[ 43%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/Cuda/Kokkos_Cuda_Task.cpp.o
+[ 45%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/OpenMP/Kokkos_OpenMP.cpp.o
+[ 47%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/OpenMP/Kokkos_OpenMP_Instance.cpp.o
+[ 50%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/OpenMP/Kokkos_OpenMP_Task.cpp.o
+[ 52%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/Serial/Kokkos_Serial.cpp.o
+[ 54%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/Serial/Kokkos_Serial_Task.cpp.o
+[ 56%] Building CXX object kokkos/core/src/CMakeFiles/kokkoscore.dir/pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/kokkos/tpls/desul/src/Lock_Array_CUDA.cpp.o
+[ 58%] Linking CXX shared library libkokkoscore.so
+[ 58%] Built target kokkoscore
+[ 63%] Building CXX object kokkos/algorithms/src/CMakeFiles/kokkosalgorithms.dir/KokkosAlgorithms_dummy.cpp.o
+[ 63%] Building CXX object kokkos/containers/src/CMakeFiles/kokkoscontainers.dir/impl/Kokkos_UnorderedMap_impl.cpp.o
+[ 65%] Linking CXX shared library libkokkosalgorithms.so
+[ 65%] Built target kokkosalgorithms
+[ 67%] Linking CXX shared library libkokkoscontainers.so
+[ 67%] Built target kokkoscontainers
+[ 73%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureExecution.c.o
+[ 73%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureKrylov.c.o
+[ 76%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_CoordTransf.c.o
+[ 76%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Equations.c.o
+[ 78%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_FuncAndJacobian.c.o
+[ 80%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Modal.c.o
+[ 82%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Newton.c.o
+[ 84%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Utilities.c.o
+[ 86%] Building C object CMakeFiles/TwoPunctures.dir/src/TwoPunctures.c.o
+[ 89%] Building CXX object CMakeFiles/TwoPunctures.dir/src/PunctureKokkos.cpp.o
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(172): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    std::vector<double> values{params_get_real("par_b")};
+                                               ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(200): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   int budget=params_get_int("TP_execution_memory_limit_mib");
+                             ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(249): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(249): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(257): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   if(!w||!v||!F||!u||v==u||v->size!=w->total||u->size!=w->total||params_get_int("do_residuum_debug_output"))return PK_INVALID;
+                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(267): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(267): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(293): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(293): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                               ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(172): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    std::vector<double> values{params_get_real("par_b")};
+                                               ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(200): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   int budget=params_get_int("TP_execution_memory_limit_mib");
+                             ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(249): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(249): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(257): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   if(!w||!v||!F||!u||v==u||v->size!=w->total||u->size!=w->total||params_get_int("do_residuum_debug_output"))return PK_INVALID;
+                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(267): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(267): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(293): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/PunctureKokkos.cpp(293): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                               ^
+
+[ 91%] Linking CXX shared library libTwoPunctures.so
+[ 91%] Built target TwoPunctures
+[ 97%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_solver.cpp.o
+[ 97%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_geometry.cpp.o
+[ 97%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_setup_kokkos.cpp.o
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_types.hpp(16): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("point_norm") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline Real point_norm(const double *a){return std::sqrt((Real)a[0]*a[0]+(Real)a[1]*a[1]+(Real)a[2]*a[2]);}
+                                                                     ^
+          detected during instantiation of "Real hispid::point_norm<Real>(const double *) [with Real=long double]" at line 10 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_types.hpp(16): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline Real point_norm(const double *a){return std::sqrt((Real)a[0]*a[0]+(Real)a[1]*a[1]+(Real)a[2]*a[2]);}
+                                                                              ^
+          detected during instantiation of "Real hispid::point_norm<Real>(const double *) [with Real=long double]" at line 10 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("trumpet_seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                             ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 17 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("trumpet_seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                                         ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 17 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(29): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                      ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 17 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(29): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                                                  ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 17 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(14): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   Real boost=1/std::sqrt(1-v2),B[4][4]={};
+                ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 17 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(14): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   Real boost=1/std::sqrt(1-v2),B[4][4]={};
+                         ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 17 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(57): warning #20013-D: calling a constexpr __host__ function("exp") from a __host__ __device__ function("exp") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> exp(const JetT<Real>&a){Real v=std::exp(a.v);return unary(a,v,v,v);}
+                                                                       ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::exp(const hispid::JetT<Real> &) [with Real=long double]" at line 247 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(57): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> exp(const JetT<Real>&a){Real v=std::exp(a.v);return unary(a,v,v,v);}
+                                                                               ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::exp(const hispid::JetT<Real> &) [with Real=long double]" at line 247 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("exp") from a __host__ __device__ function("expm1") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                         ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 247 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("expm1") from a __host__ __device__ function("expm1") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                                                      ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 247 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(58): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                                 ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 247 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(58): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                                                                ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 247 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(188): warning #20013-D: calling a constexpr __host__ function("acos") from a __host__ __device__ function("inner") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return (JetT<Real>(1)+tanh(tan(JetT<Real>(std::acos(Real(-1))/2)*(JetT<Real>(-1)+JetT<Real>(2)*z))))/JetT<Real>(2);
+                                             ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 250
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(59): warning #20013-D: calling a constexpr __host__ function("tan") from a __host__ __device__ function("tan") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
+                                                                       ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tan(const hispid::JetT<Real> &) [with Real=long double]" at line 188 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 250 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(59): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
+                                                                               ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tan(const hispid::JetT<Real> &) [with Real=long double]" at line 188 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 250 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(60): warning #20013-D: calling a constexpr __host__ function("tanh") from a __host__ __device__ function("tanh") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
+                                                                        ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tanh(const hispid::JetT<Real> &) [with Real=long double]" at line 188 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 250 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(60): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                      inline JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
+                                                                                 ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tanh(const hispid::JetT<Real> &) [with Real=long double]" at line 188 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 250 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(188): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return (JetT<Real>(1)+tanh(tan(JetT<Real>(std::acos(Real(-1))/2)*(JetT<Real>(-1)+JetT<Real>(2)*z))))/JetT<Real>(2);
+                                                      ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 250
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 18 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry.cpp
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_types.hpp(16): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::point_norm<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(11): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(12): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(12): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(12): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(14): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(23): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(34): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(283): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(25): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::trumpet_seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::trumpet_seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(56): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(82): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(57): warning #20013-D: calling a constexpr __host__ function("std::exp(long double)") from a __host__ __device__ function("hispid::exp<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("std::exp(long double)") from a __host__ __device__ function("hispid::expm1<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("std::expm1(long double)") from a __host__ __device__ function("hispid::expm1<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(187): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(187): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(188): warning #20013-D: calling a constexpr __host__ function("std::acos(long double)") from a __host__ __device__ function("hispid::inner<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(59): warning #20013-D: calling a constexpr __host__ function("std::tan(long double)") from a __host__ __device__ function("hispid::tan<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(60): warning #20013-D: calling a constexpr __host__ function("std::tanh(long double)") from a __host__ __device__ function("hispid::tanh<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(222): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(86): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_jets.hpp(88): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_solver.cpp(35): warning #177-D: variable "<unnamed>::hi" was declared but never referenced
+  const int hi[6]={1,1,1,2,2,3},hj[6]={1,2,3,2,3,3};
+            ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_solver.cpp(35): warning #177-D: variable "<unnamed>::hj" was declared but never referenced
+  const int hi[6]={1,1,1,2,2,3},hj[6]={1,2,3,2,3,3};
+                                ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_solver.cpp(284): warning #177-D: function "<unnamed>::ModalBlock::solve(std::vector<double, std::allocator<double>> &, int, int) const" was declared but never referenced
+   void solve(std::vector<double>&x,int mode,int component)const{solve(x.data(),mode,component);}
+        ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_solver.cpp(369): warning #177-D: function "<unnamed>::Sparse::solve(const std::vector<double, std::allocator<double>> &, std::vector<double, std::allocator<double>> &) const" was declared but never referenced
+   void solve(const std::vector<double>&b,std::vector<double>&x)const{x.resize(b.size());solve(b.data(),x.data());}
+        ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_solver.cpp(515): warning #177-D: function "<unnamed>::gmres" was declared but never referenced
+  bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol,bool eager=false){
+       ^
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source/src/HiSpID_geometry_kernels.hpp(283): warning #20208-D: 'long double' is treated as 'double' in device code
+
+[100%] Linking CXX shared library libHiSpID.so
+[100%] Built target HiSpID
+	Command being timed: "cmake --build /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda --target HiSpID -j4"
+	User time (seconds): 258.72
+	System time (seconds): 34.34
+	Percent of CPU this job got: 221%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:12.24
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 763872
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 67
+	Minor (reclaiming a frame) page faults: 6663267
+	Voluntary context switches: 19708
+	Involuntary context switches: 36646
+	Swaps: 0
+	File system inputs: 43578
+	File system outputs: 39616
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
