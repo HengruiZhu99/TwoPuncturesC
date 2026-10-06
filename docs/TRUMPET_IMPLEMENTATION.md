@@ -660,3 +660,28 @@ commands and complete build logs/image hashes are in
 Build success does not establish checkpoint migration or horizon correctness;
 those checks remain to be run on the selected target checkpoint. Spin192 is
 still solving under59408144; Gamma10 map trial59408229 waits on its release.
+
+### Focused spin checkpoint import and initial horizon attempt
+
+The spin160 focused-map checkpoint passed producer-to-CPU sampler migration
+on2454 points with exactly zero differences in every tested field and metric
+derivative. AthenaK imports it with ADM/Z4c relative error4.108e-16. Migration
+proof and the failed finder attempt are retained in `spin-focused-map/horizon160`.
+These checks establish sampling/import compatibility, not physical acceptance.
+
+CPU allocation59408476 failed the firstl8/n16 horizon row after38.26s. Its
+initial radius is positive; the iteration trace develops alternating, growing
+shape/expansion oscillations before iteration18 requests a nonpositive radius.
+The callback label says "initial geometry", but is used on every flow iteration;
+this is not evidence that the initial seed radius is invalid or no horizon exists.
+A single targeted retry uses flow_alpha=.2 (the update coefficient scales
+linearly with alpha), keeping the checkpoint, initial shape, angular schedule,
+600-iteration limit and strict1e-7 expansion threshold unchanged. It reuses the
+passed migration proof instead of repeating that comparison. Retry allocation
+59408628 uses the CPU/OpenMP16 consumer, with script
+`run_horizons160_damped_perlmutter.sh`. Results remain diagnostic until obtained.
+
+The first queued Gamma map allocation59408229 was cancelled by its600s pending
+wait limit before any compute step ran (Slurm records elapsed0). Replacement
+59408624 has a1800s wait limit and the same afterany dependency on still-live
+spin refinement59408144. There is no duplicate Gamma solve or concurrent GPU.
