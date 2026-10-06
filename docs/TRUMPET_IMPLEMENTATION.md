@@ -780,3 +780,17 @@ Thel16/20 and quadrature checks remain running under59408772, so these are
 preliminary measurements and not angular-convergence or initial-data acceptance.
 The completedl12 artifacts and partial metadata are retained under
 `spin-focused-map/horizon160-angular`.
+
+The symmetry-restricted Gamma10 trial59409143 completed successfully in the
+**full unprojected nonlinear equations**:10 Newton/451 Krylov iterations,
+maximum weighted residual5.570e-13,43.55s solve and132.83s total. The prior
+unrestricted same-map attempt failed after3500 Krylov iterations and196.20s
+solve. This is a convergence improvement, not a matched-accuracy benchmark.
+Angular momentum components return below1e-13 and net momentum below2.4e-12.
+However, independent near H/M RMS remain3.640e-3/5.242e-2 and bulk
+2.618e-5/3.741e-4, essentially unchanged from the failed same-map iterate.
+Thus forbidden-mode contamination explains a solver/charge problem but **not**
+the dominant off-grid physical errors; the spatial accuracy problem remains.
+The result, arrays and comparison are retained under `axisymmetric/gamma10_160`
+and `axisymmetric/comparison.json`. No Gamma10 physical or horizon acceptance
+is claimed, and no stopping threshold was changed.

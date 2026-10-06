@@ -1,0 +1,14 @@
+{
+  "old_converged": false,
+  "new_converged": true,
+  "solve_seconds": [
+    196.196108979,
+    43.547541121
+  ],
+  "krylov_iterations": [
+    3500,
+    451
+  ],
+  "binary_acceptance": false,
+  "note": "Same physical configuration, maps and source guess. Faster converged solve versus prior failed solve, not a matched-accuracy performance benchmark. Off-grid physical errors remain unacceptable."
+}
