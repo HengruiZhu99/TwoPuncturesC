@@ -3,7 +3,7 @@ set -euo pipefail
 module load cray-python/3.12.12
 : "${SLURM_JOB_ID:?compute allocation required}"
 PUNCTURE_ROOT=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005
-PUNCTURE_RUN="$PUNCTURE_ROOT/axis-tau-residual-reference-v1"
+PUNCTURE_RUN="${PUNCTURE_RESIDUAL_OUTPUT:-$PUNCTURE_ROOT/axis-tau-residual-reference-v1}"
 mkdir "$PUNCTURE_RUN"
 export OMP_NUM_THREADS=16 OPENBLAS_NUM_THREADS=1 OMP_PROC_BIND=spread OMP_PLACES=cores
 printf '%s\n' "$SLURM_JOB_ID" > "$PUNCTURE_RUN/job-id.txt"

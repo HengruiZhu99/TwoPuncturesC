@@ -1830,3 +1830,12 @@ flushed stage progress. This change is for subsequent invocations; it does
 not alter the running process or any numerical implementation. Partial files
 explicitly indicate reference_pending and cannot establish backend agreement.
 Python syntax and diff checks pass; no numerical rerun was added for logging.
+
+Job59424759 terminated TIMEOUT at15:10; session21810 exited143 and no final
+comparison artifact was produced. Its allocation was released before the
+replacement job59425181 started (session31839). The replacement uses the same
+image/checkpoint and diagnostic, with45minutes requested and stage-saving
+driver ae0e037. Output axis-tau-residual-reference-v2; the script accepts
+PUNCTURE_RESIDUAL_OUTPUT to preserve the first attempt. No solve or numerical
+parameter was changed. This repeats the unfinished diagnostic because of
+insufficient wall time, not an additional backend/performance sweep.
