@@ -1,0 +1,15 @@
+[ 23%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureKrylov.c.o
+[ 23%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureExecution.c.o
+[ 46%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_FuncAndJacobian.c.o
+[ 46%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Equations.c.o
+[ 46%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_CoordTransf.c.o
+[ 53%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Modal.c.o
+[ 53%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Newton.c.o
+[ 61%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Utilities.c.o
+[ 69%] Building C object CMakeFiles/TwoPunctures.dir/src/TwoPunctures.c.o
+[ 76%] Linking C shared library libTwoPunctures.so
+[ 76%] Built target TwoPunctures
+[ 92%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_geometry.cpp.o
+[ 92%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_solver.cpp.o
+[100%] Linking CXX shared library libHiSpID.so
+[100%] Built target HiSpID

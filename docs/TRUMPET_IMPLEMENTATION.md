@@ -649,3 +649,14 @@ operator control is reused. The failed original checkpoint supplies only an
 explicitly image-bound remapped initial guess. See `gamma-focused-map/plan.json`,
 `transition-resolution.json`, and the run script. Separation calibration using
 measured component Mirr and binary horizon validation remain required.
+
+The focused-map CPU sampler and OpenMP AthenaK consumer built successfully on
+CPU allocation59408305, which then released. The isolated outputs are
+`build-focused-sampler/libHiSpID.so` (SHA65aaa4c8...) and
+`build-athenak-focused/src/athena` (SHA6c2e2301...). Both use the same(.03,3.5)
+map as the new CUDA producer; original-map consumers are preserved. Reproducible
+commands and complete build logs/image hashes are in
+`spin-focused-map/build_consumer_perlmutter.sh` and `spin-focused-map/consumer`.
+Build success does not establish checkpoint migration or horizon correctness;
+those checks remain to be run on the selected target checkpoint. Spin192 is
+still solving under59408144; Gamma10 map trial59408229 waits on its release.
