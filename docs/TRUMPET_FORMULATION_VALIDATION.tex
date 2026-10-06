@@ -1,20 +1,27 @@
-\documentclass[10pt]{article}
-\usepackage[margin=0.8in]{geometry}
+\documentclass[aps,prd,preprint,notitlepage,nofootinbib]{revtex4-2}
 \usepackage{amsmath,amssymb,booktabs,tabularx,hyperref}
+\setlength{\emergencystretch}{3em}
+\Urlmuskip=0mu plus 2mu\relax
 \hypersetup{colorlinks=true,urlcolor=blue}
+\begin{document}
 \title{Spinning and Boosted Trumpet Initial Data:\\Formulation and Validation Status}
 \author{TwoPuncturesC and AthenaK integration}
 \date{6 October 2026 --- interim report}
-\begin{document}
-\maketitle
-\noindent\textbf{Current conclusion.} The selectable trumpet seed, coupled solver
+\begin{abstract}
+ The selectable trumpet seed, coupled solver
 interface, portable checkpoint, and AthenaK consumer are implemented. Independent
 seed checks and selected horizon measurements pass. \textbf{No complete binary
 physical-validation claim is supported yet.} The moderate three-grid sequence
-fails its convergence requirement; both extreme binaries exceed the declared
-physical-constraint tolerances. A new endpoint-regularity solve has converged
-algebraically; its coarse near-hole Hamiltonian error remains just above the bound. The reduced-factor radial-512 boost retry has
-completed and improves the constraint errors, but still fails their bounds.
+has not met its convergence requirement; both extreme binaries exceed the declared
+physical-constraint tolerances. A diagnostic spin-target horizon measurement gives
+$\chi=0.98992952$, but does not establish physical acceptance of that binary.
+The latest spectral radial preconditioner passes small CPU/CUDA controls, yet
+fails the retained fine-grid linear probe (relative residual $0.7867$ against
+$0.1$ after 2400 iterations). The $\Gamma=10$ radial-512 binary still fails
+constraint and horizon bounds. This wrap-up preserves all results and records
+an incomplete physical-validation milestone; no further experiment is launched.
+\end{abstract}
+\maketitle
 
 \section{Construction and its limits}
 The reference is the $R_0=M$ stationary Kerr trumpet of Dennison, Baumgarte and
@@ -67,7 +74,7 @@ axial configurations; full unprojected nonlinear residuals still govern acceptan
 Default QI and Bowen--York paths are preserved. No backend benchmark matrix is
 part of this investigation.
 
-\begin{center}\small
+\begin{center}\footnotesize
 \begin{tabularx}{\linewidth}{@{}lXl@{}}
 \toprule
 Obligation & Decisive criterion & Status\\\midrule
@@ -97,7 +104,7 @@ The spin target has equal masses $0.5$, aligned seed $\chi=0.99$, and separation
 12. The head-on target has opposite seed $\Gamma=10$, masses $0.5$, and
 separation 25. The latter has not yet been calibrated with qualified binary
 irreducible masses.
-\begin{center}\small
+\begin{center}\footnotesize
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
 Case / grid & Near $H$ & Near $M$ & Bulk $H$ & Bulk $M$\\\midrule
@@ -223,10 +230,31 @@ median degrees are 238 and 477 on 240 and 480 nodes. Both backends agree.
 This identifies grid-scale stagnation and motivates improving the spectral
 operator's low-order preconditioner, without establishing the cause or
 justifying residual filtering.
+The opt-in spectral radial preconditioner now uses exact polynomial radial
+ differentiation in the existing dense blocks, retaining polar finite differences
+ and endpoint conditions. The residual and Jacobian-vector product are unchanged;
+ the default backend and Bowen--York path are unaffected. Compact CPU assembly
+ avoids dense entries in per-point sparse containers. Added host derivative/map
+ tables require $16n_r^2+24n_r$ bytes, included in the aggregate memory guard.
+ Manufactured radial controls give worst scaled errors $7.00\times10^{-13}$
+ on CPU and $3.66\times10^{-14}$ on CUDA. The small binary requires five Newton
+ steps and 48 Krylov iterations (previously 53), with CPU/CUDA sampled-field
+ difference $2.39\times10^{-13}$. These controls qualify the implementation,
+ not fine-grid effectiveness.
+
+The final frozen-state GPU probe (Perlmutter job 59426128) uses the same
+ 240-grid checkpoint, GMRES restart 64, relative target $0.1$, and budget 2400.
+ It fails with true relative residual $0.78667352$, 2439 Jacobian-vector products,
+ and 448.51 seconds of diagnostic solve time. No accepted Newton update or
+ improved physical solution follows. The option remains disabled by default;
+ it is not recommended as a demonstrated remedy for the fine-grid stall.
+ Evidence is retained in
+ \path{validation/trumpet/c4-experiment/axis-tau/polar-exact/spectral-radial/gpu-v1/probe.json}.
+
 Final nonlinear and physical criteria remain unchanged. Binary acceptance
 remains open.
 
-\begin{center}\small
+\begin{center}\footnotesize
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \toprule
 Retained alternative & Decisive outcome\\\midrule

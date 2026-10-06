@@ -1897,3 +1897,15 @@ small nonlinear solve5Newton48Krylov, CPU/GPU field difference2.39090e-13.
 Pinned GPU image2dfa13fc56247439e8037ac0b4a857e4821aeabb9c39bf853fa6b9514ecb08b8.
 Records saved in spectral-radial/gpu-v1. The frozen240 probe is running;
 no fine-grid convergence or physical acceptance is inferred from these controls.
+
+## Human-requested wrap-up — 6 October 2026
+
+Job 59426128 finished the frozen240 spectral-radial probe: failed true relative
+residual 0.7866735212674494 against 0.1 after 2400 iterations, 2439 JVPs,
+448.510415664 seconds. The qualified small controls do not establish fine-grid
+effectiveness. No accepted Newton update or binary acceptance follows.
+The probe JSON is retained in spectral-radial/gpu-v1/probe.json.
+No additional experiment is launched during this wrap-up. The report is updated
+to APS/PRD REVTeX preprint format and exported as the current PDF.
+The overall physical-validation goal remains incomplete; earlier results and
+the discontinued performance campaign are preserved.
