@@ -685,3 +685,31 @@ The first queued Gamma map allocation59408229 was cancelled by its600s pending
 wait limit before any compute step ran (Slurm records elapsed0). Replacement
 59408624 has a1800s wait limit and the same afterany dependency on still-live
 spin refinement59408144. There is no duplicate Gamma solve or concurrent GPU.
+
+### Focused spin refinement: linear failure and radial-tail diagnosis
+
+The192x384x32 refinement completed under59408144 in786.41s total (482.63s
+solve), with peak host RSS8497656KiB. It **fails** nonlinear convergence: after
+10 Newton/2809 Krylov iterations the last linear solve hits2400 iterations
+with relative residual0.506, leaving maximum weighted residual1.402e-12.
+Near H/M RMS are2.987e-6/4.657e-6; bulk are2.307e-4/2.393e-4. In particular,
+bulk H worsens versus160x320x32. The failed checkpoint/result/physical observer
+are preserved, and no larger nonlinear solve is justified by this result alone.
+
+Retained-polynomial spectra show large radial tails dominated bym4 (including
+the sine partner index20). Polar final-eighth vector tails shrink from maxima
+35.14 to4.935, whereas radial maxima remain490.0 and459.8. These are modal-P
+coefficients, not physical constraints; they implicate radial resolution or
+conditioning but do not distinguish those causes. `spectrum.json` binds the
+checkpoints and diagnostic source. A fixed-polynomial replay separately changes
+radial192->224 and polar384->448 with no nonlinear solve, queued as59408748
+after Gamma10 allocation59408624. The replay driver now accepts explicit axis
+counts to stay inside existing grid/memory caps instead of requiring doubling.
+
+The damped horizon attempt59408628 keeps positive radii and reaches stable
+area7.1731520901, butl8/n16 expansion RMS4.4604e-7 still exceeds1e-7 at600
+iterations. This failed result is retained under `horizon160-damped`. No area,
+mass or spin from this attempt is accepted. The next focused angular sequence
+isl12/16/20 with alpha=.2 and unchanged strict tolerance, using the same bound
+checkpoint and previously-passed migration proof. It tests angular truncation
+without changing initial data or launching a flow-parameter sweep.

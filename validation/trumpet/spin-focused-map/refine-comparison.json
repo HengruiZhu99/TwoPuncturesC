@@ -1,0 +1,32 @@
+{
+  "coarse": [
+    160,
+    320,
+    32
+  ],
+  "fine": [
+    192,
+    384,
+    32
+  ],
+  "fine_converged": false,
+  "acceptance": false,
+  "rms_fine_over_coarse": {
+    "near": {
+      "H_rms": 0.9494682251806027,
+      "M_rms": 0.32396056465189993
+    },
+    "bulk": {
+      "H_rms": 2.7804485877325917,
+      "M_rms": 0.7972272849046407
+    }
+  },
+  "fine_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/spin-focused-map/spin99_192/diagnostic.checkpoint",
+    "file_sha256": "6f03952d7450ce285ba691c558eafe8cd7f834322254039739f1224fbc5b2aab",
+    "source_library_sha256": "47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd",
+    "acceptance": "diagnostic",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  }
+}

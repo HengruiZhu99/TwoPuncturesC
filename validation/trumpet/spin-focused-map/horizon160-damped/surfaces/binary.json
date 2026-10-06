@@ -1,0 +1,235 @@
+{
+  "executable_sha256": "6c2e2301929c58b9cd78e207cd3eaedf11c98ed2bb42a3036aa827351176dbe8",
+  "source": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/spin-focused-map/spin99_160/diagnostic.checkpoint",
+    "file_sha256": "c6424371bc62f086d08f93fd62559b7ea49c54929c344c22b9dae9641abe68e1",
+    "source_library_sha256": "47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd",
+    "acceptance": "diagnostic",
+    "holes": [
+      [
+        0.5,
+        6.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2475,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        -6.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2475,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "inner_max": [
+      0.035266839949164734,
+      0.035266839949164734
+    ],
+    "inner_flatten": 1,
+    "parameterization": "modal_P_C2prolate_map_v3_r0.029999999999999999_k3.5",
+    "seed_family": "trumpet_r0_m"
+  },
+  "initial_time": 0,
+  "evolution_steps": 0,
+  "geometry": "direct_native",
+  "cpu_threads": 16,
+  "strict_expansion": true,
+  "flow_alpha": 0.2,
+  "seed_horizon_guess_scale": 1.05,
+  "flow_iterations": 600,
+  "domain_half_width": 8.0,
+  "criteria": {
+    "expansion_rms": 1e-07,
+    "area_relative_spectral": 1e-05,
+    "shape_uniform_spectral": 0.0001,
+    "area_relative_quadrature": 1e-07
+  },
+  "records": [
+    {
+      "lmax": 8,
+      "ntheta": 16,
+      "kind": "spectral",
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-focused/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/spin-focused-map/horizon160-damped/surfaces/spectral_l8_n16/binary.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/spin-focused-map/spin99_160/diagnostic.checkpoint",
+        "problem/hispid_source_sha256=47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd",
+        "problem/hispid_horizon_guess_scale=1.05",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/num_horizons=2",
+        "fastflow/lmax=8",
+        "fastflow/ntheta=16",
+        "problem/hispid_allow_diagnostic=true",
+        "problem/hispid_allow_library_migration=true",
+        "mesh/nx1=8",
+        "meshblock/nx1=8",
+        "mesh/x1min=-8.0",
+        "mesh/x1max=8.0",
+        "mesh/nx2=8",
+        "meshblock/nx2=8",
+        "mesh/x2min=-8.0",
+        "mesh/x2max=8.0",
+        "mesh/nx3=8",
+        "meshblock/nx3=8",
+        "mesh/x3min=-8.0",
+        "mesh/x3max=8.0",
+        "fastflow/use_puncture_0=-1",
+        "fastflow/start_time_0=0",
+        "fastflow/stop_time_0=0",
+        "fastflow/flow_iterations_0=600",
+        "fastflow/flow_alpha_beta_const_0=0.2",
+        "fastflow/expansion_rms_tol_0=1e-7",
+        "fastflow/mass_tol_0=1e-12",
+        "fastflow/hmean_tol_0=100",
+        "fastflow/use_puncture_massweighted_center_0=false",
+        "fastflow/use_puncture_1=-1",
+        "fastflow/start_time_1=0",
+        "fastflow/stop_time_1=0",
+        "fastflow/flow_iterations_1=600",
+        "fastflow/flow_alpha_beta_const_1=0.2",
+        "fastflow/expansion_rms_tol_1=1e-7",
+        "fastflow/mass_tol_1=1e-12",
+        "fastflow/hmean_tol_1=100",
+        "fastflow/use_puncture_massweighted_center_1=false"
+      ],
+      "passed": false,
+      "holes": [],
+      "input_sha256": "c6d226ef38d31f21106f713e7371994508d78c2414225d1dc86c12c209ff07f0",
+      "input_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/spin-focused-map/horizon160-damped/surfaces/spectral_l8_n16/binary.athinput",
+      "bound_inputs_unchanged": true,
+      "retained_artifacts_sha256": {
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/spin-focused-map/horizon160-damped/surfaces/spectral_l8_n16/run.log": "dca0598c6901480ae32048b74bd49eefdc86a5793bc222dddc8a9aa5332a87bf"
+      },
+      "returncode": 1,
+      "seconds": 199.65167439193465,
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 35832,
+        "records": [
+          {
+            "horizon": 0,
+            "mode": "factorized",
+            "lmax": 8,
+            "ntheta": 16,
+            "host_bytes": 35832,
+            "device_bytes": 35832,
+            "unique_bytes": 35832
+          },
+          {
+            "horizon": 1,
+            "mode": "factorized",
+            "lmax": 8,
+            "ntheta": 16,
+            "host_bytes": 35832,
+            "device_bytes": 35832,
+            "unique_bytes": 35832
+          }
+        ],
+        "serial_allocation_verified": true,
+        "passed": true,
+        "measured_process_peak": false
+      },
+      "parallel_geometry_verified": true,
+      "import": {
+        "source_library_sha256": "47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd",
+        "acceptance": "diagnostic",
+        "consumer_library_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+        "adm_z4c_relative_error": 4.10792328882006e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "trumpet_r0_m",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        }
+      },
+      "zero_evolution_verified": false,
+      "attempts": [
+        {
+          "index": 0,
+          "geometry": "native",
+          "found": false,
+          "area": 7.17315209006278,
+          "expansion_rms": 4.4604175005785795e-07
+        }
+      ],
+      "failure_log_tail": [
+        "HiSpID consumer_dependency symbol=\"C_To_c\" image=\"/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so\"",
+        "HiSpID consumer_dependency symbol=\"PK_solve\" image=\"/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so\"",
+        "HiSpID consumer_dependency symbol=\"Puncture_execution_initialize\" image=\"/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so\"",
+        "HiSpID consumer_image=\"/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so\"",
+        "HiSpID import source=47211849dbf458e8007e7327f489f12315f9a224c4d3564ca3ad8949648c8bfd acceptance=diagnostic consumer=65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503 ADM/Z4c relative error=4.10792328882006e-16 seed_family=trumpet_r0_m",
+        "HiSpID horizon_geometry parallel=1 host_concurrency=16",
+        "HiSpID horizon 0 geometry=native found=0 area=nan expansion_rms=nan min_radius=0.067536994870404141 attempt_area=7.1731520900627803 attempt_expansion_rms=4.4604175005785795e-07 center_x=6 center_y=0 center_z=0 kind=component",
+        "HiSpID pgen: Initial HiSpID horizon search failed its geometry/expansion checks"
+      ]
+    }
+  ],
+  "passed": false,
+  "horizon_enclosure_verified": false,
+  "stronger_binary_validation_complete": false,
+  "sampler_migration": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/spin-focused-map/horizon160/migration.json",
+    "file_sha256": "a8436c6b1f075c20c8de5871160ee5a4c5f7f0f73bbb2c0b9e47025490c6d42c",
+    "consumer_library_sha256": "65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503",
+    "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so",
+    "maps": {
+      "radial_stretch": 0.03,
+      "angular_stretch": 3.5
+    },
+    "passed": true,
+    "consumer_dependency_images": {
+      "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+    },
+    "purpose": "sampling_only_no_acceptance_transfer"
+  },
+  "enclosure_method": "monopole_and_Cauchy_tail",
+  "surface_kind": "component",
+  "common_search_initial_center": null,
+  "common_search_initial_radius": null,
+  "input_template_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+  "harmonic_storage": "factorized",
+  "consumer_memory_screen": {
+    "budget_mib": 32768,
+    "other_allowance_bytes": 1073741824,
+    "estimates": [
+      {
+        "lmax": 8,
+        "ntheta": 16,
+        "harmonic_table_bytes": 71664
+      },
+      {
+        "lmax": 12,
+        "ntheta": 24,
+        "harmonic_table_bytes": 214896
+      },
+      {
+        "lmax": 16,
+        "ntheta": 32,
+        "harmonic_table_bytes": 478960
+      },
+      {
+        "lmax": 16,
+        "ntheta": 48,
+        "harmonic_table_bytes": 718320
+      }
+    ],
+    "number_of_surfaces": 2,
+    "measured_peak": false
+  },
+  "schedule_prerequisites_verified": false,
+  "note": "Continuous bounds apply to the retained harmonic surfaces. The observed refinement buffer is an empirical truncation check, not a rigorous bound on the exact PDE surface. g/operator modified balls alone are tested; noncompact f/F attenuation tails require exterior constraints. Reported spin is the coordinate rotation integral, not an approximate-Killing-vector spin. Input constraint acceptance remains separate; diagnostic or preliminary input is not promoted to strong binary validation."
+}
