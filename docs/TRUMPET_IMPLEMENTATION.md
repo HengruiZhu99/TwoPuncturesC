@@ -901,3 +901,26 @@ finder, a checkpoint-bound sampler proof, three orders plus quadrature, and
 warm guesses reused only after passing rows. No physical binary acceptance is
 inherited. A separate feasibility note records that radial512x320x8 is estimated
 to fit the existing64GiB aggregate guard; it is not launched or validated.
+
+The first binary Gamma10 affine search59411746 imported exactly (ADM/Z4c
+roundtrip4.58e-16) but failed at l8: expansion RMS1.8313e-5 remained above1e-7
+at1000 iterations despite stable area. No horizon mass from that attempt is
+qualified. The same checkpoint, executable and sampler proof are being used
+for l16/24/32 plus quadrature under59411890; no tolerance changed.
+
+The radial cap is now512 in the native header and diagnostic pilot launcher,
+with all allocation guards unchanged. A512x16x8 manufactured mapped-operator
+control on m0/m1 scalar/axial-vector fields passed: max normalized conformal
+operator error5.486e-10 against the existing1e-8 limit. The independent Cartesian
+Hessian oracle covers cosine/sine partners. This isolates the changed radial
+extent without repeating the full existing mode/backend suite. The test driver
+now supports independent polar extent and selected modes/components.
+
+The production512x320x8 Gamma10 solve (map.03, axial GMRES, restart64) is running
+under59412030, with a fresh output `radial512/gamma10_512x320-v3`. The analytic
+allocation estimate is63.74GiB aggregate and28.10GiB device within the existing
+64GiB budget; runtime guards still apply. Two prior launch errors (Python cap
+and existing empty output directory) are retained, and neither performed the
+large solve. Existing consumer images still have the old radial cap; loading
+future512-point data requires a matching sampler/header rebuild. No higher-
+resolution physical accuracy or consumer acceptance is claimed yet.

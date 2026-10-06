@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-radial512/validation/run_trumpet_pilot.py", line 85, in <module>
+    run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart,a.tolerance,a.axisymmetric)
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-radial512/validation/run_trumpet_pilot.py", line 21, in run
+    output.mkdir(parents=True,exist_ok=False)
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/radial512/gamma10_512x320'

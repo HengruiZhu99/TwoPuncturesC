@@ -12,8 +12,18 @@
   "aggregate_gib": 63.7407865524292,
   "device_gib": 28.1060209274292,
   "budget_gib": 64,
-  "launched": false,
+  "launched": true,
   "required_before_launch": "Raise documented radial cap in isolated native build; control the changed high-order derivative/solver path; retain GPU free-memory and aggregate guards. Matching consumer header/library will be needed for loading.",
   "evidence": "Map .03 final radial vector block maxima decline from8.94e-3 at32:64 to4.25e-5 at224:256. Prior160->256 physical improvement and rejected.003 map favor added radial order on retained map.",
-  "caution": "Estimate based on current Cached size1984 bytes. This is neither a measured allocation nor evidence of convergence."
+  "caution": "Estimate based on current Cached size1984 bytes. This is neither a measured allocation nor evidence of convergence.",
+  "job": 59411862,
+  "launch_scope": "Build, then fixed-criterion manufactured high-radial operator control; fresh physical solve runs only if the control passes.",
+  "operator_control_passed": true,
+  "operator_control_max_normalized_error": 5.485521279845175e-10,
+  "physical_solve_job": 59412030,
+  "physical_solve_output": "radial512/gamma10_512x320-v3",
+  "launch_failures": [
+    "59411862: old Python cap rejected512 after successful operator control",
+    "59412000: existing empty first-output directory; no numerical work"
+  ]
 }

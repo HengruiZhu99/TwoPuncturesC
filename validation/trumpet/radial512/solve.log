@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-axisym/validation/run_trumpet_pilot.py", line 85, in <module>
+    run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart,a.tolerance,a.axisymmetric)
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-axisym/validation/run_trumpet_pilot.py", line 32, in run
+    if any(k<4 or k>limit for k,limit in zip(c.n,(256,512,256))) or c.n[2]%2:raise ValueError("grid limits are256 radial,512 polar,256 azimuthal with even nphi; older images may impose smaller limits")
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: grid limits are256 radial,512 polar,256 azimuthal with even nphi; older images may impose smaller limits

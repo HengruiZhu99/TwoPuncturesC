@@ -29,7 +29,7 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
         if not np.isfinite(tolerance) or tolerance<=0:raise ValueError("finite positive solve tolerance required")
         c.tolerance=tolerance
     if npolar is not None:c.n[1]=npolar
-    if any(k<4 or k>limit for k,limit in zip(c.n,(256,512,256))) or c.n[2]%2:raise ValueError("grid limits are256 radial,512 polar,256 azimuthal with even nphi; older images may impose smaller limits")
+    if any(k<4 or k>limit for k,limit in zip(c.n,(512,512,256))) or c.n[2]%2:raise ValueError("grid limits are512 radial,512 polar,256 azimuthal with even nphi; older images may impose smaller limits")
     result=dict(config={**as_dict(c),'seed_family':c.seed_family},library_sha256=b.library_sha256(),
         kind=f'{case}_trumpet_diagnostic_pilot',binary_acceptance=False,completed=False,axisymmetric=axisymmetric,
         criteria=dict(exterior_HM_rms=1e-6,exterior_HM_max=1e-4),

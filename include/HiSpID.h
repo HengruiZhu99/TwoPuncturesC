@@ -14,7 +14,7 @@ typedef struct {
   double mass, center[3], spin[3], velocity[3];
 } HiSpID_Hole;
 /* Independent extents; aggregate host/device memory guards still apply. */
-enum {HISPID_MAX_RADIAL_POINTS=256,HISPID_MAX_POLAR_POINTS=512,
+enum {HISPID_MAX_RADIAL_POINTS=512,HISPID_MAX_POLAR_POINTS=512,
       HISPID_MAX_AZIMUTHAL_POINTS=256};
 typedef struct {
   HiSpID_Hole hole[2];
