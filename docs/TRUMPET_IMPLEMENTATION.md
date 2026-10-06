@@ -1666,3 +1666,10 @@ source-library interface. Same maps/grid use the identity prolongation path;
 all physical free data and final criteria are unchanged. Outputs
 axis-tau-compensated-v2; script resume_perlmutter.sh. Previous allocation release
 verified before the single-GPU retry. No rebuild or duplicate test campaign.
+
+The corrected first actual-RHS comparison in live job59422941 gives global
+GPU/host inverse relative L2 difference2.816881431e-16, down from
+0.0748324. Worst mode/component relative difference3.918212561e-11.
+Initial36-row snapshot preserved in compensated-projection/gpu-v2. This
+qualifies the targeted projection correction on the failing240 state, not the
+nonlinear solve or physical acceptance, both still pending.
