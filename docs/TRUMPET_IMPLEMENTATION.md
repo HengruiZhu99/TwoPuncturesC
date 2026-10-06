@@ -1464,3 +1464,27 @@ This justifies full moderate192x384x16 zero-start solve59420346, same pinned
 image, forcing0.001 and unchanged physical bounds. Command:
 `axis-tau/polar-exact/full_perlmutter.sh`; remote output
 `axis-tau-polar-full-v1/moderate192`. Allocation is one shared GPU,20minutes.
+
+Full moderate192 tau run59420346 completed4:15. Nonlinear convergence in
+5 Newton/53 Krylov, all full steps; weighted Linf max5.49e-14. Solve65.395s,
+setup65.537s, workflow246.599s, peakRSS6317476KiB. Independent near H/M RMS
+1.128066e-6/3.789400e-7 and bulk5.738737e-8/4.547640e-7; near Hamiltonian
+alone exceeds1e-6, so this grid remains diagnostic. Positive sampled psi
+and metric, exterior stencils unmodified. Checkpoint
+61b7eb4d2fe0aed07c97957193aa7fca25722a9b82fce3c4e374be2d7c55c98f;
+records `axis-tau/polar-exact/full-v1` (large coefficients retained remotely).
+
+Single-GPU shared sequence59420603 now runs224x448,240x480,256x512, nphi16,
+same image and physics, using the preceding converged state only as an
+initial guess. Restart24 avoids exceeding the unchanged64GiB aggregate
+allocation guard with the new border matrices. Necessary resolution checks
+use one production pipeline, not a backend matrix; each level must pass
+physical bounds before proceeding. Final three-grid assessment checks raw
+observers, charge stability and decreasing RMS. Script:
+`axis-tau/polar-exact/sequence_perlmutter.sh`; remote `axis-tau-polar-sequence-v1`.
+
+CPU job59420409 completed3:26: matching sampler and AthenaK consumer built.
+Build images/hashes are retained in `axis-tau/polar-exact/consumer-build`;
+script `build_polar_consumer.sh`. New tau-checkpoint import/horizons have not
+yet been run. Condensed obsolete failed-trial prose in the LaTeX report into
+a comparison table; all historical raw results and this ledger remain intact.

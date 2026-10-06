@@ -12,7 +12,8 @@ interface, portable checkpoint, and AthenaK consumer are implemented. Independen
 seed checks and selected horizon measurements pass. \textbf{No complete binary
 physical-validation claim is supported yet.} The moderate three-grid sequence
 fails its convergence requirement; both extreme binaries exceed the declared
-physical-constraint tolerances. The reduced-factor radial-512 boost retry has
+physical-constraint tolerances. A new endpoint-regularity solve has converged
+algebraically; its coarse near-hole Hamiltonian error remains just above the bound. The reduced-factor radial-512 boost retry has
 completed and improves the constraint errors, but still fails their bounds.
 
 \section{Construction and its limits}
@@ -89,7 +90,7 @@ family, basis/map and producer identity; v1 retains its QI meaning and v2 adds
 explicit family metadata.
 
 \section{Binary evidence}
-All entries below are independent physical RMS errors, in the declared
+The retained pre-tau entries below are independent physical RMS errors, in the declared
 normalization. The moderate case has masses $0.6/0.4$, separation 6, and generic
 spins and boosts; exact parameters are in \path{examples/trumpet_configs.py}.
 The spin target has equal masses $0.5$, aligned seed $\chi=0.99$, and separation
@@ -109,122 +110,73 @@ Boost $512\!\times\!320\!\times\!8$ & $1.02\,10^{-4}$ & $6.12\,10^{-3}$ & $1.07\
 \bottomrule
 \end{tabular}
 \end{center}
-The moderate sequence fails despite two grids satisfying pointwise bounds:
-bulk errors do not decrease. Tighter nonlinear stopping and halved observer
-steps did not resolve this. A targeted replay localizes most of the finest-grid
-bulk Hamiltonian error to the scalar $m=6$ contribution: removing just its
-cosine/sine pair reduces the RMS from $2.62\times10^{-7}$ to
-$5.20\times10^{-9}$, while momentum is unchanged. The unmodified replay matches
-the saved result exactly. This is a sensitivity experiment, not an accepted
-filtered solution or proof that the true mode vanishes; its axis regularity
-and numerical conditioning need investigation. The retained $m=6$ polynomial
-also has a forbidden $\rho^4$ axis term: its largest sampled coefficient grows
-from $4.89\times10^{-8}$ to $8.92\times10^{-7}$ across the sequence.
-An opt-in C4 basis, with exact powers through $m=6$, has passed local
-manufactured-operator and metadata checks. Its CUDA control also passes
-(maximum normalized error $8.78\times10^{-13}$), but the moderate binary
-trial failed its second Newton line search after 31 Krylov iterations.
-A targeted retry from its retained iterate with linear forcing $0.001$
-instead of $0.1$ also fails, despite achieving a true linear residual ratio
-$9.08\times10^{-4}$. Free data, grid and native image are identical. A one-step
-trace reproduces failure with positive $\psi$, finite residuals and normalized
-linear descent slope $-0.999999$. Its nonlinear residual remains $1.073$ times
-the initial value at the final allowed damping $1/1024$. The modal-step maximum
-is $3.35\times10^{12}$ and the small-step Taylor remainder decreases with damping.
-An isolated build permitting 24 halvings accepts a step at $1/2048$, but its
-next linear solve exhausts 2400 iterations at relative residual $0.0346$
-(target $0.001$). The default remains 10 and acceptance bounds are unchanged.
-Two preconditioner-only scaling prototypes also fail a small convergence
-control and are rejected. The original C4 solver converges on that small grid
-in 6 Newton/135 Krylov steps. A CUDA coarse-to-fine continuation also fails:
-the coarse $12\times24\times16$ solve converges in 6 Newton/133 Krylov
-steps, but the $192\times384\times16$ solve stops after 2 Newton/2526 Krylov
-steps (252.7 s solve, 429.4 s workflow). Its second linear solve reaches only
-relative residual $0.0181$ against $0.001$. The coarse solution already fails
-independent physical bounds; the final fine iterate is substantially worse
-(near-hole $H/M$ RMS $0.559/0.155$, bulk $7.35/3.50$). Algebraic coarse
-convergence therefore does not supply a successful fine-grid initial guess.
-A no-solve comparison of the coarse and prolonged fields at 102 observer
-points gives maximum scaled field difference $1.64\times10^{-13}$ and
-metric-gradient difference $3.19\times10^{-12}$. A gross transfer defect at
-these points is therefore excluded. Decomposing the accepted step identifies
-$m=6$ as the largest sampled perturbation ($\max|\Delta K_{ij}|=0.505$,
-$\max|\Delta\partial\gamma|=0.572$), motivating investigation of high-mode
-conditioning. No modes are removed from an accepted solution.
-A scalar-source probe on a Perlmutter CPU provides evidence of an angular
-roundoff floor. At $x=2.7$, $\rho=10^{-3}$, the cached $m=6$ Fourier
-amplitude is $2.68\times10^{-16}$; recombining geometry in extended precision
-gives $1.44\times10^{-18}$. At $x=3.5$, $\rho=0.003$, the corresponding
-values are $6.44\times10^{-17}$ and $2.32\times10^{-19}$. The source should
-have sixth-order radial decay where smooth; both evaluations eventually
-reach a precision floor. These components can be amplified by the inverse
-axis factor in the C4 preconditioner. This scalar-only diagnostic does not
-establish the cause of all coupled-system errors or qualify a remedy.
-An opt-in source rearrangement now combines the background Hamiltonian
-source before narrowing and evaluates correction power differences in
-factored form. Default behavior is unchanged. The small nonlinear control
-converges in 6 Newton/129 Krylov iterations, and its directional derivative
-check reaches relative error $1.00\times10^{-11}$. Converged sampled fields
-differ from the original small-grid result by $1.03\times10^{-7}$ in scaled
-maximum norm, so strict field equivalence is not claimed. The bounded GPU replay completes in 42 Krylov iterations (14.7 s solve),
-but the modal-step maximum remains $1.63\times10^{12}$ and the first accepted
-damping is $1/2048$, with residual ratio $0.999575$. This does not cure the
-large-update behavior or justify a full solve. The option remains experimental
-and has not been qualified for production.
-A separate preconditioner audit finds negative centered-stencil neighbor
-weights near the axis: the interior cell ratio $|b|h/(2a)$ reaches $4.33$ for
-regularity exponent six. An opt-in monotone variant uses
-$a_{\rm prec}=\max(a,|b|h/2)$ in the approximate inverse only. Residual and
-JVP witnesses remain bitwise identical. Its small nonlinear control takes
-5 Newton/98 Krylov iterations versus 6/135 previously. The fine-grid replay
-takes 59 Krylov iterations and 16.4 s solve time, but retains a modal-step
-maximum $1.43\times10^{12}$. Its first accepted damping is $1/1024$, with
-residual ratio $0.999441$. It therefore does not resolve the large-update
-problem and has no production or physical-accuracy qualification.
-A standalone scalar experiment instead imposes endpoint regularity on C2
-modal variables, replacing near-axis collocation rows by independent
-endpoint constraints. For an analytic $m=6$ field, errors decrease from
-$5.82\times10^{-6}$ to $2.93\times10^{-9}$ to $2.40\times10^{-14}$ on
-$12\times24$, $20\times40$, and $32\times64$ grids. An independent Cartesian
-Hessian verifies the forcing to $7.81\times10^{-17}$ in scaled maximum norm.
-An absolute $10^{-16}$ source perturbation gives finest-grid field noise
-$2.17\times10^{-11}$, versus $3.43\times10^{-6}$ with factored C4 variables.
-This motivates a native tau prototype; curved/vector/nonlinear and GPU
-qualification remain outstanding. The native opt-in tau path now implements
-these endpoint equations in CPU and Kokkos residuals/JVPs, with matching
-approximate-inverse boundary rows and a distinct checkpoint identifier.
-Its small coupled solve converges in 5 Newton/69 Krylov steps. Endpoint-row
-reconstruction agrees to $1.11\times10^{-16}$ and the directional derivative
-check to $9.74\times10^{-12}$. The CUDA structural check also passes (endpoint-row error
-$3.33\times10^{-16}$, directional derivative error $1.00\times10^{-11}$ and
-exact checkpoint roundtrip). The moderate fine-grid attempt exhausts 2400 Krylov iterations at relative
-residual $0.00895$ (target $0.001$), without a Newton update. Its independent
-physical constraints fail. Exact radial endpoint rows now replace the local
-approximation in the preconditioner at unchanged matrix storage. The small
-solve uses 61 rather than 69 Krylov iterations, with sampled fields agreeing
-to $1.01\times10^{-13}$. However, the fine-grid replay again exhausts 2400
-iterations, now at relative residual $0.0162$, so radial rows alone are
-insufficient. An opt-in rank-$2n_A$ Woodbury correction now enforces exact
-polar endpoint rows while retaining the block-tridiagonal base factors.
-Its response columns are built with batched triangular solves. An independent
-dense-matrix control, including nontrivial pivots and inhomogeneous endpoint
-data, gives solution error below $6.7\times10^{-15}$. The small coupled CPU
-solve uses 53 Krylov iterations, preserves the residual/JVP witnesses bitwise,
-and agrees in sampled fields/gradients to $2.53\times10^{-13}$. Host/device
-allocation bounds include the additional response and Schur matrices.
-The CUDA small control also passes (5 Newton/54 Krylov, field/gradient
-agreement $2.82\times10^{-13}$). The fine-grid replay in job 59420201 reaches
-the linear target in 6 Krylov iterations (true relative residual
-$5.74\times10^{-4}$), accepting a full Newton step with residual ratio
-$0.0263$. Its one-step solve takes 13.01 seconds. The reported Newton iteration
-limit is the deliberate one-step cap, not a failed linear solve. This is a
-substantial improvement over the 2400-iteration failures but does not prove
-nonlinear or physical convergence. Job 59420346 runs the full moderate solve
-and independent physical observers with the same image and configuration.
-No new horizon or binary acceptance is claimed.
-No conclusion
-about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
-replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
+The retained C2 moderate sequence fails because bulk errors do not decrease.
+A diagnostic removal of the scalar $m=6$ pair reduces finest-grid bulk
+Hamiltonian RMS from $2.62\times10^{-7}$ to $5.20\times10^{-9}$; the mode also
+has a forbidden $\rho^4$ axis term whose coefficient grows with resolution.
+This diagnoses sensitivity, not permission to filter a physical solution.
+Tighter stopping and smaller observer steps do not remove the defect.
+
+\subsection{Regularity correction and selected solver}
+The current opt-in construction retains C2 modal unknowns and imposes
+$P(0,\eta)=P(t,\pm1)=0$ for $m\geq5$ through independent endpoint rows.
+It avoids dividing sources by additional vanishing axis factors. A scalar
+manufactured case converges to $2.40\times10^{-14}$; under an absolute
+$10^{-16}$ source perturbation, its finest-grid field noise is
+$2.17\times10^{-11}$ versus $3.43\times10^{-6}$ with factored C4 unknowns.
+The forcing has an independent Cartesian-Hessian check. Native CPU/CUDA
+endpoint-row reconstruction, directional JVP and checkpoint controls pass;
+the largest CUDA row and JVP errors are $3.33\times10^{-16}$ and
+$1.00\times10^{-11}$, respectively.
+
+The preconditioner must enforce the same endpoint rows. Exact radial rows fit
+its existing dense blocks. Exact polar rows use a rank-$2n_A$ Woodbury update,
+with batched response construction and shared CPU/Kokkos application. An
+independent dense-matrix test including pivots and nonzero boundary data gives
+solution error below $6.7\times10^{-15}$. Small coupled solutions agree between
+CPU and CUDA to $2.82\times10^{-13}$; residual/JVP witnesses are unchanged by
+the preconditioner modification. Allocation guards include the extra matrices.
+
+The full $192\times384\times16$ moderate solve in job 59420346 now converges
+in 5 Newton/53 Krylov steps, taking 65.4 seconds after 65.5 seconds of setup.
+All Newton steps are undamped. The independent near-hole $H/M$ RMS errors
+are $1.128\times10^{-6}/3.789\times10^{-7}$; bulk errors are
+$5.739\times10^{-8}/4.548\times10^{-7}$. Only the near-hole Hamiltonian RMS
+exceeds its bound. The workflow takes 246.6 seconds and peaks at 6.025 GiB
+host RSS. This grid remains diagnostic. Job 59420603 runs the required
+$224\times448$, $240\times480$, $256\times512$ sequence with $n_\phi=16$.
+GMRES restart 24 fits the unchanged aggregate memory bound with the new
+boundary matrices; each completed grid must pass physical bounds before
+continuing, and the final assessment checks decreasing errors and charges.
+A matching CPU sampler and AthenaK consumer built successfully in job
+59420409; new-checkpoint import and horizon measurements remain to be run.
+The option and distinct checkpoint representation remain experimental.
+
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Retained alternative & Decisive outcome\\\midrule
+Factored C4 unknowns & Manufactured controls pass; fine binary fails line search.
+Tighter forcing, longer backtracking and coarse continuation do not cure it.\\
+Preconditioner scaling & Two prototypes fail the small coupled control; rejected.\\
+Stable scalar-source assembly & Reduces measured angular source roundoff, but
+fine replay still needs damping $1/2048$ with negligible residual decrease.\\
+Monotone FD preconditioner & Small solve improves; fine replay still needs
+$1/1024$ damping with negligible residual decrease.\\
+Local polar endpoint rows & Fine linear solve fails after 2400 iterations;
+exact radial rows alone also fail (relative residual $0.0162$).\\
+Exact radial and polar rows & Fine first linear solve passes in 6 iterations;
+full nonlinear solve converges; coarse physical error still requires refinement.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+These experiments are not a new backend benchmark campaign. Full configurations,
+failed states and precision/transfer diagnostics remain under
+\path{validation/trumpet/c4-experiment/}; none are discarded or promoted to
+physical acceptance. The original C2 default and successful historical data
+remain available.
+
+The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
 Radial refinement from 160 to 256 improved its errors by factors 2--6.
 Stronger focusing, $\lambda=0.003$, worsened both independent errors and radial
 tails and is rejected. Radial-512 mapped-operator controls pass at normalized
