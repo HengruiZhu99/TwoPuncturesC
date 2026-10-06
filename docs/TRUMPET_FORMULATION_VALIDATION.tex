@@ -176,8 +176,11 @@ weights near the axis: the interior cell ratio $|b|h/(2a)$ reaches $4.33$ for
 regularity exponent six. An opt-in monotone variant uses
 $a_{\rm prec}=\max(a,|b|h/2)$ in the approximate inverse only. Residual and
 JVP witnesses remain bitwise identical. Its small nonlinear control takes
-5 Newton/98 Krylov iterations versus 6/135 previously; a fine-grid GPU replay
-is pending. This is not yet a production or physical-accuracy qualification.
+5 Newton/98 Krylov iterations versus 6/135 previously. The fine-grid replay
+takes 59 Krylov iterations and 16.4 s solve time, but retains a modal-step
+maximum $1.43\times10^{12}$. Its first accepted damping is $1/1024$, with
+residual ratio $0.999441$. It therefore does not resolve the large-update
+problem and has no production or physical-accuracy qualification.
 No conclusion
 about converged C4 binary accuracy is available. It has a distinct basis identifier and has not
 replaced the C2 production default. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.

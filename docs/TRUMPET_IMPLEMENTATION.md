@@ -1323,3 +1323,24 @@ this does not qualify fine-grid equivalence or physical accuracy. Stencil
 audit, control and reproduction script are `c4-experiment/monotone-preconditioner`.
 Single-GPU shared job59417256 is building this variant for one replay from
 the original retained192-grid C4 iterate before any full-solve decision.
+
+Monotone-preconditioner replay59417256 completed in3:10 including build/setup.
+The linear solve took59 Krylov iterations and16.365s, reaching true relative
+residual7.40468e-4. Step maximum1.42514e12 remains excessive; damping1/1024
+is first accepted, with residual ratio0.999441155. This improves the immediate
+line-search cutoff by one halving but not the underlying large-update behavior.
+No full solve is justified by this replay. All records are in
+`monotone-preconditioner/gpu-v1`; image hash
+f9ddec38b32fd97519c880ba54f0e0666252f667bf44d26717b137a3c85a0357.
+The option stays OFF by default and unqualified for production. No allocation
+remains active from this trial.
+
+The next representation question is whether regularity can be imposed as
+axis constraints in lower-power modal variables, replacing unresolved
+near-axis collocation equations instead of dividing their noisy Fourier
+coefficients by higher powers. For the C2 variables with m>=5, requiring
+P(t=0,eta)=P(t,eta=+/-1)=0 gives an extra factor t*(1-eta^2) locally and
+raises the axis order by two. A tau formulation would require a nonsingular
+choice of independent endpoint rows, matching JVP and preconditioner changes,
+and manufactured/physical convergence evidence. This is a proposed direction,
+not an implemented replacement or an accepted change to physical equations.

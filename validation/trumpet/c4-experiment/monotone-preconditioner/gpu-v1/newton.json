@@ -1,0 +1,48 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/c4-experiment/moderate192/diagnostic.checkpoint",
+    "file_sha256": "0f6ae4f8880fc7778a52d056c6cd7346899d1c0c9e8e560a9770bed6ea99aa90",
+    "source_library_sha256": "a044e8762c16f27ae2400f2e1de60e043d498a5610b79b6f6dea6ba17717a379",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C4prolate_map_v4_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "library_sha256": "f9ddec38b32fd97519c880ba54f0e0666252f667bf44d26717b137a3c85a0357",
+  "driver_sha256": "bff2a70b9632173e739108e9ed240031691896f4e013e7b62bd43cdde2bcc0e2",
+  "linear_rtol": 0.001,
+  "binary_acceptance": false,
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 59,
+    "npoints": 1179648,
+    "scaled_linf": [
+      0.011878330501378619,
+      0.007203940027511888,
+      0.01600048603536025,
+      0.01616863855034492
+    ],
+    "unscaled_linf": [
+      0.9657381287487886,
+      2.731614174770741,
+      1.300252960789648,
+      1.389846290836897
+    ],
+    "seconds": 16.365172616,
+    "status": 1,
+    "error": "Newton iteration limit"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.001,
+      0.0007404680316953406,
+      59.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 62,
+    "preconditioner_applications": 59
+  }
+}
