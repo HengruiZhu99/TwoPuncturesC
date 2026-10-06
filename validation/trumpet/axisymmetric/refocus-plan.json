@@ -1,0 +1,16 @@
+{
+  "case": "gamma10",
+  "resolution": [
+    256,
+    320,
+    8
+  ],
+  "maps": [
+    0.003,
+    3.5
+  ],
+  "physical_free_data_changed": false,
+  "reason": "Independent physical errors fall with radial refinement; fixed-polynomial replay isolates larger radial errors. Candidate increases radial transition nodes from 13 to 35 at unchanged array sizes.",
+  "checks": "One small changed-map axial equivalence control followed by fresh nonlinear solve and independent physical observer.",
+  "acceptance": "Unchanged; map change and imported initial guess transfer no physical acceptance."
+}

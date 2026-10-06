@@ -1,0 +1,63 @@
+{
+  "rows": [
+    {
+      "run": "validation/trumpet/axisymmetric/gamma10_256x320",
+      "input_sha256": "1949e5516fb9adb009c87e3265eb70cd63db9fa9ec5488c1a9b55e7481d6490d",
+      "resolution": [
+        256,
+        320,
+        8
+      ],
+      "radial_stretch": 0.03,
+      "angular_stretch": 3.5,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 13,
+          "polar_axis_nodes_in_transition": 18,
+          "meridional_nodes_in_transition": 761
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 13,
+          "polar_axis_nodes_in_transition": 18,
+          "meridional_nodes_in_transition": 761
+        }
+      ]
+    },
+    {
+      "run": "validation/trumpet/axisymmetric/gamma10_256x320",
+      "input_sha256": "1949e5516fb9adb009c87e3265eb70cd63db9fa9ec5488c1a9b55e7481d6490d",
+      "resolution": [
+        256,
+        320,
+        8
+      ],
+      "radial_stretch": 0.003,
+      "angular_stretch": 3.5,
+      "holes": [
+        {
+          "hole": 0,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 35,
+          "polar_axis_nodes_in_transition": 18,
+          "meridional_nodes_in_transition": 2199
+        },
+        {
+          "hole": 1,
+          "inner_min": 0.007500000000000003,
+          "inner_max": 0.025000000000000012,
+          "radial_axis_nodes_in_transition": 35,
+          "polar_axis_nodes_in_transition": 18,
+          "meridional_nodes_in_transition": 2199
+        }
+      ]
+    }
+  ],
+  "note": "Geometric resolution estimate only; no solve or acceptance transfer."
+}

@@ -817,3 +817,20 @@ radial under-resolution while leaving substantial spatial error unresolved.
 The final weighted residual is7.678e-13; no tolerance or physical parameter
 changed. Results and comparison are retained under `axisymmetric/gamma10_256x320`
 and `radial-comparison.json`.
+
+The next targeted Gamma10 experiment59410842 changes only the radial map
+from.03 to.003 at256x320x8. The same fixed interior transition gains35
+projected radial nodes versus13, while polar nodes remain18. This is a
+resolution estimate, not accuracy evidence. The isolated image must pass a
+small axial equivalence control before the solve. Plan and commands are in
+`axisymmetric/refocus-plan.json` and `refocus_radial_perlmutter.sh`.
+
+Spin horizon cold-start orders12 and16 both pass, with mass.500017851906
+and coordinate chi.98992952095; their retained surfaces enclose the modified
+regions. The cold-start allocation59408772 was intentionally stopped after
+saving both orders, once new shape-reuse allocation59410814 reproduced them.
+The latter uses retained harmonic coefficients solely as initial guesses,
+with fresh geometry and every original acceptance check. Times fall from
+670.69/1226.91s to35.49/50.42s at orders12/16, with mass/spin agreement within
+1e-12. Higher-order and quadrature checks remain pending. This is horizon
+measurement on diagnostic data, not physical acceptance of the spin binary.
