@@ -1,0 +1,11 @@
+{
+  "source_sha256": {
+    "validation/trumpet/convergence/assessment.json": "2cfc971facdc1a7d7614914888e6d3a1c274d22b97db3e7a6a0c9d837e977d8b",
+    "validation/trumpet/c4-experiment/axis-tau/polar-exact/sequence-v2/moderate224/result.json": "83c30c5d2605a171148edc6dff9b27813fc1a51493ba2404c432575dbfe80f32",
+    "validation/trumpet/c4-experiment/axis-tau/polar-exact/compensated-projection/gpu-v3/result.json": "359ce9ffd4dafa0e3e0cb3ab92a83f01587a592eda436d1e3fed0c31192556f1",
+    "validation/trumpet/spin-focused-map/spin99_160/result.json": "9b6bcbbe9c810adb2c47ecda6018cb755fc51b3aed4c1b70e1e4e6913882278a",
+    "validation/trumpet/axial-factors/gamma10_512x320-v1/result.json": "499b2388b9ae113b197682487dfa0ce7287a6355a47dfa4d305c3b9a7e2e8173",
+    "validation/trumpet/convergence/horizon256/surfaces/binary.json": "61fa1d39fc8b7c986de958049c035ec67795fd315c499c0a920611135c428db1"
+  },
+  "generated_from_saved_results_only": true
+}
