@@ -1,0 +1,30 @@
+{
+  "library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/libHiSpID.so",
+  "library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+  "dependency_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/libTwoPunctures.so": "41acce0c1bf5c41b1f85f72228d507696992991005fe52326afdccbd304388cc"
+  },
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+    "file_sha256": "005c327f3395369a6959cc22f934c2b1e8d851762f85d34d0fa7719b034b36b9",
+    "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+    "acceptance": "analytic_seed",
+    "parameterization": "modal_P_C2prolate_mapped_v2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "compiled_execution": "Cuda",
+  "runtime_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/algorithms/src/libkokkosalgorithms.so.4.7.2": "8e5337e867f169a3899af13089474d1228010897c5d76e1dee8e3d08dbebd318",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/containers/src/libkokkoscontainers.so.4.7.2": "d738dbba12cac5af166241a062926ef3696f514f7510e0917891203f41256cd3",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/core/src/libkokkoscore.so.4.7.2": "159fb3ccd8ec1416f3ae848e8622945eaf2fc006a22a7694426e4f976d5f8112",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/simd/src/libkokkossimd.so.4.7.2": "10495d3cca8f532fe99cef555dbd08b89943a30500a9bc83ce66aa52d23504e4"
+  },
+  "parameterization": "modal_P_C2prolate_mapped_v2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "point_count": 1512,
+  "artifact_sha256": "c89b8013e5909b18f0e325f3b668a3db49494d304f7ac0ff4c56020af603bf64"
+}

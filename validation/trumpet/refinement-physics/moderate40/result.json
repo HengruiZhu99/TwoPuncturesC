@@ -1,0 +1,291 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      40,
+      80,
+      12
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.0826630035142687,
+      0.0554766275110519
+    ],
+    "inner_max": [
+      0.27554334504756234,
+      0.18492209170350635
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 80,
+    "memory_limit_mib": 2048,
+    "seed_family": "trumpet_r0_m"
+  },
+  "library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+  "kind": "moderate_trumpet_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": true,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-refinement/validation/run_trumpet_pilot.py": "3432cd7d8f9a2805bc8fceda8aaed399da367de3e700c429ffab6490703790d1",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-refinement/examples/trumpet_configs.py": "3bb7b06b7df4f2981d6420b68235f8227fe68ef2a52c953afbf7d07253e7e723",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-refinement/validation/run_validation.py": "421d672ad71ce03ad0ca14858e08969669581de8e94611c213fc9f1e41ff879e",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-refinement/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d"
+  },
+  "setup_seconds": 2.6480035219574347,
+  "initial_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/moderate-pilot/diagnostic.checkpoint",
+    "file_sha256": "d0570309e726ce54a4ba469e314aa4100bf33b15fa76c88c42ff306f9b18742f",
+    "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2prolate_mapped_v2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2,
+    "acceptance_inherited": false
+  },
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 9,
+    "krylov_iterations": 41,
+    "npoints": 38400,
+    "scaled_linf": [
+      4.925310602503304e-15,
+      1.2594665791707148e-13,
+      6.793539832817383e-14,
+      7.135749613294102e-14
+    ],
+    "unscaled_linf": [
+      7.585321259995226e-12,
+      4.934436466153976e-12,
+      5.885641038369649e-12,
+      1.1821204692406434e-11
+    ],
+    "seconds": 0.428946071,
+    "status": 0,
+    "error": ""
+  },
+  "solve_artifact_sha256": "061e963f7a9b16dcfa4d952fa567f746d8cb95e3684af4d5366778474d31175e",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/refinement-physics/moderate40/diagnostic.checkpoint",
+    "file_sha256": "d6cfe20d98567bd668377b21914dd489c65301e1035fe200be5f3e433a6c6ba7",
+    "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+    "acceptance": "diagnostic",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 0.00011441085593570333,
+      "H_max": 0.0005080519826270447,
+      "M_rms": 9.429365980381397e-05,
+      "M_max": 0.0005502070075569614,
+      "M_components_rms": [
+        9.456139209141607e-06,
+        2.8850295161206047e-05,
+        2.6003801007116154e-05
+      ],
+      "M_components_max": [
+        3.20297205961548e-05,
+        0.0001539165533528154,
+        0.0001352583642236778
+      ],
+      "normalized_H_max": 0.0002993800623665847,
+      "normalized_M_max": 0.0004325527021041235
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 1.492344691373612e-05,
+      "H_max": 3.902671434788201e-05,
+      "M_rms": 8.68914853636451e-05,
+      "M_max": 0.00022665854009511102,
+      "M_components_rms": [
+        5.098683870327697e-06,
+        3.71409954152322e-05,
+        6.28410623975627e-05
+      ],
+      "M_components_max": [
+        1.1161082230665255e-05,
+        0.0001235606619634728,
+        0.0001401496567969565
+      ],
+      "normalized_H_max": 0.04047977613162318,
+      "normalized_M_max": 0.03176522703854701
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.16813873177134642,
+      "H_max": 0.43905123110493527,
+      "M_rms": 0.010335873663806568,
+      "M_max": 0.02225017733565774,
+      "M_components_rms": [
+        0.0009910046618089754,
+        0.0010405751343836559,
+        0.0010257189333600682
+      ],
+      "M_components_max": [
+        0.002869270821224743,
+        0.002707445033820153,
+        0.0027049460552105472
+      ],
+      "normalized_H_max": 0.020991035263619416,
+      "normalized_M_max": 0.011283676253839007
+    }
+  },
+  "exterior_stencil_unmodified": true,
+  "minimum_psi": 1.0289968439456416,
+  "minimum_metric_eigenvalue": 1.119770294523981,
+  "charge_radii": [
+    256.0,
+    512.0,
+    1024.0
+  ],
+  "charges": [
+    [
+      0.9725497425323879,
+      0.004506011525529147,
+      0.0073478291757148075,
+      0.016816570584999073,
+      0.03988972298356161,
+      0.11213214090185859,
+      0.3094878293647169
+    ],
+    [
+      0.9706729745982159,
+      0.0045094655056187845,
+      0.007358055749602881,
+      0.016840596877583092,
+      0.03997316963091202,
+      0.11227790063316499,
+      0.3101038468795101
+    ],
+    [
+      0.9697272382429813,
+      0.0045112837530138184,
+      0.0073631823130126325,
+      0.016852663509907866,
+      0.040017770320413384,
+      0.11233055302118804,
+      0.31042066417214326
+    ]
+  ],
+  "charges_extrapolated": [
+    0.9687766002956479,
+    0.004513162838642331,
+    0.007368317727399528,
+    0.016864765799587816,
+    0.04006428925379887,
+    0.11236972042412434,
+    0.31074335382160073
+  ],
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.060366155030099115,
+      3.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.03721260294263938,
+      4.0
+    ],
+    [
+      2.0,
+      0.1,
+      0.05668567295485828,
+      5.0
+    ],
+    [
+      3.0,
+      0.1,
+      0.08831336805987827,
+      4.0
+    ],
+    [
+      4.0,
+      0.1,
+      0.05880957410302583,
+      4.0
+    ],
+    [
+      5.0,
+      0.1,
+      0.0861695430268326,
+      4.0
+    ],
+    [
+      6.0,
+      0.1,
+      0.0879394490334466,
+      5.0
+    ],
+    [
+      7.0,
+      0.1,
+      0.08852461621294919,
+      5.0
+    ],
+    [
+      8.0,
+      0.1,
+      0.07479597926526234,
+      7.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 59,
+    "preconditioner_applications": 41
+  },
+  "total_seconds": 20.621377964969724,
+  "process_peak_rss_kib": 271324
+}

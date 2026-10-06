@@ -5,8 +5,8 @@ Dedicated branches: codex/hispid-trumpet and codex/hispid-trumpet-pgen.
 The prior worktrees and raw results are unchanged. No previous benchmark
 campaign is resumed. Current status: seed-family API, context/cache/sampler
 dispatch and versioned checkpoint integration implemented; CUDA controls and
-full consumer build pass. First exact horizon convergence and moderate binary
-diagnostic are running; no physical binary acceptance yet.
+full consumer build pass. Isolated spin.99 horizon convergence passes; two moderate binary grids
+converge internally but fail physical accuracy. No binary acceptance yet.
 
 ## Pinned geometry and conventions
 
@@ -39,8 +39,8 @@ derivation below; physical convergence and measured enclosure remain required.
 
 | Distinct obligation | Check and acceptance | Status |
 |---|---|---|
-| Seed conventions | Schwarzschild closed form; mass scaling; rotated/translated Kerr. Scaled field error<1e-11 at moderate parameters | local controls pass; near-horizon production check running |
-| Derivatives and vacuum | Independent metric/K finite differences at3 steps; expected convergence before rounding; mass-normalized exterior H/M RMS<1e-7 | exterior pass; target near-hole checks running |
+| Seed conventions | Schwarzschild closed form; mass scaling; rotated/translated Kerr. Scaled field error<1e-11 at moderate parameters | pass, including production near-horizon checks |
+| Derivatives and vacuum | Independent metric/K finite differences at3 steps; expected convergence before rounding; mass-normalized exterior H/M RMS<1e-7 | pass at the sampled exterior, axis, horizon and interior points |
 | Boost and causal slice | Generic spin/boost andGamma10; positive metric and slice margin at every evaluated point; E/P/J extrapolation error<1e-4 with two angular levels | sampled checks and charges pass; nonspinning global slicing proved |
 | Linearization | One curved manufactured operator case and centered JVP difference sequence; relative error<1e-7 | pass; small device control also passes |
 | Moderate binary | Three increasing resolutions; independent fixed exterior near/bulk H/M RMS<1e-6 and max<1e-4 with decreasing errors; positivepsi; charge changes<1e-3 | pending |
@@ -243,3 +243,47 @@ g=0 plateaus, with nonzero quadratic scalar/vector jets, produce exactly the
 flat scalar/vector residuals (absolute difference zero in the retained local
 CPU control). This tests the actual coupled equation routine; the metric and
 CTT source outside the correction operator are not replaced by a flat seed.
+
+## Completed first physical runs and diagnosed limitations
+
+The isolated trumpet withseedchi=.99 passes the full AthenaK import and
+horizon controls at angular orders8/12/16. Finest measured horizon mass is
+1.00000000000409, spinSz=.989999999999997 and expansion RMS4.538e-11;
+relative area error is5.80e-11. Zero evolution is verified. Separate-process
+CUDA-image/CPU-consumer sampler arrays are bitwise identical, including
+metric gradients; the local mirror independently verifies their equality.
+Allocation59402564 completed and released. No interior source modification
+is used in this exact seed control, so enclosure of binary g-balls is separate.
+
+Independent near-axis/horizon/interior physical checks now pass for both
+spin.99 andGamma10. The original spin.99 verifier sequence had clear
+fourth-order truncation but failed the tolerance; two additional smaller
+steps (only that case) reduce H/M RMS to6.147e-9/4.307e-10. The Gamma10
+sequence reaches4.447e-8/4.655e-8 without additional runs. The failed coarse
+step records are preserved. An extra step initially could not start because
+the main job held its reserved communication ports; the independent CPU
+observer subsequently ran with MPI disabled and zero reserved ports.
+
+The generic moderate24x48x8 pilot converged in10 Newton/44 Krylov iterations,
+with CUDA solve time.162s. It is physically **unaccepted**: near H/M RMS
+5.83e-4/3.45e-4, bulk8.95e-6/1.99e-4. Halving the independent observer's step
+changes H by at most9.99e-9 and the momentum norm by7.59e-10, excluding verifier
+truncation as the dominant error. Nonzero high azimuthal modes remain in the
+retained correction. Both physical sampling regions have wholly unmodified
+stencils, positivepsi and positive metrics.
+
+The warm-started40x80x12 run also converges internally (9 Newton/41 Krylov,
+.429s solve) and remains physically **unaccepted**. Near H/M RMS improves to
+1.14e-4/9.43e-5, bulk momentum improves to8.69e-5, but bulk Hamiltonian grows to
+1.49e-5. This is not a convergent three-grid sequence. Extrapolated charges are
+already stable to4.71e-5 between these two grids, which does not override the
+constraint failure. Setup for the refined run uses the selected16-thread
+OpenMP host construction and the same CUDA solver; no backend matrix is run.
+A directional replay of the retained polynomial will distinguish radial,
+polar and azimuthal underresolution before more nonlinear grids are launched.
+
+`first-physics/`, `refinement-physics/` and `first-physics-receipt.json` retain
+original logs, checkpoints, coefficients, observers and source/image bindings.
+The refinement allocation59403087 completed and released. The target factory
+now specifies both requested separate equal-mass cases and accepts a measured
+component Mirr for the Gamma10 separation update; no target binary has run.

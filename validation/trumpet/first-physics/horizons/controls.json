@@ -1,0 +1,462 @@
+{
+  "executable_sha256": "49459b582a17892a6f2ae8d349a323c6d41b50ddae2a51e26363adf45587bc49",
+  "manifest_sha256": "f10cc574c6e163c61c8a97cd7ebbd293e5e89da4485ee689578bb977613c5117",
+  "input_template_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+  "initial_time": 0,
+  "evolution_steps": 0,
+  "records": [
+    {
+      "case": "kerr99",
+      "lmax": 8,
+      "ntheta": 16,
+      "initial_scale": 0.8,
+      "returncode": 0,
+      "seconds": 102.02863871201407,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/horizons/kerr99_l8_n16_s0.8/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "problem/hispid_source_sha256=dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=8",
+        "fastflow/ntheta=16",
+        "problem/hispid_horizon_guess_scale=0.8",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "file_sha256": "005c327f3395369a6959cc22f934c2b1e8d851762f85d34d0fa7719b034b36b9",
+        "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2prolate_mapped_v2",
+        "seed_family": "trumpet_r0_m"
+      },
+      "passed": true,
+      "input_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99-migration.json",
+        "file_sha256": "0ae00bc50642c6cd1e69c95a988520870ec686d3ba9a847536e67d1d2ec1b764",
+        "consumer_library_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.2,
+          "angular_stretch": 2.0
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 35832,
+        "records": [
+          {
+            "horizon": 0,
+            "mode": "factorized",
+            "lmax": 8,
+            "ntheta": 16,
+            "host_bytes": 35832,
+            "device_bytes": 35832,
+            "unique_bytes": 35832
+          }
+        ],
+        "serial_allocation_verified": true,
+        "passed": true,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 1.0,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "acceptance": "analytic_seed",
+        "consumer_library_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "adm_z4c_relative_error": 5.551115123125783e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "trumpet_r0_m",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        }
+      },
+      "zero_evolution_verified": true,
+      "attempt_area": 28.678150676687135,
+      "attempt_expansion_rms": 4.419863578016239e-11,
+      "summary": [
+        0.0,
+        0.0,
+        0.999999999995424,
+        4.762549327712297e-18,
+        -9.760206389446624e-19,
+        0.9899999999986313,
+        0.9899999999986313,
+        28.67815067668714,
+        1.953519404827451e-21,
+        -1.260383156074775e-09,
+        0.1410673597391817,
+        0.1410673597386452
+      ],
+      "area": 28.67815067668714,
+      "expansion_rms": 4.419863578016239e-11,
+      "min_radius": 0.1410673597386452,
+      "expected_area": 28.67815067830628,
+      "relative_area_error": 5.6459059649682786e-11,
+      "spin_error": 1.368682944757893e-12,
+      "expected_irreducible_mass": 0.7553367989832943,
+      "expected_horizon_mass": 1.0,
+      "horizon_mass_error": 4.576006240597508e-12,
+      "expected_seed_lorentz_factor": 1.0
+    },
+    {
+      "case": "kerr99",
+      "lmax": 12,
+      "ntheta": 24,
+      "initial_scale": 1.2,
+      "returncode": 0,
+      "seconds": 225.20811228791717,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/horizons/kerr99_l12_n24_s1.2/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "problem/hispid_source_sha256=dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=12",
+        "fastflow/ntheta=24",
+        "problem/hispid_horizon_guess_scale=1.2",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "file_sha256": "005c327f3395369a6959cc22f934c2b1e8d851762f85d34d0fa7719b034b36b9",
+        "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2prolate_mapped_v2",
+        "seed_family": "trumpet_r0_m"
+      },
+      "passed": true,
+      "input_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99-migration.json",
+        "file_sha256": "0ae00bc50642c6cd1e69c95a988520870ec686d3ba9a847536e67d1d2ec1b764",
+        "consumer_library_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.2,
+          "angular_stretch": 2.0
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 107448,
+        "records": [
+          {
+            "horizon": 0,
+            "mode": "factorized",
+            "lmax": 12,
+            "ntheta": 24,
+            "host_bytes": 107448,
+            "device_bytes": 107448,
+            "unique_bytes": 107448
+          }
+        ],
+        "serial_allocation_verified": true,
+        "passed": true,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 1.0,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "acceptance": "analytic_seed",
+        "consumer_library_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "adm_z4c_relative_error": 5.551115123125783e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "trumpet_r0_m",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        }
+      },
+      "zero_evolution_verified": true,
+      "attempt_area": 28.67815067995338,
+      "attempt_expansion_rms": 4.4960079853886836e-11,
+      "summary": [
+        0.0,
+        0.0,
+        1.000000000004051,
+        1.44192220361217e-18,
+        5.46180610315511e-18,
+        0.9900000000000003,
+        0.9900000000000003,
+        28.67815067995338,
+        2.021408780467881e-21,
+        1.282097115883024e-09,
+        0.1410673598551263,
+        0.1410673598548507
+      ],
+      "area": 28.67815067995338,
+      "expansion_rms": 4.4960079853886836e-11,
+      "min_radius": 0.1410673598548507,
+      "expected_area": 28.67815067830628,
+      "relative_area_error": 5.743383546530367e-11,
+      "spin_error": 3.3306690738754696e-16,
+      "expected_irreducible_mass": 0.7553367989832943,
+      "expected_horizon_mass": 1.0,
+      "horizon_mass_error": 4.050981772252271e-12,
+      "expected_seed_lorentz_factor": 1.0
+    },
+    {
+      "case": "kerr99",
+      "lmax": 16,
+      "ntheta": 32,
+      "initial_scale": 1.05,
+      "returncode": 0,
+      "seconds": 379.29356395301875,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/horizons/kerr99_l16_n32_s1.05/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "problem/hispid_source_sha256=dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=16",
+        "fastflow/ntheta=32",
+        "problem/hispid_horizon_guess_scale=1.05",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99.checkpoint",
+        "file_sha256": "005c327f3395369a6959cc22f934c2b1e8d851762f85d34d0fa7719b034b36b9",
+        "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2prolate_mapped_v2",
+        "seed_family": "trumpet_r0_m"
+      },
+      "passed": true,
+      "input_sha256": "f4e4352aab7161e2c159e15fb176db0d0ea15157d89bfcd384100c8e525f0f5e",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/first-physics/kerr99-migration.json",
+        "file_sha256": "0ae00bc50642c6cd1e69c95a988520870ec686d3ba9a847536e67d1d2ec1b764",
+        "consumer_library_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.2,
+          "angular_stretch": 2.0
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 239480,
+        "records": [
+          {
+            "horizon": 0,
+            "mode": "factorized",
+            "lmax": 16,
+            "ntheta": 32,
+            "host_bytes": 239480,
+            "device_bytes": 239480,
+            "unique_bytes": 239480
+          }
+        ],
+        "serial_allocation_verified": true,
+        "passed": true,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 1.0,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "source_library_sha256": "dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74",
+        "acceptance": "analytic_seed",
+        "consumer_library_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "adm_z4c_relative_error": 5.551115123125783e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "trumpet_r0_m",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so": "3d9c26e7c74d7f1be6abc728818e342318650d35554440557d5085ff15789199"
+        }
+      },
+      "zero_evolution_verified": true,
+      "attempt_area": 28.678150679969185,
+      "attempt_expansion_rms": 4.538357855493632e-11,
+      "summary": [
+        0.0,
+        0.0,
+        1.000000000004089,
+        6.397518707425124e-18,
+        -2.001920785680696e-18,
+        0.9899999999999972,
+        0.9899999999999972,
+        28.67815067996919,
+        2.059669202452076e-21,
+        1.294173588534417e-09,
+        0.141067359855677,
+        0.1410673598553975
+      ],
+      "area": 28.67815067996919,
+      "expansion_rms": 4.538357855493632e-11,
+      "min_radius": 0.1410673598553975,
+      "expected_area": 28.67815067830628,
+      "relative_area_error": 5.7985172219332526e-11,
+      "spin_error": 2.7755575615628914e-15,
+      "expected_irreducible_mass": 0.7553367989832943,
+      "expected_horizon_mass": 1.0,
+      "horizon_mass_error": 4.0889513996944515e-12,
+      "expected_seed_lorentz_factor": 1.0
+    }
+  ],
+  "passed": true,
+  "harmonic_storage": "factorized",
+  "diagnostic_single_boost_level": false,
+  "worker_timeout_seconds": 900.0,
+  "full_precision_trace": false,
+  "workflow_source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak/tst/test_suite/z4c/check_hispid_controls.py": "0e0f806abd28c6b351e071ae1e01d247cd06d0f69ae220d67cd81fbd00a6e970",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak/tst/test_suite/z4c/check_hispid_binary.py": "9d2706a489cd6aef76cf9f04a09250bd3e92514628e69bb98c8386819c583b17",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak/tst/test_suite/z4c/hispid_sampler_proof.py": "28fe4fe470089143b294a06d4ad65b5f65d3119ee7ec9e50dc70b75577cd5031",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak/tst/test_suite/z4c/fastflow_storage.py": "6c3a6f30967d638f233b34a7e3c88dc9f3cf2bcf90d54fdb98970d5c3f53110c"
+  },
+  "consumer_memory_screen": {
+    "budget_mib": 32768,
+    "other_allowance_bytes": 1073741824,
+    "estimates": [
+      {
+        "case": "kerr99",
+        "lmax": 8,
+        "ntheta": 16,
+        "harmonic_table_bytes": 35832
+      },
+      {
+        "case": "kerr99",
+        "lmax": 12,
+        "ntheta": 24,
+        "harmonic_table_bytes": 107448
+      },
+      {
+        "case": "kerr99",
+        "lmax": 16,
+        "ntheta": 32,
+        "harmonic_table_bytes": 239480
+      }
+    ],
+    "note": "Single-copy Serial harmonic data only, plus an explicit allowance; not a measured peak or a complete allocation guarantee."
+  },
+  "case_qualification": {
+    "kerr99": true
+  }
+}

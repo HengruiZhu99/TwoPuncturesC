@@ -1,0 +1,31 @@
+
+Root grid = 1 x 1 x 1 MeshBlocks
+Total number of MeshBlocks = 1
+Number of logical  levels of refinement = 0 (1 levels total)
+Number of physical levels of refinement = 0 (1 levels total)
+Number of parallel ranks = 1
+FastFlow harmonic_storage horizon=0 mode=factorized lmax=8 ntheta=16 host_bytes=35832 device_bytes=35832 unique_bytes=35832
+AssembleZ4cTasks
+HiSpID consumer_dependency symbol="AB_To_XR" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="C_To_c" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="PK_solve" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="Puncture_execution_initialize" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libTwoPunctures.so"
+HiSpID consumer_image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-sampler/libHiSpID.so"
+HiSpID import source=dca1f9b73cbd4cb43c4dd3dfbf1df93688b5cda4b18e3fe4ead82720a6653c74 acceptance=analytic_seed consumer=93dbe9778171fccd04b22dc0086ce9aac720e5b5b771a6a81ed1b2ca533c121e ADM/Z4c relative error=5.5511151231257827e-16 seed_family=trumpet_r0_m
+HiSpID horizon 0 geometry=native found=1 area=28.678150676687135 expansion_rms=4.4198635780162387e-11 min_radius=0.14106735973864523 attempt_area=28.678150676687135 attempt_expansion_rms=4.4198635780162387e-11 center_x=0 center_y=0 center_z=0 kind=component
+### WARNING in /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak/src/parameter_input.cpp: input parameter <z4c>/nco = 0 was not used by the code (check for a typo)
+### WARNING in /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak/src/parameter_input.cpp: input parameter <problem>/hispid_allow_diagnostic = false was not used by the code (check for a typo)
+### WARNING in /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak/src/parameter_input.cpp: input parameter <problem>/hispid_mesh_constraint_min_radius = 0.75 was not used by the code (check for a typo)
+
+Setup complete, executing task list(s)...
+
+elapsed=1.019815e+02 cycle=0 time=0.000000e+00 dt=1.000000e-01
+
+Terminating on cycle limit
+time=0.000000e+00 cycle=0
+tlim=0.000000e+00 nlim=0
+
+MeshBlock-cycles = 0
+cpu time used  = 4.428000e-06
+zone-cycles/cpu_second = 0.000000e+00
+particle-updates/cpu_second = 0.000000e+00

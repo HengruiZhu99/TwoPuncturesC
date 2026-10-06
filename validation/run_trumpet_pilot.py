@@ -12,9 +12,10 @@ from configs import as_dict
 from trumpet_configs import trumpet_moderate
 from run_validation import points
 from physical import constraints,norms
-from checkpoint_export import write_checkpoint
+from checkpoint_export import write_checkpoint,read_checkpoint
+from prolong import for_backend
 
-def run(library,output,n,nphi):
+def run(library,output,n,nphi,initial=None):
     output.mkdir(parents=True,exist_ok=False)
     b=Backend(str(library.resolve()));c=trumpet_moderate(b,n,nphi)
     result=dict(config={**as_dict(c),'seed_family':c.seed_family},library_sha256=b.library_sha256(),
@@ -26,6 +27,13 @@ def run(library,output,n,nphi):
     save();start=time.monotonic()
     with b.create(c,execution='kokkos',geometry='host') as s:
         result['setup_seconds']=time.monotonic()-start;save()
+        if initial:
+            old,values,meta=read_checkpoint(initial)
+            if meta['source_library_sha256']!=b.loaded_sha256 or old.seed_family!=c.seed_family or meta['parameterization']!=b.parameterization():raise ValueError('incompatible initial checkpoint')
+            excluded={'n','tolerance','max_newton','max_krylov','krylov_restart','memory_limit_mib'}
+            if any(as_dict(old)[k]!=v for k,v in as_dict(c).items() if k not in excluded):raise ValueError('initial checkpoint has different physical free data')
+            s.set_unknowns(for_backend(b,values,list(old.n),list(c.n)))
+            result['initial_checkpoint']={**meta,'acceptance_inherited':False};save()
         result['diagnostics']=s.solve(krylov='gmres',linear_rtol=.1)
         values=s.unknowns();np.savez_compressed(output/'solve.npz',unknowns=values)
         result['solve_artifact_sha256']=hashlib.sha256((output/'solve.npz').read_bytes()).hexdigest();save()
@@ -38,8 +46,13 @@ def run(library,output,n,nphi):
         result['exterior_stencil_unmodified']=bool(np.all(physical['stencil_attenuation_all_one'][:near+bulk]))
         result['minimum_psi']=float(np.min(sampled['psi']));result['minimum_metric_eigenvalue']=float(np.min(physical['min_metric_eigenvalue']))
         np.savez_compressed(output/'physical.npz',xyz=x,step=step,**physical)
+        radii=[256.,512.,1024.]
+        result['charge_radii']=radii
+        result['charges']=[s.charges(r,ntheta=2*c.n[1],nphi=32).tolist() for r in radii]
+        from physical import extrapolate
+        result['charges_extrapolated']=extrapolate(radii,result['charges']).tolist()
         result['linear_history']=s.linear_history();result['work_statistics']=s.work_statistics()
     result.update(completed=True,total_seconds=time.monotonic()-start,process_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     save();print(json.dumps({k:result[k] for k in ('diagnostics','physical','minimum_psi','total_seconds')},indent=2))
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);a=ap.parse_args();run(a.library,a.output,a.n,a.nphi)
+    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);a=ap.parse_args();run(a.library,a.output,a.n,a.nphi,a.initial)
