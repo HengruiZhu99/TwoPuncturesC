@@ -1,0 +1,439 @@
+{
+  "purpose": "Inspect the forbidden quartic m6 axis term of retained C2 scalar polynomials.\n\nAway from punctures, a smooth Cartesian scalar has Fourier mode m6=O(rho^6).\nThe current capped basis allows rho^4 P6. Its quartic coefficient is\n-(1-t)^5 P6/(8 b^4), t=a^2, so P6 must vanish on each axis boundary.\nThis reports a representation diagnostic, not a physical acceptance test.\n",
+  "rows": [
+    {
+      "resolution": [
+        192,
+        384,
+        16
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate192/diagnostic.checkpoint",
+        "file_sha256": "347769fcc6e6487fd89f4d4440ec328e1858b3fde31ee7011fd1d52b7e2f1181",
+        "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "solve_sha256": "2334a8826727f671dc3875feb8eb32783ee1cca2c28909834e926284e65e8d4c",
+      "samples": [
+        {
+          "axis": "exterior",
+          "t": 0.04,
+          "eta": -1.0,
+          "x": -3.2500000000000004,
+          "P6": [
+            3.726246543326191e-05,
+            -1.1140925563837175e-05
+          ],
+          "quartic_coefficients": [
+            -4.688703234497764e-08,
+            1.4018528596831354e-08
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.04,
+          "eta": 1.0,
+          "x": 3.2500000000000004,
+          "P6": [
+            -1.1292307672314939e-05,
+            -4.482007482090653e-07
+          ],
+          "quartic_coefficients": [
+            1.4209011371766367e-08,
+            5.639670573048825e-10
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.25,
+          "eta": -1.0,
+          "x": -5.0,
+          "P6": [
+            -3.788678681169985e-06,
+            1.1308813955444436e-06
+          ],
+          "quartic_coefficients": [
+            1.3874555717175237e-09,
+            -4.14141136063639e-10
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.25,
+          "eta": 1.0,
+          "x": 5.0,
+          "P6": [
+            1.1497795409514354e-06,
+            3.7768123672463256e-08
+          ],
+          "quartic_coefficients": [
+            -4.2106184361014476e-10,
+            -1.3831099977708711e-11
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.64,
+          "eta": -1.0,
+          "x": -13.666666666666668,
+          "P6": [
+            2.584933243403939e-06,
+            -7.715589614442181e-07
+          ],
+          "quartic_coefficients": [
+            -2.4120529080850835e-11,
+            7.199570981028287e-12
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.64,
+          "eta": 1.0,
+          "x": 13.666666666666668,
+          "P6": [
+            -7.844588895269587e-07,
+            -2.5797471807270286e-08
+          ],
+          "quartic_coefficients": [
+            7.319942789953956e-12,
+            2.407213689280005e-13
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": -0.75,
+          "x": -2.25,
+          "P6": [
+            1.4865805861131964e-05,
+            -1.3832123124446812e-06
+          ],
+          "quartic_coefficients": [
+            -2.2941058427672784e-08,
+            2.1345869019208044e-09
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": 0.0,
+          "x": 0.0,
+          "P6": [
+            6.375807536512686e-06,
+            -8.369632021799623e-07
+          ],
+          "quartic_coefficients": [
+            -9.83920916128501e-09,
+            1.2916098799073493e-09
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": 0.75,
+          "x": 2.25,
+          "P6": [
+            1.2561702524651515e-06,
+            -7.290553342915841e-07
+          ],
+          "quartic_coefficients": [
+            -1.9385343402239995e-09,
+            1.125085392425284e-09
+          ]
+        }
+      ]
+    },
+    {
+      "resolution": [
+        224,
+        448,
+        16
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate224/diagnostic.checkpoint",
+        "file_sha256": "9d2f9cf0f4687fbdd23bae91b68a4ce6a62a8c6ec10fb7a1c3e9c5609521ec4d",
+        "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "solve_sha256": "cef9a9e6c0d9e258c4b43a6e811b519555edfa72a716224260a703adf21611f7",
+      "samples": [
+        {
+          "axis": "exterior",
+          "t": 0.04,
+          "eta": -1.0,
+          "x": -3.2500000000000004,
+          "P6": [
+            -0.00013980145602745294,
+            0.0003884569890752484
+          ],
+          "quartic_coefficients": [
+            1.7591094186653097e-07,
+            -4.887920109318811e-07
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.04,
+          "eta": 1.0,
+          "x": 3.2500000000000004,
+          "P6": [
+            -4.5737466688362386e-05,
+            1.1072146147100429e-05
+          ],
+          "quartic_coefficients": [
+            5.755105184425952e-08,
+            -1.3931984062010372e-08
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.25,
+          "eta": -1.0,
+          "x": -5.0,
+          "P6": [
+            3.923127607533755e-05,
+            -0.00010902734401558308
+          ],
+          "quartic_coefficients": [
+            -1.4366922390870684e-08,
+            3.992700586508169e-08
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.25,
+          "eta": 1.0,
+          "x": 5.0,
+          "P6": [
+            1.2846995088071874e-05,
+            -3.108382923483481e-06
+          ],
+          "quartic_coefficients": [
+            -4.704710115260696e-09,
+            1.1383238245178764e-09
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.64,
+          "eta": -1.0,
+          "x": -13.666666666666668,
+          "P6": [
+            2.4377198215094512e-05,
+            -6.774908304349486e-05
+          ],
+          "quartic_coefficients": [
+            -2.2746851198468988e-10,
+            6.321802436954592e-10
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.64,
+          "eta": 1.0,
+          "x": 13.666666666666668,
+          "P6": [
+            7.983348144017998e-06,
+            -1.9315604331678093e-06
+          ],
+          "quartic_coefficients": [
+            -7.449421820146074e-11,
+            1.8023776713975457e-11
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": -0.75,
+          "x": -2.25,
+          "P6": [
+            2.0543540525055805e-05,
+            -4.5839206491102116e-05
+          ],
+          "quartic_coefficients": [
+            -3.17029946374318e-08,
+            7.07395161899724e-08
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": 0.0,
+          "x": 0.0,
+          "P6": [
+            2.4608626505903856e-05,
+            -4.9151079056410673e-05
+          ],
+          "quartic_coefficients": [
+            -3.7976275472073855e-08,
+            7.585043064260907e-08
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": 0.75,
+          "x": 2.25,
+          "P6": [
+            1.2393048147619079e-05,
+            -1.9936733422642717e-05
+          ],
+          "quartic_coefficients": [
+            -1.9125074301881293e-08,
+            3.0766563923831356e-08
+          ]
+        }
+      ]
+    },
+    {
+      "resolution": [
+        256,
+        512,
+        16
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/convergence/moderate256/diagnostic.checkpoint",
+        "file_sha256": "c1d55c986b7409ac5891fe7bae2696db49b574a717a912d79dec959ff5218bc1",
+        "source_library_sha256": "6e5d0717b0c8ec5fabb19821b50e84769b2e8295f0046b5019f95bcca88943a0",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "solve_sha256": "ef1245add5c17adb20bd7f62c3c4c7db100411275d25d8ef5a4024b47fb07ba4",
+      "samples": [
+        {
+          "axis": "exterior",
+          "t": 0.04,
+          "eta": -1.0,
+          "x": -3.2500000000000004,
+          "P6": [
+            0.0005524014396858239,
+            0.00044426121025505934
+          ],
+          "quartic_coefficients": [
+            -6.950818704240028e-07,
+            -5.590099713652908e-07
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.04,
+          "eta": 1.0,
+          "x": 3.2500000000000004,
+          "P6": [
+            1.2926880530836558e-05,
+            -0.00010917202733770239
+          ],
+          "quartic_coefficients": [
+            -1.6265780015402967e-08,
+            1.373702012851903e-07
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.25,
+          "eta": -1.0,
+          "x": -5.0,
+          "P6": [
+            -5.466268640442117e-05,
+            -4.3953806995553584e-05
+          ],
+          "quartic_coefficients": [
+            2.001807363443158e-08,
+            1.6096364866535736e-08
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.25,
+          "eta": 1.0,
+          "x": 5.0,
+          "P6": [
+            -1.2767541589443932e-06,
+            1.0801196751152512e-05
+          ],
+          "quartic_coefficients": [
+            4.675613375040502e-10,
+            -3.9555163883615155e-09
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.64,
+          "eta": -1.0,
+          "x": -13.666666666666668,
+          "P6": [
+            -9.350378948617926e-05,
+            -7.518386491266921e-05
+          ],
+          "quartic_coefficients": [
+            8.725025604534358e-10,
+            7.015556802730988e-10
+          ]
+        },
+        {
+          "axis": "exterior",
+          "t": 0.64,
+          "eta": 1.0,
+          "x": 13.666666666666668,
+          "P6": [
+            -2.1845633422962883e-06,
+            1.8476598766384274e-05
+          ],
+          "quartic_coefficients": [
+            2.0384597459635124e-11,
+            -1.724088384088849e-10
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": -0.75,
+          "x": -2.25,
+          "P6": [
+            -6.632751757868895e-05,
+            -5.651968011367803e-05
+          ],
+          "quartic_coefficients": [
+            1.0235728021402616e-07,
+            8.722172857049079e-08
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": 0.0,
+          "x": 0.0,
+          "P6": [
+            8.163338894196952e-05,
+            5.7207562959936774e-05
+          ],
+          "quartic_coefficients": [
+            -1.259774520709406e-07,
+            -8.828327617274193e-08
+          ]
+        },
+        {
+          "axis": "between_holes",
+          "t": 0.0,
+          "eta": 0.75,
+          "x": 2.25,
+          "P6": [
+            -2.984059219196885e-05,
+            -1.0906486522703218e-05
+          ],
+          "quartic_coefficients": [
+            4.605029659254452e-08,
+            1.6830997720221017e-08
+          ]
+        }
+      ]
+    }
+  ],
+  "binary_acceptance": false,
+  "driver_sha256": "b9fbef1c7477f892cd91c2a531532b7e4a6380806a12bb2ca6ce5fd79d79499f"
+}

@@ -4,7 +4,7 @@ Prepare in a process loading only the target library, then pass the JSON to
 run_validation.py --initial-guess. The original record/library/raw vector
 remain separately bound; every target grid still solves and is checked anew.
 """
-import argparse,hashlib,json
+import argparse,hashlib,json,re
 from pathlib import Path
 import numpy as np
 from hispid import Backend
@@ -30,12 +30,18 @@ def map_pair(maps):
 
 
 def modal_family(token):
-    return token=='modal_P_C2prolate_mapped_v2' or token.startswith('modal_P_C2prolate_map_v3_')
+    return token=='modal_P_C2prolate_mapped_v2' or token.startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_'))
+
+def regularity_cap(token):
+    if token=='modal_P_C2prolate_mapped_v2' or token.startswith('modal_P_C2prolate_map_v3_r'):return 4
+    if token.startswith('modal_P_C4prolate_map_v4_r'):return 6
+    raise ValueError('unknown continuous modal regularity family')
+
 
 def maps_from_id(token):
     if token=='modal_P_C2prolate_mapped_v2':expected=(.2,2.)
-    elif token.startswith('modal_P_C2prolate_map_v3_r'):
-        try:expected=tuple(map(float,token.removeprefix('modal_P_C2prolate_map_v3_r').split('_k')))
+    elif token.startswith(('modal_P_C2prolate_map_v3_r','modal_P_C4prolate_map_v4_r')):
+        try:expected=tuple(map(float,re.sub(r'^modal_P_(?:C2prolate_map_v3|C4prolate_map_v4)_r','',token).split('_k')))
         except ValueError:raise ValueError('malformed source map identifier') from None
     else:raise ValueError('supported mapped modal P identifier required')
     if len(expected)!=2:raise ValueError('two map parameters required')

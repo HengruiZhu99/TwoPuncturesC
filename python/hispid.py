@@ -115,6 +115,8 @@ class Backend:
     def residual_scaling(self):
         return self.lib.HiSpID_residual_scaling().decode('ascii') if hasattr(self.lib,'HiSpID_residual_scaling') else 'sin6_alpha_beta'
     def parameterization_description(self):
+        if self.parameterization().startswith('modal_P_C4prolate_map_v4_'):
+            return 'modal P: u=W-2(1-t)q^r P, t=a^2, q=a sin(R), parity cap r<=6'
         value='u=W+(A-1)V, W=sum((1-F)*(psi_seed-1))'
         if self.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or self.parameterization().startswith('modal_P_C2prolate_map_v3_'):
             return 'modal P: u=W-2(1-t)q^r P, t=a^2, q=a sin(R), parity cap r<=4'

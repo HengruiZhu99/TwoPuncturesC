@@ -15,7 +15,7 @@ from physical import constraints,norms
 import checkpoint_export
 from checkpoint_export import write_checkpoint,read_checkpoint
 from prolong import for_backend,remap_modal
-from remapped_guess import maps_from_id,map_pair
+from remapped_guess import regularity_cap,maps_from_id,map_pair
 
 def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_source_library=None,case='moderate',separation=None,measured_mirr=None,krylov_restart=80,tolerance=None,axisymmetric=False):
     output.mkdir(parents=True,exist_ok=False)
@@ -43,6 +43,7 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
         if initial:
             old,values,meta=read_checkpoint(initial)
             if old.seed_family!=c.seed_family:raise ValueError('incompatible seed family')
+            if regularity_cap(meta['parameterization'])!=regularity_cap(b.parameterization()):raise ValueError('initial checkpoint has a different modal regularity family')
             if initial_source_library is None:
                 if meta['source_library_sha256']!=b.loaded_sha256 or meta['parameterization']!=b.parameterization():raise ValueError('incompatible initial checkpoint; explicit source library required for remapped guess')
             elif hashlib.sha256(initial_source_library.read_bytes()).hexdigest()!=meta['source_library_sha256']:

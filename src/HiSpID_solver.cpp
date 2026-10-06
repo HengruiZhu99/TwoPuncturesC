@@ -677,6 +677,13 @@ const char *HiSpID_residual_scaling(){
  return HISPID_INFINITY_EQUILIBRATION?"sin6_alpha_beta_times_one_minus_t_pow_minus6":"sin6_alpha_beta";
 }
 const char *HiSpID_unknown_parameterization(){
+ // Experimental C4 data must never be interpreted as the default C2 basis.
+ // Consumers compare the full token, so default C2 readers reject C4 data.
+ if constexpr(hispid::AxisDerivatives::regularity_cap==6){
+  static const auto c4=[](){std::array<char,128> value{};
+   std::snprintf(value.data(),value.size(),"modal_P_C4prolate_map_v4_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();
+  return c4.data();
+ }
  if constexpr(hispid::AxisDerivatives::radial_stretch==.2&&hispid::AxisDerivatives::angular_stretch==2.)return "modal_P_C2prolate_mapped_v2";
  static const auto identifier=[](){std::array<char,128> value{};
   std::snprintf(value.data(),value.size(),"modal_P_C2prolate_map_v3_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();

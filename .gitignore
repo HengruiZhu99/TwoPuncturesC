@@ -20,3 +20,5 @@ validation/*_initial_guess.npz
 /*.log
 tests/*.log
 validation/*.log
+
+/build-c4-experiment/

@@ -1,0 +1,10 @@
+{
+  "parameterization": "modal_P_C4prolate_map_v4_r0.20000000000000001_k2",
+  "description": "modal P: u=W-2(1-t)q^r P, t=a^2, q=a sin(R), parity cap r<=6",
+  "checkpoint_roundtrip_exact": true,
+  "constant_mode_prolongation_error": 4.440892098500626e-16,
+  "invalid_cross_version_rejected": true,
+  "default_basis_distinct": true,
+  "library_sha256": "1e610d34796de86656d52b99cb957320deae68c681643e9b1ba8f05af73f0dd7",
+  "passed": true
+}

@@ -994,3 +994,46 @@ The longer limit addresses the observed runtime failure; no convergence bound
 or memory guard changed. Consumer migration will be scheduled only after an
 actual solved checkpoint is available. The cancelled timeout-dependent job is
 not reused.
+
+### Axis regularity diagnosis and isolated C4 experiment
+
+For a smooth Cartesian scalar, mode m6 starts at rho^6 away from punctures.
+The retained C2 basis permits a rho^4 m6 term. With t=a^2 and half-separation b,
+its coefficient in the orthonormal real Fourier basis is
+`-(1-t)^5 P6/(8 b^4)`. Smoothness therefore requires P6 to vanish on t=0 and
+eta=+/-1, away from the punctures; those boundary zeros are not imposed by the
+capped basis. Barycentric evaluation of the saved polynomial on nine fixed axis
+locations gives maximum cosine/sine coefficient magnitudes4.89e-8,5.19e-7 and
+8.92e-7 across the three moderate grids. This is an18.2x increase, not convergence
+to smoothness. Raw results/source are `convergence/axis-regularity.json` and
+`validation/diagnose_trumpet_axis_regularity.py`. The first probe attempt only
+failed a metadata-key lookup before writing output; the corrected probe verifies
+the retained vector hash and reads the basis from the checkpoint header.
+
+`HISPID_REGULARITY_CAP=6` is now an isolated experimental build option. It uses
+r=m through m6, then odd/even caps5/6, guaranteeing C4 rather than only C2 on
+axes. Default cap4 and all old checkpoint identifiers remain unchanged. The
+new `modal_P_C4prolate_map_v4_r..._k...` identifier distinguishes the continuous
+basis while retaining checkpoint text format2. Native AthenaK readers compare
+the full identifier and therefore reject C4 files when linked to C2 libraries.
+Python metadata and same-basis modal prolongation understand C4; the pilot
+explicitly rejects cross-regularity-family initial guesses, even with an explicit
+source library. No conversion or acceptance is inferred from matching maps.
+
+The local independent Cartesian manufactured-operator check covers m5/6/8,
+cosine/sine partners, scalar and axial-vector components. At24 nodes m5/6 pass,
+but m8 has3.29e-8 normalized error and fails1e-8. At40 all pass, max8.78e-13.
+Both records are retained in `c4-experiment`. A small exact checkpoint roundtrip,
+constant-m6 prolongation and invalid-version rejection also pass. These are
+prerequisites only. The CUDA image is building on compute step59413586.3;
+its production-path control and one moderate192x384x16 trial must complete
+before judging whether stronger regularity improves the binary physics.
+The active Gamma10 run retains its already-qualified C2 image and is unaffected.
+
+The isolated C4 CUDA build completed on compute step59413586.3. Its source
+manifest matches the working tree. Job59414246 is queued after the active boost
+job, so only one GPU is used: it first runs the independent m5/6/8 operator and
+metadata control on CUDA, then (only if that passes) a zero-start moderate
+192x384x16 solve with unchanged physical inputs and acceptance bounds. No C2
+checkpoint is reused as C4 coefficients. Default production remains C2 pending
+this actual binary comparison.

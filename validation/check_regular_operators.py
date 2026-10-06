@@ -14,9 +14,12 @@ p.add_argument('--levels',default='16,32,64');p.add_argument('--output',required
 p.add_argument('--npolar',type=int);p.add_argument('--nphi',type=int,default=16)
 p.add_argument('--modes',default='0,1,2,3,4,5,6,8');p.add_argument('--components',default='0,1,2,3')
 p.add_argument('--memory-mib',type=int)
+p.add_argument('--regularity-cap',type=int,choices=[4,6],default=4)
+p.add_argument('--execution',choices=['reference','kokkos'],default='reference')
 a=p.parse_args()
 if Path(a.output).exists():raise FileExistsError(a.output)
 b=Backend(a.library);records=[];amp=1e-4
+if not b.parameterization().startswith('modal_P_C'+str(a.regularity_cap-2)+'prolate_'):raise ValueError('declared regularity cap does not match library basis')
 for n in map(int,a.levels.split(',')):
     cfg=b.config();np_=a.nphi;nb=a.npolar or n;half=np_//2;cfg.n[:]=[n,nb,np_]
     if a.memory_mib is not None:cfg.memory_limit_mib=a.memory_mib
@@ -29,13 +32,13 @@ for n in map(int,a.levels.split(',')):
     maps=b.parameterization_maps();lam=maps['radial_stretch'];kap=maps['angular_stretch']
     t=lam*sigma/(1-(1-lam)*sigma);polar_raw=-np.cos(np.pi*(np.arange(nb)+.5)/nb)
     eta=np.tanh(kap*polar_raw)/np.tanh(kap) if kap else polar_raw
-    with b.create(cfg) as s:
+    with b.create(cfg,execution=a.execution) as s:
         baseline=s.equation_samples();x=baseline['xyz']
         baseline_conformal=baseline['physical_equivalent'].copy()
         baseline_conformal[:,0]*=-baseline['psi']**5/8
         baseline_conformal[:,1:]*=baseline['psi'][:,None]**10
         for m in modes:
-            exponent=m if m<=4 else 3 if m%2 else 4
+            exponent=m if m<=a.regularity_cap else a.regularity_cap-1 if m%2 else a.regularity_cap
             for sine in (False,True):
                 if sine and m in (0,half):continue
                 mode=m if not sine else half+m;normal=np.sqrt((1 if m in (0,half) else 2)/np_)
@@ -69,8 +72,28 @@ for n in map(int,a.levels.split(',')):
                         seed_conformal_cancellation_max=np.max(abs(baseline_conformal),axis=0).tolist(),
                         passed=bool(np.max(normalized)<1e-8 and np.max(abs(difference))<1e-8))
                     records.append(row);print(json.dumps(row),flush=True)
-report=dict(library_sha256=b.library_sha256(),parameterization=b.parameterization(),
+report=dict(library_sha256=b.library_sha256(),parameterization=b.parameterization(),execution=a.execution,regularity_cap=a.regularity_cap,
     collocation_maps=b.parameterization_maps(),amplitude=amp,records=records,
     all_levels_passed=all(r['passed'] for r in records),
     passed=all(r['passed'] for r in records if r['resolution'][0]==max(v['resolution'][0] for v in records)))
+if a.regularity_cap==6:
+    import tempfile
+    from checkpoint_export import write_checkpoint,read_checkpoint
+    from prolong import for_backend
+    from remapped_guess import regularity_cap
+    small=b.config();small.n[:]=[4,4,16];small.seed_family='trumpet_r0_m'
+    source=np.zeros((16,4,4,4));source[6,:,:,0]=1
+    with tempfile.TemporaryDirectory() as tmp:
+        path=Path(tmp)/'c4.checkpoint'
+        write_checkpoint(path,small,source.ravel(),b.library_sha256(),'diagnostic',b.parameterization())
+        _,restored,metadata=read_checkpoint(path)
+    target=for_backend(b,source.ravel(),[4,4,16],[6,6,16]).reshape(16,6,6,4)
+    expected=np.zeros_like(target);expected[6,:,:,0]=1
+    error=float(np.max(abs(target-expected)))
+    report['metadata']=dict(roundtrip_exact=bool(np.array_equal(restored,source.ravel())),
+        parameterization_preserved=metadata['parameterization']==b.parameterization(),
+        distinct_from_default=regularity_cap(b.parameterization())!=regularity_cap('modal_P_C2prolate_mapped_v2'),
+        constant_mode_prolongation_error=error)
+    report['passed']=bool(report['passed'] and report['metadata']['roundtrip_exact'] and
+        report['metadata']['parameterization_preserved'] and report['metadata']['distinct_from_default'] and error<1e-14)
 Path(a.output).write_text(json.dumps(report,indent=2)+'\n');raise SystemExit(0 if report['passed'] else 1)

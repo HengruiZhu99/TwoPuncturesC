@@ -10,9 +10,12 @@
 #define HISPID_ANGULAR_STRETCH 2.
 #endif
 
+#ifndef HISPID_REGULARITY_CAP
+#define HISPID_REGULARITY_CAP 4
+#endif
 namespace hispid {
 // Regular prolate modes: V_m=(1+a)[a sin(R)]^r P_m(a²,cos(R)).
-// r=m for m<=4, then 3/4 for odd/even m. This preserves every smooth
+// Default r=m for m<=4, then 3/4 for odd/even m. This preserves every smooth
 // Cartesian mode and guarantees C2 without dividing by arbitrarily high
 // powers near the axes. Unknowns are the nodal values of modal P; Fourier
 // modes use the orthonormal real basis below. No near-axis Fourier division.
@@ -28,7 +31,9 @@ struct AxisDerivatives {
  static_assert(angular_stretch>=.1&&angular_stretch<=6,"angular map stretch must be in[.1,6]");
  HISPID_GEOMETRY_INLINE static double radial_t(double s){return radial_stretch*s/(1-(1-radial_stretch)*s);}
  HISPID_GEOMETRY_INLINE static double angular_eta(double z){return std::tanh(angular_stretch*z)/std::tanh(angular_stretch);}
- HISPID_GEOMETRY_INLINE static int exponent(int m){return m<=4?m:(m%2?3:4);}
+ static constexpr int regularity_cap=HISPID_REGULARITY_CAP;
+ static_assert(regularity_cap==4||regularity_cap==6,"regularity cap must be4or6");
+ HISPID_GEOMETRY_INLINE static int exponent(int m){return m<=regularity_cap?m:(m%2?regularity_cap-1:regularity_cap);}
  HISPID_GEOMETRY_INLINE static double radial(double a,int r){return (1+a)*std::pow(a,r);}
  HISPID_GEOMETRY_INLINE static double angular(double eta,int r){double q=1-eta*eta;return std::pow(q>0?q:0.,.5*r);}
  HISPID_GEOMETRY_INLINE static void node(int axis,int N,int i,double out[3]){
