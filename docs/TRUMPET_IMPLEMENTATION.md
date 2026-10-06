@@ -1518,3 +1518,12 @@ and256 only after completed nonlinear and physical gates pass. New outputs
 horizon workflow now points to this sequence's finest checkpoint and has not
 been launched. No duplicate of the still-running old job was created: its
 terminal FAILED state and released allocation were verified before restart.
+
+The standard-forcing continuation224 in job59421025 completed its level and
+passed nonlinear and physical gates. One Newton/119 Krylov, solve36.829s;
+weighted max3.34966e-13<1e-12. Near H/M RMS2.07100e-7/1.65066e-7,
+bulk5.02305e-8/4.33618e-7. Workflow266.592s; no physical threshold changed.
+Checkpointd78a1b3f8cc8d517f9ef33b88258981c3669ab438647a0c3d0ea2353b98ca735.
+Records `axis-tau/polar-exact/sequence-v2/moderate224`.
+The job has advanced to240. This is one qualifying grid, not completed
+three-grid convergence or horizon acceptance.
