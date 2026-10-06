@@ -1707,3 +1707,14 @@ polar-exact/compensated-projection/gpu-v3. Saved diagnostic checkpoint SHA256
  e997e7af3cc437b39d2d533a208163666a53d5f7bbcb07e94127db155de6666a.
 The relaxed forcing does not cure linear stagnation; further work must address
 that difficulty rather than treating another tolerance relaxation as validation.
+
+Job59423677 runs a bounded one-Newton BiCGStab probe from the final v3
+checkpoint on the identical corrected image. The existing shared BiCGStab
+backend is selected explicitly by a new diagnostic-driver argument; default
+GMRES is unchanged. Limit1200 BiCGStab iterations allows approximately2400
+JVPs, comparable to the failed GMRES step, with target0.1. This isolates a
+potential restart-related difficulty without another full physical campaign;
+it cannot by itself prove that restart is the cause. No equation/preconditioner
+change or new library build. One shared GPU,30-minute allocation; output
+axis-tau-bicgstab-probe-v1, script bicgstab_probe_perlmutter.sh. Driver help and
+shell syntax checked. Physical acceptance remains false for diagnostic output.

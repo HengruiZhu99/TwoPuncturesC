@@ -190,7 +190,10 @@ converges in 319 Krylov iterations, but the next inner solve stops at relative
 residual $0.306$ after 2400 iterations. The nonlinear maximum improves to
 $2.17\times10^{-11}$ but still fails $10^{-12}$; bulk momentum RMS
 $2.53\times10^{-6}$ also fails. A continuation with inexact-Newton forcing
-$\eta=0.5$ is pending. For $Js=-r+e$ and $\|e\|\leq\eta\|r\|$,
+$\eta=0.5$ accepted one step but the next linear solve stalled at relative
+residual $0.547$ after 2400 iterations. Bulk momentum RMS remained
+$2.53\times10^{-6}$; this continuation also fails acceptance.
+For $Js=-r+e$ and $\|e\|\leq\eta\|r\|$,
 $r^TJs\leq-(1-\eta)\|r\|^2$; the existing line search verifies actual decrease.
 Final nonlinear and physical criteria remain unchanged. Binary acceptance
 remains open.

@@ -21,6 +21,7 @@ def main():
     p.add_argument('--linear-rtol', type=float, default=.001)
     p.add_argument('--max-krylov', type=int)
     p.add_argument('--krylov-restart', type=int)
+    p.add_argument('--krylov', choices=('gmres', 'bicgstab'), default='gmres')
     a = p.parse_args()
     if a.output.exists():
         raise FileExistsError(a.output)
@@ -39,10 +40,11 @@ def main():
     result = dict(checkpoint=meta, library_sha256=b.loaded_sha256,
                   driver_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   linear_rtol=a.linear_rtol, max_krylov=c.max_krylov,
-                  krylov_restart=c.krylov_restart, binary_acceptance=False)
+                  krylov_restart=c.krylov_restart, krylov=a.krylov,
+                  binary_acceptance=False)
     with b.create(c, execution='kokkos', geometry='host') as s:
         s.set_unknowns(values)
-        result['diagnostics'] = s.solve(krylov='gmres', linear_rtol=a.linear_rtol)
+        result['diagnostics'] = s.solve(krylov=a.krylov, linear_rtol=a.linear_rtol)
         result['linear_history'] = s.linear_history()
         result['work_statistics'] = s.work_statistics()
     a.output.write_text(json.dumps(result, indent=2) + '\n')
