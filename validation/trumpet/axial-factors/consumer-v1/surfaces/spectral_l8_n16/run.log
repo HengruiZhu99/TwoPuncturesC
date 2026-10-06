@@ -1,0 +1,19 @@
+
+Root grid = 1 x 1 x 1 MeshBlocks
+Total number of MeshBlocks = 1
+Number of logical  levels of refinement = 0 (1 levels total)
+Number of physical levels of refinement = 0 (1 levels total)
+Number of parallel ranks = 1
+FastFlow harmonic_storage horizon=0 mode=factorized lmax=8 ntheta=16 host_bytes=35832 device_bytes=35832 unique_bytes=35832
+FastFlow harmonic_storage horizon=1 mode=factorized lmax=8 ntheta=16 host_bytes=35832 device_bytes=35832 unique_bytes=35832
+AssembleZ4cTasks
+HiSpID consumer_dependency symbol="AB_To_XR" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-radial512-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="C_To_c" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-radial512-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="PK_solve" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-radial512-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="Puncture_execution_initialize" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-radial512-sampler/libTwoPunctures.so"
+HiSpID consumer_image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-radial512-sampler/libHiSpID.so"
+HiSpID import source=39904a219550a69d54461fb88456b07f0b3c138801f2343008f82363e255dfc6 acceptance=diagnostic consumer=4c602e408731923c9f426033186e03150c12875fe56ed39bda3bd4afd7e4703e ADM/Z4c relative error=4.3911594029002729e-16 seed_family=trumpet_r0_m
+HiSpID horizon_chart horizon=0 kind=boost_affine minimum_scale=0.10000000000000005
+HiSpID horizon_geometry parallel=1 host_concurrency=16
+HiSpID horizon 0 geometry=native found=0 area=nan expansion_rms=nan min_radius=0.50265699413960896 attempt_area=12.565593108314077 attempt_expansion_rms=9.4891221103099737e-06 center_x=12.5 center_y=0 center_z=0 kind=component
+HiSpID pgen: Initial HiSpID horizon search failed its geometry/expansion checks

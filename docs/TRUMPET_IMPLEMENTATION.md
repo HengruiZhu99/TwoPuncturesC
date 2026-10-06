@@ -1134,3 +1134,14 @@ saves linear history before physical postprocessing, so a later timeout cannot
 hide the completed solve's history. The separately named remote driver preserves
 the executed original source. CLI import/help and Python syntax checks pass.
 No new operator or backend matrix is scheduled.
+
+The radial512 consumer job59415301 ended FAILED after5:05: sampler migration
+passed and ADM/Z4c import error was4.39116e-16, but the first l8 affine horizon
+reached1000 iterations with expansion RMS9.48912e-6 (required1e-7).
+Attempt area12.5655931083 is diagnostic only; no qualified component mass or
+enclosure result was produced. The driver correctly stopped before l12/l16,
+the second component and separation calibration. Compared with the retained
+radial256 l8 expansion1.83132e-5, the floor decreases by about1.93x but remains
+unacceptable. Raw surface outputs, migration receipt and failure log are
+retained under `axial-factors/consumer-v1`; producer sampling witnesses remain
+on Perlmutter under that directory's `raw/` subdirectory.

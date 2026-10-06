@@ -135,7 +135,7 @@ error $5.49\times10^{-10}$. After the original timeout, the reduced-factor
 retry completed: relative to radial 256, near-hole Hamiltonian/momentum RMS
 errors improve by factors $8.09/3.95$ and bulk errors by $4.18/3.39$.
 Extrapolated energy changes by $5.48\times10^{-6}$ relatively. These improvements
-do not meet the physical bounds; a diagnostic horizon check is running.
+do not meet the physical bounds; the diagnostic horizon check also fails.
 
 \section{Horizon measurements and computational cost}
 The finest moderate checkpoint passes import and horizon angular/quadrature
@@ -160,6 +160,10 @@ The isolated $\Gamma=10$ control passes orders $4,8,12$: relative area error
 $\le7.22\times10^{-11}$, shape error $\le1.13\times10^{-10}$, and expansion
 RMS $\le4.78\times10^{-11}$. The solved binary instead stalls near
 $1.8\times10^{-5}$ at both orders 8 and 16; it has no qualified horizon result.
+At radial 512 the order-8 expansion floor falls to $9.49\times10^{-6}$ after
+1000 iterations, still above $10^{-7}$. Import succeeds with ADM/Z4c relative
+error $4.39\times10^{-16}$. The driver stops at the failed surface; its area
+does not supply a qualified irreducible mass for separation calibration.
 
 Necessary production solves, not a matched-accuracy benchmark, took
 94.2 seconds (315 seconds total, 4.87 GiB peak process RSS) for the listed spin
