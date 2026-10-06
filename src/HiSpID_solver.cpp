@@ -375,7 +375,7 @@ struct Sparse {
       else throw std::runtime_error("Modal FD stencil is not block tridiagonal");
      }
     }
-    B.factor();
+    B.factor(2*mode+v);
     if(v)vector_factorizations++;else scalar_factorizations++;
    }
    if(vector_cache)vector_cache->clear();
@@ -520,7 +520,7 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
   for(int k=half+1;k<np;k++)for(int row=0;row<4*na*nb;row++)mat.row_scale[row+4*na*nb*k]=mat.row_scale[row+4*na*nb*(k-half)];
 #ifdef PUNCTURES_KOKKOS
   std::mutex lock;std::string error;
-  Kokkos::parallel_for("host modal factorizations",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,2*(factor_half+1)),[&](int group){if((group%2)&&reuse)return;try{mat.blocks[group].factor();}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
+  Kokkos::parallel_for("host modal factorizations",Kokkos::RangePolicy<Kokkos::DefaultHostExecutionSpace>(0,2*(factor_half+1)),[&](int group){if((group%2)&&reuse)return;try{mat.blocks[group].factor(group);}catch(const std::exception&e){std::lock_guard<std::mutex>guard(lock);if(error.empty())error=e.what();}});
   Kokkos::DefaultHostExecutionSpace().fence();if(!error.empty())throw std::runtime_error(error);
 #endif
   mat.scalar_factorizations=factor_half+1;mat.vector_factorizations=reuse?0:factor_half+1;
@@ -635,6 +635,12 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
 #endif
  status=PK_solve(s.ntotal,rhs.data(),x.data(),&options,hi_linear_action,hi_linear_precondition,&context,nullptr,nullptr,&result);
  s.diag.krylov_iterations+=result.iterations;s.last_gmres_relative=result.relative_residual;
+ const char*probe_setting=std::getenv("HISPID_PROBE_MODAL_FACTORS");
+ if(probe_setting&&std::strcmp(probe_setting,"1")==0){
+  std::fprintf(stderr,"HiSpID linear probe iterations=%d status=%d recurrence=%.17g true=%.17g relative=%.17g\n",
+    result.iterations,status,result.recurrence_residual,result.true_residual,result.relative_residual);
+  std::fflush(stderr);
+ }
  if(status!=PK_SUCCESS&&!(status==PK_CALLBACK&&!hispid::last_error.empty()))
    hispid::last_error=PK_status_string(status);
  return status==PK_SUCCESS;

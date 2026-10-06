@@ -1566,3 +1566,19 @@ Source review confirms GMRES uses two-pass orthogonalization and explicitly
 recomputes the true residual at restarts and termination. The current Newton
 trace starts only after a successful inner solve, explaining the empty trace
 while this failed solve was running; it does not imply lack of computation.
+
+Added opt-in HISPID_PROBE_MODAL_FACTORS=1 diagnosis. Each assembled modal
+preconditioner captures its original nonzero matrix entries before factorization,
+forms a deterministic all-frequency manufactured RHS with long-double accumulation,
+and reports inverse forward error, componentwise backward error and relative L2
+residual. Exact polar endpoint rows are included in the target matrix. Only O(N)
+sparse diagnostic storage is added; the production default is unchanged. Group
+2m is scalar and2m+1 is the shared vector factor. The final Krylov recurrence and
+explicit true residual are also printed, permitting a recurrence-gap diagnosis.
+Small reference residual/JVP/fields/linear-history remain bitwise identical;
+existing independent dense polar-border controls pass with the probe enabled.
+
+Job59422127 runs one bounded64-Krylov replay of the failed240 checkpoint, using
+a separately built diagnostic image/source directory and one shared GPU. It does
+not run physical observers or launch a new resolution. Records/scripts are in
+polar-exact/factor-probe; remote outputs axis-tau-factor-probe-v1. No result yet.

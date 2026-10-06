@@ -19,6 +19,8 @@ def main():
     p.add_argument('--checkpoint', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--linear-rtol', type=float, default=.001)
+    p.add_argument('--max-krylov', type=int)
+    p.add_argument('--krylov-restart', type=int)
     a = p.parse_args()
     if a.output.exists():
         raise FileExistsError(a.output)
@@ -29,10 +31,15 @@ def main():
     if b.parameterization() != meta['parameterization']:
         raise ValueError('one-step replay requires the identical basis and maps')
     c.max_newton = 1
+    if a.max_krylov is not None:
+        c.max_krylov = a.max_krylov
+    if a.krylov_restart is not None:
+        c.krylov_restart = a.krylov_restart
     os.environ['HISPID_TRACE_NEWTON'] = '1'
     result = dict(checkpoint=meta, library_sha256=b.loaded_sha256,
                   driver_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-                  linear_rtol=a.linear_rtol, binary_acceptance=False)
+                  linear_rtol=a.linear_rtol, max_krylov=c.max_krylov,
+                  krylov_restart=c.krylov_restart, binary_acceptance=False)
     with b.create(c, execution='kokkos', geometry='host') as s:
         s.set_unknowns(values)
         result['diagnostics'] = s.solve(krylov='gmres', linear_rtol=a.linear_rtol)

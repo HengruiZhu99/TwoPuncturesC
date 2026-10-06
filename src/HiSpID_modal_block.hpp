@@ -1,6 +1,7 @@
 #ifndef HISPID_MODAL_BLOCK_HPP
 #define HISPID_MODAL_BLOCK_HPP
 #include "HiSpID_modal_transfer.hpp"
+#include "HiSpID_modal_probe.hpp"
 #include <cmath>
 namespace hispid {
 struct ModalBlock {
@@ -10,7 +11,8 @@ struct ModalBlock {
  std::vector<size_t>permutation;
  // Optional exact polar endpoint correction, built after the base factors.
  std::vector<double>polar_delta,polar_response,polar_inverse;
- void factor(){
+ void factor(int diagnostic_group=-1){
+  ModalFactorProbe probe;probe.capture(na,nb,lu,lower,upper,polar_endpoint);
   polar_delta.clear();polar_response.clear();polar_inverse.clear();
   std::vector<double>rhs(na);int sign=0;
   for(int j=0;j<nb;j++){
@@ -26,6 +28,7 @@ struct ModalBlock {
        transfer.data()+j*na*na,bool(HISPID_BATCHED_MODAL_TRANSFER),rhs);
   }
   if(!polar_endpoint.empty())prepare_polar(polar_endpoint);
+  if(probe.enabled){auto x=probe.rhs;solve_many(x.data(),1);correct_polar(x.data());probe.report(diagnostic_group,x);}
  }
  // Solve many contiguous row-major RHS columns with the existing factors.
  // Used to construct A0^{-1} U without one triangular solve per column.
