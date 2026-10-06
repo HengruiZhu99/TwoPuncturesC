@@ -1488,3 +1488,12 @@ Build images/hashes are retained in `axis-tau/polar-exact/consumer-build`;
 script `build_polar_consumer.sh`. New tau-checkpoint import/horizons have not
 yet been run. Condensed obsolete failed-trial prose in the LaTeX report into
 a comparison table; all historical raw results and this ledger remain intact.
+
+Prepared and staged `axis-tau/polar-exact/horizons_perlmutter.sh` for the new
+finest tau checkpoint. It verifies the pinned GPU producer, CPU sampler and
+AthenaK images, checks completed per-grid physical bounds, runs independent
+sampler migration, then strict l8/12/16 plus quadrature horizon checks with
+16 geometry threads and factorized harmonic storage. It has not been
+launched: sequence59420603 is still running its224 level. This avoids a
+redundant consumer/horizon campaign on each intermediate grid. Remote script:
+`/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/horizons-polar-tau.sh`.
