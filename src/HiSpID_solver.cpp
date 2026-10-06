@@ -70,10 +70,10 @@ struct HiKokkos {
  Kokkos::View<Cached*,puncture::Exec>geometry;
  puncture::View base,input,output,averages;
  double spectral_setup_seconds=0,geometry_setup_seconds=0;
- HiKokkos(const int*n,hispid::AxisDerivatives&axis,std::vector<Cached>&g,double b,const HiSpID_Config*execution_geometry=nullptr):
+ HiKokkos(const int*n,hispid::AxisDerivatives&axis,std::vector<Cached>&g,double b,const HiSpID_Config*execution_geometry=nullptr,int family=HISPID_SEED_QI):
    op(n,4,true),
    base(Kokkos::view_alloc(Kokkos::WithoutInitializing,"frozen base fields"),40ull*n[0]*n[1]*n[2]),input("input",4ull*n[0]*n[1]*n[2]),output("output",4ull*n[0]*n[1]*n[2]),averages("azimuthal averages",2*n[0]*n[1]){
-  if(execution_geometry){initialize_execution_geometry(n,axis,b,*execution_geometry);return;}
+  if(execution_geometry){initialize_execution_geometry(n,axis,b,*execution_geometry,family);return;}
   auto start=puncture::seconds();puncture::initialize_spectral(op,n,b,axis.coordinate.data());
   spectral_setup_seconds=puncture::seconds()-start;start=puncture::seconds();
   using H=Kokkos::View<const Cached*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
@@ -102,7 +102,7 @@ struct HiKokkos {
   op.spectral.mapping=puncture::upload(mapping,"regular factors");
   spectral_setup_seconds+=puncture::seconds()-start;
  }
- void initialize_execution_geometry(const int*n,hispid::AxisDerivatives&axis,double b,const HiSpID_Config&config){
+ void initialize_execution_geometry(const int*n,hispid::AxisDerivatives&axis,double b,const HiSpID_Config&config,int family){
    auto start=puncture::seconds();puncture::initialize_hispid_spectral(op,axis,n,b);spectral_setup_seconds=puncture::seconds()-start;
    const int points=n[0]*n[1]*n[2],na=n[0],nb=n[1];
    geometry=decltype(geometry)(Kokkos::view_alloc(Kokkos::WithoutInitializing,"kernel background geometry"),points);
@@ -110,7 +110,7 @@ struct HiKokkos {
    start=puncture::seconds();
    Kokkos::parallel_for("spinning boosted seed and operator cache",puncture::Range(0,points),KOKKOS_LAMBDA(int p){
     int row=p%(na*nb),i=row%na,j=row/na,k=p/(na*nb);double xyz[3]={position(2*row),position(2*row+1)*trig(2*k),position(2*row+1)*trig(2*k+1)};
-    hispid::BackgroundT<double>bg;int status=hispid::background_geometry(config,xyz,bg,true);
+    hispid::BackgroundT<double>bg;int status=hispid::background_geometry(config,xyz,bg,true,family);
     if(status){errors(p)=status;return;}
     cache(bg,geom(p));double sn=std::sin(Pih*(2*i+1)/na)*std::sin(Pih*(2*j+1)/nb);geom(p).weight=std::pow(sn,HISPID_ROW_POWER);
     const double a=.5*(ca(i)+1);if constexpr(HISPID_INFINITY_EQUILIBRATION){geom(p).weight/=std::pow(1-a*a,6);}
@@ -161,6 +161,7 @@ struct HiKokkos {
 }
 struct HiSpID_Data {
  HiSpID_Config config,local;
+ int seed_family=HISPID_SEED_QI;
  double origin[3],frame[3][3],b;
  int npt,ntotal;
  std::vector<Cached> geometry;
@@ -654,11 +655,13 @@ const char *HiSpID_unknown_parameterization(){
 int HiSpID_collocation_maps(double*out){
  if(!out)return -1;out[0]=hispid::AxisDerivatives::radial_stretch;out[1]=hispid::AxisDerivatives::angular_stretch;return 0;
 }
-static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int execution=0,int geometry_execution=0){
+static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int execution=0,int geometry_execution=0,int family=HISPID_SEED_QI){
 #ifdef PUNCTURES_KOKKOS
  puncture::ExecutionLock execution_guard(puncture::execution_mutex(),std::defer_lock);if(execution)execution_guard.lock();
 #endif
  hispid::last_error.clear();
+ if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M){hispid::last_error="invalid seed family";return nullptr;}
+ if(sampler_only && execution){hispid::last_error="sampling-only contexts use CPU execution";return nullptr;}
  if(execution<0||execution>1){hispid::last_error="invalid execution backend";return nullptr;}
  if(geometry_execution<0||geometry_execution>1||(geometry_execution&&(!execution||sampler_only))){hispid::last_error="execution geometry requires a Kokkos solving context";return nullptr;}
 #ifndef PUNCTURES_KOKKOS
@@ -684,7 +687,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  }
 #endif
  HiSpID_Data*s=nullptr;try{
-  s=new HiSpID_Data;s->config=s->local=*c;s->sampler_only=sampler_only;s->setup.geometry_execution=geometry_execution;
+  s=new HiSpID_Data;s->seed_family=family;s->config=s->local=*c;s->sampler_only=sampler_only;s->setup.geometry_execution=geometry_execution;
   if(geometry_execution)s->setup.scalar_digits=std::numeric_limits<double>::digits;
   double sep[3],len=0;for(int i=0;i<3;i++){s->origin[i]=.5*(c->hole[0].center[i]+c->hole[1].center[i]);sep[i]=c->hole[0].center[i]-c->hole[1].center[i];len+=sep[i]*sep[i];}
   len=std::sqrt(len);
@@ -705,7 +708,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   if(sampler_only){s->derivatives.initialize(c->n,true);return s;}
 #ifdef PUNCTURES_KOKKOS
   if(geometry_execution){
-   s->device=std::make_unique<HiKokkos>(c->n,s->derivatives,s->geometry,s->b,&s->local);
+   s->device=std::make_unique<HiKokkos>(c->n,s->derivatives,s->geometry,s->b,&s->local,family);
    s->device->row_weights(s->row_weights);
    s->setup.spectral_seconds=s->device->spectral_setup_seconds;s->setup.geometry_seconds=s->device->geometry_setup_seconds;
    return s;
@@ -717,7 +720,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   s->setup.spectral_seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-setup_start).count();
   auto build_geometry=[&](int p){
    const int i=p%c->n[0],j=(p/c->n[0])%c->n[1],k=p/(c->n[0]*c->n[1]);
-   Fields f{};double x[3];transform(*s,i,j,k,f,x);hispid::Background bg;hispid::background(s->local,x,bg);
+   Fields f{};double x[3];transform(*s,i,j,k,f,x);hispid::Background bg;hispid::background(s->local,x,bg,s->seed_family);
    cache(bg,s->geometry[p]);
    double sn=std::sin(Pih*(2*i+1)/c->n[0])*std::sin(Pih*(2*j+1)/c->n[1]);s->geometry[p].weight=std::pow(sn,HISPID_ROW_POWER);
    if constexpr(HISPID_INFINITY_EQUILIBRATION){
@@ -743,6 +746,11 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   s->diag.npoints=s->npt;
  }catch(const std::exception&e){hispid::last_error=e.what();HiSpID_destroy(s);return nullptr;}return s;
 }
+HiSpID_Data *HiSpID_create_with_seed_family(const HiSpID_Config*c,int family,int execution,int geometry_execution,int sampler_only){
+ if(sampler_only!=0 && sampler_only!=1){hispid::last_error="invalid sampler mode";return nullptr;}
+ return create_context(c,sampler_only!=0,execution,geometry_execution,family);
+}
+int HiSpID_seed_family(const HiSpID_Data*s){return s?s->seed_family:-1;}
 HiSpID_Data *HiSpID_create(const HiSpID_Config*c){return create_context(c,false);}
 HiSpID_Data *HiSpID_create_with_execution(const HiSpID_Config*c,int execution){return create_context(c,false,execution);}
 HiSpID_Data *HiSpID_create_with_geometry(const HiSpID_Config*c,int execution,int geometry_execution){return create_context(c,false,execution,geometry_execution);}
@@ -898,7 +906,7 @@ static int sample_with_derivatives(HiSpID_Data*s,int count,const double*xyz,HiSp
  if(!s||!xyz||!out||count<0)return -1;
  try{for(int p=0;p<count;p++){
   double x[3];if(local_xyz)std::copy(local_xyz+3*p,local_xyz+3*p+3,x);else to_local(*s,xyz+3*p,x);
-  hispid::Background bg;hispid::background(s->local,x,bg);Fields f{};sample_fields(*s,x,f,ring);
+  hispid::Background bg;hispid::background(s->local,x,bg,s->seed_family);Fields f{};sample_fields(*s,x,f,ring);
   f[0][0]+=bg.far_correction.v;
   double psi=bg.psi.v+f[0][0];if(!(psi>0))throw std::runtime_error("nonpositive solved conformal factor");
   double L[3][3],gam[3][3],K[3][3],A[3][3];L_and_div(bg.metric,bg.inv,bg.C,f,L,nullptr);

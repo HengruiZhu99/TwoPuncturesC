@@ -2,27 +2,12 @@
 #define HISPID_GEOMETRY_KERNELS_HPP
 #include "HiSpID.h"
 #include "HiSpID_jets.hpp"
+#include "HiSpID_geometry_types.hpp"
+#include "HiSpID_trumpet.hpp"
 namespace hispid {
-enum GeometryStatus {geometry_ok=0,geometry_puncture=1,geometry_determinant=2,geometry_nonspacelike=3,geometry_nonfinite=4};
-template<class Real> struct SeedT {JetT<Real> metric[3][3],physical[3][3],extrinsic[3][3],A[3][3],psi,K;};
-template<class Real> struct BackgroundT {
- JetT<Real> metric[3][3],inv[3][3],C[3][3][3],M[3][3],psi,K,g,far_correction;
- JetT<Real> opmetric[3][3],opinv[3][3],opC[3][3][3];
- double R,lapPsi,divM[3];
-};
-using Seed=SeedT<long double>;
-using Background=BackgroundT<long double>;
-template<class Real> HISPID_GEOMETRY_INLINE double geometry_laplacian(const JetT<Real> inv[3][3],const JetT<Real> C[3][3][3],const JetT<Real>&u);
-template<class Real> HISPID_GEOMETRY_INLINE Real point_norm(const double *a){return std::sqrt((Real)a[0]*a[0]+(Real)a[1]*a[1]+(Real)a[2]*a[2]);}
-template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> pullback_derivatives(const JetT<Real>&f,const Real B[4][4]){
- JetT<Real> out(f.v);
- for(int a=0;a<4;a++)for(int k=0;k<4;k++)out.d[a]+=f.d[k]*B[k][a];
- for(int a=0;a<4;a++)for(int b=0;b<4;b++)for(int k=0;k<4;k++)for(int l=0;l<4;l++)
-  out.h[a][b]+=f.h[k][l]*B[k][a]*B[l][b];
- return out;
-}
-
-template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&hole,int choice,const double *point,SeedT<Real>&s,bool stable_evaluation=false){
+template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&hole,int choice,const double *point,SeedT<Real>&s,bool stable_evaluation=false,int family=HISPID_SEED_QI){
+ if(family==HISPID_SEED_TRUMPET_R0_M)return trumpet_seed_geometry(hole,choice,point,s);
+ if(family!=HISPID_SEED_QI)return geometry_nonfinite;
  Real m=hole.mass,smag=point_norm<Real>(hole.spin),a=smag/m,v2=0;
  Real axis[3]={0,0,1};if(smag>0)for(int i=0;i<3;i++)axis[i]=hole.spin[i]/smag;
  for(int i=0;i<3;i++)v2+=(Real)hole.velocity[i]*hole.velocity[i];
@@ -250,14 +235,14 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_sum_source(const HiSpID_Con
  }return geometry_ok;
 }
 
-template<class Real> HISPID_GEOMETRY_INLINE int background_geometry(const HiSpID_Config&cfg,const double*x,BackgroundT<Real>&b,bool stable_evaluation=false){
+template<class Real> HISPID_GEOMETRY_INLINE int background_geometry(const HiSpID_Config&cfg,const double*x,BackgroundT<Real>&b,bool stable_evaluation=false,int family=HISPID_SEED_QI){
  SeedT<Real> s[2];JetT<Real> radius[2],F[2]={1,1},f[2]={1,1},complement[2];
  b.psi=1;b.g=1;b.K=0;
  for(int h=0;h<2;h++)if(cfg.hole[h].mass>0){
   JetT<Real> r2=0;for(int i=0;i<3;i++){
    JetT<Real> dx=JetT<Real>::variable(x[i]-cfg.hole[h].center[i],i+1);r2=r2+dx*dx;
   }radius[h]=sqrt(r2);
-  const int status=seed_geometry(cfg.hole[h],cfg.conformal_choice,x,s[h],stable_evaluation);if(status)return status;
+  const int status=seed_geometry(cfg.hole[h],cfg.conformal_choice,x,s[h],stable_evaluation,family);if(status)return status;
   if(cfg.far_radius>0){JetT<Real> exponent=-power(radius[h]/JetT<Real>(cfg.far_radius),4);
    F[h]=exp(exponent);complement[h]=stable_evaluation?-expm1(exponent):JetT<Real>(1)-F[h];}
   b.psi=b.psi+F[h]*(s[h].psi-JetT<Real>(1));

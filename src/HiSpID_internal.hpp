@@ -7,7 +7,7 @@
 #include <string>
 namespace hispid {
 void seed(const HiSpID_Hole&,int,const double*,Seed&);
-void background(const HiSpID_Config&,const double*,Background&);
+void background(const HiSpID_Config&,const double*,Background&,int family=HISPID_SEED_QI);
 bool valid(const HiSpID_Config&,bool sampler_only=false);
 void longitudinal(const Jet metric[3][3],const Jet C[3][3][3],
                    const Jet b[3],Jet L[3][3]);

@@ -54,6 +54,11 @@ def unpack(out):
                           else getattr(p,name) for p in out])
             for name,_ in Point._fields_}
 
+SEED_FAMILIES={'qi':0,'trumpet_r0_m':1}
+def seed_family_code(name):
+    if name not in SEED_FAMILIES:raise ValueError('unsupported seed family: '+str(name))
+    return SEED_FAMILIES[name]
+
 class Backend:
     def __init__(self,library):
         path=Path(library)
@@ -80,7 +85,11 @@ class Backend:
         for name,(ret,args) in api.items():
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
-        optional={'HiSpID_work_statistics':(C.c_int,[C.c_void_p,C.POINTER(C.c_int)]),
+        optional={'HiSpID_create_with_seed_family':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int,C.c_int,C.c_int]),
+                  'HiSpID_seed_family':(C.c_int,[C.c_void_p]),
+                  'HiSpID_seed_with_family':(C.c_int,[C.POINTER(Hole),C.c_int,C.c_int,PTR,C.POINTER(Point),C.c_int,C.c_int]),
+                  'HiSpID_operators_with_seed_family':(C.c_int,[C.POINTER(Config),PTR,PTR,PTR,C.c_int]),
+                  'HiSpID_work_statistics':(C.c_int,[C.c_void_p,C.POINTER(C.c_int)]),
                   'HiSpID_create_with_execution':(C.c_void_p,[C.POINTER(Config),C.c_int]),
                   'HiSpID_create_with_geometry':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int]),
                   'HiSpID_seed_with_execution':(C.c_int,[C.POINTER(Hole),C.c_int,C.c_int,PTR,C.POINTER(Point),C.c_int]),
@@ -128,33 +137,51 @@ class Backend:
         return self.loaded_sha256
     def config(self):
         c=Config();self.lib.HiSpID_default_config(C.byref(c));return c
-    def seed(self,hole,xyz,choice=1,execution='reference'):
+    def seed(self,hole,xyz,choice=1,execution='reference',seed_family='qi'):
         x=np.ascontiguousarray(xyz,dtype=float).reshape(-1,3);out=(Point*len(x))()
         from execution import select
         code=select(self.lib,execution)
-        if code:
+        family=seed_family_code(seed_family)
+        if family:
+            if not hasattr(self.lib,'HiSpID_seed_with_family'):raise ValueError('library lacks seed-family support')
+            r=self.lib.HiSpID_seed_with_family(C.byref(hole),choice,len(x),ptr(x),out,code,family)
+        elif code:
             if not hasattr(self.lib,'HiSpID_seed_with_execution'):raise ValueError('library lacks execution-space seed export')
             r=self.lib.HiSpID_seed_with_execution(C.byref(hole),choice,len(x),ptr(x),out,code)
         else:r=self.lib.HiSpID_seed(C.byref(hole),choice,len(x),ptr(x),out)
         if r:raise ValueError(self.error() or 'invalid seed input')
         return unpack(out)
-    def operators(self,config,xyz,jets):
+    def operators(self,config,xyz,jets,seed_family=None):
         x=np.ascontiguousarray(xyz,dtype=float).reshape(3);j=np.ascontiguousarray(jets,dtype=float).reshape(40);out=np.empty(5)
-        if self.lib.HiSpID_operators(C.byref(config),ptr(x),ptr(j),ptr(out)):raise ValueError(self.error())
+        family=seed_family_code(getattr(config,'seed_family','qi') if seed_family is None else seed_family)
+        if family:
+            if not hasattr(self.lib,'HiSpID_operators_with_seed_family'):raise ValueError('library lacks seed-family operators')
+            code=self.lib.HiSpID_operators_with_seed_family(C.byref(config),ptr(x),ptr(j),ptr(out),family)
+        else:code=self.lib.HiSpID_operators(C.byref(config),ptr(x),ptr(j),ptr(out))
+        if code:raise ValueError(self.error())
         return out
-    def create(self,config,execution='reference',geometry='host'):return Solution(self,config,execution=execution,geometry=geometry)
-    def create_sampler(self,config):return Solution(self,config,sampler_only=True)
+    def create(self,config,execution='reference',geometry='host',seed_family=None):return Solution(self,config,execution=execution,geometry=geometry,seed_family=seed_family)
+    def create_sampler(self,config,seed_family=None):return Solution(self,config,sampler_only=True,seed_family=seed_family)
 
 class Solution:
-    def __init__(self,backend,config,sampler_only=False,execution='reference',geometry='host'):
+    def __init__(self,backend,config,sampler_only=False,execution='reference',geometry='host',seed_family=None):
         self.backend=backend;self.config=Config.from_buffer_copy(config)
         self.context=None
+        configured=getattr(config,'seed_family','qi')
+        if seed_family is not None and hasattr(config,'seed_family') and seed_family!=configured:
+            raise ValueError('seed-family override conflicts with configuration metadata')
+        self.seed_family=configured if seed_family is None else seed_family
+        family=seed_family_code(self.seed_family);self.config.seed_family=self.seed_family
         name='HiSpID_create_sampler' if sampler_only else 'HiSpID_create'
         if not hasattr(backend.lib,name):raise ValueError('library does not support sampling-only contexts')
         from execution import select
         code=select(backend.lib,execution)
         if geometry not in ('host','execution'):raise ValueError('geometry must be host or execution')
-        if geometry=='execution':
+        if sampler_only and (code or geometry!='host'):raise ValueError('sampling-only contexts use host geometry and CPU execution')
+        if family:
+            if not hasattr(backend.lib,'HiSpID_create_with_seed_family'):raise ValueError('library lacks seed-family support')
+            self.context=backend.lib.HiSpID_create_with_seed_family(C.byref(config),family,code,int(geometry=='execution'),int(sampler_only))
+        elif geometry=='execution':
             if not code or sampler_only:raise ValueError('execution geometry requires a Kokkos solving context')
             if not hasattr(backend.lib,'HiSpID_create_with_geometry'):raise ValueError('library lacks execution-space geometry setup')
             self.context=backend.lib.HiSpID_create_with_geometry(C.byref(config),code,1)
@@ -190,7 +217,7 @@ class Solution:
         else:
             if not hasattr(self.backend.lib,'HiSpID_solve_with_forcing'):raise ValueError('library lacks fixed forcing API')
             r=self.backend.lib.HiSpID_solve_with_forcing(self.context,float(linear_rtol))
-        self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal',execution=self.execution,geometry=self.geometry)
+        self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal',execution=self.execution,geometry=self.geometry,seed_family=self.seed_family)
         self.resolved_options['native_verified']=False
         if hasattr(self.backend.lib,'HiSpID_resolved_solve_options'):
             actual=SolveOptions(C.sizeof(SolveOptions),0,0)

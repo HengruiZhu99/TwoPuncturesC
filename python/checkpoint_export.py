@@ -8,7 +8,7 @@ from pathlib import Path
 import hashlib
 import numpy as np
 import re
-from hispid import Config
+from hispid import Config,seed_family_code
 import ctypes as C
 
 PARAMETERIZATION='modal_P_C2prolate_mapped_v2'
@@ -29,8 +29,10 @@ def read_checkpoint(path):
     path=Path(path).resolve(strict=True)
     initial_sha=hashlib.sha256(path.read_bytes()).hexdigest()
     with path.open(encoding='ascii') as stream:
-        if stream.readline().split()!=['HISPID_CHECKPOINT','1']:
+        magic=stream.readline().split()
+        if magic not in (['HISPID_CHECKPOINT','1'],['HISPID_CHECKPOINT','2']):
             raise ValueError('unsupported checkpoint version')
+        version=int(magic[1])
         header={}
         for line in stream:
             words=line.split()
@@ -41,6 +43,11 @@ def read_checkpoint(path):
             header[words[0]]=words[1:]
         else:raise ValueError('missing checkpoint unknowns')
         expected={'parameterization','library_sha256','acceptance','hole0','hole1'} | {name for name,_ in Config._fields_ if name!='hole'}
+        if version==2:expected.add('seed_family')
+        family='qi'
+        if version==2:
+            if len(header.get('seed_family',[]))!=1:raise ValueError('missing seed family')
+            family=header['seed_family'][0];seed_family_code(family)
         if set(header)!=expected:raise ValueError('checkpoint configuration inventory differs')
         if any(len(header[k])!=1 for k in ('parameterization','library_sha256','acceptance')):
             raise ValueError('invalid checkpoint metadata')
@@ -49,7 +56,7 @@ def read_checkpoint(path):
         if header['acceptance'][0] not in ('analytic_seed','preliminary','strong','diagnostic'):
             raise ValueError('invalid checkpoint acceptance')
         _validate_parameterization(header['parameterization'][0])
-        config=Config()
+        config=Config();config.seed_family=family
         for name,kind in Config._fields_:
             if name=='hole':
                 for h in range(2):
@@ -83,10 +90,15 @@ def read_checkpoint(path):
     if values.size!=count or not np.isfinite(values).all():raise ValueError('invalid checkpoint unknowns')
     if hashlib.sha256(path.read_bytes()).hexdigest()!=initial_sha:raise ValueError('checkpoint changed while decoding')
     return config,values,dict(path=str(path),file_sha256=initial_sha,
-        source_library_sha256=sha,acceptance=header['acceptance'][0],parameterization=header['parameterization'][0])
+        source_library_sha256=sha,acceptance=header['acceptance'][0],parameterization=header['parameterization'][0],seed_family=family,format_version=version)
 
-def write_checkpoint(path,config,unknowns,library_sha256,acceptance,parameterization=PARAMETERIZATION):
+def write_checkpoint(path,config,unknowns,library_sha256,acceptance,parameterization=PARAMETERIZATION,seed_family=None):
     _validate_parameterization(parameterization)
+    configured=getattr(config,'seed_family','qi')
+    if seed_family is not None and hasattr(config,'seed_family') and seed_family!=configured:
+        raise ValueError('seed-family override conflicts with configuration metadata')
+    family=configured if seed_family is None else seed_family
+    seed_family_code(family);version=1 if family=='qi' else 2
     if len(library_sha256)!=64 or any(c not in '0123456789abcdef' for c in library_sha256):
         raise ValueError('invalid library SHA256')
     if acceptance not in ('analytic_seed','preliminary','strong','diagnostic'):
@@ -96,7 +108,8 @@ def write_checkpoint(path,config,unknowns,library_sha256,acceptance,parameteriza
         raise ValueError('invalid checkpoint unknowns')
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     with path.open('w',encoding='ascii',newline='\n') as out:
-        out.write('HISPID_CHECKPOINT 1\nparameterization '+parameterization+'\n')
+        out.write('HISPID_CHECKPOINT '+str(version)+'\nparameterization '+parameterization+'\n')
+        if version==2:out.write('seed_family '+family+'\n')
         out.write('library_sha256 '+library_sha256+'\nacceptance '+acceptance+'\n')
         for name,_ in Config._fields_:
             value=getattr(config,name)
@@ -112,4 +125,4 @@ def write_checkpoint(path,config,unknowns,library_sha256,acceptance,parameteriza
             out.write(' '.join(format(x,'.17g') for x in values[start:start+4])+'\n')
         out.write('END\n')
     return dict(path=str(path.resolve()),file_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
-                source_library_sha256=library_sha256,acceptance=acceptance)
+                source_library_sha256=library_sha256,acceptance=acceptance,seed_family=family,format_version=version)

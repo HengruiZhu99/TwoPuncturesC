@@ -36,6 +36,18 @@ typedef struct {
 } HiSpID_Diagnostics;
 typedef struct HiSpID_Data HiSpID_Data;
 
+/* ABI-safe family selection: existing configuration layouts/entry points
+ * retain their QI meaning. The family applies to both active holes. */
+enum HiSpID_SeedFamily {HISPID_SEED_QI=0,HISPID_SEED_TRUMPET_R0_M=1};
+HiSpID_Data *HiSpID_create_with_seed_family(const HiSpID_Config *,int family,
+                                          int execution,int geometry_execution,
+                                          int sampler_only);
+int HiSpID_seed_family(const HiSpID_Data *);
+int HiSpID_seed_with_family(const HiSpID_Hole *,int conformal_choice,int count,
+                            const double *xyz,HiSpID_Point *,int execution,int family);
+int HiSpID_operators_with_seed_family(const HiSpID_Config *,const double xyz[3],
+                                     const double jets[40],double out[5],int family);
+
 void HiSpID_default_config(HiSpID_Config *);
 /* Identifies the continuous basis represented by the saved nodal unknowns. */
 const char *HiSpID_unknown_parameterization(void);

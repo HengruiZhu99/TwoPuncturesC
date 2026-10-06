@@ -3,8 +3,9 @@
 Goal started 2026-10-05. Native base4ce5974; AthenaK consumer base9495fdb9.
 Dedicated branches: codex/hispid-trumpet and codex/hispid-trumpet-pgen.
 The prior worktrees and raw results are unchanged. No previous benchmark
-campaign is resumed. Current status: seed kernel implementation; no trumpet
-binary or production-backend qualification yet.
+campaign is resumed. Current status: seed-family API, context/cache/sampler
+dispatch and versioned checkpoint integration implemented; no trumpet binary
+or production-backend qualification yet.
 
 ## Pinned geometry and conventions
 
@@ -86,3 +87,66 @@ seed acceptance rows. Retained files are under`validation/trumpet/`.
 Next: resolve derivative conditioning with a suitable independent observer,
 complete geometric/charge controls, then wire an ABI-safe seed-family option
 through configuration, caches, sampling and versioned checkpoints.
+
+## Integrated family dispatch and current evidence
+
+The explicit family API now selects QI=0 or R0=M trumpet=1 for both active
+holes. `HiSpID_Config` retains its original ABI and existing entry points
+retain QI behavior. The family is carried by the context, host/device cache
+builder, sampler and operator hook. Python accepts `seed_family='trumpet_r0_m'`
+on creation or as configuration metadata; it rejects unsupported families
+and conflicts with checkpoint metadata. Sampling-only contexts remain CPU.
+GPU dispatch is wired but not compiled or qualified in this stage.
+
+The trumpet extrinsic curvature now contracts the rest-chart spacetime
+connection with the boosted normal before transforming spatial indices.
+This avoids differentiating the inverse boosted ADM metric. On the same
+Gamma10 three-point check the momentum RMS falls 1.337e-9, 8.358e-11,
+4.979e-12 across step halvings; K derivative error reaches 7.438e-11 before
+rounding. Metric/Hamiltonian finite differences still reach a rounding floor.
+The original and new records remain separate; the exact pre-refactor source
+is retained as `validation/trumpet/seed-restconnection-executed.hpp`.
+
+The integrated API check gives seed/sampler agreement 2.591e-16 and generic
+rotation/translation/mass-scaling errors below 6.890e-16. The exact single-seed
+weighted collocation residual is 7.307e-16, and centered JVP differences are
+below 2.119e-11. No nonlinear binary solve is implied by these controls.
+One generic QI default-path fixture, compiled from the pinned old source and
+current source with the same compiler, is bitwise identical for physical
+metric, curvature tensor and metric gradients at three points.
+
+Version1 checkpoints keep their QI meaning and serialization. Version2 adds
+the required `seed_family` field. The AthenaK reader constructs the matching
+native sampler and uses the trumpet horizon radius
+`sqrt(m^2-a^2)` rather than the QI half-radius. A standalone build using the
+actual AthenaK reader gives zero difference from Python/native physical
+fields and gradients for v1 and v2. Both readers reject missing family,
+unknown family and a v2 payload mislabeled as v1. The first macOS test launch
+failed to resolve the native library's relative install name; the corrected
+runner uses the native worktree as its explicit cwd and retains the failure.
+This is reader/sampler evidence, not a full AthenaK import or horizon run.
+
+Final local API image SHA256:
+`439c82359e044269ecab3aa01d2f43f7e3ccae69b85077d062b644d8b356c71e`.
+The final source/image receipt binds the retained local image and test results.
+Earlier development records are historical, not current-image qualification.
+
+## Puncture regularity: first analytic obstruction
+
+For the unboosted Schwarzschild member, R=r+m, psi=sqrt(R/r),
+K=m/R^2 and conformal A^2=(8/3)m^2 R^2/r^6. Linearizing the scalar equation
+at fixed free data and zero vector variation gives the leading operator
+`Delta u - 11 u/(4 r^2)`. A spherical harmonic of degree l therefore has
+regular homogeneous exponent
+`p_l=-1/2+sqrt(l(l+1)+3)`, including p_0=sqrt(3)-1/2, about1.232.
+This scalar-sector result already permits noninteger puncture powers.
+It is not the indicial spectrum of the full coupled spinning/boosted system.
+Companion terms in the chosen scalar split also contribute finite constants
+which the correction must accommodate.
+
+Consequently no exponential convergence or C2 correction at the puncture
+is assumed. The existing basis enforces regularity along axes away from the
+excluded foci; endpoint approximation and coupled indicial behavior still
+need assessment before a binary resolution sequence is accepted. The family
+metadata is separate from the current basis identifier so future basis
+changes cannot silently reinterpret existing unknown arrays.

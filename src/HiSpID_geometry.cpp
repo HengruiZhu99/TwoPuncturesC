@@ -15,7 +15,7 @@ static void geometry_error(int status){
  if(status==geometry_nonfinite)throw std::runtime_error("nonfinite background geometry");
 }
 void seed(const HiSpID_Hole&h,int choice,const double*x,Seed&s){geometry_error(seed_geometry(h,choice,x,s));}
-void background(const HiSpID_Config&c,const double*x,Background&b){geometry_error(background_geometry(c,x,b));}
+void background(const HiSpID_Config&c,const double*x,Background&b,int family){geometry_error(background_geometry(c,x,b,false,family));}
 double laplacian(const Jet inv[3][3],const Jet C[3][3][3],const Jet&u){return geometry_laplacian(inv,C,u);}
 
 void longitudinal(const Jet metric[3][3],const Jet C[3][3][3],const Jet b[3],Jet L[3][3]){
@@ -118,7 +118,22 @@ int HiSpID_seed(const HiSpID_Hole*h,int choice,int count,const double*xyz,HiSpID
  }}catch(const std::exception&e){hispid::last_error=e.what();return -2;}return 0;
 }
 int HiSpID_seed_with_execution(const HiSpID_Hole*h,int choice,int count,const double*xyz,HiSpID_Point*out,int execution){
- if(execution==PUNCTURE_REFERENCE)return HiSpID_seed(h,choice,count,xyz,out);
+ return HiSpID_seed_with_family(h,choice,count,xyz,out,execution,HISPID_SEED_QI);
+}
+int HiSpID_seed_with_family(const HiSpID_Hole*h,int choice,int count,const double*xyz,HiSpID_Point*out,int execution,int family){
+ if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M){hispid::last_error="invalid seed family";return -1;}
+ if(execution==PUNCTURE_REFERENCE && family==HISPID_SEED_QI)return HiSpID_seed(h,choice,count,xyz,out);
+ if(execution==PUNCTURE_REFERENCE){
+  if(!h||!xyz||!out||count<0||!(h->mass>0)||choice<0||choice>1)return -1;
+  HiSpID_Config c;HiSpID_default_config(&c);c.hole[0]=*h;c.hole[1].mass=0;
+  if(!hispid::valid(c))return -1;
+  try{for(int p=0;p<count;p++){
+   for(int d=0;d<3;d++)if(!std::isfinite(xyz[3*p+d]))throw std::runtime_error("nonfinite seed coordinate");
+   hispid::Seed s;hispid::geometry_error(hispid::seed_geometry(*h,choice,xyz+3*p,s,false,family));
+   hispid::seed_values(s,out[p]);
+   if(!hispid::finite_seed_values(out[p]))throw std::runtime_error("nonfinite seed output");
+  }}catch(const std::exception&e){hispid::last_error=e.what();return -2;}return 0;
+ }
  if(execution!=PUNCTURE_KOKKOS||!h||!xyz||!out||count<0||!(h->mass>0)||choice<0||choice>1){
   hispid::last_error="invalid execution seed request";return -1;
  }
@@ -137,7 +152,7 @@ int HiSpID_seed_with_execution(const HiSpID_Hole*h,int choice,int count,const do
    Kokkos::View<HiSpID_Point*,puncture::Exec>values(Kokkos::view_alloc(Kokkos::WithoutInitializing,"execution seed values"),n);
    puncture::Indices codes("execution seed status",n);
    Kokkos::parallel_for("execution seed value export",puncture::Range(0,n),KOKKOS_LAMBDA(int p){
-    hispid::SeedT<double>s;int code=hispid::seed_geometry(hole,choice,x.data()+3*p,s,true);
+    hispid::SeedT<double>s;int code=hispid::seed_geometry(hole,choice,x.data()+3*p,s,true,family);
     if(!code){hispid::seed_values(s,values(p));if(!hispid::finite_seed_values(values(p)))code=hispid::geometry_nonfinite;}
     codes(p)=code;
    });
@@ -157,9 +172,13 @@ int HiSpID_seed_with_execution(const HiSpID_Hole*h,int choice,int count,const do
 #endif
 }
 int HiSpID_operators(const HiSpID_Config*c,const double*x,const double*j,double*out){
+ return HiSpID_operators_with_seed_family(c,x,j,out,HISPID_SEED_QI);
+}
+int HiSpID_operators_with_seed_family(const HiSpID_Config*c,const double*x,const double*j,double*out,int family){
+ if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M)return -1;
  if(!c||!x||!j||!out||!hispid::valid(*c))return -1;
  try{
-  hispid::Background b;hispid::background(*c,x,b);hispid::Jet u[4];
+  hispid::Background b;hispid::background(*c,x,b,family);hispid::Jet u[4];
   const int ii[6]={1,1,1,2,2,3},jj[6]={1,2,3,2,3,3};
   for(int k=0;k<4;k++){u[k].v=j[10*k];for(int d=0;d<3;d++)u[k].d[d+1]=j[10*k+1+d];
    for(int d=0;d<6;d++)u[k].h[ii[d]][jj[d]]=u[k].h[jj[d]][ii[d]]=j[10*k+4+d];}

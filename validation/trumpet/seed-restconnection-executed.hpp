@@ -1,16 +1,8 @@
 #ifndef HISPID_TRUMPET_HPP
 #define HISPID_TRUMPET_HPP
-#include "HiSpID_geometry_types.hpp"
+#include "HiSpID_geometry_kernels.hpp"
 
 namespace hispid {
-template<class Real> HISPID_GEOMETRY_INLINE bool trumpet_finite_jet(const JetT<Real>&x,int order) {
-  if(!std::isfinite(x.v))return false;
-  for(int i=0;i<4;i++) {
-    if(!std::isfinite(x.d[i]))return false;
-    if(order==2)for(int j=0;j<4;j++)if(!std::isfinite(x.h[i][j]))return false;
-  }
-  return true;
-}
 // R0=M stationary Kerr trumpet, DBM arXiv:1409.1887, Eq.12.
 // Cartesian algebra adapted from AthenaK project/kerr-trumpet-spin09,
 // commit 81c7d803, src/coordinates/kerr_trumpet.hpp. Spin is a rest vector.
@@ -117,10 +109,6 @@ template<class Real> HISPID_GEOMETRY_INLINE int trumpet_seed_geometry(
     s.A[i][j]=pullback_derivatives(s.A[i][j],B);
   }
   s.psi=pullback_derivatives(s.psi,B);s.K=pullback_derivatives(s.K,B);
-  if(!trumpet_finite_jet(s.psi,2)||!trumpet_finite_jet(s.K,1))return geometry_nonfinite;
-  for(int i=0;i<3;i++)for(int j=0;j<3;j++)
-    if(!trumpet_finite_jet(s.physical[i][j],2)||!trumpet_finite_jet(s.metric[i][j],2)
-       ||!trumpet_finite_jet(s.extrinsic[i][j],1)||!trumpet_finite_jet(s.A[i][j],1))return geometry_nonfinite;
   return std::isfinite(s.psi.v) && s.psi.v>0 ? geometry_ok : geometry_nonfinite;
 }
 }

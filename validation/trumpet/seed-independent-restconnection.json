@@ -1,0 +1,248 @@
+{
+  "kind": "focused_development_seed_check",
+  "rows": [
+    {
+      "case": "static",
+      "constraints": [
+        {
+          "step": 0.008,
+          "count": 3,
+          "H_rms": 9.255311010465731e-11,
+          "H_max": 1.506667984818577e-10,
+          "M_rms": 9.905156430439837e-10,
+          "M_max": 1.713258118867879e-09,
+          "M_components_rms": [
+            3.051123079691602e-10,
+            8.1060586013042e-11,
+            4.935095861533876e-10
+          ],
+          "M_components_max": [
+            5.261915801994062e-10,
+            1.3947730486403762e-10,
+            8.539908014942718e-10
+          ],
+          "normalized_H_max": 8.135912939864303e-09,
+          "normalized_M_max": 1.0599624625484083e-08
+        },
+        {
+          "step": 0.004,
+          "count": 3,
+          "H_rms": 1.4670914399593216e-10,
+          "H_max": 2.4012562944986104e-10,
+          "M_rms": 6.190686534261983e-11,
+          "M_max": 1.0707771880933575e-10,
+          "M_components_rms": [
+            1.9070410836793194e-11,
+            5.054286371042639e-12,
+            3.084556011575604e-11
+          ],
+          "M_components_max": [
+            3.288791961298846e-11,
+            8.69706235835264e-12,
+            5.337650841185645e-11
+          ],
+          "normalized_H_max": 3.614952718102279e-08,
+          "normalized_M_max": 6.624708878289623e-10
+        },
+        {
+          "step": 0.002,
+          "count": 3,
+          "H_rms": 5.329658406267e-10,
+          "H_max": 8.850341943686391e-10,
+          "M_rms": 3.887647643129847e-12,
+          "M_max": 6.7240094230844305e-12,
+          "M_components_rms": [
+            1.2049875912741651e-12,
+            3.1042731706882037e-13,
+            1.9336407484772225e-12
+          ],
+          "M_components_max": [
+            2.078753893707437e-12,
+            5.338159578220043e-13,
+            3.345420309197155e-12
+          ],
+          "normalized_H_max": 1.332367754020881e-07,
+          "normalized_M_max": 4.160025579824909e-11
+        }
+      ],
+      "derivative_scaled_linf": {
+        "gamma": [
+          1.0911057932159725e-10,
+          6.72727869709121e-12,
+          7.9755843583284e-13
+        ],
+        "Kij": [
+          3.9388212505099945e-10,
+          2.4622081273766158e-11,
+          1.4359797127356053e-12
+        ]
+      },
+      "fine_constraint_passed": true
+    },
+    {
+      "case": "generic",
+      "constraints": [
+        {
+          "step": 0.008,
+          "count": 3,
+          "H_rms": 1.880000579689512e-10,
+          "H_max": 2.670316190389599e-10,
+          "M_rms": 5.751108119026923e-10,
+          "M_max": 9.92955610263966e-10,
+          "M_components_rms": [
+            3.097874860642244e-10,
+            1.215194091264498e-10,
+            3.327942995906245e-11
+          ],
+          "M_components_max": [
+            5.355295980141365e-10,
+            2.100345178619497e-10,
+            4.0966168516447346e-11
+          ],
+          "normalized_H_max": 1.4127392745106502e-08,
+          "normalized_M_max": 8.961026306041638e-09
+        },
+        {
+          "step": 0.004,
+          "count": 3,
+          "H_rms": 1.0157719719420343e-10,
+          "H_max": 1.6138144444920177e-10,
+          "M_rms": 3.595033095297515e-11,
+          "M_max": 6.206954582947937e-11,
+          "M_components_rms": [
+            1.9368115966477735e-11,
+            7.588563649764768e-12,
+            2.0813163527811987e-12
+          ],
+          "M_components_max": [
+            3.348209143112247e-11,
+            1.3115909233817361e-11,
+            2.5544650881557617e-12
+          ],
+          "normalized_H_max": 6.297503251280256e-08,
+          "normalized_M_max": 5.601527707937636e-10
+        },
+        {
+          "step": 0.002,
+          "count": 3,
+          "H_rms": 2.1069763939399302e-10,
+          "H_max": 3.309641705660782e-10,
+          "M_rms": 2.244215679572771e-12,
+          "M_max": 3.87466260539834e-12,
+          "M_components_rms": [
+            1.2101048629697368e-12,
+            4.714140085939939e-13,
+            1.4133599855300594e-13
+          ],
+          "M_components_max": [
+            2.0914617656174917e-12,
+            8.141609511147771e-13,
+            1.930793749054098e-13
+          ],
+          "normalized_H_max": 1.2915039950130886e-07,
+          "normalized_M_max": 3.4967276884748526e-11
+        }
+      ],
+      "derivative_scaled_linf": {
+        "gamma": [
+          1.408944987742145e-10,
+          8.82879876150691e-12,
+          1.0175387895641357e-12
+        ],
+        "Kij": [
+          3.055945703556428e-10,
+          1.9116018713978118e-11,
+          1.1366244943471247e-12
+        ]
+      },
+      "fine_constraint_passed": true
+    },
+    {
+      "case": "gamma10",
+      "constraints": [
+        {
+          "step": 0.0008,
+          "count": 3,
+          "H_rms": 2.7052043539596125e-09,
+          "H_max": 4.207961389057768e-09,
+          "M_rms": 1.3365659580530498e-09,
+          "M_max": 2.3115023646664988e-09,
+          "M_components_rms": [
+            4.604911880186194e-11,
+            6.76271410947339e-10,
+            3.8713625060987635e-10
+          ],
+          "M_components_max": [
+            7.961011818693775e-11,
+            1.169274646128644e-09,
+            6.682340621347774e-10
+          ],
+          "normalized_H_max": 2.9036104262868052e-08,
+          "normalized_M_max": 1.155294723819002e-08
+        },
+        {
+          "step": 0.0004,
+          "count": 3,
+          "H_rms": 1.126291023444565e-08,
+          "H_max": 1.385807388287752e-08,
+          "M_rms": 8.35807784860443e-11,
+          "M_max": 1.4454680210728278e-10,
+          "M_components_rms": [
+            2.8769130630881842e-12,
+            4.231994789299505e-11,
+            2.416887840548824e-11
+          ],
+          "M_components_max": [
+            4.9735373367939306e-12,
+            7.3164456535741e-11,
+            4.1726866415745145e-11
+          ],
+          "normalized_H_max": 8.71931759207941e-08,
+          "normalized_M_max": 7.224485615984697e-10
+        },
+        {
+          "step": 0.0002,
+          "count": 3,
+          "H_rms": 3.206963724583931e-08,
+          "H_max": 5.397210590951662e-08,
+          "M_rms": 4.97884931371507e-12,
+          "M_max": 8.498713963521765e-12,
+          "M_components_rms": [
+            1.8234165934946177e-13,
+            2.598544703588706e-12,
+            1.309875429118516e-12
+          ],
+          "M_components_max": [
+            3.114557353123254e-13,
+            4.386011895764462e-12,
+            2.209450240973599e-12
+          ],
+          "normalized_H_max": 2.158273544815132e-07,
+          "normalized_M_max": 4.247678664887979e-11
+        }
+      ],
+      "derivative_scaled_linf": {
+        "gamma": [
+          9.79141878820718e-11,
+          1.0014571902465972e-10,
+          6.568028065107522e-11
+        ],
+        "Kij": [
+          1.18668845807692e-09,
+          7.438236550525053e-11,
+          1.693039644054765e-10
+        ]
+      },
+      "fine_constraint_passed": true
+    }
+  ],
+  "full_seed_acceptance": false,
+  "binary_acceptance": false,
+  "sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-hispid-trumpet/libtrumpet_probe.dylib": "2af4b769ad898d5c39fe605cf919deb4165fb0afa1969bbf45e6ab54a1c8b31a",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/validation/check_trumpet_seed.py": "bfb989b14e251e2a6756324b38668b34363bd2c923d6b812542ca423e6228ee9",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tests/trumpet_probe.cpp": "2b91fe6c4e3b0d4f35cf43ec5f82d07d101f51e6981e2c5491311986590cf0c4",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/src/HiSpID_trumpet.hpp": "f752aaeee314a80f1d45112fe042b9243f3f7e50d648f0abd07777b2be4820b7"
+  }
+}

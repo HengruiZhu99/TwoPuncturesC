@@ -1,0 +1,27 @@
+{
+  "kind": "final_local_family_integration_source_image_binding",
+  "image_sha256": "439c82359e044269ecab3aa01d2f43f7e3ccae69b85077d062b644d8b356c71e",
+  "physical_binary_acceptance": false,
+  "gpu_qualification": false,
+  "files_sha256": {
+    "src/HiSpID_cache_kernels.hpp": "64c70e38c81df40735b00885533e1ce309f963c91ce43d2598bde9b48be3b600",
+    "src/HiSpID_geometry_kernels.hpp": "93538a97baa7c1cb87cce320201ffaeb3fef5f616cd474a21931fdcc7b4c758b",
+    "src/HiSpID_trumpet.hpp": "48ed6a44cc5fe84d914361956ef87fb542cba58408f7ab4d017422ea52146789",
+    "src/HiSpID_jets.hpp": "4e51b4f508bb3f391cd00121c881c4c878ee4b64bf75b24d75889ff557edc612",
+    "src/HiSpID_geometry.cpp": "5837a72762278d5756e2464652ab6f6bdccc439122bda7038e36ea065febcfa6",
+    "src/HiSpID_internal.hpp": "84439685d3c7f77e427552068a18269bd56eb026b0ac5407651cf001e02d65da",
+    "src/HiSpID_geometry_types.hpp": "35ddf5e46531a1ff526ac67c3d63cf0d87e4fd5b178dda6b236c3bf9934e4753",
+    "src/HiSpID_axis.hpp": "f6d2a5acb34e5f4e22a54afb3da93c3bbf899065f1b4f8bbe5e8691f0a2e8967",
+    "src/HiSpID_solver.cpp": "d4f740073844fd17ae76e4ea0bfd07e9e972d22b18765cecc70d5b3c5e9dd71a",
+    "src/HiSpID_spectral.hpp": "944e7c2eac93e8a32b903d7ac533932639c2be95638744e5bfb0712d862cbfb8",
+    "src/HiSpID_setup_kokkos.cpp": "3d71d46116e2b841f6437b9a474d24d552433d075579e89f0eb5ab2443789bb0",
+    "include/HiSpID.h": "5027c6bb1b6230b37aad95a7de477640062f7328fa92068dbbc5c2e9466c0519",
+    "python/hispid.py": "e1ea73652634909962f5ce31f470fe3692724e652bb93c0a3eaab966493b8137",
+    "python/checkpoint_export.py": "77cd4915788b5fd45a30b7aee2c2b9e6b9cc28fb8526dcc56be24fe4300604e0",
+    "tests/test_trumpet_api.py": "bb097bfe0f51b3862ab3ff74ca8d7dd98270b191e0b1b868e074ebf03f8367cf",
+    "Makefile": "0ce63b4cee71461f4598444754f50e5920a727fbc3b313c3bffdcae8f6abe36b",
+    "validation/trumpet/api-family-final.json": "36400a94f68350fdea560a5ed15fc843cb4ddb12c2004242e8b357a52ecea10c",
+    "validation/trumpet/qi-compatibility.json": "95d08d2668b2b051e05176f9cda10bd1190124c902cdf66a8ec2633c0b37fe38",
+    "validation/trumpet/images/libHiSpID-439c82359e04.so": "439c82359e044269ecab3aa01d2f43f7e3ccae69b85077d062b644d8b356c71e"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "sampler_scaled_difference": 2.5913123706260346e-16,
+  "covariance_scaled_difference": [
+    6.889453007385245e-16,
+    1.244037183198374e-16
+  ],
+  "seed_weighted_residual": 7.306261297478278e-16,
+  "jvp_relative_l2": [
+    9.711755826914386e-12,
+    2.118358179297447e-11
+  ],
+  "checkpoint_rejection_cases": 3,
+  "checkpoint_versions": [
+    1,
+    2
+  ],
+  "native_library_sha256": "439c82359e044269ecab3aa01d2f43f7e3ccae69b85077d062b644d8b356c71e",
+  "passed": true,
+  "binary_acceptance": false
+}
