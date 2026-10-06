@@ -198,6 +198,13 @@ $r^TJs\leq-(1-\eta)\|r\|^2$; the existing line search verifies actual decrease.
 An existing BiCGStab-backend probe of this frozen system diverges to true
 relative residual $1.73\times10^{103}$ after 1200 iterations (2402 JVPs,
 401.8 seconds), with no accepted Newton update.
+Optional augmented GMRES retains three previous-cycle correction directions;
+CPU and CUDA manufactured controls pass, and a small nonlinear solve agrees
+between backends to $2.57\times10^{-13}$ in sampled fields. Its additional
+workspace raises the 240-grid allocation bound to 61.27 GiB, within 64 GiB.
+On the frozen failing system it reaches relative residual $0.471$ after
+2400 iterations (421.4 seconds), still above $0.1$, with no Newton update.
+Thus neither alternative resolves the large-system stagnation.
 Final nonlinear and physical criteria remain unchanged. Binary acceptance
 remains open.
 

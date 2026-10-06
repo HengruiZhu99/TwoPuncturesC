@@ -1773,3 +1773,12 @@ CPU/GPU sampled-field scaled difference2.57439e-13. Pinned CUDA image
 2cfec4d71e54542add9805ee544dc73fbe4f54c3af8948e8ba1aabfabc61cdf1.
 Control records retained in augmented-gmres/gpu-v1. The one-step240 probe
 has started; no fine-system convergence or physical acceptance claim yet.
+
+The full240 augmented probe59424143 stops after2400 iterations at true
+relative0.47081893 (target0.1),421.3998s solve,2437JVPs/2301preconditioner
+applications. No Newton update was accepted. This is modest improvement over
+the same-state GMRES residual0.546869 but does not resolve stagnation. Final
+probe JSON/log retained alongside qualification records. Further Krylov-method
+sweeps are not justified; inspect the actual operator/preconditioner and spatial
+error structure before another expensive solve. Physical acceptance remains
+unchanged and false.
