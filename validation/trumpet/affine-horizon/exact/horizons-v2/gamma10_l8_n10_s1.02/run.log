@@ -1,0 +1,25 @@
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
+
+
+Root grid = 1 x 1 x 1 MeshBlocks
+Total number of MeshBlocks = 1
+Number of logical  levels of refinement = 0 (1 levels total)
+Number of physical levels of refinement = 0 (1 levels total)
+Number of parallel ranks = 1
+FastFlow harmonic_storage horizon=0 mode=factorized lmax=8 ntheta=10 host_bytes=22440 device_bytes=22440 unique_bytes=22440
+AssembleZ4cTasks
+HiSpID consumer_dependency symbol="AB_To_XR" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="C_To_c" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="PK_solve" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="Puncture_execution_initialize" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libTwoPunctures.so"
+HiSpID consumer_image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focused-sampler/libHiSpID.so"
+HiSpID import source=fe561cc734b7af2b440baa8a190f6a382d074c1c32cbdca3c6bee46b9148ddad acceptance=analytic_seed consumer=65aaa4c834efc0f7643a5383c6dbbb8e6e63056da22792fc40a98cd186f96503 ADM/Z4c relative error=1.9085979922110752e-15 seed_family=trumpet_r0_m
+HiSpID horizon_chart horizon=0 kind=boost_affine minimum_scale=0.10000000000000005
+HiSpID horizon_geometry parallel=0 host_concurrency=1
+HiSpID horizon 0 geometry=native found=0 area=nan expansion_rms=nan min_radius=1.0000000011707224 attempt_area=50.265482563465966 attempt_expansion_rms=1.394172258775458e-09 center_x=0 center_y=0 center_z=0 kind=component
+HiSpID pgen: Initial HiSpID horizon search failed its geometry/expansion checks

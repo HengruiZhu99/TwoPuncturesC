@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/check_hispid_controls.py", line 259, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/check_hispid_controls.py", line 253, in main
+    (root/'controls.json').write_text(json.dumps(evidence,indent=2)+'\n')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/cray/pe/python/3.12.12/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable

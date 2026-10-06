@@ -1,0 +1,19 @@
+{
+  "candidate": [
+    512,
+    320,
+    8
+  ],
+  "maps": [
+    0.03,
+    3.5
+  ],
+  "krylov_restart": 64,
+  "aggregate_gib": 63.7407865524292,
+  "device_gib": 28.1060209274292,
+  "budget_gib": 64,
+  "launched": false,
+  "required_before_launch": "Raise documented radial cap in isolated native build; control the changed high-order derivative/solver path; retain GPU free-memory and aggregate guards. Matching consumer header/library will be needed for loading.",
+  "evidence": "Map .03 final radial vector block maxima decline from8.94e-3 at32:64 to4.25e-5 at224:256. Prior160->256 physical improvement and rejected.003 map favor added radial order on retained map.",
+  "caution": "Estimate based on current Cached size1984 bytes. This is neither a measured allocation nor evidence of convergence."
+}

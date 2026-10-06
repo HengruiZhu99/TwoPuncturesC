@@ -874,3 +874,30 @@ metric derivatives consistently. This changes no slice or initial data. It
 requires a separate tensor-transformation/invariant-area control, chart-aware
 seed guesses and enclosure, and explicit spin-coordinate conventions before
 application to binary data. It is not yet implemented or validated.
+
+## Affine Gamma10 horizon validation
+
+The optional affine spatial chart x=c+J(y-c), with J contracting by1/Gamma
+along the seed velocity, preserves the laboratory slice. The consumer pulls
+back gamma/K/dgamma and uses J^{-1} E_i J for laboratory coordinate-spin
+integrals. Default finder behavior is unchanged. Standalone derivative,
+area-element and spin-integrand invariance checks passed locally and on
+Perlmutter; full consumer build59411280 passed.
+
+The exact isolated Gamma10 control59411566 passed at orders4/8/12. Max relative
+area error7.22e-11, shape error1.13e-10, expansion RMS4.78e-11 and horizon-mass
+error3.61e-11, with23.25/59.52/115.11s runs. Producer/CPU sampler migration is
+exact. Earlier input-declaration, iteration-cap and report-serialization failures
+are retained under `affine-horizon/exact`; only `horizons-v4` passes.
+
+The affine exact sphere is representable at every tested order. Qualification
+therefore requires every order to pass the unchanged physical/shape bounds plus
+stable mass/spin, rather than monotonic decrease of a nonlinear stopping residual.
+The laboratory-chart rule is unchanged. This is not a relaxation of area, shape,
+expansion, mass-stabilization or binary constraint tolerances.
+
+The saved Gamma10 binary256x320x8 (map.03) is now being measured using the same
+finder, a checkpoint-bound sampler proof, three orders plus quadrature, and
+warm guesses reused only after passing rows. No physical binary acceptance is
+inherited. A separate feasibility note records that radial512x320x8 is estimated
+to fit the existing64GiB aggregate guard; it is not launched or validated.
