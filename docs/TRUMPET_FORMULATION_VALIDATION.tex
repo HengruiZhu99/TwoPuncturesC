@@ -1,0 +1,168 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,tabularx,hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue}
+\title{Spinning and Boosted Trumpet Initial Data:\\Formulation and Validation Status}
+\author{TwoPuncturesC and AthenaK integration}
+\date{6 October 2026 --- interim report}
+\begin{document}
+\maketitle
+\noindent\textbf{Current conclusion.} The selectable trumpet seed, coupled solver
+interface, portable checkpoint, and AthenaK consumer are implemented. Independent
+seed checks and selected horizon measurements pass. \textbf{No complete binary
+physical-validation claim is supported yet.} The moderate three-grid sequence
+fails its convergence requirement; both extreme binaries exceed the declared
+physical-constraint tolerances. A radial-512 boost solve is in progress.
+
+\section{Construction and its limits}
+The reference is the $R_0=M$ stationary Kerr trumpet of Dennison, Baumgarte and
+Montero, Eq.~12 of arXiv:1409.1887v2. The reused AthenaK reference is pinned to
+\path{project/kerr-trumpet-spin09}, commit
+\path{81c7d8030c49489577c54b977b8b7f7b42d9a96e}.
+This is distinct from both Ian Ruchlin's quasi-isotropic wormhole HiSpID free data
+and a stationary standard $1+\log$ trumpet. The existing quasi-isotropic family
+remains the default; residual-Z4c evolution background subtraction is not added
+to the elliptic equations.
+
+We use signature $(-+++)$ and $K_{ij}=-\mathcal L_n\gamma_{ij}/2$.
+For rest mass $m$, $a=|\boldsymbol S|/m$, and $R=r+m$, one scalar choice is
+$\psi_0=(\Sigma/r^2)^{1/4}$ with
+$\Sigma=R^2+a^2\cos^2\theta$; the other is $(\det\gamma)^{1/12}$.
+Both have direction-dependent $r^{-1/2}$ puncture behavior. Full spacetime
+Lorentz pullbacks supply boosted spatial tensors and their time derivatives.
+A rest-chart connection contraction gives the extrinsic curvature stably.
+Spacelikeness and positive spatial metrics are checked without clipping.
+Nonspinning boosted slicing has an analytic global spacelikeness argument;
+general spinning cases retain sampled-domain checks.
+
+The four elliptic unknowns are a scalar correction $u$ and vector $b^i$.
+Outside the explicitly modified interior, the CTT equations are
+\begin{align*}
+ \widetilde\Delta\psi-\tfrac18\widetilde R\psi
+ -\tfrac1{12}K^2\psi^5+\tfrac18\widetilde A_{ij}\widetilde A^{ij}\psi^{-7}&=0,\\
+ \widetilde D_j\widetilde A^{ij}-\tfrac23\psi^6\widetilde D^iK&=0,
+ \qquad \widetilde A^{ij}=\widetilde A_0^{ij}+(\widetilde Lb)^{ij}.
+\end{align*}
+The covariant CTT tensor is $\widetilde A_{ij}=\psi^2(K_{ij}-\gamma_{ij}K/3)$;
+AthenaK's Z4c conformal tensor instead uses $\psi^{-4}$ on the same physical
+trace-free tensor. The import explicitly converts these conventions.
+
+Unmodified trumpet corrections cannot simply be assumed analytic at the
+puncture: the isolated Schwarzschild scalar indicial exponent includes
+$p_0=\sqrt3-1/2$. The implemented binary examples use the declared interior
+plateau, where the correction equations become
+$\Delta u=0$ and $\Delta b+\nabla\operatorname{div}b/3=0$.
+Bounded corrections then have removable singularities. This modifies the
+interior operator; vacuum accuracy is tested independently outside it, and
+measured horizons must enclose the modified regions. It is not evidence of
+exponential convergence across the transition.
+
+\section{Acceptance and production path}
+The production stages are host extended-precision geometry/cache construction,
+CUDA GMRES for the solve, CPU sampling, and OpenMP AthenaK horizon integration.
+The opt-in no-swirl axisymmetric Krylov projection is restricted to nonspinning
+axial configurations; full unprojected nonlinear residuals still govern acceptance.
+Default QI and Bowen--York paths are preserved. No backend benchmark matrix is
+part of this investigation.
+
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Obligation & Decisive criterion & Status\\\midrule
+Seeds and boosts & Independent fields/derivatives, vacuum checks, charges,
+positive slicing; generic orientation included & Pass within tested domain\\
+Operators & Manufactured curved operators and centered JVP checks & Pass\\
+Binary constraints & Near and bulk RMS $<10^{-6}$, maximum $<10^{-4}$;
+three-grid decrease, positive $\psi$, stable charges & Not passed\\
+Import & Checkpoint-bound fields and gradients within $10^{-12}$ & Passed cases\\
+Horizons & Expansion RMS $<10^{-7}$; angular/quadrature stability,
+mass/spin changes $<10^{-4}$; enclosure & See below\\
+Compatibility & Unchanged QI default fixture on identical platform/build & Pass\\
+\bottomrule
+\end{tabularx}
+\end{center}
+The physical observers are independent of the weighted collocation residual.
+Modified-region errors are recorded separately. A successful solve or import
+does not promote diagnostic data to physical acceptance. Checkpoints preserve
+family, basis/map and producer identity; v1 retains its QI meaning and v2 adds
+explicit family metadata.
+
+\section{Binary evidence}
+All entries below are independent physical RMS errors, in the declared
+normalization. The moderate case has masses $0.6/0.4$, separation 6, and generic
+spins and boosts; exact parameters are in \path{examples/trumpet_configs.py}.
+The spin target has equal masses $0.5$, aligned seed $\chi=0.99$, and separation
+12. The head-on target has opposite seed $\Gamma=10$, masses $0.5$, and
+separation 25. The latter has not yet been calibrated with qualified binary
+irreducible masses.
+\begin{center}\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Case / grid & Near $H$ & Near $M$ & Bulk $H$ & Bulk $M$\\\midrule
+Moderate $192\!\times\!384\!\times\!16$ & $1.13\,10^{-6}$ & $3.77\,10^{-7}$ & $5.76\,10^{-8}$ & $4.42\,10^{-7}$\\
+Moderate $224\!\times\!448\!\times\!16$ & $2.08\,10^{-7}$ & $1.65\,10^{-7}$ & $8.71\,10^{-8}$ & $4.44\,10^{-7}$\\
+Moderate $256\!\times\!512\!\times\!16$ & $1.70\,10^{-7}$ & $1.39\,10^{-7}$ & $2.62\,10^{-7}$ & $2.86\,10^{-7}$\\
+Spin $160\!\times\!320\!\times\!32$ & $3.15\,10^{-6}$ & $1.44\,10^{-5}$ & $8.30\,10^{-5}$ & $3.00\,10^{-4}$\\
+Boost $256\!\times\!320\!\times\!8$ & $8.23\,10^{-4}$ & $2.42\,10^{-2}$ & $4.46\,10^{-6}$ & $1.27\,10^{-4}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The moderate sequence fails despite two grids satisfying pointwise bounds:
+bulk errors do not decrease. Tighter nonlinear stopping and halved observer
+steps did not resolve this. The retained boost map is $(\lambda,\kappa)=(0.03,3.5)$.
+Radial refinement from 160 to 256 improved its errors by factors 2--6.
+Stronger focusing, $\lambda=0.003$, worsened both independent errors and radial
+tails and is rejected. Radial-512 mapped-operator controls pass at normalized
+error $5.49\times10^{-10}$; the larger physical solve is pending.
+
+\section{Horizon measurements and computational cost}
+The finest moderate checkpoint passes import and horizon angular/quadrature
+checks, but remains diagnostic because of its constraint sequence. Its component
+irreducible masses are $0.5887780114$ and $0.3935773863$.
+
+The spin-target diagnostic checkpoint passes orders $12,16,20$ and an independent
+quadrature increase. Each component has
+$M_H=0.500017851900$, $M_{\rm irr}=0.377763585476$, and coordinate
+$\chi=0.989929520988$, with expansion RMS $5.98\times10^{-9}$.
+Both retained surfaces enclose the modified regions. These are coordinate
+rotation-integral spins, not approximate-Killing-vector estimates.
+Reusing passed harmonic shapes strictly as initial guesses reduces order-12/16
+runs from $671/1227$ seconds to $35.5/50.4$ seconds; all geometry and acceptance
+checks are recomputed.
+
+For boosted horizons an optional spatial chart
+$x=c+J(y-c)$, $J=I-vv^T/(1+\sqrt{1-v^2})$, makes the exact isolated seed surface
+spherical. Tensors and derivatives are pulled back consistently; physical
+rotation generators become $J^{-1}E_iJ$. This changes no slice.
+The isolated $\Gamma=10$ control passes orders $4,8,12$: relative area error
+$\le7.22\times10^{-11}$, shape error $\le1.13\times10^{-10}$, and expansion
+RMS $\le4.78\times10^{-11}$. The solved binary instead stalls near
+$1.8\times10^{-5}$ at both orders 8 and 16; it has no qualified horizon result.
+
+Necessary production solves, not a matched-accuracy benchmark, took
+94.2 seconds (315 seconds total, 4.87 GiB peak process RSS) for the listed spin
+case and 161.3 seconds (273 seconds total, 3.53 GiB RSS) for the listed boost
+case. Host RSS excludes GPU allocation. The radial-512 run retains the existing
+64 GiB aggregate guard; its conservative estimate is 63.74 GiB.
+
+\section{Reproducibility and remaining work}
+The native and consumer branches are \path{codex/hispid-trumpet} and
+\path{codex/hispid-trumpet-pgen}; neither is merged. Detailed evidence, failed
+attempts, hashes and executable identities are under \path{validation/trumpet/},
+with the audit trail in \path{docs/TRUMPET_IMPLEMENTATION.md}. Key records are
+\path{convergence/assessment.json}, \path{spin-focused-map/horizon160-warm/},
+\path{affine-horizon/exact/horizons-v4/}, and \path{axisymmetric/radial-comparison.json}.
+Commands are retained beside each run. The original performance report is
+preserved without extending its campaign.
+
+Completion still requires an accepted moderate physical-convergence sequence,
+resolution of the extreme binary constraint errors, qualified boost-binary
+horizon measurements and measured-$M_{\rm irr}$ separation calibration, followed
+by a final evidence audit. Pending runs and failed gates are not counted as
+validation. This report is an interim snapshot, not completion of the goal.
+
+\smallskip\noindent References:
+\href{https://arxiv.org/abs/1409.1887}{Dennison--Baumgarte--Montero (2014)};
+\href{https://arxiv.org/abs/1410.8607}{Ruchlin et al., high-spin/high-boost puncture data};
+\href{https://arxiv.org/abs/1806.08364}{boosted trumpet construction reference}.
+\end{document}
