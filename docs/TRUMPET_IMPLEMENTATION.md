@@ -924,3 +924,18 @@ and existing empty output directory) are retained, and neither performed the
 large solve. Existing consumer images still have the old radial cap; loading
 future512-point data requires a matching sampler/header rebuild. No higher-
 resolution physical accuracy or consumer acceptance is claimed yet.
+
+The binary256 affine l16 search59411890 also failed: after1000 iterations,
+expansion RMS1.8834243e-5, essentially the same floor as l8. Its area was stable,
+but that does not qualify a horizon. The script correctly stopped before
+orders24/32 and quadrature. Logs and partial receipt are retained in
+`affine-horizon/binary256-angular`. Further angular-only searches on these data
+are deferred until the finer elliptic result can distinguish data resolution
+from finder truncation; no mass/separation calibration uses these failed surfaces.
+
+The matching radial512 CPU sampler and OpenMP AthenaK consumer built successfully
+under59412091. Sampler SHA4c602e408731923c9f426033186e03150c12875fe56ed39bda3bd4afd7e4703e;
+consumer SHAde410d82ce2d935cac939cfbc05a9e82747508b9b427ab09e8586262f9b76bf8.
+Sources and build directories are isolated from earlier images. A checkpoint-bound
+producer/sampler comparison is queued under59412182 after the successful end of
+solve59412030; it transfers sampling compatibility only, never physical acceptance.

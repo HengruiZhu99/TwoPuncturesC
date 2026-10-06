@@ -7,7 +7,7 @@
   "rotation_generators": "J inverse times physical Cartesian rotation generators times J",
   "acceptance": "Original area, shape, expansion and mass stabilization tolerances unchanged",
   "first_failure": "Missing default input declaration rejected the command-line option before numerical work; fixed template, preserved first outputs, reused exact seed and migration proof.",
-  "current": "Exact isolated affine checks passed; binary l8 reached stable area but failed expansion at1000 iterations. Higher angular orders now running with same checkpoint/executable/tolerances and reused sampler proof.",
+  "current": "Binary l16 also fails with expansion floor similar to l8. No further angular-only trial on this checkpoint; await radial512 elliptic data.",
   "consumer_source": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine",
   "consumer_executable": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-affine/src/athena",
   "extended_iteration_job": 59411500,
@@ -22,5 +22,7 @@
     16,
     24,
     32
-  ]
+  ],
+  "angular_refinement_passed": false,
+  "l16_expansion_rms": 1.8834243184969645e-05
 }
