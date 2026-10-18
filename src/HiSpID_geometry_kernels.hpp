@@ -270,6 +270,16 @@ template<class Real> HISPID_GEOMETRY_INLINE int background_geometry(const HiSpID
   for(int i=0;i<3;i++)for(int j=0;j<3;j++)
    b.opmetric[i][j]=JetT<Real>(i==j?1:0)+b.g*(b.metric[i][j]-JetT<Real>(i==j?1:0));
   if(!invert_checked(b.opmetric,b.opinv))return geometry_determinant;
+#if defined(HISPID_GEOMETRIC_TRUMPET_INTERIOR) && HISPID_GEOMETRIC_TRUMPET_INTERIOR
+  // The previous attenuated connection is intentionally nonmetric-compatible.
+  // For this opt-in trumpet extension, use the actual smooth operator metric;
+  // div(L b) then has its geometric divergence/energy structure. At g=0 it is
+  // flat, and at g=1 it is exactly the exterior conformal connection. Physical
+  // seed fields and the exterior CTT operator are unchanged. QI retains its
+  // historical interior definition even in this build.
+  if(family==HISPID_SEED_TRUMPET_R0_M)connection(b.opmetric,b.opinv,b.opC);
+  else
+#endif
   for(int k=0;k<3;k++)for(int i=0;i<3;i++)for(int j=0;j<3;j++)b.opC[k][i][j]=b.g*b.C[k][i][j];
  }else{
   for(int i=0;i<3;i++)for(int j=0;j<3;j++){b.opmetric[i][j]=b.metric[i][j];b.opinv[i][j]=b.inv[i][j];

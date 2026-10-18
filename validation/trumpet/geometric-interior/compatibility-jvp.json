@@ -1,0 +1,10 @@
+{
+  "library_sha256": "8571a21fa0f5ef979e90e8a8a5c300d792c01bd386ab62d46efc8b5fea48aa02",
+  "qi_residual_bitwise_equal": true,
+  "qi_jvp_bitwise_equal": true,
+  "centered_jvp_relative_errors": [
+    1.342134665074955e-11,
+    8.102524080097797e-12
+  ],
+  "passed": true
+}

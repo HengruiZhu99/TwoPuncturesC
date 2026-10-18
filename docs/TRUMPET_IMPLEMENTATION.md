@@ -1982,3 +1982,32 @@ H/M3.20227e-8/9.22185e-8, excluding observer truncation as the main cause.
 Removing individual high modes5--8 does not substantially reduce the error;
 in particular,7/8 have negligible effect. Filtered fields are diagnostic only
 and are never accepted or exported as solutions. All evidence is preserved.
+
+## Geometric interior extension trial — 18 October 2026
+
+The published attenuated connection g*C is intentionally nonmetric-compatible
+with the blended operator metric delta+g*(metric-delta). A new opt-in
+HISPID_GEOMETRIC_TRUMPET_INTERIOR uses the Levi-Civita connection of that blended
+metric for trumpet seeds only. This is a different interior extension; it does
+not change the exterior equations, the flat plateau or physical seed fields.
+The scalar operator uses its geometric Laplacian and the vector operator its
+geometric div(L), restoring the latter's integration-by-parts energy identity
+for compactly supported test fields. The coupled nonlinear system is not
+claimed self-adjoint. Default behavior and the QI construction remain unchanged.
+
+At three transition points the old metric-compatibility defect reaches0.560579;
+the new normalized defect is1.82181e-16. Plateau/exterior cached operators agree
+exactly. A separate-process API witness preserves QI residual/JVP bitwise;
+centered trumpet JVP errors are1.34e-11 and8.10e-12. The small changed-interior
+nonlinear control converges5Newton/57Krylov. These are implementation controls,
+not physical binary acceptance.
+
+The trial build enables the already-qualified batched modal transfer to reduce
+factor-setup cost; other solver options stay fixed (GMRES64, forcing0.1,
+nonlinear1e-12). One shared80GiB GPU allocation is requested for a small CPU/CUDA
+field comparison followed by the192/224/240 study. The first level uses the
+old192 checkpoint only as an explicitly migrated initial guess, with a fresh
+solve; no old acceptance is inherited. Source/build suffix is
+geometric-interior-20261018; output geometric-interior-sequence-v1. Driver and
+local controls are in validation/trumpet/geometric-interior/. Physical outcome
+is pending. The earlier wide-only failed sequence remains intact.
