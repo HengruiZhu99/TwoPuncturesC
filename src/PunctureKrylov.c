@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <limits.h>
 static double dot(const double*a,const double*b,int n){double q=0;for(int i=0;i<n;i++)q+=a[i]*b[i];return q;}

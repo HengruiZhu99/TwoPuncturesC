@@ -14,7 +14,9 @@ three-grid plan in 6952ec8. Small CPU/CUDA controls pass (field difference
 The 192×384×16 overintegrated pilot 59955120 fails its first linear solve at
 2,400 iterations; it is rejected and no finer Galerkin runs follow. A smaller,
 equation-preserving two-sweep modal preconditioner passes the small CPU
-comparison. Its bounded 240-grid CUDA pilot is next. The three-grid study and
+comparison. Its bounded 240-grid CUDA pilot also fails (true relative residual 0.780
+after 512 iterations); no finer study follows. One original-preconditioner
+Arnoldi diagnostic is next. The three-grid study and
 finest-checkpoint AthenaK check remain incomplete. This is active work, not a
 completed convergence fix.
 See `validation/trumpet/galerkin/`, `validation/trumpet/modal-relaxation/`,

@@ -46,3 +46,5 @@ The attempted overlapping CPU build on59955120 never launched because its
 required ports were in use; no compute work ran in that step.
 
 CUDA retry59955583 passes5Newton/33outer Krylov, 0.063434solve seconds; CPU/CUDA field scaled difference 3.44984e-13. Producer image7abe943bb14d35b49dc79599431abf4cd7666eb072ed317387009e49c3fb9c03 is frozen for the bounded240 pilot and conditional224/240/256 study.
+
+The240 pilot fails its first linear solve at512outer iterations, true relative residual0.77999236 versus0.1. No Newton update is accepted. Solve189.430s; total447.324s. The candidate is rejected as a convergence remedy; no224/256 or horizon run follows. Physical outputs remain diagnostic.

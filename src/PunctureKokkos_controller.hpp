@@ -4,6 +4,7 @@
 #define PUNCTURE_KOKKOS_CONTROLLER_HPP
 #include "PunctureKokkos.hpp"
 #include <cstdint>
+#include <cstdio>
 #include <climits>
 #include <unordered_map>
 namespace puncture { namespace controller {

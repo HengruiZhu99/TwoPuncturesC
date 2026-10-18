@@ -2135,3 +2135,21 @@ The attempted CPU-only overlapping build step on59955120 could not launch
 (required ports in use); no compiler or numerical work ran there. The fresh
 allocation supplies the first CUDA build for this candidate. Files and plan
 are in validation/trumpet/modal-relaxation/.
+
+The damped-modal240 pilot also fails:512outer steps, true relative0.77999236
+against0.1, no accepted Newton update. Solve189.430s,total447.324s; job59955583
+completed/released. Physical observer and original failure flag remain retained
+in modal-relaxation/evidence240. No224/256 or horizon run is launched. The
+option remains OFF; small-control success did not establish fine-grid benefit.
+
+An opt-in small-host-matrix Arnoldi recorder now preserves unrotated Hessenberg
+columns before Givens rotations. With the environment variable unset, it adds
+no allocation or numerical operation. Existing independent Krylov controls
+pass227 checks; diagnostic-off/on output is byte-identical. Independent least
+squares on121 recorded small matrices matches recurrences to1.12e-17 scaled.
+One128-step original-M retained240 replay is prepared to inspect the actual
+preconditioned operator before another algorithm choice. The existing corrected
+memory estimate permits restart128 at240 within64GiB. It is one bounded
+spectral diagnostic, not a new physical or performance campaign. A changed
+iterate is exported only as a diagnostic checkpoint if an update is accepted.
+Files are in validation/trumpet/krylov-spectrum/. No physical gate is relaxed.

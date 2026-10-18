@@ -5,11 +5,12 @@ import json
 import os
 from pathlib import Path
 import sys
+import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / 'python')]
 from hispid import Backend
-from checkpoint_export import read_checkpoint
+from checkpoint_export import read_checkpoint,write_checkpoint
 
 
 def main():
@@ -21,6 +22,7 @@ def main():
     p.add_argument('--linear-rtol', type=float, default=.001)
     p.add_argument('--max-krylov', type=int)
     p.add_argument('--krylov-restart', type=int)
+    p.add_argument('--save-step', action='store_true', help='retain a changed diagnostic iterate without repeating a successful Newton step')
     p.add_argument('--krylov', choices=('gmres', 'bicgstab', 'lgmres'), default='gmres')
     a = p.parse_args()
     if a.output.exists():
@@ -47,6 +49,11 @@ def main():
         result['diagnostics'] = s.solve(krylov=a.krylov, linear_rtol=a.linear_rtol)
         result['linear_history'] = s.linear_history()
         result['work_statistics'] = s.work_statistics()
+        if a.save_step:
+            updated=s.unknowns()
+            result['iterate_changed']=not np.array_equal(updated,values)
+            if result['iterate_changed']:
+                result['saved_step']=write_checkpoint(a.output.with_suffix('.checkpoint'),c,updated,b.loaded_sha256,'diagnostic',b.parameterization())
     a.output.write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))
 

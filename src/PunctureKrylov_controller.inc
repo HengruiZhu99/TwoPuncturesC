@@ -14,7 +14,8 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
                  PK_Apply M,void*c,PK_Monitor monitor,void*mc,PK_Result*out){
   int capacity=o->method==PK_LGMRES?3:0;
   int m=o->restart+capacity,status=PK_LIMIT;double *Ax=NULL,*r=NULL,*w=NULL,**V=NULL,**Z=NULL;
-  double *H=NULL,*cs=NULL,*sn=NULL,*g=NULL,*y=NULL;
+  double *H=NULL,*cs=NULL,*sn=NULL,*g=NULL,*y=NULL,*Hraw=NULL;
+  const char*arnoldi_path=getenv("PUNCTURE_KRYLOV_ARNOLDI");
   int count=0;
   double *saved[3]={NULL,NULL,NULL},*correction=NULL;
   vector_zero(x,n);double target=o->absolute_tolerance,beta=length(b,n);
@@ -24,6 +25,7 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
   V=(double**)bank((size_t)m+1,1,sizeof(double*));Z=(double**)bank(m,1,sizeof(double*));H=(double*)bank((size_t)m+1,m,sizeof(double));
   cs=(double*)bank(m,1,sizeof(double));sn=(double*)bank(m,1,sizeof(double));g=(double*)bank((size_t)m+1,1,sizeof(double));y=(double*)bank(m,1,sizeof(double));
   if(!Ax||!r||!w||!V||!Z||!H||!cs||!sn||!g||!y){status=PK_ALLOCATION;goto done;}
+  if(arnoldi_path){Hraw=(double*)bank((size_t)m+1,m,sizeof(double));if(!Hraw){status=PK_ALLOCATION;goto done;}}
   if(capacity){
     correction=vector_bank(n);if(!correction){status=PK_ALLOCATION;goto done;}
     for(int i=0;i<capacity;i++)if(!(saved[i]=vector_bank(n))){status=PK_ALLOCATION;goto done;}
@@ -38,7 +40,8 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
     if(beta<=target){status=PK_SUCCESS;goto done;}
     vector_divide(V[0],r,beta,n);
     memset(g,0,((size_t)m+1)*sizeof(double));g[0]=beta;memset(H,0,((size_t)m+1)*m*sizeof(double));
-    int used=0;
+    if(Hraw)memset(Hraw,0,((size_t)m+1)*m*sizeof(double));
+    int used=0,cycle_begin=out->iterations;
     for(int k=0;k<o->restart+count&&out->iterations<o->max_iterations;k++){
       if(!Z[k]&&!(Z[k]=vector_bank(n))){status=PK_ALLOCATION;goto done;}
       if(!V[k+1]&&!(V[k+1]=vector_bank(n))){status=PK_ALLOCATION;goto done;}
@@ -50,6 +53,7 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
       }
       H[(size_t)(k+1)*m+k]=length(w,n);
       if(H[(size_t)(k+1)*m+k]>0)vector_divide(V[k+1],w,H[(size_t)(k+1)*m+k],n);
+      if(Hraw)for(int j=0;j<=k+1;j++)Hraw[(size_t)j*m+k]=H[(size_t)j*m+k];
       for(int j=0;j<k;j++){double a=cs[j]*H[(size_t)j*m+k]+sn[j]*H[(size_t)(j+1)*m+k];H[(size_t)(j+1)*m+k]=-sn[j]*H[(size_t)j*m+k]+cs[j]*H[(size_t)(j+1)*m+k];H[(size_t)j*m+k]=a;}
       double dd=hypot(H[(size_t)k*m+k],H[(size_t)(k+1)*m+k]);
       if(!(dd>0)||!isfinite(dd)){status=PK_BREAKDOWN;goto done;}
@@ -57,6 +61,16 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
       g[k+1]=-sn[k]*g[k];g[k]*=cs[k];used=k+1;out->iterations++;out->recurrence_residual=fabs(g[k+1]);
       if(monitor)monitor(mc,out->iterations,out->recurrence_residual,0,0,0);
       if(fabs(g[k+1])<=target)break;
+    }
+    if(Hraw){
+      FILE*f=fopen(arnoldi_path,"a");
+      if(f){
+        fprintf(f,"{\"method\":%d,\"cycle_begin\":%d,\"iterations\":%d,\"columns\":%d,\"initial_residual\":%.17g,\"recurrence_residual\":%.17g,\"hessenberg\":[",o->method,cycle_begin,out->iterations,used,beta,out->recurrence_residual);
+        for(int i=0;i<=used;i++){
+          fprintf(f,"%s[",i?",":"");for(int j=0;j<used;j++)fprintf(f,"%s%.17g",j?",":"",Hraw[(size_t)i*m+j]);fprintf(f,"]");
+        }
+        fprintf(f,"]}\n");fclose(f);
+      }else fprintf(stderr,"Krylov Arnoldi diagnostic could not open %s\n",arnoldi_path);
     }
     for(int j=used-1;j>=0;j--){y[j]=g[j];for(int k=j+1;k<used;k++)y[j]-=H[(size_t)j*m+k]*y[k];y[j]/=H[(size_t)j*m+j];}
     for(int j=0;j<used;j++)vector_add(x,Z[j],y[j],n);
@@ -80,7 +94,7 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
 done:
   for(int i=0;i<3;i++)vector_free(saved[i]);vector_free(correction);
   if(V)for(int i=0;i<=m;i++)vector_free(V[i]);if(Z)for(int i=0;i<m;i++)vector_free(Z[i]);
-  vector_free(Ax);vector_free(r);vector_free(w);free(V);free(Z);free(H);free(cs);free(sn);free(g);free(y);return status;
+  vector_free(Ax);vector_free(r);vector_free(w);free(V);free(Z);free(Hraw);free(H);free(cs);free(sn);free(g);free(y);return status;
 }
 static int bicgstab(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
                     PK_Apply M,void*c,PK_Monitor monitor,void*mc,PK_Result*out){
