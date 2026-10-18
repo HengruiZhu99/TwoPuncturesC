@@ -1,0 +1,19 @@
+{
+  "scope": "frozen-field exterior equation identity; no solve or binary acceptance",
+  "library_sha256": "4c073aa0d7140fd22bf3d45e3ca183946c99e1e3a9466f678a168fab5b1d2f61",
+  "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+  "exterior_points": 15408,
+  "changed_interior_points": 2224,
+  "inner_min": [
+    0.0826630035142687,
+    0.0554766275110519
+  ],
+  "inner_max": [
+    0.468423686580856,
+    0.31436755589596077
+  ],
+  "exterior_residual_bitwise_equal": true,
+  "exterior_jvp_bitwise_equal": true,
+  "interior_residual_changes": true,
+  "driver_sha256": "7aee88070db7958b13bad516493a45630576e5d9df4d42219b71d7a664472965"
+}

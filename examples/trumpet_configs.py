@@ -26,6 +26,18 @@ def trumpet_moderate(backend,n=24,nphi=8):
     return regularize_trumpet(moderate(backend,n,nphi),n,nphi)
 
 
+def trumpet_moderate_wide(backend,n=24,nphi=8):
+    """Candidate wider interior transition, with the same exterior CTT equations.
+
+    Keep the flat plateau at 0.15 of the isolated radius and extend the
+    transition to 0.85 (previously 0.5). The support must be certified inside
+    both measured binary horizons; the isolated radius is only a screen.
+    """
+    c=trumpet_moderate(backend,n,nphi)
+    for i in range(2):c.inner_max[i] *= .85/.5
+    return c
+
+
 def trumpet_target(backend,case,n,nphi,separation=None,measured_mirr=None):
     """Separate spin/boost targets; boost separation needs measured calibration.
 

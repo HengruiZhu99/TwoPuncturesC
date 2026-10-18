@@ -1909,3 +1909,53 @@ No additional experiment is launched during this wrap-up. The report is updated
 to APS/PRD REVTeX preprint format and exported as the current PDF.
 The overall physical-validation goal remains incomplete; earlier results and
 the discontinued performance campaign are preserved.
+
+## Moderate convergence repair investigation — 18 October 2026
+
+Resumed at the user's request; the scope is one fixed moderate formulation,
+three resolutions, then the finest accepted solution in AthenaK. No extremal
+parameter study or performance matrix is reopened.
+
+Candidate `moderate-wide` retains the original 0.15 isolated-radius flat plateau
+and widens the transition outer radius from 0.5 to 0.85. This is an explicit
+change to the interior extension, not a claimed preservation of the entire
+previous solution. The exterior vacuum CTT equations and all physical bounds
+are unchanged. Support radii are 0.4684236866 and 0.3143675559; previous moderate
+horizons only screen these as plausible. Fresh measured enclosure is required.
+A two-context frozen-field control finds exterior residual/JVP bitwise identity
+on 15408 collocation points, with changes on 2224 interior points.
+
+The already qualified compensated-projection, exact-polar-tau GPU image
+7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea is
+pinned; the unsuccessful spectral-radial option is not used. A cold160 pilot
+runs in job59952590. Job59952530 stopped before creating the solver because
+the first workflow bundle omitted checkpoints.py; the corrected bundle includes
+all validation Python dependencies and uses a fresh output directory.
+
+The declared candidate sequence is160x320x16,192x384x16,224x448x16 with
+unchanged forcing0.1, restart64, nonlinear1e-12 and physical RMS/max1e-6/1e-4.
+The existing independent observer and strict three-grid assessor are reused.
+Multigrid is deferred: retained stalled residual energy is concentrated at the
+highest meridional frequencies, whereas the existing FD approximate inverse
+already solves its global operator. No evidence yet justifies an additional
+coarse correction. Evidence and gated solve/consumer scripts are in
+validation/trumpet/moderate-wide/. This candidate is not yet accepted.
+
+The160 pilot completed:10Newton/47Krylov,58.7603 solve seconds, maximum
+weighted residual2.73455e-13. The legacy observer's .6m shell lies inside
+the widened modified region; its recorded vacuum values are not an exterior
+test. It is retained unchanged. The declared transition-aware profile moves
+only such fixed shells to max(legacy radius,1.1*inner_max). It keeps48near/18bulk
+points, the original1.5/3 isolated-radius shells and bulk coordinates, all
+physical tolerances and the unmodified-stencil requirement. This profile is
+frozen across the new three-grid sequence; its near norms must not be presented
+as the same spatial norm as the original narrow-transition profile.
+
+A sampling-only reobservation of the identical160 checkpoint took28.75seconds
+and passes all exterior bounds: nearH/M RMS7.64989e-7/3.40705e-7, bulk
+3.01503e-8/1.49311e-7. The checkpoint hash is
+18d79e54c8bc5276006efec25a516ef8c23d3861ec1115433a2f09665ce81630.
+Job59953429 exited before sampling because the reobserver lacked the examples
+import path; fixed and verified locally before relaunch. Job59953525 runs the
+passed reobserver and192/224 sequence on one shared80GiB GPU. The160 solve is
+not repeated; coarse metadata refers directly to the original checkpoint.

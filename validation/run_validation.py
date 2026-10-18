@@ -22,12 +22,12 @@ def free_data(config):
 REPORT=ROOT/'validation/results.json'
 RAW=ROOT/'validation/raw'
 
-def points(config,horizon_scaled=False):
+def points(config,horizon_scaled=False,transition_aware=False):
     # Fixed noncollocation directions/radii, repeated at every resolution.
     directions=np.array([[.73,.31,.61],[-.41,.82,.39],[.22,-.51,.83],[-.69,-.44,.57],[.39,.73,-.56],[.81,-.38,-.45]])
     directions/=np.linalg.norm(directions,axis=1)[:,None]
     near=[];inside=[]
-    for h in config.hole:
+    for hole_index,h in enumerate(config.hole):
         if h.mass<=0:continue
         center=np.array(h.center)
         if horizon_scaled:
@@ -40,7 +40,13 @@ def points(config,horizon_scaled=False):
             for factor in (1.5,3):near.extend(center+factor*ray_horizon[:,None]*directions)
             radii=(.6*h.mass,h.mass)
         else:radii=(.6*h.mass,h.mass,1.6*h.mass)
-        for radius in radii:near.extend(center+radius*directions)
+        for radius in radii:
+            # Wider legitimate interior extensions can cover the legacy .6m
+            # shell. Declare a fixed exterior shell rather than reporting a
+            # modified-equation point as a vacuum-constraint failure.
+            if transition_aware:
+                radius=max(radius,1.1*config.inner_max[hole_index])
+            near.extend(center+radius*directions)
     for h in range(2):
         rmax=config.inner_max[h]
         if rmax>0:

@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'python'),str(ROOT/'examples')]
 from hispid import Backend
 from configs import as_dict
-from trumpet_configs import trumpet_moderate,trumpet_target
+from trumpet_configs import trumpet_moderate,trumpet_moderate_wide,trumpet_target
 from run_validation import points
 from physical import constraints,norms
 import checkpoint_export
@@ -21,9 +21,9 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
     if not np.isfinite(linear_rtol) or not 0<linear_rtol<1:raise ValueError('linear_rtol must lie strictly between zero and one')
     output.mkdir(parents=True,exist_ok=False)
     b=Backend(str(library.resolve()))
-    if case=='moderate':
+    if case in ('moderate','moderate-wide'):
         if separation is not None or measured_mirr is not None:raise ValueError('moderate case has fixed physical inputs')
-        c=trumpet_moderate(b,n,nphi)
+        c=(trumpet_moderate_wide if case=='moderate-wide' else trumpet_moderate)(b,n,nphi)
     else:c=trumpet_target(b,case,n,nphi,separation,measured_mirr)
     c.memory_limit_mib=memory_mib;c.krylov_restart=krylov_restart
     if tolerance is not None:
@@ -66,7 +66,7 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
         values=s.unknowns();np.savez_compressed(output/'solve.npz',unknowns=values)
         result['solve_artifact_sha256']=hashlib.sha256((output/'solve.npz').read_bytes()).hexdigest();save()
         result['checkpoint']=write_checkpoint(output/'diagnostic.checkpoint',c,values,b.library_sha256(),'diagnostic',b.parameterization())
-        x,near,bulk=points(c,True);regions=dict(near=np.arange(len(x))<near,bulk=(np.arange(len(x))>=near)&(np.arange(len(x))<near+bulk),modified=np.arange(len(x))>=near+bulk)
+        x,near,bulk=points(c,True,transition_aware=case=='moderate-wide');regions=dict(near=np.arange(len(x))<near,bulk=(np.arange(len(x))>=near)&(np.arange(len(x))<near+bulk),modified=np.arange(len(x))>=near+bulk)
         distance=np.min([np.linalg.norm(x-np.array(h.center),axis=1) for h in c.hole],axis=0)
         step=np.minimum(.002,.002*distance)
         physical=constraints(s.sample,x,step);sampled=s.sample(x)
@@ -83,6 +83,6 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
     result.update(completed=True,total_seconds=time.monotonic()-start,process_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     save();print(json.dumps({k:result[k] for k in ('diagnostics','physical','minimum_psi','total_seconds')},indent=2))
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);ap.add_argument('--memory-mib',type=int,default=2048);ap.add_argument('--npolar',type=int);ap.add_argument('--initial-source-library',type=Path);ap.add_argument('--case',choices=['moderate','spin99','gamma10'],default='moderate');ap.add_argument('--separation',type=float);ap.add_argument('--measured-mirr',type=float);ap.add_argument('--krylov-restart',type=int,default=80);ap.add_argument('--tolerance',type=float,help='override nonlinear stopping tolerance; physical acceptance bounds remain fixed');ap.add_argument('--linear-rtol',type=float,default=.1,help='inexact Newton linear relative tolerance (default: .1)');ap.add_argument('--axisymmetric',action='store_true',help='opt-in no-swirl sector; full residual acceptance remains unchanged');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);ap.add_argument('--memory-mib',type=int,default=2048);ap.add_argument('--npolar',type=int);ap.add_argument('--initial-source-library',type=Path);ap.add_argument('--case',choices=['moderate','moderate-wide','spin99','gamma10'],default='moderate');ap.add_argument('--separation',type=float);ap.add_argument('--measured-mirr',type=float);ap.add_argument('--krylov-restart',type=int,default=80);ap.add_argument('--tolerance',type=float,help='override nonlinear stopping tolerance; physical acceptance bounds remain fixed');ap.add_argument('--linear-rtol',type=float,default=.1,help='inexact Newton linear relative tolerance (default: .1)');ap.add_argument('--axisymmetric',action='store_true',help='opt-in no-swirl sector; full residual acceptance remains unchanged');a=ap.parse_args()
     if a.initial_source_library and not a.initial:ap.error('--initial-source-library requires --initial')
     run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart,a.tolerance,a.axisymmetric,a.linear_rtol)
