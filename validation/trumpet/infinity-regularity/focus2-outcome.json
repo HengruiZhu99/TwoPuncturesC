@@ -8,5 +8,5 @@
   "finest_c1_fd6_bulk_M": 7.769608129487295e-09,
   "matched_by_fd6_bulk_H": 1.1075426659985569e-10,
   "multigrid_adopted": false,
-  "reason": "Independent physical discretization/regularity trend remains; few-dozen-step Krylov solves do not justify a new multigrid campaign."
+  "reason": "The selected C1 grids take28/27/238 total Krylov steps. All reach collocation tolerance but the independent off-grid physical trend fails; a coarse-error multigrid remedy has not been demonstrated."
 }

@@ -2438,9 +2438,11 @@ Direct current-order-one row evaluation on the saved states remains below
 The shared selectable implementation is therefore compatible with the
 retained boundary states, without claiming a new physical solve.
 
-No further backend sweep or multigrid experiment is justified: current
-linear solves converge in a few dozen total Krylov iterations; the unresolved
-quantity is independent off-grid physical truncation/regularity behavior.
+No further backend sweep or multigrid experiment is adopted in this accuracy
+study. The selected C1 grids take28/27/238 total Krylov steps: finest-grid
+cost growth is real, but a coarse-error multigrid remedy has not been
+demonstrated. All three collocation solves already reach tolerance while
+the independent off-grid physical trend fails.
 The remaining strict bulk convergence objective is explicitly incomplete.
 
 
