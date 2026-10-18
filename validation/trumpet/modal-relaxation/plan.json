@@ -1,0 +1,69 @@
+{
+  "status": "CPU_CUDA_controls_passed_bounded_240_pilot_running",
+  "date": "2026-10-18",
+  "purpose": "Correct grid-scale spectral/FD preconditioner mismatch while preserving the original equations",
+  "discretization": "Original mapped C2+axis-tau collocation, not overintegrated Galerkin",
+  "formulation": "Original trumpet_moderate with inner fractions 0.15/0.5 and original independent observer",
+  "preconditioner": "Two fixed residual corrections with omega=0.4, retaining the same global modal FD inverse",
+  "linear_controls": {
+    "krylov": "gmres",
+    "restart": 64,
+    "max_krylov": 512,
+    "linear_rtol": 0.1
+  },
+  "nonlinear_linf": 1e-12,
+  "pilot": [
+    240,
+    480,
+    16
+  ],
+  "pilot_initial_guess": "Retained failed axis-tau-compensated-v3/moderate240 checkpoint; explicit source migration and fresh solve",
+  "planned_resolutions_if_pilot_useful": [
+    [
+      224,
+      448,
+      16
+    ],
+    [
+      240,
+      480,
+      16
+    ],
+    [
+      256,
+      512,
+      16
+    ]
+  ],
+  "acceptance": {
+    "exterior_rms": 1e-06,
+    "exterior_max": 0.0001,
+    "strict_three_grid_rms_decrease": true,
+    "charge_scaled_change": 0.001,
+    "positive_psi_and_metric": true,
+    "unmodified_exterior_stencils": true,
+    "horizon_expansion_rms": 1e-07,
+    "horizon_mass_spin_relative_change": 0.0001,
+    "orders": [
+      8,
+      12,
+      16
+    ],
+    "independent_quadrature": true,
+    "modified_region_enclosure": true
+  },
+  "concise_validation": "One CPU equation/solution comparison, one CUDA small-field control, one bounded retained-state pilot. Continue only the necessary three-grid and finest-AthenaK checks if useful. No Krylov/backend sweep.",
+  "multigrid": "The retained stalled error is grid-scale. Test polynomial smoothing first; no demonstrated coarse-error bottleneck justifies a hierarchy yet.",
+  "launch_receipts": [
+    {
+      "job": 59955507,
+      "status": "CUDA_compile_failure_before_numerical_work",
+      "reason": "NVCC rejects nested device lambda inside generic host lambda; replaced with existing typed vector scale helper"
+    },
+    {
+      "job": 59955583,
+      "status": "CUDA_controls_passed_bounded_240_pilot_running"
+    }
+  ],
+  "frozen_native_library_sha256": "7abe943bb14d35b49dc79599431abf4cd7666eb072ed317387009e49c3fb9c03"
+}

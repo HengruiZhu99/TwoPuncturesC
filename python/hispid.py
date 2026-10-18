@@ -85,7 +85,8 @@ class Backend:
         for name,(ret,args) in api.items():
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
-        optional={'HiSpID_create_with_seed_family':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int,C.c_int,C.c_int]),
+        optional={'HiSpID_preconditioner_description':(C.c_char_p,[C.c_void_p]),
+                  'HiSpID_create_with_seed_family':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int,C.c_int,C.c_int]),
                   'HiSpID_seed_family':(C.c_int,[C.c_void_p]),
                   'HiSpID_seed_with_family':(C.c_int,[C.POINTER(Hole),C.c_int,C.c_int,PTR,C.POINTER(Point),C.c_int,C.c_int]),
                   'HiSpID_operators_with_seed_family':(C.c_int,[C.POINTER(Config),PTR,PTR,PTR,C.c_int]),
@@ -228,6 +229,8 @@ class Solution:
             if not hasattr(self.backend.lib,'HiSpID_solve_with_forcing'):raise ValueError('library lacks fixed forcing API')
             r=self.backend.lib.HiSpID_solve_with_forcing(self.context,float(linear_rtol))
         self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal',execution=self.execution,geometry=self.geometry,seed_family=self.seed_family)
+        if hasattr(self.backend.lib,'HiSpID_preconditioner_description'):
+            self.resolved_options['preconditioner']=self.backend.lib.HiSpID_preconditioner_description(self.context).decode()
         if axisymmetric:self.resolved_options['axisymmetric']=True
         self.resolved_options['native_verified']=False
         if hasattr(self.backend.lib,'HiSpID_resolved_solve_options'):

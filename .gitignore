@@ -39,3 +39,5 @@ build-barycentric-sampler/
 build-galerkin/
 
 build-galerkin-off/
+
+build-modal-relaxation/

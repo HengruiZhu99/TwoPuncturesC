@@ -56,3 +56,5 @@ also bitwise exact. The CUDA control converges in5Newton/3131Krylov,6.758solve
 seconds; CPU/CUDA sampled-field scaled difference is5.25419e-13 (<1e-10).
 The CUDA image is bff0cb239d8698f1be586c734671c946ec2b5bb088f7ac4d807ce2e9699e8d87.
 These controls establish the implementation comparison, not physical acceptance.
+
+Job59955120 completed14:38 and released its allocation. The192 pilot fails its first linear solve: 2400 iterations, true relative residual 0.5059823. No new accepted Newton update. Setup 211.720s, solve 444.507s, total 768.299s. The raw physical observer and failed status are retained in evidence192/. No224/240 or horizon run follows. This candidate is rejected as a convergence remedy.

@@ -8,13 +8,17 @@ bulk convergence trend. A metric-compatible interior trial and a stable
 sampler trial were rejected and archived. A frozen azimuthal probe localizes
 the remaining error mainly between meridional nodes.
 
-The opt-in overintegrated operator is pushed in407277f, with the frozen
-three-grid plan in6952ec8. Small CPU/CUDA controls pass (field difference
+The opt-in overintegrated operator is pushed in 407277f, with the frozen
+three-grid plan in 6952ec8. Small CPU/CUDA controls pass (field difference
 5.25e-13); default trumpet and QI residual/JVP behavior is bitwise preserved.
-One192×384×16 production pilot is running on one shared80GiB Perlmutter GPU,
-job59955120. The224/240 study and finest-checkpoint AthenaK horizon check remain
-pending its physical outcome. This is active work, not a completed fix.
-Seevalidation/trumpet/galerkin/ and the latest section ofTRUMPET_IMPLEMENTATION.md.
+The 192×384×16 overintegrated pilot 59955120 fails its first linear solve at
+2,400 iterations; it is rejected and no finer Galerkin runs follow. A smaller,
+equation-preserving two-sweep modal preconditioner passes the small CPU
+comparison. Its bounded 240-grid CUDA pilot is next. The three-grid study and
+finest-checkpoint AthenaK check remain incomplete. This is active work, not a
+completed convergence fix.
+See `validation/trumpet/galerkin/`, `validation/trumpet/modal-relaxation/`,
+and the latest section of `TRUMPET_IMPLEMENTATION.md`.
 
 ---
 

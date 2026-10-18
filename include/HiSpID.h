@@ -58,6 +58,7 @@ const char *HiSpID_unknown_parameterization(void);
  * exact basis identifier for nondefault builds. Return0 on success. */
 int HiSpID_collocation_maps(double out[2]);
 /* Names the build's positive residual/JVP/preconditioner row scaling. */
+const char *HiSpID_preconditioner_description(const HiSpID_Data *);
 const char *HiSpID_residual_scaling(void);
 /* No global parameter changes. Contexts own their configuration and caches.
  * Both map centers must be distinct, even when one mass is zero.

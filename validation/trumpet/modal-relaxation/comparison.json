@@ -1,0 +1,10 @@
+{
+  "equations_bitwise_equal": {
+    "residual": true,
+    "jvp": true
+  },
+  "converged": 1,
+  "field_scaled_difference": 1.6828279742617476e-13,
+  "limit": 1e-10,
+  "baseline_library_sha256": "93d6d222aff8923d9de3e18127de78ff7bc759595ffd52318d7458550ac840fa"
+}

@@ -1,5 +1,5 @@
 {
-  "status": "192_physical_pilot_running_not_accepted",
+  "status": "rejected_linear_iteration_cap_192_no_finer_runs",
   "date": "2026-10-18",
   "purpose": "Test a projected overintegrated meridional discretization of the original moderate trumpet formulation",
   "source_commit": "407277f",
@@ -58,7 +58,7 @@
     },
     {
       "job": 59955120,
-      "status": "small_controls_passed_192_physical_pilot_running"
+      "status": "completed_failed_192_first_linear_solve"
     }
   ],
   "multigrid": "Not added without a demonstrated coarse-error bottleneck; the retained baseline plateau is between meridional nodes. First assess this discretization remedy. Existing modal inverse already solves its global approximate FD operator.",

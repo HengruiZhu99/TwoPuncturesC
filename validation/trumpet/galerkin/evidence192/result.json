@@ -1,0 +1,281 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      192,
+      384,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.0826630035142687,
+      0.0554766275110519
+    ],
+    "inner_max": [
+      0.27554334504756234,
+      0.18492209170350635
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 32,
+    "memory_limit_mib": 65536,
+    "seed_family": "trumpet_r0_m"
+  },
+  "library_sha256": "bff0cb239d8698f1be586c734671c946ec2b5bb088f7ac4d807ce2e9699e8d87",
+  "kind": "moderate_trumpet_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": true,
+  "axisymmetric": false,
+  "linear_rtol": 0.1,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-galerkin-20261018/validation/run_trumpet_pilot.py": "2c31ea18cdf2ca8ef10b4c5d95f5b1b5d875e24b5c6fcb2822b0d386288ecc03",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-galerkin-20261018/examples/trumpet_configs.py": "ce19669718dc4edb0c5a645dc4c4a8780d0a454567f03b12a003a478ce25ab6c",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-galerkin-20261018/validation/run_validation.py": "ed04b5aca5f46e0d9a158a4446dfc86c0a9dbd12fb189e3e9265cc2cbb41eca7",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-galerkin-20261018/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-galerkin-20261018/validation/remapped_guess.py": "53430354e6104612ea1246494b48458a1c64a4a62324a18ba44cffd17d622c99",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-galerkin-20261018/validation/prolong.py": "44ccf8c9c76c44ca52083505513c9167aaea86b5b518ff3137a624916cf78e9d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-galerkin-20261018/python/checkpoint_export.py": "6b848283081399c4104f30de12532c33a3016f505be898858ae807fdb99bf6ed"
+  },
+  "setup_seconds": 211.71981699601747,
+  "remapped_initial_guess": {
+    "source_maps": {
+      "radial_stretch": 0.2,
+      "angular_stretch": 2.0
+    },
+    "target_maps": {
+      "radial_stretch": 0.2,
+      "angular_stretch": 2.0
+    },
+    "source_library": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-axis-tau-polar/libHiSpID.so",
+    "source_checkpoint": {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-polar-full-v1/moderate192/diagnostic.checkpoint",
+      "file_sha256": "61b7eb4d2fe0aed07c97957193aa7fca25722a9b82fce3c4e374be2d7c55c98f",
+      "source_library_sha256": "9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6",
+      "acceptance": "diagnostic",
+      "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+      "seed_family": "trumpet_r0_m",
+      "format_version": 2
+    },
+    "target_library_sha256": "bff0cb239d8698f1be586c734671c946ec2b5bb088f7ac4d807ce2e9699e8d87",
+    "acceptance_inherited": false,
+    "fresh_solve_required": true
+  },
+  "initial_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/axis-tau-polar-full-v1/moderate192/diagnostic.checkpoint",
+    "file_sha256": "61b7eb4d2fe0aed07c97957193aa7fca25722a9b82fce3c4e374be2d7c55c98f",
+    "source_library_sha256": "9489bca44c0bbd6ea20ae4996b4e2cdf225e84e3436ec80b253c4ffaf2b0c3e6",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2,
+    "acceptance_inherited": false
+  },
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 2400,
+    "npoints": 1179648,
+    "scaled_linf": [
+      7.778110897752551e-07,
+      5.368124459007211e-06,
+      5.8318473210053615e-06,
+      8.009555256408315e-06
+    ],
+    "unscaled_linf": [
+      0.06267400090427588,
+      0.8115820576019148,
+      0.22745724509625703,
+      0.19049104967814323
+    ],
+    "seconds": 444.507198077,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.5059822953014096,
+      2400.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 2476,
+    "preconditioner_applications": 2400
+  },
+  "resolved_options": {
+    "system": "hispid",
+    "krylov": "gmres",
+    "linear_rtol": 0.1,
+    "preconditioner": "modal",
+    "execution": "kokkos",
+    "geometry": "host",
+    "seed_family": "trumpet_r0_m",
+    "native_verified": true
+  },
+  "solve_artifact_sha256": "4782ee9416feb92777d05e2175ad5c5dcad40a7d0d315ecdd3a76b2fb38b4593",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/galerkin-pilot-v2/moderate192/diagnostic.checkpoint",
+    "file_sha256": "48fae99d5906d75593263f4ca7fd36aa6cfb0fcde4e92f6d30ef74b2ac44cb94",
+    "source_library_sha256": "bff0cb239d8698f1be586c734671c946ec2b5bb088f7ac4d807ce2e9699e8d87",
+    "acceptance": "diagnostic",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 1.1280662822982146e-06,
+      "H_max": 7.4011237440885225e-06,
+      "M_rms": 3.7894001316780355e-07,
+      "M_max": 1.4685739486854847e-06,
+      "M_components_rms": [
+        1.032879279814702e-07,
+        1.2267602087723234e-07,
+        1.0030535756712761e-07
+      ],
+      "M_components_max": [
+        3.232168785602407e-07,
+        5.609085571110968e-07,
+        4.850507190436113e-07
+      ],
+      "normalized_H_max": 1.5225750275367495e-06,
+      "normalized_M_max": 3.1886009684142423e-06
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 5.7371904757172865e-08,
+      "H_max": 1.9562845586778427e-07,
+      "M_rms": 4.5476399363843225e-07,
+      "M_max": 1.1037683603702046e-06,
+      "M_components_rms": [
+        8.774705501261955e-08,
+        2.3321962981945445e-07,
+        2.9739068777424237e-07
+      ],
+      "M_components_max": [
+        2.678579626645158e-07,
+        5.754751531903408e-07,
+        8.48964910783626e-07
+      ],
+      "normalized_H_max": 0.0005126881172607094,
+      "normalized_M_max": 0.0005387554387240661
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.16808159414655546,
+      "H_max": 0.4395695790872054,
+      "M_rms": 0.010327106320389516,
+      "M_max": 0.022257540035607155,
+      "M_components_rms": [
+        0.0009894087556625438,
+        0.0010396296049662828,
+        0.0010231410298946963
+      ],
+      "M_components_max": [
+        0.002853241894733016,
+        0.002700518919892781,
+        0.002680009114314158
+      ],
+      "normalized_H_max": 0.021015322164743337,
+      "normalized_M_max": 0.011298880356900411
+    }
+  },
+  "exterior_stencil_unmodified": true,
+  "minimum_psi": 1.0289968595899275,
+  "minimum_metric_eigenvalue": 1.119770298829594,
+  "charge_radii": [
+    256.0,
+    512.0,
+    1024.0
+  ],
+  "charges": [
+    [
+      0.9725498107930363,
+      0.0045063294747058865,
+      0.007347782283516167,
+      0.016816760871333644,
+      0.03988961206721281,
+      0.11213369916213513,
+      0.30948754469833445
+    ],
+    [
+      0.9706728306218839,
+      0.004509785088249149,
+      0.007358009535619133,
+      0.01684078835793761,
+      0.039973160963097124,
+      0.11227839675504646,
+      0.31010373510057404
+    ],
+    [
+      0.969727191232949,
+      0.004511600821599438,
+      0.007363139126934861,
+      0.016852859636919303,
+      0.0400189868530255,
+      0.11232045422031194,
+      0.3104242671279402
+    ]
+  ],
+  "charges_extrapolated": [
+    0.9687767856417754,
+    0.004513475172668832,
+    0.007368279361760088,
+    0.016864969273020804,
+    0.04006751370427803,
+    0.11234231746478397,
+    0.3107530903728039
+  ],
+  "total_seconds": 768.2992690270185,
+  "process_peak_rss_kib": 6468160
+}

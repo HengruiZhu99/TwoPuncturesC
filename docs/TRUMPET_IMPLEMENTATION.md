@@ -2102,3 +2102,36 @@ CPU/CUDA field scaled difference5.25419e-13 (<1e-10). The default/OFF trumpet
 residual/JVP witness is bitwise identical to the prior compensated image.
 Native producerbff0cb239d8698f1be586c734671c946ec2b5bb088f7ac4d807ce2e9699e8d87.
 The192 physical pilot is pending; no improvement claim follows from these controls.
+
+The overintegrated192 pilot fails its first linear solve after2400 iterations
+(444.507solve seconds); no Newton update is accepted. Setup211.720s,
+total768.299s; job59955120 completes14:38 and releases. The original warm-start
+field's physical errors remain unchanged; this is not a physical improvement.
+The candidate is rejected and no224/240 or horizon run follows. Exact failed
+result and raw observer are retained in galerkin/evidence192. Its option stays
+OFF; the default/OFF exact equation witness remains valid.
+
+A smaller preconditioner candidate addresses the retained grid-scale stalled
+error without changing equations: two stationary residual corrections with
+omega0.4 using the existing global modal FD inverse. The same generic helper
+instantiates CPU and GPU operations, with three preallocated scratch vectors.
+Default/OFF and QI retain the original undamped single inverse. Work counters
+include both inverse calls and the extra Jacobian application. Native metadata
+identifies the resolved preconditioner; trace mode prints recurrence progress
+every100 iterations while true-residual confirmation remains mandatory.
+
+The small CPU control converges5Newton/33outer Krylov (0.454s), with equations
+and JVP bitwise identical to the old operator; converged fields differ1.68e-13
+against1e-10. QI compatibility is bitwise exact and centered JVP errors are
+1.34e-11/8.12e-12. Counts alone do not show a speedup: each preconditioner call
+now costs two inverses and one extra JVP. No coarse-error bottleneck has been
+demonstrated for multigrid. Job59955507 builds and checks one CUDA small control,
+then runs one original-formulation240-grid pilot from the actual retained
+failed state, capped at512Krylov per Newton. If useful, one frozen image will
+be assessed at224/240/256, then its finest solution checked in AthenaK. The
+corrected Kokkos memory accounting permits the planned256/restart64 level
+within the same64GiB budget. No new performance/backend matrix is launched.
+The attempted CPU-only overlapping build step on59955120 could not launch
+(required ports in use); no compiler or numerical work ran there. The fresh
+allocation supplies the first CUDA build for this candidate. Files and plan
+are in validation/trumpet/modal-relaxation/.
