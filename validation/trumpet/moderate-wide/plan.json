@@ -11,11 +11,6 @@
   "frozen_native_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
   "resolutions": [
     [
-      160,
-      320,
-      16
-    ],
-    [
       192,
       384,
       16
@@ -23,6 +18,11 @@
     [
       224,
       448,
+      16
+    ],
+    [
+      240,
+      480,
       16
     ]
   ],
@@ -142,5 +142,11 @@
   },
   "frozen_native_dependency_sha256": "40d6a2165f07298427aa8acbca4d808748888eb8a579febe15815d02622f574c",
   "observer_profile": "Transition-aware: legacy fixed near shells replaced by max(radius,1.1 inner_max), unchanged 1.5/3 isolated-horizon shells and bulk points; same profile at all three grids",
-  "legacy_observer_retained": "moderate-wide-pilot-v2/moderate160: 12 legacy near points overlap widened transition; not an exterior acceptance test"
+  "legacy_observer_retained": "moderate-wide-pilot-v2/moderate160: 12 legacy near points overlap widened transition; not an exterior acceptance test",
+  "pilot_resolution": [
+    160,
+    320,
+    16
+  ],
+  "refinement_scope_note": "Added the previously stalled 240 level before receiving the 224 physical result, to test the original fine-grid failure directly. The 160 result remains pilot evidence; same fixed image, equations, observer and solver settings at all four levels."
 }

@@ -3,10 +3,10 @@ set -euo pipefail
 module load cray-python/3.12.12
 : "${SLURM_JOB_ID:?compute allocation required}"
 PUNCTURE_ROOT=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005
-PUNCTURE_DATA="$PUNCTURE_ROOT/moderate-wide-sequence-v1/moderate224"
+PUNCTURE_DATA="$PUNCTURE_ROOT/moderate-wide-fine-v1/moderate240"
 PUNCTURE_RUN="$PUNCTURE_ROOT/moderate-wide-horizon-v1"
 # Both the independent three-grid assessment and finest-grid bounds gate this run.
-python3 - "$PUNCTURE_ROOT/moderate-wide-sequence-v1/assessment.json" <<'CHECK'
+python3 - "$PUNCTURE_ROOT/moderate-wide-fine-v1/assessment.json" <<'CHECK'
 import json,sys
 assert json.load(open(sys.argv[1]))["passed"],"three-grid acceptance failed"
 CHECK
@@ -36,5 +36,5 @@ python3 "$PUNCTURE_ROOT/athenak-affine/tst/test_suite/z4c/check_hispid_binary.py
  --executable "$PUNCTURE_ROOT/build-athenak-axis-tau-polar/src/athena" \
  --checkpoint "$PUNCTURE_DATA/diagnostic.checkpoint" --allow-diagnostic \
  --migration-proof "$PUNCTURE_RUN/migration.json" --harmonic-storage factorized \
- --geometry-threads 16 --strict-expansion --levels 8,12,16 --timeout 1500 \
+ --geometry-threads 16 --strict-expansion --reuse-shapes --levels 8,12,16 --timeout 1500 \
  --output "$PUNCTURE_RUN/surfaces" > "$PUNCTURE_RUN/horizons.log" 2>&1

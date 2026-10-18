@@ -1959,3 +1959,16 @@ Job59953429 exited before sampling because the reobserver lacked the examples
 import path; fixed and verified locally before relaunch. Job59953525 runs the
 passed reobserver and192/224 sequence on one shared80GiB GPU. The160 solve is
 not repeated; coarse metadata refers directly to the original checkpoint.
+
+The192 continuation passes all per-grid bounds:5Newton/34Krylov,64.9588solve
+seconds,253.594total,6.11GiB peak host RSS. NearH/M RMS are
+1.76064e-7/1.65403e-7 and bulk2.36529e-8/5.28148e-8; all four decrease
+from160. The224 solve converged in6Newton/253Krylov (156.094solve seconds,
+maximum weighted residual4.49985e-13); its physical observer is pending.
+Before receiving that observer, the final declared study was extended to
+192/224/240 so it tests the original stalled240 resolution directly. The160
+level remains a pilot. All four use identical free data, native images, forcing,
+restart, nonlinear tolerance and transition-aware observer rule. The new240
+script and final consumer target are recorded; no new allocation for240 has
+yet been launched. The consumer uses the previously qualified shape-reuse
+option only as an initial guess; every surface/quad/enclosure check is fresh.
