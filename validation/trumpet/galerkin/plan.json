@@ -1,0 +1,66 @@
+{
+  "status": "192_physical_pilot_running_not_accepted",
+  "date": "2026-10-18",
+  "purpose": "Test a projected overintegrated meridional discretization of the original moderate trumpet formulation",
+  "source_commit": "407277f",
+  "frozen_native_library_sha256": "bff0cb239d8698f1be586c734671c946ec2b5bb088f7ac4d807ce2e9699e8d87",
+  "quadrature_rule": "ceil(3N/2) in radial and polar; nphi unchanged; project raw residual then row equilibration and N-grid tau",
+  "physical_configuration": "examples.trumpet_configs.trumpet_moderate: original 0.15/0.5 interior; original points(config,True) observer",
+  "resolutions": [
+    [
+      192,
+      384,
+      16
+    ],
+    [
+      224,
+      448,
+      16
+    ],
+    [
+      240,
+      480,
+      16
+    ]
+  ],
+  "controls": {
+    "krylov": "gmres",
+    "restart": 32,
+    "linear_rtol": 0.1,
+    "nonlinear_linf": 1e-12,
+    "max_krylov": 2400,
+    "geometry": "host_extended_precision",
+    "execution": "kokkos_cuda"
+  },
+  "acceptance": {
+    "exterior_rms": 1e-06,
+    "exterior_max": 0.0001,
+    "strict_three_grid_rms_decrease": true,
+    "charge_scaled_change": 0.001,
+    "positive_psi_and_metric": true,
+    "unmodified_exterior_stencils": true,
+    "horizon_expansion_rms": 1e-07,
+    "horizon_mass_spin_relative_change": 0.0001,
+    "orders": [
+      8,
+      12,
+      16
+    ],
+    "independent_quadrature": true,
+    "modified_region_enclosure": true
+  },
+  "small_control": "CPU/CUDA field scaled difference 5.25419e-13 against 1e-10; analytic JVP centered error below 8e-12; default trumpet and QI residual/JVP bitwise preserved",
+  "launch_receipts": [
+    {
+      "job": 59955085,
+      "status": "configuration_failure_before_numerical_work",
+      "reason": "source bundle omitted test files"
+    },
+    {
+      "job": 59955120,
+      "status": "small_controls_passed_192_physical_pilot_running"
+    }
+  ],
+  "multigrid": "Not added without a demonstrated coarse-error bottleneck; the retained baseline plateau is between meridional nodes. First assess this discretization remedy. Existing modal inverse already solves its global approximate FD operator.",
+  "consumer": "Finest checkpoint only after unchanged three-grid physical/charge assessment, separate-process CPU sampler migration, and direct-native AthenaK horizon checks at orders 8/12/16 plus quadrature and enclosure"
+}
