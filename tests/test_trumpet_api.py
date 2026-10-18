@@ -48,7 +48,7 @@ def run(path):
         assert max(jvp)<1e-7
     with tempfile.TemporaryDirectory() as tmp:
         p=Path(tmp)/'trumpet.checkpoint';unknowns=np.zeros(4*np.prod(c.n))
-        write_checkpoint(p,c,unknowns,b.loaded_sha256,'analytic_seed')
+        write_checkpoint(p,c,unknowns,b.loaded_sha256,'analytic_seed',b.parameterization())
         decoded,values,meta=read_checkpoint(p)
         assert meta['format_version']==2 and decoded.seed_family==c.seed_family
         with b.create_sampler(decoded) as s:assert b.lib.HiSpID_seed_family(s.context)==1
@@ -59,7 +59,7 @@ def run(path):
             except ValueError:rejected+=1
         assert rejected==3
         qi=Config.from_buffer_copy(c)
-        write_checkpoint(p,qi,unknowns,b.loaded_sha256,'analytic_seed')
+        write_checkpoint(p,qi,unknowns,b.loaded_sha256,'analytic_seed',b.parameterization())
         qc,qv,qm=read_checkpoint(p)
         assert qm['format_version']==1 and qc.seed_family=='qi'
         with b.create_sampler(qc) as s:assert b.lib.HiSpID_seed_family(s.context)==0

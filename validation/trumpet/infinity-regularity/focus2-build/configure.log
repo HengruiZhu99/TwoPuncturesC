@@ -1,0 +1,5 @@
+-- Cray Programming Environment 2.7.36 C
+-- Enabled Kokkos devices: OPENMP;SERIAL;CUDA
+-- Configuring done (2.5s)
+-- Generating done (0.3s)
+-- Build files have been written to: /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focus2-cuda

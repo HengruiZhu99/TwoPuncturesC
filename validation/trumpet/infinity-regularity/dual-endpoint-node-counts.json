@@ -1,0 +1,62 @@
+[
+  {
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 5357,
+        "central_transition": 1016,
+        "plateau": 2237
+      },
+      {
+        "transition": 4512,
+        "central_transition": 887,
+        "plateau": 1590
+      }
+    ],
+    "outermost_prolate_radius": 124507.30683691865
+  },
+  {
+    "n": [
+      192,
+      384,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 7720,
+        "central_transition": 1454,
+        "plateau": 3218
+      },
+      {
+        "transition": 6481,
+        "central_transition": 1279,
+        "plateau": 2297
+      }
+    ],
+    "outermost_prolate_radius": 179288.83800090983
+  },
+  {
+    "n": [
+      224,
+      448,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 10498,
+        "central_transition": 1988,
+        "plateau": 4383
+      },
+      {
+        "transition": 8833,
+        "central_transition": 1752,
+        "plateau": 3129
+      }
+    ],
+    "outermost_prolate_radius": 244030.64514977264
+  }
+]

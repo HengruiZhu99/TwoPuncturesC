@@ -1,0 +1,466 @@
+{
+  "executable_sha256": "99bd1fd2e29788dccdbb8f6cd5db0cac31314d0f801ba6381592694ea1963f66",
+  "manifest_sha256": "5b803bb7f22256ccadc278b942bdb6536722038b5e626451e952984f37cac6e3",
+  "input_template_sha256": "db5dee1be199d276c4f6808f91d7f3fedacfd4627c00e191077149ebe80bd222",
+  "initial_time": 0,
+  "evolution_steps": 0,
+  "records": [
+    {
+      "case": "kerr99",
+      "lmax": 8,
+      "ntheta": 16,
+      "initial_scale": 0.8,
+      "returncode": 0,
+      "seconds": 82.01706147100776,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-infinity2/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/surfaces/kerr99_l8_n16_s0.8/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+        "problem/hispid_source_sha256=003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=8",
+        "fastflow/ntheta=16",
+        "problem/hispid_horizon_guess_scale=0.8",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+        "file_sha256": "481d7329a6c6246c09169d6625d18a952693f8723a04b4be745cf8b7cdd3e964",
+        "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2tauC4_inf2_map_v6_r0.20000000000000001_k2",
+        "seed_family": "liu"
+      },
+      "passed": true,
+      "input_sha256": "db5dee1be199d276c4f6808f91d7f3fedacfd4627c00e191077149ebe80bd222",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/migration.json",
+        "file_sha256": "557ce173e00d097acdecae8a86249c1f9b2a93dffd1bd65c3af71c9b817830f8",
+        "consumer_library_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.2,
+          "angular_stretch": 2.0
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so": "eb58117a23bb5d2bd1a1d7acd83fb9d14e691f1efd88122660edbded5410356a"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 35832,
+        "records": [
+          {
+            "horizon": 0,
+            "mode": "factorized",
+            "lmax": 8,
+            "ntheta": 16,
+            "host_bytes": 35832,
+            "device_bytes": 35832,
+            "unique_bytes": 35832
+          }
+        ],
+        "serial_allocation_verified": true,
+        "passed": true,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 1.0,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "acceptance": "analytic_seed",
+        "consumer_library_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "adm_z4c_relative_error": 4.946804011324339e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "liu",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so": "eb58117a23bb5d2bd1a1d7acd83fb9d14e691f1efd88122660edbded5410356a"
+        }
+      },
+      "zero_evolution_verified": true,
+      "attempt_area": 28.678150678308025,
+      "attempt_expansion_rms": 9.83153204517884e-08,
+      "summary": [
+        0.0,
+        0.0,
+        0.9999999999994132,
+        -5.961814466393474e-18,
+        2.479415965672684e-18,
+        0.9899999999986375,
+        0.9899999999986375,
+        28.67815067830803,
+        9.66590223553784e-15,
+        -2.80376720714305e-06,
+        0.285266711534476,
+        0.2852667103359008
+      ],
+      "area": 28.67815067830803,
+      "expansion_rms": 9.83153204517884e-08,
+      "min_radius": 0.2852667103359008,
+      "expected_area": 28.67815067830628,
+      "relative_area_error": 6.084022174945858e-14,
+      "spin_error": 1.3624656958199921e-12,
+      "expected_irreducible_mass": 0.7553367989832943,
+      "expected_horizon_mass": 1.0,
+      "horizon_mass_error": 5.867528685143952e-13,
+      "expected_seed_lorentz_factor": 1.0,
+      "affine_chart_verified": true
+    },
+    {
+      "case": "kerr99",
+      "lmax": 12,
+      "ntheta": 24,
+      "initial_scale": 1.2,
+      "returncode": 0,
+      "seconds": 178.1941584799788,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-infinity2/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/surfaces/kerr99_l12_n24_s1.2/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+        "problem/hispid_source_sha256=003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=12",
+        "fastflow/ntheta=24",
+        "problem/hispid_horizon_guess_scale=1.2",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+        "file_sha256": "481d7329a6c6246c09169d6625d18a952693f8723a04b4be745cf8b7cdd3e964",
+        "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2tauC4_inf2_map_v6_r0.20000000000000001_k2",
+        "seed_family": "liu"
+      },
+      "passed": true,
+      "input_sha256": "db5dee1be199d276c4f6808f91d7f3fedacfd4627c00e191077149ebe80bd222",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/migration.json",
+        "file_sha256": "557ce173e00d097acdecae8a86249c1f9b2a93dffd1bd65c3af71c9b817830f8",
+        "consumer_library_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.2,
+          "angular_stretch": 2.0
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so": "eb58117a23bb5d2bd1a1d7acd83fb9d14e691f1efd88122660edbded5410356a"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 107448,
+        "records": [
+          {
+            "horizon": 0,
+            "mode": "factorized",
+            "lmax": 12,
+            "ntheta": 24,
+            "host_bytes": 107448,
+            "device_bytes": 107448,
+            "unique_bytes": 107448
+          }
+        ],
+        "serial_allocation_verified": true,
+        "passed": true,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 1.0,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "acceptance": "analytic_seed",
+        "consumer_library_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "adm_z4c_relative_error": 4.946804011324339e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "liu",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so": "eb58117a23bb5d2bd1a1d7acd83fb9d14e691f1efd88122660edbded5410356a"
+        }
+      },
+      "zero_evolution_verified": true,
+      "attempt_area": 28.678150678307606,
+      "attempt_expansion_rms": 9.72054218905949e-08,
+      "summary": [
+        0.0,
+        0.0,
+        1.000000000000007,
+        1.527121795299052e-18,
+        2.079166618017062e-18,
+        0.9900000000000085,
+        0.9900000000000085,
+        28.67815067830761,
+        9.448894044928546e-15,
+        2.772114992807324e-06,
+        0.2852669669142148,
+        0.2852669663159482
+      ],
+      "area": 28.67815067830761,
+      "expansion_rms": 9.72054218905949e-08,
+      "min_radius": 0.2852669663159482,
+      "expected_area": 28.67815067830628,
+      "relative_area_error": 4.6407322429331543e-14,
+      "spin_error": 8.548717289613705e-15,
+      "expected_irreducible_mass": 0.7553367989832943,
+      "expected_horizon_mass": 1.0,
+      "horizon_mass_error": 7.105427357601002e-15,
+      "expected_seed_lorentz_factor": 1.0,
+      "affine_chart_verified": true
+    },
+    {
+      "case": "kerr99",
+      "lmax": 16,
+      "ntheta": 32,
+      "initial_scale": 1.05,
+      "returncode": 0,
+      "seconds": 285.6416726669995,
+      "command": [
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-infinity2/src/athena",
+        "-i",
+        "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/surfaces/kerr99_l16_n32_s1.05/control.athinput",
+        "problem/hispid_filename=/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+        "problem/hispid_source_sha256=003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "fastflow/factorized_harmonics=true",
+        "fastflow/lmax=16",
+        "fastflow/ntheta=32",
+        "problem/hispid_horizon_guess_scale=1.05",
+        "problem/hispid_allow_library_migration=true"
+      ],
+      "source": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+        "file_sha256": "481d7329a6c6246c09169d6625d18a952693f8723a04b4be745cf8b7cdd3e964",
+        "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "acceptance": "analytic_seed",
+        "holes": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.99,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "inner_max": [
+          0.0,
+          0.0
+        ],
+        "inner_flatten": 0,
+        "parameterization": "modal_P_C2tauC4_inf2_map_v6_r0.20000000000000001_k2",
+        "seed_family": "liu"
+      },
+      "passed": true,
+      "input_sha256": "db5dee1be199d276c4f6808f91d7f3fedacfd4627c00e191077149ebe80bd222",
+      "sampler_migration": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/migration.json",
+        "file_sha256": "557ce173e00d097acdecae8a86249c1f9b2a93dffd1bd65c3af71c9b817830f8",
+        "consumer_library_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "consumer_library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so",
+        "maps": {
+          "radial_stretch": 0.2,
+          "angular_stretch": 2.0
+        },
+        "passed": true,
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so": "eb58117a23bb5d2bd1a1d7acd83fb9d14e691f1efd88122660edbded5410356a"
+        },
+        "purpose": "sampling_only_no_acceptance_transfer"
+      },
+      "harmonic_storage": "factorized",
+      "harmonic_allocation": {
+        "requested_mode": "factorized",
+        "expected_bytes_per_horizon": 239480,
+        "records": [
+          {
+            "horizon": 0,
+            "mode": "factorized",
+            "lmax": 16,
+            "ntheta": 32,
+            "host_bytes": 239480,
+            "device_bytes": 239480,
+            "unique_bytes": 239480
+          }
+        ],
+        "serial_allocation_verified": true,
+        "passed": true,
+        "measured_process_peak": false
+      },
+      "flow_alpha": 1.0,
+      "bound_inputs_unchanged": true,
+      "import": {
+        "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+        "acceptance": "analytic_seed",
+        "consumer_library_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "adm_z4c_relative_error": 4.946804011324339e-16,
+        "explicit_migration": true,
+        "passed": true,
+        "seed_family": "liu",
+        "loaded_consumer_image": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so",
+        "loaded_consumer_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+        "consumer_dependency_images": {
+          "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so": "eb58117a23bb5d2bd1a1d7acd83fb9d14e691f1efd88122660edbded5410356a"
+        }
+      },
+      "zero_evolution_verified": true,
+      "attempt_area": 28.678150678307794,
+      "attempt_expansion_rms": 9.583613478386627e-08,
+      "summary": [
+        0.0,
+        0.0,
+        1.000000000000007,
+        -3.482937738642859e-18,
+        4.539035209014749e-19,
+        0.9900000000000077,
+        0.9900000000000077,
+        28.67815067830779,
+        9.184564730311381e-15,
+        2.733065511431851e-06,
+        0.2852669651257175,
+        0.2852669645327415
+      ],
+      "area": 28.67815067830779,
+      "expansion_rms": 9.583613478386627e-08,
+      "min_radius": 0.2852669645327415,
+      "expected_area": 28.67815067830628,
+      "relative_area_error": 5.262457136723242e-14,
+      "spin_error": 7.66053886991358e-15,
+      "expected_irreducible_mass": 0.7553367989832943,
+      "expected_horizon_mass": 1.0,
+      "horizon_mass_error": 7.105427357601002e-15,
+      "expected_seed_lorentz_factor": 1.0,
+      "affine_chart_verified": true
+    }
+  ],
+  "passed": true,
+  "harmonic_storage": "factorized",
+  "diagnostic_single_boost_level": false,
+  "worker_timeout_seconds": 900.0,
+  "horizon_chart": "laboratory",
+  "full_precision_trace": false,
+  "workflow_source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/tst/test_suite/z4c/check_hispid_controls.py": "a909b5b3674ef48809fc5b637aa7631df87bee8110c5ec7be36cc940fdf7ea49",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/tst/test_suite/z4c/check_hispid_binary.py": "7f7d74ad31a8e00052287e071f62318426328ebbb86549b5f90ee57a17707d7b",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/tst/test_suite/z4c/hispid_sampler_proof.py": "098b9c954c6ea0af68923462684efea4a4b3c93ba458998c50df590eebbbacf1",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/tst/test_suite/z4c/fastflow_storage.py": "6c3a6f30967d638f233b34a7e3c88dc9f3cf2bcf90d54fdb98970d5c3f53110c"
+  },
+  "consumer_memory_screen": {
+    "budget_mib": 32768,
+    "other_allowance_bytes": 1073741824,
+    "estimates": [
+      {
+        "case": "kerr99",
+        "lmax": 8,
+        "ntheta": 16,
+        "harmonic_table_bytes": 35832
+      },
+      {
+        "case": "kerr99",
+        "lmax": 12,
+        "ntheta": 24,
+        "harmonic_table_bytes": 107448
+      },
+      {
+        "case": "kerr99",
+        "lmax": 16,
+        "ntheta": 32,
+        "harmonic_table_bytes": 239480
+      }
+    ],
+    "note": "Single-copy Serial harmonic data only, plus an explicit allowance; not a measured peak or a complete allocation guarantee."
+  },
+  "case_qualification": {
+    "kerr99": true
+  }
+}

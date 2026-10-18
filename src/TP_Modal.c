@@ -25,7 +25,7 @@ static size_t block_offset(const TP_Modal*m,int mode,int j){return ((size_t)mode
 static int product(size_t a,size_t b,size_t*out){
   if(b&&a>SIZE_MAX/b)return -1;*out=a*b;return 0;
 }
-static TP_Modal *allocate_modal(int na,int nb,int np){
+static TP_Modal *allocate_modal(int na,int nb,int np,size_t maximum_bytes){
   if(na<2||nb<2||np<4||np%2)return NULL;
   size_t meridian,total,rows,blocks,fourier,bytes;
   if(product(na,nb,&meridian)||product(meridian,np,&total)||total>INT_MAX||
@@ -39,7 +39,7 @@ static TP_Modal *allocate_modal(int na,int nb,int np){
     if(product(extra[i],i==1?sizeof(size_t):sizeof(double),&part)||bytes>SIZE_MAX-part)return NULL;
     bytes+=part;
   }
-  if(bytes>((size_t)4<<30))return NULL;
+  if(bytes>maximum_bytes)return NULL;
   TP_Modal*m=calloc(1,sizeof(*m));if(!m)return NULL;
   m->na=na;m->nb=nb;m->np=np;m->groups=np/2+1;
   m->lu=calloc(blocks,sizeof(double));m->transfer=calloc(blocks,sizeof(double));m->lower=calloc(blocks,sizeof(double));
@@ -99,7 +99,7 @@ static TP_Modal *factor_modal(TP_Modal*m){
 TP_Modal *TP_modal_create(int nv,int na,int nb,int np,
                           const int *ncols,int *const *cols,double *const *J){
   if(nv!=1||!ncols||!cols||!J)return NULL;
-  TP_Modal*m=allocate_modal(na,nb,np);if(!m)return NULL;
+  TP_Modal*m=allocate_modal(na,nb,np,(size_t)4<<30);if(!m)return NULL;
   size_t total=(size_t)na*nb*np;
   for(size_t row=0;row<total;row++)if(ncols[row]<0||ncols[row]>StencilSize||!cols[row]||!J[row]){TP_modal_destroy(m);return NULL;}
   for(int mode=0;mode<m->groups;mode++)for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
@@ -128,8 +128,15 @@ TP_Modal *TP_modal_create(int nv,int na,int nb,int np,
  * analytically. Boundary folding follows TP Index (no Fourier parity).
  * The full spectral residual/JVP still uses the original implementation. */
 TP_Modal *TP_modal_create_analytic(int na,int nb,int np,const double*U){
-  if(!U)return NULL;
-  TP_Modal*m=allocate_modal(na,nb,np);if(!m)return NULL;
+  return TP_modal_create_analytic_with_budget(na,nb,np,U,8192);
+}
+TP_Modal *TP_modal_create_analytic_with_budget(int na,int nb,int np,const double*U,int budget_mib){
+  // Reserve at most half of the caller's aggregate budget for this host bank.
+  // The execution adapter separately checks host+device+Krylov peak and free
+  // device memory. The legacy entry point retains its exact4GiB ceiling.
+  size_t ceiling;
+  if(!U||budget_mib<16||budget_mib>65536||product((size_t)budget_mib,(size_t)1<<19,&ceiling))return NULL;
+  TP_Modal*m=allocate_modal(na,nb,np,ceiling);if(!m)return NULL;
   double b=params_get_real("par_b"),mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
   if(!isfinite(b)||b<=0||!isfinite(mp)||!isfinite(mm)){TP_modal_destroy(m);return NULL;}
   double ha=Pi/na,hb=Pi/nb,hp=2*Pi/np;

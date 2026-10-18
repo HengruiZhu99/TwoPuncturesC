@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "bitwise_equal": true,
+  "fields": [
+    "H",
+    "M",
+    "Mnorm",
+    "R",
+    "trace",
+    "K2",
+    "normalized_H",
+    "normalized_M",
+    "attenuation",
+    "stencil_attenuation_min",
+    "stencil_attenuation_all_one",
+    "min_metric_eigenvalue"
+  ],
+  "baseline_source_sha256": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d"
+}

@@ -21,20 +21,24 @@ def file_sha(path):
 
 
 def map_pair(maps):
-    if not isinstance(maps,dict) or set(maps)!={'radial_stretch','angular_stretch'}:
+    if not isinstance(maps,dict) or set(maps) not in ({'radial_stretch','angular_stretch'},{'radial_stretch','angular_stretch','radial_kind'}):
         raise ValueError('explicit radial_stretch and angular_stretch required')
     radial,angular=maps['radial_stretch'],maps['angular_stretch']
     if not np.isfinite([radial,angular]).all() or not .001<=radial<=1 or not .1<=angular<=6:
         raise ValueError('unsupported collocation maps')
+    if 'radial_kind' in maps:
+        if maps['radial_kind'] not in ('mobius','quadratic','endpoint_beta14'):raise ValueError('unsupported radial map kind')
+        if maps['radial_kind']=='endpoint_beta14' and radial>.5:raise ValueError('dual endpoint slope must be<=.5')
+        return radial,angular,maps['radial_kind']
     return radial,angular
 
 
 def modal_family(token):
-    return token=='modal_P_C2prolate_mapped_v2' or token.startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_','modal_P_C2tauC4_map_v5_'))
+    return token=='modal_P_C2prolate_mapped_v2' or token.startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_','modal_P_C2tauC4_map_v5_','modal_P_C2tauC4_poly2_map_v7_','modal_P_C2tauC4_beta14_map_v8_','modal_P_C2tauC4_focus_map_v9_','modal_P_C2tauC4_focus2_map_v10_'))
 
 def regularity_cap(token):
     # Tau uses the C2 coefficient encoding, with additional solve constraints.
-    if token.startswith('modal_P_C2tauC4_map_v5_r'):return 4
+    if token.startswith(('modal_P_C2tauC4_map_v5_r','modal_P_C2tauC4_inf2_map_v6_r','modal_P_C2tauC4_poly2_map_v7_r','modal_P_C2tauC4_beta14_map_v8_r','modal_P_C2tauC4_focus_map_v9_r','modal_P_C2tauC4_focus2_map_v10_r')):return 4
     if token=='modal_P_C2prolate_mapped_v2' or token.startswith('modal_P_C2prolate_map_v3_r'):return 4
     if token.startswith('modal_P_C4prolate_map_v4_r'):return 6
     raise ValueError('unknown continuous modal regularity family')
@@ -42,12 +46,14 @@ def regularity_cap(token):
 
 def maps_from_id(token):
     if token=='modal_P_C2prolate_mapped_v2':expected=(.2,2.)
-    elif token.startswith(('modal_P_C2prolate_map_v3_r','modal_P_C4prolate_map_v4_r','modal_P_C2tauC4_map_v5_r')):
-        try:expected=tuple(map(float,re.sub(r'^modal_P_(?:C2prolate_map_v3|C4prolate_map_v4|C2tauC4_map_v5)_r','',token).split('_k')))
+    elif token.startswith(('modal_P_C2prolate_map_v3_r','modal_P_C4prolate_map_v4_r','modal_P_C2tauC4_map_v5_r','modal_P_C2tauC4_poly2_map_v7_r','modal_P_C2tauC4_beta14_map_v8_r','modal_P_C2tauC4_focus_map_v9_r','modal_P_C2tauC4_focus2_map_v10_r')):
+        try:expected=tuple(map(float,re.sub(r'^modal_P_(?:C2prolate_map_v3|C4prolate_map_v4|C2tauC4_map_v5|C2tauC4_poly2_map_v7|C2tauC4_beta14_map_v8|C2tauC4_focus_map_v9|C2tauC4_focus2_map_v10)_r','',token).split('_k')))
         except ValueError:raise ValueError('malformed source map identifier') from None
     else:raise ValueError('supported mapped modal P identifier required')
     if len(expected)!=2:raise ValueError('two map parameters required')
     maps=dict(zip(('radial_stretch','angular_stretch'),expected))
+    if token.startswith('modal_P_C2tauC4_poly2_map_v7_'):maps['radial_kind']='quadratic'
+    if token.startswith('modal_P_C2tauC4_beta14_map_v8_'):maps['radial_kind']='endpoint_beta14'
     map_pair(maps)
     return maps
 

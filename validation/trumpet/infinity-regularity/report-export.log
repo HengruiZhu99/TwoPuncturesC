@@ -1,0 +1,14 @@
+note: Running TeX ...
+warning: TRUMPET_FORMULATION_VALIDATION.tex:90: Underfull \hbox (badness 1496) in paragraph at lines 90--90
+warning: TRUMPET_FORMULATION_VALIDATION.tex:709: Underfull \hbox (badness 3168) in paragraph at lines 701--709
+note: Running BibTeX on TRUMPET_FORMULATION_VALIDATION.aux ...
+note: warnings were issued by BibTeX; use --print and/or --keep-logs for details.
+note: Rerunning TeX because bibtex was run ...
+warning: TRUMPET_FORMULATION_VALIDATION.tex:90: Underfull \hbox (badness 1496) in paragraph at lines 90--90
+warning: TRUMPET_FORMULATION_VALIDATION.tex:709: Underfull \hbox (badness 3168) in paragraph at lines 701--709
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+note: Running xdvipdfmx ...
+note: Writing `tmp/pdfs/infinity-regularity-approved-20261018/TRUMPET_FORMULATION_VALIDATION.log` (14.4365234375 KiB)
+note: Writing `tmp/pdfs/infinity-regularity-approved-20261018/TRUMPET_FORMULATION_VALIDATION.pdf` (126.419921875 KiB)
+note: Writing `tmp/pdfs/infinity-regularity-approved-20261018/TRUMPET_FORMULATION_VALIDATION.blg` (959 B)
+note: Skipped writing 4 intermediate files (use --keep-intermediates to keep them)

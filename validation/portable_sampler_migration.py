@@ -30,7 +30,7 @@ def digest(path):
 
 def witness_points(config):
     family=getattr(config,'seed_family','qi')
-    if family not in ('qi','trumpet_r0_m'):raise ValueError('unknown seed family')
+    if family not in ('qi','trumpet_r0_m','liu'):raise ValueError('unknown seed family')
     radius_factor=1. if family=='trumpet_r0_m' else .5
     base,_,_=points(config,True)
     mu,_=np.polynomial.legendre.leggauss(12)
@@ -45,7 +45,8 @@ def witness_points(config):
         spin=np.asarray(hole.spin);v=np.asarray(hole.velocity)
         chi=np.linalg.norm(spin)/hole.mass**2
         if not 0<=chi<1 or not v@v<1:raise ValueError('invalid subextremal seed')
-        radius=radius_factor*hole.mass*np.sqrt(1-chi**2)/np.sqrt(1+(directions@v)**2/(1-v@v))
+        rest_radius=.25*hole.mass*(1+np.sqrt(1-chi**2)) if family=='liu' else radius_factor*hole.mass*np.sqrt(1-chi**2)
+        radius=rest_radius/np.sqrt(1+(directions@v)**2/(1-v@v))
         trials.extend(np.asarray(hole.center)+factor*radius[:,None]*directions for factor in (.8,1,1.2))
     return np.ascontiguousarray(np.concatenate([base,*trials,100*directions,1000*directions]))
 

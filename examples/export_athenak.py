@@ -8,7 +8,7 @@ from checkpoints import library_sha,select_record,restore
 p=argparse.ArgumentParser();p.add_argument('--library',required=True);p.add_argument('--output',required=True)
 group=p.add_mutually_exclusive_group(required=True)
 group.add_argument('--case');group.add_argument('--seed',choices=('schwarzschild','kerr95','boost885','kerr95_boost885','kerr99','gamma10'))
-p.add_argument('--seed-family',choices=('qi','trumpet_r0_m'),default=None,help='seed export family; solved checkpoints retain their own family')
+p.add_argument('--seed-family',choices=('qi','trumpet_r0_m','liu'),default=None,help='seed export family; solved checkpoints retain their own family')
 p.add_argument('--resolution',type=int);p.add_argument('--nphi',type=int)
 p.add_argument('--allow-diagnostic',action='store_true')
 a=p.parse_args()

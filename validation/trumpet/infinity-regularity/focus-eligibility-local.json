@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "key": "far_radius",
+      "error": "focus regularity requires far_radius=0"
+    },
+    {
+      "key": "inner_flatten",
+      "error": "focus regularity requires a flat interior plateau"
+    }
+  ],
+  "sampling_allowed": true,
+  "library_sha256": "cd457d7a64f37437b0d8f431952b2620e7a8f58a928559b1c1d09d248ff78e45"
+}

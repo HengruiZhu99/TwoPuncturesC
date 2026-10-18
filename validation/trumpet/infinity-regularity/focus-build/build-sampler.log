@@ -1,0 +1,5 @@
+[ 76%] Built target TwoPunctures
+[ 84%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_geometry.cpp.o
+[ 92%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_solver.cpp.o
+[100%] Linking CXX shared library libHiSpID.so
+[100%] Built target HiSpID

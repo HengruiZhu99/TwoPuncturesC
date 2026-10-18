@@ -116,7 +116,7 @@ struct HiKokkos {
  Kokkos::View<Cached*,puncture::Exec>geometry;
  puncture::View base,input,output,averages;
 #if HISPID_AXIS_TAU
- puncture::View tau_weight,tau_difference;
+ puncture::View tau_weight,tau_difference,focus_weight,focus_difference;
 #endif
  bool raw_operator=false;
  double spectral_setup_seconds=0,geometry_setup_seconds=0;
@@ -126,6 +126,7 @@ struct HiKokkos {
   raw_operator=raw;
 #if HISPID_AXIS_TAU
   tau_weight=puncture::upload(hispid::tau_weights(n[0],n[1]),"axis endpoint weights");
+  if(HISPID_FOCUS_TAU){focus_weight=puncture::upload(hispid::focus_bank(n[0],n[1],n[2]),"focus weights");focus_difference=puncture::View("focus differences",4*hispid::focus_rank*n[2]);}
   tau_difference=puncture::View("axis tau differences",4ull*hispid::tau_count(n[0],n[1])*n[2]);
 #endif
   if(execution_geometry){initialize_execution_geometry(n,axis,b,*execution_geometry,family);return;}
@@ -200,6 +201,16 @@ struct HiKokkos {
 #if HISPID_AXIS_TAU
   const int na=op.spectral.na,nb=op.spectral.nb,np=op.spectral.np,count=hispid::tau_count(na,nb);
   auto w=tau_weight,d=tau_difference,inv=op.spectral.inverse;
+  if(HISPID_FOCUS_TAU){
+   auto fw=focus_weight,fd=focus_difference;const int N=na*nb;
+   using Team=Kokkos::TeamPolicy<puncture::Exec>;using Member=Team::member_type;
+   Kokkos::parallel_for("focus regularity moments",Team(4*hispid::focus_rank*np,128),KOKKOS_LAMBDA(const Member&team){
+    int task=team.league_rank(),v=task%4,k=(task/4)%np,side=task/(4*np),m=k<=np/2?k:k-np/2;
+    if(m>4){Kokkos::single(Kokkos::PerTeam(team),[&](){fd(task)=0;});return;}
+    puncture::ProjectionAccumulator sum;Kokkos::parallel_reduce(Kokkos::TeamThreadRange(team,N),[&](int p,puncture::ProjectionAccumulator&q){q.product(fw((hispid::focus_rank*m+side)*N+p),in(4*(p+N*k)+v));},Kokkos::Sum<puncture::ProjectionAccumulator>(sum));
+    Kokkos::single(Kokkos::PerTeam(team),[&](){int row=hispid::focus_row(side,na,nb);double old=0;for(int l=0;l<np;l++)old+=inv(l*np+k)*out(4*(row+N*l)+v);fd(task)=(sum.high+sum.low)-old;});
+   });
+  }
   Kokkos::parallel_for("axis tau differences",puncture::Range(0,4*count*np),KOKKOS_LAMBDA(int z){
    int v=z%4,m=(z/4)%np,q=z/(4*np);
    d(z)=hispid::tau_delta(q,m,v,na,nb,np,w.data(),inv.data(),in.data(),out.data());
@@ -209,6 +220,13 @@ struct HiKokkos {
    double correction=0;for(int m=0;m<np;m++)correction+=inv(k*np+m)*d(4*(q*np+m)+v);
    out(4*(i+na*(j+nb*k))+v)+=correction;
   });
+  if(HISPID_FOCUS_TAU){auto fd=focus_difference;const int N=na*nb;
+   Kokkos::parallel_for("focus regularity rows",puncture::Range(0,4*hispid::focus_rank*np),KOKKOS_LAMBDA(int task){
+    int v=task%4,k=(task/4)%np,side=task/(4*np);double q=0;
+    for(int m=0;m<np;m++)q+=inv(k*np+m)*fd(4*(side*np+m)+v);
+    out(4*(hispid::focus_row(side,na,nb)+N*k)+v)+=q;
+   });
+  }
 #endif
  }
  void residual(const double*v,double*r){
@@ -238,7 +256,7 @@ struct HiKokkos {
  unsigned long long bytes()const{
   unsigned long long extra=0;
 #if HISPID_AXIS_TAU
-  extra=8*(tau_weight.extent(0)+tau_difference.extent(0));
+  extra=8*(tau_weight.extent(0)+tau_difference.extent(0)+focus_weight.extent(0)+focus_difference.extent(0));
 #endif
   auto n=geometry.extent(0);return extra+n*(sizeof(Cached)+8*(40+40+8+64+15))+8*(op.chain.extent(0)+op.trig.extent(0)+op.positions.extent(0)+op.spectral.coefficient[0].extent(0)+op.spectral.coefficient[1].extent(0));
  }
@@ -284,7 +302,7 @@ struct HiSpID_Data {
  std::vector<Cached> geometry;
  std::vector<double> values,coefficients;
 #if HISPID_AXIS_TAU
- std::vector<double> tau_weight,tau_difference;
+ std::vector<double> tau_weight,tau_difference,focus_weight,focus_difference;
 #endif
  derivs *work=nullptr;
  hispid::AxisDerivatives derivatives;
@@ -371,7 +389,12 @@ void replace_axis_rows(HiSpID_Data&s,const double*v,double*r){
 #if HISPID_AXIS_TAU
  const auto*n=s.local.n;
  if(s.tau_weight.empty())s.tau_weight=hispid::tau_weights(n[0],n[1]);
+ if(HISPID_FOCUS_TAU){
+  if(s.focus_weight.empty())s.focus_weight=hispid::focus_bank(n[0],n[1],n[2]);
+  hispid::focus_differences(n[0],n[1],n[2],s.focus_weight.data(),s.derivatives.inverse.data(),v,r,s.focus_difference);
+ }
  hispid::tau_apply(n[0],n[1],n[2],s.tau_weight.data(),s.derivatives.inverse.data(),v,r,s.tau_difference);
+ if(HISPID_FOCUS_TAU)hispid::focus_replace(n[0],n[1],n[2],s.derivatives.inverse.data(),s.focus_difference,r);
 #endif
 }
 #ifdef PUNCTURES_KOKKOS
@@ -456,6 +479,7 @@ struct Sparse {
      throw std::runtime_error("Incomplete modal vector cache");
    for(int mode=0;mode<=half;mode++)for(int v=0;v<2;v++){
     auto&B=blocks[2*mode+v];B.na=na;B.nb=nb;
+    if(HISPID_FOCUS_TAU&&mode<=4)B.focus_endpoint=hispid::focus_weights(na,nb,mode);
     if(HISPID_EXACT_POLAR_TAU&&mode>=5)B.polar_endpoint=hispid::tau_weights(na,nb);
     if(v&&reuse){
      B=std::move((*vector_cache)[mode]);
@@ -574,6 +598,7 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
   for(int mode=0;mode<=factor_half;mode++)for(int v=0;v<2;v++){auto&B=mat.blocks[2*mode+v];
    if(v&&reuse){B=std::move((*vector_cache)[mode]);continue;}
    B.na=na;B.nb=nb;
+    if(HISPID_FOCUS_TAU&&mode<=4)B.focus_endpoint=hispid::focus_weights(na,nb,mode);
     if(HISPID_EXACT_POLAR_TAU&&mode>=5)B.polar_endpoint=hispid::tau_weights(na,nb);B.lu.assign(size_t(na)*na*nb,0);B.transfer.assign(size_t(na)*na*nb,0);B.lower.assign(na*nb,0);B.upper.assign(na*nb,0);B.permutation.resize(na*nb);
   }
  }
@@ -589,7 +614,8 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
   auto add=[&](int di,int dj,double v){int q=Index(0,i+di,j+dj,0,1,na,nb,1);stencil[q]+=v;};
   add(0,0,c0);
   const double al=ha*(i+.5),be=hb*(j+.5),sa=std::sin(al),sb=std::sin(be);
-  const double lambda=hispid::AxisDerivatives::radial_stretch,sigma=.5*(1-std::cos(al)),d=1-(1-lambda)*sigma,dt=lambda/(d*d),ddt=2*(1-lambda)*lambda/(d*d*d),ta=.5*sa*dt,taa=.5*std::cos(al)*dt+.25*sa*sa*ddt;
+  const double sigma=.5*(1-std::cos(al));double dt,ddt;hispid::AxisDerivatives::radial_forward(sigma,dt,ddt);
+  const double ta=.5*sa*dt,taa=.5*std::cos(al)*dt+.25*sa*sa*ddt;
   const double kappa=hispid::AxisDerivatives::angular_stretch,zeta=-std::cos(be),T=std::tanh(kappa),tanh=std::tanh(kappa*zeta),de=kappa*(1-tanh*tanh)/T,dde=-2*kappa*kappa*tanh*(1-tanh*tanh)/T,eb=de*sb,ebb=de*std::cos(be)+dde*sb*sb;
   const double ab=ct/ta-ctt*taa/(ta*ta*ta),bb=ce/eb-cee*ebb/(eb*eb*eb);
   double aa=ctt/(ta*ta),ba=cee/(eb*eb);
@@ -622,7 +648,7 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
    }
   }
   for(int v=0;v<4;v++){
-   const int row=4*p+v;mat.row_scale[row]=tau_boundary?1:weight*mu*(v?4./3:1.)*c/D;
+   const int row=4*p+v;mat.row_scale[row]=(tau_boundary||(HISPID_FOCUS_TAU&&mode<=4&&i<hispid::focus_rank/2&&(j==0||j==nb-1)))?1:weight*mu*(v?4./3:1.)*c/D;
    for(auto entry:stencil){int col=4*(entry.first+na*nb*k)+v;double value=entry.second;
     if(col==row&&v==0&&!tau_boundary)value+=potential*D/mu;
     if(compact){
@@ -722,6 +748,45 @@ struct TauPolarDevice {
   });
  }
 };
+// Cartesian compatibility rows use the same exact boundary solve on host/device.
+struct FocusDevice {
+ int a=0,b=0,np=0,groups=0;puncture::View weight,response,inverse,moments,forward;puncture::Indices map;
+ explicit FocusDevice(const Sparse&M):a(M.modal->n[0]),b(M.modal->n[1]),np(M.modal->n[2]){
+  std::vector<int>indices(M.blocks.size(),-1),tasks(4*np);
+  for(size_t k=0;k<M.blocks.size();k++)if(!M.blocks[k].focus_inverse.empty())indices[k]=groups++;
+  if(!groups)return;const int N=a*b;
+  std::vector<double>w,r,inv;
+  for(const auto&B:M.blocks)if(!B.focus_inverse.empty()){
+   w.insert(w.end(),B.focus_endpoint.begin(),B.focus_endpoint.end());r.insert(r.end(),B.focus_response.begin(),B.focus_response.end());inv.insert(inv.end(),B.focus_inverse.begin(),B.focus_inverse.end());
+  }
+  weight=puncture::upload(w,"focus border weights");response=puncture::upload(r,"focus responses");inverse=puncture::upload(inv,"focus inverses");forward=puncture::upload(M.modal->forward,"focus Fourier projection");
+  for(int k=0;k<np;k++)for(int v=0;v<4;v++)tasks[4*k+v]=indices[M.factor_group(k<=np/2?k:k-np/2,v)];
+  map=puncture::Indices("focus task map",tasks.size());using H=Kokkos::View<const int*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;Kokkos::deep_copy(map,H(tasks.data(),tasks.size()));
+  moments=puncture::View("focus boundary defects",4*hispid::focus_rank*np);
+ }
+ unsigned long long bytes()const{return 8*(weight.extent(0)+response.extent(0)+inverse.extent(0)+moments.extent(0)+forward.extent(0))+4*map.extent(0);}
+ void apply(puncture::View rhs,puncture::View x,bool projected=false)const{
+  if(!groups)return;const int N=a*b,P=np,A=a,B=b;
+  auto W=weight,R=response,S=inverse,G=moments,F=forward;auto mapping=map;
+  using Team=Kokkos::TeamPolicy<puncture::Exec>;using Member=Team::member_type;
+  Kokkos::parallel_for("focus inverse moments",Team(4*hispid::focus_rank*P,128),KOKKOS_LAMBDA(const Member&team){
+   int q=team.league_rank(),task=q/hispid::focus_rank,side=q%hispid::focus_rank,group=mapping(task),mode=task/4,v=task%4;if(group<0)return;
+   puncture::ProjectionAccumulator value;Kokkos::parallel_reduce(Kokkos::TeamThreadRange(team,N),[&](int p,puncture::ProjectionAccumulator&sum){sum.product(W((hispid::focus_rank*group+side)*N+p),x(4*(p+N*mode)+v));},Kokkos::Sum<puncture::ProjectionAccumulator>(value));
+   Kokkos::single(Kokkos::PerTeam(team),[&](){int row=hispid::focus_row(side,A,B);double source;
+    if(projected)source=rhs(4*(row+N*mode)+v);
+    else{double sum=0,error=0;for(int k=0;k<P;k++){double y=rhs(4*(row+N*k)+v)-error,t=sum+y;error=(t-sum)-y;sum=t;}
+     source=mode?0:sum/Kokkos::sqrt(double(P));
+     if(mode){if(HISPID_COMPENSATED_MODAL_PROJECTION)source=puncture::compensated_projection(rhs.data()+4*row+v,4*N,F.data()+mode*P,P,sum/P);else for(int k=0;k<P;k++)source+=F(mode*P+k)*(rhs(4*(row+N*k)+v)-sum/P);}}
+    G(q)=source-(value.high+value.low);
+   });
+  });
+  Kokkos::parallel_for("focus inverse correction",puncture::Range(0,4*P*N),KOKKOS_LAMBDA(int q){
+   int task=q/N,p=q%N,group=mapping(task);if(group<0)return;double change=0;
+   for(int i=0;i<hispid::focus_rank;i++)for(int j=0;j<hispid::focus_rank;j++)change+=R((group*N+p)*hispid::focus_rank+i)*S(hispid::focus_rank*hispid::focus_rank*group+hispid::focus_rank*i+j)*G(hispid::focus_rank*task+j);
+   x(4*(p+N*(task/4))+task%4)+=change;
+  });
+ }
+};
 puncture::Modal device_preconditioner(const Sparse&M){
  const int a=M.modal->n[0],b=M.modal->n[1],p=M.modal->n[2],groups=M.blocks.size();
  puncture::Modal d(a,b,p,4,groups,true,true);
@@ -782,7 +847,7 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
 #ifdef PUNCTURES_KOKKOS
  if(s.device){
   auto&Mstats=puncture::statistics();
-  double begin=puncture::seconds();auto d=device_preconditioner(M);TauPolarDevice polar(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
+  double begin=puncture::seconds();auto d=device_preconditioner(M);TauPolarDevice polar(M);FocusDevice focus(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
   auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
   puncture::View relaxation_residual,relaxation_action,relaxation_correction,left_conditioned;
   if(relaxation_sweeps(s)>1||left){
@@ -790,14 +855,14 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
    if(left)left_conditioned=puncture::View("left conditioned RHS",s.ntotal);
   }
   if(action_probe){
-   std::vector<double>reference,device(s.ntotal);M.solve(rhs,reference);
+   std::vector<double>reference,device(s.ntotal);puncture::View probe_rhs;M.solve(rhs,reference);
    project_axisymmetry(s,reference.data(),true);
    for(int matched=0;matched<2;matched++){
    if(matched){
     std::vector<double>projected(s.ntotal);M.project_rhs(rhs.data(),projected.data());
-    auto input=puncture::upload(projected,"matched modal RHS");d.apply(input,solution,true);
+    probe_rhs=puncture::upload(projected,"matched modal RHS");d.apply(probe_rhs,solution,true);
    }else d.apply(b,solution);
-   polar.apply(solution);project_axisymmetry(s,solution,true);
+   polar.apply(solution);focus.apply(matched?probe_rhs:b,solution,bool(matched));project_axisymmetry(s,solution,true);
    puncture::download(solution,device.data());
    const int np=s.local.n[2],stride=s.local.n[0]*s.local.n[1];
    for(int mode=0;mode<=np/2;mode++)for(int v=0;v<4;v++){
@@ -814,21 +879,21 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
    }
    std::fflush(stderr);Kokkos::deep_copy(solution,0.);
   }
-  Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+(s.quadrature?s.quadrature->device->bytes()+s.device_transfer->bytes():0)+polar.bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)+relaxation_residual.extent(0)+relaxation_action.extent(0)+relaxation_correction.extent(0)+left_conditioned.extent(0)));
+  Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+(s.quadrature?s.quadrature->device->bytes()+s.device_transfer->bytes():0)+polar.bytes()+focus.bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)+relaxation_residual.extent(0)+relaxation_action.extent(0)+relaxation_correction.extent(0)+left_conditioned.extent(0)));
   if(left){
    status=puncture::left_gmres(b,solution,relaxation_residual,left_conditioned,relaxation_correction,relaxation_action,
     options,rtol,[](auto v){return puncture::length(v);},
     [](puncture::View out,puncture::View rhs,puncture::View ax){puncture::each(out,KOKKOS_LAMBDA(int i){out(i)=rhs(i)-ax(i);});},
     [](auto out,auto in){puncture::axpy(out,1.,in);},
     [&](auto in,auto out){device_apply(s,in,out);project_axisymmetry(s,out,false);s.jvp_applications++;},
-    [&](auto in,auto out){d.apply(in,out);polar.apply(out);project_axisymmetry(s,out,true);s.preconditioner_applications++;},
+    [&](auto in,auto out){d.apply(in,out);polar.apply(out);focus.apply(in,out);project_axisymmetry(s,out,true);s.preconditioner_applications++;},
     [&](auto rhs,auto delta,const PK_Options&o,auto action,PK_Result&part,double scale){
      return puncture::solve(rhs,delta,o,action,[](auto in,auto out){puncture::copy(out,in);},part,monitor,&scale);
     },progress,result);
   }else
   status=puncture::solve(b,solution,options,[&](auto in,auto out){device_apply(s,in,out);project_axisymmetry(s,out,false);},[&](auto in,auto out){
     puncture::relaxed_inverse(in,out,relaxation_residual,relaxation_action,relaxation_correction,
-     [&](auto input,auto output){d.apply(input,output);polar.apply(output);project_axisymmetry(s,output,true);},
+     [&](auto input,auto output){d.apply(input,output);polar.apply(output);focus.apply(input,output);project_axisymmetry(s,output,true);},
      [&](auto input,auto output){device_apply(s,input,output);project_axisymmetry(s,output,false);},
      [](auto output,auto input){puncture::copy(output,input);},
      [](auto output,double a){puncture::scale_copy(output,a,output);},
@@ -927,10 +992,11 @@ void polynomial_basis(int N,double x,std::vector<double>&value,std::vector<doubl
 // Return P, P_t, P_eta for one orthonormal Fourier mode.
 void evaluate_mode(const HiSpID_Data&s,int k,double t,double eta,double P[4][3]){
  const int na=s.local.n[0],nb=s.local.n[1];std::vector<double>Ta,Da,Tb,Db;
- const double lambda=hispid::AxisDerivatives::radial_stretch,den=lambda+(1-lambda)*t,sigma=t/den,kappa=hispid::AxisDerivatives::angular_stretch,T=std::tanh(kappa),zeta=std::atanh(eta*T)/kappa;
+ const double lambda=hispid::AxisDerivatives::radial_stretch,den=lambda+(1-lambda)*t,sigma=hispid::AxisDerivatives::radial_inverse(t),kappa=hispid::AxisDerivatives::angular_stretch,T=std::tanh(kappa),zeta=std::atanh(eta*T)/kappa;
+ double ts,tss;hispid::AxisDerivatives::radial_forward(sigma,ts,tss);
  polynomial_basis(na,2*sigma-1,Ta,Da);polynomial_basis(nb,zeta,Tb,Db);std::memset(P,0,12*sizeof(double));
  for(int j=0;j<nb;j++)for(int i=0;i<na;i++)for(int v=0;v<4;v++){
-  const double c=s.coefficients[v+4*(i+na*(j+nb*k))];P[v][0]+=c*Ta[i]*Tb[j];P[v][1]+=(2*lambda/(den*den))*c*Da[i]*Tb[j];P[v][2]+=(T/(kappa*(1-T*T*eta*eta)))*c*Ta[i]*Db[j];
+  const double c=s.coefficients[v+4*(i+na*(j+nb*k))];P[v][0]+=c*Ta[i]*Tb[j];P[v][1]+=((hispid::AxisDerivatives::infinity_power==1&&!hispid::AxisDerivatives::radial_polynomial&&!hispid::AxisDerivatives::dual_endpoint_map)?2*lambda/(den*den):2/ts)*c*Da[i]*Tb[j];P[v][2]+=(T/(kappa*(1-T*T*eta*eta)))*c*Ta[i]*Db[j];
  }
 }
 using ModeValues=std::array<std::array<double,3>,4>;
@@ -1031,6 +1097,24 @@ const char *HiSpID_residual_scaling(){
  return HISPID_INFINITY_EQUILIBRATION?"sin6_alpha_beta_times_one_minus_t_pow_minus6":"sin6_alpha_beta";
 }
 const char *HiSpID_unknown_parameterization(){
+ if constexpr(HISPID_FOCUS_TAU){
+  static const auto value=[](){std::array<char,192> value{};
+   std::snprintf(value.data(),value.size(),hispid::focus_rank==2?"modal_P_C2tauC4_focus_map_v9_r%.17g_k%.17g":"modal_P_C2tauC4_focus2_map_v10_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();return value.data();}
+
+ if constexpr(hispid::AxisDerivatives::dual_endpoint_map){
+  static const auto value=[](){std::array<char,192> value{};
+   std::snprintf(value.data(),value.size(),"modal_P_C2tauC4_beta14_map_v8_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();return value.data();}
+
+ if constexpr(hispid::AxisDerivatives::radial_polynomial){
+  static const auto value=[](){std::array<char,192> value{};
+   std::snprintf(value.data(),value.size(),"modal_P_C2tauC4_poly2_map_v7_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();
+  return value.data();}
+
+ if constexpr(hispid::AxisDerivatives::infinity_power==2){
+  static const auto value=[](){std::array<char,192> value{};
+   std::snprintf(value.data(),value.size(),"modal_P_C2tauC4_inf2_map_v6_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();
+  static_assert(HISPID_AXIS_TAU||hispid::AxisDerivatives::infinity_power==1,"quadratic infinity map requires axis tau");return value.data();}
+
 #if HISPID_AXIS_TAU
  static const auto tau=[](){std::array<char,128> value{};
   std::snprintf(value.data(),value.size(),"modal_P_C2tauC4_map_v5_r%.17g_k%.17g",hispid::AxisDerivatives::radial_stretch,hispid::AxisDerivatives::angular_stretch);return value;}();
@@ -1056,7 +1140,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  puncture::ExecutionLock execution_guard(puncture::execution_mutex(),std::defer_lock);if(execution)execution_guard.lock();
 #endif
  hispid::last_error.clear();
- if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M){hispid::last_error="invalid seed family";return nullptr;}
+ if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M && family!=HISPID_SEED_LIU){hispid::last_error="invalid seed family";return nullptr;}
  if(sampler_only && execution){hispid::last_error="sampling-only contexts use CPU execution";return nullptr;}
  if(execution<0||execution>1){hispid::last_error="invalid execution backend";return nullptr;}
  if(geometry_execution<0||geometry_execution>1||(geometry_execution&&(!execution||sampler_only))){hispid::last_error="execution geometry requires a Kokkos solving context";return nullptr;}
@@ -1064,6 +1148,15 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  if(execution){hispid::last_error="library was built without Kokkos";return nullptr;}
 #endif
  if(!c||!hispid::valid(*c,sampler_only,operator_only)){hispid::last_error="invalid HiSpID configuration";return nullptr;}
+ if(HISPID_FOCUS_TAU&&!sampler_only&&!operator_only){
+  // A nonzero far-reference correction W can itself be non-smooth at a
+  // boosted/trumpet puncture. These homogeneous rows constrain P alone.
+  if(c->far_radius!=0){hispid::last_error="focus regularity requires far_radius=0";return nullptr;}
+  if(!c->inner_flatten){hispid::last_error="focus regularity requires a flat interior plateau";return nullptr;}
+  for(int h=0;h<2;h++)if(c->hole[h].mass>0&&!(c->inner_min[h]>0)){
+   hispid::last_error="focus regularity requires positive inner_min for each active hole";return nullptr;
+  }
+ }
  const bool galerkin=HISPID_OVERINTEGRATED_GALERKIN&&!operator_only&&!sampler_only&&family==HISPID_SEED_TRUMPET_R0_M;
  if(galerkin&&geometry_execution){hispid::last_error="Galerkin currently requires the qualified host seed geometry";return nullptr;}
  HiSpID_Config qc=*c;qc.n[0]=(3*c->n[0]+1)/2;qc.n[1]=(3*c->n[1]+1)/2;
@@ -1081,7 +1174,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   // Retained CPU data, device data (or extra host copies for OpenMP), lazy
   // maximum Krylov basis, packed factor mirrors and LU/inverse overlap.
   long double small=0;for(int axis=0;axis<3;axis++)small+=16.L*c->n[axis]*c->n[axis];small+=32.L*c->n[2]*c->n[2]+160.L*c->n[0]*c->n[1];
-  allocation_bound=cpu+device+radial*16+small+2*hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2];
+  allocation_bound=cpu+device+radial*16+small+2*(hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+hispid::focus_border_bytes(c->n[0],c->n[1],c->n[2]))+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2];
   // Kokkos owns its Krylov basis on the execution space; there is no
   // simultaneous host PK_solve basis. Keep all host outer vectors above.
   const long double raw_device=points*(sizeof(Cached)+8.L*(40+40+8+64+15+8));
@@ -1103,7 +1196,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
 #ifdef KOKKOS_ENABLE_CUDA
   if constexpr(std::is_same_v<puncture::Exec,Kokkos::Cuda>){
    auto free=Puncture_execution_device_free_bytes();
-   if(!free||device+small+hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+HISPID_AXIS_TAU*32.L*(2*c->n[0]+c->n[1])*c->n[2]+512.L*1024*1024>free){hispid::last_error="Kokkos device allocation bound exceeds available GPU memory or query failed";return nullptr;}
+   if(!free||device+small+(hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+hispid::focus_border_bytes(c->n[0],c->n[1],c->n[2]))+HISPID_AXIS_TAU*32.L*(2*c->n[0]+c->n[1])*c->n[2]+512.L*1024*1024>free){hispid::last_error="Kokkos device allocation bound exceeds available GPU memory or query failed";return nullptr;}
   }
 #endif
  }

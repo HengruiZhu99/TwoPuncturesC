@@ -1,0 +1,32 @@
+{
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 9,
+    "krylov_iterations": 32,
+    "npoints": 4608,
+    "scaled_linf": [
+      8.02927822961492e-15,
+      4.3016288069338177e-13,
+      4.1748799259626977e-13,
+      5.355181985049191e-13
+    ],
+    "unscaled_linf": [
+      6.289737756551132e-11,
+      3.2774206868914265e-10,
+      7.541476952655776e-10,
+      2.5538982181633575e-09
+    ],
+    "seconds": 0.23966475,
+    "status": 0,
+    "error": ""
+  },
+  "metadata": {
+    "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-focus-tau/control.checkpoint",
+    "file_sha256": "ea9105f824be8b89d5556a723e3b344b9d31b95241b6e5ad985855411f0277aa",
+    "source_library_sha256": "502cba0bbb21896e4f489d73c3dbcd868effb1d13eabcf71b91d8f76b52bc11b",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2",
+    "seed_family": "qi",
+    "format_version": 1
+  }
+}

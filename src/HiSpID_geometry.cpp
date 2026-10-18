@@ -1,5 +1,6 @@
 #include "HiSpID_internal.hpp"
 #include "HiSpID_tau.hpp"
+#include "HiSpID_focus.hpp"
 #include <algorithm>
 #include <cstring>
 #include <limits>
@@ -16,7 +17,10 @@ static void geometry_error(int status){
  if(status==geometry_nonfinite)throw std::runtime_error("nonfinite background geometry");
 }
 void seed(const HiSpID_Hole&h,int choice,const double*x,Seed&s){geometry_error(seed_geometry(h,choice,x,s));}
-void background(const HiSpID_Config&c,const double*x,Background&b,int family){geometry_error(background_geometry(c,x,b,false,family));}
+// Match the cancellation-resistant kernel algebra: form normalized seed
+// metrics directly and evaluate 1-exp(-z) with expm1. Dividing large
+// physical-metric jets by psi^4 loses derivatives near compactified endpoints.
+void background(const HiSpID_Config&c,const double*x,Background&b,int family){geometry_error(background_geometry(c,x,b,true,family));}
 double laplacian(const Jet inv[3][3],const Jet C[3][3][3],const Jet&u){return geometry_laplacian(inv,C,u);}
 
 void longitudinal(const Jet metric[3][3],const Jet C[3][3][3],const Jet b[3],Jet L[3][3]){
@@ -82,7 +86,7 @@ double allocation_bound(const HiSpID_Config&c,bool sampler_only){
  // Two dense matrices per radial block, scalar/vector factor groups, shared
  // by real-Fourier partners. Add permutations/diagonal couplings explicitly.
  const double block_bytes=sampler_only?0:2.0*(c.n[2]/2+1)*c.n[1]*(16.0*c.n[0]*c.n[0]+24.0*c.n[0]);
- double extra=sampler_only?0:double(polar_border_bytes(c.n[0],c.n[1],c.n[2]));
+ double extra=sampler_only?0:double(polar_border_bytes(c.n[0],c.n[1],c.n[2])+focus_border_bytes(c.n[0],c.n[1],c.n[2]));
 #if HISPID_AXIS_TAU
  if(!sampler_only)extra+=8.0*((2*c.n[0]+c.n[1]-2)*4*c.n[2]+2*c.n[1]+c.n[0]);
 #endif
@@ -134,7 +138,7 @@ int HiSpID_seed_with_execution(const HiSpID_Hole*h,int choice,int count,const do
  return HiSpID_seed_with_family(h,choice,count,xyz,out,execution,HISPID_SEED_QI);
 }
 int HiSpID_seed_with_family(const HiSpID_Hole*h,int choice,int count,const double*xyz,HiSpID_Point*out,int execution,int family){
- if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M){hispid::last_error="invalid seed family";return -1;}
+ if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M && family!=HISPID_SEED_LIU){hispid::last_error="invalid seed family";return -1;}
  if(execution==PUNCTURE_REFERENCE && family==HISPID_SEED_QI)return HiSpID_seed(h,choice,count,xyz,out);
  if(execution==PUNCTURE_REFERENCE){
   if(!h||!xyz||!out||count<0||!(h->mass>0)||choice<0||choice>1)return -1;
@@ -188,7 +192,7 @@ int HiSpID_operators(const HiSpID_Config*c,const double*x,const double*j,double*
  return HiSpID_operators_with_seed_family(c,x,j,out,HISPID_SEED_QI);
 }
 int HiSpID_operators_with_seed_family(const HiSpID_Config*c,const double*x,const double*j,double*out,int family){
- if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M)return -1;
+ if(family!=HISPID_SEED_QI && family!=HISPID_SEED_TRUMPET_R0_M && family!=HISPID_SEED_LIU)return -1;
  if(!c||!x||!j||!out||!hispid::valid(*c))return -1;
  try{
   hispid::Background b;hispid::background(*c,x,b,family);hispid::Jet u[4];

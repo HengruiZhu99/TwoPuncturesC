@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "bitwise_equal": true,
+  "threads": 16,
+  "point_count": 102,
+  "library_sha256": "c6044b0d32ad42b070bcf0b07c6631f486859dc83574866188e5020afc0179cb"
+}

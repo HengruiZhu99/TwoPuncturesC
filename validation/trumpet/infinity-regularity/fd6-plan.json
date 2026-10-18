@@ -1,0 +1,34 @@
+{
+  "status": "declared_after_coarse160_before_finer_observer_outcomes",
+  "formulation": "unchanged QI-wide with focus regularity; frozen source, tolerances and three resolutions",
+  "observer": "Independent physical gamma/K only, sixth-order Cartesian FD, same66 exterior points, step=4*stored FD4 step",
+  "reason": "coarse physical bulk H9.009e-10 is at the matched BY FD4 scale1e-9; distinguish spatial error from verifier roundoff",
+  "criteria": {
+    "rms": 1e-06,
+    "maximum": 0.0001,
+    "strict_three_grid_decrease": true,
+    "charge_scaled_change": 0.001
+  },
+  "retention": "Original FD4 observations and their assessment remain unchanged and explicitly reported",
+  "control": "Exact Brill-Lindquist binary gamma=psi^4 delta, K=0; harmonic psi gives exact H=M=0",
+  "BY": "Reload saved unknowns into a temporary zero-Newton reference context, rebuild the original coefficient cache; verify original FD4 observer before adding FD6. No BY elliptic solve is repeated.",
+  "resolutions": [
+    [
+      160,
+      320,
+      16
+    ],
+    [
+      192,
+      384,
+      16
+    ],
+    [
+      224,
+      448,
+      16
+    ]
+  ],
+  "declared_at_utc": "2026-10-18 21:49:33 UTC",
+  "calibration_gate": "Exact BL: FD6 near H RMS<1e-8, bulk<1e-10, exact zero M; formal stencil moments and manufactured K gradient also checked."
+}

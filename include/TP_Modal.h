@@ -16,6 +16,9 @@ TP_Modal *TP_modal_create(int nvar,int na,int nb,int np,
 /* Fast vacuum BY construction; U contains the CURRENT physical correction
  * u=(A-1)V at each native node, in Index order. Parameters are process-global. */
 TP_Modal *TP_modal_create_analytic(int na,int nb,int np,const double *U);
+/* Explicit aggregate budget for the Kokkos adapter; half is an upper bound
+ * on this factor bank. The legacy entry point remains capped at4GiB. */
+TP_Modal *TP_modal_create_analytic_with_budget(int na,int nb,int np,const double *U,int budget_mib);
 int TP_modal_solve(TP_Modal *,const double *rhs,double *solution);
 void TP_modal_destroy(TP_Modal *);
 /* Read-only borrowed factors for the execution adapter, lifetime of m.

@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "scope": "standalone_actual_reader_and_sampler_only",
+  "athenak_evolution_or_horizon_run": false,
+  "records": [
+    {
+      "family": "qi",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-polynomial-reader/qi.checkpoint",
+        "file_sha256": "1972d0d67be411b0edbb39b8cfa4fe0c417043f070c15bc32e5230ece696e9d1",
+        "source_library_sha256": "0e415a22c55d403ed30df48725f560919c40c04a002fb842b7335ef6e1e9dbff",
+        "acceptance": "analytic_seed",
+        "seed_family": "qi",
+        "format_version": 1
+      }
+    },
+    {
+      "family": "trumpet_r0_m",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-polynomial-reader/trumpet_r0_m.checkpoint",
+        "file_sha256": "f08051255ed2a9013cef02fb35bdc8b20c4f6145a0638378f1653a298ea08057",
+        "source_library_sha256": "0e415a22c55d403ed30df48725f560919c40c04a002fb842b7335ef6e1e9dbff",
+        "acceptance": "analytic_seed",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      }
+    },
+    {
+      "family": "liu",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-polynomial-reader/liu.checkpoint",
+        "file_sha256": "6be2c987dd0e53c30c3dd8710c436131d8712427e946ee04ed6a49b98f6f8ce5",
+        "source_library_sha256": "0e415a22c55d403ed30df48725f560919c40c04a002fb842b7335ef6e1e9dbff",
+        "acceptance": "analytic_seed",
+        "seed_family": "liu",
+        "format_version": 2
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "case": "unknown_family",
+      "error": "Unsupported HiSpID seed family"
+    },
+    {
+      "case": "mislabelled_v1",
+      "error": "Expected checkpoint field: library_sha256"
+    },
+    {
+      "case": "missing_family",
+      "error": "Expected checkpoint field: seed_family"
+    }
+  ],
+  "compile_command": [
+    "c++",
+    "-std=c++17",
+    "-O2",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-polynomial-map/libHiSpID.dylib",
+    "-Wl,-rpath,/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-polynomial-map",
+    "-o",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-polynomial-reader/reader"
+  ],
+  "execution_cwd": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet",
+  "sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-polynomial-map/libHiSpID.dylib": "0e415a22c55d403ed30df48725f560919c40c04a002fb842b7335ef6e1e9dbff",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include/HiSpID.h": "6feac1f0026e5d580c119374daaaa98650fc3868b5c6c0bbe36f381ec0da25b2",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c/hispid_checkpoint.hpp": "b08723b158dfa4b84d1da1e5159498376b2ee4136f6632266c43edf41ea7e4f0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/check_trumpet_checkpoint.py": "509e8eaeae1c046006d47e7385f19a80f6679897459d0c3f094186b925180d89",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp": "52454535cc1e718092dd71368cb58dba6a558dd3a20c7a8a8ad43ab7b66a7358",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/checkpoint_export.py": "af95b3f72e188bc479d31013f9dfb2761b6826e355d4d7185d2f91997aa3d06a",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/hispid.py": "b3bb474b43185f00339f7ac21267293c0bad3a4cfc3c463e2d188d5903a9ace4",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-polynomial-reader/reader": "5097b11d634395a1bd714c1cf240577aed74355b3b8e4605048481b48b04817b"
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "passed": false,
+  "scope": "three-grid physical constraints and charge stability; horizon enclosure separate",
+  "binary_acceptance": false,
+  "library_sha256": "2de71048c4e3887681ae60904355c9d49d616e916ef79900c43a4906b22a9420",
+  "records": [
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/focus-tau-v1/moderate160",
+      "resolution": [
+        160,
+        320,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 3.1336204006901464e-07,
+          "H_max": 1.920849704045713e-06,
+          "M_rms": 8.509036801249023e-08,
+          "M_max": 4.578004909715115e-07,
+          "M_components_rms": [
+            1.3760924958739208e-08,
+            1.5874729365102442e-08,
+            3.322878458481618e-08
+          ],
+          "M_components_max": [
+            8.017893600933764e-08,
+            9.337086292464661e-08,
+            1.955991804272862e-07
+          ],
+          "normalized_H_max": 2.54301706407472e-05,
+          "normalized_M_max": 1.4462700678384943e-05
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 9.009106737660462e-10,
+          "H_max": 2.2159912063971984e-09,
+          "M_rms": 3.8891429897859234e-08,
+          "M_max": 9.490787293921876e-08,
+          "M_components_rms": [
+            4.1320464519364126e-09,
+            2.3653847121755734e-08,
+            2.3089695190238507e-08
+          ],
+          "M_components_max": [
+            8.2110625078744e-09,
+            6.64444074907688e-08,
+            5.67594958090592e-08
+          ],
+          "normalized_H_max": 0.011598007047910431,
+          "normalized_M_max": 0.0022322799525250976
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9944761463596272,
+        0.01055821518719094,
+        0.006879780817417138,
+        0.01879891800915837,
+        0.03999251321939569,
+        0.11522460641628178,
+        0.3279411544693503
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/focus-tau-v1/moderate160/diagnostic.checkpoint",
+        "file_sha256": "4facb5f10b0ba17b3e8dfd3c1c6d3c34fbe2891044dd15a9407d202d8aa6df52",
+        "source_library_sha256": "2de71048c4e3887681ae60904355c9d49d616e916ef79900c43a4906b22a9420",
+        "acceptance": "diagnostic",
+        "seed_family": "qi",
+        "format_version": 1
+      },
+      "result_sha256": "a613cdfa3b6bb069b6f4f2aeda7609387be59f8f53ad7216886235d95b0a4207",
+      "observer_sha256": "1c397fd27dac9df6456341286898da435b74c1c3b8f81e3077058e2c3428f71a"
+    },
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/focus-tau-v1/moderate192",
+      "resolution": [
+        192,
+        384,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 1.4422677009607085e-07,
+          "H_max": 7.402890630225922e-07,
+          "M_rms": 4.1075568707922964e-08,
+          "M_max": 1.8761794438961188e-07,
+          "M_components_rms": [
+            5.631792052724136e-09,
+            8.50530438237554e-09,
+            1.4921999215565914e-08
+          ],
+          "M_components_max": [
+            3.0384866103915055e-08,
+            4.027324516742227e-08,
+            7.420185222125075e-08
+          ],
+          "normalized_H_max": 3.90014303170778e-06,
+          "normalized_M_max": 5.612206943582419e-06
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 1.348852040836645e-09,
+          "H_max": 3.94338101122806e-09,
+          "M_rms": 5.023631300483505e-09,
+          "M_max": 1.0678495861476244e-08,
+          "M_components_rms": [
+            6.635136142536248e-10,
+            3.732469332244644e-09,
+            1.695204191441435e-09
+          ],
+          "M_components_max": [
+            1.9300900808717556e-09,
+            8.320097004182236e-09,
+            3.6295545761083843e-09
+          ],
+          "normalized_H_max": 0.004509482922976638,
+          "normalized_M_max": 0.00033254009105073074
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9944761463874437,
+        0.010558215048438579,
+        0.0068797808003865,
+        0.01879891814090025,
+        0.039992513249709594,
+        0.11522460614146321,
+        0.32794115501009397
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/focus-tau-v1/moderate192/diagnostic.checkpoint",
+        "file_sha256": "248d12221996d0179285404e780c6ba964fcc401d0055bdf4fcb14a13ad3fd4f",
+        "source_library_sha256": "2de71048c4e3887681ae60904355c9d49d616e916ef79900c43a4906b22a9420",
+        "acceptance": "diagnostic",
+        "seed_family": "qi",
+        "format_version": 1
+      },
+      "result_sha256": "1d744bd08ae27a0cfd0b89feba1ec33e712ab7df096189cd099774517cf5bb30",
+      "observer_sha256": "8393cd5f5cf75e5c998fa79bfba0248192ab3efb173bb29bfc10482ca51abe99"
+    },
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/focus-tau-v1/moderate224",
+      "resolution": [
+        224,
+        448,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 4.900091267801271e-08,
+          "H_max": 3.053383654527675e-07,
+          "M_rms": 1.8446417184180474e-08,
+          "M_max": 8.50339021309365e-08,
+          "M_components_rms": [
+            2.7521434476208443e-09,
+            3.6194447542244837e-09,
+            6.828627605382147e-09
+          ],
+          "M_components_max": [
+            1.4651367293508013e-08,
+            2.0217193540140986e-08,
+            3.359179506959841e-08
+          ],
+          "normalized_H_max": 3.367733857079754e-06,
+          "normalized_M_max": 2.545868670778313e-06
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 2.3601659372996327e-09,
+          "H_max": 7.936383528619616e-09,
+          "M_rms": 7.771623674013963e-09,
+          "M_max": 3.0072955728492906e-08,
+          "M_components_rms": [
+            3.783847131481272e-10,
+            6.1893403937137725e-09,
+            1.4605549562698183e-09
+          ],
+          "M_components_max": [
+            7.318681265262245e-10,
+            2.3785463847191746e-08,
+            4.3912511121715e-09
+          ],
+          "normalized_H_max": 0.017321505652916104,
+          "normalized_M_max": 0.000311245983292061
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9944761463868822,
+        0.010558215013468524,
+        0.0068797808043193145,
+        0.018798918183164263,
+        0.039992513232717214,
+        0.11522460591011678,
+        0.32794115551054015
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/focus-tau-v1/moderate224/diagnostic.checkpoint",
+        "file_sha256": "effed6093d15c7e306a12d750f4a476207238a687914e51c692ac4cbaced172a",
+        "source_library_sha256": "2de71048c4e3887681ae60904355c9d49d616e916ef79900c43a4906b22a9420",
+        "acceptance": "diagnostic",
+        "seed_family": "qi",
+        "format_version": 1
+      },
+      "result_sha256": "a2e75691bad10708faa16a02bbd56445aa14edc66df72d8c8ff4f42ab4ed8efb",
+      "observer_sha256": "c3bb8d7398515785dcbf75bb32621f31f725bebb2c00cf94a9655c4d618c7362"
+    }
+  ],
+  "increasing_resolutions": true,
+  "decreasing_rms": false,
+  "rms_changes": {
+    "near": {
+      "H_rms": [
+        -1.691352699729438e-07,
+        -9.522585741805813e-08
+      ],
+      "M_rms": [
+        -4.4014799304567266e-08,
+        -2.262915152374249e-08
+      ]
+    },
+    "bulk": {
+      "H_rms": [
+        4.479413670705987e-10,
+        1.0113138964629878e-09
+      ],
+      "M_rms": [
+        -3.386779859737573e-08,
+        2.747992373530458e-09
+      ]
+    }
+  },
+  "charge_scaled_changes": [
+    4.072045436814435e-10,
+    3.768587052339903e-10
+  ],
+  "driver_sha256": "b01abb8732589fb35c70d5a79eebb098d81cfce81a8eb19c5fa2d82b3cc6c8a9"
+}

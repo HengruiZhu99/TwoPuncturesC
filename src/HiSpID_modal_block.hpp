@@ -2,11 +2,12 @@
 #define HISPID_MODAL_BLOCK_HPP
 #include "HiSpID_modal_transfer.hpp"
 #include "HiSpID_modal_probe.hpp"
+#include "HiSpID_focus.hpp"
 #include <cmath>
 namespace hispid {
 struct ModalBlock {
  int na=0,nb=0;
- std::vector<double>polar_endpoint;
+ std::vector<double>polar_endpoint,focus_endpoint,focus_response,focus_inverse;
  std::vector<double>lu,transfer,lower,upper;
  std::vector<size_t>permutation;
  // Optional exact polar endpoint correction, built after the base factors.
@@ -28,6 +29,7 @@ struct ModalBlock {
        transfer.data()+j*na*na,bool(HISPID_BATCHED_MODAL_TRANSFER),rhs);
   }
   if(!polar_endpoint.empty())prepare_polar(polar_endpoint);
+  if(!focus_endpoint.empty())prepare_focus();
   if(probe.enabled){auto x=probe.rhs;solve_many(x.data(),1);correct_polar(x.data());probe.report(diagnostic_group,x);}
  }
  // Solve many contiguous row-major RHS columns with the existing factors.
@@ -54,6 +56,27 @@ struct ModalBlock {
    if(gsl_blas_dgemm(CblasNoTrans,CblasNoTrans,-1.,&T.matrix,&next.matrix,1.,&row.matrix))
     throw std::runtime_error("Modal matrix backward solve failed");
   }
+ }
+ // Exact row replacement: x=A0^-1 b + A0^-1 E (W A0^-1 E)^-1
+ // (b_boundary-W A0^-1 b). The same rank-four solve is used on device.
+ void prepare_focus(){
+  const int N=na*nb,rank=focus_rank;focus_response.assign(rank*N,0);
+  for(int q=0;q<rank;q++)focus_response[rank*focus_row(q,na,nb)+q]=1;
+  solve_many(focus_response.data(),rank);std::vector<double>schur(rank*rank);
+  for(int a=0;a<rank;a++)for(int b=0;b<rank;b++){
+   long double q=0;for(int p=0;p<N;p++)q+=(long double)focus_endpoint[a*N+p]*focus_response[rank*p+b];schur[rank*a+b]=q;
+  }
+  auto S=gsl_matrix_view_array(schur.data(),rank,rank);std::vector<size_t>pivots(rank);gsl_permutation perm{size_t(rank),pivots.data()};int sign;
+  if(gsl_linalg_LU_decomp(&S.matrix,&perm,&sign))throw std::runtime_error("Focus Schur factorization failed");
+  for(int i=0;i<rank;i++)if(!std::isfinite(schur[i*rank+i])||std::abs(schur[i*rank+i])<1e-30)throw std::runtime_error("Singular focus border");
+  focus_inverse.resize(rank*rank);auto inv=gsl_matrix_view_array(focus_inverse.data(),rank,rank);
+  if(gsl_linalg_LU_invert(&S.matrix,&perm,&inv.matrix))throw std::runtime_error("Focus Schur inverse failed");
+ }
+ void correct_focus(double*x,const double*b)const{
+  if(focus_inverse.empty())return;const int N=na*nb,rank=focus_rank;long double g[focus_rank];double z[focus_rank]={};
+  for(int a=0;a<rank;a++){g[a]=b[a];for(int p=0;p<N;p++)g[a]-=(long double)focus_endpoint[a*N+p]*x[p];}
+  for(int a=0;a<rank;a++)for(int k=0;k<rank;k++)z[a]+=focus_inverse[rank*a+k]*g[k];
+  for(int p=0;p<N;p++)for(int k=0;k<rank;k++)x[p]+=focus_response[rank*p+k]*z[k];
  }
  // Replace the two local polar extrapolation rows by exact endpoint rows.
  // A=A0+U V^T; response=A0^{-1}U; inverse=(I+V^T response)^{-1}.
@@ -102,6 +125,7 @@ struct ModalBlock {
   }
  }
  void solve(double*x,int mode,int component)const{
+  double boundary[focus_rank];for(int q=0;q<focus_rank;q++)boundary[q]=x[4*(focus_row(q,na,nb)+na*nb*mode)+component];
   std::vector<double>f(na*nb);
   for(int j=0;j<nb;j++){
    for(int i=0;i<na;i++)f[j*na+i]=x[4*(i+na*(j+nb*mode))+component]-(j?lower[j*na+i]*f[(j-1)*na+i]:0);
@@ -113,7 +137,7 @@ struct ModalBlock {
   for(int j=nb-2;j>=0;j--)for(int i=0;i<na;i++){
    double sum=0;for(int q=0;q<na;q++)sum+=transfer[(j*na+i)*na+q]*f[(j+1)*na+q];f[j*na+i]-=sum;
   }
-  correct_polar(f.data());
+  correct_polar(f.data());correct_focus(f.data(),boundary);
   for(int j=0;j<nb;j++)for(int i=0;i<na;i++)x[4*(i+na*(j+nb*mode))+component]=f[j*na+i];
  }
  void solve(std::vector<double>&x,int mode,int component)const{solve(x.data(),mode,component);}

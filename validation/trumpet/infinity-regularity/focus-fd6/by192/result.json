@@ -1,0 +1,67 @@
+{
+  "system": "by",
+  "scope": "Higher-accuracy physical observers of immutable saved fields; no solve.",
+  "source_result_sha256": "7bd966e03d8c4091599271dc5b38361b838df2614dba0c36cd030e014957674f",
+  "method": "FD6, four times the stored FD4 step; same66 exterior points",
+  "nonlinear_solve_repeated": false,
+  "source_stopping_gate": false,
+  "library_sha256": "ae2d2c6fc64573110e9a03fd59d271840c84bcf7f6a91e81f77b68a4455baf77",
+  "resolution": [
+    192,
+    384,
+    16
+  ],
+  "snapshot_sha256": "c198f3e03cc1cb98a0cf11f687726fa97b6f1bd620c7bbaa73ce3c6d591dd5f9",
+  "reconstruction_newton_steps": 0,
+  "fd4_replay_errors": {
+    "H": 0.0,
+    "M": 0.0,
+    "Mnorm": 0.0,
+    "R": 0.0,
+    "trace": 0.0,
+    "K2": 0.0
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 8.665183461785976e-11,
+      "H_max": 2.1002036221240417e-10,
+      "M_rms": 1.733840096251404e-11,
+      "M_max": 3.885824509587588e-11,
+      "M_components_rms": [
+        2.810172874455926e-12,
+        2.678476042823823e-12,
+        4.388580173306561e-12
+      ],
+      "M_components_max": [
+        6.452215946530117e-12,
+        5.469035145719763e-12,
+        1.0403123386637903e-11
+      ],
+      "normalized_H_max": 6.245793892701572e-08,
+      "normalized_M_max": 0.003885824509587588
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 1.0290498280859917e-10,
+      "H_max": 2.3878792350390357e-10,
+      "M_rms": 1.02765558183955e-15,
+      "M_max": 4.2885989776876125e-15,
+      "M_components_rms": [
+        1.8044717649770767e-16,
+        7.24915636627305e-16,
+        1.3452885072567371e-16
+      ],
+      "M_components_max": [
+        7.454319244861331e-16,
+        3.0595892913853626e-15,
+        4.813963033486606e-16
+      ],
+      "normalized_H_max": 0.0012616759186144968,
+      "normalized_M_max": 4.2885989776876127e-07
+    }
+  },
+  "exterior_unmodified": true,
+  "physical_sha256": "0476759b158086a873f4dda61701efc2e74fadd52747038bfe2099da1fb8fb53",
+  "seconds": 172.62613870197674
+}

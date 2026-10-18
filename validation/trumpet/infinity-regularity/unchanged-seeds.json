@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "old_QI_and_trumpet_bitwise_unchanged": true,
+  "compared_values": 516,
+  "baseline": "build-axis-tau-polar/libHiSpID.dylib"
+}

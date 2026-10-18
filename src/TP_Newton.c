@@ -387,7 +387,9 @@ static int solve_linear(int nvar,int n1,int n2,int n3,derivs*v,derivs*dv,
   F_of_v(nvar,n1,n2,n3,v,F,c.u);}
  int failed=0;
  if(modal_requested){
-  c.modal=nvar==1?TP_modal_create_analytic(n1,n2,n3,c.u->d0):NULL;
+  c.modal=nvar!=1?NULL:execution_workspace
+    ?TP_modal_create_analytic_with_budget(n1,n2,n3,c.u->d0,params_get_int("TP_execution_memory_limit_mib"))
+    :TP_modal_create_analytic(n1,n2,n3,c.u->d0);
   if(c.modal)solver_stats.modal_factorizations++;else{solver_stats.modal_failures++;failed=1;}
  }else{
   c.JFD=dmatrix(0,c.total-1,0,StencilSize*nvar-1);c.cols=imatrix(0,c.total-1,0,StencilSize*nvar-1);c.ncols=ivector(0,c.total-1);

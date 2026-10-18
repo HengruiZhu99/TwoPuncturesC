@@ -14,7 +14,7 @@ int main(){
   for(int d=0;d<10;d++)*targets[d]=storage[d].data();
   const double normal=std::sqrt((m==0||m==np/2?1.:2.)/np);
   for(int j=0;j<shape[1];j++)for(int i=0;i<shape[0];i++){
-   const double a=.5*(derivative.coordinate[0][i]+1),B=derivative.coordinate[1][j],t=a*a,eta=-2*B/(1+B*B),sigma=t/(lambda+(1-lambda)*t),zeta=std::atanh(eta*std::tanh(kappa))/kappa;
+   const double a=.5*(derivative.coordinate[0][i]+1),B=derivative.coordinate[1][j],t=a*a,eta=-2*B/(1+B*B),sigma=hispid::AxisDerivatives::radial_inverse(t),zeta=std::atanh(eta*std::tanh(kappa))/kappa;
    storage[0][i+shape[0]*(j+shape[1]*mode)]=(1+.2*sigma+.07*zeta+.03*sigma*zeta+.02*sigma*sigma)/normal;
   }
   derivative.apply(1,&w);
@@ -22,7 +22,7 @@ int main(){
    using hispid::Jet;Jet A=Jet::variable(derivative.coordinate[0][i],1),B=Jet::variable(derivative.coordinate[1][j],2),phi=Jet::variable(2*pi*k/np,3);
    Jet a=(A+Jet(1))/Jet(2),t=a*a,eta=Jet(-2)*B/(Jet(1)+B*B),sn=(Jet(1)-B*B)/(Jet(1)+B*B),factor(1);
    for(int exponent=0;exponent<r;exponent++)factor=factor*a*sn;
-   Jet sigma=t/(Jet(lambda)+Jet(1-lambda)*t),angle=eta*Jet(std::tanh(kappa));Jet zeta=hispid::unary(angle,std::atanh(angle.v),1/(1-angle.v*angle.v),2*angle.v/std::pow(1-angle.v*angle.v,2))/Jet(kappa);
+   Jet sigma=hispid::AxisDerivatives::radial_inverse(t),angle=eta*Jet(std::tanh(kappa));Jet zeta=hispid::unary(angle,std::atanh(angle.v),1/(1-angle.v*angle.v),2*angle.v/std::pow(1-angle.v*angle.v,2))/Jet(kappa);
    Jet phase=Jet(m)*phi;const long double ss=std::sin(phase.v),cc=std::cos(phase.v);Jet wave=sine?hispid::unary(phase,ss,cc,-ss):hispid::unary(phase,cc,-ss,-cc);
    Jet V=(Jet(1)+a)*factor*(Jet(1)+Jet(.2)*sigma+Jet(.07)*zeta+Jet(.03)*sigma*zeta+Jet(.02)*sigma*sigma)*wave;
    const double expected[10]={double(V.v),double(V.d[1]),double(V.d[2]),double(V.d[3]),double(V.h[1][1]),double(V.h[1][2]),double(V.h[1][3]),double(V.h[2][2]),double(V.h[2][3]),double(V.h[3][3])};

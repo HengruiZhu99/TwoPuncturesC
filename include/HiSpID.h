@@ -41,7 +41,7 @@ typedef struct HiSpID_Data HiSpID_Data;
 
 /* ABI-safe family selection: existing configuration layouts/entry points
  * retain their QI meaning. The family applies to both active holes. */
-enum HiSpID_SeedFamily {HISPID_SEED_QI=0,HISPID_SEED_TRUMPET_R0_M=1};
+enum HiSpID_SeedFamily {HISPID_SEED_QI=0,HISPID_SEED_TRUMPET_R0_M=1,HISPID_SEED_LIU=2};
 HiSpID_Data *HiSpID_create_with_seed_family(const HiSpID_Config *,int family,
                                           int execution,int geometry_execution,
                                           int sampler_only);

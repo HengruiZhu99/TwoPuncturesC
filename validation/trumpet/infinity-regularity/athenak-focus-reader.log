@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "scope": "standalone_actual_reader_and_sampler_only",
+  "athenak_evolution_or_horizon_run": false,
+  "records": [
+    {
+      "family": "qi",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-focus-reader/qi.checkpoint",
+        "file_sha256": "dabcffbcf8565a7b16fe5373d1f3b93b727cf47430c106a811fc75783ae8c597",
+        "source_library_sha256": "4e70b1e561519ad21c80aace0c5313c2d754ded045f665e5f530e85efd8205c2",
+        "acceptance": "analytic_seed",
+        "seed_family": "qi",
+        "format_version": 1
+      }
+    },
+    {
+      "family": "trumpet_r0_m",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-focus-reader/trumpet_r0_m.checkpoint",
+        "file_sha256": "f5652bdc65319ad3c051651ce6cffaeb61b8bbdc8a0485257ab8b4e634cf9417",
+        "source_library_sha256": "4e70b1e561519ad21c80aace0c5313c2d754ded045f665e5f530e85efd8205c2",
+        "acceptance": "analytic_seed",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      }
+    },
+    {
+      "family": "liu",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-focus-reader/liu.checkpoint",
+        "file_sha256": "c48d9c9216825ebada1063b3e849d13c0aa31a9bca21866cde6df0cafef26894",
+        "source_library_sha256": "4e70b1e561519ad21c80aace0c5313c2d754ded045f665e5f530e85efd8205c2",
+        "acceptance": "analytic_seed",
+        "seed_family": "liu",
+        "format_version": 2
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "case": "unknown_family",
+      "error": "Unsupported HiSpID seed family"
+    },
+    {
+      "case": "mislabelled_v1",
+      "error": "Expected checkpoint field: library_sha256"
+    },
+    {
+      "case": "missing_family",
+      "error": "Expected checkpoint field: seed_family"
+    }
+  ],
+  "compile_command": [
+    "c++",
+    "-std=c++17",
+    "-O2",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-focus-tau/libHiSpID.dylib",
+    "-Wl,-rpath,/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-focus-tau",
+    "-o",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-focus-reader/reader"
+  ],
+  "execution_cwd": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet",
+  "sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-focus-tau/libHiSpID.dylib": "4e70b1e561519ad21c80aace0c5313c2d754ded045f665e5f530e85efd8205c2",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include/HiSpID.h": "6feac1f0026e5d580c119374daaaa98650fc3868b5c6c0bbe36f381ec0da25b2",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c/hispid_checkpoint.hpp": "b08723b158dfa4b84d1da1e5159498376b2ee4136f6632266c43edf41ea7e4f0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/check_trumpet_checkpoint.py": "509e8eaeae1c046006d47e7385f19a80f6679897459d0c3f094186b925180d89",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp": "52454535cc1e718092dd71368cb58dba6a558dd3a20c7a8a8ad43ab7b66a7358",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/checkpoint_export.py": "33c9ba141dfd73cfa1f17cfb7789dac74f8068a2ddc8f7723e4554ff9f592bff",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/hispid.py": "335dae43dcc7fc1fdd963bc5023260ac6cefea8afc863ec240c37e5607a8af1f",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-focus-reader/reader": "60b337dd4ebc55e699e9c50e9bd30a636074d4af710cc7f31ec33669193b3fa9"
+  }
+}

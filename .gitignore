@@ -43,3 +43,16 @@ build-galerkin-off/
 build-modal-relaxation/
 
 build-left-gmres/
+
+/build-infinity2/
+/build-liu/
+
+/build-stable-geometry/
+
+/build-transition-focused/
+
+/build-polynomial-map/
+
+/build-dual-endpoint/
+
+/build-focus-tau/

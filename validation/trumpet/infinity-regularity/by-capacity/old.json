@@ -1,0 +1,62 @@
+{
+  "final_bare_masses": [
+    0.6,
+    0.4
+  ],
+  "internal_end_adm_masses": [
+    0.6511426850122867,
+    0.4387898329748013
+  ],
+  "target_mass_errors": null,
+  "library_sha256": "6d3f7ae06ef12ce4e5b8f9bafbf7791a705b3328618abefbbbf2802b51342566",
+  "state_sha256": "562a7e1e486243a518f7cd3d937890bae34077cf942e5da7e30adbcca2b40050",
+  "residual_linf": 4.391016223442581e-15,
+  "converged": true,
+  "work_statistics": {
+    "newton_iterations": 4,
+    "krylov_iterations": 24,
+    "jvp_applications": 32,
+    "preconditioner_applications": 24,
+    "relaxation_sweeps": 0,
+    "modal_factorizations": 4,
+    "linear_failures": 0,
+    "modal_failures": 0,
+    "last_linear_target": 1.4646297492086836e-14,
+    "last_true_linear_residual": 1.3117052410735347e-14,
+    "last_relative_linear_residual": 0.0002584011168877002
+  },
+  "real_parameters": {
+    "par_b": 3.0,
+    "par_m_plus": 0.6,
+    "par_m_minus": 0.4,
+    "Newton_tol": 1e-12,
+    "par_P_plus1": 0.018041543379727906,
+    "par_S_plus1": 0.07206863688824611,
+    "par_P_plus2": 0.03608308675945581,
+    "par_S_plus2": 0.05392955687785267,
+    "par_P_plus3": 0.006013847793242636,
+    "par_S_plus3": 0.10821674806814562,
+    "par_P_minus1": -0.008023805839587412,
+    "par_S_minus1": -0.032118526965034366,
+    "par_P_minus2": -0.028083320438555943,
+    "par_S_minus2": 0.048061272414127935,
+    "par_P_minus3": 0.010029757299484264,
+    "par_S_minus3": 0.016076741187530722
+  },
+  "integer_parameters": {
+    "npoints_A": 12,
+    "npoints_B": 18,
+    "npoints_phi": 8,
+    "Newton_maxit": 24,
+    "give_bare_mass": 1,
+    "use_external_initial_guess": 0,
+    "solve_momentum_constraint": 0,
+    "grid_setup_method": 1,
+    "verbose": 1,
+    "TP_preconditioner": 1,
+    "TP_krylov_solver": 0,
+    "TP_krylov_maxit": 2000,
+    "TP_krylov_restart": 64
+  },
+  "loaded_image_verified": true
+}

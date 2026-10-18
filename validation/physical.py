@@ -1,12 +1,14 @@
 """Independent Cartesian checks of raw physical gamma_ij and K_ij.
 
 No native conformal derivatives, constraints, connections, or curvature reused.
-Fourth-order Cartesian differences, including tensor-product mixed derivatives.
+Fourth- or sixth-order Cartesian differences, including tensor-product mixed derivatives.
 """
 from __future__ import annotations
 import numpy as np
 
-def constraints(sample,xyz,step):
+def constraints(sample,xyz,step,order=4):
+    if order not in (4,6):raise ValueError("Cartesian verifier order must be4or6")
+    stencil=(-2,-1,1,2) if order==4 else (-3,-2,-1,1,2,3)
     x=np.array(xyz,dtype=float).reshape(-1,3);n=len(x)
     steps=np.broadcast_to(np.asarray(step,dtype=float),(n,))
     if np.any(steps<=0) or not np.all(np.isfinite(steps)):raise ValueError('finite positive verifier steps required')
@@ -14,27 +16,34 @@ def constraints(sample,xyz,step):
     axial={};mixed={}
     for d in range(3):
         axial[d]=[]
-        for a in (-2,-1,1,2):
+        for a in stencil:
             dx=np.zeros(3);dx[d]=a;axial[d].append(len(offsets));offsets.append(dx)
     for i in range(3):
         for j in range(i+1,3):
             mixed[i,j]=[]
-            for a in (-2,-1,1,2):
-                for b in (-2,-1,1,2):
+            for a in stencil:
+                for b in stencil:
                     dx=np.zeros(3);dx[i]=a;dx[j]=b
                     mixed[i,j].append(len(offsets));offsets.append(dx)
     pts=x[None,:,:]+steps[None,:,None]*np.array(offsets)[:,None,:]
     values=sample(pts.reshape(-1,3))
     g=values['gamma'].reshape(-1,n,3,3);K=values['Kij'].reshape(-1,n,3,3)
-    d1=np.array([1,-8,8,-1])/12
-    d2=np.array([-1,16,16,-1])/12
+    d1=np.array([1,-8,8,-1])/12 if order==4 else np.array([-1,9,-45,45,-9,1])/60
+    d2=np.array([-1,16,16,-1])/12 if order==4 else np.array([2,-27,270,270,-27,2])/180
     dg=np.zeros((n,3,3,3));ddg=np.zeros((n,3,3,3,3));dk=np.zeros_like(dg)
     for d in range(3):
         dg[:,d]=np.einsum('a,anij->nij',d1,g[axial[d]])/steps[:,None,None]
         dk[:,d]=np.einsum('a,anij->nij',d1,K[axial[d]])/steps[:,None,None]
-        ddg[:,d,d]=(np.einsum('a,anij->nij',d2,g[axial[d]])-2.5*g[0])/(steps[:,None,None]**2)
+        if order==4:ddg[:,d,d]=(np.einsum('a,anij->nij',d2,g[axial[d]])-2.5*g[0])/(steps[:,None,None]**2)
+        else:ddg[:,d,d]=np.einsum('a,anij->nij',d2,g[axial[d]]-g[0])/(steps[:,None,None]**2)
     for (i,j),ix in mixed.items():
-        v=np.einsum('a,anij->nij',np.outer(d1,d1).reshape(-1),g[ix])/(steps[:,None,None]**2)
+        if order==4:v=np.einsum('a,anij->nij',np.outer(d1,d1).reshape(-1),g[ix])/(steps[:,None,None]**2)
+        else:
+            # Constant/first-derivative terms cancel analytically before the
+            # mixed stencil sum, leaving smaller values for accumulation.
+            G=g[ix].reshape(6,6,n,3,3)
+            q=(G-g[axial[i]][:,None])-(g[axial[j]][None,:]-g[0])
+            v=np.einsum('ab,abnij->nij',np.outer(d1,d1),q)/(steps[:,None,None]**2)
         ddg[:,i,j]=ddg[:,j,i]=v
     inv=np.linalg.inv(g[0]);dinv=-np.einsum('nik,ndkl,nlj->ndij',inv,dg,inv)
     conn=np.zeros((n,3,3,3));dc=np.zeros((n,3,3,3,3))
@@ -71,13 +80,15 @@ def constraints(sample,xyz,step):
     divKlow=Mlow+dtrace
     divKnorm=np.sqrt(np.maximum(0,np.einsum('ni,nij,nj->n',divKlow,inv,divKlow)))
     gradKnorm=np.sqrt(np.maximum(0,np.einsum('ni,nij,nj->n',dtrace,inv,dtrace)))
-    return dict(H=H,M=M,Mnorm=Mnorm,R=R,trace=tr,K2=K2,
+    out=dict(H=H,M=M,Mnorm=Mnorm,R=R,trace=tr,K2=K2,
                 normalized_H=np.abs(H)/np.maximum(np.abs(R)+tr*tr+K2,1e-8),
                 normalized_M=Mnorm/np.maximum(divKnorm+gradKnorm,1e-8),
                 attenuation=values['attenuation'].reshape(-1,n)[0],
                 stencil_attenuation_min=np.min(values['attenuation'].reshape(-1,n),axis=0),
                 stencil_attenuation_all_one=np.all(values['attenuation'].reshape(-1,n)==1,axis=0),
                 min_metric_eigenvalue=np.linalg.eigvalsh(g[0])[:,0])
+    if order==6:out.update(gamma=g[0].copy(),Kij=K[0].copy())
+    return out
 
 def norms(r,mask=None):
     if mask is None:mask=np.ones(len(r['H']),dtype=bool)

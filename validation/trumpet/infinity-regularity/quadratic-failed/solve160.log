@@ -1,0 +1,30 @@
+HiSpID linear it=0 recurrence_relative=1.0000000000005069 (true residual checked by controller)
+HiSpID Newton trace it=0 residual_l2=2.0948590033113588 step_linf=3903893.8258533995 linear_relative=0.038537608852988625 slope=-0.99851485270415752
+HiSpID Newton trial it=0 damping=1 residual_ratio=0.038586609781015073 directional_remainder=0.00075120995245538569 min_psi=1.0000000002145624 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1.0000000000005778 (true residual checked by controller)
+HiSpID linear it=100 recurrence_relative=0.37138824427294653 (true residual checked by controller)
+HiSpID linear it=200 recurrence_relative=0.36972781958224354 (true residual checked by controller)
+HiSpID linear it=300 recurrence_relative=0.36844677278683546 (true residual checked by controller)
+HiSpID linear it=400 recurrence_relative=0.36788653917008829 (true residual checked by controller)
+HiSpID linear it=500 recurrence_relative=0.36774580181542654 (true residual checked by controller)
+{
+  "converged": 0,
+  "newton_iterations": 2,
+  "krylov_iterations": 514,
+  "npoints": 819200,
+  "scaled_linf": [
+    0.001260325374171446,
+    0.00017997795374585183,
+    0.0001821418962586621,
+    0.0002524017763360147
+  ],
+  "unscaled_linf": [
+    55.08395103691217,
+    1.4022191794509042,
+    1.7252052816336767,
+    1.6768699291164253
+  ],
+  "seconds": 44.18200028,
+  "status": 1,
+  "error": "iteration limit or true residual above target"
+}

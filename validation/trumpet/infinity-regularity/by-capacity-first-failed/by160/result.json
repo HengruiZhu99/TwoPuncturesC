@@ -1,0 +1,76 @@
+{
+  "scope": "same_BY_equation_as_vanilla_not_equal_HiSpID_free_metric",
+  "config": {
+    "real": {
+      "par_b": 3.0,
+      "par_m_plus": 0.6,
+      "par_m_minus": 0.4,
+      "Newton_tol": 1e-12,
+      "par_P_plus1": 0.018041543379727906,
+      "par_S_plus1": 0.07206863688824611,
+      "par_P_plus2": 0.03608308675945581,
+      "par_S_plus2": 0.05392955687785267,
+      "par_P_plus3": 0.006013847793242636,
+      "par_S_plus3": 0.10821674806814562,
+      "par_P_minus1": -0.008023805839587412,
+      "par_S_minus1": -0.032118526965034366,
+      "par_P_minus2": -0.028083320438555943,
+      "par_S_minus2": 0.048061272414127935,
+      "par_P_minus3": 0.010029757299484264,
+      "par_S_minus3": 0.016076741187530722
+    },
+    "integer": {
+      "npoints_A": 160,
+      "npoints_B": 320,
+      "npoints_phi": 16,
+      "Newton_maxit": 24,
+      "give_bare_mass": 1,
+      "use_external_initial_guess": 0,
+      "grid_setup_method": 1,
+      "verbose": 1
+    }
+  },
+  "resolution": [
+    160,
+    320,
+    16
+  ],
+  "hispid_result_sha256": "3a341d2ae89b5e2d51a6f78b445d672d3652ae7f05e983fe1bb437cfdc96b239",
+  "observer_sha256": "a795e04231375473cb488d61e3c875f6cc2d813fdb882a84d6b590f4d9a427ae",
+  "library_sha256": "ae2d2c6fc64573110e9a03fd59d271840c84bcf7f6a91e81f77b68a4455baf77",
+  "matching": "bare masses, separation, Lorentz-transformed spin vectors, P=m*Gamma*v, collocation counts, fixed Cartesian H observer and FD steps; native coordinate maps and internal stopping weights differ",
+  "diagnostics": {
+    "status": 1,
+    "native_status": 0,
+    "converged": false,
+    "residual_linf": 1.0301154154364055e-10,
+    "adm_energy": 1.048074201950877,
+    "puncture_masses": [
+      0.6512023890404501,
+      0.43893719702655026
+    ],
+    "options": {
+      "system": "bowen_york",
+      "krylov": "gmres",
+      "preconditioner": "modal",
+      "linear_rtol": 0.001,
+      "max_krylov": 512,
+      "restart": 64,
+      "execution": "kokkos"
+    }
+  },
+  "solve_seconds": 396.58545203204267,
+  "work_statistics": {
+    "newton_iterations": 24,
+    "krylov_iterations": 116,
+    "jvp_applications": 164,
+    "preconditioner_applications": 116,
+    "relaxation_sweeps": 0,
+    "modal_factorizations": 24,
+    "linear_failures": 0,
+    "modal_failures": 0,
+    "last_linear_target": 1.587889974322207e-14,
+    "last_true_linear_residual": 4.469338334289056e-15,
+    "last_relative_linear_residual": 0.00028146398091569803
+  }
+}

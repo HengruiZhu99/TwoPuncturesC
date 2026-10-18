@@ -1,0 +1,14 @@
+{
+  "scope": "read_only_m0_radial_degree112_to207_windowed_coefficient_ratio_not_physical_norm",
+  "solve_sha256": "b03530beeb6bbdd25b6ffc62a9ccda816c77c274214b54d620689c33085b878c",
+  "ratios": {
+    "suppress_inner": {
+      "scalar_ratio": 0.9394701963717268,
+      "vector_ratio": 0.0012845244618859947
+    },
+    "suppress_infinity": {
+      "scalar_ratio": 0.14301348823356774,
+      "vector_ratio": 0.4751987132242302
+    }
+  }
+}

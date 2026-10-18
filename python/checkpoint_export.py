@@ -14,11 +14,12 @@ import ctypes as C
 PARAMETERIZATION='modal_P_C2prolate_mapped_v2'
 
 def _validate_parameterization(parameterization):
-    custom_map=re.fullmatch(r'modal_P_(?:C2prolate_map_v3|C4prolate_map_v4|C2tauC4_map_v5)_r([0-9eE+.-]+)_k([0-9eE+.-]+)',parameterization)
+    custom_map=re.fullmatch(r'modal_P_(?:C2prolate_map_v3|C4prolate_map_v4|C2tauC4_map_v5|C2tauC4_inf2_map_v6|C2tauC4_poly2_map_v7|C2tauC4_beta14_map_v8|C2tauC4_focus_map_v9|C2tauC4_focus2_map_v10)_r([0-9eE+.-]+)_k([0-9eE+.-]+)',parameterization)
     if parameterization not in ('W_plus_Aminus1_V','W_plus_Aminus1_V_C2axis','modal_P_C2prolate_mapped_v2') and custom_map is None:
         raise ValueError('unsupported checkpoint parameterization')
     if custom_map and not (.001<=float(custom_map[1])<=1 and .1<=float(custom_map[2])<=6):
         raise ValueError('unsupported collocation maps')
+    if parameterization.startswith('modal_P_C2tauC4_beta14_map_v8_') and float(custom_map[1])>.5:raise ValueError('unsupported dual endpoint slope')
 
 def read_checkpoint(path):
     """Read a current typed checkpoint without loading any native image.

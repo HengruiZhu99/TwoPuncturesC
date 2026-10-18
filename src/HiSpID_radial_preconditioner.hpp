@@ -1,6 +1,6 @@
 #ifndef HISPID_RADIAL_PRECONDITIONER_HPP
 #define HISPID_RADIAL_PRECONDITIONER_HPP
-#include "HiSpID_spectral.hpp"
+#include "HiSpID_axis.hpp"
 namespace hispid {
 // Exact polynomial radial differentiation, used only in the approximate
 // inverse. Dense radial blocks already exist; polar coupling stays local.
@@ -11,8 +11,19 @@ struct RadialPreconditioner {
   for(int i=0;i<n;i++){
    const double z=-std::cos(std::acos(-1.)*(i+.5)/n),sigma=.5*(1+z);
    const double den=1-(1-lambda)*sigma;
-   t[i]=lambda*sigma/den;tz[i]=.5*lambda/(den*den);
-   tzz[i]=.5*lambda*(1-lambda)/(den*den*den);
+   if constexpr(AxisDerivatives::dual_endpoint_map){
+    t[i]=AxisDerivatives::dual_value(sigma,lambda);double ts,tss;AxisDerivatives::dual_slopes(sigma,lambda,ts,tss);tz[i]=.5*ts;tzz[i]=.25*tss;
+   }else if constexpr(AxisDerivatives::radial_polynomial){
+    t[i]=lambda*sigma+(1-lambda)*sigma*sigma;
+    tz[i]=.5*(lambda+2*(1-lambda)*sigma);tzz[i]=.5*(1-lambda);
+   }else if constexpr(AxisDerivatives::infinity_power==1){
+    t[i]=lambda*sigma/den;tz[i]=.5*lambda/(den*den);
+    tzz[i]=.5*lambda*(1-lambda)/(den*den*den);
+   }else{
+    const double d=lambda*sigma+(1-sigma)*(1-sigma),ds=lambda-2+2*sigma;
+    t[i]=lambda*sigma/d;tz[i]=.5*lambda*(1-sigma*sigma)/(d*d);
+    tzz[i]=.25*(-2*lambda*sigma/(d*d)-2*lambda*(1-sigma*sigma)*ds/(d*d*d));
+   }
    long double sum1=0,sum2=0;
    for(int j=0;j<n;j++)if(i!=j){
     const auto d=chebyshev_offdiagonal<long double>(n,i,j,1);

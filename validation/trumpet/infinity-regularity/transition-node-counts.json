@@ -1,0 +1,134 @@
+[
+  {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0,
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 2225,
+        "central_transition": 438,
+        "plateau": 617
+      },
+      {
+        "transition": 1626,
+        "central_transition": 318,
+        "plateau": 419
+      }
+    ],
+    "outermost_prolate_radius": 49803.58818601657
+  },
+  {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0,
+    "n": [
+      192,
+      384,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 3218,
+        "central_transition": 631,
+        "plateau": 880
+      },
+      {
+        "transition": 2338,
+        "central_transition": 456,
+        "plateau": 604
+      }
+    ],
+    "outermost_prolate_radius": 71716.19898609335
+  },
+  {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0,
+    "n": [
+      224,
+      448,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 4369,
+        "central_transition": 859,
+        "plateau": 1204
+      },
+      {
+        "transition": 3184,
+        "central_transition": 629,
+        "plateau": 823
+      }
+    ],
+    "outermost_prolate_radius": 97612.92084145987
+  },
+  {
+    "radial_stretch": 0.1,
+    "angular_stretch": 3.0,
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 3780,
+        "central_transition": 720,
+        "plateau": 1527
+      },
+      {
+        "transition": 2995,
+        "central_transition": 574,
+        "plateau": 1101
+      }
+    ],
+    "outermost_prolate_radius": 24903.29409290229
+  },
+  {
+    "radial_stretch": 0.1,
+    "angular_stretch": 3.0,
+    "n": [
+      192,
+      384,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 5434,
+        "central_transition": 1041,
+        "plateau": 2198
+      },
+      {
+        "transition": 4310,
+        "central_transition": 819,
+        "plateau": 1591
+      }
+    ],
+    "outermost_prolate_radius": 35859.59949304127
+  },
+  {
+    "radial_stretch": 0.1,
+    "angular_stretch": 3.0,
+    "n": [
+      224,
+      448,
+      16
+    ],
+    "meridional_nodes": [
+      {
+        "transition": 7396,
+        "central_transition": 1394,
+        "plateau": 2997
+      },
+      {
+        "transition": 5854,
+        "central_transition": 1122,
+        "plateau": 2163
+      }
+    ],
+    "outermost_prolate_radius": 48807.960420733965
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "config": {
+    "n": [
+      12,
+      18,
+      8
+    ]
+  },
+  "by_real_parameters": {
+    "par_b": 3.0,
+    "par_m_plus": 0.6,
+    "par_m_minus": 0.4,
+    "Newton_tol": 1e-12,
+    "par_P_plus1": 0.018041543379727906,
+    "par_S_plus1": 0.07206863688824611,
+    "par_P_plus2": 0.03608308675945581,
+    "par_S_plus2": 0.05392955687785267,
+    "par_P_plus3": 0.006013847793242636,
+    "par_S_plus3": 0.10821674806814562,
+    "par_P_minus1": -0.008023805839587412,
+    "par_S_minus1": -0.032118526965034366,
+    "par_P_minus2": -0.028083320438555943,
+    "par_S_minus2": 0.048061272414127935,
+    "par_P_minus3": 0.010029757299484264,
+    "par_S_minus3": 0.016076741187530722
+  },
+  "by_integer_parameters": {
+    "npoints_A": 12,
+    "npoints_B": 18,
+    "npoints_phi": 8,
+    "Newton_maxit": 24,
+    "give_bare_mass": 1,
+    "use_external_initial_guess": 0,
+    "solve_momentum_constraint": 0,
+    "grid_setup_method": 1,
+    "verbose": 1
+  }
+}

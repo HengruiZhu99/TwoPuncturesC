@@ -3,6 +3,7 @@
 #include "HiSpID_spectral.hpp"
 #include "HiSpID_jets.hpp"
 #include <algorithm>
+#include <type_traits>
 #ifndef HISPID_RADIAL_STRETCH
 #define HISPID_RADIAL_STRETCH .2
 #endif
@@ -10,6 +11,15 @@
 #define HISPID_ANGULAR_STRETCH 2.
 #endif
 
+#ifndef HISPID_DUAL_ENDPOINT_MAP
+#define HISPID_DUAL_ENDPOINT_MAP 0
+#endif
+#ifndef HISPID_RADIAL_POLYNOMIAL
+#define HISPID_RADIAL_POLYNOMIAL 0
+#endif
+#ifndef HISPID_INFINITY_POWER
+#define HISPID_INFINITY_POWER 1
+#endif
 #ifndef HISPID_REGULARITY_CAP
 #define HISPID_REGULARITY_CAP 4
 #endif
@@ -29,7 +39,59 @@ struct AxisDerivatives {
  static constexpr double radial_stretch=HISPID_RADIAL_STRETCH,angular_stretch=HISPID_ANGULAR_STRETCH;
  static_assert(radial_stretch>=.001&&radial_stretch<=1,"radial map stretch must be in[.001,1]");
  static_assert(angular_stretch>=.1&&angular_stretch<=6,"angular map stretch must be in[.1,6]");
- HISPID_GEOMETRY_INLINE static double radial_t(double s){return radial_stretch*s/(1-(1-radial_stretch)*s);}
+ static constexpr bool dual_endpoint_map=HISPID_DUAL_ENDPOINT_MAP;
+ static_assert(!dual_endpoint_map||radial_stretch<=.5,"dual endpoint slope must be in[.001,.5]");
+ static constexpr bool radial_polynomial=HISPID_RADIAL_POLYNOMIAL;
+ static constexpr int infinity_power=HISPID_INFINITY_POWER;
+ static_assert(infinity_power==1||infinity_power==2,"infinity power must be1or2");
+ // Positive polynomial density. F is the Beta(15,3) CDF; its
+ // binomial-tail form avoids cancellation at both endpoints. t_s(0)=l,
+ // t_s(1)=2. No extra vanishing power at compactified infinity is introduced.
+ template<class R> HISPID_GEOMETRY_INLINE static R dual_value(R s,R l){
+  const R b=(R(2)-l)/R(5),c=R(1)-l-b,q=R(1)-s;
+  return l*s+b*std::pow(s,5)+c*std::pow(s,15)*(R(136)*q*q+R(17)*s*q+s*s);
+ }
+ template<class R> HISPID_GEOMETRY_INLINE static void dual_slopes(R s,R l,R&ts,R&tss){
+  const R b=(R(2)-l)/R(5),c=R(1)-l-b,q=R(1)-s;
+  ts=l+R(5)*b*std::pow(s,4)+c*R(2040)*std::pow(s,14)*q*q;
+  tss=R(20)*b*std::pow(s,3)+c*R(2040)*(R(14)*std::pow(s,13)*q*q-R(2)*std::pow(s,14)*q);
+ }
+ template<class R> HISPID_GEOMETRY_INLINE static R dual_inverse(R t){
+  if(t<=R(0))return R(0);if(t>=R(1))return R(1);
+  R lo=0,hi=1,s=std::sqrt(t),l=R(radial_stretch);
+  for(int k=0;k<64;k++){
+   R value=dual_value(s,l),ts,tss;if(value==t)return s;
+   dual_slopes(s,l,ts,tss);if(value<t)lo=s;else hi=s;
+   R next=s-(value-t)/ts;if(next==s)return s;
+   if(!(next>lo&&next<hi))next=(lo+hi)/R(2);
+   if(next==s)return s;s=next;
+  }return s;
+ }
+ // t=a^2; (1-t) ~ (1-s)^p. Squaring the infinity distance raises
+ // differentiability of polyhomogeneous terms without changing free data.
+ HISPID_GEOMETRY_INLINE static double radial_t(double s){
+  if constexpr(dual_endpoint_map)return dual_value(s,radial_stretch);
+  if constexpr(radial_polynomial)return radial_stretch*s+(1-radial_stretch)*s*s;
+  if constexpr(infinity_power==1)return radial_stretch*s/(1-(1-radial_stretch)*s);
+  return radial_stretch*s/(radial_stretch*s+(1-s)*(1-s));
+ }
+ template<class T> HISPID_GEOMETRY_INLINE static T radial_inverse(T t){
+  if constexpr(dual_endpoint_map){
+   if constexpr(std::is_arithmetic_v<T>)return dual_inverse(t);
+   else{auto s=dual_inverse(t.v),ts=s,tss=s;dual_slopes(s,decltype(s)(radial_stretch),ts,tss);return unary(t,s,1/ts,-tss/(ts*ts*ts));}
+  }
+  if constexpr(radial_polynomial){using std::sqrt;return T(2)*t/(T(radial_stretch)+sqrt(T(radial_stretch*radial_stretch)+T(4*(1-radial_stretch))*t));}
+  if constexpr(infinity_power==1)return t/(T(radial_stretch)+T(1-radial_stretch)*t);
+  T q=T(radial_stretch)*(T(1)-t);using std::sqrt;
+  return T(2)*t/(T(2)*t+q+sqrt(q*(T(4)*t+q)));
+ }
+ HISPID_GEOMETRY_INLINE static void radial_forward(double s,double&ts,double&tss){
+  const double l=radial_stretch;
+  if constexpr(dual_endpoint_map)dual_slopes(s,l,ts,tss);
+  else if constexpr(radial_polynomial){ts=l+2*(1-l)*s;tss=2*(1-l);}
+  else if constexpr(infinity_power==1){double d=1-(1-l)*s;ts=l/(d*d);tss=2*(1-l)*l/(d*d*d);}
+  else{double d=l*s+(1-s)*(1-s),ds=l-2+2*s;ts=l*(1-s*s)/(d*d);tss=-2*l*s/(d*d)-2*l*(1-s*s)*ds/(d*d*d);}
+ }
  HISPID_GEOMETRY_INLINE static double angular_eta(double z){return std::tanh(angular_stretch*z)/std::tanh(angular_stretch);}
  static constexpr int regularity_cap=HISPID_REGULARITY_CAP;
  static_assert(regularity_cap==4||regularity_cap==6,"regularity cap must be4or6");
@@ -39,8 +101,10 @@ struct AxisDerivatives {
  HISPID_GEOMETRY_INLINE static void node(int axis,int N,int i,double out[3]){
   const double pi=std::acos(-1.0),z=-std::cos(pi*(i+.5)/N);
   if(axis==0){const double t=radial_t(.5*(1+z)),a=std::sqrt(t),den=radial_stretch+(1-radial_stretch)*t;
-   out[0]=2*a-1;out[1]=2*a*radial_stretch/(den*den);
-   out[2]=radial_stretch/(den*den)-4*(1-radial_stretch)*t*radial_stretch/(den*den*den);
+   out[0]=2*a-1;
+   if constexpr(infinity_power==1&&!radial_polynomial&&!dual_endpoint_map){out[1]=2*a*radial_stretch/(den*den);
+    out[2]=radial_stretch/(den*den)-4*(1-radial_stretch)*t*radial_stretch/(den*den*den);
+   }else{double ts,tss;radial_forward(.5*(1+z),ts,tss);out[1]=2*a/ts;out[2]=1/ts-2*t*tss/(ts*ts*ts);}
   }else{const double eta=angular_eta(z),B=-eta/(1+std::sqrt(1-eta*eta)),den=1+B*B,eb=-2*(1-B*B)/(den*den),ebb=4*B*(3-B*B)/(den*den*den),T=std::tanh(angular_stretch),Q=1-T*T*eta*eta;
    out[0]=B;out[1]=T*eb/(angular_stretch*Q);
    out[2]=T*ebb/(angular_stretch*Q)+2*T*T*T*eta*eb*eb/(angular_stretch*Q*Q);

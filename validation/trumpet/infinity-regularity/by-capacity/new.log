@@ -1,0 +1,51 @@
+Solving puncture equation for BH-BH system
+Newton: it=0 	 |F|=9.921902e-02
+bare mass: mp=0.6 	 mm=0.4
+gmres:  itmax 2000, tol 9.921902e-05
+gmres:     0   4.259e-01
+gmres:     1   9.488e-02   0.000e+00   0.000e+00   0.000e+00
+gmres:     2   2.501e-02   0.000e+00   0.000e+00   0.000e+00
+gmres:     3   5.049e-03   0.000e+00   0.000e+00   0.000e+00
+gmres:     4   1.499e-03   0.000e+00   0.000e+00   0.000e+00
+gmres:     5   2.481e-04   0.000e+00   0.000e+00   0.000e+00
+gmres:     6   3.992e-05   0.000e+00   0.000e+00   0.000e+00
+linear_true: 3.99237320459052347e-05 relative 9.37486949707180020e-05 target 9.92190220493660222e-05
+Newton: it=1 	 |F|=6.224147e-04
+bare mass: mp=0.6 	 mm=0.4
+gmres:  itmax 2000, tol 6.224147e-07
+gmres:     0   2.406e-03
+gmres:     1   5.821e-04   0.000e+00   0.000e+00   0.000e+00
+gmres:     2   1.882e-04   0.000e+00   0.000e+00   0.000e+00
+gmres:     3   4.495e-05   0.000e+00   0.000e+00   0.000e+00
+gmres:     4   1.022e-05   0.000e+00   0.000e+00   0.000e+00
+gmres:     5   1.856e-06   0.000e+00   0.000e+00   0.000e+00
+gmres:     6   5.564e-07   0.000e+00   0.000e+00   0.000e+00
+linear_true: 5.56376192912252062e-07 relative 2.31242376529005016e-04 target 6.22414747566014508e-07
+Newton: it=2 	 |F|=1.325557e-07
+bare mass: mp=0.6 	 mm=0.4
+gmres:  itmax 2000, tol 1.325557e-10
+gmres:     0   5.621e-07
+gmres:     1   2.765e-07   0.000e+00   0.000e+00   0.000e+00
+gmres:     2   4.960e-08   0.000e+00   0.000e+00   0.000e+00
+gmres:     3   8.086e-09   0.000e+00   0.000e+00   0.000e+00
+gmres:     4   1.835e-09   0.000e+00   0.000e+00   0.000e+00
+gmres:     5   4.352e-10   0.000e+00   0.000e+00   0.000e+00
+gmres:     6   5.076e-11   0.000e+00   0.000e+00   0.000e+00
+linear_true: 5.07636446184974886e-11 relative 9.03065826438196511e-05 target 1.32555675776893586e-10
+Newton: it=3 	 |F|=1.464630e-11
+bare mass: mp=0.6 	 mm=0.4
+gmres:  itmax 2000, tol 1.464630e-14
+gmres:     0   5.076e-11
+gmres:     1   2.906e-11   0.000e+00   0.000e+00   0.000e+00
+gmres:     2   6.579e-12   0.000e+00   0.000e+00   0.000e+00
+gmres:     3   1.048e-12   0.000e+00   0.000e+00   0.000e+00
+gmres:     4   3.174e-13   0.000e+00   0.000e+00   0.000e+00
+gmres:     5   5.612e-14   0.000e+00   0.000e+00   0.000e+00
+gmres:     6   1.312e-14   0.000e+00   0.000e+00   0.000e+00
+linear_true: 1.31170524107353469e-14 relative 2.58401116887700211e-04 target 1.46462974920868355e-14
+Newton: it=4 	 |F|=4.391016e-15 
+REFERENCE {"final_bare_masses": [0.6, 0.4], "internal_end_adm_masses": [0.6511426850122867, 0.4387898329748013], "target_mass_errors": null, "library_sha256": "c136adca11e7d1e5318e24c75fccc0091b6ce4fad6e6cb2ae221a474d12efa0f", "state_sha256": "562a7e1e486243a518f7cd3d937890bae34077cf942e5da7e30adbcca2b40050", "residual_linf": 4.391016223442581e-15, "converged": true, "work_statistics": {"newton_iterations": 4, "krylov_iterations": 24, "jvp_applications": 32, "preconditioner_applications": 24, "relaxation_sweeps": 0, "modal_factorizations": 4, "linear_failures": 0, "modal_failures": 0, "last_linear_target": 1.4646297492086836e-14, "last_true_linear_residual": 1.3117052410735347e-14, "last_relative_linear_residual": 0.0002584011168877002}, "real_parameters": {"par_b": 3.0, "par_m_plus": 0.6, "par_m_minus": 0.4, "Newton_tol": 1e-12, "par_P_plus1": 0.018041543379727906, "par_S_plus1": 0.07206863688824611, "par_P_plus2": 0.03608308675945581, "par_S_plus2": 0.05392955687785267, "par_P_plus3": 0.006013847793242636, "par_S_plus3": 0.10821674806814562, "par_P_minus1": -0.008023805839587412, "par_S_minus1": -0.032118526965034366, "par_P_minus2": -0.028083320438555943, "par_S_minus2": 0.048061272414127935, "par_P_minus3": 0.010029757299484264, "par_S_minus3": 0.016076741187530722}, "integer_parameters": {"npoints_A": 12, "npoints_B": 18, "npoints_phi": 8, "Newton_maxit": 24, "give_bare_mass": 1, "use_external_initial_guess": 0, "solve_momentum_constraint": 0, "grid_setup_method": 1, "verbose": 1, "TP_preconditioner": 1, "TP_krylov_solver": 0, "TP_krylov_maxit": 2000, "TP_krylov_restart": 64}, "loaded_image_verified": true}
+The two puncture masses are mp=0.59999999999999998 and mm=0.40000000000000002
+Puncture 1 ADM mass is 0.651142685012287
+Puncture 2 ADM mass is 0.438789832974801
+The total ADM mass is 1.04805817205563

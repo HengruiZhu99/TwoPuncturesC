@@ -1,0 +1,67 @@
+{
+  "system": "by",
+  "scope": "Higher-accuracy physical observers of immutable saved fields; no solve.",
+  "source_result_sha256": "7963f112b0657bad8a0ee3deca4b42e8a34e75dcdfab40ec47673c2e2bc8bea5",
+  "method": "FD6, four times the stored FD4 step; same66 exterior points",
+  "nonlinear_solve_repeated": false,
+  "source_stopping_gate": true,
+  "library_sha256": "c136adca11e7d1e5318e24c75fccc0091b6ce4fad6e6cb2ae221a474d12efa0f",
+  "resolution": [
+    12,
+    18,
+    8
+  ],
+  "snapshot_sha256": "8a139000d12665441125643b3d732197e4b5d90ce79f21b09c1681314a2cf490",
+  "reconstruction_newton_steps": 0,
+  "fd4_replay_errors": {
+    "H": 0.0,
+    "M": 0.0,
+    "Mnorm": 0.0,
+    "R": 0.0,
+    "trace": 0.0,
+    "K2": 0.0
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 0.003205413006782209,
+      "H_max": 0.00972492945259816,
+      "M_rms": 1.7341445904271673e-11,
+      "M_max": 3.8861759132984615e-11,
+      "M_components_rms": [
+        2.8104597311003265e-12,
+        2.6779736233472166e-12,
+        4.389783845783902e-12
+      ],
+      "M_components_max": [
+        6.456235755190959e-12,
+        5.467631855120423e-12,
+        1.0404989692309014e-11
+      ],
+      "normalized_H_max": 1.0,
+      "normalized_M_max": 0.0038861759132984616
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 7.327273794982567e-06,
+      "H_max": 2.0561100551611222e-05,
+      "M_rms": 1.0643867705609625e-15,
+      "M_max": 4.4463369401415565e-15,
+      "M_components_rms": [
+        1.4617893933881286e-16,
+        7.59545571347262e-16,
+        1.4022886996000157e-16
+      ],
+      "M_components_max": [
+        6.041098415818475e-16,
+        3.2043151867459133e-15,
+        4.466503463845199e-16
+      ],
+      "normalized_H_max": 1.0,
+      "normalized_M_max": 4.4463369401415565e-07
+    }
+  },
+  "exterior_unmodified": true,
+  "physical_sha256": "e8ce3a66ce04fdb283038e475034f8c6cc49529a6ebf35ced040649a857b4b36",
+  "seconds": 0.032704250000000004
+}

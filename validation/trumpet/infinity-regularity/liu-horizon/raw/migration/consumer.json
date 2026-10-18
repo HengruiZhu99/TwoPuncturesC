@@ -1,0 +1,25 @@
+{
+  "library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so",
+  "library_sha256": "a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15",
+  "dependency_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so": "eb58117a23bb5d2bd1a1d7acd83fb9d14e691f1efd88122660edbded5410356a"
+  },
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+    "file_sha256": "481d7329a6c6246c09169d6625d18a952693f8723a04b4be745cf8b7cdd3e964",
+    "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+    "acceptance": "analytic_seed",
+    "parameterization": "modal_P_C2tauC4_inf2_map_v6_r0.20000000000000001_k2",
+    "seed_family": "liu",
+    "format_version": 2
+  },
+  "compiled_execution": "reference",
+  "runtime_images": {},
+  "parameterization": "modal_P_C2tauC4_inf2_map_v6_r0.20000000000000001_k2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "point_count": 1512,
+  "artifact_sha256": "21b566af13e75f228f45c2dacd4d5d30bafa795ca6037bfdfa7d174c0e7c6c5f"
+}

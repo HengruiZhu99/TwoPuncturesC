@@ -11,6 +11,18 @@ namespace puncture {
 PUNCTURE_PROJECTION_INLINE void projection_two_sum(double a,double b,double&s,double&e){
  s=a+b;double q=s-a;e=(a-(s-q))+(b-q);
 }
+// Compensated product accumulator for parallel reductions of strongly
+// cancelling endpoint rows. Joining partial sums retains their low parts.
+struct ProjectionAccumulator {
+ double high=0,low=0;
+ PUNCTURE_PROJECTION_INLINE void product(double a,double b){
+  volatile double rounded=a*b;double value=rounded,next,error;
+  projection_two_sum(high,value,next,error);low+=error+::fma(a,b,-value);high=next;
+ }
+ PUNCTURE_PROJECTION_INLINE ProjectionAccumulator&operator+=(const ProjectionAccumulator&x){
+  double next,error;projection_two_sum(high,x.high,next,error);low+=x.low+error;high=next;return *this;
+ }
+};
 // Compensate subtraction, multiplication and summation. Tiny Fourier modes
 // are divided by near-axis regularity factors; ordinary dot-product roundoff
 // can consequently become a large preconditioned correction.
@@ -26,6 +38,13 @@ PUNCTURE_PROJECTION_INLINE double compensated_projection(
  }
  return sum+correction;
 }
+ }
+#ifdef PUNCTURES_KOKKOS
+namespace Kokkos {
+template<> struct reduction_identity<puncture::ProjectionAccumulator> {
+ KOKKOS_FORCEINLINE_FUNCTION static puncture::ProjectionAccumulator sum(){return {};}
+};
 }
+#endif
 #undef PUNCTURE_PROJECTION_INLINE
 #endif

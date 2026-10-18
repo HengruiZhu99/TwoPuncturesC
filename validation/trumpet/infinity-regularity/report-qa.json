@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "source": "docs/TRUMPET_FORMULATION_VALIDATION.tex",
+  "source_sha256": "c4b871cfdb7a8f2a41f5e3a4592e692f83f2fcfbfb16ddd516da6af7964c53d3",
+  "pdf": "output/pdf/TRUMPET_FORMULATION_VALIDATION.pdf",
+  "pdf_sha256": "14ba959c141beab31dd88817effce749c2121341a13d3f27c285bf91fed565d4",
+  "format": "REVTeX4-2 APS PRD preprint",
+  "builtin_compiler": "success",
+  "tectonic_export": "success",
+  "rendered_pages": 19,
+  "all_pages_visually_reviewed": true,
+  "plots": [
+    "final_constraints.png",
+    "horizon_coordinate_radius.png"
+  ],
+  "scientific_outcome": "Strict bulk convergence still fails; horizon and migration checks pass."
+}

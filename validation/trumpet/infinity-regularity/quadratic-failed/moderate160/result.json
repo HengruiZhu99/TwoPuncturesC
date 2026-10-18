@@ -1,0 +1,188 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.04133150175713435,
+      0.02773831375552595
+    ],
+    "inner_max": [
+      0.234211843290428,
+      0.15718377794798039
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 512,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "qi"
+  },
+  "library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+  "kind": "qi-moderate-wide_qi_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": false,
+  "axisymmetric": false,
+  "linear_rtol": 0.1,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-infinity2-20261018/validation/run_trumpet_pilot.py": "26f85348d8ee004e448e86c7fafec560f3547f4cc1dba3657eae438f38dbb957",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-infinity2-20261018/examples/trumpet_configs.py": "2f518e9063e023acee6e708c7a858393a0ba5e51b1271df836355f045d6d6085",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-infinity2-20261018/validation/run_validation.py": "ed04b5aca5f46e0d9a158a4446dfc86c0a9dbd12fb189e3e9265cc2cbb41eca7",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-infinity2-20261018/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-infinity2-20261018/validation/remapped_guess.py": "b8bb34555ec0071f1a8731e97ecf775d33cd28b787d8be33c655b516f467907c",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-infinity2-20261018/validation/prolong.py": "d1c816bf7093ab056c38011016e09ae313aefec0de13fc7643163531410f0af9",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-infinity2-20261018/python/checkpoint_export.py": "59f10a5b063e64d2a02925c3166e665bdbc6ef3fa8c81c1131d0004f9b5c14ca"
+  },
+  "setup_seconds": 62.95806319901021,
+  "native_setup_statistics": {
+    "geometry_execution": 0,
+    "scalar_digits": 64,
+    "spectral_seconds": 0.16439646400157715,
+    "geometry_seconds": 62.28868217603012,
+    "coefficient_seconds": 0.0
+  },
+  "execution_device": {
+    "name": "NVIDIA A100-SXM4-80GB",
+    "uuid": "GPU-b6d4b4cc-1b73-e585-9e98-03915fed9cc6",
+    "visible_ordinal": 0,
+    "visible_count": 1,
+    "total_bytes": 85093777408,
+    "free_bytes": 81889263616,
+    "sm_count": 108,
+    "compute_major": 8,
+    "compute_minor": 0
+  },
+  "compiled_execution": "Cuda",
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 2,
+    "krylov_iterations": 514,
+    "npoints": 819200,
+    "scaled_linf": [
+      0.001260325374171446,
+      0.00017997795374585183,
+      0.0001821418962586621,
+      0.0002524017763360147
+    ],
+    "unscaled_linf": [
+      55.08395103691217,
+      1.4022191794509042,
+      1.7252052816336767,
+      1.6768699291164253
+    ],
+    "seconds": 44.18200028,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "execution_statistics_after_solve": {
+    "operator_seconds": 5.716072980023455,
+    "precondition_seconds": 25.364677936886437,
+    "setup_seconds": 9.479122489981819,
+    "linear_seconds": 34.41380099195521,
+    "transfer_seconds": 0.7248246052186005,
+    "nonlinear_seconds": 0.0,
+    "resident_bytes": 6275776256,
+    "peak_workspace_bytes": 3460300800,
+    "host_to_device_bytes": 8755306752,
+    "device_to_host_bytes": 158924800,
+    "kokkos_host_current_bytes": 0,
+    "kokkos_host_peak_bytes": 0,
+    "kokkos_device_current_bytes": 2725416192,
+    "kokkos_device_peak_bytes": 9738958592,
+    "nonlinear_calls": 0,
+    "workspace_creations": 0,
+    "memory_tracking_available": 1
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.03853760885299044,
+      2.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.3676858945178133,
+      512.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 526,
+    "preconditioner_applications": 514
+  },
+  "resolved_options": {
+    "system": "hispid",
+    "krylov": "gmres",
+    "linear_rtol": 0.1,
+    "preconditioner": "modal",
+    "execution": "kokkos",
+    "geometry": "host",
+    "seed_family": "qi",
+    "native_verified": true
+  },
+  "solve_artifact_sha256": "e089f3c71d0d3fb64aabfe163b9d70f2274b217d2594edc61a3a9dba38f33213",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/infinity2-regularity-v2/moderate160/diagnostic.checkpoint",
+    "file_sha256": "02777a6e669f98106720a8b7f9787f05f6fcf105040327645a0bcadcb640bf8b",
+    "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+    "acceptance": "diagnostic",
+    "seed_family": "qi",
+    "format_version": 1
+  },
+  "termination": "failed_solve_observer_skipped",
+  "total_seconds": 113.39969370799372,
+  "process_peak_rss_kib": 3787892
+}

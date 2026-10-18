@@ -1,0 +1,273 @@
+[ 73%] Built target TwoPunctures
+[ 80%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_solver.cpp.o
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_solver.cpp(757): warning #177-D: variable "N" was declared but never referenced
+    if(!groups)return;const int N=a*b;
+                                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(19): warning #20013-D: calling a constexpr __host__ function("acos") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real pi=std::acos(Real(-1)),ti=pi*(Real(i)+Real(.5))/Real(N),tj=pi*(Real(j)+Real(.5))/Real(N);
+                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                                   ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(21): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real d=(std::abs(i-j)%2?Real(-1):Real(1))*std::sin(tj)/(si*dx);
+                                                   ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(22): warning #20013-D: calling a constexpr __host__ function("cos") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return order==1?d:Real(2)*d*(-std::cos(ti)/(Real(2)*si*si)-Real(1)/dx);
+                                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(19): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real pi=std::acos(Real(-1)),ti=pi*(Real(i)+Real(.5))/Real(N),tj=pi*(Real(j)+Real(.5))/Real(N);
+                          ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                                           ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(21): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real d=(std::abs(i-j)%2?Real(-1):Real(1))*std::sin(tj)/(si*dx);
+                                                           ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(22): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return order==1?d:Real(2)*d*(-std::cos(ti)/(Real(2)*si*si)-Real(1)/dx);
+                                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_solver.cpp(68): warning #177-D: variable "<unnamed>::hi" was declared but never referenced
+  const int hi[6]={1,1,1,2,2,3},hj[6]={1,2,3,2,3,3};
+            ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_solver.cpp(68): warning #177-D: variable "<unnamed>::hj" was declared but never referenced
+  const int hi[6]={1,1,1,2,2,3},hj[6]={1,2,3,2,3,3};
+                                ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_solver.cpp(958): warning #177-D: function "<unnamed>::gmres" was declared but never referenced
+  bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol,bool eager=false){
+       ^
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(19): warning #20013-D: calling a constexpr __host__ function("std::acos(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(21): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_spectral.hpp(22): warning #20013-D: calling a constexpr __host__ function("std::cos(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/src/HiSpID_geometry_kernels.hpp(290): warning #20208-D: 'long double' is treated as 'double' in device code
+
+[ 86%] Linking CXX shared library libHiSpID.so
+[100%] Built target HiSpID
+[ 64%] Built target TwoPunctures
+[ 88%] Built target HiSpID
+[ 94%] Linking CXX executable test_hispid_focus
+[100%] Built target test_hispid_focus
+[ 64%] Built target TwoPunctures
+[ 88%] Built target HiSpID
+[ 94%] Building CXX object CMakeFiles/test_hispid_kokkos.dir/tests/test_hispid_kokkos.cpp.o
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_solver.cpp(757): warning #177-D: variable "N" was declared but never referenced
+    if(!groups)return;const int N=a*b;
+                                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(19): warning #20013-D: calling a constexpr __host__ function("acos") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real pi=std::acos(Real(-1)),ti=pi*(Real(i)+Real(.5))/Real(N),tj=pi*(Real(j)+Real(.5))/Real(N);
+                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                                   ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(21): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real d=(std::abs(i-j)%2?Real(-1):Real(1))*std::sin(tj)/(si*dx);
+                                                   ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(22): warning #20013-D: calling a constexpr __host__ function("cos") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return order==1?d:Real(2)*d*(-std::cos(ti)/(Real(2)*si*si)-Real(1)/dx);
+                                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(19): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real pi=std::acos(Real(-1)),ti=pi*(Real(i)+Real(.5))/Real(N),tj=pi*(Real(j)+Real(.5))/Real(N);
+                          ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                                           ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(21): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real d=(std::abs(i-j)%2?Real(-1):Real(1))*std::sin(tj)/(si*dx);
+                                                           ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(22): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return order==1?d:Real(2)*d*(-std::cos(ti)/(Real(2)*si*si)-Real(1)/dx);
+                                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_radial_preconditioner.hpp
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(19): warning #20013-D: calling a constexpr __host__ function("std::acos(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(21): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_spectral.hpp(22): warning #20013-D: calling a constexpr __host__ function("std::cos(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus2-20261018/tests/../src/HiSpID_geometry_kernels.hpp(290): warning #20208-D: 'long double' is treated as 'double' in device code
+
+[100%] Linking CXX executable test_hispid_kokkos
+[100%] Built target test_hispid_kokkos

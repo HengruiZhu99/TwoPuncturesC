@@ -1,0 +1,12 @@
+{
+  "selected_focus_order": 1,
+  "strict_binary_convergence_passed": false,
+  "c1_all_absolute_bounds_passed": true,
+  "c2_selected": false,
+  "c2_failure": "Bulk momentum grows160->192 and exceeds original1e-6 bound; stop before224/256",
+  "finest_c1_fd6_bulk_H": 2.2393740965088168e-09,
+  "finest_c1_fd6_bulk_M": 7.769608129487295e-09,
+  "matched_by_fd6_bulk_H": 1.1075426659985569e-10,
+  "multigrid_adopted": false,
+  "reason": "Independent physical discretization/regularity trend remains; few-dozen-step Krylov solves do not justify a new multigrid campaign."
+}

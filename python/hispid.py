@@ -54,7 +54,7 @@ def unpack(out):
                           else getattr(p,name) for p in out])
             for name,_ in Point._fields_}
 
-SEED_FAMILIES={'qi':0,'trumpet_r0_m':1}
+SEED_FAMILIES={'qi':0,'trumpet_r0_m':1,'liu':2}
 def seed_family_code(name):
     if name not in SEED_FAMILIES:raise ValueError('unsupported seed family: '+str(name))
     return SEED_FAMILIES[name]
@@ -116,7 +116,7 @@ class Backend:
     def residual_scaling(self):
         return self.lib.HiSpID_residual_scaling().decode('ascii') if hasattr(self.lib,'HiSpID_residual_scaling') else 'sin6_alpha_beta'
     def parameterization_description(self):
-        if self.parameterization().startswith('modal_P_C2tauC4_map_v5_'):
+        if self.parameterization().startswith(('modal_P_C2tauC4_map_v5_','modal_P_C2tauC4_focus_map_v9_','modal_P_C2tauC4_focus2_map_v10_','modal_P_C2tauC4_inf2_map_v6_','modal_P_C2tauC4_poly2_map_v7_','modal_P_C2tauC4_beta14_map_v8_')):
             return 'C2 modal P with homogeneous axis endpoint constraints for m>=5 (C4 regularity)'
         if self.parameterization().startswith('modal_P_C4prolate_map_v4_'):
             return 'modal P: u=W-2(1-t)q^r P, t=a^2, q=a sin(R), parity cap r<=6'
@@ -128,7 +128,10 @@ class Backend:
         if hasattr(self.lib,'HiSpID_collocation_maps'):
             values=np.empty(2)
             if self.lib.HiSpID_collocation_maps(ptr(values)):raise ValueError('native collocation-map query failed')
-            return dict(radial_stretch=float(values[0]),angular_stretch=float(values[1]))
+            maps=dict(radial_stretch=float(values[0]),angular_stretch=float(values[1]))
+            if self.parameterization().startswith('modal_P_C2tauC4_poly2_map_v7_'):maps['radial_kind']='quadratic'
+            if self.parameterization().startswith('modal_P_C2tauC4_beta14_map_v8_'):maps['radial_kind']='endpoint_beta14'
+            return maps
         if self.parameterization()=='modal_P_C2prolate_mapped_v2':
             return dict(radial_stretch=.2,angular_stretch=2.)
         if self.parameterization()=='modal_P_C2prolate_v1':

@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "scope": "standalone_actual_reader_and_sampler_only",
+  "athenak_evolution_or_horizon_run": false,
+  "records": [
+    {
+      "family": "qi",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-dual-endpoint-reader/qi.checkpoint",
+        "file_sha256": "66162b1027d45e6865ac2e303a12ae46f34e0cf9a8c7d98bf0eb68c2d563abec",
+        "source_library_sha256": "9283878e0535cdfb0377a8fe20567bf12806c2ab75c0e16f6d914f8f1be4bc44",
+        "acceptance": "analytic_seed",
+        "seed_family": "qi",
+        "format_version": 1
+      }
+    },
+    {
+      "family": "trumpet_r0_m",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-dual-endpoint-reader/trumpet_r0_m.checkpoint",
+        "file_sha256": "8253676b15b145b9c78898db65180f74b95c17fe3a484cfd2d7ed318be3dcf20",
+        "source_library_sha256": "9283878e0535cdfb0377a8fe20567bf12806c2ab75c0e16f6d914f8f1be4bc44",
+        "acceptance": "analytic_seed",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      }
+    },
+    {
+      "family": "liu",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-dual-endpoint-reader/liu.checkpoint",
+        "file_sha256": "1967ffb47fad87dd32cc0187e83cf35499c6536f4a1e2bfbf976e76e0ead8d4b",
+        "source_library_sha256": "9283878e0535cdfb0377a8fe20567bf12806c2ab75c0e16f6d914f8f1be4bc44",
+        "acceptance": "analytic_seed",
+        "seed_family": "liu",
+        "format_version": 2
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "case": "unknown_family",
+      "error": "Unsupported HiSpID seed family"
+    },
+    {
+      "case": "mislabelled_v1",
+      "error": "Expected checkpoint field: library_sha256"
+    },
+    {
+      "case": "missing_family",
+      "error": "Expected checkpoint field: seed_family"
+    }
+  ],
+  "compile_command": [
+    "c++",
+    "-std=c++17",
+    "-O2",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-dual-endpoint/libHiSpID.dylib",
+    "-Wl,-rpath,/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-dual-endpoint",
+    "-o",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-dual-endpoint-reader/reader"
+  ],
+  "execution_cwd": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet",
+  "sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-dual-endpoint/libHiSpID.dylib": "9283878e0535cdfb0377a8fe20567bf12806c2ab75c0e16f6d914f8f1be4bc44",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include/HiSpID.h": "6feac1f0026e5d580c119374daaaa98650fc3868b5c6c0bbe36f381ec0da25b2",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c/hispid_checkpoint.hpp": "b08723b158dfa4b84d1da1e5159498376b2ee4136f6632266c43edf41ea7e4f0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/check_trumpet_checkpoint.py": "509e8eaeae1c046006d47e7385f19a80f6679897459d0c3f094186b925180d89",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp": "52454535cc1e718092dd71368cb58dba6a558dd3a20c7a8a8ad43ab7b66a7358",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/checkpoint_export.py": "d5f18f83b140da74330647d35ae487aac099f8fc5e5a2574926bffd58374990d",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/hispid.py": "a5dc4b96345f8532090cc893446752bdb0fbdad50e2e3d7b1d1d3f7246adacc5",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/build-dual-endpoint-reader/reader": "f5ad2c2dd80e27570852bc7491480f8ea5b46c85621c14529c8bb82837498cc8"
+  }
+}

@@ -10,7 +10,7 @@ Fields cartesian_polynomial(const HiSpID_Data&s,const double*x){
  Jet rp=sqrt((X-Jet(s.b))*(X-Jet(s.b))+Y*Y+Z*Z),rm=sqrt((X+Jet(s.b))*(X+Jet(s.b))+Y*Y+Z*Z);
  Jet D=(rp+rm+Jet(2*s.b))/Jet(2),t=Jet(1)-Jet(2*s.b)/D,eta=(rm-rp)/Jet(2*s.b);
  const double lambda=hispid::AxisDerivatives::radial_stretch,kappa=hispid::AxisDerivatives::angular_stretch;
- Jet z=Jet(2)*t/(Jet(lambda)+Jet(1-lambda)*t)-Jet(1),angle=eta*Jet(std::tanh(kappa));
+ Jet z=Jet(2)*hispid::AxisDerivatives::radial_inverse(t)-Jet(1),angle=eta*Jet(std::tanh(kappa));
  Jet zeta=hispid::unary(angle,std::atanh(angle.v),1/(1-angle.v*angle.v),2*angle.v/std::pow(1-angle.v*angle.v,2))/Jet(kappa);
  const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],half=np/2;
  std::vector<Jet>Ta(na),Tb(nb);Ta[0]=Tb[0]=1;Ta[1]=z;Tb[1]=zeta;

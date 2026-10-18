@@ -1,0 +1,29 @@
+{
+  "scope": "physical H at matched counts and identical fixed observers; not a performance comparison or identical free metric",
+  "records": [
+    {
+      "n": 160,
+      "max_newton": 24,
+      "stopping_gate": false,
+      "original_residual_linf": 1.0301154154364055e-10,
+      "near_H_rms": 9.71143535355456e-10,
+      "bulk_H_rms": 1.1813936125489632e-09
+    },
+    {
+      "n": 192,
+      "max_newton": 24,
+      "stopping_gate": false,
+      "original_residual_linf": 1.5226029272882926e-10,
+      "near_H_rms": 1.076987300677741e-09,
+      "bulk_H_rms": 1.462452829746657e-09
+    },
+    {
+      "n": 224,
+      "max_newton": 8,
+      "stopping_gate": false,
+      "original_residual_linf": 1.9417202384195258e-10,
+      "near_H_rms": 1.1871755315227402e-09,
+      "bulk_H_rms": 1.5448569613233052e-09
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 10,
+    "krylov_iterations": 1164,
+    "npoints": 2304,
+    "scaled_linf": [
+      8.226742532780338e-14,
+      1.573099628756734e-13,
+      1.4626134236884745e-13,
+      9.86036836357566e-14
+    ],
+    "unscaled_linf": [
+      5.247027503480161e-09,
+      1.7051075770199478e-08,
+      9.041482963654213e-09,
+      9.069327300603114e-09
+    ],
+    "seconds": 3.2780145,
+    "status": 0,
+    "error": ""
+  },
+  "parameterization": "modal_P_C2tauC4_focus2_map_v10_r0.20000000000000001_k2",
+  "library_sha256": "b1d001b4789e379cf2d86dd401c52090e531402a1e7e771553d7486ce0042082"
+}

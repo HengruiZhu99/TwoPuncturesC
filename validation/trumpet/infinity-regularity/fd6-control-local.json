@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "calibration": {
+    "original_fd4": {
+      "near": {
+        "count": 48,
+        "H_rms": 9.749420652994803e-10,
+        "H_max": 2.330871737601146e-09,
+        "M_rms": 0.0,
+        "M_max": 0.0,
+        "M_components_rms": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "M_components_max": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "normalized_H_max": 0.23308717376011462,
+        "normalized_M_max": 0.0
+      },
+      "bulk": {
+        "count": 18,
+        "H_rms": 1.1436274564651011e-09,
+        "H_max": 3.267690952031459e-09,
+        "M_rms": 0.0,
+        "M_max": 0.0,
+        "M_components_rms": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "M_components_max": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "normalized_H_max": 0.3267690952031459,
+        "normalized_M_max": 0.0
+      }
+    },
+    "declared_fd6": {
+      "near": {
+        "count": 48,
+        "H_rms": 7.100076098843623e-11,
+        "H_max": 1.5823261352294912e-10,
+        "M_rms": 0.0,
+        "M_max": 0.0,
+        "M_components_rms": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "M_components_max": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "normalized_H_max": 0.015823261352294914,
+        "normalized_M_max": 0.0
+      },
+      "bulk": {
+        "count": 18,
+        "H_rms": 8.017081231298776e-11,
+        "H_max": 1.7902830398345347e-10,
+        "M_rms": 0.0,
+        "M_max": 0.0,
+        "M_components_rms": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "M_components_max": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "normalized_H_max": 0.017902830398345348,
+        "normalized_M_max": 0.0
+      }
+    }
+  },
+  "manufactured_absolute_error": 9.974659986866641e-18
+}

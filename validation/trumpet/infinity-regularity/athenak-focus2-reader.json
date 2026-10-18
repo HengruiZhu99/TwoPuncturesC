@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "scope": "standalone_actual_reader_and_sampler_only",
+  "athenak_evolution_or_horizon_run": false,
+  "records": [
+    {
+      "family": "qi",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/focus2-reader-local/qi.checkpoint",
+        "file_sha256": "9ef676d42f82f04fd4becb3869d28fe3b4d54640f616d88e4b1fa0ed72c4b5f8",
+        "source_library_sha256": "b1d001b4789e379cf2d86dd401c52090e531402a1e7e771553d7486ce0042082",
+        "acceptance": "analytic_seed",
+        "seed_family": "qi",
+        "format_version": 1
+      }
+    },
+    {
+      "family": "trumpet_r0_m",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/focus2-reader-local/trumpet_r0_m.checkpoint",
+        "file_sha256": "8d89a52692123e2d9ff6a6565a30903667495b480b9ecebce1fed1111c4d79ed",
+        "source_library_sha256": "b1d001b4789e379cf2d86dd401c52090e531402a1e7e771553d7486ce0042082",
+        "acceptance": "analytic_seed",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      }
+    },
+    {
+      "family": "liu",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/focus2-reader-local/liu.checkpoint",
+        "file_sha256": "e7f195abf5601eba47c33f576eb39196aa837b8ead407a4c99b8698b4381935b",
+        "source_library_sha256": "b1d001b4789e379cf2d86dd401c52090e531402a1e7e771553d7486ce0042082",
+        "acceptance": "analytic_seed",
+        "seed_family": "liu",
+        "format_version": 2
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "case": "unknown_family",
+      "error": "Unsupported HiSpID seed family"
+    },
+    {
+      "case": "mislabelled_v1",
+      "error": "Expected checkpoint field: library_sha256"
+    },
+    {
+      "case": "missing_family",
+      "error": "Expected checkpoint field: seed_family"
+    }
+  ],
+  "compile_command": [
+    "c++",
+    "-std=c++17",
+    "-O2",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/../AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-focus-tau/libHiSpID.dylib",
+    "-Wl,-rpath,/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-focus-tau",
+    "-o",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/focus2-reader-local/reader"
+  ],
+  "execution_cwd": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet",
+  "sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/build-focus-tau/libHiSpID.dylib": "b1d001b4789e379cf2d86dd401c52090e531402a1e7e771553d7486ce0042082",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include/HiSpID.h": "6feac1f0026e5d580c119374daaaa98650fc3868b5c6c0bbe36f381ec0da25b2",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c/hispid_checkpoint.hpp": "b08723b158dfa4b84d1da1e5159498376b2ee4136f6632266c43edf41ea7e4f0",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/../AthenaK-trumpet/tst/test_suite/z4c/check_trumpet_checkpoint.py": "509e8eaeae1c046006d47e7385f19a80f6679897459d0c3f094186b925180d89",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/../AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp": "52454535cc1e718092dd71368cb58dba6a558dd3a20c7a8a8ad43ab7b66a7358",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/checkpoint_export.py": "865aba2bd86bb63b325761f6c8564969a783cb1df223d07f59156178b32e3942",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/hispid.py": "b424504d1c0e5aece4b96d8ed2188a52c1492e310840fdf21b73070cfb404dc2",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/focus2-reader-local/reader": "60b337dd4ebc55e699e9c50e9bd30a636074d4af710cc7f31ec33669193b3fa9"
+  }
+}

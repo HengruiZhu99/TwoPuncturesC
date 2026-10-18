@@ -1,0 +1,355 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.04133150175713435,
+      0.02773831375552595
+    ],
+    "inner_max": [
+      0.234211843290428,
+      0.15718377794798039
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 512,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "qi"
+  },
+  "library_sha256": "3ad43ab26b8873e51dc7ff7ec46031e25f9e3c78bd3d39f854453d99a1c422f2",
+  "kind": "qi-moderate-wide_qi_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": true,
+  "axisymmetric": false,
+  "linear_rtol": 0.1,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-dual-endpoint-20261018/validation/run_trumpet_pilot.py": "2f5270aff61b8f530a61bef3ed56b5ca2ace25d58842ee1a0a05054a3b072a1d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-dual-endpoint-20261018/examples/trumpet_configs.py": "2f518e9063e023acee6e708c7a858393a0ba5e51b1271df836355f045d6d6085",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-dual-endpoint-20261018/validation/run_validation.py": "42a5c10c4cf8a12447f1602a7003cfab834578f6e723cba13bb508a123daa975",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-dual-endpoint-20261018/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-dual-endpoint-20261018/validation/remapped_guess.py": "649e6fa75245f8146556ec6a14c8f83abc242724a3f82a14514466d198810edc",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-dual-endpoint-20261018/validation/prolong.py": "6a3f3d31d53044d7c41e67a6d1e7bfdff1e8f1f576689cb124be727478564a89",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-dual-endpoint-20261018/python/checkpoint_export.py": "d5f18f83b140da74330647d35ae487aac099f8fc5e5a2574926bffd58374990d"
+  },
+  "setup_seconds": 65.8091605710215,
+  "native_setup_statistics": {
+    "geometry_execution": 0,
+    "scalar_digits": 64,
+    "spectral_seconds": 0.1646281260182208,
+    "geometry_seconds": 65.17270210997782,
+    "coefficient_seconds": 0.0
+  },
+  "execution_device": {
+    "name": "NVIDIA A100-SXM4-80GB",
+    "uuid": "GPU-0bc51fb8-a795-a3a3-3a09-52f386597dee",
+    "visible_ordinal": 0,
+    "visible_count": 1,
+    "total_bytes": 85093777408,
+    "free_bytes": 81889263616,
+    "sm_count": 108,
+    "compute_major": 8,
+    "compute_minor": 0
+  },
+  "compiled_execution": "Cuda",
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 9,
+    "krylov_iterations": 51,
+    "npoints": 819200,
+    "scaled_linf": [
+      7.189143222893871e-14,
+      7.242645844429288e-13,
+      7.091206471422832e-13,
+      9.041765346442595e-13
+    ],
+    "unscaled_linf": [
+      2.617827824187158e-05,
+      8.668101483747834e-05,
+      0.0004362721777627687,
+      5.443740533534118e-05
+    ],
+    "seconds": 46.00291217,
+    "status": 0,
+    "error": ""
+  },
+  "execution_statistics_after_solve": {
+    "operator_seconds": 0.7522098643239588,
+    "precondition_seconds": 2.5183641278999858,
+    "setup_seconds": 41.07120186695829,
+    "linear_seconds": 3.4635057529667392,
+    "transfer_seconds": 2.765612880757544,
+    "nonlinear_seconds": 0.0,
+    "resident_bytes": 6275776256,
+    "peak_workspace_bytes": 734003200,
+    "host_to_device_bytes": 33284913408,
+    "device_to_host_bytes": 767590400,
+    "kokkos_host_current_bytes": 0,
+    "kokkos_host_peak_bytes": 0,
+    "kokkos_device_current_bytes": 2725416192,
+    "kokkos_device_peak_bytes": 7012660992,
+    "nonlinear_calls": 0,
+    "workspace_creations": 0,
+    "memory_tracking_available": 1
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.00747451847522284,
+      2.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.07519703775026929,
+      2.0
+    ],
+    [
+      2.0,
+      0.1,
+      0.05046822486126928,
+      4.0
+    ],
+    [
+      3.0,
+      0.1,
+      0.06152504141880692,
+      5.0
+    ],
+    [
+      4.0,
+      0.1,
+      0.07474994800754621,
+      5.0
+    ],
+    [
+      5.0,
+      0.1,
+      0.07748932952436809,
+      6.0
+    ],
+    [
+      6.0,
+      0.1,
+      0.052065215194580024,
+      6.0
+    ],
+    [
+      7.0,
+      0.1,
+      0.04605929769176591,
+      9.0
+    ],
+    [
+      8.0,
+      0.1,
+      0.07736156956546564,
+      12.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 78,
+    "preconditioner_applications": 51
+  },
+  "resolved_options": {
+    "system": "hispid",
+    "krylov": "gmres",
+    "linear_rtol": 0.1,
+    "preconditioner": "modal",
+    "execution": "kokkos",
+    "geometry": "host",
+    "seed_family": "qi",
+    "native_verified": true
+  },
+  "solve_artifact_sha256": "8fb96c21a726e34be08705ac9bf90e219b5eaf39fdc1cbcee828a790944586f8",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/dual-endpoint-v1/moderate160/diagnostic.checkpoint",
+    "file_sha256": "b5e255a2cbebd12c6fabf4e11b1197bb4e1b96fe67d0367dad0bd97cd39fd7b8",
+    "source_library_sha256": "3ad43ab26b8873e51dc7ff7ec46031e25f9e3c78bd3d39f854453d99a1c422f2",
+    "acceptance": "diagnostic",
+    "seed_family": "qi",
+    "format_version": 1
+  },
+  "observer_threads": 16,
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 3.680263514733128e-08,
+      "H_max": 1.119698925244883e-07,
+      "M_rms": 4.2359796507485133e-07,
+      "M_max": 1.9466673050938104e-06,
+      "M_components_rms": [
+        2.6215503385560866e-08,
+        1.5389225649005725e-07,
+        1.300629358223335e-07
+      ],
+      "M_components_max": [
+        9.648617328314182e-08,
+        8.85497912349981e-07,
+        4.641974554215951e-07
+      ],
+      "normalized_H_max": 1.3558560189278248e-05,
+      "normalized_M_max": 0.00014576450467764039
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 5.3663469488552976e-08,
+      "H_max": 1.534982786255984e-07,
+      "M_rms": 2.1430269960757487e-05,
+      "M_max": 4.959265249766354e-05,
+      "M_components_rms": [
+        1.1077297093229657e-06,
+        1.3345065097719165e-05,
+        1.1880583114614743e-05
+      ],
+      "M_components_max": [
+        2.106029695415983e-06,
+        4.054912970611467e-05,
+        3.305705962402239e-05
+      ],
+      "normalized_H_max": 0.07843905410798348,
+      "normalized_M_max": 0.2893220353147177
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.001999504486689936,
+      "H_max": 0.00585176513867719,
+      "M_rms": 0.00014975104188141573,
+      "M_max": 0.0003412117414539914,
+      "M_components_rms": [
+        5.1629803885873275e-06,
+        1.556008479899462e-05,
+        5.8473254099038605e-06
+      ],
+      "M_components_max": [
+        1.3257115070862124e-05,
+        3.927702761923873e-05,
+        1.600163374919171e-05
+      ],
+      "normalized_H_max": 0.990189501231198,
+      "normalized_M_max": 0.016979728707756422
+    }
+  },
+  "exterior_stencil_unmodified": true,
+  "minimum_psi": 1.0302325524526978,
+  "minimum_metric_eigenvalue": 1.1265414586216385,
+  "observer_artifact_sha256": "c05b67654099950a150726afad3641c97f7cbaf0c8cc1cf77d364cca5ef718d5",
+  "charge_radii": [
+    256.0,
+    512.0,
+    1024.0
+  ],
+  "charges": [
+    [
+      1.000277937009974,
+      0.010504303538383377,
+      0.006842943543027207,
+      0.01870503409699852,
+      0.03983720909736299,
+      0.11480493799078961,
+      0.32665822232481523
+    ],
+    [
+      0.9973742457107252,
+      0.01053122175119951,
+      0.006861333686685257,
+      0.018751915275844837,
+      0.03991475661182116,
+      0.11501452590969259,
+      0.32729881447739434
+    ],
+    [
+      0.9959244971214578,
+      0.010544708973296879,
+      0.006870550122412913,
+      0.01877540152226415,
+      0.0399536088155216,
+      0.11511947983552188,
+      0.32761975747106464
+    ]
+  ],
+  "charges_extrapolated": [
+    0.9944761465724288,
+    0.010558214939187117,
+    0.006879780800739655,
+    0.018798918206680896,
+    0.03999251331686963,
+    0.1152245404056031,
+    0.3279411317429889
+  ],
+  "execution_statistics_final": {
+    "operator_seconds": 0.7522098643239588,
+    "precondition_seconds": 2.5183641278999858,
+    "setup_seconds": 41.07120186695829,
+    "linear_seconds": 3.4635057529667392,
+    "transfer_seconds": 2.765612880757544,
+    "nonlinear_seconds": 0.0,
+    "resident_bytes": 6275776256,
+    "peak_workspace_bytes": 734003200,
+    "host_to_device_bytes": 33284913408,
+    "device_to_host_bytes": 767590400,
+    "kokkos_host_current_bytes": 0,
+    "kokkos_host_peak_bytes": 0,
+    "kokkos_device_current_bytes": 2725416192,
+    "kokkos_device_peak_bytes": 7012660992,
+    "nonlinear_calls": 0,
+    "workspace_creations": 0,
+    "memory_tracking_available": 1
+  },
+  "total_seconds": 222.95477990299696,
+  "process_peak_rss_kib": 3788668
+}

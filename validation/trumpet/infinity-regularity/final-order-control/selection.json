@@ -1,0 +1,5 @@
+{
+  "c2_prefix_passed": false,
+  "selected_for_horizon": "c1_finest224",
+  "reason": "Predeclared C2 refinement gate; original physical acceptance remains separately assessed."
+}

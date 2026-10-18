@@ -9,8 +9,20 @@ int main(){
    const long double theta=std::acos(z),u=std::cos(degree*theta);
    const long double du=degree*std::sin(degree*theta)/std::sin(theta);
    const long double ddu=(z*du-degree*degree*u)/(1-z*z);
-   const long double s=(1+z)/2,d=1-(1-lambda)*s,t=lambda*s/d;
-   const long double tz=lambda/(2*d*d),tzz=lambda*(1-lambda)/(2*d*d*d);
+   const long double s=(1+z)/2,d=1-(1-lambda)*s;
+   long double t=lambda*s/d,tz=lambda/(2*d*d),tzz=lambda*(1-lambda)/(2*d*d*d);
+   if constexpr(hispid::AxisDerivatives::dual_endpoint_map){
+    const long double b=(2-lambda)/5,c=1-lambda-b,q=1-s;
+    t=lambda*s+b*std::pow(s,5)+c*std::pow(s,15)*(136*q*q+17*s*q+s*s);
+    tz=(lambda+5*b*std::pow(s,4)+2040*c*std::pow(s,14)*q*q)/2;
+    tzz=(20*b*std::pow(s,3)+2040*c*(14*std::pow(s,13)*q*q-2*std::pow(s,14)*q))/4;
+   }else if constexpr(hispid::AxisDerivatives::radial_polynomial){
+    t=lambda*s+(1-lambda)*s*s;tz=(lambda+2*(1-lambda)*s)/2;tzz=(1-lambda)/2;
+   }else if constexpr(hispid::AxisDerivatives::infinity_power==2){
+    const long double q=lambda*s+(1-s)*(1-s),dq=lambda-2+2*s;
+    t=lambda*s/q;tz=lambda*(1-s*s)/(2*q*q);
+    tzz=-lambda*s/(2*q*q)-lambda*(1-s*s)*dq/(2*q*q*q);
+   }
    const long double ctt=t*(1-t)*(1-t),ct=(1-t)*((r+1)*(1-t)-2*t);
    const long double exact=ctt*(ddu/(tz*tz)-du*tzz/(tz*tz*tz))+ct*du/tz;
    long double got=0;

@@ -7,7 +7,8 @@
 namespace hispid {
 template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&hole,int choice,const double *point,SeedT<Real>&s,bool stable_evaluation=false,int family=HISPID_SEED_QI){
  if(family==HISPID_SEED_TRUMPET_R0_M)return trumpet_seed_geometry(hole,choice,point,s);
- if(family!=HISPID_SEED_QI)return geometry_nonfinite;
+ if(family!=HISPID_SEED_QI&&family!=HISPID_SEED_LIU)return geometry_nonfinite;
+ const bool liu=family==HISPID_SEED_LIU;
  Real m=hole.mass,smag=point_norm<Real>(hole.spin),a=smag/m,v2=0;
  Real axis[3]={0,0,1};if(smag>0)for(int i=0;i<3;i++)axis[i]=hole.spin[i]/smag;
  for(int i=0;i<3;i++)v2+=(Real)hole.velocity[i]*hole.velocity[i];
@@ -26,20 +27,27 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&
  JetT<Real> r2=0,z=0;for(int i=0;i<3;i++){r2=r2+x[i]*x[i];z=z+JetT<Real>(axis[i])*x[i];}
  if(!(r2.v>0))return geometry_puncture;
  JetT<Real> r=sqrt(r2),costh=z/r;
- JetT<Real> rb=r+JetT<Real>(m)+JetT<Real>((m*m-a*a)/4)/r;
+ // Liu, Etienne & Shapiro (2009), Eqs.12,14. Keep the original QI
+ // arithmetic untouched unless the new family is explicitly requested.
+ const Real rp=m+std::sqrt(m*m-a*a),rm=a*a/rp,c=rp/4;
+ JetT<Real> rb=liu?r+JetT<Real>(2*c)+JetT<Real>(c*c)/r:
+     r+JetT<Real>(m)+JetT<Real>((m*m-a*a)/4)/r;
+ JetT<Real> radial=liu?(r-JetT<Real>(c))*sqrt((rb-JetT<Real>(rm))/r):
+     r-JetT<Real>((m*m-a*a)/4)/r;
+ JetT<Real> radial_metric=liu?JetT<Real>(rm)/(rb-JetT<Real>(rm)):JetT<Real>(0);
  JetT<Real> sigma=rb*rb+JetT<Real>(a*a)*costh*costh;
  JetT<Real> sin2=JetT<Real>(1)-costh*costh;
  JetT<Real> AA=(rb*rb+JetT<Real>(a*a))*(rb*rb+JetT<Real>(a*a))
-    -JetT<Real>(a*a)*(r-JetT<Real>((m*m-a*a)/4)/r)*(r-JetT<Real>((m*m-a*a)/4)/r)*sin2;
+    -JetT<Real>(a*a)*radial*radial*sin2;
  JetT<Real> psiQI=power(sigma/r2,Real(.25L));
- JetT<Real> alpha0=(r-JetT<Real>((m*m-a*a)/4)/r)*sqrt(sigma/AA);
+ JetT<Real> alpha0=radial*sqrt(sigma/AA);
  JetT<Real> cross[3]={JetT<Real>(axis[1])*x[2]-JetT<Real>(axis[2])*x[1],
     JetT<Real>(axis[2])*x[0]-JetT<Real>(axis[0])*x[2],JetT<Real>(axis[0])*x[1]-JetT<Real>(axis[1])*x[0]};
  JetT<Real> beta0[3],rest[3][3],rinv[3][3];
  for(int i=0;i<3;i++){
   beta0[i]=-JetT<Real>(2*m*a)*rb/AA*cross[i];
   for(int j=0;j<3;j++)rest[i][j]=power(psiQI,4)
-     *(JetT<Real>(i==j?1:0)+JetT<Real>(a*a)*(JetT<Real>(1)+JetT<Real>(2*m)*rb/sigma)/(sigma*r2)*cross[i]*cross[j]);
+     *(JetT<Real>(i==j?1:0)+radial_metric*x[i]*x[j]/r2+JetT<Real>(a*a)*(JetT<Real>(1)+JetT<Real>(2*m)*rb/sigma)/(sigma*r2)*cross[i]*cross[j]);
  }
  if(!invert_checked(rest,rinv))return geometry_determinant;
  {
@@ -64,12 +72,11 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&
  /* Rest beta=omega*l, with l an axial Killing vector. Factoring dR/dr
   * and Delta analytically in (partial omega)/alpha removes the 0/0 at
   * the QI throat and the associated cancellation in K and its derivatives. */
- const JetT<Real> radial=r-JetT<Real>((m*m-a*a)/4)/r;
  JetT<Real> AAR=JetT<Real>(4)*rb*(rb*rb+JetT<Real>(a*a))-JetT<Real>(a*a)*(JetT<Real>(2)*rb-JetT<Real>(2*m))*sin2;
  JetT<Real> omegaR=-JetT<Real>(2*m*a)*(AA-rb*AAR)/(AA*AA),gradomega[3],lcov[3],K0[3][3],Kmixed[3][3];
  for(int i=0;i<3;i++){
   JetT<Real> dcosth=(JetT<Real>(axis[i])-costh*x[i]/r)/r;
-  gradomega[i]=sqrt(AA/sigma)*(omegaR*x[i]/r2+JetT<Real>(4*m*a*a*a)*rb*costh*radial/(AA*AA)*dcosth);
+  gradomega[i]=sqrt(AA/sigma)*((liu?omegaR*(r+JetT<Real>(c))/sqrt(r*(rb-JetT<Real>(rm)))*x[i]/r2:omegaR*x[i]/r2)+JetT<Real>(4*m*a*a*a)*rb*costh*radial/(AA*AA)*dcosth);
   for(int j=0;j<3;j++)lcov[i]=lcov[i]+rest[i][j]*cross[j];
  }
  for(int i=0;i<3;i++)for(int j=0;j<3;j++)K0[i][j]=(lcov[i]*gradomega[j]+lcov[j]*gradomega[i])/JetT<Real>(2);
@@ -130,11 +137,11 @@ template<class Real> HISPID_GEOMETRY_INLINE int seed_geometry(const HiSpID_Hole&
    * supplies the remaining normal part of the spacetime pullback. */
   JetT<Real> rest_normalized[3][3],U[3][3];
   for(int i=0;i<3;i++)for(int j=0;j<3;j++){
-   rest_normalized[i][j]=JetT<Real>(i==j?1:0)
+   rest_normalized[i][j]=JetT<Real>(i==j?1:0)+radial_metric*x[i]*x[j]/r2
     +JetT<Real>(a*a)*(JetT<Real>(1)+JetT<Real>(2*m)*rb/sigma)/(sigma*r2)*cross[i]*cross[j];
    U[i][j]=JetT<Real>(B[i+1][j+1])+JetT<Real>(B[0][j+1])*beta0[i];
   }
-  JetT<Real> radial_normalized=r2-JetT<Real>((m*m-a*a)/4);
+  JetT<Real> radial_normalized=liu?radial*r:r2-JetT<Real>((m*m-a*a)/4);
   JetT<Real> lapse_normalized=radial_normalized*radial_normalized/AA;
   for(int i=0;i<3;i++)for(int j=0;j<3;j++){
    normalized[i][j]=-JetT<Real>(B[0][i+1]*B[0][j+1])*lapse_normalized;

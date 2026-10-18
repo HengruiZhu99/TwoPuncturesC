@@ -1,0 +1,32 @@
+
+Root grid = 1 x 1 x 1 MeshBlocks
+Total number of MeshBlocks = 1
+Number of logical  levels of refinement = 0 (1 levels total)
+Number of physical levels of refinement = 0 (1 levels total)
+Number of parallel ranks = 1
+FastFlow harmonic_storage horizon=0 mode=factorized lmax=12 ntheta=24 host_bytes=107448 device_bytes=107448 unique_bytes=107448
+AssembleZ4cTasks
+HiSpID consumer_dependency symbol="AB_To_XR" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="C_To_c" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="PK_solve" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so"
+HiSpID consumer_dependency symbol="Puncture_execution_initialize" image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libTwoPunctures.so"
+HiSpID consumer_image="/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-sampler/libHiSpID.so"
+HiSpID import source=003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb acceptance=analytic_seed consumer=a123b2dca38443ef6ede75cf1ee7d774a7f4ca6849394c6c34d4e20a1ff7fe15 ADM/Z4c relative error=4.946804011324339e-16 seed_family=liu
+HiSpID horizon_geometry parallel=0 host_concurrency=1
+HiSpID horizon 0 geometry=native found=1 area=28.678150678307606 expansion_rms=9.7205421890594907e-08 min_radius=0.28526696631594822 attempt_area=28.678150678307606 attempt_expansion_rms=9.7205421890594907e-08 center_x=0 center_y=0 center_z=0 kind=component
+### WARNING in /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/src/parameter_input.cpp: input parameter <z4c>/nco = 0 was not used by the code (check for a typo)
+### WARNING in /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/src/parameter_input.cpp: input parameter <problem>/hispid_allow_diagnostic = false was not used by the code (check for a typo)
+### WARNING in /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/src/parameter_input.cpp: input parameter <problem>/hispid_mesh_constraint_min_radius = 0.75 was not used by the code (check for a typo)
+
+Setup complete, executing task list(s)...
+
+elapsed=1.781226e+02 cycle=0 time=0.000000e+00 dt=1.000000e-01
+
+Terminating on cycle limit
+time=0.000000e+00 cycle=0
+tlim=0.000000e+00 nlim=0
+
+MeshBlock-cycles = 0
+cpu time used  = 6.853000e-06
+zone-cycles/cpu_second = 0.000000e+00
+particle-updates/cpu_second = 0.000000e+00

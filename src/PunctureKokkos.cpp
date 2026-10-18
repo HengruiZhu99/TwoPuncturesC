@@ -195,7 +195,7 @@ struct Puncture_BYWorkspace {
 };
 
 static int BY_capacity(int na,int nb,int np,const PK_Options*options){
- if(na<4||nb<4||np<4||na>256||nb>256||np>256||np%2||!options||options->restart<1||options->restart>4096||
+ if(na<4||nb<4||np<4||na>512||nb>512||np>256||np%2||!options||options->restart<1||options->restart>4096||
     (options->method!=PK_GMRES&&options->method!=PK_BICGSTAB))return PK_INVALID;
  const long double points=(long double)na*nb*np,blocks=(long double)(np/2+1)*nb*na*na;
  const long double krylov=options->method==PK_GMRES?2.L*options->restart+5:8;

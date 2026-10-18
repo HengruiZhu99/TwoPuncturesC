@@ -1,0 +1,7 @@
+{
+  "residual_relative_l2": 1.1787198565267566e-15,
+  "jvp_relative_l2": 2.384218183999727e-16,
+  "library_sha256": "3ad43ab26b8873e51dc7ff7ec46031e25f9e3c78bd3d39f854453d99a1c422f2",
+  "parameterization": "modal_P_C2tauC4_beta14_map_v8_r0.050000000000000003_k3",
+  "passed": true
+}

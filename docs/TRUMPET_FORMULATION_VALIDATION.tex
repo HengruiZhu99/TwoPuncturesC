@@ -8,19 +8,17 @@
 \author{TwoPuncturesC and AthenaK integration}
 \date{18 October 2026 --- interim report}
 \begin{abstract}
-Selectable trumpet and quasi-isotropic (QI) seeds, the coupled solver,
-portable checkpoints and the AthenaK consumer are implemented.
-\textbf{No complete binary physical-validation claim is supported yet.}
-A focused QI control with the same generic moderate binary seed parameters
-shows that widening the interior transition reduces coarse-grid bulk momentum
-RMS by a factor of 36.4. One unchanged QI formulation at three resolutions
-then meets every absolute exterior constraint bound, but its bulk residuals
-increase with refinement; the original strict trend criterion remains failed.
-Both extreme trumpet binaries also remain unqualified. The regularity
-investigation distinguishes puncture, transition, axis and compactified-infinity
-behavior; a seed-family change alone is not a demonstrated general remedy.
-The finest QI checkpoint passes sampler migration and horizon angular/quadrature
-checks, with its failed constraint-trend gate retained separately. This report records an incomplete validation milestone.
+We implement quasi-isotropic (QI), $R_0=M$ trumpet and Liu wormhole seeds
+with portable AthenaK import. First Cartesian focus compatibility reduces
+the finest moderate QI bulk momentum RMS by 21.9 to $7.77\times10^{-9}$.
+\textbf{The strict bulk-convergence gate remains failed.} One fixed
+three-grid formulation meets absolute physical constraint bounds; a
+calibrated sixth-order observer confirms the residual rise. Stronger second
+compatibility worsens the error and is rejected. Finest-grid AthenaK horizons
+pass angular, quadrature and interior-enclosure checks. Matched-count
+Bowen--York Hamiltonian RMS is near $10^{-10}$, at the observer calibration
+floor; failed native stopping gates are retained. Isolated Liu $\chi=0.99$
+controls pass. Moderate trumpet and extreme binaries remain unqualified.
 \end{abstract}
 \maketitle
 
@@ -87,7 +85,7 @@ three-grid decrease, positive $\psi$, stable charges & Not passed\\
 Import & Checkpoint-bound fields and gradients within $10^{-12}$ & Passed cases\\
 Horizons & Expansion RMS $<10^{-7}$; angular/quadrature stability,
 mass/spin changes $<10^{-4}$; enclosure & See below\\
-Compatibility & Unchanged QI default fixture on identical platform/build & Pass\\
+Compatibility & Historical QI fixture; original batch-seed API remains bitwise identical & See update\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -198,6 +196,260 @@ family nor upgrade the QI checkpoint's diagnostic acceptance. Exact
 configurations, raw physical and horizon arrays, frozen-image hashes, figures
 and commands are retained in
 \path{validation/trumpet/regularity-family-control/}.
+
+\section{Endpoint regularity and Liu chart update}
+The current moderate study retains the wider QI formulation above. Host
+background construction now uses algebraically normalized seed metrics,
+\texttt{expm1} attenuation complements and compensated trace evaluation.
+An exact constant transverse Schwarzschild conformal metric exposes spurious
+old derivative magnitude $3.34\times10^{-6}$ on Perlmutter ($6.94\times10^{-3}$
+on the local compiler) at small radius; the stable
+expression gives exactly zero. The unchanged-map prefix still has bulk
+Hamiltonian RMS $6.47\times10^{-9}$ and $8.42\times10^{-9}$ on grids 160 and
+192. It fails the strict trend, so the 224 setup is stopped and retained.
+This algebraic correction alone does not establish physical convergence.
+The original batch seed exports for QI and trumpet remain bitwise identical
+in 516 compared values. Background/cache/sampler arithmetic now uses stable
+equivalent expressions, so the historical sampler bitwise claim is not
+transferred to this numerical change.
+
+The original 224-grid scalar radial tail is concentrated toward infinity;
+a degree-eight endpoint window reduces its retained high-degree band to
+0.143 of the original. The vector tail is concentrated toward the inner
+boundary/transition; suppressing that end leaves 0.00128 of its band.
+These are localization measurements, not inferred logarithmic powers.
+A frozen 160-grid field sampled at twice the azimuthal resolution has
+interleaved physical momentum-component RMS below $3.52\times10^{-12}$,
+too small to explain the observed $10^{-7}$ bulk momentum errors.
+No further azimuthal-resolution campaign is warranted.
+
+A squared-infinity-distance map passes derivative and sampler checks but
+fails its first 160-grid linear solve (true relative residual about 0.368
+at 512 iterations). No finer level is run. A dual-endpoint positive-density
+map instead preserves first-order compactification. With $s\in[0,1]$,
+\begin{align*}
+ t(s)&=\lambda s+b s^5+c F(s),\qquad
+ b=(2-\lambda)/5,\quad c=1-\lambda-b,\\
+ F(s)&=s^{15}[136(1-s)^2+17s(1-s)+s^2].
+\end{align*}
+Here $F$ is the Beta$(15,3)$ CDF. The selected $\lambda=0.05$ gives
+$t'(0)=0.05$, $t'(1)=2$, versus 0.2 and 5 for the original map. Polar stretch
+is 3. The free data, inner window, equations and acceptance gates are fixed.
+Independent mapped-derivative, polynomial radial-inverse and Cartesian
+complex-step sampler checks pass; they do not imply binary acceptance.
+The ordered 16-thread physical sampler returns bitwise-identical fields to
+the serial sampler. No multigrid is adopted without a measured coarse-error
+bottleneck. All map options remain off by default.
+
+The dual-endpoint 160-grid solve converges internally in 9 Newton and 51
+Krylov iterations (46.0 seconds), but physical bulk momentum RMS is
+$2.14\times10^{-5}$, failing the original $10^{-6}$ bound. Refinement stops.
+The near-hole Hamiltonian RMS improves to $3.68\times10^{-8}$, but this does
+not compensate for a failed bulk gate. Frozen-field vector-mode localization
+places the error in low modes; the filtered fields are diagnostic only.
+
+A separate candidate restores the original Mobius0.2/polar2 maps and imposes
+necessary Cartesian smoothness inside the flat plateau. For bounded
+Cartesian corrections, the constant-coefficient elliptic interior has
+removable puncture singularities. For $m\le4$, at the two foci,
+\[
+ [\partial_t-2\sigma\partial_\eta-(m+1)]P_m(0,\sigma)=0,
+ \qquad\sigma=\pm1.
+\]
+This follows by expanding $u_m/\rho^m\propto(1-t)^{m+1}P_m$ near a focus;
+it is distinct from the existing $m\ge5$ axis rows. Exactly two collocation
+rows per low mode are replaced. No interior window or exterior equation
+changes. The normalized interpolation rows have unit $L^1$ coefficient norm.
+The preconditioner makes the same two-row replacement using
+\[
+ x=A_0^{-1}b+A_0^{-1}E(WA_0^{-1}E)^{-1}
+       (b_{\rm boundary}-WA_0^{-1}b).
+\]
+Solving contexts require a positive flat interior plateau and zero far
+attenuation. Otherwise the far-reference scalar correction can invalidate
+homogeneous rows on $P$ alone. Sampling and raw operator contexts are exempt.
+CPU and GPU share the host factors and weights; compensated GPU moment reductions and
+rank-two corrections run in kernels. A prescribed smooth Cartesian field
+and a symbolic compatibility polynomial give normalized defects below
+$9.24\times10^{-17}$ at 96/144 points. An independent dense inverse agrees
+to $3.65\times10^{-15}$. A small coupled binary converges in 9 Newton/32
+Krylov steps. These controls establish the new boundary algebra, not
+three-grid physical convergence.
+
+The first-compatibility (C1) sequence meets every absolute bound but fails
+both strict bulk trends. Its independent higher-accuracy observer gives:
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrrr@{}}\toprule
+$n_A$ & Near $H$ & Near $M$ & Bulk $H$ & Bulk $M$\\\midrule
+160 & $3.13\times10^{-7}$ & $8.50\times10^{-8}$ & $4.38\times10^{-10}$ & $3.89\times10^{-8}$\\
+192 & $1.45\times10^{-7}$ & $4.10\times10^{-8}$ & $1.20\times10^{-9}$ & $5.02\times10^{-9}$\\
+224 & $4.89\times10^{-8}$ & $1.83\times10^{-8}$ & $2.24\times10^{-9}$ & $7.77\times10^{-9}$\\\bottomrule
+\end{tabular}\end{center}
+The finest bulk momentum error improves by 21.9 over the original sequence,
+but that is not a passed convergence study. Metric and curvature Cauchy
+changes decrease, with finest scaled maxima $4.79\times10^{-11}$ and
+$2.95\times10^{-9}$, respectively; charges change by less than
+$4.08\times10^{-10}$. These cannot replace the failed constraint criterion.
+
+This observer uses sixth-order Cartesian differences at four times the
+original fixed step, on the same 66 exterior points. It was declared after
+inspecting the coarse C1 result, before inspecting finer results; no original
+FD4 verdict is replaced. Every saved field first reproduces the original
+FD4 observer. No new elliptic solves are needed. Rational-stencil moment,
+manufactured-curvature and exact Brill--Lindquist controls pass; the latter
+has near/bulk Hamiltonian RMS $7.10\times10^{-11}$/$8.02\times10^{-11}$.
+The new observer therefore confirms that finite-difference error alone does
+not explain the HiSpID bulk trend.
+
+The remaining second-order Cartesian condition follows from
+$Q_{tt}=4Q_{\eta\eta}+4\sigma Q_\eta$ for
+$Q=(1-t)^{m+1}P_m$ at each focus:
+\[
+ [\partial_t^2-4\partial_\eta^2-2(m+1)\partial_t
+ -4\sigma\partial_\eta+m(m+1)]P_m(0,\sigma)=0.
+\]
+Retained C1 solutions have normalized C2 defects 0.00276,0.00379,0.00322,
+whereas their C1 defects are below $1.67\times10^{-15}$. The second-order
+candidate replaces four rows total and uses the same exact rank-four
+boundary inverse on CPU and GPU. A smooth Cartesian field and compatible
+symbolic polynomial give defects below $2.11\times10^{-16}$; its independent
+dense inverse agrees to $3.24\times10^{-15}$. The original compactification,
+physical free data and acceptance gates are fixed. These are necessary
+smoothness identities, not an imposed analytic asymptotic expansion at
+compactified infinity. Results of the new physical sequence are recorded
+separately below.
+
+\subsection{Finest retained C1 checkpoint in AthenaK}
+The 224/448/16 checkpoint passes separate-process GPU-producer/CPU-consumer
+migration: every sampled field and metric derivative is bitwise identical
+at 2454 off-grid and trial-horizon points. AthenaK imports the actual checkpoint
+and measures two distinct horizons at angular orders 8,12,16, followed by an
+independent 32-to48-point polar quadrature check at order 16. No evolution is
+performed; the finder samples the checkpoint's native continuous geometry.
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Hole & $M_H$ & $M_{\rm irr}$ & Coordinate $\chi$ & Expansion RMS\\\midrule
+1 & 0.615673713 & 0.604595771 & 0.370895278 & $2.041\times10^{-8}$\\
+2 & 0.416086392 & 0.409618329 & 0.345813441 & $5.626\times10^{-9}$\\
+\bottomrule\end{tabular}\end{center}
+Maximum mass and dimensionless spin-vector changes across the refinements
+are below $3.50\times10^{-13}$ and $4.04\times10^{-12}$. The verified
+modified-interior enclosure margins, after the observed shape-refinement
+buffer, are 0.03204669 and 0.01867393. These positive margins and horizon
+property measurements do not override the failed physical bulk trend.
+Coordinate angular-momentum integrals are not a binary gauge-invariant or
+approximate-Killing-vector spin validation. Full grid evolution is untested.
+
+\subsection{Second compatibility is not selected}
+The added condition is algebraically verified but fails its physical trial:
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrr@{}}\toprule
+$n_A$ & Bulk $H$ (FD4) & Bulk $M$ (FD4) & Newton/Krylov\\\midrule
+160 & $1.96\times10^{-9}$ & $1.05\times10^{-6}$ &5/35\\
+192 & $6.30\times10^{-9}$ & $1.78\times10^{-6}$ &5/33\\\bottomrule
+\end{tabular}\end{center}
+The original absolute bound is unchanged. After the coarse failure, a single
+predeclared refinement test required a clear improvement before continuing
+any 192/224/256 sequence. It fails; no 224 or 256 C2 trial is run. The first-order
+160/192/224 study remains the primary record. A successful internal solve and
+necessary smoothness identities do not establish a useful global tau
+discretization. Regularity/asymptotic representation remains an unresolved
+numerical issue, rather than a proven single cause of the bulk error.
+
+\texttt{HISPID\_FOCUS\_TAU} remains off by default. When enabled,
+\texttt{HISPID\_FOCUS\_ORDER=1} selects the better tested v9 system;
+order 2 selects the experimental v10 system. They share the operator and
+boundary-inverse code. Current order-one weights differ from the frozen C1
+implementation by at most $3.47\times10^{-18}$; direct boundary residuals on
+all three retained fields stay below $1.60\times10^{-15}$. No new physical
+acceptance is inferred from this compatibility control.
+
+\subsection{Matched-count Bowen--York Hamiltonian control}
+The BY control uses the unchanged vanilla constraint equation with the
+previously baseline-validated modal CUDA backend. Counts, bare masses,
+separation, isolated Lorentz-transformed input spins, and $P=m\Gamma v$
+are matched. Physical free metrics and binary horizon properties differ.
+Both cases use exactly the same stored Cartesian observer points and
+fourth-order finite-difference steps, with the physical definition
+$H=R+K^2-K_{ij}K^{ij}$. These are equal-point RMS norms in the same $M_0^{-2}$
+units. Native collocation coordinates and internal stopping weights differ.
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+$n_A$ & BY near $H$ & BY bulk $H$ & Reference $\|F\|_\infty$ & Newton cap\\\midrule
+160 & $9.71\times10^{-10}$ & $1.18\times10^{-9}$ & $1.03\times10^{-10}$ &24\\
+192 & $1.08\times10^{-9}$ & $1.46\times10^{-9}$ & $1.52\times10^{-10}$ &24\\
+224 & $1.19\times10^{-9}$ & $1.54\times10^{-9}$ & $1.94\times10^{-10}$ &8\\
+\bottomrule
+\end{tabular}
+\end{center}
+Here $n_B=2n_A$, $n_\phi=16$ and the requested native tolerance is $10^{-12}$.
+All original-reference stopping gates fail at a roundoff plateau. The finest
+control is capped at 8 Newton steps after the earlier controls show repeated
+floor-level updates. The physical comparison is diagnostic; it is not an
+iteration-count or matched-accuracy performance measurement. The nearly
+constant physical $H$ values help characterize the common verifier scale,
+but are not alone proof of the exact finite-difference error floor.
+
+The same saved BY solutions, reconstructed without any Newton iteration,
+give sixth-order physical Hamiltonian RMS:
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrr@{}}\toprule
+$n_A$ & BY near $H$ (FD6) & BY bulk $H$ (FD6)\\\midrule
+160 & $8.03\times10^{-11}$ & $9.94\times10^{-11}$\\
+192 & $8.67\times10^{-11}$ & $1.03\times10^{-10}$\\
+224 & $8.09\times10^{-11}$ & $1.11\times10^{-10}$\\\bottomrule
+\end{tabular}\end{center}
+The independent exact conformally flat calibration has a comparable floor.
+Thus the BY physical Hamiltonian comparison is already verifier limited at
+these counts, whereas the near-hole HiSpID errors remain much larger.
+Neither raw collocation residuals nor different physical free data are
+claimed equivalent merely because the observer normalization is shared.
+
+Large matched counts initially hit a guard before Newton. The capacity
+extension retains checked size arithmetic, aggregate/device budgets and the
+legacy allocation API's 4GiB ceiling; an explicit execution budget permits a
+larger factor bank. A supported BY reference solution and all 33 recorded
+arrays/derivative exports remain bitwise identical after this change.
+The equations, residual and linearization are unchanged. Raw observers,
+failed stopping records and the preservation control are retained with the
+HiSpID evidence. No multigrid change is justified by these few-iteration
+linear solves; repeated host factor construction remains a separate cost.
+
+\subsection{Liu--Etienne--Shapiro coordinates}
+The previous code had QI and $R_0=M$ trumpet seeds. The newly selectable
+Liu family implements Eqs. 12 and 14 of
+\href{https://arxiv.org/abs/1001.4077}{Liu, Etienne and Shapiro,
+Phys. Rev. D80,121503 (2009)}:
+\[
+ r_{\rm BL}=r\left(1+\frac{r_+}{4r}\right)^2,\quad
+ r_+=m+\sqrt{m^2-a^2},\quad r_H=\frac{r_+}{4}\longrightarrow\frac m4.
+\]
+Ruchlin et al. also discuss this chart as LES coordinates in their Eq. 16;
+their construction permits QI, LES and a separate fisheye chart. This is a
+wormhole chart, not the existing trumpet. The finite formal
+extremal-radius limit does not imply support for exact $|\chi|=1$, which
+remains rejected. Spin-axis rotations and full spacetime Lorentz boosts are
+shared with QI; radial tensor pullbacks and throat-limit curvature are
+handled analytically. Independent pullbacks agree to $6.18\times10^{-15}$
+through the throat and both bridge sides. Vacuum checks cover
+$\chi=0,0.39,0.99$, unboosted and with a generic moderate boost.
+
+An exact isolated unboosted $m=1$, $\chi=0.99$ checkpoint passes
+separate-process producer/CPU-consumer migration and AthenaK horizons at
+orders 8,12,16, with different initial-radius guesses. Maximum mass and spin
+errors are $5.87\times10^{-13}$ and $1.37\times10^{-12}$; expansion RMS is
+below $9.84\times10^{-8}$. Finest coordinate radius is 0.285266965 versus
+analytic0.285266840. Stationary area and spin integrals are more accurate
+than surface location. No binary or extreme-boost Liu qualification follows
+from this exact-seed control. The moderate binary study continues to use QI.
+A separate moderate Liu binary pilot at 160/320/16 converges internally
+in 8 Newton/29 Krylov steps. Near Hamiltonian/momentum RMS are
+$3.47\times10^{-7}$/$5.48\times10^{-8}$; bulk values are
+$9.67\times10^{-10}$/$4.33\times10^{-8}$. Absolute exterior bounds pass,
+but one resolution establishes neither convergence nor horizon enclosure.
+The fixed three-grid formulation is not switched to this family.
+Evidence and commands are in \path{validation/trumpet/infinity-regularity/}.
 
 \section{Retained trumpet binary evidence}
 The retained pre-tau entries below are independent physical RMS errors, in the declared

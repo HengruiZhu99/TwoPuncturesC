@@ -1,0 +1,99 @@
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=0 residual_l2=0.0065498543536157972 step_linf=0.87954621704201141 linear_relative=0.0020678822236909573 slope=-0.9999957238631626
+HiSpID Newton trial it=0 damping=1 residual_ratio=0.0020678822256384741 directional_remainder=2.8295649680149745e-10 min_psi=1.0000068987507462 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1.0000000000012395 (true residual checked by controller)
+HiSpID Newton trace it=1 residual_l2=1.3544327398362884e-05 step_linf=45.296872230101002 linear_relative=0.029540954209973914 slope=-0.99912733202487003
+HiSpID Newton trial it=1 damping=1 residual_ratio=0.029540954256218166 directional_remainder=1.3971679183902265e-07 min_psi=1.0000068987507462 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1.0000000000009781 (true residual checked by controller)
+HiSpID Newton trace it=2 residual_l2=4.0011235610628037e-07 step_linf=1.3744273543568792 linear_relative=0.050907696194584399 slope=-0.99740840646828222
+HiSpID Newton trial it=2 damping=1 residual_ratio=0.050907695700246676 directional_remainder=4.6683718921906105e-06 min_psi=1.0000068987507462 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1.0000000000010496 (true residual checked by controller)
+HiSpID Newton trace it=3 residual_l2=2.0368798070567255e-08 step_linf=0.36838919810198889 linear_relative=0.053482046385400779 slope=-0.99713967071482157
+HiSpID Newton trial it=3 damping=1 residual_ratio=0.053482127510172658 directional_remainder=9.2156583456558041e-05 min_psi=1.0000068987507462 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1.0000000000010032 (true residual checked by controller)
+HiSpID Newton trace it=4 residual_l2=1.0893666556390368e-09 step_linf=0.060078424154999532 linear_relative=0.072429087002248871 slope=-0.99475402735511498
+HiSpID Newton trial it=4 damping=1 residual_ratio=0.07244897539037945 directional_remainder=0.0017059436065929745 min_psi=1.0000068987507462 nonfinite=0
+{
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 5,
+    "krylov_iterations": 33,
+    "npoints": 1179648,
+    "scaled_linf": [
+      5.332355228759571e-15,
+      4.8652193118829e-13,
+      3.4074719516371627e-13,
+      3.645703456179075e-13
+    ],
+    "unscaled_linf": [
+      0.0006266359848455382,
+      0.00016018116597042373,
+      0.0036697381489753243,
+      0.006527132077370688
+    ],
+    "seconds": 54.48504264,
+    "status": 0,
+    "error": ""
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 1.4447487328922596e-07,
+      "H_max": 7.418413403847968e-07,
+      "M_rms": 1.2213274814655953e-07,
+      "M_max": 5.762891936575724e-07,
+      "M_components_rms": [
+        7.3850232401916195e-09,
+        2.0370652881607753e-08,
+        5.538249603507832e-08
+      ],
+      "M_components_max": [
+        3.0984884273390556e-08,
+        6.485983862492681e-08,
+        2.8944158325753783e-07
+      ],
+      "normalized_H_max": 4.514017101045769e-06,
+      "normalized_M_max": 1.9845457736969412e-05
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 6.296838410396517e-09,
+      "H_max": 1.8129691117558123e-08,
+      "M_rms": 1.7782405142295508e-06,
+      "M_max": 4.054101908317582e-06,
+      "M_components_rms": [
+        2.3829109081059807e-07,
+        1.032510452345197e-06,
+        1.0497624304369423e-06
+      ],
+      "M_components_max": [
+        6.456071532238796e-07,
+        2.5448518917138684e-06,
+        3.1760639862021075e-06
+      ],
+      "normalized_H_max": 0.02477896703169969,
+      "normalized_M_max": 0.10867480207062631
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.0019994908497444207,
+      "H_max": 0.005851334494885341,
+      "M_rms": 0.00014975760860165034,
+      "M_max": 0.0003412113219780937,
+      "M_components_rms": [
+        5.1637197701161135e-06,
+        1.5560634232702727e-05,
+        5.848732443281534e-06
+      ],
+      "M_components_max": [
+        1.3258634202030314e-05,
+        3.927700436332695e-05,
+        1.6001626544249064e-05
+      ],
+      "normalized_H_max": 0.9901895793563478,
+      "normalized_M_max": 0.016979725707216935
+    }
+  },
+  "minimum_psi": 1.030232552441307,
+  "total_seconds": 303.7604481670023
+}

@@ -1,0 +1,119 @@
+{
+  "scope": "same_BY_equation_as_vanilla_not_equal_HiSpID_free_metric",
+  "config": {
+    "real": {
+      "par_b": 3.0,
+      "par_m_plus": 0.6,
+      "par_m_minus": 0.4,
+      "Newton_tol": 1e-12,
+      "par_P_plus1": 0.018041543379727906,
+      "par_S_plus1": 0.07206863688824611,
+      "par_P_plus2": 0.03608308675945581,
+      "par_S_plus2": 0.05392955687785267,
+      "par_P_plus3": 0.006013847793242636,
+      "par_S_plus3": 0.10821674806814562,
+      "par_P_minus1": -0.008023805839587412,
+      "par_S_minus1": -0.032118526965034366,
+      "par_P_minus2": -0.028083320438555943,
+      "par_S_minus2": 0.048061272414127935,
+      "par_P_minus3": 0.010029757299484264,
+      "par_S_minus3": 0.016076741187530722
+    },
+    "integer": {
+      "npoints_A": 192,
+      "npoints_B": 384,
+      "npoints_phi": 16,
+      "Newton_maxit": 24,
+      "give_bare_mass": 1,
+      "use_external_initial_guess": 0,
+      "grid_setup_method": 1,
+      "verbose": 1
+    }
+  },
+  "resolution": [
+    192,
+    384,
+    16
+  ],
+  "hispid_result_sha256": "dbd96440dda3059571d9a096f42a0244316b9fbdf76456a391cdd7854f309447",
+  "observer_sha256": "67ed2c471641b3d8c69533303a1613c7321251e5d7a996a287b05b1aab37b1b9",
+  "library_sha256": "ae2d2c6fc64573110e9a03fd59d271840c84bcf7f6a91e81f77b68a4455baf77",
+  "matching": "bare masses, separation, Lorentz-transformed spin vectors, P=m*Gamma*v, collocation counts, fixed Cartesian H observer and FD steps; native coordinate maps and internal stopping weights differ",
+  "diagnostics": {
+    "status": 1,
+    "native_status": 0,
+    "converged": false,
+    "residual_linf": 1.5226029272882926e-10,
+    "adm_energy": 1.0480742019508846,
+    "puncture_masses": [
+      0.6512023890404512,
+      0.43893719702654943
+    ],
+    "options": {
+      "system": "bowen_york",
+      "krylov": "gmres",
+      "preconditioner": "modal",
+      "linear_rtol": 0.001,
+      "max_krylov": 512,
+      "restart": 64,
+      "execution": "kokkos"
+    }
+  },
+  "solve_seconds": 960.2481343059917,
+  "work_statistics": {
+    "newton_iterations": 24,
+    "krylov_iterations": 116,
+    "jvp_applications": 164,
+    "preconditioner_applications": 116,
+    "relaxation_sweeps": 0,
+    "modal_factorizations": 24,
+    "linear_failures": 0,
+    "modal_failures": 0,
+    "last_linear_target": 2.4805640642110764e-14,
+    "last_true_linear_residual": 6.8488436950532485e-15,
+    "last_relative_linear_residual": 0.00027610025452940964
+  },
+  "tolerance_gate_passed": false,
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 1.076987300677741e-09,
+      "H_max": 2.731879056305786e-09,
+      "M_rms": 7.976091006026988e-11,
+      "M_max": 1.5756710280523616e-10,
+      "M_components_rms": [
+        1.398346490523999e-11,
+        1.3193881238035999e-11,
+        1.8251499018274993e-11
+      ],
+      "M_components_max": [
+        3.0129374872443985e-11,
+        2.7468567150064838e-11,
+        4.3236153495328456e-11
+      ],
+      "normalized_H_max": 1.085166766977692e-06,
+      "normalized_M_max": 0.015756710280523615
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 1.462452829746657e-09,
+      "H_max": 4.198038711619432e-09,
+      "M_rms": 1.482823926385791e-14,
+      "M_max": 6.167654379566367e-14,
+      "M_components_rms": [
+        2.045278736213099e-15,
+        1.0366526241529372e-14,
+        2.9168413823279065e-15
+      ],
+      "M_components_max": [
+        7.563536936222193e-15,
+        4.369214220091762e-14,
+        1.2311090856916154e-14
+      ],
+      "normalized_H_max": 0.021726534168851806,
+      "normalized_M_max": 6.167654379566367e-06
+    }
+  },
+  "physical_sha256": "0bf957c559f73c1b5bfa20e91d55ef9ecd960071bf2f5ed1cdc7225b49614782",
+  "total_seconds": 996.2383688080008
+}

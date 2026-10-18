@@ -1,0 +1,27 @@
+-- Cray Programming Environment 2.7.36 C
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5") found components: CXX 
+-- Including user-specified problem generator file: z4c/hispid
+-- Setting default Kokkos CXX standard to 17
+-- Kokkos version: 4.7.2
+-- The project name is: Kokkos
+-- Using internal gtest for testing
+-- Using -std=c++17 for C++17 standard as feature
+-- Built-in Execution Spaces:
+--     Device Parallel: NoTypeDefined
+--     Host Parallel: Kokkos::OpenMP
+--       Host Serial: NONE
+-- 
+-- Architectures:
+-- Found OpenMP_CXX: -fopenmp (found suitable version "4.5", minimum required is "3.0") 
+-- Found OpenMP: TRUE (found suitable version "4.5", minimum required is "3.0") found components: CXX 
+-- Using internal desul_atomics copy
+-- Performing Test KOKKOS_LINK_OPTIONS_CHECK
+-- Performing Test KOKKOS_LINK_OPTIONS_CHECK - Success
+-- Experimental mdspan support is enabled
+-- Using internal mdspan directory /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-infinity2-20261018/kokkos/tpls/mdspan/include
+-- Kokkos Backends: OPENMP
+-- HiSpID include: /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-focus-tau-20261018/include; library: /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-focus-tau-sampler/libHiSpID.so
+-- Configuring done (1.1s)
+-- Generating done (0.4s)
+-- Build files have been written to: /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-athenak-focus-tau

@@ -69,6 +69,27 @@ def validate_modal_vector(values,shape):
         raise ValueError('finite modal vector with the source grid coefficient count required')
     return values
 
+def radial_forward(s,l,kind):
+    if kind=='quadratic':return l*s+(1-l)*s*s
+    if kind=='endpoint_beta14':
+        if l>.5:raise ValueError('dual endpoint slope must be<=.5')
+        b=(2-l)/5;c=1-l-b;q=1-s
+        return l*s+b*s**5+c*s**15*(136*q*q+17*s*q+s*s)
+    if kind!='mobius':raise ValueError('unknown radial map')
+    return l*s/(1-(1-l)*s)
+
+def radial_inverse(t,l,kind):
+    if kind=='quadratic':return 2*t/(l+np.sqrt(l*l+4*(1-l)*t))
+    if kind=='mobius':return t/(l+(1-l)*t)
+    if kind!='endpoint_beta14' or l>.5:raise ValueError('unknown radial map/slope')
+    # Bisection is used only for projecting an initial guess; it cannot
+    # transfer acceptance. The native sampler uses safeguarded Newton.
+    lo=np.zeros_like(t);hi=np.ones_like(t)
+    for _ in range(60):
+        mid=(lo+hi)/2;lower=radial_forward(mid,l,kind)<t
+        lo=np.where(lower,mid,lo);hi=np.where(lower,hi,mid)
+    return (lo+hi)/2
+
 def remap_modal(values,oldshape,newshape,oldmaps,newmaps):
     """Evaluate retained P directly at new physical t/eta coordinates.
 
@@ -77,17 +98,22 @@ def remap_modal(values,oldshape,newshape,oldmaps,newmaps):
     """
     oldshape=validate_modal_shape(oldshape);newshape=validate_modal_shape(newshape)
     values=validate_modal_vector(values,oldshape)
-    if len(oldmaps)!=2 or len(newmaps)!=2:raise ValueError('two map parameters required')
-    for radial,angular in (oldmaps,newmaps):
+    if len(oldmaps) not in (2,3) or len(newmaps) not in (2,3):raise ValueError('radial/ angular parameters and optional map kind required')
+    for maps in (oldmaps,newmaps):
+        radial,angular=maps[:2]
+        if len(maps)==3 and maps[2] not in ('mobius','quadratic','endpoint_beta14'):raise ValueError('unknown radial map kind')
+        if len(maps)==3 and maps[2]=='endpoint_beta14' and radial>.5:raise ValueError('unsupported dual endpoint slope')
         if not np.isfinite([radial,angular]).all() or not .001<=radial<=1 or not .1<=angular<=6:
             raise ValueError('unsupported collocation maps')
     if tuple(oldmaps)==tuple(newmaps):return prolong_modal(values,oldshape,newshape)
     a,b,p=oldshape;A,B,P=newshape
     if P<p:raise ValueError('remapping must not discard Fourier modes')
-    radial_old,angular_old=oldmaps;radial_new,angular_new=newmaps
+    radial_old,angular_old=oldmaps[:2];radial_new,angular_new=newmaps[:2]
+    kind_old=oldmaps[2] if len(oldmaps)==3 else 'mobius';kind_new=newmaps[2] if len(newmaps)==3 else 'mobius'
     sigma=.5*(1-np.cos(np.pi*(np.arange(A)+.5)/A))
-    t=radial_new*sigma/(1-(1-radial_new)*sigma)
-    radial_points=2*t/(radial_old+(1-radial_old)*t)-1
+    t=radial_forward(sigma,radial_new,kind_new)
+    old_sigma=radial_inverse(t,radial_old,kind_old)
+    radial_points=2*old_sigma-1
     zeta=-np.cos(np.pi*(np.arange(B)+.5)/B)
     eta=np.tanh(angular_new*zeta)/np.tanh(angular_new)
     angular_points=np.arctanh(np.tanh(angular_old)*eta)/angular_old
@@ -97,5 +123,5 @@ def remap_modal(values,oldshape,newshape,oldmaps,newmaps):
     return redistribute_modes(v,p,P).ravel()
 
 def for_backend(backend,values,oldshape,newshape):
-    if backend.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or backend.parameterization().startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_','modal_P_C2tauC4_map_v5_')):return prolong_modal(values,oldshape,newshape)
+    if backend.parameterization() in ('modal_P_C2prolate_v1','modal_P_C2prolate_mapped_v2') or backend.parameterization().startswith(('modal_P_C2prolate_map_v3_','modal_P_C4prolate_map_v4_','modal_P_C2tauC4_map_v5_','modal_P_C2tauC4_inf2_map_v6_','modal_P_C2tauC4_poly2_map_v7_','modal_P_C2tauC4_beta14_map_v8_','modal_P_C2tauC4_focus_map_v9_','modal_P_C2tauC4_focus2_map_v10_')):return prolong_modal(values,oldshape,newshape)
     return prolong(values,oldshape,newshape)

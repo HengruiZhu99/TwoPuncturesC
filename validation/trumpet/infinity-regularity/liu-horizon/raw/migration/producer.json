@@ -1,0 +1,30 @@
+{
+  "library_path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-20261018/libHiSpID.so",
+  "library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+  "dependency_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-infinity2-20261018/libTwoPunctures.so": "fc10cf5829beee78027f28b501ef8fe3dd2f42cab71cff90ddfc7de26fdcc812"
+  },
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/liu-exact-horizon-v1/kerr99.checkpoint",
+    "file_sha256": "481d7329a6c6246c09169d6625d18a952693f8723a04b4be745cf8b7cdd3e964",
+    "source_library_sha256": "003d8099d0df16e545f926682316753acdd5587c323d03f73a6001000ac8c6cb",
+    "acceptance": "analytic_seed",
+    "parameterization": "modal_P_C2tauC4_inf2_map_v6_r0.20000000000000001_k2",
+    "seed_family": "liu",
+    "format_version": 2
+  },
+  "compiled_execution": "Cuda",
+  "runtime_images": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/algorithms/src/libkokkosalgorithms.so.4.7.2": "8e5337e867f169a3899af13089474d1228010897c5d76e1dee8e3d08dbebd318",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/containers/src/libkokkoscontainers.so.4.7.2": "d738dbba12cac5af166241a062926ef3696f514f7510e0917891203f41256cd3",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/core/src/libkokkoscore.so.4.7.2": "159fb3ccd8ec1416f3ae848e8622945eaf2fc006a22a7694426e4f976d5f8112",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/kokkos/simd/src/libkokkossimd.so.4.7.2": "10495d3cca8f532fe99cef555dbd08b89943a30500a9bc83ce66aa52d23504e4"
+  },
+  "parameterization": "modal_P_C2tauC4_inf2_map_v6_r0.20000000000000001_k2",
+  "maps": {
+    "radial_stretch": 0.2,
+    "angular_stretch": 2.0
+  },
+  "point_count": 1512,
+  "artifact_sha256": "21b566af13e75f228f45c2dacd4d5d30bafa795ca6037bfdfa7d174c0e7c6c5f"
+}

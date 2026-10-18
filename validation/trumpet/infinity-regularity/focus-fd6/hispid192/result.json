@@ -1,0 +1,74 @@
+{
+  "system": "hispid",
+  "scope": "Higher-accuracy physical observers of immutable saved fields; no solve.",
+  "source_result_sha256": "1d744bd08ae27a0cfd0b89feba1ec33e712ab7df096189cd099774517cf5bb30",
+  "method": "FD6, four times the stored FD4 step; same66 exterior points",
+  "nonlinear_solve_repeated": false,
+  "source_stopping_gate": 1,
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/focus-tau-v1/moderate192/diagnostic.checkpoint",
+    "file_sha256": "248d12221996d0179285404e780c6ba964fcc401d0055bdf4fcb14a13ad3fd4f",
+    "source_library_sha256": "2de71048c4e3887681ae60904355c9d49d616e916ef79900c43a4906b22a9420",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2",
+    "seed_family": "qi",
+    "format_version": 1
+  },
+  "library_sha256": "2de71048c4e3887681ae60904355c9d49d616e916ef79900c43a4906b22a9420",
+  "resolution": [
+    192,
+    384,
+    16
+  ],
+  "fd4_replay_errors": {
+    "H": 0.0,
+    "M": 0.0,
+    "Mnorm": 0.0,
+    "R": 0.0,
+    "trace": 0.0,
+    "K2": 0.0
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 1.4470093074170456e-07,
+      "H_max": 7.429390510016454e-07,
+      "M_rms": 4.095146258833293e-08,
+      "M_max": 1.871351929431496e-07,
+      "M_components_rms": [
+        5.6324567638881594e-09,
+        8.467793338914092e-09,
+        1.486864425662226e-08
+      ],
+      "M_components_max": [
+        3.040355328336134e-08,
+        3.9969637366306055e-08,
+        7.389185056873995e-08
+      ],
+      "normalized_H_max": 3.882347316598226e-06,
+      "normalized_M_max": 5.588210550740672e-06
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 1.2009147417358509e-09,
+      "H_max": 3.5389704976197464e-09,
+      "M_rms": 5.023242294317362e-09,
+      "M_max": 1.0678283252160746e-08,
+      "M_components_rms": [
+        6.634618396719119e-10,
+        3.732333469396385e-09,
+        1.6948541095523111e-09
+      ],
+      "M_components_max": [
+        1.9298612485636805e-09,
+        8.319958051641977e-09,
+        3.626877613348714e-09
+      ],
+      "normalized_H_max": 0.004986709187158595,
+      "normalized_M_max": 0.0003325425940028252
+    }
+  },
+  "exterior_unmodified": true,
+  "physical_sha256": "46a26aa5305ac21454d24e6dde254afb923c9aa970552ce8e660ad1bc86066c0",
+  "seconds": 69.50684631802142
+}

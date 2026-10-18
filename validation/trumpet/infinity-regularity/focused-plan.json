@@ -1,0 +1,131 @@
+{
+  "formulation": "Boosted quasi-isotropic Kerr with exact seed scalar factor; same generic moderate seed parameters, R0=M attenuation fractions mapped to QI throat",
+  "fixed_config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.04133150175713435,
+      0.02773831375552595
+    ],
+    "inner_max": [
+      0.234211843290428,
+      0.15718377794798039
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 512,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "qi"
+  },
+  "resolutions": [
+    [
+      160,
+      320,
+      16
+    ],
+    [
+      192,
+      384,
+      16
+    ],
+    [
+      224,
+      448,
+      16
+    ]
+  ],
+  "controls": {
+    "krylov": "gmres",
+    "linear_rtol": 0.1,
+    "nonlinear_linf": 1e-12,
+    "restart": 64,
+    "max_krylov": 512
+  },
+  "acceptance": {
+    "exterior_rms": 1e-06,
+    "exterior_max": 0.0001,
+    "strict_three_grid_rms_decrease": true,
+    "charge_scaled_change": 0.001,
+    "positive_psi_and_metric": true,
+    "unmodified_exterior_stencils": true,
+    "horizon_expansion_rms": 1e-07,
+    "horizon_mass_spin_relative_change": 0.0001,
+    "orders": [
+      8,
+      12,
+      16
+    ],
+    "independent_quadrature": true,
+    "modified_region_enclosure": true
+  },
+  "status": "superseded_before_any_nonlinear_solve",
+  "change": "Only discretization: original power1 compactification with radial_stretch .1, angular_stretch3; cancellation-resistant host geometry retained. Exact same QI physical free data/window/observer.",
+  "diagnosis": "Frozen16->32 azimuthal QI field has interleaved M components RMS<=3.52e-12; too small to explain off-grid bulkM~1e-7. Original-map host stability control fails bulk H trend160->192.",
+  "transition_nodes160": {
+    "old": [
+      2225,
+      1626
+    ],
+    "new": [
+      3780,
+      2995
+    ]
+  },
+  "observer_threads": 16,
+  "observer_value_parity": "tests/test_parallel_observer.py requires all fields/points bitwise equal before production observer",
+  "initial_guess": "Explicit changed-map projection of stable-geometry160 checkpoint; no acceptance inherited, fresh nonlinear solve required. Same-map prolongation thereafter.",
+  "prefix_gate": "Stop if a completed refinement already violates strict regional RMS decrease; retain failure, do not spend on a redundant finer solve.",
+  "stopping": "Same original weighted1e-12 native tolerance, GMRES .1 restart64 max512. No altered interior coefficients or boundary conditions.",
+  "multigrid": "Not justified: observed error is unresolved meridional regularity; azimuthal floor and coarse-error-only explanations are not supported.",
+  "reason": "Wide224 m0 tail separates into scalar infinity and vector inner contributions. Choose a dual-endpoint density to resolve both; the earlier one-sided rational map would trade infinity resolution for inner resolution. Only preparatory builds/unit checks were run."
+}

@@ -51,6 +51,16 @@ def qi_moderate_wide(backend,n=24,nphi=8):
     return c
 
 
+def liu_moderate_control(backend,n=24,nphi=8):
+    """Separate Liu-family pilot; all QI-wide input parameters/windows fixed.
+
+    Only the seed chart changes. No QI acceptance or isolated horizon-radius
+    screen transfers to this binary; measured enclosure is still required.
+    """
+    c=qi_moderate_wide(backend,n,nphi);c.seed_family='liu'
+    return c
+
+
 def trumpet_moderate_wide(backend,n=24,nphi=8):
     """Candidate wider interior transition, with the same exterior CTT equations.
 

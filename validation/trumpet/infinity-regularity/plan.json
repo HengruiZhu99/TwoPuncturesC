@@ -1,0 +1,128 @@
+{
+  "status": "failed160_linear_gate_no_refinement",
+  "formulation": "Boosted quasi-isotropic Kerr with exact seed scalar factor; same generic moderate seed parameters, R0=M attenuation fractions mapped to QI throat",
+  "fixed_config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.04133150175713435,
+      0.02773831375552595
+    ],
+    "inner_max": [
+      0.234211843290428,
+      0.15718377794798039
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 512,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "qi"
+  },
+  "resolutions": [
+    [
+      160,
+      320,
+      16
+    ],
+    [
+      192,
+      384,
+      16
+    ],
+    [
+      224,
+      448,
+      16
+    ]
+  ],
+  "controls": {
+    "krylov": "gmres",
+    "linear_rtol": 0.1,
+    "nonlinear_linf": 1e-12,
+    "restart": 64,
+    "max_krylov": 512
+  },
+  "acceptance": {
+    "exterior_rms": 1e-06,
+    "exterior_max": 0.0001,
+    "strict_three_grid_rms_decrease": true,
+    "charge_scaled_change": 0.001,
+    "positive_psi_and_metric": true,
+    "unmodified_exterior_stencils": true,
+    "horizon_expansion_rms": 1e-07,
+    "horizon_mass_spin_relative_change": 0.0001,
+    "orders": [
+      8,
+      12,
+      16
+    ],
+    "independent_quadrature": true,
+    "modified_region_enclosure": true
+  },
+  "change": "Only discretization: infinity compactification t=lambda*s/[lambda*s+(1-s)^2]; unchanged seed metric, compact interior window, differential operator, and Cartesian observer.",
+  "hypothesis": "Raises regularity of possible infinity logarithms; does not remove the nonanalytic compact interior transition. Reject if physical trends fail.",
+  "baseline": "regularity-family-control/wide-plan.json",
+  "liu": "Separate analytic seed check only; not mixed into the fixed QI convergence sequence",
+  "attempts": [
+    {
+      "job": 59959619,
+      "status": "preflight_harness_missing_polar_correction_no_solve"
+    },
+    {
+      "job": 59960062,
+      "status": "preflight_passed160_solve_failed"
+    }
+  ],
+  "reason": "Newton step1 GMRES512 original relative residual approximately0.368, no convergence. Stop at declared pilot gate.",
+  "production_default_changed": false
+}

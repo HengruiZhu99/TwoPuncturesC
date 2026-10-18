@@ -1,0 +1,8 @@
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
+
+{'residual_relative_l2': 8.759629290520494e-16, 'jvp_relative_l2': 2.3225620712059113e-16, 'library_sha256': 'bd5525e29f67cc7663f6cbe42b016bee07b1aebfd5fb9cb103209fe155e2e560', 'parameterization': 'modal_P_C2tauC4_map_v5_r0.20000000000000001_k2', 'passed': True}
