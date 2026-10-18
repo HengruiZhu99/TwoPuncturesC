@@ -1972,3 +1972,13 @@ restart, nonlinear tolerance and transition-aware observer rule. The new240
 script and final consumer target are recorded; no new allocation for240 has
 yet been launched. The consumer uses the previously qualified shape-reuse
 option only as an initial guess; every surface/quad/enclosure check is fresh.
+
+The160/192/224 assessment FAILS despite all per-grid bounds passing. At224,
+nearH/M RMS4.76322e-8/1.19652e-7, bulk3.20071e-8/9.22180e-8; both bulk
+values rise from192. Charge changes remain below8.1e-7. No240 run or horizon
+run is launched. The wider interior alone is not a convergence fix.
+A targeted CPU-only saved-field diagnosis in job59953978 shows half-step bulk
+H/M3.20227e-8/9.22185e-8, excluding observer truncation as the main cause.
+Removing individual high modes5--8 does not substantially reduce the error;
+in particular,7/8 have negligible effect. Filtered fields are diagnostic only
+and are never accepted or exported as solutions. All evidence is preserved.

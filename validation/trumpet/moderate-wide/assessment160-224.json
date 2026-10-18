@@ -1,0 +1,241 @@
+{
+  "passed": false,
+  "scope": "three-grid physical constraints and charge stability; horizon enclosure separate",
+  "binary_acceptance": false,
+  "library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+  "records": [
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-observer-v1/moderate160",
+      "resolution": [
+        160,
+        320,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 7.649894186864525e-07,
+          "H_max": 4.852510581132563e-06,
+          "M_rms": 3.4070536393795563e-07,
+          "M_max": 1.4671992251526484e-06,
+          "M_components_rms": [
+            1.2428789075088532e-07,
+            6.447706514031293e-08,
+            9.756283702870774e-08
+          ],
+          "M_components_max": [
+            3.115334013726943e-07,
+            3.144481003110152e-07,
+            5.181733644302862e-07
+          ],
+          "normalized_H_max": 1.958859533067928e-06,
+          "normalized_M_max": 2.019835235245717e-06
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 3.01503223437195e-08,
+          "H_max": 8.277395983642254e-08,
+          "M_rms": 1.4931091524031202e-07,
+          "M_max": 3.4717140927390063e-07,
+          "M_components_rms": [
+            3.154940979179999e-08,
+            8.791907151704425e-08,
+            8.78123267471708e-08
+          ],
+          "M_components_max": [
+            8.939509918081966e-08,
+            2.9699729396254606e-07,
+            2.1865134495556555e-07
+          ],
+          "normalized_H_max": 0.0004723612893036709,
+          "normalized_M_max": 0.00015572284743520527
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9705556237784901,
+        0.004537406116040833,
+        0.00738605905651266,
+        0.016869050014432587,
+        0.040074760434134306,
+        0.112366909420961,
+        0.31065504332369265
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-pilot-v2/moderate160/diagnostic.checkpoint",
+        "file_sha256": "18d79e54c8bc5276006efec25a516ef8c23d3861ec1115433a2f09665ce81630",
+        "source_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "result_sha256": "ae826ebcb5081db662873c8398948c4c998a404a48c5be1a796a9cc71e08d2fa",
+      "observer_sha256": "c8c01b0ef633e5bef60eeb6df75af9324431e6836df55139f81948c67036e5e8"
+    },
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-sequence-v1/moderate192",
+      "resolution": [
+        192,
+        384,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 1.7606376199166723e-07,
+          "H_max": 8.033061535961394e-07,
+          "M_rms": 1.654027736926352e-07,
+          "M_max": 3.5784605169718997e-07,
+          "M_components_rms": [
+            8.27454683376103e-08,
+            2.6722860088336506e-08,
+            2.5476231782097254e-08
+          ],
+          "M_components_max": [
+            1.847525829340366e-07,
+            8.004773318614548e-08,
+            9.219473622006021e-08
+          ],
+          "normalized_H_max": 4.560319609722082e-07,
+          "normalized_M_max": 1.3425934615988254e-06
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 2.365286662129535e-08,
+          "H_max": 8.232837735112561e-08,
+          "M_rms": 5.2814844645491175e-08,
+          "M_max": 1.1274716468498728e-07,
+          "M_components_rms": [
+            2.8299613517497047e-08,
+            1.9265418512676126e-08,
+            2.6139660827172138e-08
+          ],
+          "M_components_max": [
+            7.184486844176768e-08,
+            4.376188400202209e-08,
+            6.371068027852325e-08
+          ],
+          "normalized_H_max": 0.0001779822611981002,
+          "normalized_M_max": 2.7487071808204764e-05
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9705556238634057,
+        0.004537406031047641,
+        0.007386059030339129,
+        0.01686904977706038,
+        0.040074644103375426,
+        0.1123678087301192,
+        0.31065470156842995
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-sequence-v1/moderate192/diagnostic.checkpoint",
+        "file_sha256": "f5d75b299ef5e091a734b33a65042f91df9063adf1269c962184bf1d351c9e34",
+        "source_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "result_sha256": "87e572818e914939e3767e4c311c56c0d0d4377d206ce8b26839012092a3c469",
+      "observer_sha256": "96eb594eb5ea79e9fbec06d562ec9fd76db71a9bb56a638f35f72d09609055f3"
+    },
+    {
+      "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-sequence-v1/moderate224",
+      "resolution": [
+        224,
+        448,
+        16
+      ],
+      "physical": {
+        "near": {
+          "count": 48,
+          "H_rms": 4.7632186520471444e-08,
+          "H_max": 2.1325123955584502e-07,
+          "M_rms": 1.1965243738343984e-07,
+          "M_max": 2.0726155936369052e-07,
+          "M_components_rms": [
+            6.10267321499071e-08,
+            1.0551356998031146e-08,
+            1.5934833134477776e-08
+          ],
+          "M_components_max": [
+            1.32488980900996e-07,
+            3.520422780734276e-08,
+            4.9692105055042414e-08
+          ],
+          "normalized_H_max": 2.428647790059017e-07,
+          "normalized_M_max": 7.625704160262775e-07
+        },
+        "bulk": {
+          "count": 18,
+          "H_rms": 3.20071160919837e-08,
+          "H_max": 1.2848395782808636e-07,
+          "M_rms": 9.221797013561485e-08,
+          "M_max": 2.744449520208502e-07,
+          "M_components_rms": [
+            1.8509294527673652e-08,
+            4.1493290208481225e-08,
+            6.245690107973276e-08
+          ],
+          "M_components_max": [
+            4.48015255510037e-08,
+            1.3406661784675726e-07,
+            2.017723239030842e-07
+          ],
+          "normalized_H_max": 0.00014572034741468153,
+          "normalized_M_max": 9.274043995528708e-05
+        }
+      },
+      "physical_bounds_passed": true,
+      "charges": [
+        0.9705556207629273,
+        0.00453740604947439,
+        0.007386059080373852,
+        0.016869049867479433,
+        0.04007465550183479,
+        0.11236772480314255,
+        0.31065471572731973
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-sequence-v1/moderate224/diagnostic.checkpoint",
+        "file_sha256": "852956d6759f9640bec4dcee24c63abe66a5ce6c365a6cbcd1d5d4c065a3fc63",
+        "source_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+        "acceptance": "diagnostic",
+        "seed_family": "trumpet_r0_m",
+        "format_version": 2
+      },
+      "result_sha256": "36a0874fec81f990e1ea505d7994af22faa40f0b7ea73cdfe4a7d144ee1cf006",
+      "observer_sha256": "cc63046f483970f5e499104ff2640987bcfbad53872ff359a13707aa8dd4fe87"
+    }
+  ],
+  "increasing_resolutions": true,
+  "decreasing_rms": false,
+  "rms_changes": {
+    "near": {
+      "H_rms": [
+        -5.889256566947852e-07,
+        -1.284315754711958e-07
+      ],
+      "M_rms": [
+        -1.7530259024532042e-07,
+        -4.575033630919537e-08
+      ]
+    },
+    "bulk": {
+      "H_rms": [
+        -6.497455722424148e-09,
+        8.354249470688354e-09
+      ],
+      "M_rms": [
+        -9.649607059482085e-08,
+        3.940312549012368e-08
+      ]
+    }
+  },
+  "charge_scaled_changes": [
+    8.084638472452243e-07,
+    7.544894981649838e-08
+  ],
+  "driver_sha256": "b01abb8732589fb35c70d5a79eebb098d81cfce81a8eb19c5fa2d82b3cc6c8a9"
+}

@@ -1,5 +1,5 @@
 {
-  "status": "coarse_exterior_bounds_passed_sequence_running",
+  "status": "rejected_as_convergence_fix_all_absolute_bounds_pass_but_bulk_errors_nonmonotonic",
   "date": "2026-10-18",
   "purpose": "Fix moderate-spin convergence with a wider, horizon-enclosed interior transition",
   "physical_free_data": "Same masses, spins, velocities, separation, conformal choice, outer attenuation and trumpet seed as trumpet_moderate",
@@ -148,5 +148,7 @@
     320,
     16
   ],
-  "refinement_scope_note": "Added the previously stalled 240 level before receiving the 224 physical result, to test the original fine-grid failure directly. The 160 result remains pilot evidence; same fixed image, equations, observer and solver settings at all four levels."
+  "refinement_scope_note": "Added the previously stalled 240 level before receiving the 224 physical result, to test the original fine-grid failure directly. The 160 result remains pilot evidence; same fixed image, equations, observer and solver settings at all four levels.",
+  "fine_240_launched": false,
+  "diagnosis": "Halving independent observer step leaves bulk norms unchanged; removing m7/m8 has negligible effect, so the earlier scalar-m6 pathology is not the dominant new failure."
 }

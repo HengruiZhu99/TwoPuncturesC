@@ -1,0 +1,278 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      224,
+      448,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.0826630035142687,
+      0.0554766275110519
+    ],
+    "inner_max": [
+      0.468423686580856,
+      0.31436755589596077
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 2400,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "trumpet_r0_m"
+  },
+  "library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+  "kind": "moderate-wide_trumpet_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": true,
+  "axisymmetric": false,
+  "linear_rtol": 0.1,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-moderate-wide-20261018/validation/run_trumpet_pilot.py": "3fd71061f1326c31eb5aa3fc8e6838c07335f9407c94de8013e032e03a9070df",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-moderate-wide-20261018/examples/trumpet_configs.py": "ce19669718dc4edb0c5a645dc4c4a8780d0a454567f03b12a003a478ce25ab6c",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-moderate-wide-20261018/validation/run_validation.py": "ed04b5aca5f46e0d9a158a4446dfc86c0a9dbd12fb189e3e9265cc2cbb41eca7",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-moderate-wide-20261018/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-moderate-wide-20261018/validation/remapped_guess.py": "53430354e6104612ea1246494b48458a1c64a4a62324a18ba44cffd17d622c99",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-moderate-wide-20261018/validation/prolong.py": "44ccf8c9c76c44ca52083505513c9167aaea86b5b518ff3137a624916cf78e9d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-moderate-wide-20261018/python/checkpoint_export.py": "6b848283081399c4104f30de12532c33a3016f505be898858ae807fdb99bf6ed"
+  },
+  "setup_seconds": 86.89337612898089,
+  "initial_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-sequence-v1/moderate192/diagnostic.checkpoint",
+    "file_sha256": "f5d75b299ef5e091a734b33a65042f91df9063adf1269c962184bf1d351c9e34",
+    "source_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2,
+    "acceptance_inherited": false
+  },
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 6,
+    "krylov_iterations": 253,
+    "npoints": 1605632,
+    "scaled_linf": [
+      3.1858925024057204e-14,
+      1.7127629366067564e-13,
+      2.3988130339384953e-13,
+      4.4998489253141267e-13
+    ],
+    "unscaled_linf": [
+      3.24943599621067e-07,
+      2.893111917294557e-06,
+      0.0002480848582560182,
+      0.0002725741399358282
+    ],
+    "seconds": 156.094469534,
+    "status": 0,
+    "error": ""
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.06886895877796219,
+      2.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.07575412260459825,
+      6.0
+    ],
+    [
+      2.0,
+      0.1,
+      0.09069524204417506,
+      10.0
+    ],
+    [
+      3.0,
+      0.1,
+      0.09549563906788687,
+      15.0
+    ],
+    [
+      4.0,
+      0.1,
+      0.05941470338456235,
+      33.0
+    ],
+    [
+      5.0,
+      0.1,
+      0.09093009093432483,
+      187.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 273,
+    "preconditioner_applications": 253
+  },
+  "solve_artifact_sha256": "530b1a08031253e977af8e35af587e0e30877ae8b633d245a292079590124a9c",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/moderate-wide-sequence-v1/moderate224/diagnostic.checkpoint",
+    "file_sha256": "852956d6759f9640bec4dcee24c63abe66a5ce6c365a6cbcd1d5d4c065a3fc63",
+    "source_library_sha256": "7398b4b254371c39409d511ebe0808fef5e8c45b9c1e6b1af2ccb52acecf31ea",
+    "acceptance": "diagnostic",
+    "seed_family": "trumpet_r0_m",
+    "format_version": 2
+  },
+  "physical": {
+    "near": {
+      "count": 48,
+      "H_rms": 4.7632186520471444e-08,
+      "H_max": 2.1325123955584502e-07,
+      "M_rms": 1.1965243738343984e-07,
+      "M_max": 2.0726155936369052e-07,
+      "M_components_rms": [
+        6.10267321499071e-08,
+        1.0551356998031146e-08,
+        1.5934833134477776e-08
+      ],
+      "M_components_max": [
+        1.32488980900996e-07,
+        3.520422780734276e-08,
+        4.9692105055042414e-08
+      ],
+      "normalized_H_max": 2.428647790059017e-07,
+      "normalized_M_max": 7.625704160262775e-07
+    },
+    "bulk": {
+      "count": 18,
+      "H_rms": 3.20071160919837e-08,
+      "H_max": 1.2848395782808636e-07,
+      "M_rms": 9.221797013561485e-08,
+      "M_max": 2.744449520208502e-07,
+      "M_components_rms": [
+        1.8509294527673652e-08,
+        4.1493290208481225e-08,
+        6.245690107973276e-08
+      ],
+      "M_components_max": [
+        4.48015255510037e-08,
+        1.3406661784675726e-07,
+        2.017723239030842e-07
+      ],
+      "normalized_H_max": 0.00014572034741468153,
+      "normalized_M_max": 9.274043995528708e-05
+    },
+    "modified": {
+      "count": 36,
+      "H_rms": 0.1902928893886992,
+      "H_max": 0.5105118848970456,
+      "M_rms": 0.01756529788585394,
+      "M_max": 0.042924990655204935,
+      "M_components_rms": [
+        0.0021330319940942037,
+        0.0021692448056031544,
+        0.002258807957054118
+      ],
+      "M_components_max": [
+        0.006541771744920316,
+        0.006175602866845314,
+        0.005837126078485229
+      ],
+      "normalized_H_max": 0.03452445644973435,
+      "normalized_M_max": 0.01842651536007727
+    }
+  },
+  "exterior_stencil_unmodified": true,
+  "minimum_psi": 1.0290515801022402,
+  "minimum_metric_eigenvalue": 1.1200132323550525,
+  "charge_radii": [
+    256.0,
+    512.0,
+    1024.0
+  ],
+  "charges": [
+    [
+      0.9743486420608077,
+      0.004530111620384129,
+      0.007365426587526131,
+      0.016820674117625153,
+      0.03989698044699396,
+      0.11215755410103377,
+      0.30938737467493344
+    ],
+    [
+      0.9724617064510893,
+      0.004533642390222519,
+      0.007375721235855867,
+      0.016844784591491215,
+      0.03998051294314761,
+      0.1123029697131433,
+      0.3100044417975341
+    ],
+    [
+      0.9715110573668136,
+      0.004535495108671769,
+      0.007380884758591328,
+      0.016856897879220054,
+      0.04002625796467451,
+      0.1123454298234067,
+      0.3103254279115288
+    ]
+  ],
+  "charges_extrapolated": [
+    0.9705556207629273,
+    0.00453740604947439,
+    0.007386059080373852,
+    0.016869049867479433,
+    0.04007465550183479,
+    0.11236772480314255,
+    0.31065471572731973
+  ],
+  "total_seconds": 396.90212310198694,
+  "process_peak_rss_kib": 9938752
+}
