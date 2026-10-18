@@ -40,6 +40,17 @@ def qi_moderate_control(backend,n=24,nphi=8):
     return c
 
 
+def qi_moderate_wide(backend,n=24,nphi=8):
+    """Separate QI candidate widening the interior transition to0.85 throat.
+
+    The original QI near/bulk observer is entirely outside this window.
+    Actual horizon enclosure remains a required measurement.
+    """
+    c=qi_moderate_control(backend,n,nphi)
+    for i in range(2):c.inner_max[i]*=.85/.5
+    return c
+
+
 def trumpet_moderate_wide(backend,n=24,nphi=8):
     """Candidate wider interior transition, with the same exterior CTT equations.
 

@@ -19,8 +19,9 @@ after 512 iterations); no finer study follows. The Arnoldi projection identifies
 A left-preconditioned240 pilot in59956254 also fails: original relative
 residual119652.944 after512 iterations, with no accepted Newton update.
 Following the user's regularity steering, one frozen QI Kerr control is
-running in59956570, using the same generic seed parameters and a separate
-family-specific interior radius. Its160 pilot gates the declared192/224 grids.
+in59956570 fails bulk momentum at3.81e-6. A wider QI interior window
+reduces that error to1.05e-7 on unchanged160-grid exterior points. Its frozen
+160/192/224 study is running in59956729; horizon checks remain gated.
 The three-grid study and finest-checkpoint AthenaK check remain incomplete.
 This is active work, not a completed convergence fix.
 See `validation/trumpet/galerkin/`, `validation/trumpet/modal-relaxation/`,

@@ -45,3 +45,29 @@ not repair or qualify the trumpet family. A failed QI control will also be
 retained; no family is accepted from its internal weighted norm alone.
 Multigrid is deferred until there is evidence that a coarse-error component
 is the bottleneck, rather than the measured grid-scale error/conditioning.
+
+
+The narrow QI160 control59956570 internally converged in8Newton/46Krylov,
+42.386s, but bulk momentum RMS3.80871e-6 fails the1e-6 bound. Near H/M are
+2.50060e-7/5.67512e-7, bulk H8.73073e-9. No finer narrow-QI run followed.
+The exact result and physical arrays are in evidence160/.
+
+A separate wider-QI candidate changes only the outer transition fraction to
+0.85 (plateau0.15 unchanged). Its48near/18bulk observer positions are bitwise
+identical to the narrow QI observer; no points are moved outwards. The frozen
+wide-plan.json again specifies160/192/224 and unchanged physical/horizon gates.
+The coarse160 bounds pass, with near H/M3.13058e-7/9.14461e-8 and bulk
+H/M6.30273e-9/1.04547e-7. This36.4-fold momentum improvement is a transition
+comparison within QI, not evidence of completed three-grid qualification.
+
+The offline retained_decay.png and retained-decay.json use existing160 fields
+only. The m=0 factored coefficients have slow meridional tails in both families.
+Degree8 polynomial windows localize the trumpet wide-case radial vector tail
+mainly to compactified infinity: suppressing that endpoint reduces the selected
+80--143 degree-band norm to0.00406 of its original value; suppressing the inner
+radial axis leaves1.003. The narrow QI tail instead lies mainly near the inner
+radial axis (which includes the foci and the segment between holes). This does
+not identify exact logarithmic powers, prove coupled indicial exponents, or
+compare the families with identical physical interiors. No filtered field is
+used as solved data. Necessary low-m Cartesian corner-compatibility defects
+are also recorded as representation diagnostics, without acceptance claims.

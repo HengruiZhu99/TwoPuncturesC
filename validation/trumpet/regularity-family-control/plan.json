@@ -1,5 +1,5 @@
 {
-  "status": "160_pilot_running",
+  "status": "rejected_160_bulk_momentum_above_bound_no_finer_runs",
   "purpose": "Separate seed-family regularity control, not inherited trumpet qualification",
   "formulation": "Boosted quasi-isotropic Kerr with exact seed scalar factor; same generic moderate seed parameters, R0=M attenuation fractions mapped to QI throat",
   "native_library_sha256": "c4c45eaee847a6ab17ad794c0d81321ea27d2a2cc313f84c8f0d622e7d8b4741",
@@ -114,5 +114,6 @@
   "pilot_gate": "Only proceed to192/224 if160 converges with all near/bulk physical bounds and positive fields, exterior stencils g=1",
   "consumer": "Finest qualified checkpoint -> explicit native CPU migration -> AthenaK horizon orders8/12/16 and quadrature, if sequence passes",
   "multigrid": "Deferred pending regularity control; high-frequency residual and ill-conditioned modal projection do not yet demonstrate a coarse-error bottleneck",
-  "job": 59956570
+  "job": 59956570,
+  "pilot_bulk_M_rms": 3.8087093393862895e-06
 }

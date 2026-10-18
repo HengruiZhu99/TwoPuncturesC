@@ -2200,3 +2200,29 @@ over. Near-hole observers follow each family's radius, so their norm ratio
 is not a controlled slicing-only measurement. The bulk points and within-family
 convergence can be compared. See regularity-family-control/ for the frozen plan.
 No new multigrid or backend sweep is justified by the current evidence.
+
+
+The narrow QI160 comparison59956570 fails the independent bulk momentum bound
+(3.80871e-6), despite8Newton/46Krylov internal convergence. A wider QI interior
+window, outer fraction0.85 with plateau0.15, reduces that error at the identical
+exterior points to1.04547e-7. Its near H/M are3.13058e-7/9.14461e-8 and bulk
+H6.30273e-9. One frozen160/192/224 study is running in59956729, with all prior
+criteria unchanged; this candidate is not yet accepted. The wider window does
+not require moving the QI observer shells. Actual binary horizon enclosure
+remains mandatory. This is a distinct QI fallback, not a qualified trumpet fix.
+
+An offline coefficient diagnostic using retained160 fields reveals slow m=0
+meridional tails in both families. Degree8 polynomial endpoint windows leave
+the trumpet wide-case radial vector tail almost unchanged when suppressing the
+inner radial axis (ratio1.003), but reduce the selected degree80--143 band to
+0.00406 when suppressing compactified infinity. The narrow QI case shows the
+opposite localization. The inner radial boundary includes the whole axis
+segment between the holes, not just the foci. These representation diagnostics
+do not identify a logarithmic exponent or constitute a controlled slicing-only
+comparison: the two retained interiors differ. The figure, source and input
+hashes are in regularity-family-control/. Necessary low-m corner conditions
+for a Cartesian-analytic correction are also recorded, not imposed in a solve.
+For r=m modes they follow from u_m/ρ^m proportional to(1-t)^(m+1)P_m and
+x=b(1+t)eta/(1-t): at(t=0,eta=side),
+(d_t-2 side d_eta-(m+1))P_m=0. No extra tau experiment is launched while the
+fixed wider-QI study is pending.
