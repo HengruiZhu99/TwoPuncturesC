@@ -2011,3 +2011,59 @@ solve; no old acceptance is inherited. Source/build suffix is
 geometric-interior-20261018; output geometric-interior-sequence-v1. Driver and
 local controls are in validation/trumpet/geometric-interior/. Physical outcome
 is pending. The earlier wide-only failed sequence remains intact.
+
+Job59954146 (session2285), one shared80GiB GPU for30minutes, builds and
+qualifies the new image. CPU/CUDA changed-interior sampled fields agree to
+2.30263e-13. The structural metric control also passes on the compute node.
+Pinned producer8aba192865cd2b0b5be735bdbd6a3eef9f79a04a0f691ba56cb2cfab8b15e5db;
+TwoPunctures dependency358c5e11907eca7037fe51a2c5e9f4a05a7ce5b126e9a21c512087b8e47f6331.
+The192 solve is underway; no physical acceptance yet. A gated consumer script
+is prepared for the240 solution, reusing the qualified CPU sampler and AthenaK
+image only after fresh migration proof and three-grid acceptance.
+
+The geometric-interior192 solve completed8Newton/50Krylov,82.9387solve seconds,
+but fails physical momentum bounds: nearH/M RMS6.74833e-7/1.54108e-5 and
+bulk2.57005e-8/1.11548e-5. The job stops before224/240. It is not selected
+as a convergence remedy. Evidence remains in geometric-interior/evidence192.
+
+A saved-polynomial interpolation diagnosis is now underway, without another
+elliptic solve. The nodal differential operator and coefficient-based physical
+sampler can acquire different roundoff tails when auxiliary low-mode nodal
+values reach hundreds. The opt-in HISPID_BARYCENTRIC_SAMPLER uses tensor nodal
+interpolation with constant-preserving difference sums and extended host
+accumulators. It applies only to trumpet sampling; equations/JVPs and QI
+sampling retain their previous paths. On the small control, residual/JVP
+witnesses are bitwise identical and sampled-field difference1.57e-15.
+An independent Cartesian-jet test uses a large constant plus highest-degree
+radial/polar Chebyshev perturbations, checking vector correction values and
+physical Kij at16/192 radial points. Locally, old/new Kij scaled errors are
+7.76e-14/1.91e-15. The Perlmutter CPU control gives6.23e-16 for the new path.
+This qualifies a sampler prototype, not a physical convergence result.
+Job59954485 (session43649), a CPU-only15minute allocation, builds that sampler
+and reobserves the saved wide224 and geometric192 bulk points. No other
+compute allocation is active. The outcome must distinguish sampling roundoff
+from actual discretization/solver error before another resolution is tried.
+
+The saved-field barycentric recheck leaves the bulk momentum errors unchanged:
+wide2249.22181e-8 versus9.22180e-8; geometric1921.11547928150e-5 versus
+1.11547928157e-5. Sampler roundoff is not the dominant convergence failure.
+Its prototype and controls are archived; it is removed from the production
+source. The failed geometric-interior extension is likewise retained as a
+replayable patch and removed from the production path. Neither was selected.
+
+The frozen azimuthal probe59954609 (session43463) doubles16 to32 samples,
+preserving the continuous field by orthonormal Fourier renormalization, with
+no solve. In a meridional bulk band, native physical-equivalent residual RMS
+at the old phases isO(1e-14); interleaved phase momentum RMS isO(1e-12),
+maximum4.97e-11. These are far below the independent fully off-grid bulk
+momentum errorsO(1e-7). An independent Cartesian FD witness agrees with
+the interleaved native momentum components; Hamiltonian FD roundoff reaches
+2.14e-9. The dominant remaining issue is meridional discretization/interpolation
+between collocation nodes, not azimuthal resolution or the sampler.
+
+Next candidate: dealiased Galerkin restriction of an overintegrated radial/polar
+operator, retaining the original continuous CTT equations and interior
+prescription. Preserve the original moderate observer profile for its new
+physical sequence. Do not change physical tolerances or accept the failed
+wide-only/nonmetric-compatible comparisons. All compute allocations from these
+diagnostic trials have completed/released. No new Galerkin solve has launched.

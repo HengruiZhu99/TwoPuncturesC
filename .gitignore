@@ -33,3 +33,5 @@ validation/*.log
 /build-axis-tau-spectral-radial/
 
 build-geometric-interior/
+
+build-barycentric-sampler/

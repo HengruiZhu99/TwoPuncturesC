@@ -1,0 +1,1 @@
+metric_compatibility=4.51738e-20 old_transition_defect=0.560579 plateau_exterior_operator_difference=0 transition_points=3

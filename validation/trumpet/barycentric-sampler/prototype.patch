@@ -1,0 +1,118 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c043878..d48e0ea 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+ option(PUNCTURES_KOKKOS "Build the explicit Kokkos execution backend" OFF)
+ set(PUNCTURES_KOKKOS_SOURCE "" CACHE PATH "Existing, pinned Kokkos source checkout")
++option(HISPID_BARYCENTRIC_SAMPLER "Stable nodal tensor interpolation for HiSpID sampling" OFF)
+ option(HISPID_GEOMETRIC_TRUMPET_INTERIOR "Use the blended metric Levi-Civita connection inside trumpet attenuation" OFF)
+ option(HISPID_BATCHED_MODAL_TRANSFER "Opt-in matrix-RHS modal transfer solves" OFF)
+ option(HISPID_ANALYTIC_MATRICES "Opt-in analytic Chebyshev derivative matrices" OFF)
+@@ -49,6 +50,7 @@ target_include_directories(TwoPunctures PUBLIC include)
+ target_link_libraries(TwoPunctures PUBLIC GSL::gsl GSL::gslcblas m)
+ add_library(HiSpID SHARED src/HiSpID_geometry.cpp src/HiSpID_solver.cpp)
+ target_include_directories(HiSpID PUBLIC include)
++target_compile_definitions(HiSpID PRIVATE HISPID_BARYCENTRIC_SAMPLER=$<BOOL:${HISPID_BARYCENTRIC_SAMPLER}>)
+ target_compile_definitions(HiSpID PUBLIC HISPID_GEOMETRIC_TRUMPET_INTERIOR=$<BOOL:${HISPID_GEOMETRIC_TRUMPET_INTERIOR}>)
+ target_link_libraries(HiSpID PRIVATE TwoPunctures)
+ target_compile_definitions(HiSpID PRIVATE HISPID_EXACT_POLAR_TAU=$<BOOL:${HISPID_EXACT_POLAR_TAU}> HISPID_AXIS_TAU=$<BOOL:${HISPID_AXIS_TAU}> HISPID_MONOTONE_PRECONDITIONER=$<BOOL:${HISPID_MONOTONE_PRECONDITIONER}> HISPID_STABLE_SCALAR_SOURCE=$<BOOL:${HISPID_STABLE_SCALAR_SOURCE}> HISPID_ROW_POWER=${HISPID_ROW_POWER} HISPID_NEWTON_BACKTRACKS=${HISPID_NEWTON_BACKTRACKS} HISPID_BATCHED_MODAL_TRANSFER=$<BOOL:${HISPID_BATCHED_MODAL_TRANSFER}>)
+@@ -62,6 +64,11 @@ target_compile_definitions(HiSpID PUBLIC HISPID_RADIAL_STRETCH=${HISPID_RADIAL_S
+ target_compile_definitions(HiSpID PRIVATE HISPID_COMPENSATED_MODAL_PROJECTION=$<BOOL:${HISPID_COMPENSATED_MODAL_PROJECTION}>)
+ target_compile_definitions(HiSpID PRIVATE HISPID_SPECTRAL_RADIAL_PRECONDITIONER=$<BOOL:${HISPID_SPECTRAL_RADIAL_PRECONDITIONER}>)
+ enable_testing()
++if(HISPID_BARYCENTRIC_SAMPLER)
++  add_executable(test_trumpet_sampler tests/test_trumpet_sampler.cpp)
++  target_link_libraries(test_trumpet_sampler PRIVATE HiSpID)
++  add_test(NAME trumpet_sampler_interpolant COMMAND test_trumpet_sampler)
++endif()
+ if(HISPID_GEOMETRIC_TRUMPET_INTERIOR)
+   add_executable(test_hispid_geometric_interior tests/test_hispid_geometric_interior.cpp)
+   target_link_libraries(test_hispid_geometric_interior PRIVATE HiSpID)
+diff --git a/src/HiSpID_solver.cpp b/src/HiSpID_solver.cpp
+index 9901f2b..ef8fdcf 100644
+--- a/src/HiSpID_solver.cpp
++++ b/src/HiSpID_solver.cpp
+@@ -740,6 +740,9 @@ void to_local(const HiSpID_Data&s,const double*x,double*y){
+  for(int i=0;i<3;i++){y[i]=0;for(int j=0;j<3;j++)y[i]+=s.frame[j][i]*(x[j]-s.origin[j]);}
+ }
+ void make_coefficients(HiSpID_Data&s){
++#if HISPID_BARYCENTRIC_SAMPLER
++ if(s.seed_family==HISPID_SEED_TRUMPET_R0_M){s.coefficients_valid=true;return;}
++#endif
+  if(s.coefficients_valid)return;
+  auto start=std::chrono::steady_clock::now();s.coefficients.resize(s.ntotal);
+ #ifdef PUNCTURES_KOKKOS
+@@ -759,8 +762,71 @@ void polynomial_basis(int N,double x,std::vector<double>&value,std::vector<doubl
+  for(int i=2;i<N;i++){value[i]=2*x*value[i-1]-value[i-2];first[i]=2*value[i-1]+2*x*first[i-1]-first[i-2];}
+  value[0]=.5;
+ }
++#if HISPID_BARYCENTRIC_SAMPLER
++// Tensor interpolation of the original nodal polynomial. Difference sums
++// preserve constants and avoid converting large auxiliary values to a noisy
++// coefficient tail. Extended accumulators are useful on x86 host samplers.
++struct SamplingWeights {
++ std::vector<long double>value,derivative;
++ int nearest=0;
++ SamplingWeights(int n,long double x):value(n),derivative(n){
++  const long double pi=std::acos(-1.L);
++  std::vector<long double>node(n),weight(n),term(n);
++  long double distance=INFINITY;
++  for(int j=0;j<n;j++){
++   const long double theta=pi*(j+.5L)/n;node[j]=-std::cos(theta);
++   weight[j]=(j%2?-1.L:1.L)*std::sin(theta);
++   if(std::abs(x-node[j])<distance){distance=std::abs(x-node[j]);nearest=j;}
++  }
++  if(distance<8*std::numeric_limits<long double>::epsilon()){
++   value[nearest]=1;
++   for(int j=0;j<n;j++)if(j!=nearest){
++    derivative[j]=weight[j]/(weight[nearest]*(node[nearest]-node[j]));
++    derivative[nearest]-=derivative[j];
++   }return;
++  }
++  long double sum=0,square=0;
++  for(int j=0;j<n;j++){term[j]=weight[j]/(x-node[j]);sum+=term[j];square+=term[j]/(x-node[j]);}
++  for(int j=0;j<n;j++){
++   value[j]=term[j]/sum;
++   // The nearest derivative is unused by the constant-preserving sum, so
++   // its potentially cancelling expression cannot contaminate a sample.
++   if(j!=nearest)derivative[j]=value[j]*(square/sum-1/(x-node[j]));
++  }
++ }
++};
++void evaluate_nodal_mode(const HiSpID_Data&s,int k,double t,double eta,double P[4][3]){
++ const int na=s.local.n[0],nb=s.local.n[1];
++ const long double lambda=hispid::AxisDerivatives::radial_stretch,den=lambda+(1-lambda)*t;
++ const long double kap=hispid::AxisDerivatives::angular_stretch,T=std::tanh(kap);
++ SamplingWeights a(na,2*t/den-1),b(nb,std::atanh(eta*T)/kap);
++ std::vector<long double>row(size_t(nb)*8);
++ for(int j=0;j<nb;j++)for(int v=0;v<4;v++){
++  const double center=s.values[4*(a.nearest+na*(j+nb*k))+v];
++  long double value=center,d=0;
++  for(int i=0;i<na;i++)if(i!=a.nearest){
++   const long double difference=(long double)s.values[4*(i+na*(j+nb*k))+v]-center;
++   value+=a.value[i]*difference;d+=a.derivative[i]*difference;
++  }row[8*j+v]=value;row[8*j+4+v]=d;
++ }
++ for(int v=0;v<4;v++){
++  const long double center=row[8*b.nearest+v],dc=row[8*b.nearest+4+v];
++  long double value=center,dt=dc,de=0;
++  for(int j=0;j<nb;j++)if(j!=b.nearest){
++   value+=b.value[j]*(row[8*j+v]-center);
++   dt+=b.value[j]*(row[8*j+4+v]-dc);
++   de+=b.derivative[j]*(row[8*j+v]-center);
++  }
++  P[v][0]=double(value);P[v][1]=double(2*lambda/(den*den)*dt);
++  P[v][2]=double(T/(kap*(1-T*T*eta*eta))*de);
++ }
++}
++#endif
+ // Return P, P_t, P_eta for one orthonormal Fourier mode.
+ void evaluate_mode(const HiSpID_Data&s,int k,double t,double eta,double P[4][3]){
++#if HISPID_BARYCENTRIC_SAMPLER
++ if(s.seed_family==HISPID_SEED_TRUMPET_R0_M){evaluate_nodal_mode(s,k,t,eta,P);return;}
++#endif
+  const int na=s.local.n[0],nb=s.local.n[1];std::vector<double>Ta,Da,Tb,Db;
+  const double lambda=hispid::AxisDerivatives::radial_stretch,den=lambda+(1-lambda)*t,sigma=t/den,kappa=hispid::AxisDerivatives::angular_stretch,T=std::tanh(kappa),zeta=std::atanh(eta*T)/kappa;
+  polynomial_basis(na,2*sigma-1,Ta,Da);polynomial_basis(nb,zeta,Tb,Db);std::memset(P,0,12*sizeof(double));

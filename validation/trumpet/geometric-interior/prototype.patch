@@ -1,0 +1,106 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8c8512d..c043878 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+ option(PUNCTURES_KOKKOS "Build the explicit Kokkos execution backend" OFF)
+ set(PUNCTURES_KOKKOS_SOURCE "" CACHE PATH "Existing, pinned Kokkos source checkout")
++option(HISPID_GEOMETRIC_TRUMPET_INTERIOR "Use the blended metric Levi-Civita connection inside trumpet attenuation" OFF)
+ option(HISPID_BATCHED_MODAL_TRANSFER "Opt-in matrix-RHS modal transfer solves" OFF)
+ option(HISPID_ANALYTIC_MATRICES "Opt-in analytic Chebyshev derivative matrices" OFF)
+ set(HISPID_REGULARITY_CAP 4 CACHE STRING "Experimental modal regularity cap: 4 (C2 default) or 6 (C4)")
+@@ -48,6 +49,7 @@ target_include_directories(TwoPunctures PUBLIC include)
+ target_link_libraries(TwoPunctures PUBLIC GSL::gsl GSL::gslcblas m)
+ add_library(HiSpID SHARED src/HiSpID_geometry.cpp src/HiSpID_solver.cpp)
+ target_include_directories(HiSpID PUBLIC include)
++target_compile_definitions(HiSpID PUBLIC HISPID_GEOMETRIC_TRUMPET_INTERIOR=$<BOOL:${HISPID_GEOMETRIC_TRUMPET_INTERIOR}>)
+ target_link_libraries(HiSpID PRIVATE TwoPunctures)
+ target_compile_definitions(HiSpID PRIVATE HISPID_EXACT_POLAR_TAU=$<BOOL:${HISPID_EXACT_POLAR_TAU}> HISPID_AXIS_TAU=$<BOOL:${HISPID_AXIS_TAU}> HISPID_MONOTONE_PRECONDITIONER=$<BOOL:${HISPID_MONOTONE_PRECONDITIONER}> HISPID_STABLE_SCALAR_SOURCE=$<BOOL:${HISPID_STABLE_SCALAR_SOURCE}> HISPID_ROW_POWER=${HISPID_ROW_POWER} HISPID_NEWTON_BACKTRACKS=${HISPID_NEWTON_BACKTRACKS} HISPID_BATCHED_MODAL_TRANSFER=$<BOOL:${HISPID_BATCHED_MODAL_TRANSFER}>)
+ # Both DSOs compile the shared spectral header; keep its inline definition
+@@ -60,6 +62,11 @@ target_compile_definitions(HiSpID PUBLIC HISPID_RADIAL_STRETCH=${HISPID_RADIAL_S
+ target_compile_definitions(HiSpID PRIVATE HISPID_COMPENSATED_MODAL_PROJECTION=$<BOOL:${HISPID_COMPENSATED_MODAL_PROJECTION}>)
+ target_compile_definitions(HiSpID PRIVATE HISPID_SPECTRAL_RADIAL_PRECONDITIONER=$<BOOL:${HISPID_SPECTRAL_RADIAL_PRECONDITIONER}>)
+ enable_testing()
++if(HISPID_GEOMETRIC_TRUMPET_INTERIOR)
++  add_executable(test_hispid_geometric_interior tests/test_hispid_geometric_interior.cpp)
++  target_link_libraries(test_hispid_geometric_interior PRIVATE HiSpID)
++  add_test(NAME hispid_geometric_interior COMMAND test_hispid_geometric_interior)
++endif()
+ add_executable(test_hispid_radial_preconditioner tests/test_hispid_radial_preconditioner.cpp)
+ target_link_libraries(test_hispid_radial_preconditioner PRIVATE HiSpID TwoPunctures)
+ add_test(NAME hispid_radial_preconditioner COMMAND test_hispid_radial_preconditioner)
+diff --git a/src/HiSpID_geometry_kernels.hpp b/src/HiSpID_geometry_kernels.hpp
+index 5c4cb2e..b189200 100644
+--- a/src/HiSpID_geometry_kernels.hpp
++++ b/src/HiSpID_geometry_kernels.hpp
+@@ -270,6 +270,16 @@ template<class Real> HISPID_GEOMETRY_INLINE int background_geometry(const HiSpID
+   for(int i=0;i<3;i++)for(int j=0;j<3;j++)
+    b.opmetric[i][j]=JetT<Real>(i==j?1:0)+b.g*(b.metric[i][j]-JetT<Real>(i==j?1:0));
+   if(!invert_checked(b.opmetric,b.opinv))return geometry_determinant;
++#if defined(HISPID_GEOMETRIC_TRUMPET_INTERIOR) && HISPID_GEOMETRIC_TRUMPET_INTERIOR
++  // The previous attenuated connection is intentionally nonmetric-compatible.
++  // For this opt-in trumpet extension, use the actual smooth operator metric;
++  // div(L b) then has its geometric divergence/energy structure. At g=0 it is
++  // flat, and at g=1 it is exactly the exterior conformal connection. Physical
++  // seed fields and the exterior CTT operator are unchanged. QI retains its
++  // historical interior definition even in this build.
++  if(family==HISPID_SEED_TRUMPET_R0_M)connection(b.opmetric,b.opinv,b.opC);
++  else
++#endif
+   for(int k=0;k<3;k++)for(int i=0;i<3;i++)for(int j=0;j<3;j++)b.opC[k][i][j]=b.g*b.C[k][i][j];
+  }else{
+   for(int i=0;i<3;i++)for(int j=0;j<3;j++){b.opmetric[i][j]=b.metric[i][j];b.opinv[i][j]=b.inv[i][j];
+diff --git a/tests/test_hispid_geometric_interior.cpp b/tests/test_hispid_geometric_interior.cpp
+new file mode 100644
+index 0000000..88a2a0e
+--- /dev/null
++++ b/tests/test_hispid_geometric_interior.cpp
+@@ -0,0 +1,47 @@
++#include <algorithm>
++#include <cmath>
++#include <iostream>
++#include "../src/HiSpID_cache_kernels.hpp"
++int main(){
++ HiSpID_Config c{};c.hole[0]={.6,{3,0,0},{.072,.054,.108},{.03,.06,.01}};
++ c.hole[1]={.4,{-3,0,0},{-.032,.048,.016},{-.02,-.07,.025}};
++ c.inner_min[0]=.0826630035142687;c.inner_min[1]=.0554766275110519;
++ c.inner_max[0]=.468423686580856;c.inner_max[1]=.31436755589596077;
++ c.omega[0]=c.omega[1]=.5;c.attenuation_power=4;c.inner_flatten=1;
++ long double compatibility=0,old_defect=0;double exterior=0;int transitions=0;
++ for(int family:{HISPID_SEED_QI,HISPID_SEED_TRUMPET_R0_M})
++ for(double radius:{.04,.15,.27,.39,.6}){
++  const double x[3]={3+.6*radius,.8*radius,0};hispid::Background b{};
++  if(hispid::background_geometry(c,x,b,true,family))return 1;
++  auto old=b;for(int k=0;k<3;k++)for(int i=0;i<3;i++)for(int j=0;j<3;j++)old.opC[k][i][j]=b.g*b.C[k][i][j];
++  if(family==HISPID_SEED_QI){
++   for(int k=0;k<3;k++)for(int i=0;i<3;i++)for(int j=0;j<3;j++)
++    {
++     const auto&a=old.opC[k][i][j];const auto&v=b.opC[k][i][j];
++     if(a.v!=v.v)return 2;
++     for(int d=0;d<4;d++){if(a.d[d]!=v.d[d])return 2;for(int e=0;e<4;e++)if(a.h[d][e]!=v.h[d][e])return 2;}
++    }
++   continue;
++  }
++  if(b.g.v>0&&b.g.v<1)transitions++;
++  for(int d=0;d<3;d++)for(int i=0;i<3;i++)for(int j=0;j<3;j++){
++   long double defect=b.opmetric[i][j].d[d+1],previous=defect;
++   for(int k=0;k<3;k++){
++    defect-=b.opC[k][d][i].v*b.opmetric[k][j].v+b.opC[k][d][j].v*b.opmetric[i][k].v;
++    previous-=old.opC[k][d][i].v*b.opmetric[k][j].v+old.opC[k][d][j].v*b.opmetric[i][k].v;
++   }
++   compatibility=std::max(compatibility,std::abs(defect)/(1+std::abs(b.opmetric[i][j].d[d+1])));
++   old_defect=std::max(old_defect,std::abs(previous));
++  }
++  if(b.g.v==0||b.g.v==1){
++   hispid::Cached a{},o{};hispid::cache(b,a);hispid::cache(old,o);
++   for(int d=0;d<10;d++){
++    exterior=std::max(exterior,std::abs(a.lap[d]-o.lap[d]));
++    for(int i=0;i<3;i++)for(int j=0;j<3;j++)exterior=std::max(exterior,std::abs(a.vec[i][j][d]-o.vec[i][j][d]));
++   }
++  }
++ }
++ std::cout<<"metric_compatibility="<<double(compatibility)<<" old_transition_defect="<<double(old_defect)
++          <<" plateau_exterior_operator_difference="<<exterior<<" transition_points="<<transitions<<'\n';
++ return compatibility<1e-15L&&old_defect>1e-3L&&exterior<1e-13&&transitions>=2?0:3;
++}
