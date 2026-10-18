@@ -35,3 +35,7 @@ validation/*.log
 build-geometric-interior/
 
 build-barycentric-sampler/
+
+build-galerkin/
+
+build-galerkin-off/

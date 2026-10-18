@@ -62,7 +62,7 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
             s.set_unknowns(guess)
             result['initial_checkpoint']={**meta,'acceptance_inherited':False};save()
         result['diagnostics']=s.solve(krylov='gmres',linear_rtol=linear_rtol,axisymmetric=axisymmetric)
-        result['linear_history']=s.linear_history();result['work_statistics']=s.work_statistics()
+        result['linear_history']=s.linear_history();result['work_statistics']=s.work_statistics();result['resolved_options']=s.resolved_options
         values=s.unknowns();np.savez_compressed(output/'solve.npz',unknowns=values)
         result['solve_artifact_sha256']=hashlib.sha256((output/'solve.npz').read_bytes()).hexdigest();save()
         result['checkpoint']=write_checkpoint(output/'diagnostic.checkpoint',c,values,b.library_sha256(),'diagnostic',b.parameterization())
@@ -79,7 +79,7 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
         result['charges']=[s.charges(r,ntheta=2*c.n[1],nphi=32).tolist() for r in radii]
         from physical import extrapolate
         result['charges_extrapolated']=extrapolate(radii,result['charges']).tolist()
-        result['linear_history']=s.linear_history();result['work_statistics']=s.work_statistics()
+        result['linear_history']=s.linear_history();result['work_statistics']=s.work_statistics();result['resolved_options']=s.resolved_options
     result.update(completed=True,total_seconds=time.monotonic()-start,process_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     save();print(json.dumps({k:result[k] for k in ('diagnostics','physical','minimum_psi','total_seconds')},indent=2))
 if __name__=='__main__':

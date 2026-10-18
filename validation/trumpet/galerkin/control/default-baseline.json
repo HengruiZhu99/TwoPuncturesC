@@ -1,0 +1,8 @@
+{
+  "execution": "reference",
+  "library_sha256": "4c073aa0d7140fd22bf3d45e3ca183946c99e1e3a9466f678a168fab5b1d2f61",
+  "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+  "residual_scaling": "sin3_alpha_beta_with_axis_tau",
+  "binary_acceptance": false,
+  "driver_sha256": "ddba4ff4f655b2d6765d2cc6142246a4c09c45e3506e235a2c881ef68c438d74"
+}

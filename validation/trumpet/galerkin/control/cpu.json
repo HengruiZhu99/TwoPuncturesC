@@ -1,0 +1,47 @@
+{
+  "execution": "reference",
+  "library_sha256": "426a15863e8cacedbe418a5c8c2ef4297124621540b2d3188cf877ef435ab257",
+  "parameterization": "modal_P_C2tauC4_map_v5_r0.20000000000000001_k2",
+  "residual_scaling": "sin3_alpha_beta_with_axis_tau",
+  "binary_acceptance": false,
+  "driver_sha256": "ddba4ff4f655b2d6765d2cc6142246a4c09c45e3506e235a2c881ef68c438d74",
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 2400,
+    "npoints": 4608,
+    "scaled_linf": [
+      0.034029225439144654,
+      0.12594421111492685,
+      0.256560020494548,
+      0.2709353640935226
+    ],
+    "unscaled_linf": [
+      5.654118735798502,
+      82.72014212945952,
+      31.75921337982246,
+      34.38673577232808
+    ],
+    "seconds": 27.847768292,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "resolved_options": {
+    "system": "hispid",
+    "krylov": "gmres",
+    "linear_rtol": 0.001,
+    "preconditioner": "modal",
+    "execution": "reference",
+    "geometry": "host",
+    "seed_family": "trumpet_r0_m",
+    "native_verified": true
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.001,
+      0.38834544943597815,
+      2400.0
+    ]
+  ]
+}

@@ -2067,3 +2067,38 @@ prescription. Preserve the original moderate observer profile for its new
 physical sequence. Do not change physical tolerances or accept the failed
 wide-only/nonmetric-compatible comparisons. All compute allocations from these
 diagnostic trials have completed/released. No new Galerkin solve has launched.
+
+## Overintegrated meridional candidate — 18 October 2026
+
+The polynomial transfer test passes interpolation/round-trip/quadratic alias
+errors2.60e-13/1.67e-13/6.22e-15. Projecting the weighted equations first
+stalls the small linear control (relative0.388 after2400 iterations).
+Projecting raw equations and applying N-grid row equilibration afterward
+converges5Newton/3049Krylov,37.72CPU seconds. This is slower than the old small
+control and is not a selected production improvement. The projected analytic
+JVP has centered errors7.40e-12/5.46e-12; QI residual/JVP remain bitwise equal.
+The prototype retains the original0.15/0.5 spherical interior and observer.
+Quadrature is ceil(3N/2) independently in the two meridional directions, with
+unchanged azimuthal resolution and N-grid tau conditions applied afterward.
+The same continuous equations are evaluated; this changes the discretization.
+
+The GPU path keeps tensor transfers, Q-grid fields/residual/JVP and the main
+Krylov controller on device, with extended-precision host seed geometry.
+The Q context never solves or builds factor banks. Kokkos's memory estimate
+no longer double-counts a host PK_solve Krylov bank; host outer vectors and
+both setup and resident Q-cache peaks remain bounded. No memory guard is
+weakened or bypassed. The reference execution estimate is unchanged.
+Job59955085 fails CMake generation from omitted test sources before numerical
+work. Corrected job59955120 builds/runs one CPU/CUDA small control comparison,
+then only the192×384×16 physical pilot. It uses the old192 original-formulation
+checkpoint only as a migrated initial guess and must pass a fresh solve.
+The candidate and all controls are in validation/trumpet/galerkin/. No physical
+acceptance, speed improvement, finest-grid horizon result, or multigrid benefit
+is claimed. The pending production study remains192/224/240 with one frozen
+image and unchanged physical data/observer/tolerances if the pilot justifies it.
+
+CUDA small control59955120 passes5Newton/3131Krylov,6.758solve seconds, with
+CPU/CUDA field scaled difference5.25419e-13 (<1e-10). The default/OFF trumpet
+residual/JVP witness is bitwise identical to the prior compensated image.
+Native producerbff0cb239d8698f1be586c734671c946ec2b5bb088f7ac4d807ce2e9699e8d87.
+The192 physical pilot is pending; no improvement claim follows from these controls.

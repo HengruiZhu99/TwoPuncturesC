@@ -1,0 +1,10 @@
+{
+  "residual": {
+    "bitwise_equal": true,
+    "scaled_linf": 0.0
+  },
+  "jvp": {
+    "bitwise_equal": true,
+    "scaled_linf": 0.0
+  }
+}
