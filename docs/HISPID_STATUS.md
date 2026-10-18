@@ -1,3 +1,23 @@
+# Current scoped work — 18 October 2026
+
+Moderate-spin convergence work is active under the latest user request. The
+older extreme/performance campaign remains preserved; its failed gates are
+unchanged. No complete three-grid trumpet binary qualification exists yet.
+The wider-interior trial meets individual error bounds but fails the strict
+bulk convergence trend. A metric-compatible interior trial and a stable
+sampler trial were rejected and archived. A frozen azimuthal probe localizes
+the remaining error mainly between meridional nodes.
+
+The opt-in overintegrated operator is pushed in407277f, with the frozen
+three-grid plan in6952ec8. Small CPU/CUDA controls pass (field difference
+5.25e-13); default trumpet and QI residual/JVP behavior is bitwise preserved.
+One192×384×16 production pilot is running on one shared80GiB Perlmutter GPU,
+job59955120. The224/240 study and finest-checkpoint AthenaK horizon check remain
+pending its physical outcome. This is active work, not a completed fix.
+Seevalidation/trumpet/galerkin/ and the latest section ofTRUMPET_IMPLEMENTATION.md.
+
+---
+
 # HiSpID milestone status
 
 October 3 preservation checkpoint: the latest instruction is to preserve
