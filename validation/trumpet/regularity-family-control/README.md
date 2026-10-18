@@ -71,3 +71,35 @@ not identify exact logarithmic powers, prove coupled indicial exponents, or
 compare the families with identical physical interiors. No filtered field is
 used as solved data. Necessary low-m Cartesian corner-compatibility defects
 are also recorded as representation diagnostics, without acceptance claims.
+
+
+The192 grid meets absolute physical bounds, but bulk H/M rise slightly to
+8.62285e-9/1.09038e-7. The original strict-decrease gate is therefore not
+satisfied. The224 grid is retained to finish the already frozen study.
+The user's explicit finest-data import/horizon request will still be carried
+out diagnostically if all three grids meet absolute physical bounds. The
+original failed trend flag stays failed; even successful horizons cannot
+promote the binary to the original full qualification. This avoids repeatedly
+postponing the independently requested AthenaK check. All finder, migration,
+angular refinement and enclosure thresholds remain unchanged.
+
+
+All three wider-QI grids pass absolute physical bounds, but bulk errors increase.
+The original three-grid assessment therefore remains passed=false. The
+supplemental combined66-point physical RMS decreases2.835e-7 ->1.406e-7
+->1.033e-7; it does not replace the failed regional trend gate.
+
+Finest224 migration59957080 passes at2454 points with bitwise-identical fields
+and metric gradients. The first finder launch stops before any numerical
+finder work because the Python proof checker omitted the current v5 identifier.
+AthenaK commit e54102e5 admits explicit v4/v5 identifiers, keeps exact basis/map
+and image bindings, and rejects unknown versions and invalid matching maps.
+The v2 attempt59957101 reuses the passed migration and succeeds at orders
+8/12/16 plus independent quadrature. Final MH are0.615673713/0.416086392,
+Mirr0.604595771/0.409618329, coordinate spins0.370895278/0.345813441.
+Final expansion RMS2.041e-8/5.626e-9; import error4.083e-16. Buffered continuous
+enclosure margins0.03205/0.01867 are positive. All consecutive angular/quadrature mass/spin changes are
+<2.01e-12/<2.79e-11. Full raw surfaces, logs, inputs, migration witnesses and
+the failed first attempt are retained in horizons/. These measurements are
+diagnostic, not a successful strict three-grid or trumpet qualification.
+No multigrid or further backend benchmark is launched.

@@ -2226,3 +2226,33 @@ For r=m modes they follow from u_m/ρ^m proportional to(1-t)^(m+1)P_m and
 x=b(1+t)eta/(1-t): at(t=0,eta=side),
 (d_t-2 side d_eta-(m+1))P_m=0. No extra tau experiment is launched while the
 fixed wider-QI study is pending.
+
+
+The fixed wider-QI160/192/224 study59956729 is complete. All three native
+solves meet1e-12 and all declared absolute exterior bounds pass. Near-hole
+H/M decrease, but bulk H/M increase to5.324e-8/1.699e-7 at224; the original
+strict trend gate remains failed. Charge changes are<2.36e-9 scaled. The
+combined66-point physical RMS decreases2.835e-7 ->1.406e-7 ->1.033e-7,
+a supplemental summary that does not replace the failed regional criterion.
+
+Finest224 sampler migration in59957080 agrees bit for bit at2454 points. The
+first AthenaK attempt exposes a stale Python proof whitelist and stops before
+the finder. AthenaK commit e54102e5 admits the explicitly bound v4/v5 bases
+and rejects invalid maps/unknown versions; four regression controls pass.
+Job59957101 reuses the passed migration without repeating native sampling,
+and passes all horizon orders8/12/16 plus independent quadrature. Import
+error is4.083e-16. Final MH=0.615673713/0.416086392,
+Mirr=0.604595771/0.409618329, coordinate chi=0.370895278/0.345813441.
+Final expansion RMS=2.041e-8/5.626e-9; buffered continuous enclosure margins
+0.03205/0.01867 remain positive. Across all consecutive angular/quadrature pairs, maximum mass/spin changes
+are2.005e-12/2.781e-11. These angular checks do not estimate the continuum input
+error; the data and measurements remain diagnostic. No full trumpet or strict
+QI convergence qualification is claimed, and no multigrid is added.
+
+The PRD-style source and PDF include these results. Raw failed/successful
+consumer attempts, migration witnesses, inputs, logs and surfaces are retained
+in regularity-family-control/horizons/. A local retention audit verifies all
+26 recorded horizon artifact references, both migration witness hashes and
+all three solve-result/observer hashes. The broader convergence objective
+remains open; this focused family/regularity follow-up and requested finest
+horizon measurement are complete.

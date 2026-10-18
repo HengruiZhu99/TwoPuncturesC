@@ -1,0 +1,12 @@
+{
+  "source_path": "docs/TRUMPET_FORMULATION_VALIDATION.tex",
+  "source_sha256": "3abadbdbffeca002746ad1f3bcf6a2ed6b497dcdaee903578fa8d54f9a6a3a4e",
+  "pdf_path": "output/pdf/TRUMPET_FORMULATION_VALIDATION.pdf",
+  "pdf_sha256": "54f6a0d1116c685fed1bcd2f581ea945ea9bf6afa8fe5d9dafe2ca13c6d0592c",
+  "builtin_compiler": "success",
+  "export_compiler": "tectonic",
+  "pages": 13,
+  "rendered_all_pages": true,
+  "visually_inspected_all_pages": true,
+  "notes": "No overfull boxes or clipped content; inherited preprint layout retained. Numerical failed gates preserved."
+}

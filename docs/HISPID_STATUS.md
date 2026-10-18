@@ -1,6 +1,7 @@
 # Current scoped work — 18 October 2026
 
-Moderate-spin convergence work is active under the latest user request. The
+The focused regularity follow-up is complete; the broader moderate-spin
+convergence objective remains open under the latest user request. The
 older extreme/performance campaign remains preserved; its failed gates are
 unchanged. No complete three-grid trumpet binary qualification exists yet.
 The wider-interior trial meets individual error bounds but fails the strict
@@ -18,11 +19,15 @@ comparison. Its bounded 240-grid CUDA pilot also fails (true relative residual 0
 after 512 iterations); no finer study follows. The Arnoldi projection identifies severe right-preconditioned nonnormality.
 A left-preconditioned240 pilot in59956254 also fails: original relative
 residual119652.944 after512 iterations, with no accepted Newton update.
-Following the user's regularity steering, one frozen QI Kerr control is
+Following the user's regularity steering, the frozen QI Kerr control
 in59956570 fails bulk momentum at3.81e-6. A wider QI interior window
 reduces that error to1.05e-7 on unchanged160-grid exterior points. Its frozen
-160/192/224 study is running in59956729; horizon checks remain gated.
-The three-grid study and finest-checkpoint AthenaK check remain incomplete.
+160/192/224 study59956729 is complete: all absolute bounds pass, but bulk
+errors increase and the original strict trend gate fails. The finest QI224
+checkpoint passes diagnostic migration and AthenaK order8/12/16 plus quadrature
+checks in59957101 after fixing the consumer proof validator. Both surfaces
+enclose the modified balls; coordinate spins are0.370895/0.345813.
+No complete convergence fix is claimed.
 This is active work, not a completed convergence fix.
 See `validation/trumpet/galerkin/`, `validation/trumpet/modal-relaxation/`,
 and the latest section of `TRUMPET_IMPLEMENTATION.md`.

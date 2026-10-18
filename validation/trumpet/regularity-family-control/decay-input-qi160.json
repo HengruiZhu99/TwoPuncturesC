@@ -1,0 +1,213 @@
+{
+  "config": {
+    "hole": [
+      {
+        "mass": 0.6,
+        "center": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          0.072,
+          0.054,
+          0.108
+        ],
+        "velocity": [
+          0.03,
+          0.06,
+          0.01
+        ]
+      },
+      {
+        "mass": 0.4,
+        "center": [
+          -3.0,
+          0.0,
+          0.0
+        ],
+        "spin": [
+          -0.032,
+          0.048,
+          0.016
+        ],
+        "velocity": [
+          -0.02,
+          -0.07,
+          0.025
+        ]
+      }
+    ],
+    "n": [
+      160,
+      320,
+      16
+    ],
+    "conformal_choice": 0,
+    "inner_flatten": 1,
+    "omega": [
+      0.5,
+      0.5
+    ],
+    "attenuation_power": 4,
+    "inner_min": [
+      0.04133150175713435,
+      0.02773831375552595
+    ],
+    "inner_max": [
+      0.13777167252378117,
+      0.09246104585175317
+    ],
+    "far_radius": 0.0,
+    "tolerance": 1e-12,
+    "max_newton": 24,
+    "max_krylov": 512,
+    "krylov_restart": 64,
+    "memory_limit_mib": 65536,
+    "seed_family": "qi"
+  },
+  "library_sha256": "c4c45eaee847a6ab17ad794c0d81321ea27d2a2cc313f84c8f0d622e7d8b4741",
+  "kind": "qi-moderate_qi_diagnostic_pilot",
+  "binary_acceptance": false,
+  "completed": false,
+  "axisymmetric": false,
+  "linear_rtol": 0.1,
+  "criteria": {
+    "exterior_HM_rms": 1e-06,
+    "exterior_HM_max": 0.0001
+  },
+  "source_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-regularity-control-20261018/validation/run_trumpet_pilot.py": "74ab7de1f05792f488d2eba832370199d9b1b65d707b0968520acd4f2530f04c",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-regularity-control-20261018/examples/trumpet_configs.py": "0f524eff3d50d1e821b28ee5703ba8ce74880d562aa4c646e3f4f2f23d4456b5",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-regularity-control-20261018/validation/run_validation.py": "ed04b5aca5f46e0d9a158a4446dfc86c0a9dbd12fb189e3e9265cc2cbb41eca7",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-regularity-control-20261018/validation/physical.py": "9c2fbb6756252cc9f36729bdb8546bad9b2ad34932911a7a82113e353347744d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-regularity-control-20261018/validation/remapped_guess.py": "53430354e6104612ea1246494b48458a1c64a4a62324a18ba44cffd17d622c99",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-regularity-control-20261018/validation/prolong.py": "44ccf8c9c76c44ca52083505513c9167aaea86b5b518ff3137a624916cf78e9d",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/workflow-regularity-control-20261018/python/checkpoint_export.py": "6b848283081399c4104f30de12532c33a3016f505be898858ae807fdb99bf6ed"
+  },
+  "setup_seconds": 60.73615338903619,
+  "native_setup_statistics": {
+    "geometry_execution": 0,
+    "scalar_digits": 64,
+    "spectral_seconds": 0.181711507934583,
+    "geometry_seconds": 60.0341150960159,
+    "coefficient_seconds": 0.0
+  },
+  "execution_device": {
+    "name": "NVIDIA A100-SXM4-80GB",
+    "uuid": "GPU-b6d4b4cc-1b73-e585-9e98-03915fed9cc6",
+    "visible_ordinal": 0,
+    "visible_count": 1,
+    "total_bytes": 85093777408,
+    "free_bytes": 81889263616,
+    "sm_count": 108,
+    "compute_major": 8,
+    "compute_minor": 0
+  },
+  "compiled_execution": "Cuda",
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 8,
+    "krylov_iterations": 46,
+    "npoints": 819200,
+    "scaled_linf": [
+      3.561343466304645e-15,
+      6.292695978105415e-14,
+      3.906913168870077e-14,
+      4.6239313645818566e-14
+    ],
+    "unscaled_linf": [
+      6.004062969104063e-08,
+      4.1548922677340955e-07,
+      1.0113643480305656e-06,
+      2.6567470627648e-07
+    ],
+    "seconds": 42.38571818,
+    "status": 0,
+    "error": ""
+  },
+  "execution_statistics_after_solve": {
+    "operator_seconds": 0.6763006721157581,
+    "precondition_seconds": 2.270397695072461,
+    "setup_seconds": 37.95991540607065,
+    "linear_seconds": 3.057754409092013,
+    "transfer_seconds": 2.532048183318693,
+    "nonlinear_seconds": 0.0,
+    "resident_bytes": 6275776256,
+    "peak_workspace_bytes": 681574400,
+    "host_to_device_bytes": 29784428800,
+    "device_to_host_bytes": 688128000,
+    "kokkos_host_current_bytes": 0,
+    "kokkos_host_peak_bytes": 0,
+    "kokkos_device_current_bytes": 2725416192,
+    "kokkos_device_peak_bytes": 6960232192,
+    "nonlinear_calls": 0,
+    "workspace_creations": 0,
+    "memory_tracking_available": 1
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.015140838925752785,
+      2.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.06575330026768361,
+      4.0
+    ],
+    [
+      2.0,
+      0.1,
+      0.01965145141643102,
+      5.0
+    ],
+    [
+      3.0,
+      0.1,
+      0.05578129490229875,
+      5.0
+    ],
+    [
+      4.0,
+      0.1,
+      0.03624874337680949,
+      6.0
+    ],
+    [
+      5.0,
+      0.1,
+      0.08537949549808138,
+      5.0
+    ],
+    [
+      6.0,
+      0.1,
+      0.02149672652428888,
+      8.0
+    ],
+    [
+      7.0,
+      0.1,
+      0.03646319489464926,
+      11.0
+    ]
+  ],
+  "work_statistics": {
+    "jvp_applications": 70,
+    "preconditioner_applications": 46
+  },
+  "resolved_options": {
+    "system": "hispid",
+    "krylov": "gmres",
+    "linear_rtol": 0.1,
+    "preconditioner": "modal",
+    "execution": "kokkos",
+    "geometry": "host",
+    "seed_family": "qi",
+    "native_verified": true
+  },
+  "solve_artifact_sha256": "94cb5afb3303e11418a44bbb83c1243562be0a658f7269763903ba1666d4aa53"
+}

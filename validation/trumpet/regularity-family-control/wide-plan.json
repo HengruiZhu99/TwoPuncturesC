@@ -1,5 +1,5 @@
 {
-  "status": "160_bounds_passed_192_running",
+  "status": "strict_bulk_trend_failed_finest_import_horizons_passed_diagnostic_only",
   "purpose": "One wider QI transition after narrow QI control failed; original QI exterior observer unchanged",
   "formulation": "Boosted quasi-isotropic Kerr with exact seed scalar factor; same generic moderate seed parameters, R0=M attenuation fractions mapped to QI throat",
   "native_library_sha256": "c4c45eaee847a6ab17ad794c0d81321ea27d2a2cc313f84c8f0d622e7d8b4741",
@@ -118,5 +118,23 @@
   "original_control_result_sha256": "2e23dc3326a0a9dc3f6488fb22f7a645d64ef77565a802e77dffd8ce01add8e7",
   "exterior_observer_bitwise_unchanged": true,
   "exterior_observer_count": 66,
-  "job": 59956729
+  "job": 59956729,
+  "horizon_followup_scope": "Check the user-requested finest solution if all three absolute physical bounds pass. If the strict RMS trend fails, retain it as failed and label the independent import/horizon result diagnostic, without promoting binary acceptance.",
+  "supplemental_combined_exterior_rms": [
+    2.8346073874539736e-07,
+    1.406142950443634e-07,
+    1.0331023673606925e-07
+  ],
+  "supplemental_norm_note": "sqrt(mean(H^2+gamma_ij M^i M^j)) over all66 exterior points; post-study summary only, not a replacement acceptance gate",
+  "horizon_job": 59957101,
+  "horizon_status": "passed_orders8_12_16_and_quadrature",
+  "horizon_first_attempt": {
+    "job": 59957080,
+    "status": "passed_migration_stopped_before_finder_old_basis_whitelist"
+  },
+  "athenak_validator_fix_commit": "e54102e5",
+  "sampler_field_gradient_scaled_linf": 0.0,
+  "horizon_result_sha256": "165d466a04391a3aac8026e1079d0cd9a90011bdc7a6546e012fac9049452ca7",
+  "binary_acceptance": false,
+  "trumpet_convergence_fixed": false
 }

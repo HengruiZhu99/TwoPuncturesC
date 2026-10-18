@@ -6,20 +6,21 @@
 \begin{document}
 \title{Spinning and Boosted Trumpet Initial Data:\\Formulation and Validation Status}
 \author{TwoPuncturesC and AthenaK integration}
-\date{6 October 2026 --- interim report}
+\date{18 October 2026 --- interim report}
 \begin{abstract}
- The selectable trumpet seed, coupled solver
-interface, portable checkpoint, and AthenaK consumer are implemented. Independent
-seed checks and selected horizon measurements pass. \textbf{No complete binary
-physical-validation claim is supported yet.} The moderate three-grid sequence
-has not met its convergence requirement; both extreme binaries exceed the declared
-physical-constraint tolerances. A diagnostic spin-target horizon measurement gives
-$\chi=0.98992952$, but does not establish physical acceptance of that binary.
-The latest spectral radial preconditioner passes small CPU/CUDA controls, yet
-fails the retained fine-grid linear probe (relative residual $0.7867$ against
-$0.1$ after 2400 iterations). The $\Gamma=10$ radial-512 binary still fails
-constraint and horizon bounds. This wrap-up preserves all results and records
-an incomplete physical-validation milestone; no further experiment is launched.
+Selectable trumpet and quasi-isotropic (QI) seeds, the coupled solver,
+portable checkpoints and the AthenaK consumer are implemented.
+\textbf{No complete binary physical-validation claim is supported yet.}
+A focused QI control with the same generic moderate binary seed parameters
+shows that widening the interior transition reduces coarse-grid bulk momentum
+RMS by a factor of 36.4. One unchanged QI formulation at three resolutions
+then meets every absolute exterior constraint bound, but its bulk residuals
+increase with refinement; the original strict trend criterion remains failed.
+Both extreme trumpet binaries also remain unqualified. The regularity
+investigation distinguishes puncture, transition, axis and compactified-infinity
+behavior; a seed-family change alone is not a demonstrated general remedy.
+The finest QI checkpoint passes sampler migration and horizon angular/quadrature
+checks, with its failed constraint-trend gate retained separately. This report records an incomplete validation milestone.
 \end{abstract}
 \maketitle
 
@@ -96,7 +97,109 @@ does not promote diagnostic data to physical acceptance. Checkpoints preserve
 family, basis/map and producer identity; v1 retains its QI meaning and v2 adds
 explicit family metadata.
 
-\section{Binary evidence}
+\section{Latest regularity investigation: 18 October}
+The unmodified Schwarzschild scalar sector admits
+$u\sim r^{\sqrt3-1/2}$, so factoring out the seed singularity does not imply
+an analytic correction. The flat interior plateau removes that local scalar
+potential, but not possible regularity limitations at its nonanalytic compact
+transition or at infinity. This isolated scalar exponent is not the full
+coupled spinning/boosted indicial spectrum.
+
+Offline analysis of retained $160\times320\times16$ factored $m=0$ unknowns
+finds slow meridional coefficient tails in both seed families. Degree-eight
+polynomial windows localize the wider-interior trumpet's radial vector tail
+mainly toward compactified infinity: suppressing that endpoint leaves 0.00406
+of the degree 80--143 band norm, whereas suppressing the inner radial boundary
+leaves 1.003. The narrow QI control has the opposite localization. The inner
+boundary includes both foci and the axis segment between them. These are
+representation diagnostics of distinct interiors, not a controlled slicing-only
+comparison or an identification of logarithmic powers. No filtered field is
+used as a solution.
+
+The QI control retains masses $0.6/0.4$, separation 6, and the original generic
+spin and velocity vectors ($|\chi|=0.3905/0.3742$). It uses the exact seed scalar
+choice, no far attenuation, the same mapped modal basis, and the original
+modal GMRES on CUDA. The narrow interior window spans fractions $0.15$--$0.5$ of
+the isolated QI throat radius. Its 160-grid solve converges internally in
+8 Newton and 46 Krylov iterations, but bulk momentum RMS $3.809\times10^{-6}$ fails the
+$10^{-6}$ bound. A separate candidate widens the outer fraction to 0.85,
+retaining the 0.15 plateau. At unchanged exterior points this reduces bulk
+momentum RMS to $1.045\times10^{-7}$. Its fixed sequence is:
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Grid & Near $H$ & Near $M$ & Bulk $H$ & Bulk $M$ & Krylov\\\midrule
+$160\times320\times16$ & $3.13\times10^{-7}$ & $9.14\times10^{-8}$ & $6.30\times10^{-9}$ & $1.05\times10^{-7}$ &35\\
+$192\times384\times16$ & $1.44\times10^{-7}$ & $4.29\times10^{-8}$ & $8.62\times10^{-9}$ & $1.09\times10^{-7}$ &34\\
+$224\times448\times16$ & $4.88\times10^{-8}$ & $2.03\times10^{-8}$ & $5.32\times10^{-8}$ & $1.70\times10^{-7}$ &251\\
+\bottomrule
+\end{tabular}
+\end{center}
+All three use the same native image and physical free data, and all pass the
+absolute near/bulk RMS and maximum bounds. The 48 near-hole and 18 bulk points are
+fixed, including all finite-difference stencil points in the unmodified region.
+The nonlinear weighted maximum is below $10^{-12}$ on every grid; $\psi$ and
+spatial metrics are positive at the declared observers. Extrapolated charge
+changes, scaled by $1+|Q_{\rm finer}|$, are $3.83\times10^{-10}$ and
+$2.35\times10^{-9}$, below $10^{-3}$. \textbf{Bulk errors do not decrease, so
+this sequence fails the original strict convergence criterion.}
+
+The physical norms are equal-point RMS values of
+$H={}^{(3)}R+K^2-K_{ij}K^{ij}$ and
+$|M|_\gamma=(\gamma_{ij}M^iM^j)^{1/2}$, with
+$M^i=D_jK^{ij}-D^iK$, in units $M_0^{-2}$, $M_0=m_++m_-=1$.
+They are not the internal sine-weighted conformal residual with endpoint
+rows. A supplemental combined exterior RMS
+$[\langle H^2+|M|_\gamma^2\rangle]^{1/2}$ falls from
+$2.83\times10^{-7}$ to $1.41\times10^{-7}$ to $1.03\times10^{-7}$.
+This post-study summary does not replace the failed regional trend gate.
+
+Necessary native solve times are 41.8, 52.7 and 140.3 seconds, after 60.6, 87.3
+and 116.6 seconds of setup, with 8, 5 and 6 Newton steps. The first grid starts
+from zero; later grids reuse the preceding field as an initial guess. These
+are workflow records, not a matched-accuracy speedup measurement. No multigrid
+hierarchy is adopted: the retained stalled trumpet residual is predominantly
+grid-scale, and a coarse-error bottleneck has not been demonstrated.
+The bounded overintegrated, two-sweep modal and left-GMRES attempts also fail
+fine-grid linear targets; their optional implementations remain off by default.
+
+The finest QI checkpoint passes separate-process producer/CPU-consumer
+sampling at 2454 points, with identical fields and metric gradients. The first
+AthenaK attempt stops before the finder because its Python proof validator
+recognizes only older basis identifiers. The compatibility fix explicitly
+admits C4 and axis-tau identifiers while retaining exact checkpoint, basis,
+map, image and field bindings; four regression tests pass, including rejection
+of unknown identifiers and invalid matching maps. The passed migration is
+reused, without a repeated sampling run.
+
+AthenaK then passes harmonic orders $8,12,16$ and an independent quadrature
+increase from $n_\theta=32$ to 48, with zero evolution. ADM/Z4c import error is
+$4.08\times10^{-16}$. The final measured properties are:
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Hole & $M_H$ & $M_{\rm irr}$ & $\chi_{\rm coord}$ & Expansion RMS\\\midrule
+$+$ &0.615673713 &0.604595771 &0.370895278 &$2.04\times10^{-8}$\\
+$-$ &0.416086392 &0.409618329 &0.345813441 &$5.63\times10^{-9}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+All angular orders meet the $10^{-7}$ expansion bound. Across all consecutive
+angular and quadrature refinements, maximum mass-relative and dimensionless
+spin-vector changes are $2.00\times10^{-12}$ and $2.78\times10^{-11}$. After the observed refinement buffer, the continuous
+modified-ball enclosure margins are 0.03205 and 0.01867. These are coordinate
+rotation-integral spins, not approximate-Killing-vector estimates, and angular
+stability does not measure the input solution's continuum error. Finder times
+are 47.5, 36.5, 38.4 and 43.8 seconds with 16 OpenMP geometry threads.
+
+These import and horizon checks are diagnostic because the input sequence
+failed its strict bulk trend criterion. They neither qualify the trumpet
+family nor upgrade the QI checkpoint's diagnostic acceptance. Exact
+configurations, raw physical and horizon arrays, frozen-image hashes, figures
+and commands are retained in
+\path{validation/trumpet/regularity-family-control/}.
+
+\section{Retained trumpet binary evidence}
 The retained pre-tau entries below are independent physical RMS errors, in the declared
 normalization. The moderate case has masses $0.6/0.4$, separation 6, and generic
 spins and boosts; exact parameters are in \path{examples/trumpet_configs.py}.
@@ -108,12 +211,12 @@ irreducible masses.
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
 Case / grid & Near $H$ & Near $M$ & Bulk $H$ & Bulk $M$\\\midrule
-Moderate $192\!\times\!384\!\times\!16$ & $1.13\,10^{-6}$ & $3.77\,10^{-7}$ & $5.76\,10^{-8}$ & $4.42\,10^{-7}$\\
-Moderate $224\!\times\!448\!\times\!16$ & $2.08\,10^{-7}$ & $1.65\,10^{-7}$ & $8.71\,10^{-8}$ & $4.44\,10^{-7}$\\
-Moderate $256\!\times\!512\!\times\!16$ & $1.70\,10^{-7}$ & $1.39\,10^{-7}$ & $2.62\,10^{-7}$ & $2.86\,10^{-7}$\\
-Spin $160\!\times\!320\!\times\!32$ & $3.15\,10^{-6}$ & $1.44\,10^{-5}$ & $8.30\,10^{-5}$ & $3.00\,10^{-4}$\\
-Boost $256\!\times\!320\!\times\!8$ & $8.23\,10^{-4}$ & $2.42\,10^{-2}$ & $4.46\,10^{-6}$ & $1.27\,10^{-4}$\\
-Boost $512\!\times\!320\!\times\!8$ & $1.02\,10^{-4}$ & $6.12\,10^{-3}$ & $1.07\,10^{-6}$ & $3.75\,10^{-5}$\\
+Moderate $192\!\times\!384\!\times\!16$ & $1.13\times10^{-6}$ & $3.77\times10^{-7}$ & $5.76\times10^{-8}$ & $4.42\times10^{-7}$\\
+Moderate $224\!\times\!448\!\times\!16$ & $2.08\times10^{-7}$ & $1.65\times10^{-7}$ & $8.71\times10^{-8}$ & $4.44\times10^{-7}$\\
+Moderate $256\!\times\!512\!\times\!16$ & $1.70\times10^{-7}$ & $1.39\times10^{-7}$ & $2.62\times10^{-7}$ & $2.86\times10^{-7}$\\
+Spin $160\!\times\!320\!\times\!32$ & $3.15\times10^{-6}$ & $1.44\times10^{-5}$ & $8.30\times10^{-5}$ & $3.00\times10^{-4}$\\
+Boost $256\!\times\!320\!\times\!8$ & $8.23\times10^{-4}$ & $2.42\times10^{-2}$ & $4.46\times10^{-6}$ & $1.27\times10^{-4}$\\
+Boost $512\!\times\!320\!\times\!8$ & $1.02\times10^{-4}$ & $6.12\times10^{-3}$ & $1.07\times10^{-6}$ & $3.75\times10^{-5}$\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -289,8 +392,8 @@ Extrapolated energy changes by $5.48\times10^{-6}$ relatively. These improvement
 do not meet the physical bounds; the diagnostic horizon check also fails.
 
 \section{Horizon measurements and computational cost}
-The finest moderate checkpoint passes import and horizon angular/quadrature
-checks, but remains diagnostic because of its constraint sequence. Its component
+The earlier pre-tau trumpet moderate 256-grid checkpoint passes import and horizon
+angular/quadrature checks, but remains diagnostic because of its constraint sequence. Its component
 irreducible masses are $0.5887780114$ and $0.3935773863$.
 
 The spin-target diagnostic checkpoint passes orders $12,16,20$ and an independent

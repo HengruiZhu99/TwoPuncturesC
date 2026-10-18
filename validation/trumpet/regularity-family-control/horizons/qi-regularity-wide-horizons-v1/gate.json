@@ -1,0 +1,5 @@
+{
+  "three_grid_passed": false,
+  "diagnostic_only": true,
+  "reason": "User requests finest AthenaK check; a failed residual-trend gate stays failed even if independent horizons pass"
+}

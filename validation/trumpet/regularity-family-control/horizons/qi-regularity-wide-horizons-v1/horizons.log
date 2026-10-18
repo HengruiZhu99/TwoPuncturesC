@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/check_hispid_binary.py", line 364, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/check_hispid_binary.py", line 116, in main
+    migration=validate_migration(a.migration_proof,source) if a.migration_proof else None
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/athenak-affine/tst/test_suite/z4c/hispid_sampler_proof.py", line 39, in validate_migration
+    else:raise ValueError('unsupported migration continuous basis/maps')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: unsupported migration continuous basis/maps
