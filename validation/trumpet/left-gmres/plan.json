@@ -1,0 +1,64 @@
+{
+  "status": "CPU_CUDA_controls_passed_240_pilot_running",
+  "date": "2026-10-18",
+  "purpose": "Change to left preconditioning to address strongly nonnormal right-preconditioned projection",
+  "discretization": "Original mapped C2+axis-tau collocation, not overintegrated Galerkin",
+  "formulation": "Original trumpet_moderate with inner fractions 0.15/0.5 and original independent observer",
+  "preconditioner": "Original modal inverse, left side; each inner cycle followed by original-system residual confirmation",
+  "linear_controls": {
+    "krylov": "gmres",
+    "restart": 64,
+    "max_krylov": 512,
+    "linear_rtol": 0.1
+  },
+  "nonlinear_linf": 1e-12,
+  "pilot": [
+    240,
+    480,
+    16
+  ],
+  "pilot_initial_guess": "Retained failed axis-tau-compensated-v3/moderate240 checkpoint; explicit source migration and fresh solve",
+  "planned_resolutions_if_pilot_useful": [
+    [
+      224,
+      448,
+      16
+    ],
+    [
+      240,
+      480,
+      16
+    ],
+    [
+      256,
+      512,
+      16
+    ]
+  ],
+  "acceptance": {
+    "exterior_rms": 1e-06,
+    "exterior_max": 0.0001,
+    "strict_three_grid_rms_decrease": true,
+    "charge_scaled_change": 0.001,
+    "positive_psi_and_metric": true,
+    "unmodified_exterior_stencils": true,
+    "horizon_expansion_rms": 1e-07,
+    "horizon_mass_spin_relative_change": 0.0001,
+    "orders": [
+      8,
+      12,
+      16
+    ],
+    "independent_quadrature": true,
+    "modified_region_enclosure": true
+  },
+  "concise_validation": "One native CPU equation/solution control, one CUDA small-field comparison, one bounded original-state pilot. If useful, only the frozen224/240/256 study and finest AthenaK checks.",
+  "multigrid": "The retained stalled error is grid-scale. Test polynomial smoothing first; no demonstrated coarse-error bottleneck justifies a hierarchy yet.",
+  "launch_receipts": [
+    {
+      "job": 59956254,
+      "status": "CUDA_control_passed_240_pilot_running"
+    }
+  ],
+  "frozen_native_library_sha256": "ffdce8a37c1b8c07d1035a2fa740dcdd4a16009c9001f60b2ba3590486e1df62"
+}

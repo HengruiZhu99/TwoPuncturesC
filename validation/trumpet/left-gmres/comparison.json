@@ -1,0 +1,39 @@
+{
+  "equations_bitwise_equal": {
+    "residual": true,
+    "jvp": true
+  },
+  "field_scaled_difference": 1.1497284903492122e-13,
+  "limit": 1e-10,
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 5,
+    "krylov_iterations": 75,
+    "npoints": 4608,
+    "scaled_linf": [
+      2.1628103092579604e-16,
+      6.36494136225422e-16,
+      1.1648174803048913e-15,
+      1.1578789031651563e-15
+    ],
+    "unscaled_linf": [
+      1.9615686851331202e-13,
+      2.3426911010096533e-12,
+      6.127288456203757e-12,
+      5.155349900063471e-12
+    ],
+    "seconds": 0.587427125,
+    "status": 0,
+    "error": ""
+  },
+  "resolved_options": {
+    "system": "hispid",
+    "krylov": "gmres",
+    "linear_rtol": 0.001,
+    "preconditioner": "modal_left_original_norm_confirmed",
+    "execution": "reference",
+    "geometry": "host",
+    "seed_family": "trumpet_r0_m",
+    "native_verified": true
+  }
+}

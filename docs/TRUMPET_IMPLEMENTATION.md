@@ -2153,3 +2153,27 @@ memory estimate permits restart128 at240 within64GiB. It is one bounded
 spectral diagnostic, not a new physical or performance campaign. A changed
 iterate is exported only as a diagnostic checkpoint if an update is accepted.
 Files are in validation/trumpet/krylov-spectrum/. No physical gate is relaxed.
+
+Arnoldi job59955993 completes one original-M128-step cycle, true relative
+0.54673415, unchanged iterate. It reaches the previous long-run plateau within
+one cycle, so further restart growth alone is not justified. The projected
+operator norm is4.29e12 with singular-value spread about5.3e15 and large upper
+couplings. Tail singular values and individual Ritz values are rounding-sensitive;
+this does not establish exact full-operator eigenvalues. An untruncated QR
+reconstruction matches the recurrence to7.9e-10 in relative-residual units;
+ordinary SVD truncation drops directions and must not be mistaken for recorder
+error. Raw data, analysis and scientific plot are in krylov-spectrum/.
+
+The next candidate is left-preconditioned GMRES with explicit original-system
+residual confirmation. A common backend-independent policy performs inner
+M^-1 A cycles, updates the original step, and accepts only the original
+unpreconditioned L2 target. The nonlinear1e-12 bound and all physical gates
+remain unchanged. Local control passes5Newton/75Krylov,0.587s, residual/JVP
+bitwise equal and converged sampled fields1.15e-13 from baseline. This is not
+a fine-grid benefit claim. The descriptor records the side; native work
+counts include the extra original-residual checks. Inner controller timings
+refer to its composed operator and identity preconditioner, so whole native
+solve time is the comparable performance measure. The bounded240 pilot runs
+only after one CUDA small control. Default/OFF and other seed/system behavior
+remain unchanged. Scripts and assumptions are in left-gmres/. Failed pilots
+now optionally skip redundant physical observers while retaining their state.

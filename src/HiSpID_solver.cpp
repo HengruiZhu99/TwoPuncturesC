@@ -3,6 +3,10 @@
 #include "HiSpID_axis.hpp"
 #include "HiSpID_galerkin.hpp"
 #include "PuncturePolynomialPreconditioner.hpp"
+#include "PunctureLeftGMRES.hpp"
+#ifndef HISPID_LEFT_GMRES
+#define HISPID_LEFT_GMRES 0
+#endif
 #ifndef HISPID_DAMPED_MODAL_RELAXATION
 #define HISPID_DAMPED_MODAL_RELAXATION 0
 #endif
@@ -651,13 +655,13 @@ Sparse preconditioner(HiSpID_Data&s,std::vector<ModalBlock>*vector_cache=nullptr
 int relaxation_sweeps(const HiSpID_Data&s){return HISPID_DAMPED_MODAL_RELAXATION&&s.seed_family==HISPID_SEED_TRUMPET_R0_M?2:1;}
 struct HiLinearContext {
  HiSpID_Data&data;const Sparse&preconditioner;
- std::vector<double>residual,action,correction;
+ std::vector<double>residual,action,correction,conditioned;
  explicit HiLinearContext(HiSpID_Data&s,const Sparse&M):data(s),preconditioner(M){
   bool host=true;
 #ifdef PUNCTURES_KOKKOS
   host=!s.device;
 #endif
-  if(host&&relaxation_sweeps(s)>1){residual.resize(s.ntotal);action.resize(s.ntotal);correction.resize(s.ntotal);}
+  if(host&&(relaxation_sweeps(s)>1||(HISPID_LEFT_GMRES&&s.seed_family==HISPID_SEED_TRUMPET_R0_M))){residual.resize(s.ntotal);action.resize(s.ntotal);correction.resize(s.ntotal);if(HISPID_LEFT_GMRES)conditioned.resize(s.ntotal);}
  }
 };
 void hi_linear_progress(void*context,int iteration,double residual,double,double,double){
@@ -773,14 +777,17 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
  const bool action_probe=action_probe_setting&&std::strcmp(action_probe_setting,"1")==0;
  PK_Options options{method,s.local.max_krylov,s.local.krylov_restart,1,0,int(eager),rtol*norm2v(rhs),nullptr,nullptr};
  PK_Result result{};int status;
+ const bool left=HISPID_LEFT_GMRES&&s.seed_family==HISPID_SEED_TRUMPET_R0_M&&method==PK_GMRES;
+ auto progress=[&](int iteration,double relative){if(trace_linear){std::fprintf(stderr,"HiSpID left cycle it=%d original_relative=%.17g target=%.17g\n",iteration,relative,rtol);std::fflush(stderr);}};
 #ifdef PUNCTURES_KOKKOS
  if(s.device){
   auto&Mstats=puncture::statistics();
   double begin=puncture::seconds();auto d=device_preconditioner(M);TauPolarDevice polar(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
   auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
-  puncture::View relaxation_residual,relaxation_action,relaxation_correction;
-  if(relaxation_sweeps(s)>1){
+  puncture::View relaxation_residual,relaxation_action,relaxation_correction,left_conditioned;
+  if(relaxation_sweeps(s)>1||left){
    relaxation_residual=puncture::View("relaxation residual",s.ntotal);relaxation_action=puncture::View("relaxation action",s.ntotal);relaxation_correction=puncture::View("relaxation correction",s.ntotal);
+   if(left)left_conditioned=puncture::View("left conditioned RHS",s.ntotal);
   }
   if(action_probe){
    std::vector<double>reference,device(s.ntotal);M.solve(rhs,reference);
@@ -807,7 +814,18 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
    }
    std::fflush(stderr);Kokkos::deep_copy(solution,0.);
   }
-  Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+(s.quadrature?s.quadrature->device->bytes()+s.device_transfer->bytes():0)+polar.bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)+relaxation_residual.extent(0)+relaxation_action.extent(0)+relaxation_correction.extent(0)));
+  Mstats.resident_bytes=std::max(Mstats.resident_bytes,s.device->bytes()+(s.quadrature?s.quadrature->device->bytes()+s.device_transfer->bytes():0)+polar.bytes()+8*(d.lu.extent(0)+d.inverse.extent(0)+d.transfer.extent(0)+d.lower.extent(0)+d.row_scale.extent(0)+d.forward.extent(0)+d.workspace.extent(0)+d.column.extent(0)+b.extent(0)+solution.extent(0)+relaxation_residual.extent(0)+relaxation_action.extent(0)+relaxation_correction.extent(0)+left_conditioned.extent(0)));
+  if(left){
+   status=puncture::left_gmres(b,solution,relaxation_residual,left_conditioned,relaxation_correction,relaxation_action,
+    options,rtol,[](auto v){return puncture::length(v);},
+    [](puncture::View out,puncture::View rhs,puncture::View ax){puncture::each(out,KOKKOS_LAMBDA(int i){out(i)=rhs(i)-ax(i);});},
+    [](auto out,auto in){puncture::axpy(out,1.,in);},
+    [&](auto in,auto out){device_apply(s,in,out);project_axisymmetry(s,out,false);s.jvp_applications++;},
+    [&](auto in,auto out){d.apply(in,out);polar.apply(out);project_axisymmetry(s,out,true);s.preconditioner_applications++;},
+    [&](auto rhs,auto delta,const PK_Options&o,auto action,PK_Result&part,double scale){
+     return puncture::solve(rhs,delta,o,action,[](auto in,auto out){puncture::copy(out,in);},part,monitor,&scale);
+    },progress,result);
+  }else
   status=puncture::solve(b,solution,options,[&](auto in,auto out){device_apply(s,in,out);project_axisymmetry(s,out,false);},[&](auto in,auto out){
     puncture::relaxed_inverse(in,out,relaxation_residual,relaxation_action,relaxation_correction,
      [&](auto input,auto output){d.apply(input,output);polar.apply(output);project_axisymmetry(s,output,true);},
@@ -816,10 +834,28 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
      [](auto output,double a){puncture::scale_copy(output,a,output);},
      [](auto output,double a,auto input){puncture::axpy(output,a,input);},relaxation_sweeps(s),.4);
    },result,monitor,&rhs_norm);
-  puncture::download(solution,x.data());s.jvp_applications+=result.operator_calls+(relaxation_sweeps(s)-1)*result.preconditioner_calls;s.preconditioner_applications+=relaxation_sweeps(s)*result.preconditioner_calls;
+  puncture::download(solution,x.data());if(!left){s.jvp_applications+=result.operator_calls+(relaxation_sweeps(s)-1)*result.preconditioner_calls;s.preconditioner_applications+=relaxation_sweeps(s)*result.preconditioner_calls;}
  }else
 #endif
- status=PK_solve(s.ntotal,rhs.data(),x.data(),&options,hi_linear_action,hi_linear_precondition,&context,monitor,&rhs_norm,&result);
+ {
+  if(left){
+   status=puncture::left_gmres(const_cast<double*>(rhs.data()),x.data(),context.residual.data(),context.conditioned.data(),context.correction.data(),context.action.data(),
+    options,rtol,[&](auto v){double q=0;for(int i=0;i<s.ntotal;i++)q+=v[i]*v[i];return std::sqrt(q);},
+    [&](auto out,auto rhs,auto ax){for(int i=0;i<s.ntotal;i++)out[i]=rhs[i]-ax[i];},
+    [&](auto out,auto in){for(int i=0;i<s.ntotal;i++)out[i]+=in[i];},
+    [&](auto in,auto out){jvp(s,in,out);project_axisymmetry(s,out,false);},
+    [&](auto in,auto out){M.solve(in,out);project_axisymmetry(s,out,true);s.preconditioner_applications++;},
+    [&](auto rhs,auto delta,const PK_Options&o,auto action,PK_Result&part,double scale){
+     using Action=decltype(action);
+     struct Callbacks {
+      Action&action;int n;
+      static int apply(void*c,const double*in,double*out){try{static_cast<Callbacks*>(c)->action(const_cast<double*>(in),out);return 0;}catch(const std::exception&e){hispid::last_error=e.what();return -1;}}
+      static int identity(void*c,const double*in,double*out){std::copy_n(in,static_cast<Callbacks*>(c)->n,out);return 0;}
+     } callbacks{action,s.ntotal};
+     return PK_solve(s.ntotal,rhs,delta,&o,Callbacks::apply,Callbacks::identity,&callbacks,monitor,&scale,&part);
+    },progress,result);
+  }else status=PK_solve(s.ntotal,rhs.data(),x.data(),&options,hi_linear_action,hi_linear_precondition,&context,monitor,&rhs_norm,&result);
+ }
  s.diag.krylov_iterations+=result.iterations;s.last_gmres_relative=result.relative_residual;
  if(action_probe){
   std::vector<double>action(s.ntotal);jvp(s,x.data(),action.data());project_axisymmetry(s,action.data(),false);
@@ -985,7 +1021,7 @@ void sample_fields(HiSpID_Data&s,const double*x,Fields&f,const MeridionalValues*
 }
 extern "C" {
 const char *HiSpID_preconditioner_description(const HiSpID_Data*s){
- if(!s)return nullptr;return relaxation_sweeps(*s)>1?"modal_two_sweep_omega0.4":"modal";
+ if(!s)return nullptr;if(HISPID_LEFT_GMRES&&s->seed_family==HISPID_SEED_TRUMPET_R0_M&&s->resolved_options.krylov==PK_GMRES)return "modal_left_original_norm_confirmed";return relaxation_sweeps(*s)>1?"modal_two_sweep_omega0.4":"modal";
 }
 const char *HiSpID_residual_scaling(){
 #if HISPID_AXIS_TAU
@@ -1050,7 +1086,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   // simultaneous host PK_solve basis. Keep all host outer vectors above.
   const long double raw_device=points*(sizeof(Cached)+8.L*(40+40+8+64+15+8));
   if(operator_only){allocation_bound=points*3192+raw_device+small;device=raw_device;}
-  if(!operator_only&&family==HISPID_SEED_TRUMPET_R0_M&&HISPID_DAMPED_MODAL_RELAXATION)device+=96.L*points;
+  if(!operator_only&&family==HISPID_SEED_TRUMPET_R0_M&&(HISPID_DAMPED_MODAL_RELAXATION||HISPID_LEFT_GMRES))device+=(HISPID_LEFT_GMRES?128.L:96.L)*points;
   if(galerkin){
    const long double qp=(long double)qc.n[0]*qc.n[1]*qc.n[2];
    const long double matrices=32.L*(c->n[0]*qc.n[0]+c->n[1]*qc.n[1]);
@@ -1072,7 +1108,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
 #endif
  }
 #endif
- if(!sampler_only&&!operator_only&&family==HISPID_SEED_TRUMPET_R0_M&&HISPID_DAMPED_MODAL_RELAXATION)allocation_bound+=192.L*c->n[0]*c->n[1]*c->n[2];
+ if(!sampler_only&&!operator_only&&family==HISPID_SEED_TRUMPET_R0_M&&(HISPID_DAMPED_MODAL_RELAXATION||HISPID_LEFT_GMRES))allocation_bound+=192.L*c->n[0]*c->n[1]*c->n[2];
  if(!sampler_only)allocation_bound+=HISPID_SPECTRAL_RADIAL_PRECONDITIONER*(16.L*c->n[0]*c->n[0]+24.L*c->n[0]);
  if(allocation_bound>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="radial preconditioner allocation bound exceeds memory_limit_mib";return nullptr;}
  HiSpID_Data*s=nullptr;try{

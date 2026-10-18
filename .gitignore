@@ -41,3 +41,5 @@ build-galerkin/
 build-galerkin-off/
 
 build-modal-relaxation/
+
+build-left-gmres/

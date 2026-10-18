@@ -8,7 +8,7 @@ import numpy as np
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'python'),str(ROOT/'examples')]
 from hispid import Backend
-from execution import statistics as execution_statistics
+from execution import statistics as execution_statistics,device_description as execution_device_description,name as execution_name
 from configs import as_dict
 from trumpet_configs import trumpet_moderate,trumpet_moderate_wide,trumpet_target
 from run_validation import points
@@ -18,7 +18,7 @@ from checkpoint_export import write_checkpoint,read_checkpoint
 from prolong import for_backend,remap_modal
 from remapped_guess import regularity_cap,maps_from_id,map_pair
 
-def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_source_library=None,case='moderate',separation=None,measured_mirr=None,krylov_restart=80,tolerance=None,axisymmetric=False,linear_rtol=.1,max_krylov=None):
+def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_source_library=None,case='moderate',separation=None,measured_mirr=None,krylov_restart=80,tolerance=None,axisymmetric=False,linear_rtol=.1,max_krylov=None,skip_observer_on_failure=False):
     if not np.isfinite(linear_rtol) or not 0<linear_rtol<1:raise ValueError('linear_rtol must lie strictly between zero and one')
     output.mkdir(parents=True,exist_ok=False)
     b=Backend(str(library.resolve()))
@@ -44,7 +44,7 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
     def save(): (output/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     save();start=time.monotonic()
     with b.create(c,execution='kokkos',geometry='host') as s:
-        result['setup_seconds']=time.monotonic()-start;result['native_setup_statistics']=s.setup_statistics();save()
+        result['setup_seconds']=time.monotonic()-start;result['native_setup_statistics']=s.setup_statistics();result['execution_device']=execution_device_description(b.lib);result['compiled_execution']=execution_name(b.lib);save()
         if initial:
             old,values,meta=read_checkpoint(initial)
             if old.seed_family!=c.seed_family:raise ValueError('incompatible seed family')
@@ -71,6 +71,9 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
         values=s.unknowns();np.savez_compressed(output/'solve.npz',unknowns=values)
         result['solve_artifact_sha256']=hashlib.sha256((output/'solve.npz').read_bytes()).hexdigest();save()
         result['checkpoint']=write_checkpoint(output/'diagnostic.checkpoint',c,values,b.library_sha256(),'diagnostic',b.parameterization())
+        if skip_observer_on_failure and not result['diagnostics']['converged']:
+            result.update(completed=False,termination='failed_solve_observer_skipped',total_seconds=time.monotonic()-start,process_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+            save();print(json.dumps(result['diagnostics'],indent=2));return
         x,near,bulk=points(c,True,transition_aware=case=='moderate-wide');regions=dict(near=np.arange(len(x))<near,bulk=(np.arange(len(x))>=near)&(np.arange(len(x))<near+bulk),modified=np.arange(len(x))>=near+bulk)
         distance=np.min([np.linalg.norm(x-np.array(h.center),axis=1) for h in c.hole],axis=0)
         step=np.minimum(.002,.002*distance)
@@ -89,6 +92,6 @@ def run(library,output,n,nphi,initial=None,memory_mib=2048,npolar=None,initial_s
     result.update(completed=True,total_seconds=time.monotonic()-start,process_peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     save();print(json.dumps({k:result[k] for k in ('diagnostics','physical','minimum_psi','total_seconds')},indent=2))
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);ap.add_argument('--memory-mib',type=int,default=2048);ap.add_argument('--npolar',type=int);ap.add_argument('--initial-source-library',type=Path);ap.add_argument('--case',choices=['moderate','moderate-wide','spin99','gamma10'],default='moderate');ap.add_argument('--separation',type=float);ap.add_argument('--measured-mirr',type=float);ap.add_argument('--max-krylov',type=int,help='optional per-Newton iteration cap for bounded diagnostic pilots');ap.add_argument('--krylov-restart',type=int,default=80);ap.add_argument('--tolerance',type=float,help='override nonlinear stopping tolerance; physical acceptance bounds remain fixed');ap.add_argument('--linear-rtol',type=float,default=.1,help='inexact Newton linear relative tolerance (default: .1)');ap.add_argument('--axisymmetric',action='store_true',help='opt-in no-swirl sector; full residual acceptance remains unchanged');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--library',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--n',type=int,default=24);ap.add_argument('--nphi',type=int,default=8);ap.add_argument('--initial',type=Path);ap.add_argument('--memory-mib',type=int,default=2048);ap.add_argument('--npolar',type=int);ap.add_argument('--initial-source-library',type=Path);ap.add_argument('--case',choices=['moderate','moderate-wide','spin99','gamma10'],default='moderate');ap.add_argument('--separation',type=float);ap.add_argument('--measured-mirr',type=float);ap.add_argument('--skip-observer-on-failure',action='store_true',help='retain a failed solve without repeating physical observers on an unaccepted state');ap.add_argument('--max-krylov',type=int,help='optional per-Newton iteration cap for bounded diagnostic pilots');ap.add_argument('--krylov-restart',type=int,default=80);ap.add_argument('--tolerance',type=float,help='override nonlinear stopping tolerance; physical acceptance bounds remain fixed');ap.add_argument('--linear-rtol',type=float,default=.1,help='inexact Newton linear relative tolerance (default: .1)');ap.add_argument('--axisymmetric',action='store_true',help='opt-in no-swirl sector; full residual acceptance remains unchanged');a=ap.parse_args()
     if a.initial_source_library and not a.initial:ap.error('--initial-source-library requires --initial')
-    run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart,a.tolerance,a.axisymmetric,a.linear_rtol,a.max_krylov)
+    run(a.library,a.output,a.n,a.nphi,a.initial,a.memory_mib,a.npolar,a.initial_source_library,a.case,a.separation,a.measured_mirr,a.krylov_restart,a.tolerance,a.axisymmetric,a.linear_rtol,a.max_krylov,a.skip_observer_on_failure)
