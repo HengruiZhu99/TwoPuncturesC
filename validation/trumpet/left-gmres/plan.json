@@ -1,5 +1,5 @@
 {
-  "status": "CPU_CUDA_controls_passed_240_pilot_running",
+  "status": "rejected_original_residual_increased_no_newton_update",
   "date": "2026-10-18",
   "purpose": "Change to left preconditioning to address strongly nonnormal right-preconditioned projection",
   "discretization": "Original mapped C2+axis-tau collocation, not overintegrated Galerkin",
@@ -53,12 +53,17 @@
     "modified_region_enclosure": true
   },
   "concise_validation": "One native CPU equation/solution control, one CUDA small-field comparison, one bounded original-state pilot. If useful, only the frozen224/240/256 study and finest AthenaK checks.",
-  "multigrid": "The retained stalled error is grid-scale. Test polynomial smoothing first; no demonstrated coarse-error bottleneck justifies a hierarchy yet.",
+  "multigrid": "Not justified by current evidence: retained residual is grid-scale and both left/right modal projections are ill-conditioned. Investigate formulation regularity before another solver hierarchy.",
   "launch_receipts": [
     {
       "job": 59956254,
-      "status": "CUDA_control_passed_240_pilot_running"
+      "status": "completed_failed_512_iterations"
     }
   ],
-  "frozen_native_library_sha256": "ffdce8a37c1b8c07d1035a2fa740dcdd4a16009c9001f60b2ba3590486e1df62"
+  "frozen_native_library_sha256": "ffdce8a37c1b8c07d1035a2fa740dcdd4a16009c9001f60b2ba3590486e1df62",
+  "outcome": {
+    "original_relative_linear_residual": 119652.94400742918,
+    "solve_seconds": 114.069665201,
+    "newton_step_applied": false
+  }
 }

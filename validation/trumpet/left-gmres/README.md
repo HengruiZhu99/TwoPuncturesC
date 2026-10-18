@@ -1,4 +1,4 @@
-# Left-preconditioning candidate; physical validation pending
+# Left-preconditioning candidate rejected
 
 The retained right-preconditioned128-step Arnoldi projection reaches the old
 stagnation floor within one cycle. Its large upper couplings produce a singular
@@ -39,3 +39,11 @@ without another solve. Failed solves retain their checkpoint/counters but skip
 redundant physical observers. If useful, the same frozen image/formulation is
 assessed at224/240/256 before the finest AthenaK horizon check. No result from
 the rejected Galerkin or damped-modal candidates enters that assessment.
+
+The bounded production pilot59956254 completed:512 iterations, original
+relative linear residual119652.944 (target0.1), solve114.070s. The original
+residual confirmation correctly rejected this step. No Newton update was
+applied; physical sampling was skipped and no finer study/AthenaK run follows.
+The opt-in flag remains OFF. Exact result, Arnoldi cycles and log are preserved
+in evidence240/. This failure redirects the investigation to regularity and
+seed-family controls, rather than another Krylov parameter sweep.

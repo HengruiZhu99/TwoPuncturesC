@@ -1,0 +1,40 @@
+HiSpID left cycle it=0 original_relative=1 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=27 original_relative=37293.953074508478 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=91 original_relative=25235.234309315387 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=155 original_relative=14333.143310162277 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=219 original_relative=39195.406892420389 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=283 original_relative=54149.890423168436 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=347 original_relative=50104.143486784538 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=411 original_relative=43178.020862477126 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=475 original_relative=65022.061913516176 target=0.10000000000000001
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID left cycle it=512 original_relative=119652.94400742918 target=0.10000000000000001
+{
+  "converged": 0,
+  "newton_iterations": 1,
+  "krylov_iterations": 512,
+  "npoints": 1843200,
+  "scaled_linf": [
+    5.896533871610956e-13,
+    9.441617902586156e-12,
+    1.0421398654946809e-11,
+    2.1351630672188993e-11
+  ],
+  "unscaled_linf": [
+    5.693629816477338e-06,
+    2.7181310100400947e-05,
+    0.0011855305657583002,
+    0.011984012064965577
+  ],
+  "seconds": 114.069665201,
+  "status": 1,
+  "error": "iteration limit or true residual above target"
+}

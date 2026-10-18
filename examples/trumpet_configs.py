@@ -26,6 +26,20 @@ def trumpet_moderate(backend,n=24,nphi=8):
     return regularize_trumpet(moderate(backend,n,nphi),n,nphi)
 
 
+def qi_moderate_control(backend,n=24,nphi=8):
+    """QI Kerr comparison with the same generic binary seed parameters.
+
+    Freeze the same fractional interior window relative to the isolated
+    throat (half the R0=M trumpet horizon coordinate radius). This is a
+    distinct formulation; trumpet checkpoint acceptance cannot carry over.
+    """
+    c=trumpet_moderate(backend,n,nphi)
+    c.seed_family='qi'
+    for i in range(2):
+        c.inner_min[i]*=.5;c.inner_max[i]*=.5
+    return c
+
+
 def trumpet_moderate_wide(backend,n=24,nphi=8):
     """Candidate wider interior transition, with the same exterior CTT equations.
 

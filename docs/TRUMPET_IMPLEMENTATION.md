@@ -2177,3 +2177,26 @@ solve time is the comparable performance measure. The bounded240 pilot runs
 only after one CUDA small control. Default/OFF and other seed/system behavior
 remain unchanged. Scripts and assumptions are in left-gmres/. Failed pilots
 now optionally skip redundant physical observers while retaining their state.
+
+
+## Regularity steering and QI control (18 October)
+
+Left preconditioning59956254 failed at512 inner iterations: the explicitly
+confirmed original linear residual increased to119652.944 times its starting
+norm. No Newton step was applied. Failed checkpoints and small-control success
+are retained separately; this is not a convergence improvement.
+
+The user permits a different conformal-metric family if trumpet regularity
+contributes. The fractional Schwarzschild exponent derived above applies to
+the unmodified scalar sector; the implemented flat plateau removes that local
+potential. It therefore cannot alone explain the plateau binary failure.
+The nonanalytic compact transition, axis representation and modal conditioning
+still merit separate consideration. A bounded QI Kerr control now keeps the
+generic masses/spins/boosts/separation fixed, while scaling the interior window
+to the QI throat. It uses the original modal inverse and existing CUDA image,
+with a frozen160/192/224 sequence gated by the160 pilot's physical bounds.
+This is a distinct initial-data formulation; no trumpet qualification carries
+over. Near-hole observers follow each family's radius, so their norm ratio
+is not a controlled slicing-only measurement. The bulk points and within-family
+convergence can be compared. See regularity-family-control/ for the frozen plan.
+No new multigrid or backend sweep is justified by the current evidence.

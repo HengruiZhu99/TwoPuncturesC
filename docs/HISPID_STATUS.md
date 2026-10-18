@@ -16,10 +16,13 @@ The 192×384×16 overintegrated pilot 59955120 fails its first linear solve at
 equation-preserving two-sweep modal preconditioner passes the small CPU
 comparison. Its bounded 240-grid CUDA pilot also fails (true relative residual 0.780
 after 512 iterations); no finer study follows. The Arnoldi projection identifies severe right-preconditioned nonnormality.
-A left-preconditioned240 pilot is running in59956254 after passing small
-CPU/CUDA controls; original-residual confirmation is mandatory. The three-grid study and
-finest-checkpoint AthenaK check remain incomplete. This is active work, not a
-completed convergence fix.
+A left-preconditioned240 pilot in59956254 also fails: original relative
+residual119652.944 after512 iterations, with no accepted Newton update.
+Following the user's regularity steering, one frozen QI Kerr control is
+running in59956570, using the same generic seed parameters and a separate
+family-specific interior radius. Its160 pilot gates the declared192/224 grids.
+The three-grid study and finest-checkpoint AthenaK check remain incomplete.
+This is active work, not a completed convergence fix.
 See `validation/trumpet/galerkin/`, `validation/trumpet/modal-relaxation/`,
 and the latest section of `TRUMPET_IMPLEMENTATION.md`.
 
