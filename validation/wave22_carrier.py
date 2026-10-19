@@ -16,4 +16,3 @@ def carrier(w,r):
     wp=sech2(y)-sech2(end);wpp=-2*np.tanh(y)*sech2(y)-2*np.tanh(end)*sech2(end)
     k=w.handedness*w.omega;phase=np.exp(-1j*(k*y+w.handedness*np.pi/4))
     return np.stack((W*phase,(wp-1j*k*W)*phase,(wpp-2j*k*wp-k*k*W)*phase),axis=-1)
-

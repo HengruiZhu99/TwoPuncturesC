@@ -34,7 +34,7 @@
   },
   "source_sha256": {
     "validation/wave22_study.py": "17b5fa943bcd1fe365003983deab200a532c4cd5821c3b2030bb4f512de9f9a2",
-    "validation/wave22_carrier.py": "62f828ec6853fc2241f578d8f72832d2e585b9288f90ffc5cb4a49b7e78203ad",
+    "validation/wave22_carrier.py": "4a4863b9bfde77ee6f71ddb05e608d806fa45a4866796f1b3c1f8b91c7836038",
     "validation/wave22_physical_radial_audit.py": "522c6c78a4eaa809d7a19a5814409a55a8d14d30d4bfbf8232e21904a38b22e6",
     "validation/wave22_radial_profiles.py": "632d89d6bf03e3221f8f044532f4a2846f9082cfa2b140c54e41aea8515b414a",
     "validation/wave22_residual_modes.py": "86cf5bc99b24f80df3c2608ec1d94c93f5e171c5853be190418df5cf7bcd9f4a",
@@ -43,7 +43,8 @@
   "evidence_sha256": {
     "README.md": "36cf7910e8b6ead3a2796f0163d643e63b2df172513598d6790a3e7d89c7b53f",
     "build-mapped-libraries.sh": "c0360b68f2fcc04cb9ee137c0625492209c7653e59694cc6a01118b992da2282",
-    "build-spectral-preconditioner.log": "5cc384b170752f2d6b3bf0f7be0992897e451a41c76be2a6a99efafe2e798bd8",
+    "build-spectral-preconditioner.log": "4315d09778304d06bda2742ec393094e4d0c38b86e22b923b0179f678b7b54c2",
+    "build-spectral-preconditioner.raw.log.gz": "7a4f414f36eb788a931a26698588a26820f89eabe652365b236a10bff0ab3a3b",
     "build-spectral-preconditioner.sh": "413f3522a8b14011a2a60e57bd1864ae3ab63ac83d1ea14c9cbe866ac6c45808",
     "check-original-profiles.sh": "328775f4d94d2fd23cc9ef97b62a774f823c43bd7db59b83379bbae302751630",
     "diagnostics-exit.json": "8f9e6a6d5ba2d41b69c8bba256df820fcdc428e866205d4b5c56b9f0f0d0f48e",
@@ -82,5 +83,7 @@
     "docs/figures/wave9999-radial-resolution.png": "e6ee542acf81cc02d727907f551ade0e2356cd38dbaa537da46d210e959d6d85",
     "docs/TRUMPET_IMPLEMENTATION.md": "305b3a74deecfadd455cf513165c7a7278515db4eded839fd7f7a1302d98ce24"
   },
-  "original_horizon_receipt_sha256": "3771da3ee2e394d106541d58c56a08a160e533b964138b847d6f0fb947af77f9"
+  "original_horizon_receipt_sha256": "3771da3ee2e394d106541d58c56a08a160e533b964138b847d6f0fb947af77f9",
+  "raw_build_log_sha256": "5cc384b170752f2d6b3bf0f7be0992897e451a41c76be2a6a99efafe2e798bd8",
+  "build_log_note": "The readable build log has trailing whitespace removed; the raw gzip decompresses to the unchanged original log bytes."
 }

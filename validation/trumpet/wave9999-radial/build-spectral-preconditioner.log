@@ -12,13 +12,13 @@ srun: Step created for StepId=59975943.4
 -- Check for working CXX compiler: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/kokkos/bin/nvcc_wrapper - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Found GSL: /usr/include (found version "2.6") 
--- Found CUDAToolkit: /opt/nvidia/hpc_sdk/Linux_x86_64/26.5/cuda/13.2/targets/x86_64-linux/include (found version "13.2.78") 
+-- Found GSL: /usr/include (found version "2.6")
+-- Found CUDAToolkit: /opt/nvidia/hpc_sdk/Linux_x86_64/26.5/cuda/13.2/targets/x86_64-linux/include (found version "13.2.78")
 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
--- Found Threads: TRUE  
--- Found OpenMP_CXX: -fopenmp (found version "4.5") 
--- Found OpenMP: TRUE (found version "4.5") found components: CXX 
+-- Found Threads: TRUE
+-- Found OpenMP_CXX: -fopenmp (found version "4.5")
+-- Found OpenMP: TRUE (found version "4.5") found components: CXX
 -- Enabled Kokkos devices: OPENMP;SERIAL;CUDA
 CMake Warning at /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/cmake_packages/Kokkos/KokkosConfigCommon.cmake:59 (message):
   The installed Kokkos configuration does not support CXX extensions.
