@@ -1,0 +1,9 @@
+{
+  "solve_job": "59970516",
+  "saved_norm_job": "59970746",
+  "python": "3.12.12",
+  "numpy": "2.3.5",
+  "scipy": "1.16.3",
+  "platform": "Linux-6.4.0-150600.23.125_15.0.29-cray_shasta_c-x86_64-with-glibc2.38",
+  "scope": "one shared interactive A100,32 allocated CPU cores; sequential native GPU solves,16 host threads; direct spherical solves and saved-norm replay on CPU"
+}

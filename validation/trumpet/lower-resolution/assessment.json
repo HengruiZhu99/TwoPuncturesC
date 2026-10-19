@@ -1,0 +1,100 @@
+{
+  "single_hole_analytic_liu": true,
+  "independent_liu_pullback": true,
+  "native_single_hole": true,
+  "same_equation_controls": [
+    {
+      "case": "moderate",
+      "n": [
+        8,
+        16,
+        16
+      ],
+      "control": "vanilla_control",
+      "error": 9.512045398550935e-16,
+      "passed": true
+    },
+    {
+      "case": "moderate",
+      "n": [
+        16,
+        32,
+        16
+      ],
+      "control": "cold_start",
+      "error": 1.6304720964052692e-13,
+      "passed": true
+    },
+    {
+      "case": "moderate",
+      "n": [
+        32,
+        64,
+        16
+      ],
+      "control": "vanilla_control",
+      "error": 5.367490485089987e-16,
+      "passed": true
+    },
+    {
+      "case": "moderate",
+      "n": [
+        64,
+        128,
+        16
+      ],
+      "control": "cold_start",
+      "error": 1.7705792357239643e-12,
+      "passed": true
+    },
+    {
+      "case": "paper-binary",
+      "n": [
+        16,
+        16,
+        8
+      ],
+      "control": "vanilla_control",
+      "error": 8.831701495868174e-15,
+      "passed": true
+    },
+    {
+      "case": "paper-binary",
+      "n": [
+        72,
+        72,
+        36
+      ],
+      "control": "cold_start",
+      "error": 1.6202581608874941e-12,
+      "passed": true
+    }
+  ],
+  "physical_free_data_fixed": true,
+  "high_resolution_bulk_issue_resolved": false,
+  "paper_reference_native_gate": false,
+  "lower_resolution_hispid_trends": {
+    "near_H_rms": true,
+    "near_M_rms": true,
+    "bulk_H_rms": true,
+    "bulk_M_rms": true
+  },
+  "passed_requested_controls": true,
+  "scope": "solution equivalence, low-grid trends and analytic single-hole validation; no replacement of failed high-grid binary gates",
+  "input_sha256": {
+    "paper-binary-reference-norm-bound.json": "26a32b1bd845b14686d667d945ae26800a6c45152ef52f08433d7fd4fd2a4272",
+    "single-native.json": "908a112b6b7e19febf0016180c9ee6528242845e4bd0b88e92d8918beaa62690",
+    "moderate-reference-norm-bound.json": "940602f56f423d4f51901fff44c70491e8888e8329abf9e92b6be6c7419a7960",
+    "moderate-reference-norm.json": "f93ea32a3982aa30bdb17e1d2314a1585eaa2d113a59d95a0bec722332e6f9b0",
+    "moderate-prefix-reference-norm.json": "36b144ea8f1068fe74312f0ee18dacf07d911f0adc120f835e12d07539dd1353",
+    "paper-binary-reference-norm.json": "286a386b60a7d02319f4246b5b7d4dc1b65df8efdf73291b45deb0768df2dfee",
+    "moderate-prefix-reference-norm-bound.json": "14c5263c5b3f883ddaa38cfe8b2e2c7e9e7254501f7822f217604df10af384b6",
+    "environment.json": "ec4cd2305072a83ab7a0da156a8c2f1272437f2119df8546cb9e72f1394bc229",
+    "liu-pullback-9999.json": "c18f8b1107d0360a91c1b002e02b55cbd2e8f0724131dd5ecd31e9f12469125e",
+    "paper-binary/result.json": "a222374007fc1b1c6ca617345977f6af1b107067da71b73694c445384522a425",
+    "single-hole-final/result.json": "2bfb463a1aded20f29c5d8881ddf2270204b6e38605695d744bcef7808776e6d",
+    "moderate-prefix/result.json": "9827418ee7c4a23d296c3cc0fef6b9e1b59b576993dda5768f8dbed7a3b4653e",
+    "moderate/result.json": "6017d21da640ca95724cab0f4f74c9b5826cb647b63ab44d54b6be99897c0dfc",
+    "single-hole/result.json": "8387ed7bcdddcc6ede7416872e61140ad9811e226256f3a7757254b0c77cf5b3"
+  }
+}

@@ -2462,3 +2462,80 @@ remains failed, so stronger binary validation is still false.
 `final-integrity.json` verifies all retained horizon artifacts, both sampler
 witnesses and all three physical observers against their recorded hashes.
 No compute allocation remains active. AthenaK commitde640365 is pushed.
+
+
+### Lower-resolution study and direct single-hole grids (18 October)
+
+The unchanged QI-wide/C1 formulation is now solved at8/16/16,12/24/16,
+16/32/16,32/64/16,48/96/16 and64/128/16. The BY comparison matches bare
+charges, collocation counts and the same66 exterior Cartesian observers;
+it does not match the conformal free metric. FD6 uses the same previously
+calibrated steps. All low-grid collocation solves converge. Near and bulk
+sample H/M RMS decrease for QI across this sequence. For32/48/64, nearH is
+8.9273e-5/4.2249e-5/1.6043e-5 and bulkM4.4965e-5/1.3166e-5/6.3237e-6.
+These grids are below physical acceptance; they demonstrate the truncation
+regime and do not reverse the retained high-resolution bulk-trend failure.
+
+BY nearH decreases from.01210/.002801/.0004875 at8/12/16 to3.8039e-7 at32,
+then reaches the observer floor:9.8858e-11/8.4016e-11 at48/64. Its64-grid
+metric differs from retained224 data by9.09e-15 in max |delta|/(1+|reference|).
+Vanilla line/BiCGStab and modal CUDA GMRES agree to5.37e-16 on the moderate32
+grid. QI cold and prolonged64 solves agree to1.78e-12 or better in every
+physical field. Independent solution-reference comparisons, including the
+original compactified6^3-point U norm, use saved fields without new solves.
+
+Paper convergence benchmarks use single-hole S/m^2=.2 or P/m=.2 and binary
+m+=m-=b=1, P+=-P-=.2 along y. The single-hole BY spin relative-U error falls
+from2.59e-7 atN10 to2.31e-12 at16 and then roundoff; the boosted case has a
+fitted order3.976 overN10/16/24/32. Its n=70 reference and spin n=50 reference
+use the paper's parameters. Legendre angular collocation replaces theta
+Chebyshev, so these reproduce the physical equations and convergence test,
+not every discretization detail. The binary uses16/24/32/48/72 with even
+Fourier counts;72/72/36 replaces the paper's70/70/35. BY solution differences
+fall rapidly and the infinity error becomes dominant. No accurate fitted
+sixth-order asymptote is claimed from these few points. The72-grid native
+1e-12 stopping gate fails at7.95e-11, while its sampled fields agree with48
+to near machine precision. That failure is retained, not relabeled converged.
+The Kerr binary counterpart has separate, fully specified QI free data and
+shows decreasing solution differences and constraints. The old BAM fixed-mesh
+multigrid comparison and test-mass binding-energy study are not reproduced.
+
+`python/single_hole.py` adds a direct two-dimensional CPU path with
+r=(m/2)A/(1-A), Chebyshev radial roots and Gauss--Legendre polar nodes.
+The BY nonlinear solve uses a Legendre-block inverse of the flat operator;
+the Kerr path stores regularized spherical tensors from native exact seeds.
+Both support axial spin and momentum/boost, and no inactive focus. Existing
+native binary layouts/defaults are unchanged. Direct BY data agree with the
+native binary-map single-hole control to1.10e-15 (spin) and1.10e-12 (boost)
+at the stated points. Independent nonzero initial guesses agree to4.17e-17
+in the direct BY unknowns. This is not a perturbed-Kerr coupled elliptic solve.
+
+Liu chi=.9999 is represented at64/32,96/32,192/32. Scaled physical metric
+and Kij differences from exact data decrease to1.60e-13/2.98e-12 on14 fixed
+points, including both sides of the horizon. Independent H/M RMS decrease
+to1.31e-8/6.87e-10, matching the exact-seed FD6 floors on those same points.
+Known-sphere horizon integration gives M=1.0000000000000007 and
+chi=.9999000000000002; expansion RMS is below7e-13. Independent radial tensor
+pullback agrees to7.90e-14. The FD4 vacuum check needs.002/.001/.0005 steps
+at this spin: the coarse .001 result exceeds its unchanged1e-7 bound, and
+.0005 passes with the expected fourth-order decline. This is analytic-seed
+and representation convergence, not an AthenaK chi=.9999 finder or evolution.
+The Liu chart remains a wormhole with rH=.25353544551648M here.
+
+All binary work used one shared interactive A100, with16 host threads; the
+small spherical problems use CPU NumPy/SciPy. Selected results, source/image
+hashes and plots are under `validation/trumpet/lower-resolution/`; larger
+unknown arrays remain on Perlmutter in `lower-resolution-20261018-v1`.
+Scripts record the actual stages and library identities. A saved-norm replay
+caught an archived shared-library SONAME substitution when BY was loaded first;
+the replay now loads and verifies HiSpID before the explicit BY image, as the
+successful solve driver already did. This failure involved no physical solve.
+
+A single spectral shell is plausible for linear black-hole perturbations,
+but this elliptic grid is not yet a time-evolution discretization. For an
+exterior evolution, a horizon-penetrating slicing/excision boundary and a
+finite outer boundary or hyperboloidal compactification are separate choices.
+Liu wormhole slices and compactification toward spatial infinity cannot simply
+be assumed to provide those conditions. General perturbations also need
+angular modes, physical free-data specification and new constraint solves.
+No work on Lazarus/Teukolsky evolution is performed here.

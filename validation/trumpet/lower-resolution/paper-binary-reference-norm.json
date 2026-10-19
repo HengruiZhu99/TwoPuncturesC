@@ -1,0 +1,112 @@
+{
+  "method": "Replay saved binary unknowns in the original paper's solution norm.\n\nNo nonlinear solve: compare u/(A-1) on a fixed 6^3 compactified grid,\nincluding infinity, both foci and the axis. Report absolute differences for\nthe vector components and wherever a relative denominator could be zero.\n",
+  "study_sha256": "a222374007fc1b1c6ca617345977f6af1b107067da71b73694c445384522a425",
+  "library_sha256": "ae2d2c6fc64573110e9a03fd59d271840c84bcf7f6a91e81f77b68a4455baf77",
+  "unknown_sha256": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/bowen_york16/unknowns.npy": "cf8b6ba5fb6f62e4481d8d2dc6dee1433d7c9189ad5c449ed83699312de8b204",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/hispid16/unknowns.npy": "ed8ce41dfa67596154cf4d9b79069a1678fd60895860e62a19bbccc1abb5ab95",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/bowen_york24/unknowns.npy": "b113b42aa054407d679291c0d6def4d87b0be1f4be134a24a875f26cd8973dc2",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/hispid24/unknowns.npy": "e11cab8cad929325a492b02b7388f777b1b7a50c10993464764da8df575d1530",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/bowen_york32/unknowns.npy": "66ba7accae487443f5693c886cea3e83622b33186c87a9a49690b7fb01ec3483",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/hispid32/unknowns.npy": "0ddc2cf77f9d4bad3d9d80e103c1ab112d04e8448c75f8f995105a0034f87a8e",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/bowen_york48/unknowns.npy": "94254b7bc80cc74d32e3c93315b5d87cdeab7b09fb4348d978236473ef82f0fa",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/hispid48/unknowns.npy": "537a39ef0cce634cf48f8a1fc10a2ae78ee1a5a8bbf6fe0e16432f317f6b8f20",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/bowen_york72/unknowns.npy": "8fe66a49ce5965be6d0f6d79f104902a97dc8545e2ee28583e940b465a05c3a4",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/lower-resolution-20261018-v1/paper-binary/hispid72/unknowns.npy": "1b4901d6260eb2e9d082c2c29b7f4f6a3c4a3af5ca76a9746d143770603ea057"
+  },
+  "reference_n": 72,
+  "records": [
+    {
+      "system": "bowen_york",
+      "n": 16,
+      "scalar_relative_U_linf": 8.795274445195684e-05,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        1.9760153057877747e-07
+      ],
+      "scalar_relative_U_infinity": 2.803146015516176e-07
+    },
+    {
+      "system": "hispid",
+      "n": 16,
+      "scalar_relative_U_linf": 0.35296193853952007,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        0.001726184875950807,
+        0.0028269817761098215,
+        0.0067413613233267555,
+        0.0004636612907004192
+      ],
+      "scalar_relative_U_infinity": 0.017069763352592495
+    },
+    {
+      "system": "bowen_york",
+      "n": 24,
+      "scalar_relative_U_linf": 6.001934276580667e-07,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        1.1983235328506814e-09
+      ],
+      "scalar_relative_U_infinity": 3.0168985008243234e-08
+    },
+    {
+      "system": "hispid",
+      "n": 24,
+      "scalar_relative_U_linf": 0.06139403681100198,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        0.00030025180124301776,
+        0.00016961117692579353,
+        0.0006195382748931388,
+        2.834910299021249e-05
+      ],
+      "scalar_relative_U_infinity": 0.0025479323312134973
+    },
+    {
+      "system": "bowen_york",
+      "n": 32,
+      "scalar_relative_U_linf": 7.307786278909292e-09,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        1.449952744675409e-11
+      ],
+      "scalar_relative_U_infinity": 1.918792405063909e-09
+    },
+    {
+      "system": "hispid",
+      "n": 32,
+      "scalar_relative_U_linf": 0.018616654765491788,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        9.104604317950078e-05,
+        8.482377315036094e-05,
+        0.00024073974967192546,
+        1.933578828212587e-05
+      ],
+      "scalar_relative_U_infinity": 0.0003531975524977115
+    },
+    {
+      "system": "bowen_york",
+      "n": 48,
+      "scalar_relative_U_linf": 7.430881400475743e-11,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        2.507816003471941e-13
+      ],
+      "scalar_relative_U_infinity": 7.430881400475743e-11
+    },
+    {
+      "system": "hispid",
+      "n": 48,
+      "scalar_relative_U_linf": 0.0010611789192335433,
+      "relative_scalar_points": 216,
+      "absolute_U_linf": [
+        5.189769210352593e-06,
+        2.6322778057391583e-06,
+        4.4716750830786633e-05,
+        1.9668727608547876e-06
+      ],
+      "scalar_relative_U_infinity": 2.565915206641863e-05
+    }
+  ]
+}

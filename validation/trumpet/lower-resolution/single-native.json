@@ -1,0 +1,248 @@
+{
+  "scope": "Same single-hole BY data on spherical and unchanged binary native maps.",
+  "library_sha256": "ae2d2c6fc64573110e9a03fd59d271840c84bcf7f6a91e81f77b68a4455baf77",
+  "records": [
+    {
+      "case": "spin",
+      "n": [
+        32,
+        64,
+        16
+      ],
+      "native": {
+        "status": 0,
+        "native_status": 0,
+        "converged": true,
+        "residual_linf": 5.335920630337352e-14,
+        "adm_energy": 1.0155100189071398,
+        "puncture_masses": [
+          1.0155100185292583,
+          0.0
+        ],
+        "options": {
+          "system": "bowen_york",
+          "krylov": "gmres",
+          "preconditioner": "modal",
+          "linear_rtol": 0.001,
+          "max_krylov": 512,
+          "restart": 64,
+          "execution": "kokkos"
+        }
+      },
+      "direct": {
+        "converged": true,
+        "newton_iterations": 3,
+        "krylov_iterations": 7,
+        "scaled_linf": 4.6629367034256575e-15
+      },
+      "difference": {
+        "gamma": 3.173386452391114e-11,
+        "Kij": 1.2607652237340334e-11,
+        "psi": 6.09446730135309e-12
+      },
+      "config": {
+        "real": {
+          "par_b": 3.0,
+          "par_m_plus": 1.0,
+          "par_m_minus": 0.0,
+          "Newton_tol": 1e-12,
+          "center_offset1": -3.0,
+          "par_S_plus3": 0.2,
+          "par_P_plus3": 0.0
+        },
+        "integer": {
+          "npoints_A": 32,
+          "npoints_B": 64,
+          "npoints_phi": 16,
+          "Newton_maxit": 16,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "grid_setup_method": 1,
+          "verbose": 0
+        }
+      }
+    },
+    {
+      "case": "spin",
+      "n": [
+        64,
+        128,
+        16
+      ],
+      "native": {
+        "status": 0,
+        "native_status": 0,
+        "converged": true,
+        "residual_linf": 2.3833233067361257e-13,
+        "adm_energy": 1.015510018911403,
+        "puncture_masses": [
+          1.015510018911403,
+          0.0
+        ],
+        "options": {
+          "system": "bowen_york",
+          "krylov": "gmres",
+          "preconditioner": "modal",
+          "linear_rtol": 0.001,
+          "max_krylov": 512,
+          "restart": 64,
+          "execution": "kokkos"
+        }
+      },
+      "direct": {
+        "converged": true,
+        "newton_iterations": 3,
+        "krylov_iterations": 7,
+        "scaled_linf": 4.6629367034256575e-15
+      },
+      "difference": {
+        "gamma": 1.1012011633178153e-15,
+        "Kij": 4.80225850541362e-16,
+        "psi": 2.12491450833412e-16
+      },
+      "config": {
+        "real": {
+          "par_b": 3.0,
+          "par_m_plus": 1.0,
+          "par_m_minus": 0.0,
+          "Newton_tol": 1e-12,
+          "center_offset1": -3.0,
+          "par_S_plus3": 0.2,
+          "par_P_plus3": 0.0
+        },
+        "integer": {
+          "npoints_A": 64,
+          "npoints_B": 128,
+          "npoints_phi": 16,
+          "Newton_maxit": 16,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "grid_setup_method": 1,
+          "verbose": 0
+        }
+      }
+    },
+    {
+      "case": "boost",
+      "n": [
+        32,
+        64,
+        16
+      ],
+      "native": {
+        "status": 0,
+        "native_status": 0,
+        "converged": true,
+        "residual_linf": 3.3682285648891864e-13,
+        "adm_energy": 1.0246924703858882,
+        "puncture_masses": [
+          1.0049162917719003,
+          0.0
+        ],
+        "options": {
+          "system": "bowen_york",
+          "krylov": "gmres",
+          "preconditioner": "modal",
+          "linear_rtol": 0.001,
+          "max_krylov": 512,
+          "restart": 64,
+          "execution": "kokkos"
+        }
+      },
+      "direct": {
+        "converged": true,
+        "newton_iterations": 3,
+        "krylov_iterations": 7,
+        "scaled_linf": 3.2508717939805365e-15
+      },
+      "difference": {
+        "gamma": 6.309931174944011e-12,
+        "Kij": 1.0470382838310561e-12,
+        "psi": 1.211105905975374e-12
+      },
+      "config": {
+        "real": {
+          "par_b": 3.0,
+          "par_m_plus": 1.0,
+          "par_m_minus": 0.0,
+          "Newton_tol": 1e-12,
+          "center_offset1": -3.0,
+          "par_S_plus3": 0.0,
+          "par_P_plus3": 0.2
+        },
+        "integer": {
+          "npoints_A": 32,
+          "npoints_B": 64,
+          "npoints_phi": 16,
+          "Newton_maxit": 16,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "grid_setup_method": 1,
+          "verbose": 0
+        }
+      }
+    },
+    {
+      "case": "boost",
+      "n": [
+        64,
+        128,
+        16
+      ],
+      "native": {
+        "status": 0,
+        "native_status": 0,
+        "converged": true,
+        "residual_linf": 1.1210485444378471e-13,
+        "adm_energy": 1.0246924730522908,
+        "puncture_masses": [
+          1.0049162917588341,
+          0.0
+        ],
+        "options": {
+          "system": "bowen_york",
+          "krylov": "gmres",
+          "preconditioner": "modal",
+          "linear_rtol": 0.001,
+          "max_krylov": 512,
+          "restart": 64,
+          "execution": "kokkos"
+        }
+      },
+      "direct": {
+        "converged": true,
+        "newton_iterations": 3,
+        "krylov_iterations": 7,
+        "scaled_linf": 3.2508717939805365e-15
+      },
+      "difference": {
+        "gamma": 1.0907615285590304e-12,
+        "Kij": 5.2357503960658925e-14,
+        "psi": 2.5202009500517304e-13
+      },
+      "config": {
+        "real": {
+          "par_b": 3.0,
+          "par_m_plus": 1.0,
+          "par_m_minus": 0.0,
+          "Newton_tol": 1e-12,
+          "center_offset1": -3.0,
+          "par_S_plus3": 0.0,
+          "par_P_plus3": 0.2
+        },
+        "integer": {
+          "npoints_A": 64,
+          "npoints_B": 128,
+          "npoints_phi": 16,
+          "Newton_maxit": 16,
+          "give_bare_mass": 1,
+          "use_external_initial_guess": 0,
+          "grid_setup_method": 1,
+          "verbose": 0
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "source_sha256": "fabf590cb425867a26abeacbf80c143ef32ea80fd8780dfedc084898b203754e"
+}

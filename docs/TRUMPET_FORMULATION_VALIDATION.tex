@@ -1,5 +1,5 @@
 \documentclass[aps,prd,preprint,notitlepage,nofootinbib]{revtex4-2}
-\usepackage{amsmath,amssymb,booktabs,tabularx,hyperref}
+\usepackage{amsmath,amssymb,booktabs,tabularx,graphicx,hyperref}
 \setlength{\emergencystretch}{3em}
 \Urlmuskip=0mu plus 2mu\relax
 \hypersetup{colorlinks=true,urlcolor=blue}
@@ -18,7 +18,7 @@ compatibility worsens the error and is rejected. Finest-grid AthenaK horizons
 pass angular, quadrature and interior-enclosure checks. Matched-count
 Bowen--York Hamiltonian RMS is near $10^{-10}$, at the observer calibration
 floor; failed native stopping gates are retained. Isolated Liu $\chi=0.99$
-controls pass. Moderate trumpet and extreme binaries remain unqualified.
+controls pass; direct spherical Liu data now converge at $\chi=0.9999$. Lower-resolution QI data converge before the high-grid bulk issue appears. Moderate trumpet and extreme binaries remain unqualified.
 \end{abstract}
 \maketitle
 
@@ -696,6 +696,89 @@ configuration. It was not launched because the original run completed;
 future necessary solves can use the qualified optimization.
 Evidence is in \path{validation/trumpet/batched-transfer/} and
 \path{validation/trumpet/axial-factors/stack-snapshot.txt}.
+
+
+\section{Lower grids, paper benchmarks, and direct single holes}
+The fixed QI-wide/C1 formulation and matching-charge Bowen--York (BY)
+comparison were solved at radial counts $8,12,16,32,48,64$, with polar
+count $2N$ and azimuthal count16. These use the same66 exterior Cartesian
+sample points and the calibrated sixth-order finite-difference observer.
+Every low-grid collocation solve passes. QI near/bulk sample constraint
+norms and physical-field differences decrease. Its64-grid near-H and bulk-M
+RMS remain $1.60\times10^{-5}$ and $6.32\times10^{-6}$: the coarse grids
+are not physically qualified. The old160/192/224 bulk-trend failure remains.
+
+BY near-H RMS decreases from $1.21\times10^{-2}$ at8 to
+$3.80\times10^{-7}$ at32, then reaches $9.89\times10^{-11}$ and
+$8.40\times10^{-11}$ at48/64, at the observer floor.
+Its64-grid metric differs from the retained224-grid data by
+$9.09\times10^{-15}$ in $\max|\delta\gamma|/(1+|\gamma_{224}|)$.
+Vanilla line/BiCGStab and modal CUDA GMRES agree to $5.37\times10^{-16}$
+on the moderate32 grid. QI cold/prolonged64 solutions agree to
+$1.78\times10^{-12}$ or better in sampled physical fields. These establish
+same-equation consistency; BY and Kerr free metrics do not describe identical data.
+
+\begin{figure}[htbp]
+\includegraphics[width=\linewidth]{figures/binary-solutions.png}
+\caption{Solution differences at fixed physical points. The continuum
+formulation stays fixed within each sequence. Lower-grid convergence does
+not replace the failed high-grid physical constraint gate.}
+\end{figure}
+
+The Ansorg--Br\"ugmann--Tichy convergence benchmarks use single-hole
+$S/m^2=0.2$ or $P/m=0.2$, and binary $m_+=m_-=b=1$,
+$P_+^y=-P_-^y=0.2$. We retain these parameters and compare
+$U=u/(A-1)$ against fine references, including infinity and punctures.
+The spinning single BY relative error reaches $2.31\times10^{-12}$ at16
+and then roundoff; the boosted case has observed order3.976 over10/16/24/32.
+Reference orders are50/70, as in the paper. The direct solver uses angular
+Legendre collocation instead of theta-Chebyshev. The binary reference is
+72/72/36 rather than70/70/35 to preserve even Fourier counts.
+Its BY stopping gate fails at $7.95\times10^{-11}$ for a requested
+$10^{-12}$, although physical fields agree with48 to near machine precision.
+This diagnostic reference is not relabeled converged. No precise sixth-order
+binary fit, historical BAM multigrid reproduction, or test-mass binding-energy
+reproduction is claimed. Kerr counterparts use their own specified free data;
+exact isolated Kerr/boosted Schwarzschild have zero elliptic correction and
+are tested by convergence of their represented physical tensors.
+
+The new optional CPU path has $r=(m/2)A/(1-A)$, Chebyshev radial roots,
+Gauss--Legendre polar nodes, and no inactive second focus. The BY equation
+is solved with a separated flat-operator preconditioner. Physical single-hole
+fields agree with the unchanged native binary-map solver to
+$1.10\times10^{-15}$ for spin and $1.10\times10^{-12}$ for boost at the stated
+points. Native binary defaults and equations are unchanged.
+
+For Liu $\chi=0.9999$, grids64/32,96/32,192/32 converge against exact geometry
+on14 fixed points spanning both sides of the horizon. Finest scaled metric
+and $K_{ij}$ errors are $1.60\times10^{-13}$ and $2.98\times10^{-12}$.
+Independent H/M RMS reach $1.31\times10^{-8}/6.87\times10^{-10}$,
+matching the exact-seed observer floors. Known-sphere horizon integration
+recovers mass and spin to roundoff, with expansion RMS below $7\times10^{-13}$.
+The coordinate radius is $0.25353544551648M$.
+An independent radial pullback agrees to $7.90\times10^{-14}$; a necessary
+FD4 step refinement0.002/0.001/0.0005 passes the unchanged vacuum bound.
+These are analytic-seed and representation controls, not an AthenaK
+$\chi=0.9999$ horizon-finder or time-evolution qualification.
+
+\begin{figure}[htbp]
+\includegraphics[width=\linewidth]{figures/liu-9999-convergence.png}
+\caption{Liu $\chi=0.9999$ tensor and independent constraint convergence.
+Dotted lines are exact-seed finite-difference observer floors.}
+\end{figure}
+
+A single spectral shell is suitable in principle for linear perturbations,
+but evolution requires its own hyperbolic formulation and boundary treatment.
+Horizon-penetrating excision and either a finite outer boundary or a
+hyperboloidal asymptotic layer are separate choices. The current Liu wormhole
+slice and compactification to spatial infinity are not an evolution scheme.
+General perturbed Kerr free data and nonaxisymmetric modes remain future work.
+For related hyperboloidal constructions see
+\href{https://arxiv.org/abs/0906.3342}{Zenginoglu and Tiglio (2009)}.
+Selected evidence and all figures are under
+\path{validation/trumpet/lower-resolution/}; large saved unknowns remain on
+Perlmutter. Native solves used one shared A100; the small spherical problems
+used CPU NumPy/SciPy. There was no backend benchmark sweep.
 
 \section{Reproducibility and remaining work}
 The native and consumer branches are \path{codex/hispid-trumpet} and
