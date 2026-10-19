@@ -33,6 +33,7 @@ class PortableCheckpointTests(unittest.TestCase):
 
     def test_malformed_records_are_rejected(self):
         mutations=(self.original.replace('memory_limit_mib 32768','memory_limit_mib 2147483648'),
+            self.original.replace('memory_limit_mib 32768','memory_limit_mib 131073'),
             self.original.replace('unknowns 256','unknowns 252'),
             self.original.replace('END\n',''),self.original+'unused\n',
             self.original.replace('hole0 0.5','hole0 nan'),
@@ -44,6 +45,21 @@ class PortableCheckpointTests(unittest.TestCase):
             with self.subTest(text=text[:70]):
                 self.path.write_text(text)
                 with self.assertRaises(ValueError):read_checkpoint(self.path)
+
+    def test_extended_rational_stretch_preserves_map_identity(self):
+        token='modal_P_C2tauC4_focus_map_v9_r16_k0.29999999999999999'
+        self.config.n[:]=[576,4,4];self.config.memory_limit_mib=98304
+        values=np.linspace(-.2,.3,4*int(np.prod(self.config.n)))
+        write_checkpoint(self.path,self.config,values,'a'*64,'diagnostic',parameterization=token)
+        expected=values.copy()
+        _,values,metadata=read_checkpoint(self.path)
+        self.assertEqual(metadata['parameterization'],token)
+        np.testing.assert_array_equal(values,expected)
+        for invalid in ('modal_P_C2tauC4_focus_map_v9_r65_k.3',
+                        'modal_P_C2tauC4_poly2_map_v7_r16_k.3',
+                        'modal_P_C2tauC4_beta14_map_v8_r16_k.3'):
+            with self.subTest(token=invalid),self.assertRaises(ValueError):
+                write_checkpoint(self.path,self.config,expected,'a'*64,'diagnostic',parameterization=invalid)
 
 
 if __name__=='__main__':unittest.main()

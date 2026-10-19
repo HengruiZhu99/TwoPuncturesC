@@ -102,8 +102,9 @@ def remap_modal(values,oldshape,newshape,oldmaps,newmaps):
     for maps in (oldmaps,newmaps):
         radial,angular=maps[:2]
         if len(maps)==3 and maps[2] not in ('mobius','quadratic','endpoint_beta14'):raise ValueError('unknown radial map kind')
+        if len(maps)==3 and maps[2]=='quadratic' and radial>1:raise ValueError('unsupported polynomial radial stretch')
         if len(maps)==3 and maps[2]=='endpoint_beta14' and radial>.5:raise ValueError('unsupported dual endpoint slope')
-        if not np.isfinite([radial,angular]).all() or not .001<=radial<=1 or not .1<=angular<=6:
+        if not np.isfinite([radial,angular]).all() or not .001<=radial<=64 or not .1<=angular<=6:
             raise ValueError('unsupported collocation maps')
     if tuple(oldmaps)==tuple(newmaps):return prolong_modal(values,oldshape,newshape)
     a,b,p=oldshape;A,B,P=newshape

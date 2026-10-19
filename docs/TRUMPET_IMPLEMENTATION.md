@@ -2677,3 +2677,83 @@ finest H/M maxima6.36e-8/6.86e-7 fail1e-8. Raw seed calibration maxima
 headers confirm the same formulation. Updated report and one compact
 figure distinguish old solved-data failures from proposed carrier-only
 grids. Job59975943 is released; no revised horizon search was run.
+
+
+## Curved inverse and exact polar storage (19 October 2026)
+
+`HISPID_CURVED_MODAL_PRECONDITIONER` is opt-in. It retains the cached curved
+scalar Fourier symbol and 10/9 times its vector principal symbol, including the
+strong mixed radial/polar principal term. The nine-point stencil stores
+three radial bands between polar blocks; geometric row equilibration moves
+the reciprocal factor into the RHS scale. Residuals, Jacobians, free data,
+physical boundary equations, and stopping criteria are unchanged.
+
+`HISPID_STREAM_POLAR_PRECONDITIONER` requires the existing exact polar
+correction. It batches the Schur construction and applies the same correction
+through a second base inverse, avoiding stored dense response banks.
+Independent stored/implicit full-matrix witnesses agree below 7e-15; actual
+CUDA fields/JVP/inverse controls pass. At 576x192x16 the removed responses
+alone are 7.59 GiB per host/device bank; this is a storage count, not an
+end-to-end peak-memory measurement. The bounded 32x64x16 control preserves
+residual/JVP bitwise and returns the same sampled geometry within 8.9e-11,
+with 52 versus 111 Krylov iterations. This grid does not resolve the packet.
+
+At 384x128x16, low-mode FD factor witnesses are accurate below 9e-13 and
+dominant CPU/GPU inverse actions agree around 1e-14 relative. Nonetheless
+the equilibrated mixed/exact-polar production continuation fails after 2000
+iterations at true relative residual 0.6432 (target 0.1), 225.43 s, accepting no
+Newton update. It is not a convergence fix. The native maximum remains
+2.05e-10 versus the unchanged 1e-12 gate. Evidence, including failures, is
+in `validation/trumpet/wave9999-curved/`. Coupled multigrid trials did not
+improve the production solve and were retired; their source and traces are
+preserved there. A two-level physical trial failed its 0.1 linear target
+at 0.870 after 600 steps. Subsequent transfer controls passed, but the
+manufactured solve missed its unchanged target; a deeper hierarchy was
+cancelled for cost without a production run.
+
+The separately opt-in `HISPID_CONSTRAINT_BLOCK_PRECONDITIONER` solves the
+full vector block, forms the exact Hamiltonian/vector coupling, then solves
+the scalar block. The original coupled Jacobian and outer/native tolerances
+are unchanged. Its first 64-step/restart-12 inner version passed the coupled
+manufactured witness in 9 outer steps (439 vector and 41 scalar inner steps),
+but its physical continuation was cancelled after 100 outer steps at 0.858
+without a Newton update. This is not a completed 300-step failure.
+The next candidate packs active block components, skips only exactly zero
+modal RHS tasks, and uses restart 96/maximum 256 inner steps with the same
+0.1 block target. Setup and solve memory peaks are bounded separately;
+the device free-memory guard remains. Qualification is pending. No revised
+three-grid or AthenaK horizon pass is implied by these algebraic controls.
+
+The public radial extent cap is now 1024, polar 512, azimuthal 256, with
+explicit aggregate memory budgets through 131072 MiB. The C configuration
+layout is unchanged, and allocation/device-free-memory guards remain.
+A focused actual AthenaK C++ reader/CPU sampler control passes 576x8x4
+and rejects radial 1025 and an over-limit budget. A matching native header
+and reader image are required; this is not a refined horizon check.
+
+
+## Retained search vectors (19 October 2026, candidate V16)
+
+The fixed-M single-basis recombination experiment passed small algebraic
+controls but developed a large physical true-residual gap (first vector
+block of the next Newton step: 2.335e4 after 256 iterations). It was cancelled
+before its 40-outer-step pilot budget; its source is archived, not retained
+as an additional public Krylov method. No solution is promoted from it.
+
+The new CUDA-only storage policy retains each actual preconditioned search
+vector in lossless HostSpace doubles. One device staging vector restores
+the original FGMRES update, including variable approximate inverses. All
+Arnoldi, A/M and true-residual calculations stay on device. CPU storage and
+the default equation-independent solve remain unchanged. The 256-step inner
+limit/restart and 0.1 target remain fixed; the outer/native targets remain
+0.1/1e-12. Aggregate allocation bounds include the retained host bank.
+Actual CUDA retained-Z controls pass bit-for-bit for the same variable-M
+GMRES/LGMRES cases (restarts 3 and 19). At restart 19, device Krylov
+workspace is 3648 versus 6384 bytes, with 2888 host bytes; this is moved
+storage plus staging, not a whole-process RAM reduction. Core C controls
+227 and CUDA controller/coordinate controls 286329 pass. The unchanged
+coupled witness passes in 7 outer steps, original true relative residual
+2.2918980572e-8 and correction-jet relative error 9.3545147046e-7. The
+three-resolution physical study remains pending. Producer image SHA256:
+fa97396c525bc8663d2b65d0fa80320a2aa7f68c5dcf8627bcd28fbe32935e54.
+These algebraic controls do not establish the physical convergence fix.

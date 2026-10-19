@@ -33,5 +33,20 @@ inline void modal_transfer(const gsl_matrix *lu,const gsl_permutation *p,
   }
  }
 }
+// A^{-1} U when U has three radial bands. Pivot rows before the batched
+// triangular solves; no dense U allocation is needed.
+inline void modal_banded_transfer(const gsl_matrix*lu,const gsl_permutation*p,
+                                  const double*upper,double*out){
+ const int n=lu->size1;std::fill(out,out+n*n,0.);
+ for(int i=0;i<n;i++){
+  int row=p->data[i];
+  for(int q=std::max(0,row-1);q<=std::min(n-1,row+1);q++)out[i*n+q]=upper[3*row+q-row+1];
+ }
+ auto rhs=gsl_matrix_view_array(out,n,n);
+ if(gsl_blas_dtrsm(CblasLeft,CblasLower,CblasNoTrans,CblasUnit,1.,lu,&rhs.matrix)||
+    gsl_blas_dtrsm(CblasLeft,CblasUpper,CblasNoTrans,CblasNonUnit,1.,lu,&rhs.matrix))
+  throw std::runtime_error("Banded modal transfer solve failed");
+}
+
 }
 #endif

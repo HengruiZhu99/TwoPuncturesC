@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "scope": "standalone_actual_reader_and_sampler_only",
+  "athenak_evolution_or_horizon_run": false,
+  "records": [
+    {
+      "family": "liu",
+      "scaled_linf": 0.0,
+      "metadata": {
+        "path": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/curved-large-reader/liu.checkpoint",
+        "file_sha256": "cd1a3753166f4d4725581bdc20ae574163de23ce4767be51dd3bf69d14314044",
+        "source_library_sha256": "1c606493d61e61573e070a45bceeda5eb3b34feb1856c17967c03591abe7edfe",
+        "acceptance": "analytic_seed",
+        "seed_family": "liu",
+        "format_version": 2
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "case": "oversized_radial",
+      "error": "Invalid checkpoint grid extent"
+    },
+    {
+      "case": "oversized_budget",
+      "error": "Checkpoint exceeds sampling-context allocation budget"
+    }
+  ],
+  "compile_command": [
+    "c++",
+    "-std=c++17",
+    "-O2",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include",
+    "-I/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/curved-modal-final/libHiSpID.dylib",
+    "-Wl,-rpath,/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/curved-modal-final",
+    "-o",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/curved-large-reader/reader"
+  ],
+  "execution_cwd": "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet",
+  "sha256": {
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/curved-modal-final/libHiSpID.dylib": "1c606493d61e61573e070a45bceeda5eb3b34feb1856c17967c03591abe7edfe",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/include/HiSpID.h": "1ca44210c17ceddab1cdf3eea88f12bb1b79ca1a7f3b3b396ab5c6a4105b9a0a",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/src/pgen/z4c/hispid_checkpoint.hpp": "c95384407f55af4ba9e118a41cc0c3e4be60342fde20132f0f3726a34f163d31",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/check_trumpet_checkpoint.py": "f0556a46e201e0346bb77b225fda355f7034b2dd132ba6ab8bc10ff6f2258973",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/AthenaK-trumpet/tst/test_suite/z4c/hispid_checkpoint_probe.cpp": "52454535cc1e718092dd71368cb58dba6a558dd3a20c7a8a8ad43ab7b66a7358",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/checkpoint_export.py": "e4fe493d9ad0bbe4289f698ef807b70ec1fa88b93dfcedd98e68a25eb7c444af",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/python/hispid.py": "098319cba59c69dd17c6578cfbd4e7fcd10a7e0dda58ba67bfb2b808a014f6d7",
+    "/Users/hz0693/research/lazarus/.hispid-worktrees/TwoPuncturesC-trumpet/tmp/curved-large-reader/reader": "fb8a8c5157ce7f27d4d4bd19ff402cb3145daecea7fab45197abd7b0234c1494"
+  }
+}

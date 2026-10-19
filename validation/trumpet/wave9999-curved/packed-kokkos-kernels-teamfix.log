@@ -1,0 +1,4 @@
+CPU/GPU inverse relative error 1.0485933097427698e-16
+fields 1.722e-16 JVP 1.804e-16 M difference 1.049e-16 balanced M residual 4.673e-15
+exact-zero modal task fast path difference 0
+HiSpID OpenMP actual kernels: 188988 checks; fields 1.722e-16 JVP 1.804e-16 M difference 1.049e-16 M residual 4.673e-15

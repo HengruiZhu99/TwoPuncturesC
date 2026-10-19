@@ -36,7 +36,7 @@ int main(){
  CHECK(HiSpID_jvp(ref.get(),v.data(),d.data(),ar.data())==0);CHECK(HiSpID_jvp(dev.get(),v.data(),d.data(),br.data())==0);double jvp_error=relative(ar,br);CHECK(jvp_error<=1e-10);
  auto M=preconditioner(*ref);auto compact=preconditioner(*dev);CHECK(compact.col.empty()&&compact.val.empty());CHECK(M.blocks.size()==compact.blocks.size());
  for(size_t group=0;group<M.blocks.size();group++){CHECK(relative(M.blocks[group].lu,compact.blocks[group].lu)<=1e-9);CHECK(relative(M.blocks[group].transfer,compact.blocks[group].transfer)<=1e-9);}
- auto deviceM=device_preconditioner(compact);TauPolarDevice border(compact);FocusDevice focus(compact);auto rhs=puncture::upload(d,"conditioned RHS");puncture::View x("inverse result",n);deviceM.apply(rhs,x);border.apply(x);focus.apply(rhs,x);puncture::download(x,br.data());M.solve(d.data(),ar.data());double inverse_error=relative(ar,br);fprintf(stderr,"CPU/GPU inverse relative error %.17g\n",inverse_error);CHECK(inverse_error<=1e-9);
+ auto deviceM=device_preconditioner(compact);TauPolarDevice border(compact);FocusDevice focus(compact);auto rhs=puncture::upload(d,"conditioned RHS");puncture::View x("inverse result",n);deviceM.apply(rhs,x);border.apply(x,&deviceM);focus.apply(rhs,x);puncture::download(x,br.data());M.solve(d.data(),ar.data());double inverse_error=relative(ar,br);fprintf(stderr,"CPU/GPU inverse relative error %.17g\n",inverse_error);CHECK(inverse_error<=1e-9);
  // Use a known bounded modal unknown to manufacture a balanced physical
  // RHS. Arbitrary physical noise is amplified by tiny high-mode row scales;
  // that conditioning floor is retained above in the inverse comparison.
@@ -59,7 +59,7 @@ int main(){
  };
  apply_stencil(known,weighted);
  ref->derivatives.raw.along(2,ref->derivatives.inverse,4,weighted.data(),balanced.data());
- auto balanced_rhs=puncture::upload(balanced,"manufactured modal RHS");deviceM.apply(balanced_rhs,x);border.apply(x);focus.apply(balanced_rhs,x);puncture::download(x,br.data());
+ auto balanced_rhs=puncture::upload(balanced,"manufactured modal RHS");deviceM.apply(balanced_rhs,x);border.apply(x,&deviceM);focus.apply(balanced_rhs,x);puncture::download(x,br.data());
  // Independently apply the original weighted FD stencil to the returned
  // unknown, then reconstruct physical Fourier values; no inverse code used.
  std::vector<double>modal(n,0),physical(n);
@@ -67,6 +67,17 @@ int main(){
  ref->derivatives.raw.along(2,ref->derivatives.inverse,4,modal.data(),physical.data());double inverse_residual=relative(balanced,physical);
  fprintf(stderr,"fields %.3e JVP %.3e M difference %.3e balanced M residual %.3e\n",fields_error,jvp_error,inverse_error,inverse_residual);
  CHECK(inverse_residual<=1e-9);
+ // Exact-zero component tasks must agree with the unspecialized inverse,
+ // including the implicit polar solve after a previously nonzero RHS.
+ std::vector<double>masked=d,without(n),with(n);
+ for(int i=0;i<n;i++)if(i%4==0)masked[i]=0;
+ auto masked_rhs=puncture::upload(masked,"zero-component witness");
+ deviceM.skip_zero_rhs=false;deviceM.apply(masked_rhs,x);border.apply(x,&deviceM);focus.apply(masked_rhs,x);puncture::download(x,without.data());
+ deviceM.skip_zero_rhs=true;deviceM.apply(masked_rhs,x);border.apply(x,&deviceM);focus.apply(masked_rhs,x);puncture::download(x,with.data());
+ double zero_error=relative(without,with);CHECK(zero_error<1e-12);
+ for(int i=0;i<n;i+=4)CHECK(with[i]==0.);
+ std::printf("exact-zero modal task fast path difference %.17g\n",zero_error);
+
  HiSpID_Config small=c;small.memory_limit_mib=16;small.n[0]=80;small.n[1]=160;small.n[2]=16;CHECK(!HiSpID_create_with_execution(&small,1));
  // Find a budget accepted by the inherited CPU estimate but rejected by
  // the added backend estimate, before allocating any large context.

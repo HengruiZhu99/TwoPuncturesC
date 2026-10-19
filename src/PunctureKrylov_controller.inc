@@ -13,11 +13,12 @@ static int actual(int n,const double*b,const double*x,double*Ax,double*r,
 static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
                  PK_Apply M,void*c,PK_Monitor monitor,void*mc,PK_Result*out){
   int capacity=o->method==PK_LGMRES?3:0;
+  const int offload=retained_basis_on_host(c);
   int m=o->restart+capacity,status=PK_LIMIT;double *Ax=NULL,*r=NULL,*w=NULL,**V=NULL,**Z=NULL;
   double *H=NULL,*cs=NULL,*sn=NULL,*g=NULL,*y=NULL,*Hraw=NULL;
   const char*arnoldi_path=getenv("PUNCTURE_KRYLOV_ARNOLDI");
   int count=0;
-  double *saved[3]={NULL,NULL,NULL},*correction=NULL;
+  double *saved[3]={NULL,NULL,NULL},*correction=NULL,*staged_z=NULL;
   vector_zero(x,n);double target=o->absolute_tolerance,beta=length(b,n);
   if(monitor)monitor(mc,0,beta,0,0,0);
   if(beta<=target){out->true_residual=beta;out->relative_residual=beta==0?0:1;out->recurrence_residual=beta;return PK_SUCCESS;}
@@ -25,6 +26,7 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
   V=(double**)bank((size_t)m+1,1,sizeof(double*));Z=(double**)bank(m,1,sizeof(double*));H=(double*)bank((size_t)m+1,m,sizeof(double));
   cs=(double*)bank(m,1,sizeof(double));sn=(double*)bank(m,1,sizeof(double));g=(double*)bank((size_t)m+1,1,sizeof(double));y=(double*)bank(m,1,sizeof(double));
   if(!Ax||!r||!w||!V||!Z||!H||!cs||!sn||!g||!y){status=PK_ALLOCATION;goto done;}
+  if(offload&&!(staged_z=vector_bank(n))){status=PK_ALLOCATION;goto done;}
   if(arnoldi_path){Hraw=(double*)bank((size_t)m+1,m,sizeof(double));if(!Hraw){status=PK_ALLOCATION;goto done;}}
   if(capacity){
     correction=vector_bank(n);if(!correction){status=PK_ALLOCATION;goto done;}
@@ -33,7 +35,7 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
   V[0]=vector_bank(n);if(!V[0]){status=PK_ALLOCATION;goto done;}
   if(o->eager_gmres_basis){
     for(int i=1;i<=m;i++)if(!(V[i]=vector_bank(n))){status=PK_ALLOCATION;goto done;}
-    for(int i=0;i<m;i++)if(!(Z[i]=vector_bank(n))){status=PK_ALLOCATION;goto done;}
+    for(int i=0;i<m;i++)if(!(Z[i]=retained_bank(n,c))){status=PK_ALLOCATION;goto done;}
   }
   while(out->iterations<o->max_iterations){
     status=actual(n,b,x,Ax,r,A,c,out);if(status)goto done;beta=out->true_residual;
@@ -43,11 +45,13 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
     if(Hraw)memset(Hraw,0,((size_t)m+1)*m*sizeof(double));
     int used=0,cycle_begin=out->iterations;
     for(int k=0;k<o->restart+count&&out->iterations<o->max_iterations;k++){
-      if(!Z[k]&&!(Z[k]=vector_bank(n))){status=PK_ALLOCATION;goto done;}
+      if(!Z[k]&&!(Z[k]=retained_bank(n,c))){status=PK_ALLOCATION;goto done;}
       if(!V[k+1]&&!(V[k+1]=vector_bank(n))){status=PK_ALLOCATION;goto done;}
-      if(k>=o->restart)vector_copy(Z[k],saved[k-o->restart],n);
-      else {status=action(M,c,V[k],Z[k],n,&out->preconditioner_calls);if(status)goto done;}
-      status=action(A,c,Z[k],w,n,&out->operator_calls);if(status)goto done;
+      double*zk=offload?staged_z:Z[k];
+      if(k>=o->restart)vector_copy(zk,saved[k-o->restart],n);
+      else {status=action(M,c,V[k],zk,n,&out->preconditioner_calls);if(status)goto done;}
+      status=action(A,c,zk,w,n,&out->operator_calls);if(status)goto done;
+      if(offload)retained_store(Z[k],zk,n,c);
       for(int pass=0;pass<2;pass++)for(int j=0;j<=k;j++){
         double a=dot(w,V[j],n);H[(size_t)j*m+k]+=a;vector_subtract(w,V[j],a,n);
       }
@@ -73,10 +77,16 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
       }else fprintf(stderr,"Krylov Arnoldi diagnostic could not open %s\n",arnoldi_path);
     }
     for(int j=used-1;j>=0;j--){y[j]=g[j];for(int k=j+1;k<used;k++)y[j]-=H[(size_t)j*m+k]*y[k];y[j]/=H[(size_t)j*m+j];}
-    for(int j=0;j<used;j++)vector_add(x,Z[j],y[j],n);
+    for(int j=0;j<used;j++){
+      const double*z=Z[j];if(offload){retained_load(staged_z,z,n,c);z=staged_z;}
+      vector_add(x,z,y[j],n);
+    }
     if(capacity){
       vector_zero(correction,n);
-      for(int j=0;j<used;j++)vector_add(correction,Z[j],y[j],n);
+      for(int j=0;j<used;j++){
+        const double*z=Z[j];if(offload){retained_load(staged_z,z,n,c);z=staged_z;}
+        vector_add(correction,z,y[j],n);
+      }
       double scale=length(correction,n);
       if(!isfinite(scale)){status=PK_NONFINITE;goto done;}
       if(scale>0){
@@ -92,8 +102,8 @@ static int gmres(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,
   }
   status=actual(n,b,x,Ax,r,A,c,out);if(!status)status=out->true_residual<=target?PK_SUCCESS:PK_LIMIT;
 done:
-  for(int i=0;i<3;i++)vector_free(saved[i]);vector_free(correction);
-  if(V)for(int i=0;i<=m;i++)vector_free(V[i]);if(Z)for(int i=0;i<m;i++)vector_free(Z[i]);
+  for(int i=0;i<3;i++)vector_free(saved[i]);vector_free(correction);vector_free(staged_z);
+  if(V)for(int i=0;i<=m;i++)vector_free(V[i]);if(Z)for(int i=0;i<m;i++)retained_free(Z[i],c);
   vector_free(Ax);vector_free(r);vector_free(w);free(V);free(Z);free(Hraw);free(H);free(cs);free(sn);free(g);free(y);return status;
 }
 static int bicgstab(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,

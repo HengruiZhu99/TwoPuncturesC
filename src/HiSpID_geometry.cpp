@@ -103,7 +103,7 @@ bool valid(const HiSpID_Config&c,bool sampler_only,bool operator_only){
  for(int k=0;k<3;k++)if(c.n[k]<4||c.n[k]>limit[k]*(operator_only&&k<2?2:1)||(k==2&&c.n[k]%2))return false;
  /* Bound the compact cache, four-field modal FD stencil and Krylov basis before
   * allocation. Larger grids require an explicit per-context budget. */
- if(c.memory_limit_mib<16||c.memory_limit_mib>65536)return false;
+ if(c.memory_limit_mib<16||c.memory_limit_mib>HISPID_MAX_MEMORY_MIB)return false;
  if(allocation_bound(c,sampler_only||operator_only)>(double)c.memory_limit_mib*1024*1024)return false;
  bool active=false;for(int h=0;h<2;h++){
   const auto&v=c.hole[h];if(!std::isfinite(v.mass)||v.mass<0)return false;

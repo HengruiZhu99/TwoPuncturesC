@@ -1,0 +1,200 @@
+{
+  "left": {
+    "report": {
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 5,
+        "krylov_iterations": 80,
+        "npoints": 32768,
+        "scaled_linf": [
+          2.679045954858271e-16,
+          3.4310650248279995e-14,
+          2.3119404525171195e-14,
+          2.3103303388327366e-14
+        ],
+        "unscaled_linf": [
+          1.3441288346691016e-13,
+          1.675353322513266e-10,
+          1.099700781732876e-10,
+          1.180997156853223e-10
+        ],
+        "seconds": 9.840133083,
+        "status": 0,
+        "error": ""
+      },
+      "linear_history": [
+        [
+          0.0,
+          0.1,
+          0.01073998840910266,
+          12.0
+        ],
+        [
+          1.0,
+          0.1,
+          0.02089220230702052,
+          10.0
+        ],
+        [
+          2.0,
+          0.1,
+          0.016651501306810153,
+          10.0
+        ],
+        [
+          3.0,
+          0.1,
+          0.060676469620687595,
+          22.0
+        ],
+        [
+          4.0,
+          0.1,
+          0.004507253511647917,
+          26.0
+        ]
+      ],
+      "resolved": {
+        "system": "hispid",
+        "krylov": "gmres",
+        "linear_rtol": 0.1,
+        "preconditioner": "modal_curved_mixed_left_original_norm_confirmed",
+        "execution": "reference",
+        "geometry": "host",
+        "seed_family": "liu",
+        "wave22": {
+          "propagation": 1,
+          "handedness": 1,
+          "amplitude": 0.001,
+          "omega": 0.9760972454792889,
+          "cycles": 4.0,
+          "r0": 12.0,
+          "time": 0.0,
+          "cutoff_min": 2.0,
+          "cutoff_max": 4.0
+        },
+        "native_verified": true
+      },
+      "library_sha256": "a586707d2e3e5c6ede486bc0a855fb3017dbfb758a425e9d6b6774ccea2e0865",
+      "grid": [
+        32,
+        64,
+        16
+      ],
+      "nonlinear_tolerance": 1e-12
+    },
+    "operator_bitwise_identical": {
+      "residual": true,
+      "jvp": true
+    },
+    "sample_difference": {
+      "gamma": 9.663381206337363e-13,
+      "Kij": 2.2382096176443156e-10
+    }
+  },
+  "damped": {
+    "report": {
+      "diagnostics": {
+        "converged": 1,
+        "newton_iterations": 7,
+        "krylov_iterations": 37,
+        "npoints": 32768,
+        "scaled_linf": [
+          1.4360866576882718e-15,
+          1.1370837954620527e-13,
+          8.136907936960865e-14,
+          9.430308425639798e-14
+        ],
+        "unscaled_linf": [
+          7.067179630395755e-13,
+          3.3008744909604525e-10,
+          2.9669420030634637e-10,
+          3.284378437301452e-10
+        ],
+        "seconds": 8.521599542,
+        "status": 0,
+        "error": ""
+      },
+      "linear_history": [
+        [
+          0.0,
+          0.1,
+          0.02519333880700028,
+          2.0
+        ],
+        [
+          1.0,
+          0.1,
+          0.06199315102062778,
+          2.0
+        ],
+        [
+          2.0,
+          0.1,
+          0.05315148108762215,
+          4.0
+        ],
+        [
+          3.0,
+          0.1,
+          0.06818256612857802,
+          5.0
+        ],
+        [
+          4.0,
+          0.1,
+          0.09155931264748818,
+          8.0
+        ],
+        [
+          5.0,
+          0.1,
+          0.08015360752381609,
+          8.0
+        ],
+        [
+          6.0,
+          0.1,
+          0.07225526738855509,
+          8.0
+        ]
+      ],
+      "resolved": {
+        "system": "hispid",
+        "krylov": "gmres",
+        "linear_rtol": 0.1,
+        "preconditioner": "modal_curved_mixed_two_sweep_omega0.4",
+        "execution": "reference",
+        "geometry": "host",
+        "seed_family": "liu",
+        "wave22": {
+          "propagation": 1,
+          "handedness": 1,
+          "amplitude": 0.001,
+          "omega": 0.9760972454792889,
+          "cycles": 4.0,
+          "r0": 12.0,
+          "time": 0.0,
+          "cutoff_min": 2.0,
+          "cutoff_max": 4.0
+        },
+        "native_verified": true
+      },
+      "library_sha256": "dcb5f1769245298957f2e258b75ab8a8fdf36652b54a8ee778d26230770d4b42",
+      "grid": [
+        32,
+        64,
+        16
+      ],
+      "nonlinear_tolerance": 1e-12
+    },
+    "operator_bitwise_identical": {
+      "residual": true,
+      "jvp": true
+    },
+    "sample_difference": {
+      "gamma": 1.4210854715202004e-12,
+      "Kij": 1.915552161335654e-10
+    }
+  }
+}

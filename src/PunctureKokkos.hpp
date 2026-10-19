@@ -66,8 +66,11 @@ inline int actual(View b,View x,View ax,View r,const Action&A,PK_Result&result){
  result.true_residual=length(r);double rhs=length(b);result.relative_residual=rhs?result.true_residual/rhs:result.true_residual;
  return std::isfinite(result.true_residual)?PK_SUCCESS:PK_NONFINITE;
 }
-/* The C and Kokkos policies instantiate the same controller. */
-int solve(View b,View x,const PK_Options&,const Action&A,const Action&M,PK_Result&,PK_Monitor=nullptr,void*monitor_context=nullptr);
+/* The C and Kokkos policies instantiate the same controller. Optional CUDA
+ * retained-Z storage moves only preconditioned search directions to HostSpace;
+ * Arnoldi vectors, all A/M actions and true-residual checks stay on device.
+ * Host backends use their normal storage. The default preserves residency. */
+int solve(View b,View x,const PK_Options&,const Action&A,const Action&M,PK_Result&,PK_Monitor=nullptr,void*monitor_context=nullptr,bool retain_preconditioned_on_host=false);
 
 /* Tensor-product kernels: contiguous output threads, no nested launches,
  * preallocated scratch, constant-annihilating off-diagonal differences. */
@@ -167,8 +170,10 @@ void initialize_hispid_spectral(Operator&,hispid::AxisDerivatives&,const int*,do
  * the polar recurrence. OpenMP uses direct triangular solves per mode. */
 struct ModalPointers {const double*lu,*transfer,*lower;const size_t*permutation;};
 struct Modal {
- int na,nb,np,nv,groups;bool modal_output,diagonal_lower;
- bool compensated_projection=false; // opt-in by HiSpID; BY defaults unchanged
+ int na,nb,np,nv,groups;bool modal_output,diagonal_lower;int lower_bandwidth=0;
+ bool compensated_projection=false;
+ // Exact-zero fast path is opt-in; the inherited Bowen--York path keeps it off.
+ bool skip_zero_rhs=false; // opt-in by HiSpID; BY defaults unchanged
  View lu,transfer,lower,row_scale,forward,workspace,column,inverse;
  Indices permutation,block;
  Kokkos::View<ModalPointers*,Exec>native_blocks; // borrowed only during CPU apply

@@ -14,8 +14,8 @@ typedef struct {
   double mass, center[3], spin[3], velocity[3];
 } HiSpID_Hole;
 /* Independent extents; aggregate host/device memory guards still apply. */
-enum {HISPID_MAX_RADIAL_POINTS=512,HISPID_MAX_POLAR_POINTS=512,
-      HISPID_MAX_AZIMUTHAL_POINTS=256};
+enum {HISPID_MAX_RADIAL_POINTS=1024,HISPID_MAX_POLAR_POINTS=512,
+      HISPID_MAX_AZIMUTHAL_POINTS=256,HISPID_MAX_MEMORY_MIB=131072};
 typedef struct {
   HiSpID_Hole hole[2];
   int n[3];
@@ -27,7 +27,7 @@ typedef struct {
   double far_radius;    /* <=0 disables F */
   double tolerance;
   int max_newton, max_krylov, krylov_restart;
- int memory_limit_mib; /* conservative aggregate budget; default2048, max65536 */
+ int memory_limit_mib; /* conservative aggregate budget; default2048, max131072 */
 } HiSpID_Config;
 typedef struct {
   double gamma[9], Kij[9], psi, conformal_metric[9], Atilde[9];

@@ -6,7 +6,9 @@ extern "C" {
 /* Equation-independent, serial, matrix-free right-preconditioned solvers.
  * apply/precondition return0 on success. Callbacks may reuse private scratch,
  * but must not retain the supplied vectors; input/output do not alias.
- * A and M remain fixed for the duration of one solve. */
+ * A remains fixed for one solve. GMRES/LGMRES retain each preconditioned
+ * direction and permit a variable approximate inverse M; BiCGStab requires
+ * a fixed linear M. */
 enum { PK_GMRES=0, PK_BICGSTAB=1, PK_LGMRES=2 };
 /* LGMRES adds up to three directions to the restart dimension using normalized
  * previous-cycle corrections. It recomputes their operator images, stores

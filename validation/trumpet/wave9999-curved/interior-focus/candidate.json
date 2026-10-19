@@ -1,0 +1,66 @@
+{
+  "status": "candidate; no accepted physical grid or revised horizon result",
+  "fixed_physics": {
+    "chi": 0.9999,
+    "amplitude": 0.001,
+    "cycles": 4,
+    "omega": 0.9760972454792889,
+    "r0": 12,
+    "inner": [
+      0.1,
+      0.2
+    ],
+    "cutoff": [
+      2,
+      4
+    ]
+  },
+  "numerical_map": {
+    "mass_zero_focus_z": -1,
+    "radial_stretch": 16,
+    "angular_stretch": 0.3
+  },
+  "grids": [
+    [
+      384,
+      128,
+      16
+    ],
+    [
+      480,
+      160,
+      16
+    ],
+    [
+      576,
+      192,
+      16
+    ]
+  ],
+  "unchanged_gates": {
+    "native_scaled_linf": 1e-12,
+    "original_linear_relative_l2": 0.1,
+    "packet_constraint_max": 1e-08,
+    "wave_relative_difference": 0.001
+  },
+  "source_files_sha256": {
+    "CMakeLists.txt": "1116b741e18bb70f76d85071b0618ccf99f2e4af9d1dbe2a7becf5e04f6eafd7",
+    "src/HiSpID_axis.hpp": "93ca6e06d5bbf691b5bf40956787aff7dd3a4b89b22a2c438594e18e65acd433",
+    "src/HiSpID_solver.cpp": "14712c493ffeb3f6e1c6ffa829031720d55b3d421686c4df0b6343baca04b295",
+    "src/PunctureKokkos.hpp": "49c2662814c53bc15256c87e7a3ce75a779a26e71eada716b97f7c2dc992ecc6",
+    "src/PunctureKokkos.cpp": "8f74d5373635ced8d1e0a7f23d84f4eb92c8cfcef0f445d85247f887bc1f0d72",
+    "src/HiSpID_curved_preconditioner.hpp": "7495b359720f87416ad2650a306e30785ca9cdc4c8e398baa20b5e45e5ecc4ac",
+    "tests/test_hispid_constraint_block.cpp": "9daf7bcaf8e2fa6bd7fdf219acfee3aac4737b779bf643f2689dc92f9dfb23d6",
+    "tests/test_infinity_map.py": "6daf31c7d5552fd731a907b097e4dab6a1c86d714241bd7025517fdc1192e95c",
+    "tests/test_hispid.py": "aa72d328cde7daf2047c9137d1b075c172cb62101fec4564353130f8637bfe42",
+    "validation/wave22_near_hole.py": "335949191966f532ab282cf92831808da83026fe12d2a1369a3f9df6a70e9308",
+    "validation/wave22_study.py": "a180b3cb02fa0515e1759bdda719704f5dc6e380b28645e7977cf583facef205",
+    "python/checkpoint_export.py": "c433276fd6c33aa2da5e0ad54a83ca3ec3861e24f72b01db42d3bd4c9fb17742",
+    "validation/prolong.py": "4043223a1354893c7441092b23e327888622506452a83f11606c01a5c7fba8d4",
+    "validation/remapped_guess.py": "dbc445e99aa5eb3090523563cfdea217d1020807e18b9cb7f5752184987ea701",
+    "tests/test_portable_checkpoint.py": "2744ab31155a3d8feaac351b8b22b15390c54b55dd632e924c5ec3de00fd98b0"
+  },
+  "producer_overlay_sha256": "9b007e54e3ca2cbcaf36e69427099a35e19810aea7bbdcef81e21813778611fd",
+  "note": "The physical free-data prescription is unchanged. Its native scaling formula is unchanged, but a numerical map change changes spatial weights at fixed physical coordinates. Physical constraints and solution differences must validate the new fixed-map three-grid sequence.",
+  "checkpoint_parser_update": "Python parser support uploaded to V13 before the physical driver starts; compiled producer source unchanged. Parser and helper bounds match the native map cap, with original polynomial/dual restrictions."
+}

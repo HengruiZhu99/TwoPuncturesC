@@ -1,0 +1,21 @@
+{
+  "purpose": "Bounded algebraic control; the coarse grid does not qualify wave resolution.",
+  "operator_bitwise_identical": {
+    "residual": true,
+    "jvp": true
+  },
+  "all_native_converged": true,
+  "final_sample_max_difference": {
+    "gamma": 1.0686562745831907e-11,
+    "Kij": 8.811085194793122e-11
+  },
+  "krylov_iterations": {
+    "old": 111,
+    "new": 52
+  },
+  "solve_seconds": {
+    "old": 11.458840334,
+    "new": 7.104027791
+  },
+  "driver_sha256": "2b9c884320beb5c658aef8acec6e46d488cd018715b8289da74b4a64bf8aa781"
+}

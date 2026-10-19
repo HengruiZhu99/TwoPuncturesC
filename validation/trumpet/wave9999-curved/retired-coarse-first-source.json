@@ -1,0 +1,36 @@
+{
+  "scope": "archived V8 coarse-first candidate; qualification failed and code retired",
+  "files": {
+    "CMakeLists.txt": "639941c80c661aa2baa83816f1048a83801fcb13e42247339db1e3f37951eb65",
+    "src/HiSpID_solver.cpp": "1899fe362501d9a4ac592629b78f28492eb8490d7c66824f607a82bfeca6c103",
+    "src/HiSpID_curved_preconditioner.hpp": "62849fe4f20f46eab603b40054c384a63f4f7936ca180957a69eac4b96a45a0f",
+    "src/HiSpID_modal_block.hpp": "109a15e1b1461a5a7cc8467868ea0c0d37a97fd883f5d45d75f77c7b5749380f",
+    "src/HiSpID_modal_transfer.hpp": "2d33e81b1962f1abcaa7634f775d3d4455928fea05009a4fe6c2ae4c6a0e030b",
+    "src/HiSpID_tau.hpp": "79464a42bacca5c8a87814a06931312a819fccd28c219409cfa6ccc65389779b",
+    "src/PunctureKokkos.cpp": "03b324b2a528f8046c623f4adab3aadb322f2be64a70f6b4b8a5321afe6cfa0f",
+    "src/PunctureKokkos.hpp": "b4a7baf6d165e83e60a383d0d3c141b5ae17ef8242e4c755f3cb07ae442b18f9",
+    "include/HiSpID.h": "1ca44210c17ceddab1cdf3eea88f12bb1b79ca1a7f3b3b396ab5c6a4105b9a0a",
+    "tests/test_hispid_two_level.cpp": "941d0ff0a350385bc4c0bea5d8e726049fa54da87d4bd071ed2ed1c863ed09d7",
+    "validation/wave22_study.py": "a180b3cb02fa0515e1759bdda719704f5dc6e380b28645e7977cf583facef205",
+    "validation/wave22_near_hole.py": "0e9ea709c8b6ca1856628c6f6b8f14bc839c92d4bc1dc15771be27c97d4682fa"
+  },
+  "physical_formulation": "unchanged Liu chi=.9999 wave22, tolerance1e-12; original true residual confirmation retained",
+  "production_grids": [
+    [
+      384,
+      128,
+      16
+    ],
+    [
+      480,
+      160,
+      16
+    ],
+    [
+      576,
+      192,
+      16
+    ]
+  ],
+  "controls": "separate producer/consumer images and bounded algebraic tests; failures retained"
+}

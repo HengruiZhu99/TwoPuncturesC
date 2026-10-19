@@ -1,0 +1,19 @@
+{
+  "old_image_source_snapshot": "source-wave-curved-v1, HISPID_CURVED_MODAL_PRECONDITIONER=OFF, reference CPU",
+  "old_snapshot_sha256": {
+    "src/HiSpID_solver.cpp": "bc4ea731c9ab5dcd66d3bbab082dd1fdfeeca9752fa6fd89df33b148e3f16a36",
+    "src/HiSpID_curved_preconditioner.hpp": "e417f18bd412e4061f0a103869f13b3b7e7b2cdbd32dec3ba9cf10e5e39411cd",
+    "CMakeLists.txt": "cae4f0a6eeff9dc910b5f716d66c6681321b03b14f865fc14a7bdec6fb15aab5"
+  },
+  "new_image_source_sha256": {
+    "src/HiSpID_solver.cpp": "97d5fd21d31fbda09e8d99f99056167ec71505c93fb96d0f3a4a78e0d0e69f42",
+    "src/HiSpID_curved_preconditioner.hpp": "62849fe4f20f46eab603b40054c384a63f4f7936ca180957a69eac4b96a45a0f",
+    "src/HiSpID_modal_block.hpp": "e7a58bc994f4dadbad7c5e3c0f042bebf20bfa640044017a07177585e89d8333",
+    "src/HiSpID_modal_transfer.hpp": "2d33e81b1962f1abcaa7634f775d3d4455928fea05009a4fe6c2ae4c6a0e030b",
+    "src/PunctureKokkos.hpp": "b4a7baf6d165e83e60a383d0d3c141b5ae17ef8242e4c755f3cb07ae442b18f9",
+    "src/PunctureKokkos.cpp": "03b324b2a528f8046c623f4adab3aadb322f2be64a70f6b4b8a5321afe6cfa0f",
+    "CMakeLists.txt": "f062aa3c5f67a4fde83561f3894c7cccadad85bd8f9f0e92f9290f9ed5691474"
+  },
+  "new_image_options": "curved ON, axis/focus/exact-polar tau ON, row power3, radial stretch1, batch transfer ON, compensated projection ON, reference CPU",
+  "note": "Bounded algebraic control only; production resolution is tested separately."
+}

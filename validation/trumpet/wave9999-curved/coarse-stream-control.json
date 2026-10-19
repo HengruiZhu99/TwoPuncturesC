@@ -1,0 +1,105 @@
+{
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 7,
+    "krylov_iterations": 52,
+    "npoints": 32768,
+    "scaled_linf": [
+      6.5165996207588095e-15,
+      3.657404438365594e-13,
+      3.690467037292011e-13,
+      3.5883849983820915e-13
+    ],
+    "unscaled_linf": [
+      4.271414982121962e-12,
+      1.2939044587114212e-09,
+      1.5000240601474756e-09,
+      1.400120984391368e-09
+    ],
+    "seconds": 7.067805791,
+    "status": 0,
+    "error": ""
+  },
+  "linear_history": [
+    [
+      0.0,
+      0.1,
+      0.07616233113848261,
+      2.0
+    ],
+    [
+      1.0,
+      0.1,
+      0.04368733923265875,
+      3.0
+    ],
+    [
+      2.0,
+      0.1,
+      0.05127543055588611,
+      7.0
+    ],
+    [
+      3.0,
+      0.1,
+      0.08388288381525447,
+      7.0
+    ],
+    [
+      4.0,
+      0.1,
+      0.09104774403188899,
+      10.0
+    ],
+    [
+      5.0,
+      0.1,
+      0.08673767868465737,
+      11.0
+    ],
+    [
+      6.0,
+      0.1,
+      0.09190352131974167,
+      12.0
+    ]
+  ],
+  "resolved": {
+    "system": "hispid",
+    "krylov": "gmres",
+    "linear_rtol": 0.1,
+    "preconditioner": "modal_curved_mixed_equilibrated",
+    "execution": "reference",
+    "geometry": "host",
+    "seed_family": "liu",
+    "wave22": {
+      "propagation": 1,
+      "handedness": 1,
+      "amplitude": 0.001,
+      "omega": 0.9760972454792889,
+      "cycles": 4.0,
+      "r0": 12.0,
+      "time": 0.0,
+      "cutoff_min": 2.0,
+      "cutoff_max": 4.0
+    },
+    "native_verified": true
+  },
+  "library_sha256": "8adccefa42efaec286ea2b4aff927210e28465cfe84060f13fd3832fb7b73b53",
+  "grid": [
+    32,
+    64,
+    16
+  ],
+  "nonlinear_tolerance": 1e-12,
+  "comparison_to_original": {
+    "residual_bitwise_identical": true,
+    "jvp_bitwise_identical": true,
+    "same_observers": true,
+    "final_sample_max_difference": {
+      "gamma": 1.0686562745831907e-11,
+      "Kij": 8.811085194793122e-11
+    }
+  },
+  "note": "Bounded algebraic control only; grid does not resolve packet. Original-reference results retained without rerunning the baseline. New image uses equilibrated mixed operator and implicit exact polar correction."
+}

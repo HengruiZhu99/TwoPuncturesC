@@ -10,6 +10,10 @@ from pathlib import Path
 import numpy as np
 from native_loader import verify_image,verify_puncture_dependencies,validate_krylov
 
+# Interchange limits mirror include/HiSpID.h without loading a native image.
+MAX_GRID_EXTENTS=(1024,512,256)
+MAX_MEMORY_MIB=131072
+
 D3=C.c_double*3
 D9=C.c_double*9
 

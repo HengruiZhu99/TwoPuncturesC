@@ -16,8 +16,9 @@ from hispid import Wave22
 from wave22_carrier import carrier
 
 
-def audit(w,nr,ntheta,separation,stretch,points=513):
-    b=separation/2;kappa=2.;T=np.tanh(kappa);hi=w.r0+2*np.pi*w.cycles/abs(w.omega)+4;lo=w.r0-4
+def audit(w,nr,ntheta,separation,stretch,points=513,kappa=2.):
+    if separation<=0 or stretch<=0 or kappa<=0:raise ValueError('positive map parameters required')
+    b=separation/2;T=np.tanh(kappa);hi=w.r0+2*np.pi*w.cycles/abs(w.omega)+4;lo=w.r0-4
     radii=np.unique(np.r_[np.linspace(lo,hi,points),[separation+e for e in (-.01,-1e-4,1e-4,.01) if lo<separation+e<hi]])
     rr,mu=np.meshgrid(radii,np.linspace(-1,1,9),indexing='ij');rr=rr.ravel();mu=mu.ravel()
     other=np.hypot(rr+separation*mu,separation*np.sqrt(1-mu*mu));mask=other>1e-8
@@ -42,7 +43,7 @@ def audit(w,nr,ntheta,separation,stretch,points=513):
     ref=carrier(w,rr);errors=np.array([np.max(abs(observed-ref[:,0]))/2,np.max(abs(dr-ref[:,1]))/np.max(abs(ref[:,1])),np.max(abs(dr2-ref[:,2]))/np.max(abs(ref[:,2]))])
     active=abs(ref[:,0])>.2
     phase=float(np.max(abs(np.angle(observed[active]*np.conj(ref[active,0])))))
-    return dict(n=[nr,ntheta,16],focus_separation=separation,radial_stretch=stretch,query_count=len(rr),excluded_degenerate_points=int(np.sum(~mask)),
+    return dict(n=[nr,ntheta,16],focus_separation=separation,radial_stretch=stretch,angular_stretch=kappa,query_count=len(rr),excluded_degenerate_points=int(np.sum(~mask)),
                 relative_linf=dict(value=float(errors[0]),dr=float(errors[1])),
                 unconstrained_interpolant_dr2_relative_linf=float(errors[2]),phase_max_radians_above_ten_percent=phase,
                 passed=bool(np.max(errors[:2])<1e-3 and phase<1e-3))
@@ -52,7 +53,9 @@ if __name__=='__main__':
     p.add_argument('--grids',nargs='+',default=['160,320,32,.2','768,64,32,.2','384,128,16,1','480,128,16,1','576,128,16,1'])
     a=p.parse_args();d=json.loads(a.study.read_text());w=Wave22(**d['wave22']);rows=[]
     for grid in a.grids:
-        nr,nb,sep,l=map(float,grid.split(','));row=audit(w,int(nr),int(nb),sep,l);rows.append(row);print(row,flush=True)
+        values=list(map(float,grid.split(',')))
+        if len(values) not in (4,5):p.error('grids must be nr,ntheta,separation,radial_stretch[,angular_stretch]')
+        nr,nb,sep,l=values[:4];row=audit(w,int(nr),int(nb),sep,l,kappa=values[4] if len(values)==5 else 2.);rows.append(row);print(row,flush=True)
     result=dict(wave22=w.as_dict(),criteria=dict(value_relative_linf=1e-3,dr_relative_linf=1e-3,core_phase_radians=1e-3),
         definition='Complex carrier interpolated on the actual two-dimensional prolate grid; physical radial derivatives include both map coordinates; nine physical polar rays,513 radii plus one-sided probes around the inactive focus',
         limitations='Carrier value/first-derivative test, not full tensor-coefficient or constraint error bound; excludes only the coordinate-degenerate focus itself and probes both sides. The unconstrained scalar interpolant second derivative is diagnostic only: its tensor-product polynomial does not impose Cartesian focus regularity, while native free-data derivatives are analytic. It is not a bound on native tensor second derivatives; independent physical constraints are required',

@@ -1,0 +1,4 @@
+HiSpID linear it=0 recurrence_relative=1.000000000000026 (true residual checked by controller)
+HiSpID constraint blocks applications=1 vector_iterations=14 scalar_iterations=1 vector_incomplete=0 scalar_incomplete=0 last_vector_relative=0.097943950409627223 last_scalar_relative=0.00069702155313887241 inner_target=0.1 inner_limit=256 restart=96
+HiSpID constraint blocks applications=7 vector_iterations=185 scalar_iterations=30 vector_incomplete=0 scalar_incomplete=0 last_vector_relative=0.094603212485676963 last_scalar_relative=0.094058537305774723 inner_target=0.1 inner_limit=256 restart=96
+constraint-block coupled witness: passed=1 iterations=7 true_relative=2.2919217368808026e-08 field_relative=9.3544467689518342e-07 seconds=5.7408186659449711 focus_separation=1 preconditioner=constraint_block_upper_triangular

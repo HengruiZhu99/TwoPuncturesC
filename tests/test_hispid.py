@@ -187,14 +187,15 @@ else:
         # Resolve its nearest complex pole for every explicitly built map;
         # the physical endpoint/Hessian tolerances remain fixed.
         stretch=self.b.parameterization_maps()['radial_stretch']
-        n=max(40,int(np.ceil(35/(2*np.arctanh(np.sqrt(stretch)))))) if stretch<1 else 40
+        distance=np.sqrt(min(stretch,1/stretch))
+        n=max(40,int(np.ceil(35/(2*np.arctanh(distance))))) if stretch!=1 else 40
         c=self.b.config();c.n[:]=[n,6,4];c.conformal_choice=0
         c.hole[0]=Hole(.6,(3,0,0));c.hole[1]=Hole(.4,(-3,0,0))
         c.far_radius=0;c.omega[:]=[0,0];c.inner_max[:]=[0,0];c.inner_flatten=0
         sigma=.5*(1-np.cos(np.pi*(np.arange(n)+.5)/n));t=stretch*sigma/(1-(1-stretch)*sigma);eta=.01
         values=np.zeros((4,6,n,4));values[0,:,:,0]=-2*eta*t*np.sqrt(4)
         expected=-8*(4*eta/9)/(7/6)**5
-        with self.b.create(c) as s:
+        with self.b.create_sampler(c) as s:
             s.set_unknowns(values.ravel())
             self.assertLess(abs(s.sample([[0,0,0]])['correction'][0,0]),1e-14)
             errors=[]

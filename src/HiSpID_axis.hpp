@@ -37,11 +37,14 @@ struct AxisDerivatives {
  std::vector<double> forward,inverse,inverse_phi,inverse_phi2;
  mutable std::array<std::vector<double>,6> scratch;
  static constexpr double radial_stretch=HISPID_RADIAL_STRETCH,angular_stretch=HISPID_ANGULAR_STRETCH;
- static_assert(radial_stretch>=.001&&radial_stretch<=1,"radial map stretch must be in[.001,1]");
+ // The rational map is monotone for every positive stretch. Values above
+ // one retain an exterior radial scale with a nearby inactive focus.
+ static_assert(radial_stretch>=.001&&radial_stretch<=64,"radial map stretch must be in[.001,64]");
  static_assert(angular_stretch>=.1&&angular_stretch<=6,"angular map stretch must be in[.1,6]");
  static constexpr bool dual_endpoint_map=HISPID_DUAL_ENDPOINT_MAP;
  static_assert(!dual_endpoint_map||radial_stretch<=.5,"dual endpoint slope must be in[.001,.5]");
  static constexpr bool radial_polynomial=HISPID_RADIAL_POLYNOMIAL;
+ static_assert(!radial_polynomial||radial_stretch<=1,"polynomial radial map stretch must be <=1");
  static constexpr int infinity_power=HISPID_INFINITY_POWER;
  static_assert(infinity_power==1||infinity_power==2,"infinity power must be1or2");
  // Positive polynomial density. F is the Beta(15,3) CDF; its

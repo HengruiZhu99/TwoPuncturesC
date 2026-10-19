@@ -1,0 +1,36 @@
+{
+  "status": "algebraic controls passed; no production three-grid or revised horizon validation",
+  "backend": "Kokkos OpenMP, six threads, AppleClang21",
+  "library_sha256": "190cccc9ab3c190c165bab86ec093c3f08eb43e0ee6605c1eb48489b0ee2fdaa",
+  "kernel_checks": 188988,
+  "field_relative": 1.722e-16,
+  "jvp_relative": 1.804e-16,
+  "inverse_relative": 1.049e-16,
+  "balanced_inverse_residual": 4.673e-15,
+  "exact_zero_task_difference": 0.0,
+  "manufactured": {
+    "n": [
+      128,
+      96,
+      4
+    ],
+    "outer_iterations": 7,
+    "vector_iterations": 167,
+    "scalar_iterations": 28,
+    "true_relative": 1.6382842274094804e-08,
+    "correction_values_and_first_derivatives_relative": 2.822311690659258e-08,
+    "linear_solve_seconds": 7.492776083992794,
+    "criteria": {
+      "true_relative": 1e-07,
+      "correction_jet_relative": 0.0001,
+      "outer_maximum": 240
+    }
+  },
+  "source_manifest": "packed-block-v12-source.json",
+  "logs": {
+    "packed-kokkos-kernels.log": "af45223b31ac5f1fd3578734e1adb54befb551e410f1e27d5dbce21183d95fa1",
+    "packed-kokkos-kernels-teamfix.log": "11faad0dba368a812cb4218e5369f9d87407d13ad083f59fce4ef38844417e31",
+    "packed-kokkos-block-teamfix.log": "ae4fff9c7475fcebbd1214a8c9438e479488d603d0dc8e396b33cc4e7831d57f"
+  },
+  "note": "Pre-fix host team-size abort preserved. This CPU timing is not a CPU/GPU comparison or resolved physical solve."
+}

@@ -16,13 +16,36 @@ int main(int argc,char**argv){
  auto a=upload(matrix,"matrix"),b=upload(rhs,"RHS");View x("solution",n);
  Action A=[=](View in,View out){Kokkos::parallel_for("dense A",Range(0,n),KOKKOS_LAMBDA(int i){double sum=0;for(int j=0;j<n;j++)sum+=a(n*i+j)*in(j);out(i)=sum;});};
  Action M=[=](View in,View out){each(out,KOKKOS_LAMBDA(int i){out(i)=in(i)/a(n*i+i);});};
- for(int method=0;method<3;method++)for(int restart:{3,19}){
+ for(int method=0;method<=PK_LGMRES;method++)for(int restart:{3,19}){
   PK_Options o{method,200,restart,1,0,0,1e-11,nullptr,nullptr};PK_Result r{};zero(x);
   CHECK(solve(b,x,o,A,M,r)==PK_SUCCESS);CHECK(r.true_residual<=o.absolute_tolerance);download(x,answer.data());
   double residual=0;for(int i=0;i<n;i++){double d=rhs[i];for(int j=0;j<n;j++)d-=matrix[n*i+j]*answer[j];residual+=d*d;CHECK(std::abs(answer[i]-exact[i])<1e-10);}CHECK(std::sqrt(residual)<=o.absolute_tolerance);
   o.max_iterations=1;o.absolute_tolerance=1e-15;zero(x);CHECK(solve(b,x,o,A,M,r)==PK_LIMIT);CHECK(r.iterations==1);
   Action fail=[](View,View){throw std::runtime_error("manufactured failure");};zero(x);CHECK(solve(b,x,o,A,fail,r)==PK_CALLBACK);
   Action nan=[](View,View out){Kokkos::deep_copy(out,NAN);};zero(x);CHECK(solve(b,x,o,A,nan,r)==PK_NONFINITE);
+ }
+ // Exact retained-search-vector storage: compare the same variable-M
+ // FGMRES/LGMRES solve against device retention, including restart cycles.
+ for(int method:{PK_GMRES,PK_LGMRES})for(int restart:{3,19}){
+  std::vector<double>baseline(n),offloaded(n);PK_Result reference{},retained{};
+  PK_Options options{method,200,restart,1,0,1,1e-11,nullptr,nullptr};
+  int calls=0;Action variable=[&](View in,View out){
+   const double scale=(++calls%2)?1.:.7;
+   each(out,KOKKOS_LAMBDA(int i){out(i)=scale*in(i)/a(n*i+i);});
+  };
+  Puncture_execution_reset_statistics();zero(x);CHECK(solve(b,x,options,A,variable,reference)==PK_SUCCESS);download(x,baseline.data());
+  const auto device_peak=statistics().peak_workspace_bytes;
+  calls=0;Puncture_execution_reset_statistics();zero(x);CHECK(solve(b,x,options,A,variable,retained,nullptr,nullptr,true)==PK_SUCCESS);download(x,offloaded.data());
+  CHECK(reference.iterations==retained.iterations);
+  CHECK(reference.true_residual==retained.true_residual);
+  CHECK(std::memcmp(baseline.data(),offloaded.data(),n*sizeof(double))==0);
+#ifdef KOKKOS_ENABLE_CUDA
+  if constexpr(std::is_same_v<Exec,Kokkos::Cuda>){
+   CHECK(statistics().peak_workspace_bytes<device_peak);
+   CHECK(statistics().device_to_host_bytes>=size_t(retained.iterations)*n*sizeof(double));
+   if(method==PK_GMRES&&restart==19)printf("lossless retained-Z workspace: device %llu versus %llu bytes, host peak %llu bytes\n",statistics().peak_workspace_bytes,device_peak,statistics().kokkos_host_peak_bytes);
+  }
+#endif
  }
  PK_Options valid{PK_GMRES,200,19,1,0,0,1e-11,nullptr,nullptr};PK_Result r{};
  Action identity=[](View in,View out){copy(out,in);};Action empty;
@@ -34,7 +57,7 @@ int main(int argc,char**argv){
   copy(x,b);CHECK(solve(b,x,valid,identity,identity,r)==PK_SUCCESS);CHECK(r.true_residual<=valid.absolute_tolerance);
   if(method==PK_BICGSTAB)CHECK(r.iterations==0); // nonzero initial guess is retained
   for(int bad=0;bad<8;bad++){
-   auto o=valid;switch(bad){case 0:o.method=3;break;case 1:o.max_iterations=0;break;case 2:o.restart=4097;break;case 3:o.verify_true_residual=2;break;case 4:o.legacy_bicgstab=2;break;case 5:o.eager_gmres_basis=2;break;case 6:o.absolute_tolerance=NAN;break;case 7:o.absolute_tolerance=-1;}
+   auto o=valid;switch(bad){case 0:o.method=PK_LGMRES+1;break;case 1:o.max_iterations=0;break;case 2:o.restart=4097;break;case 3:o.verify_true_residual=2;break;case 4:o.legacy_bicgstab=2;break;case 5:o.eager_gmres_basis=2;break;case 6:o.absolute_tolerance=NAN;break;case 7:o.absolute_tolerance=-1;}
    zero(x);CHECK(solve(b,x,o,A,M,r)==PK_INVALID);
   }
   zero(x);CHECK(solve(b,b,valid,A,M,r)==PK_INVALID);

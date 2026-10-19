@@ -1,0 +1,80 @@
+{
+  "status": "CPU and CUDA algebraic qualification passed; physical continuation running, no accepted revised grid",
+  "source_sha256": {
+    "include/PunctureKrylov.h": "3628aaabf040b67c87060b61298071bf1b1122c0caac9fc4cb04f36ce665bad1",
+    "src/PunctureKrylov.c": "e5874579cd6454acf3c6dd4e5cee378f22204a1ce86584ed2ba1f618518d885d",
+    "src/PunctureKrylov_controller.inc": "5f028f6d62e242e6aa6fdd586caeb94c3970165f27c3867b36debda299169212",
+    "src/PunctureKokkos.cpp": "4a8573f4963ef39272cde3698204866193581d10d53f9f2849b5a70efa651520",
+    "src/PunctureKokkos.hpp": "26b3c78fd3cf8853907e044f2f8b52bda7189ee8add95219f2995a707c1b7a40",
+    "src/PunctureKokkos_controller.hpp": "1091768bc99c731004f1b33575a1ffbf414d97dc31f439b2fa26844662af0eaf",
+    "src/HiSpID_solver.cpp": "43f1522521c70e40e3e2a2dffeb67dbc16fbd925e9c39cbc72cbc41cd7df6035",
+    "tests/test_kokkos.cpp": "e6a460cfed8cce2883b5ce8d237791a49f9392623e5793ad96c485f9bc896ba3",
+    "tests/test_krylov.c": "9f4008eee63fe3b63e052339e8cbdd202a8270a2cc1288c221d54074c71b00a8"
+  },
+  "snapshot_overlay_sha256": "bbff5b638d045e66d52a6856003b77bcb00be0ab3e0d53e5df5805ec0b751ab1",
+  "slurm_job": 60008107,
+  "physical": {
+    "chi": 0.9999,
+    "native_linf": 1e-12,
+    "block_relative_l2": 0.1,
+    "outer_relative_l2": 0.1,
+    "levels": [
+      [
+        384,
+        128,
+        16
+      ],
+      [
+        480,
+        160,
+        16
+      ],
+      [
+        576,
+        192,
+        16
+      ]
+    ],
+    "inner_limit": 256,
+    "inner_restart": 256,
+    "outer_restart": 12
+  },
+  "local": {
+    "core_checks": 227,
+    "kokkos_krylov_checks": 241,
+    "coupled_true_relative": 2.2919217368808026e-08,
+    "field_and_gradient_relative": 9.354446768951834e-07,
+    "portable_checkpoint_tests": 3
+  },
+  "retired": {
+    "policy": "fixed-M combined-update recomputation",
+    "status": "cancelled partial pilot",
+    "first_next_block_true_relative": 23350.01237993972,
+    "physical_solution_accepted": false
+  },
+  "note": "Local source header comments added after immutable remote snapshot; numerical source is identical. No threshold or physical formulation change. Full checkpoints retained externally with checksums; no accepted three-grid result yet.",
+  "build_preflight": {
+    "prior_job": 60008078,
+    "status": "compile failed before physical initialization",
+    "cause": "macOS AppleDouble metadata matching CMake C-source glob",
+    "repair": "remove only generated ._* metadata; rebuild identical numerical sources",
+    "source_change": false
+  },
+  "clean_overlay_sha256": "926498e4743bfa9a8570ec827abed03512f779eae5b42ff88602aefdde84ea73",
+  "cuda": {
+    "core_checks": 227,
+    "controller_coordinate_checks": 286329,
+    "retained_variable_preconditioner_bitwise_equal": true,
+    "restart_19_device_workspace_bytes": {
+      "retained": 3648,
+      "resident": 6384
+    },
+    "retained_host_peak_bytes": 2888,
+    "coupled_outer_iterations": 7,
+    "coupled_true_relative": 2.2918980572022355e-08,
+    "coupled_field_and_gradient_relative": 9.354514704593065e-07,
+    "coupled_linear_seconds": 1.2587447139667347,
+    "producer_sha256": "fa97396c525bc8663d2b65d0fa80320a2aa7f68c5dcf8627bcd28fbe32935e54",
+    "two_punctures_sha256": "2849c11d083af8219396df3c9af75dcfad57a36c52c5540e09db25000cdaa705"
+  }
+}

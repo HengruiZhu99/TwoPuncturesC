@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'python'))
 from hispid import Backend
-p=argparse.ArgumentParser();p.add_argument('--library',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();b=Backend(str(a.library.resolve()));assert any(k in b.parameterization() for k in ('inf2_map_v6','poly2_map_v7','beta14_map_v8'))
+p=argparse.ArgumentParser();p.add_argument('--library',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();b=Backend(str(a.library.resolve()));assert any(k in b.parameterization() for k in ('inf2_map_v6','poly2_map_v7','beta14_map_v8','focus_map_v9','focus2_map_v10'))
 c=b.config();c.far_radius=0;c.n[:]=[12,24,16];c.hole[0].center[:]=[3,0,0];c.hole[1].center[:]=[-3,0,0]
 na,nb,np_=c.n;maps=b.parameterization_maps();l=maps['radial_stretch'];kappa=maps['angular_stretch']
 s=(1-np.cos(np.pi*(np.arange(na)+.5)/na))/2;z=-np.cos(np.pi*(np.arange(nb)+.5)/nb)
@@ -27,7 +27,8 @@ def beta_inverse(tt):
 q=l*(1-t)
 if maps.get('radial_kind')=='endpoint_beta14':s_eval=beta_inverse(t)
 elif maps.get('radial_kind')=='quadratic':s_eval=2*t/(l+np.sqrt(l*l+4*(1-l)*t))
-else:s_eval=2*t/(2*t+q+np.sqrt(q*(4*t+q)))
+elif 'inf2_map_v6' in b.parameterization():s_eval=2*t/(2*t+q+np.sqrt(q*(4*t+q)))
+else:s_eval=t/(l+(1-l)*t)
 z_eval=np.arctanh(eta*np.tanh(kappa))/kappa
 P=1e-4*(1+.2*s_eval+.07*z_eval+.03*s_eval*z_eval+.02*s_eval*s_eval)
 expected=-2*(1-t)*(t*(1-eta*eta))**(mode/2)*P*np.sqrt(2/np_)*np.cos(mode*phi)
@@ -41,8 +42,9 @@ def analytic_gamma(points):
  D=(rp+rm+6)/2;tt=1-6/D;ee=(rm-rp)/6
  if maps.get('radial_kind')=='endpoint_beta14':ss=beta_inverse(tt)
  elif maps.get('radial_kind')=='quadratic':ss=2*tt/(l+np.sqrt(l*l+4*(1-l)*tt))
- else:
+ elif 'inf2_map_v6' in b.parameterization():
   qq=l*(1-tt);ss=2*tt/(2*tt+qq+np.sqrt(qq*(4*tt+qq)))
+ else:ss=tt/(l+(1-l)*tt)
  zz=np.arctanh(ee*np.tanh(kappa))/kappa
  PP=1e-4*(1+.2*ss+.07*zz+.03*ss*zz+.02*ss*ss)
  correction=-12*np.sqrt(2/np_)*(Y**3-3*Y*Z*Z)*PP/D**4

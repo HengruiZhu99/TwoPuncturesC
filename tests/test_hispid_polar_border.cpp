@@ -18,9 +18,9 @@ static std::vector<double> barycentric(int n){
 }
 int main(){
  gsl_set_error_handler_off();bool passed=true;
- for(auto dims:{std::pair<int,int>{5,8},{12,24}}){
+ for(bool stream:{false,true})for(auto dims:{std::pair<int,int>{5,8},{12,24}}){
   int a=dims.first,b=dims.second,N=a*b;
-  hispid::ModalBlock B;B.na=a;B.nb=b;
+  hispid::ModalBlock B;B.na=a;B.nb=b;B.stream_polar=stream;
   B.lu.assign(a*a*b,0.);B.transfer.resize(a*a*b);B.lower.assign(N,0.);B.upper.assign(N,0.);B.permutation.resize(N);
   std::vector<double>A(size_t(N)*N,0.);
   for(int j=0;j<b;j++)for(int i=0;i<a;i++){
@@ -49,7 +49,7 @@ int main(){
    std::fill_n(A.data()+size_t(row)*N,N,0.);
    for(int j=0;j<b;j++)A[size_t(row)*N+j*a+i]=endpoint(b,j,side);
   }
-  B.prepare_polar(barycentric(b));
+  B.prepare_polar(barycentric(b));if(B.polar_response.empty()!=stream)return 1;
   std::vector<double>exact(N),rhs(N),solution(4*N*2,0.);
   // Nonzero inhomogeneous boundary data and all nodal frequencies: a zero
   // boundary polynomial alone would miss errors in U and the Schur solve.
@@ -66,7 +66,7 @@ int main(){
   }
   for(int i=0;i<8*N;i++)if(i<4*N||i%4!=2)leak=std::max(leak,std::abs(solution[i]));
   passed&=pivoted&&error<1e-11&&residual<1e-12&&leak==0;
-  std::cout<<a<<"x"<<b<<" pivoted="<<pivoted<<" solution_error="<<std::setprecision(15)<<error<<" scaled_residual="<<residual<<" interleaved_leak="<<leak<<"\n";
+  std::cout<<"stream="<<stream<<" "<<a<<"x"<<b<<" pivoted="<<pivoted<<" solution_error="<<std::setprecision(15)<<error<<" scaled_residual="<<residual<<" interleaved_leak="<<leak<<"\n";
  }
  return passed?0:1;
 }

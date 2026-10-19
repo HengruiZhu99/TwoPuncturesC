@@ -18,6 +18,7 @@ from hispid import Backend,Wave22
 from kerr_wave_case import config,gauge
 from physical import constraints,norms
 from parallel_observer import ParallelObserver
+from execution import statistics as execution_statistics
 from checkpoint_export import read_checkpoint
 
 
@@ -53,7 +54,9 @@ def main():
     p.add_argument('--krylov-restart',type=int,default=100)
     p.add_argument('--krylov',choices=['gmres','lgmres','bicgstab'],default='gmres')
     p.add_argument('--linear-rtol',type=float,default=0.,help='inexact Newton linear tolerance; outer config tolerance stays fixed')
-    p.add_argument('--polar-points',type=int,help='hold polar resolution fixed for a radial-only sequence')
+    polar=p.add_mutually_exclusive_group()
+    polar.add_argument('--polar-points',type=int,help='hold polar resolution fixed for a radial-only sequence')
+    polar.add_argument('--polar-levels',type=int,nargs='+',help='one polar resolution per radial level')
     p.add_argument('--memory-limit-mib',type=int,default=32768)
     p.add_argument('--chi',type=float,default=.9);p.add_argument('--amplitude',type=float,default=.001)
     f=p.add_mutually_exclusive_group();f.add_argument('--omega',type=float);f.add_argument('--frequency-ratio',type=float,help='carrier / (m Omega_H), m=2, mass=1')
@@ -63,6 +66,7 @@ def main():
     a=p.parse_args()
     if not 0<a.chi<1:raise ValueError('positive subextremal spin required')
     if len(a.levels)<1 or any(n<8 for n in a.levels) or any(j<=i for i,j in zip(a.levels,a.levels[1:])):raise ValueError('increasing levels >=8 required')
+    if a.polar_levels is not None and (len(a.polar_levels)!=len(a.levels) or any(n<4 for n in a.polar_levels)):raise ValueError('one valid polar resolution per radial level required')
     threshold=a.chi/(1+np.sqrt(1-a.chi*a.chi))
     omega=a.frequency_ratio*threshold if a.frequency_ratio is not None else (.5 if a.omega is None else a.omega)
     a.output.mkdir(parents=True,exist_ok=False);b=Backend(str(a.library.resolve()))
@@ -70,6 +74,7 @@ def main():
     def case_config(n=8):
         c=config(b,n,a.chi);c.hole[1].center[:]=(0,0,-a.focus_separation)
         if a.polar_points is not None:c.n[1]=a.polar_points
+        if a.polar_levels is not None:c.n[1]=dict(zip(a.levels,a.polar_levels)).get(n,a.polar_levels[0])
         c.memory_limit_mib=a.memory_limit_mib;c.max_krylov=a.max_krylov;c.max_newton=a.max_newton;c.krylov_restart=a.krylov_restart
         return c
     w=Wave22(amplitude=a.amplitude,omega=omega,cycles=a.cycles,r0=a.r0,cutoff_min=2.,cutoff_max=4.)
@@ -81,7 +86,7 @@ def main():
     xyz=(radii[:,None,None]*dirs[None,:,:]).reshape(-1,3)
     steps=np.minimum(.005,.006*np.linalg.norm(xyz,axis=1))
     report=dict(formulation='fixed physical gamma/gdot perturbation, stationary Liu gauge, coupled CTT',
-        chi=a.chi,mass=1.,seed_horizon_radius=horizon_radius,seed_superradiant_threshold=threshold,carrier_threshold_ratio=omega/threshold,multipole_radius=a.multipole_radius,inactive_focus_separation=a.focus_separation,wave22=w.as_dict(),execution=a.execution,geometry='host-long-double',
+        chi=a.chi,mass=1.,polar_levels=a.polar_levels,seed_horizon_radius=horizon_radius,seed_superradiant_threshold=threshold,carrier_threshold_ratio=omega/threshold,multipole_radius=a.multipole_radius,inactive_focus_separation=a.focus_separation,wave22=w.as_dict(),execution=a.execution,geometry='host-long-double',
         library_sha256=b.library_sha256(),parameterization=b.parameterization(),parameterization_maps=b.parameterization_maps(),krylov=a.krylov,max_krylov=a.max_krylov,krylov_restart=a.krylov_restart,max_newton=a.max_newton,linear_rtol=a.linear_rtol,polish_linear_rtol=a.polish_linear_rtol,
         source_sha256={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for f in (Path(__file__),ROOT/'src/HiSpID_free_data.hpp',ROOT/'validation/physical.py',ROOT/'validation/kerr_wave_case.py')},
         observer=dict(xyz=xyz.tolist(),steps=steps.tolist(),order=6,norm='unweighted fixed-point RMS'),levels=[])
@@ -118,7 +123,7 @@ def main():
                 attempts.append(dict(diagnostics=diag,linear_rtol=a.polish_linear_rtol,linear_history=s.linear_history()))
             print('solved',n,diag,flush=True);u=s.unknowns();fields=s.sample(xyz)
             row=dict(n=list(c.n),initial_scaled_linf=initial,initial_checkpoint=initial_metadata if resumed else None,diagnostics=diag,solve_attempts=attempts,total_solve_seconds=sum(v['diagnostics']['seconds'] for v in attempts),setup=s.setup_statistics(),
-                     work=s.work_statistics(),linear_history=s.linear_history())
+                     work=s.work_statistics(),linear_history=s.linear_history(),execution_statistics=execution_statistics(b.lib))
             with ParallelObserver(s,a.threads) as sample:row['physical']=norms(constraints(sample,xyz,steps,6))
             row['multipoles']=multipoles(s,a.multipole_radius,a.threads,a.chi)
             if previous is not None:row['previous_solution_difference']={k:float(np.max(abs(fields[k]-previous[k]))) for k in ('gamma','Kij')}

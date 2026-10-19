@@ -1,0 +1,40 @@
+{
+  "scope": "V12 numerical solver candidate; physical qualification pending; near-hole postprocessor subsequently strengthened",
+  "files": {
+    "CMakeLists.txt": "1116b741e18bb70f76d85071b0618ccf99f2e4af9d1dbe2a7becf5e04f6eafd7",
+    "src/HiSpID_solver.cpp": "14712c493ffeb3f6e1c6ffa829031720d55b3d421686c4df0b6343baca04b295",
+    "src/HiSpID_curved_preconditioner.hpp": "7495b359720f87416ad2650a306e30785ca9cdc4c8e398baa20b5e45e5ecc4ac",
+    "src/HiSpID_modal_block.hpp": "109a15e1b1461a5a7cc8467868ea0c0d37a97fd883f5d45d75f77c7b5749380f",
+    "src/HiSpID_modal_transfer.hpp": "2d33e81b1962f1abcaa7634f775d3d4455928fea05009a4fe6c2ae4c6a0e030b",
+    "src/HiSpID_tau.hpp": "79464a42bacca5c8a87814a06931312a819fccd28c219409cfa6ccc65389779b",
+    "src/PunctureKokkos.cpp": "8f74d5373635ced8d1e0a7f23d84f4eb92c8cfcef0f445d85247f887bc1f0d72",
+    "src/PunctureKokkos.hpp": "49c2662814c53bc15256c87e7a3ce75a779a26e71eada716b97f7c2dc992ecc6",
+    "include/HiSpID.h": "1ca44210c17ceddab1cdf3eea88f12bb1b79ca1a7f3b3b396ab5c6a4105b9a0a",
+    "tests/test_hispid_constraint_block.cpp": "2611b495e94f17faa934a29771a020be11870420d85abd14a2346274fb84661b",
+    "tests/test_hispid_kokkos.cpp": "c901d3fc0f00e3c0a13458c81a891f50efbda875064727ce2c6bc57daff17fd7",
+    "validation/wave22_study.py": "a180b3cb02fa0515e1759bdda719704f5dc6e380b28645e7977cf583facef205",
+    "validation/wave22_near_hole.py": "0287960c74d3b171a87b273b97e9eeeb633f2f6c7b4c13b48b92ecfaeaf212ab",
+    "validation/wave22_physical_radial_audit.py": "d4d34663bc2249c475f1cd1048cbda72289170f17e52addd9086bea9caf3c853"
+  },
+  "physical_formulation": "unchanged Liu chi=.9999 wave22, tolerance1e-12; original true residual confirmation retained",
+  "production_grids": [
+    [
+      384,
+      128,
+      16
+    ],
+    [
+      480,
+      160,
+      16
+    ],
+    [
+      576,
+      192,
+      16
+    ]
+  ],
+  "controls": "separate producer/consumer images and bounded algebraic tests; failures retained",
+  "producer_overlay_sha256": "425fddb209fd7c6ef3f75a059979baebdd443f313e7d4e586f1ddccd0e675c11",
+  "current_postprocessor_sha256": "335949191966f532ab282cf92831808da83026fe12d2a1369a3f9df6a70e9308"
+}

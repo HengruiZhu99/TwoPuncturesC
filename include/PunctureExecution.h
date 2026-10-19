@@ -6,7 +6,9 @@ extern "C" {
 #endif
 /* The historical entry points always default to REFERENCE. KOKKOS denotes
  * the execution space compiled into this image (Serial, OpenMP or CUDA).
- * Linear vectors/operators stay resident. HiSpID also offers an explicit
+ * Operators and Arnoldi vectors stay resident. The opt-in HiSpID constraint
+ * block inverse retains preconditioned CUDA search vectors as lossless host
+ * doubles, staging one vector for each final update. HiSpID also offers an explicit
  * execution-space geometry/cache builder; its historical constructors use
  * host reference geometry setup.
  * No implicit fallback to a different execution space or preconditioner. */

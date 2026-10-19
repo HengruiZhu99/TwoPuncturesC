@@ -1,0 +1,82 @@
+{
+  "wave22": {
+    "propagation": 1,
+    "handedness": 1,
+    "amplitude": 0.001,
+    "omega": 0.9760972454792889,
+    "cycles": 4.0,
+    "r0": 12.0,
+    "time": 0.0,
+    "cutoff_min": 2.0,
+    "cutoff_max": 4.0
+  },
+  "criteria": {
+    "value_relative_linf": 0.001,
+    "dr_relative_linf": 0.001,
+    "core_phase_radians": 0.001
+  },
+  "definition": "Complex carrier interpolated on the actual two-dimensional prolate grid; physical radial derivatives include both map coordinates; nine physical polar rays,513 radii plus one-sided probes around the inactive focus",
+  "limitations": "Carrier value/first-derivative test, not full tensor-coefficient or constraint error bound; excludes only the coordinate-degenerate focus itself and probes both sides. The unconstrained scalar interpolant second derivative is diagnostic only: its tensor-product polynomial does not impose Cartesian focus regularity, while native free-data derivatives are analytic. It is not a bound on native tensor second derivatives; independent physical constraints are required",
+  "driver_sha256": "d4d34663bc2249c475f1cd1048cbda72289170f17e52addd9086bea9caf3c853",
+  "study_sha256": "7f26c132a6aa220213c464f5665293c7b07f8f03cedd6a9d6bb0a9c9958457f6",
+  "rows": [
+    {
+      "n": [
+        256,
+        256,
+        16
+      ],
+      "focus_separation": 64.0,
+      "radial_stretch": 0.25,
+      "angular_stretch": 3.0,
+      "query_count": 4617,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 0.03837264040958158,
+        "dr": 0.10384711253386382
+      },
+      "unconstrained_interpolant_dr2_relative_linf": 0.24462469792858937,
+      "phase_max_radians_above_ten_percent": 0.2425485391315343,
+      "passed": false
+    },
+    {
+      "n": [
+        288,
+        320,
+        16
+      ],
+      "focus_separation": 64.0,
+      "radial_stretch": 0.25,
+      "angular_stretch": 3.0,
+      "query_count": 4617,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 0.014928737271901688,
+        "dr": 0.044685230247372816
+      },
+      "unconstrained_interpolant_dr2_relative_linf": 0.12462103135541347,
+      "phase_max_radians_above_ten_percent": 0.05119897392516853,
+      "passed": false
+    },
+    {
+      "n": [
+        320,
+        384,
+        16
+      ],
+      "focus_separation": 64.0,
+      "radial_stretch": 0.25,
+      "angular_stretch": 3.0,
+      "query_count": 4617,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 0.006807258631621586,
+        "dr": 0.02783880761173398
+      },
+      "unconstrained_interpolant_dr2_relative_linf": 0.08320964342131411,
+      "phase_max_radians_above_ten_percent": 0.0376834365926991,
+      "passed": false
+    }
+  ],
+  "passed": false
+}

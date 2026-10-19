@@ -4,9 +4,14 @@
 #include "HiSpID_modal_probe.hpp"
 #include "HiSpID_focus.hpp"
 #include <cmath>
+#ifndef HISPID_STREAM_POLAR_PRECONDITIONER
+#define HISPID_STREAM_POLAR_PRECONDITIONER 0
+#endif
 namespace hispid {
 struct ModalBlock {
  int na=0,nb=0;
+ bool banded_coupling=false;
+ bool stream_polar=HISPID_STREAM_POLAR_PRECONDITIONER;
  std::vector<double>polar_endpoint,focus_endpoint,focus_response,focus_inverse;
  std::vector<double>lu,transfer,lower,upper;
  std::vector<size_t>permutation;
@@ -18,14 +23,18 @@ struct ModalBlock {
   std::vector<double>rhs(na);int sign=0;
   for(int j=0;j<nb;j++){
    double*block=lu.data()+j*na*na;
-   if(j)for(int i=0;i<na;i++)for(int q=0;q<na;q++)
-    block[i*na+q]-=lower[j*na+i]*transfer[((j-1)*na+i)*na+q];
+   if(j){for(int i=0;i<na;i++)for(int q=0;q<na;q++){
+    if(banded_coupling){
+     for(int k=std::max(0,i-1);k<=std::min(na-1,i+1);k++)block[i*na+q]-=lower[3*(j*na+i)+k-i+1]*transfer[((j-1)*na+k)*na+q];
+    }else block[i*na+q]-=lower[j*na+i]*transfer[((j-1)*na+i)*na+q];
+   }}
    auto A=gsl_matrix_view_array(block,na,na);
    gsl_permutation p{size_t(na),permutation.data()+j*na};gsl_permutation_init(&p);
    if(gsl_linalg_LU_decomp(&A.matrix,&p,&sign))throw std::runtime_error("Modal block factorization failed");
    for(int i=0;i<na;i++)if(!std::isfinite(block[i*na+i])||std::abs(block[i*na+i])<1e-30)
     throw std::runtime_error("Modal block singular pivot");
-   if(j+1<nb)hispid::modal_transfer(&A.matrix,&p,upper.data()+j*na,
+   if(j+1<nb&&banded_coupling)hispid::modal_banded_transfer(&A.matrix,&p,upper.data()+3*j*na,transfer.data()+j*na*na);
+   else if(j+1<nb)hispid::modal_transfer(&A.matrix,&p,upper.data()+j*na,
        transfer.data()+j*na*na,bool(HISPID_BATCHED_MODAL_TRANSFER),rhs);
   }
   if(!polar_endpoint.empty())prepare_polar(polar_endpoint);
@@ -38,8 +47,11 @@ struct ModalBlock {
   std::vector<double>permuted(size_t(na)*columns);
   for(int j=0;j<nb;j++){
    double*row=x+size_t(j)*na*columns;
-   if(j)for(int i=0;i<na;i++)for(int k=0;k<columns;k++)
-    row[i*columns+k]-=lower[j*na+i]*row[(i-na)*columns+k];
+   if(j){for(int i=0;i<na;i++)for(int k=0;k<columns;k++){
+    if(banded_coupling){
+     for(int q=std::max(0,i-1);q<=std::min(na-1,i+1);q++)row[i*columns+k]-=lower[3*(j*na+i)+q-i+1]*row[(q-na)*columns+k];
+    }else row[i*columns+k]-=lower[j*na+i]*row[(i-na)*columns+k];
+   }}
    for(int i=0;i<na;i++)std::copy_n(row+permutation[j*na+i]*columns,columns,
                                   permuted.data()+i*columns);
    std::copy(permuted.begin(),permuted.end(),row);
@@ -93,15 +105,31 @@ struct ModalBlock {
    polar_delta[side*nb+j]-=(z1-end)/(z1-z0);
    polar_delta[side*nb+next]-=(end-z0)/(z1-z0);
   }
-  polar_response.assign(N*rank,0.);
-  for(int side=0;side<2;side++)for(int i=0;i<na;i++)
-   polar_response[(size_t(side?nb-1:0)*na+i)*rank+side*na+i]=1.;
-  solve_many(polar_response.data(),rank);
   std::vector<double>schur(size_t(rank)*rank,0.);
-  for(int side=0;side<2;side++)for(int i=0;i<na;i++)for(int k=0;k<rank;k++){
-   double value=(side*na+i==k)?1.:0.;
-   for(int j=0;j<nb;j++)value+=polar_delta[side*nb+j]*polar_response[(size_t(j)*na+i)*rank+k];
-   schur[(side*na+i)*rank+k]=value;
+  if(stream_polar){
+   // Form the small Schur matrix in bounded batches; discard each response
+   // batch after its boundary moments have been accumulated.
+   polar_response.clear();
+   for(int first=0;first<rank;first+=32){
+    const int columns=std::min(32,rank-first);std::vector<double>response(N*columns,0.);
+    for(int k=0;k<columns;k++){int q=first+k,side=q/na,i=q%na;response[(size_t(side?nb-1:0)*na+i)*columns+k]=1.;}
+    solve_many(response.data(),columns);
+    for(int side=0;side<2;side++)for(int i=0;i<na;i++)for(int k=0;k<columns;k++){
+     double value=(side*na+i==first+k)?1.:0.;
+     for(int j=0;j<nb;j++)value+=polar_delta[side*nb+j]*response[(size_t(j)*na+i)*columns+k];
+     schur[(side*na+i)*rank+first+k]=value;
+    }
+   }
+  }else{
+   polar_response.assign(N*rank,0.);
+   for(int side=0;side<2;side++)for(int i=0;i<na;i++)
+    polar_response[(size_t(side?nb-1:0)*na+i)*rank+side*na+i]=1.;
+   solve_many(polar_response.data(),rank);
+   for(int side=0;side<2;side++)for(int i=0;i<na;i++)for(int k=0;k<rank;k++){
+    double value=(side*na+i==k)?1.:0.;
+    for(int j=0;j<nb;j++)value+=polar_delta[side*nb+j]*polar_response[(size_t(j)*na+i)*rank+k];
+    schur[(side*na+i)*rank+k]=value;
+   }
   }
   auto S=gsl_matrix_view_array(schur.data(),rank,rank);
   std::vector<size_t>pivots(rank);gsl_permutation p{size_t(rank),pivots.data()};
@@ -119,7 +147,12 @@ struct ModalBlock {
   for(int side=0;side<2;side++)for(int i=0;i<na;i++)for(int j=0;j<nb;j++)
    g[side*na+i]+=polar_delta[side*nb+j]*x[j*na+i];
   for(int i=0;i<rank;i++)for(int k=0;k<rank;k++)z[i]+=polar_inverse[i*rank+k]*g[k];
-  for(size_t row=0;row<size_t(na)*nb;row++){
+  if(stream_polar){
+   std::vector<double>correction(size_t(na)*nb,0.);
+   for(int side=0;side<2;side++)for(int i=0;i<na;i++)correction[(side?nb-1:0)*na+i]=z[side*na+i];
+   solve_many(correction.data(),1);
+   for(size_t row=0;row<correction.size();row++)x[row]-=correction[row];
+  }else for(size_t row=0;row<size_t(na)*nb;row++){
    double correction=0;for(int k=0;k<rank;k++)correction+=polar_response[row*rank+k]*z[k];
    x[row]-=correction;
   }
@@ -128,7 +161,11 @@ struct ModalBlock {
   double boundary[focus_rank];for(int q=0;q<focus_rank;q++)boundary[q]=x[4*(focus_row(q,na,nb)+na*nb*mode)+component];
   std::vector<double>f(na*nb);
   for(int j=0;j<nb;j++){
-   for(int i=0;i<na;i++)f[j*na+i]=x[4*(i+na*(j+nb*mode))+component]-(j?lower[j*na+i]*f[(j-1)*na+i]:0);
+   for(int i=0;i<na;i++){
+    f[j*na+i]=x[4*(i+na*(j+nb*mode))+component];
+    if(j){if(banded_coupling){for(int q=std::max(0,i-1);q<=std::min(na-1,i+1);q++)f[j*na+i]-=lower[3*(j*na+i)+q-i+1]*f[(j-1)*na+q];}
+     else f[j*na+i]-=lower[j*na+i]*f[(j-1)*na+i];}
+   }
    auto A=gsl_matrix_const_view_array(lu.data()+j*na*na,na,na);
    gsl_permutation p{size_t(na),const_cast<size_t*>(permutation.data()+j*na)};
    auto y=gsl_vector_view_array(f.data()+j*na,na);

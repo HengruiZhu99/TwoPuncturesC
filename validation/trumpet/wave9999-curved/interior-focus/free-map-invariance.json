@@ -1,0 +1,99 @@
+{
+  "definition": "Raw numerical free-data sampler differences, separate library processes; no elliptic or physical acceptance gate is changed. Same active hole and wave, only mass-zero focus and numerical maps differ.",
+  "old": {
+    "library_sha256": "5732d9b644ae9faf91d5b81f2801a0559f33c1e335f3d25523bd5aa2d2af1880",
+    "maps": {
+      "radial_stretch": 0.2,
+      "angular_stretch": 2.0
+    },
+    "points": 505
+  },
+  "new": {
+    "library_sha256": "5bd31965bd591bc965ff1e04da03f560fc830737e1d8d7f55f3d3fe5c4e9bbf7",
+    "maps": {
+      "radial_stretch": 16.0,
+      "angular_stretch": 0.3
+    },
+    "points": 505
+  },
+  "errors": {
+    "all": {
+      "gamma": {
+        "scaled_linf": 1.7569936261723835e-14,
+        "xyz": [
+          0.02307850332517694,
+          0.009559429076560861,
+          0.076
+        ]
+      },
+      "Kij": {
+        "scaled_linf": 5.400124791775073e-13,
+        "xyz": [
+          0.19770735370658307,
+          0.08189306728616132,
+          0.16049767319434124
+        ]
+      },
+      "dgamma": {
+        "scaled_linf": 3.74688033298477e-11,
+        "xyz": [
+          0.0676149638638718,
+          0.028007035051782432,
+          0.05488943213198017
+        ]
+      }
+    },
+    "transition": {
+      "gamma": {
+        "scaled_linf": 1.619118543381926e-14,
+        "xyz": [
+          0.028848129156471176,
+          0.011949286345701075,
+          0.095
+        ]
+      },
+      "Kij": {
+        "scaled_linf": 1.9895196601279415e-13,
+        "xyz": [
+          0.1478207252018059,
+          0.061229349178414376,
+          -0.12
+        ]
+      },
+      "dgamma": {
+        "scaled_linf": 2.7578877922561843e-12,
+        "xyz": [
+          0.03690403827484179,
+          0.015286153159775266,
+          -0.12152897739379173
+        ]
+      }
+    },
+    "exterior": {
+      "gamma": {
+        "scaled_linf": 1.706492901378383e-14,
+        "xyz": [
+          0.07716762676039098,
+          0.03196387758029893,
+          0.2541213158910403
+        ]
+      },
+      "Kij": {
+        "scaled_linf": 5.400124791775073e-13,
+        "xyz": [
+          0.19770735370658307,
+          0.08189306728616132,
+          0.16049767319434124
+        ]
+      },
+      "dgamma": {
+        "scaled_linf": 6.837361947524716e-13,
+        "xyz": [
+          0.18488389117163992,
+          0.0765814151876046,
+          0.15008766132291812
+        ]
+      }
+    }
+  }
+}

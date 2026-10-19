@@ -36,7 +36,37 @@ static double length(const double*a,int n){return sqrt(dot(a,a,n));}
 static double inner(const PK_Options*,const double*a,const double*b,int n){return dot(a,b,n);}
 static double norm(const PK_Options*,const double*a,int n){return length(a,n);}
 static int finite_vector(const double*a,int n){int bad=0;Kokkos::parallel_reduce("Krylov finite",Range(0,n),KOKKOS_LAMBDA(int i,int&v){v+=!Kokkos::isfinite(a[i]);},bad);return bad==0;}
-struct Context {const Action&A;const Action&M;int n;};
+struct Context {const Action&A;const Action&M;int n;bool retain_on_host;};
+// CUDA search vectors are copied losslessly to host storage after A has
+// consumed them. One device staging vector is reused for final accumulation.
+// Pageable host storage avoids locking a large fraction of node memory.
+static int retained_basis_on_host(void*c){
+#ifdef KOKKOS_ENABLE_CUDA
+ if constexpr(std::is_same_v<Exec,Kokkos::Cuda>)return static_cast<Context*>(c)->retain_on_host;
+#endif
+ return 0;
+}
+static double*retained_bank(size_t n,void*c){
+ if(!retained_basis_on_host(c))return vector_bank(n);
+ if(n>SIZE_MAX/sizeof(double))return nullptr;
+ try{return static_cast<double*>(Kokkos::kokkos_malloc<Kokkos::HostSpace>("retained search basis",n*sizeof(double)));}catch(...){return nullptr;}
+}
+static void retained_free(double*v,void*c){
+ if(!retained_basis_on_host(c)){vector_free(v);return;}
+ if(v)Kokkos::kokkos_free<Kokkos::HostSpace>(v);
+}
+static void retained_store(double*out,const double*in,int n,void*c){
+ if(!retained_basis_on_host(c)){vector_copy(out,in,n);return;}
+ Timed timer(statistics().transfer_seconds);
+ Kokkos::deep_copy(HostOut(out,n),View(const_cast<double*>(in),n));
+ statistics().device_to_host_bytes+=size_t(n)*sizeof(double);
+}
+static void retained_load(double*out,const double*in,int n,void*c){
+ if(!retained_basis_on_host(c)){vector_copy(out,in,n);return;}
+ Timed timer(statistics().transfer_seconds);
+ Kokkos::deep_copy(View(out,n),Host(in,n));
+ statistics().host_to_device_bytes+=size_t(n)*sizeof(double);
+}
 static int apply_A(void*c,const double*b,double*x){auto&s=*static_cast<Context*>(c);try{s.A(View(const_cast<double*>(b),s.n),View(x,s.n));return 0;}catch(...){return -1;}}
 static int apply_M(void*c,const double*b,double*x){auto&s=*static_cast<Context*>(c);try{s.M(View(const_cast<double*>(b),s.n),View(x,s.n));return 0;}catch(...){return -1;}}
 static int action(PK_Apply f,void*c,const double*b,double*x,int n,int*count){

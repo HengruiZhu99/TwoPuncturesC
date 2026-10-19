@@ -1149,6 +1149,227 @@ This identifies a near-hole target for further operator/regularity diagnosis;
 it is not a physical-constraint bound or proof of the cause. The independently
 computed Fourier norm agrees with the nodal norm to $5.8\,10^{-15}$ relative.
 
+\subsection{Curved modal approximate inverse}
+The scalar average of the inverse metric in the original modal inverse
+does not retain the anisotropy of the actual flattened correction operator.
+For the fixed isolated Liu case, equatorial probes at radii $0.2939671M_0$
+and $0.17451721M_0$ have mixed radial--polar principal coefficients equal
+to 0.936 and 0.831 times twice the geometric mean of their two diagonal
+coefficients. Dropping that mixed term is therefore a substantial
+approximation in the two regions identified by the residual localization.
+This is an operator diagnostic, not proof that it is the only source of
+the failed physical convergence.
+
+The first curved modal prototype retains the real, azimuthally averaged
+diagonal Fourier symbol of the cached correction operators, including
+mixed meridional derivatives and lower-order terms. Its vector symbol
+uses the average of its three component-diagonal operators; the exact
+Jacobian still supplies all component and Fourier couplings. A nine-point
+finite-difference stencil stores three radial bands between neighboring
+polar blocks. This adds storage linear in the meridional node count,
+rather than adding dense off-diagonal blocks. Background symbols are
+cached across Newton steps. Cartesian harmonic polynomials evaluate the
+regular Fourier factors without separately cancelling singular radial
+and azimuthal terms near the axis. None of these changes modifies the
+free data, attenuation, spectral residual, Jacobian, boundary rows or
+nonlinear stopping criterion.
+
+The independent flat-space symbol check, including production-size
+endpoint spacings, has maximum scaled error $1.67\,10^{-11}$ on the CPU
+and $1.59\,10^{-11}$ in the CUDA build. A full-matrix witness checks
+the banded block inverse to $1.3\,10^{-15}$. The CUDA inverse agrees
+with the independent CPU path to $3.2\,10^{-13}$, with manufactured
+inverse residual $5.8\,10^{-15}$; the Bowen--York GPU regression also
+passes. At the bounded $32\times64\times16$ algebraic control, both
+old and new inverses reach the unchanged $10^{-12}$ nonlinear tolerance
+with relative linear target 0.1. Krylov iterations decrease from 111
+to 52, and solve time from 11.46 to 7.10 seconds in the single-thread
+CPU reference. Residuals and Jacobian actions are bitwise identical
+between these two images; maximum sampled final metric and extrinsic
+curvature differences are $1.1\,10^{-11}$ and $8.8\,10^{-11}$.
+This coarse control does not resolve or qualify the wave packet.
+
+The final mixed stencil equilibrates its rows by
+$D=b^2(\sinh^2X+\sin^2R)$ and compensates this factor in its right-hand-side
+scaling. The exact polar endpoint correction remains enabled. An implicit
+Schur implementation forms the same small matrix in batches of 32 response
+columns, then applies the correction through a second base inverse rather
+than retaining its dense response bank. Independent inhomogeneous full-matrix
+witnesses on $5\times8$ and $12\times24$ grids agree to
+$6.8\,10^{-15}$ in both stored and implicit paths. At the proposed
+$576\times192\times16$ grid, the eliminated response banks alone would
+occupy 7.59\,GiB on each of the host and device. This is an algebraic storage
+count, not a measured reduction in total peak memory. The native radial
+extent cap is raised to 1,024 and the explicit aggregate budget cap to
+128\,GiB; allocation and available-device-memory checks remain active.
+The actual AthenaK C++ reader and CPU sampler accept a $576\times8\times4$
+analytic Liu checkpoint and reject over-limit extents and budgets. This
+small consumer control is not a horizon measurement.
+
+At the production $384\times128\times16$ grid, low-mode finite-difference
+factor witnesses have forward maximum error below $9.0\,10^{-13}$, and
+the dominant inverse actions agree between CPU and CUDA to approximately
+$10^{-14}$ relative. Nevertheless, the equilibrated mixed inverse with
+implicit exact polar correction stalls at original-system relative
+residual 0.643 after 2,000 GMRES steps, taking 225.43 seconds in the inner
+solve sequence. No Newton update is accepted. The native scaled maximum
+remains $2.05\,10^{-10}$, above $10^{-12}$. Thus this inverse is numerically
+accurate but insufficient as a production preconditioner; these checks do
+not establish that the spectral equations themselves are free of
+conditioning or regularity problems.
+
+A coarse-grid hierarchy did not establish a useful production inverse.
+The first two-level version fails the physical inner target at relative
+residual 0.870 after 600 steps. Fourier-aware transfers pass an independent
+polynomial/mode oracle at $9.4\,10^{-16}$, but its coupled manufactured
+solve stops at $2.31\,10^{-7}$ against a $10^{-7}$ target after 240 outer
+steps. A deeper hierarchy is cancelled after 100 steps at residual 0.0061,
+with substantially larger cost. The latter two failed qualification trials
+do not start physical studies. Their source and traces are retained under
+\path{validation/trumpet/wave9999-curved/}; the hierarchy is not included
+in the production path.
+
+\subsection{Constraint-block inverse}
+The stationary near-hole region has $K=0$ and $\nabla K=0$. Thus the
+momentum Jacobian is independent of the scalar correction there, while the
+Hamiltonian retains its coupling to the vector correction. For the frozen
+fine-grid Jacobian,
+\begin{equation}
+\mathcal J=\begin{pmatrix}H_u&H_b\\M_u&M_b\end{pmatrix},
+\end{equation}
+the new opt-in inverse computes
+\begin{equation}
+z_b\simeq M_b^{-1}r_M,\qquad
+z_u\simeq H_u^{-1}(r_H-H_bz_b).
+\end{equation}
+Both block actions and the coupling $H_bz_b$ use the complete fine-grid
+Jacobian. The first approximate vector factors use $10/9$ times the curved
+scalar Laplacian, retaining the exact mean principal symbol while leaving
+the full connection/component couplings to the inner vector solve.
+The first block candidate uses inner GMRES with relative target 0.1,
+restart 12 and maximum 64 steps.
+An incomplete finite inner action is only an approximate preconditioner;
+the original full coupled relative-$L^2$ target 0.1 and native scaled
+maximum $10^{-12}$ remain the stopping gates. The outer GMRES retains
+all preconditioned directions for this variable block inverse.
+
+The same $128\times96\times4$ coupled manufactured correction passes
+without changing its 240-step budget, $10^{-7}$ true-residual criterion
+or $10^{-4}$ bound on correction values and first derivatives: it reaches
+true relative residual $7.35\,10^{-8}$ and relative correction-jet error
+$7.20\,10^{-7}$. Its 9 outer steps include 439 vector and 41 scalar
+inner steps; outer counts alone do not measure cost. The current scalar
+and vector-principal flat-symbol controls have scaled maxima
+$8.76\,10^{-12}$ in the local build and $7.71\,10^{-12}$ in the
+Perlmutter CUDA build's host-side symbol oracle. Actual execution-space
+fields, Jacobian actions and inverse actions are checked separately.
+This is an algebraic qualification, not a resolved physical packet result.
+
+Its physical continuation is cancelled after 100 outer steps at relative
+residual 0.858 without an accepted Newton update; it is not a completed
+300-step trial. The next candidate stores only the active block components
+and omits modal inverse tasks whose entire right-hand side is exactly zero.
+It raises the inner restart to 96 and maximum to 256 while retaining the
+same inner, outer and native targets. Setup and Krylov storage peaks are
+bounded separately, retaining the available-device-memory guard. This
+candidate passes the same manufactured criterion on six-thread Kokkos
+OpenMP in 7 outer, 167 vector-inner and 28 scalar-inner steps. Its true
+relative residual is $1.64\,10^{-8}$ and correction-jet error is
+$2.82\,10^{-8}$. The kernel control also passes, including exact agreement
+for the zero-right-hand-side fast path. This local check exposed and fixed
+GPU-sized focus teams that previously aborted on a small OpenMP pool;
+device teams retain their existing size. These are algebraic controls.
+The candidate has not yet qualified the physical three-grid sequence.
+
+\subsection{Inactive focus in the wave-free region}
+The old mass-zero coordinate focus at $z=-16$ lies inside the packet.
+A further numerical-map candidate moves this inactive focus to $z=-1$,
+inside the unperturbed cutoff region, and uses radial stretch $\lambda=16$
+and polar stretch 0.3. The active hole, free metric/time derivative,
+interior transition, equations and tolerance values are unchanged. The
+rational map
+\begin{equation}
+t=\frac{\lambda\sigma}{1+(\lambda-1)\sigma}
+\end{equation}
+is monotone for positive $\lambda$ and retains its original endpoint
+orders. Separation times radial stretch remains 16, preserving the
+exterior radial scale. The native scaling formula is unchanged, but its
+spatial weights at fixed physical points change with the map; native
+residual values across the two maps are not a physical-error comparison.
+
+At $576\times192\times16$, the carrier audit passes with relative
+value error $5.33\,10^{-5}$, radial-derivative error $3.84\,10^{-4}$
+and phase error $3.41\,10^{-4}$ radians. The public sampler's independent
+manufactured value/complex-step gradient control passes with errors
+$4.24\,10^{-21}$ and $3.89\,10^{-16}$. Separate-process zero-correction
+samplers give scaled free-data differences below $1.76\,10^{-14}$ in
+the metric and $5.41\,10^{-13}$ in extrinsic curvature. The metric-gradient
+difference is $3.75\,10^{-11}$ over all sampled points and
+$6.84\,10^{-13}$ outside the modified interior; these raw differences
+are retained without subtraction from subsequent constraint errors.
+The same coupled manufactured block criterion passes on OpenMP in
+7 outer steps. This is a qualified numerical-map candidate, not yet a
+resolved physical solution or a demonstrated explanation of the stall.
+
+The later vector solve remains expensive. With this map, five full Newton
+updates are accepted, but a later linear step stalls; the native target
+is not reached. A separate retained checkpoint after three updates has
+native scaled maximum $1.15\,10^{-8}$, and independent 54-point
+Hamiltonian/momentum RMS values $2.66\,10^{-9}$ and $2.43\,10^{-8}$.
+It is explicitly diagnostic. The Python checkpoint decoder's old budget
+limit initially rejects its valid 98,304\,MiB native configuration; the
+decoder is corrected to the native limits and tested at $576\times4\times4$.
+This interchange failure is separate from physical convergence.
+
+\subsection{Axial vector sector and Krylov storage}
+In Cartesian Fourier mode $m=1$, an axial rotation has components
+$(0,-\operatorname{Im}f,\operatorname{Re}f)$. The approximate inverse now
+projects the complete cached vector operator onto this sector, retaining
+its cross-component connection and curvature terms. Other vector modes
+retain the mean principal symbol. The full fine-grid equations are
+unchanged. At four stationary Kerr points outside the modified interior,
+the axial Killing identity has scaled defect $2.41\,10^{-15}$ locally
+and $9.50\,10^{-15}$ in the Perlmutter build, versus 0.925 for the
+scalar-only symbol. These are local algebraic controls, not proof of the
+cause or a completed convergence fix. The CUDA kernel comparison passes
+with inverse-action difference $3.99\,10^{-13}$ relative.
+
+A trial that stores only the Arnoldi basis and recomputes the inverse
+on a combined update passes the small algebraic controls, but develops
+a severe recurrence/true-residual gap in the physical continuation.
+The first resumed Newton update is accepted; in the next step the first
+256-step vector action has true relative residual $2.34\,10^4$.
+The continuation is cancelled before its 40-step outer budget is exhausted;
+it is not a completed failure at that budget. This recombination policy
+is retired from the source rather than used to claim a convergence fix.
+
+The next storage candidate retains every preconditioned direction as
+ordinary host doubles and copies it back through one device staging vector
+for the final flexible-GMRES update. Thus it retains the original update
+arithmetic while permitting inner restart 256 within the GPU memory limit.
+The Arnoldi basis, differential operators, approximate inverse and original
+true-residual checks still execute on the GPU. Host backends retain both
+bases normally. The aggregate budget accounts for the host basis; GPU
+and transfer costs are reported separately. The three existing method IDs
+and public option layout are unchanged. Local manufactured controls pass,
+including identical solution values, iteration counts and true residuals
+for normal and host retention with a variable approximate inverse on CUDA.
+The same restart-19 control uses 3,648 versus 6,384 bytes of GPU Krylov
+workspace, with 2,888 bytes retained on the host. This moves storage and
+adds a staging vector; it does not reduce total RAM by the GPU savings.
+The unchanged coupled manufactured criterion passes in 7 outer steps,
+with true relative residual $2.29\,10^{-8}$ and correction-jet error
+$9.35\,10^{-7}$. The physical continuation remains unqualified.
+No physical tolerance is relaxed.
+
+An earlier curved trial that retained only unmixed meridional derivatives
+still failed at $384\times128\times16$: after 1,200 GMRES iterations
+its original-system relative residual was 0.830, above its unchanged
+target 0.1, and no Newton update was accepted. Thus coarse acceleration
+alone does not establish the production-grid fix. Evidence for the
+curved inverse is recorded separately under
+\path{validation/trumpet/wave9999-curved/}.
+
 The three planned revised grids therefore have only carrier-audit results;
 they are not a completed three-resolution elliptic convergence sequence.
 No revised finest checkpoint is promoted to AthenaK, and no new horizon

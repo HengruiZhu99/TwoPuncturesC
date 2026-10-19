@@ -1,0 +1,24 @@
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=0 residual_l2=0.00041020884930325404 step_linf=0.32054667951457733 linear_relative=0.076785282537003688 slope=-0.99410402038575862
+HiSpID Newton trial it=0 damping=1 residual_ratio=0.076785282543074734 directional_remainder=3.4754316181058172e-06 min_psi=1.0000126372704665 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=1 residual_l2=3.1498002395419924e-05 step_linf=0.26496248254115867 linear_relative=0.074432885647985683 slope=-0.99445974553410654
+HiSpID Newton trial it=1 damping=1 residual_ratio=0.0744328856441967 directional_remainder=2.4321690721902915e-07 min_psi=1.0000126372662259 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=2 residual_l2=2.344487210318925e-06 step_linf=0.029319560309243063 linear_relative=0.084408978024127723 slope=-0.99287512442892079
+HiSpID Newton trial it=2 damping=1 residual_ratio=0.084408978024842055 directional_remainder=1.3075841229299659e-08 min_psi=1.0000126372663962 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=3 residual_l2=1.9789576941533339e-07 step_linf=0.026455337314700952 linear_relative=0.095594765123901512 slope=-0.99086164088088236
+HiSpID Newton trial it=3 damping=1 residual_ratio=0.095594765124234149 directional_remainder=8.2332951668296536e-09 min_psi=1.0000126372664002 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=4 residual_l2=1.8917799596338396e-08 step_linf=0.0061372940698140232 linear_relative=0.095931703081596223 slope=-0.99079710834384527
+HiSpID Newton trial it=4 damping=1 residual_ratio=0.095931703088443482 directional_remainder=6.7924054745318715e-09 min_psi=1.0000126372664002 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=5 residual_l2=1.8148167339626111e-09 step_linf=0.0011360053043657288 linear_relative=0.09367891122790592 slope=-0.99122426159115151
+HiSpID Newton trial it=5 damping=1 residual_ratio=0.093678911243829086 directional_remainder=6.6914837859100631e-08 min_psi=1.0000126372664002 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=6 residual_l2=1.7001005574469923e-10 step_linf=0.00010574019425964682 linear_relative=0.085819868802491914 slope=-0.99263495011874614
+HiSpID Newton trial it=6 damping=1 residual_ratio=0.085819871918489193 directional_remainder=7.5971053513695305e-07 min_psi=1.0000126372664002 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1 (true residual checked by controller)
+HiSpID Newton trace it=7 residual_l2=1.4590241208865297e-11 step_linf=1.7992098714639371e-06 linear_relative=0.092422157605099531 slope=-0.99145814478361505
+HiSpID Newton trial it=7 damping=1 residual_ratio=0.092422187719477633 directional_remainder=7.4356296044795204e-06 min_psi=1.0000126372664002 nonfinite=0

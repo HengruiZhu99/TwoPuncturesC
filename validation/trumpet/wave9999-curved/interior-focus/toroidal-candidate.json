@@ -1,0 +1,22 @@
+{
+  "status": "toroidal m=1 approximate inverse candidate; physical validation pending",
+  "curvature_identity_scaled_error": 2.4063497419408153e-15,
+  "discarded_scalar_symbol_identity_defect": 0.925346580973243,
+  "unchanged_test_criteria": {
+    "flat_symbol": 1e-09,
+    "full_matrix_inverse": 1e-12,
+    "coupled_true_relative": 1e-07,
+    "coupled_correction_jet": 0.0001,
+    "outer_limit": 240
+  },
+  "openmp_manufactured": {
+    "outer_iterations": 7,
+    "vector_inner": 185,
+    "scalar_inner": 30,
+    "true_relative": 2.2919217368808026e-08,
+    "correction_jet_relative": 9.354446768951834e-07,
+    "seconds": 5.740818665944971
+  },
+  "producer_overlay_sha256": "eed94c7de36878bab6c7486f48e2b8140e7e9300d000674c9bde94f8ab6599c8",
+  "note": "Changes only the curved modal approximate inverse in Cartesian m=1; complete fine equations, norms, maps, physical data and tolerances unchanged from V13. A local Killing identity is not proof of resolved physical convergence."
+}

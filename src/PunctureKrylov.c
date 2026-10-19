@@ -30,6 +30,12 @@ static void vector_copy(double*p,const double*r,int n){for(int j=0;j<n;j++)p[j]=
 static void vector_search(double*p,const double*r,const double*v,double beta,double omega,int n){for(int j=0;j<n;j++)p[j]=r[j]+beta*(p[j]-omega*v[j]);}
 static void vector_step(double*s,const double*r,const double*v,double alpha,int n){for(int j=0;j<n;j++)s[j]=r[j]-alpha*v[j];}
 static void vector_bicg_update(double*x,double*r,const double*s,const double*t,const double*ph,const double*sh,double alpha,double omega,int n){for(int j=0;j<n;j++){x[j]+=alpha*ph[j]+omega*sh[j];r[j]=s[j]-omega*t[j];}}
+/* The C policy retains all Arnoldi/search vectors in its native space. */
+static int retained_basis_on_host(void*c){(void)c;return 0;}
+static double*retained_bank(size_t n,void*c){(void)c;return vector_bank(n);}
+static void retained_free(double*v,void*c){(void)c;vector_free(v);}
+static void retained_store(double*out,const double*in,int n,void*c){(void)c;vector_copy(out,in,n);}
+static void retained_load(double*out,const double*in,int n,void*c){(void)c;vector_copy(out,in,n);}
 #include "PunctureKrylov_controller.inc"
 int PK_solve(int n,const double*b,double*x,const PK_Options*o,PK_Apply A,PK_Apply M,void*c,PK_Monitor monitor,void*mc,PK_Result*out){return controller_solve(n,b,x,o,A,M,c,monitor,mc,out);}
 const char *PK_status_string(int status){

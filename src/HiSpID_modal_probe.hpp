@@ -27,7 +27,9 @@ struct ModalFactorProbe {
     for(int k=0;k<nb;k++)add(k*na+i,endpoint[(j==0?0:nb)+k]);
    }else{
     for(int k=0;k<na;k++)add(j*na+k,diagonal[size_t(row)*na+k]);
-    if(j)add(row-na,lower[row]);if(j+1<nb)add(row+na,upper[row]);
+    if(lower.size()==size_t(3*n)){
+     for(int k=std::max(0,i-1);k<=std::min(na-1,i+1);k++){if(j)add((j-1)*na+k,lower[3*row+k-i+1]);if(j+1<nb)add((j+1)*na+k,upper[3*row+k-i+1]);}
+    }else{if(j)add(row-na,lower[row]);if(j+1<nb)add(row+na,upper[row]);}
    }
    long double sum=0;for(size_t k=offset.back();k<value.size();k++)sum+=(long double)value[k]*exact[column[k]];
    rhs[row]=double(sum);offset.push_back(int(value.size()));

@@ -24,10 +24,11 @@ def map_pair(maps):
     if not isinstance(maps,dict) or set(maps) not in ({'radial_stretch','angular_stretch'},{'radial_stretch','angular_stretch','radial_kind'}):
         raise ValueError('explicit radial_stretch and angular_stretch required')
     radial,angular=maps['radial_stretch'],maps['angular_stretch']
-    if not np.isfinite([radial,angular]).all() or not .001<=radial<=1 or not .1<=angular<=6:
+    if not np.isfinite([radial,angular]).all() or not .001<=radial<=64 or not .1<=angular<=6:
         raise ValueError('unsupported collocation maps')
     if 'radial_kind' in maps:
         if maps['radial_kind'] not in ('mobius','quadratic','endpoint_beta14'):raise ValueError('unsupported radial map kind')
+        if maps['radial_kind']=='quadratic' and radial>1:raise ValueError('polynomial radial stretch must be<=1')
         if maps['radial_kind']=='endpoint_beta14' and radial>.5:raise ValueError('dual endpoint slope must be<=.5')
         return radial,angular,maps['radial_kind']
     return radial,angular

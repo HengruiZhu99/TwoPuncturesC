@@ -29,10 +29,10 @@ void deallocation(Kokkos::Tools::SpaceHandle space,const char*label,const void*p
 PunctureExecutionStats&statistics(){return runtime().stats;}
 std::recursive_mutex&execution_mutex(){static std::recursive_mutex mutex;return mutex;}
 void initialize(){if(Puncture_execution_initialize(0))throw std::runtime_error("Kokkos runtime unavailable or finalized");}
-int solve(View b,View x,const PK_Options&o,const Action&A,const Action&M,PK_Result&result,PK_Monitor monitor,void*mc){
+int solve(View b,View x,const PK_Options&o,const Action&A,const Action&M,PK_Result&result,PK_Monitor monitor,void*mc,bool retain_preconditioned_on_host){
  ExecutionLock lock(execution_mutex());
  if(b.extent(0)>INT_MAX||b.extent(0)!=x.extent(0)||o.dot||o.norm){result={};return result.status=PK_INVALID;}
- Timed timer(statistics().linear_seconds);controller::Context context{A,M,int(b.extent(0))};
+ Timed timer(statistics().linear_seconds);controller::Context context{A,M,int(b.extent(0)),retain_preconditioned_on_host};
  // Legacy norm callbacks reference host memory and cannot enter this policy.
  PK_Options options=o;options.dot=nullptr;options.norm=nullptr;
  return controller::controller_solve(context.n,b.data(),x.data(),&options,A?controller::apply_A:nullptr,M?controller::apply_M:nullptr,&context,monitor,mc,&result);
@@ -83,8 +83,8 @@ void Modal::prepare(){
 void Modal::apply(View in,View out,bool projected){
  const int a=na,b=nb,N=np,V=nv,stride=a*b,total=stride*N*V;
  auto f=forward,scale=row_scale,mod=column,y=workspace,L=lu,T=transfer,lower_=lower,inv=inverse;auto rows=block,perm=permutation;auto native=native_blocks;
- const bool diag=diagonal_lower,output_modal=modal_output;
- const bool compensated=compensated_projection;
+ const bool diag=diagonal_lower,output_modal=modal_output;const int band=lower_bandwidth;
+ const bool compensated=compensated_projection,skip_zero=skip_zero_rhs;
  if(projected)copy(mod,in);
  else Kokkos::parallel_for("modal Fourier projection",Range(0,stride*V),KOKKOS_LAMBDA(int line){
   int v=line%V,row=line/V;double sum=0,error=0;
@@ -103,10 +103,15 @@ void Modal::apply(View in,View out,bool projected){
   using Team=Kokkos::TeamPolicy<Exec>;using Member=Team::member_type;
   Kokkos::parallel_for("modal inverse CUDA",Team(N*V,128),KOKKOS_LAMBDA(const Member&team){
    int task=team.league_rank(),mode=task/V,v=task%V,g=rows(task);
+   if(skip_zero){
+    int nonzero=0;Kokkos::parallel_reduce(Kokkos::TeamThreadRange(team,stride),[&](int row,int&count){count+=mod(V*(row+stride*mode)+v)!=0.;},nonzero);
+    team.team_barrier();if(nonzero==0)return;
+   }
    for(int j=0;j<b;j++){
     int off=(g*b+j)*a*a;
     Kokkos::parallel_for(Kokkos::TeamThreadRange(team,a),[&](int i){int p=V*(i+a*j+stride*mode)+v;double value=mod(p);
-     if(j){if(diag)value-=lower_((g*b+j)*a+i)*y(p-V*a);
+     if(j){if(band){for(int q=Kokkos::max(0,i-band);q<=Kokkos::min(a-1,i+band);q++)value-=lower_(3*((g*b+j)*a+i)+q-i+1)*y(V*(q+a*(j-1)+stride*mode)+v);}
+     else if(diag)value-=lower_((g*b+j)*a+i)*y(p-V*a);
       else for(int q=0;q<a;q++)value-=lower_(off+q*a+i)*y(V*(q+a*(j-1)+stride*mode)+v);}
      mod(p)=value;
     });team.team_barrier();
@@ -121,16 +126,18 @@ void Modal::apply(View in,View out,bool projected){
  {
   Kokkos::parallel_for("modal inverse CPU",Range(0,N*V),KOKKOS_LAMBDA(int task){
    int mode=task/V,v=task%V,g=rows(task);
+   if(skip_zero){bool nonzero=false;for(int row=0;row<stride;row++)if(mod(V*(row+stride*mode)+v)!=0.){nonzero=true;break;}if(!nonzero)return;}
    bool borrowed=native.data()!=nullptr;
    const double*L_=borrowed?native(g).lu:L.data()+g*b*a*a;
    const double*T_=borrowed?native(g).transfer:T.data()+g*b*a*a;
-   const double*lower_ptr=borrowed?native(g).lower:lower_.data()+g*b*(diag?a:a*a);
+   const double*lower_ptr=borrowed?native(g).lower:lower_.data()+g*b*(band?3*a:diag?a:a*a);
    const size_t*pivots=borrowed?native(g).permutation:nullptr;
    for(int j=0;j<b;j++){
     int off=j*a*a,poff=(g*b+j)*a;
     // First form every RHS before applying the pivot permutation.
     for(int i=0;i<a;i++){int p=V*(i+a*j+stride*mode)+v;double value=mod(p);
-     if(j){if(diag)value-=lower_ptr[j*a+i]*y(p-V*a);
+     if(j){if(band){for(int q=Kokkos::max(0,i-band);q<=Kokkos::min(a-1,i+band);q++)value-=lower_ptr[3*(j*a+i)+q-i+1]*y(V*(q+a*(j-1)+stride*mode)+v);}
+      else if(diag)value-=lower_ptr[j*a+i]*y(p-V*a);
       else for(int q=0;q<a;q++)value-=lower_ptr[off+i*a+q]*y(V*(q+a*(j-1)+stride*mode)+v);}
      y(p)=value;
     }

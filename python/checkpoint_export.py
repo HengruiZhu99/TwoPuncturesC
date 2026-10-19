@@ -8,7 +8,7 @@ from pathlib import Path
 import hashlib
 import numpy as np
 import re
-from hispid import Config,Wave22,seed_family_code
+from hispid import Config,Wave22,seed_family_code,MAX_GRID_EXTENTS,MAX_MEMORY_MIB
 import ctypes as C
 
 PARAMETERIZATION='modal_P_C2prolate_mapped_v2'
@@ -17,8 +17,9 @@ def _validate_parameterization(parameterization):
     custom_map=re.fullmatch(r'modal_P_(?:C2prolate_map_v3|C4prolate_map_v4|C2tauC4_map_v5|C2tauC4_inf2_map_v6|C2tauC4_poly2_map_v7|C2tauC4_beta14_map_v8|C2tauC4_focus_map_v9|C2tauC4_focus2_map_v10)_r([0-9eE+.-]+)_k([0-9eE+.-]+)',parameterization)
     if parameterization not in ('W_plus_Aminus1_V','W_plus_Aminus1_V_C2axis','modal_P_C2prolate_mapped_v2') and custom_map is None:
         raise ValueError('unsupported checkpoint parameterization')
-    if custom_map and not (.001<=float(custom_map[1])<=1 and .1<=float(custom_map[2])<=6):
+    if custom_map and not (.001<=float(custom_map[1])<=64 and .1<=float(custom_map[2])<=6):
         raise ValueError('unsupported collocation maps')
+    if parameterization.startswith('modal_P_C2tauC4_poly2_map_v7_') and float(custom_map[1])>1:raise ValueError('unsupported polynomial radial stretch')
     if parameterization.startswith('modal_P_C2tauC4_beta14_map_v8_') and float(custom_map[1])>.5:raise ValueError('unsupported dual endpoint slope')
 
 def read_checkpoint(path):
@@ -84,7 +85,8 @@ def read_checkpoint(path):
                 raise ValueError('checkpoint integer outside native range: '+name)
             if isinstance(value,C.Array):value[:]=numbers
             else:setattr(config,name,numbers[0])
-        if min(config.n)<4 or count!=4*int(config.n[0])*int(config.n[1])*int(config.n[2]) or not 16<=config.memory_limit_mib<=65536:
+        if (any(not 4<=n<=cap for n,cap in zip(config.n,MAX_GRID_EXTENTS)) or config.n[2]%2
+                or count!=4*int(config.n[0])*int(config.n[1])*int(config.n[2]) or not 16<=config.memory_limit_mib<=MAX_MEMORY_MIB):
             raise ValueError('invalid checkpoint grid/budget/count')
         if (count//4)*128>config.memory_limit_mib*1024**2:
             raise ValueError('checkpoint exceeds minimum sampler budget')
