@@ -1,0 +1,47 @@
+{
+  "status": "bounded physical pilot failed native and original linear acceptance; completed checkpoint collection pending renewed SSH",
+  "producer_sha256": "fa97396c525bc8663d2b65d0fa80320a2aa7f68c5dcf8627bcd28fbe32935e54",
+  "slurm_job": 60008107,
+  "grid": [
+    384,
+    128,
+    16
+  ],
+  "initial_checkpoint": "wave9999-toroidal-seed-v1/n384.hispid",
+  "accepted_newton_updates_in_this_attempt": 1,
+  "accepted_newton_updates_from_zero": 4,
+  "failed_linear": {
+    "method": "gmres",
+    "outer_restart": 12,
+    "outer_iterations": 40,
+    "vector_inner_iterations": 10240,
+    "scalar_inner_iterations": 306,
+    "true_relative": 0.1011709103036398,
+    "target": 0.1
+  },
+  "native": {
+    "converged": false,
+    "scaled_linf": [
+      1.281068221016748e-11,
+      1.8594231874902487e-09,
+      1.70075859463905e-09,
+      1.8934877814962468e-09
+    ],
+    "target": 1e-12,
+    "solve_seconds": 1218.922651828,
+    "geometry_seconds": 61.525974595014375,
+    "error": "iteration limit or true residual above target"
+  },
+  "evidence_scope": "Observed live native log; full completed result, physical observer diagnostics and checkpoint SHA not yet retrieved.",
+  "continuation": {
+    "method": "lgmres",
+    "outer_restart": 24,
+    "inner_limit": 256,
+    "inner_restart": 256,
+    "producer_unchanged": true,
+    "native_target": 1e-12,
+    "linear_target": 0.1,
+    "recipe": "run-large-outer-all-v1.sh",
+    "status": "detached watcher prepared; actual new job state requires renewed SSH"
+  }
+}

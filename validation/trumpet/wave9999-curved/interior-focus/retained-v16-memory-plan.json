@@ -1,0 +1,28 @@
+[
+  {
+    "restart": 12,
+    "device_guarded_gib": 37.16194534301758,
+    "aggregate_gib": 89.75091171264648,
+    "assumptions": "sizeof Cached=1984, ModalSymbol=48; frozen V16 allocation formula, includes 512MiB free-device guard"
+  },
+  {
+    "restart": 24,
+    "device_guarded_gib": 38.42757034301758,
+    "aggregate_gib": 91.01653671264648,
+    "assumptions": "sizeof Cached=1984, ModalSymbol=48; frozen V16 allocation formula, includes 512MiB free-device guard"
+  },
+  {
+    "restart": 32,
+    "device_guarded_gib": 39.27132034301758,
+    "aggregate_gib": 91.86028671264648,
+    "assumptions": "sizeof Cached=1984, ModalSymbol=48; frozen V16 allocation formula, includes 512MiB free-device guard"
+  },
+  {
+    "restart": 24,
+    "krylov": "lgmres",
+    "extra_device_and_aggregate_gib": 0.52734375,
+    "device_guarded_gib": 38.95491409301758,
+    "aggregate_gib": 91.54388046264648,
+    "note": "Existing augmented GMRES adds at most ten vectors; original A residual gates unchanged. Reuses qualified V16 executable."
+  }
+]

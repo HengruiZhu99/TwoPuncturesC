@@ -1362,6 +1362,22 @@ with true relative residual $2.29\,10^{-8}$ and correction-jet error
 $9.35\,10^{-7}$. The physical continuation remains unqualified.
 No physical tolerance is relaxed.
 
+The bounded physical continuation with outer restart 12 accepts one further
+Newton update, bringing the total to four from the zero correction.
+The next linear system stops after 40 outer iterations at original true
+relative residual 0.10117 against target 0.1; it uses 10,240 vector and
+306 scalar inner iterations. The native scaled maximum remains
+$1.89\,10^{-9}$ against $10^{-12}$. The complete native attempt takes
+1,218.92 seconds, excluding 61.53 seconds of seed-geometry setup.
+Thus stable storage alone does not fix the physical convergence problem.
+An unchanged-executable continuation is prepared with the existing
+augmented GMRES method and outer restart 24. Its conservative finest-grid
+bound, including the device guard and augmented directions, is
+38.96\,GiB on the GPU and 91.54\,GiB in aggregate, within the declared
+96\,GiB aggregate budget. This changes solver resources and recycling,
+not the physical formulation or acceptance thresholds. Its results are
+not yet available for this report.
+
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations
 its original-system relative residual was 0.830, above its unchanged

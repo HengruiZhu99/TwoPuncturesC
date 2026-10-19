@@ -2757,3 +2757,17 @@ coupled witness passes in 7 outer steps, original true relative residual
 three-resolution physical study remains pending. Producer image SHA256:
 fa97396c525bc8663d2b65d0fa80320a2aa7f68c5dcf8627bcd28fbe32935e54.
 These algebraic controls do not establish the physical convergence fix.
+
+
+The completed V16 outer-restart-12 physical pilot accepts one additional
+Newton update (four from zero), then misses the original 0.1 linear target
+at true relative 0.1011709103 after 40 outer steps / 10240 vector-inner /
+306 scalar-inner steps. Native maximum 1.8934877815e-9 still misses 1e-12.
+Native solve 1218.92265 s, excluding geometry 61.52597 s. No physical pass
+is implied. A detached continuation is prepared with the SAME producer
+image and existing LGMRES, outer restart 24; no compilation or controller
+tests are repeated. Original tolerances/formulation are fixed. The finest
+allocation bound including LGMRES headroom is 38.955 GiB guarded GPU /
+91.544 GiB aggregate, below the 96 GiB context budget. The completed pilot
+checkpoint is used only as an initial guess. SSH was lost before collecting
+the final checkpoint receipt and new allocation state; neither is assumed.
