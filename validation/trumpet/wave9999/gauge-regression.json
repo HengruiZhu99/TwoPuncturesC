@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "chi": 0.9999,
+  "seed_superradiant_threshold": 0.9859568136154433,
+  "wave22": {
+    "propagation": 1,
+    "handedness": 1,
+    "amplitude": 0.001,
+    "omega": 0.9760972454792889,
+    "cycles": 4.0,
+    "r0": 12.0,
+    "time": 0.0,
+    "cutoff_min": 2.0,
+    "cutoff_max": 4.0
+  },
+  "multipole_radius": 24.874096994494394,
+  "absolute_multipole_errors": {
+    "metric": 1.5908473390876413e-17,
+    "dt_metric": 1.3552527156068805e-19,
+    "dr_metric": 2.168404344971009e-19
+  },
+  "wrong_spin_gauge_dt_error": 8.650416490004627e-08,
+  "library_sha256": "5732d9b644ae9faf91d5b81f2801a0559f33c1e335f3d25523bd5aa2d2af1880"
+}

@@ -2599,3 +2599,35 @@ The inactive focus at z=-12 improves packet resolution at fixed physical free
 data. A deliberately incompatible constant-P warm start fails; it violates
 the homogeneous focus rows. Use zero corrections, compatible prolongation,
 or an admissible correction guess. This failed diagnostic is retained.
+
+
+## Near-threshold perturbed Liu chi=0.9999 (18 October2026)
+
+One fixed prograde/ingoing electric l=m=2 packet now passes the production
+CUDA radial/polar sequence96x192x16,128x256x16,160x320x16. Its mass-one seed
+spin is.9999, amplitude.001, carrier omega=.99(2 Omega_H)=.9760972454792889,
+cycles4, r0=12 and cutoff2--4. The inactive focus is fixed at z=-32.
+The finite packet spans the superradiant threshold in frequency.
+
+Independent54-point FD6 Hamiltonian RMS decreases5.0492e-8->2.7922e-8->1.6498e-8
+and momentum7.2817e-7->4.0719e-7->2.6097e-7. Physical solution differences
+decrease; a compatible1.05-scaled start returns sampled metric/K within
+8.7e-12. The observed rate is about second order, with fixed Nphi16; neither
+global nor exponential convergence is claimed. A focused regression fixes
+the time-derivative observer's old hard-coded chi=.9 gauge assumption.
+The shared Liu configuration/gauge lives in validation/kerr_wave_case.py,
+independent of the oracle test. The study CLI records actual spin, carrier
+threshold ratio, packet parameters, radial derivatives and source hashes;
+nonconverged checkpoint exports retain their diagnostic label.
+
+The finest portable checkpoint passes bitwise9-field CPU migration at1602
+points and AthenaK's lmax8/12/16 plus32->48 quadrature checks, unchanged
+expansion RMS1e-7 and inner-ball enclosure. Final MH=1.000000000118978,
+Mirr=.7120891092880841, chi_coord=.999899999762024, expansion RMS9.8172e-8.
+These are actual direct-native-geometry finder searches with zero evolution
+steps. Coordinate spin is not AKV spin, and horizon mass is not total ADM
+mass. The final asymptotic metric-characteristic outgoing/incoming amplitude
+ratio is.00269 at r=24.8741: predominantly ingoing, not a curvature-flux or
+amplification measurement. Source, checkpoint and loaded-image bindings,
+raw traces and one compact figure are in validation/trumpet/wave9999/ and
+the existing PRD report. The earlier .9 campaign and failures remain intact.

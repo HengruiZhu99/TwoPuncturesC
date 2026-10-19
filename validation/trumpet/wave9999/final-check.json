@@ -1,0 +1,82 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-study-v1/n160.hispid",
+    "file_sha256": "015462a0a299e8b27b90171a2f8a377070b1873f582dc6c44ea2e0ac2622e169",
+    "source_library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+    "acceptance": "preliminary",
+    "parameterization": "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2",
+    "seed_family": "liu",
+    "format_version": 3
+  },
+  "library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+  "diagnostics": {
+    "converged": 1,
+    "newton_iterations": 2,
+    "krylov_iterations": 54,
+    "npoints": 819200,
+    "scaled_linf": [
+      9.232344599106094e-15,
+      4.781678464006841e-14,
+      6.101459930153134e-14,
+      6.051259341224698e-14
+    ],
+    "unscaled_linf": [
+      2.887667110700297e-10,
+      7.942463019976829e-08,
+      1.3934587256100015e-05,
+      7.93065928862447e-06
+    ],
+    "seconds": 13.283407452,
+    "status": 0,
+    "error": ""
+  },
+  "start_perturbation": "scale the saved unknowns by1.05; preserve homogeneous focus/axis conditions",
+  "final_field_difference": {
+    "gamma": 8.697043085703626e-12,
+    "Kij": 1.3358203432289883e-12
+  },
+  "final_unknown_linf": 2.917851869166377e-05,
+  "independent_fd6": {
+    "count": 54,
+    "H_rms": 1.649611484155866e-08,
+    "H_max": 7.332612491357591e-08,
+    "M_rms": 2.6097437542176314e-07,
+    "M_max": 9.592501834243958e-07,
+    "M_components_rms": [
+      1.7306772130896063e-07,
+      1.6265697107924316e-07,
+      6.98098880810878e-08
+    ],
+    "M_components_max": [
+      8.560284223247413e-07,
+      8.399234598668633e-07,
+      3.572671320502406e-07
+    ],
+    "normalized_H_max": 0.9999999999990755,
+    "normalized_M_max": 0.9999999908420236
+  },
+  "half_step_fd6": {
+    "count": 54,
+    "H_rms": 1.6402753494630146e-08,
+    "H_max": 7.324340825070678e-08,
+    "M_rms": 2.6097434789398555e-07,
+    "M_max": 9.592501834323062e-07,
+    "M_components_rms": [
+      1.7306771569799038e-07,
+      1.6265697144594752e-07,
+      6.980988826073911e-08
+    ],
+    "M_components_max": [
+      8.560284223321979e-07,
+      8.399234598961308e-07,
+      3.572671320655199e-07
+    ],
+    "normalized_H_max": 0.9999999964832418,
+    "normalized_M_max": 0.9999999699189542
+  },
+  "observer_change": {
+    "H": 5.194646490735977e-09,
+    "M": 3.269687186748935e-11
+  },
+  "passed": true
+}
