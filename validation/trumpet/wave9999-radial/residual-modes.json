@@ -1,0 +1,165 @@
+{
+  "purpose": "scaled native residual localization only, not physical constraints or convergence",
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-radial-map-study-v6/n384.hispid",
+    "file_sha256": "8eae1726c8099283543982665e84ef7fdb483e800ba8203e26a5823bb6c8d453",
+    "source_library_sha256": "b7981e3a5c552cc302987913293d9c8cd40e60a5629fa9e8050be560a4272939",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_focus_map_v9_r1_k2",
+    "seed_family": "liu",
+    "format_version": 3
+  },
+  "library_sha256": "b7981e3a5c552cc302987913293d9c8cd40e60a5629fa9e8050be560a4272939",
+  "driver_sha256": "86cf5bc99b24f80df3c2608ec1d94c93f5e171c5853be190418df5cf7bcd9f4a",
+  "component_order": [
+    "Hamiltonian",
+    "local_vector0",
+    "local_vector1",
+    "local_vector2"
+  ],
+  "scaled_linf_by_component": [
+    5.595689847975763e-11,
+    6.839478838709803e-11,
+    9.570995642329443e-11,
+    9.531509588855332e-11
+  ],
+  "l2": 3.802356277551839e-09,
+  "parseval_relative_error": 5.754646060814321e-15,
+  "rows": [
+    {
+      "m": 0,
+      "l2_by_component": [
+        1.8100454359586736e-09,
+        1.6362123483013366e-09,
+        7.03391419405309e-11,
+        8.72638071777021e-11
+      ],
+      "total_l2_fraction": 0.4126472325583272,
+      "maximum_nodal_index": {
+        "radial": 23,
+        "polar": 109,
+        "component": 0
+      }
+    },
+    {
+      "m": 1,
+      "l2_by_component": [
+        1.9393993181984977e-12,
+        1.0062926640291688e-10,
+        1.1069865637972716e-09,
+        1.125132485057544e-09
+      ],
+      "total_l2_fraction": 0.17301752518863728,
+      "maximum_nodal_index": {
+        "radial": 26,
+        "polar": 111,
+        "component": 3
+      }
+    },
+    {
+      "m": 2,
+      "l2_by_component": [
+        2.191559407917491e-11,
+        1.0419305886861364e-09,
+        1.0901559029764204e-10,
+        1.1692324918792556e-10
+      ],
+      "total_l2_fraction": 0.07688904131118922,
+      "maximum_nodal_index": {
+        "radial": 21,
+        "polar": 116,
+        "component": 1
+      }
+    },
+    {
+      "m": 3,
+      "l2_by_component": [
+        2.1084952918392373e-11,
+        1.1027045746741501e-10,
+        1.5488066172058008e-09,
+        1.5505676747103712e-09
+      ],
+      "total_l2_fraction": 0.33308169120305803,
+      "maximum_nodal_index": {
+        "radial": 23,
+        "polar": 109,
+        "component": 3
+      }
+    },
+    {
+      "m": 4,
+      "l2_by_component": [
+        2.3825257749899734e-11,
+        1.2150113306070332e-10,
+        8.685690409631353e-11,
+        9.30243732029877e-11
+      ],
+      "total_l2_fraction": 0.0021806621378051704,
+      "maximum_nodal_index": {
+        "radial": 0,
+        "polar": 0,
+        "component": 3
+      }
+    },
+    {
+      "m": 5,
+      "l2_by_component": [
+        4.031801858479127e-14,
+        1.1404822247290319e-10,
+        7.518266207252914e-11,
+        7.528071730363924e-11
+      ],
+      "total_l2_fraction": 0.0016825815253517895,
+      "maximum_nodal_index": {
+        "radial": 124,
+        "polar": 63,
+        "component": 1
+      }
+    },
+    {
+      "m": 6,
+      "l2_by_component": [
+        1.2215274325547578e-13,
+        6.833346569097282e-13,
+        6.054815876179914e-11,
+        5.979002876969797e-11
+      ],
+      "total_l2_fraction": 0.0005008612796554563,
+      "maximum_nodal_index": {
+        "radial": 113,
+        "polar": 68,
+        "component": 2
+      }
+    },
+    {
+      "m": 7,
+      "l2_by_component": [
+        2.8213968313223362e-15,
+        1.9551742002226203e-12,
+        3.8235480835915555e-13,
+        3.9275890800815675e-13
+      ],
+      "total_l2_fraction": 2.851842308245603e-07,
+      "maximum_nodal_index": {
+        "radial": 157,
+        "polar": 62,
+        "component": 1
+      }
+    },
+    {
+      "m": 8,
+      "l2_by_component": [
+        9.42064639789128e-14,
+        9.83222899627025e-14,
+        1.2010920928850513e-12,
+        5.178530760335308e-13
+      ],
+      "total_l2_fraction": 1.1961173948385657e-07,
+      "maximum_nodal_index": {
+        "radial": 126,
+        "polar": 72,
+        "component": 2
+      }
+    }
+  ]
+}

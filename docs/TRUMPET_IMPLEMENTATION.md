@@ -2603,8 +2603,8 @@ or an admissible correction guess. This failed diagnostic is retained.
 
 ## Near-threshold perturbed Liu chi=0.9999 (18 October2026)
 
-One fixed prograde/ingoing electric l=m=2 packet now passes the production
-CUDA radial/polar sequence96x192x16,128x256x16,160x320x16. Its mass-one seed
+The original prograde/ingoing electric l=m=2 packet passes the finite-observer
+checks on the production CUDA radial/polar sequence96x192x16,128x256x16,160x320x16. Its mass-one seed
 spin is.9999, amplitude.001, carrier omega=.99(2 Omega_H)=.9760972454792889,
 cycles4, r0=12 and cutoff2--4. The inactive focus is fixed at z=-32.
 The finite packet spans the superradiant threshold in frequency.
@@ -2631,3 +2631,49 @@ ratio is.00269 at r=24.8741: predominantly ingoing, not a curvature-flux or
 amplification measurement. Source, checkpoint and loaded-image bindings,
 raw traces and one compact figure are in validation/trumpet/wave9999/ and
 the existing PRD report. The earlier .9 campaign and failures remain intact.
+
+
+## Physical radial-resolution audit (19 October 2026)
+
+The original chi=.9999 packet grid is under-resolved. Its fixed-point and
+horizon results above remain valid at those observers, but do not qualify
+the packet waveform. Physical radius changes both prolate coordinates;
+increasing the radial count while reducing the polar count is insufficient.
+`validation/wave22_physical_radial_audit.py` interpolates the complex carrier
+on the actual two-dimensional grid and differentiates along nine physical
+radial rays, including one-sided probes around the inactive focus. Errors
+are normalized to the wave peak, and phase is checked above 10% peak.
+
+At the old160x320x16 grid, value/derivative errors are29.5%/42.9%. With the
+same physical free data, inactive focus z=-16 and radial stretch1, the
+576x128x16 grid passes0.1% value/derivative and.001rad phase gates.
+The new map needs its own matching producer/CPU reader: the continuous
+basis identifier ends in `_r1_k2`; the old `_r0.2_k2` reader cannot read it.
+The solved-wave profiles and strict native stopping gate are separate
+requirements. Nonconverged diagnostic checkpoints are rejected by the
+profile qualification tool. The original evidence remains unchanged.
+
+The restart200/4000-iteration production continuation also fails: native
+scaled maximum9.57e-11 versus1e-12; the second inner solve stops at true
+relative L2.642 after4000 iterations. H RMS7.97e-10, M RMS2.12e-8 at54
+observers; M is worse than the earlier diagnostic3.90e-9. The experimental
+spectral radial inverse is not promoted. No revised n480/n576 solve or
+new AthenaK horizon passes are claimed; those are carrier-only audit grids.
+The original-data dense wave profile check measures both conjugate m=+/-2
+modes, with all differences normalized per angular ring to the wave peak.
+
+Fourier localization of the final diagnostic puts99.56% of squared scaled
+residual norm in m0--3. Their maxima are at r=.1745 (interior transition)
+and r=.294--.301 (just outside the seed horizon). Parseval disagreement is
+5.8e-15. This localizes native equations, not physical constraints, and
+does not establish a cause or justify any stopping-norm relaxation.
+
+Dense profiles of the original saved96/128/160 solutions fail the0.1%
+wave gate. Finest-pair peak-normalized time-derivative difference=.1047114,
+ingoing=.0523327, metric=1.8718e-6; differences decrease but remain too
+large. At485 packet FD6 points (97 radii, five rays including both poles),
+finest H/M maxima6.36e-8/6.86e-7 fail1e-8. Raw seed calibration maxima
+5.44e-10/3.13e-16 are retained; no floor is subtracted. Full checkpoint
+headers confirm the same formulation. Updated report and one compact
+figure distinguish old solved-data failures from proposed carrier-only
+grids. Job59975943 is released; no revised horizon search was run.

@@ -1,0 +1,359 @@
+{
+  "failed-inexact-002.json": {
+    "n": [
+      512,
+      64,
+      16
+    ],
+    "library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+    "outer_tolerance": 1e-12,
+    "linear_rtol": null,
+    "last": {
+      "converged": 0,
+      "newton_iterations": 5,
+      "krylov_iterations": 1294,
+      "npoints": 524288,
+      "scaled_linf": [
+        6.678803377311786e-13,
+        3.3555779522178535e-12,
+        1.3620865890110665e-12,
+        1.473657047693023e-12
+      ],
+      "unscaled_linf": [
+        6.991018563422834e-09,
+        4.4248565148077105e-06,
+        0.00014668287081763117,
+        0.0002057976209282552
+      ],
+      "seconds": 250.344180447,
+      "status": 1,
+      "error": "iteration limit or true residual above target"
+    },
+    "initial_scaled_linf": 2.1139294948258222e-05,
+    "physical": {
+      "count": 54,
+      "H_rms": 1.999314855997041e-08,
+      "H_max": 1.0218134395556522e-07,
+      "M_rms": 2.2097502449395818e-07,
+      "M_max": 7.509782681252478e-07,
+      "M_components_rms": [
+        1.1986188182261427e-07,
+        1.0194014682731999e-07,
+        2.5508312051019944e-08
+      ],
+      "M_components_max": [
+        5.211556131337082e-07,
+        4.780342948456908e-07,
+        1.1983480352315528e-07
+      ],
+      "normalized_H_max": 0.3596003939348662,
+      "normalized_M_max": 0.9999999987149141
+    }
+  },
+  "failed-map-inner-002.json": {
+    "n": [
+      384,
+      128,
+      16
+    ],
+    "library_sha256": "b7981e3a5c552cc302987913293d9c8cd40e60a5629fa9e8050be560a4272939",
+    "outer_tolerance": 1e-12,
+    "linear_rtol": 0.02,
+    "last": {
+      "converged": 0,
+      "newton_iterations": 3,
+      "krylov_iterations": 307,
+      "npoints": 786432,
+      "scaled_linf": [
+        6.959290320972547e-10,
+        2.556601327756567e-09,
+        9.245177353036846e-10,
+        1.1406413341713707e-09
+      ],
+      "unscaled_linf": [
+        2.8739480401379125e-06,
+        1.0483858143329735e-05,
+        7.879032201366978e-06,
+        8.591919951274961e-06
+      ],
+      "seconds": 98.658824307,
+      "status": 1,
+      "error": "iteration limit or true residual above target"
+    },
+    "initial_scaled_linf": 2.038285877039399e-05,
+    "physical": {
+      "count": 54,
+      "H_rms": 1.2420338413421315e-08,
+      "H_max": 4.513191642629977e-08,
+      "M_rms": 4.141120104536548e-09,
+      "M_max": 1.2029792833321609e-08,
+      "M_components_rms": [
+        2.4008821987570833e-09,
+        2.6905302802289266e-09,
+        9.765584602606332e-10
+      ],
+      "M_components_max": [
+        6.6737648309745765e-09,
+        1.0954617241474492e-08,
+        2.519428621437058e-09
+      ],
+      "normalized_H_max": 0.1369687479441505,
+      "normalized_M_max": 0.9472498706611149
+    }
+  },
+  "failed-map-inner-05.json": {
+    "n": [
+      384,
+      128,
+      16
+    ],
+    "library_sha256": "b7981e3a5c552cc302987913293d9c8cd40e60a5629fa9e8050be560a4272939",
+    "outer_tolerance": 1e-12,
+    "linear_rtol": 0.02,
+    "last": {
+      "converged": 0,
+      "newton_iterations": 4,
+      "krylov_iterations": 320,
+      "npoints": 786432,
+      "scaled_linf": [
+        9.221582058826708e-11,
+        2.051866966590204e-10,
+        2.00865957655771e-10,
+        2.007704502518894e-10
+      ],
+      "unscaled_linf": [
+        6.380550263600668e-07,
+        1.8584760672427744e-06,
+        2.6104493615854855e-06,
+        1.9918393586372576e-06
+      ],
+      "seconds": 121.182594102,
+      "status": 1,
+      "error": "iteration limit or true residual above target"
+    },
+    "initial_scaled_linf": 2.556601327756567e-09,
+    "physical": {
+      "count": 54,
+      "H_rms": 1.0926235028485927e-09,
+      "H_max": 4.357005201072184e-09,
+      "M_rms": 3.895096020532418e-09,
+      "M_max": 1.1710608498128554e-08,
+      "M_components_rms": [
+        2.4107469137240133e-09,
+        2.5111602408600454e-09,
+        8.880324543682305e-10
+      ],
+      "M_components_max": [
+        5.800690481822633e-09,
+        1.072712612463384e-08,
+        2.4599965150904647e-09
+      ],
+      "normalized_H_max": 0.07997826763748432,
+      "normalized_M_max": 0.7483755962297026
+    }
+  },
+  "failed-map-lgmres-01.json": {
+    "n": [
+      384,
+      128,
+      16
+    ],
+    "library_sha256": "b7981e3a5c552cc302987913293d9c8cd40e60a5629fa9e8050be560a4272939",
+    "outer_tolerance": 1e-12,
+    "linear_rtol": 0.1,
+    "last": {
+      "converged": 0,
+      "newton_iterations": 1,
+      "krylov_iterations": 1200,
+      "npoints": 786432,
+      "scaled_linf": [
+        9.221582058826708e-11,
+        2.051866966590204e-10,
+        2.00865957655771e-10,
+        2.007704502518894e-10
+      ],
+      "unscaled_linf": [
+        6.380550263600668e-07,
+        1.8584760672427744e-06,
+        2.6104493615854855e-06,
+        1.9918393586372576e-06
+      ],
+      "seconds": 142.15023071,
+      "status": 1,
+      "error": "iteration limit or true residual above target"
+    },
+    "initial_scaled_linf": 2.051866966590204e-10,
+    "physical": {
+      "count": 54,
+      "H_rms": 1.0926235028485927e-09,
+      "H_max": 4.357005201072184e-09,
+      "M_rms": 3.895096020532418e-09,
+      "M_max": 1.1710608498128554e-08,
+      "M_components_rms": [
+        2.4107469137240133e-09,
+        2.5111602408600454e-09,
+        8.880324543682305e-10
+      ],
+      "M_components_max": [
+        5.800690481822633e-09,
+        1.072712612463384e-08,
+        2.4599965150904647e-09
+      ],
+      "normalized_H_max": 0.07997826763748432,
+      "normalized_M_max": 0.7483755962297026
+    }
+  },
+  "failed-map-restart200.json": {
+    "n": [
+      384,
+      128,
+      16
+    ],
+    "library_sha256": "b7981e3a5c552cc302987913293d9c8cd40e60a5629fa9e8050be560a4272939",
+    "outer_tolerance": 1e-12,
+    "linear_rtol": 0.02,
+    "last": {
+      "converged": 0,
+      "newton_iterations": 2,
+      "krylov_iterations": 4516,
+      "npoints": 786432,
+      "scaled_linf": [
+        5.595689847975763e-11,
+        6.839478838709803e-11,
+        9.570995642329443e-11,
+        9.531509588855332e-11
+      ],
+      "unscaled_linf": [
+        3.7479838951401117e-07,
+        0.0008297546228609101,
+        2.5419590830881456,
+        6.929762137858748
+      ],
+      "seconds": 540.315452167,
+      "status": 1,
+      "error": "iteration limit or true residual above target"
+    },
+    "initial_scaled_linf": 2.051866966590204e-10,
+    "physical": {
+      "count": 54,
+      "H_rms": 7.965262083716422e-10,
+      "H_max": 2.4928259456657997e-09,
+      "M_rms": 2.1245544550469346e-08,
+      "M_max": 6.710394999113388e-08,
+      "M_components_rms": [
+        8.59362739993775e-09,
+        1.7719384291997633e-08,
+        3.74141722605834e-09
+      ],
+      "M_components_max": [
+        3.755797717562023e-08,
+        6.097967968034206e-08,
+        1.3351809362927649e-08
+      ],
+      "normalized_H_max": 0.12429249587892953,
+      "normalized_M_max": 0.9998106838615946
+    }
+  },
+  "failed-map-spectral-preconditioner.json": {
+    "n": [
+      384,
+      128,
+      16
+    ],
+    "library_sha256": "2f20070c539a3327cf0aa1e0c1b664fdae242e078901d40f09975b66d9e1a2be",
+    "outer_tolerance": 1e-12,
+    "linear_rtol": 0.02,
+    "last": {
+      "converged": 0,
+      "newton_iterations": 1,
+      "krylov_iterations": 600,
+      "npoints": 786432,
+      "scaled_linf": [
+        9.221582058826708e-11,
+        2.051866966590204e-10,
+        2.00865957655771e-10,
+        2.007704502518894e-10
+      ],
+      "unscaled_linf": [
+        6.380550263600668e-07,
+        1.8584760672427744e-06,
+        2.6104493615854855e-06,
+        1.9918393586372576e-06
+      ],
+      "seconds": 95.05423993,
+      "status": 1,
+      "error": "iteration limit or true residual above target"
+    },
+    "initial_scaled_linf": 2.051866966590204e-10,
+    "physical": {
+      "count": 54,
+      "H_rms": 1.0926235028485927e-09,
+      "H_max": 4.357005201072184e-09,
+      "M_rms": 3.895096020532418e-09,
+      "M_max": 1.1710608498128554e-08,
+      "M_components_rms": [
+        2.4107469137240133e-09,
+        2.5111602408600454e-09,
+        8.880324543682305e-10
+      ],
+      "M_components_max": [
+        5.800690481822633e-09,
+        1.072712612463384e-08,
+        2.4599965150904647e-09
+      ],
+      "normalized_H_max": 0.07997826763748432,
+      "normalized_M_max": 0.7483755962297026
+    }
+  },
+  "failed-tight-inner.json": {
+    "n": [
+      512,
+      64,
+      16
+    ],
+    "library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+    "outer_tolerance": 1e-12,
+    "linear_rtol": null,
+    "last": {
+      "converged": 0,
+      "newton_iterations": 3,
+      "krylov_iterations": 1239,
+      "npoints": 524288,
+      "scaled_linf": [
+        8.586594480421646e-12,
+        2.1700800761732428e-11,
+        2.5673932690642534e-11,
+        2.5137762887581235e-11
+      ],
+      "unscaled_linf": [
+        3.722375803545255e-08,
+        1.0860394551895188e-05,
+        3.1723997139727234e-05,
+        8.982181370064866e-05
+      ],
+      "seconds": 190.191541113,
+      "status": 1,
+      "error": "iteration limit or true residual above target"
+    },
+    "initial_scaled_linf": 2.1139294948258222e-05,
+    "physical": {
+      "count": 54,
+      "H_rms": 1.9987273166015155e-08,
+      "H_max": 1.0226204136265515e-07,
+      "M_rms": 2.2061624399600445e-07,
+      "M_max": 7.516878805453462e-07,
+      "M_components_rms": [
+        1.1908695021340564e-07,
+        1.0205349018739958e-07,
+        2.5671260576466148e-08
+      ],
+      "M_components_max": [
+        5.216316796376966e-07,
+        4.840052662105193e-07,
+        1.2132922167434153e-07
+      ],
+      "normalized_H_max": 0.3600045484933261,
+      "normalized_M_max": 0.9999999983778867
+    }
+  }
+}

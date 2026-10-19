@@ -1,0 +1,413 @@
+{
+  "library_sha256": "e3050628cbe3b90dcc618379d5b2e60f936fbef0810cf79ed86cbc0b3c16f98c",
+  "driver_sha256": "7f94dd8cdc2047510e5dc64869c745f64d082a968ff533b979386749e9694690",
+  "wave22": {
+    "propagation": 1,
+    "handedness": 1,
+    "amplitude": 0.001,
+    "omega": 0.9760972454792889,
+    "cycles": 4.0,
+    "r0": 12.0,
+    "time": 0.0,
+    "cutoff_min": 2.0,
+    "cutoff_max": 4.0
+  },
+  "points": 257,
+  "radial_range": [
+    8.0,
+    41.74819398898879
+  ],
+  "mu": [
+    -0.6,
+    0,
+    0.6
+  ],
+  "azimuthal_modes": [
+    2,
+    -2
+  ],
+  "nphi": 16,
+  "threads": 8,
+  "criteria": {
+    "wave_peak_normalized_linf": 0.001,
+    "phase_radians": 0.001
+  },
+  "rows": [
+    {
+      "n": [
+        96,
+        192,
+        16
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-study-v1/n96.hispid",
+        "file_sha256": "443b6dae0bac042b857c8bf588188c8a14c41b81fdd9df698cb7c84b02abe492",
+        "source_library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+        "acceptance": "preliminary",
+        "parameterization": "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2",
+        "seed_family": "liu",
+        "format_version": 3
+      },
+      "ingoing_to_outgoing_note": "coordinate metric characteristics, no curvature energy flux",
+      "outgoing_over_ingoing_l2_by_mu": [
+        [
+          0.006943525022804961,
+          0.005993097217161069
+        ],
+        [
+          0.008414037022180071,
+          0.008365964494228483
+        ],
+        [
+          0.00812660092395912,
+          0.031847506791223286
+        ]
+      ],
+      "difference_to_finest": {
+        "h": {
+          "relative_linf": 5.134825824111257e-06,
+          "relative_l2": 1.8858652309702295e-06
+        },
+        "dt_h": {
+          "relative_linf": 0.17516782479508047,
+          "relative_l2": 0.07023997925609073
+        },
+        "dr_h": {
+          "relative_linf": 2.6369409402383267e-06,
+          "relative_l2": 1.3828325984362383e-06
+        },
+        "ingoing": {
+          "relative_linf": 0.08754545415579147,
+          "relative_l2": 0.03496125351358013
+        },
+        "phase_max_radians": 1.4934668276027763e-05,
+        "amplitude_peak_normalized_linf": 3.7580443098775502e-06,
+        "outgoing_difference_over_ingoing_peak": 0.08754547237811665,
+        "passed": false
+      }
+    },
+    {
+      "n": [
+        128,
+        256,
+        16
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-study-v1/n128.hispid",
+        "file_sha256": "74dfae63330595018f731e30a384473107dca51ad8b53d1ef3279c1ad1ce4f9b",
+        "source_library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+        "acceptance": "preliminary",
+        "parameterization": "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2",
+        "seed_family": "liu",
+        "format_version": 3
+      },
+      "ingoing_to_outgoing_note": "coordinate metric characteristics, no curvature energy flux",
+      "outgoing_over_ingoing_l2_by_mu": [
+        [
+          0.006215068781510121,
+          0.005971561046860318
+        ],
+        [
+          0.006473550606013972,
+          0.006426241658750453
+        ],
+        [
+          0.006546817043284185,
+          0.015443868541806238
+        ]
+      ],
+      "previous_difference": {
+        "h": {
+          "relative_linf": 5.727163042100573e-06,
+          "relative_l2": 2.1233541354206273e-06
+        },
+        "dt_h": {
+          "relative_linf": 0.18743264279807234,
+          "relative_l2": 0.07641018393774288
+        },
+        "dr_h": {
+          "relative_linf": 3.159441697322612e-06,
+          "relative_l2": 1.5026028688990698e-06
+        },
+        "ingoing": {
+          "relative_linf": 0.09461716592155239,
+          "relative_l2": 0.03804011627029224
+        },
+        "phase_max_radians": 1.0728740754289006e-05,
+        "amplitude_peak_normalized_linf": 4.584057914033119e-06,
+        "outgoing_difference_over_ingoing_peak": 0.09461740062254295,
+        "passed": false
+      },
+      "difference_to_finest": {
+        "h": {
+          "relative_linf": 1.8717709482764242e-06,
+          "relative_l2": 6.625317250177699e-07
+        },
+        "dt_h": {
+          "relative_linf": 0.10471140059809915,
+          "relative_l2": 0.03666858256672104
+        },
+        "dr_h": {
+          "relative_linf": 1.1740058006358202e-06,
+          "relative_l2": 5.347193664305976e-07
+        },
+        "ingoing": {
+          "relative_linf": 0.05233266333300356,
+          "relative_l2": 0.018251389480635854
+        },
+        "phase_max_radians": 1.2387061464591026e-05,
+        "amplitude_peak_normalized_linf": 1.8400900635552257e-06,
+        "outgoing_difference_over_ingoing_peak": 0.052332769210990025,
+        "passed": false
+      }
+    },
+    {
+      "n": [
+        160,
+        320,
+        16
+      ],
+      "checkpoint": {
+        "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-study-v1/n160.hispid",
+        "file_sha256": "015462a0a299e8b27b90171a2f8a377070b1873f582dc6c44ea2e0ac2622e169",
+        "source_library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+        "acceptance": "preliminary",
+        "parameterization": "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2",
+        "seed_family": "liu",
+        "format_version": 3
+      },
+      "ingoing_to_outgoing_note": "coordinate metric characteristics, no curvature energy flux",
+      "outgoing_over_ingoing_l2_by_mu": [
+        [
+          0.006147107815996911,
+          0.005969476852435526
+        ],
+        [
+          0.006111276537006617,
+          0.006097443534185691
+        ],
+        [
+          0.006116616278448854,
+          0.00886111850311569
+        ]
+      ],
+      "previous_difference": {
+        "h": {
+          "relative_linf": 1.8717709482764242e-06,
+          "relative_l2": 6.625317250177699e-07
+        },
+        "dt_h": {
+          "relative_linf": 0.10471140059809915,
+          "relative_l2": 0.03666858256672104
+        },
+        "dr_h": {
+          "relative_linf": 1.1740058006358202e-06,
+          "relative_l2": 5.347193664305976e-07
+        },
+        "ingoing": {
+          "relative_linf": 0.05233266333300356,
+          "relative_l2": 0.018251389480635854
+        },
+        "phase_max_radians": 1.2387061464591026e-05,
+        "amplitude_peak_normalized_linf": 1.8400900635552257e-06,
+        "outgoing_difference_over_ingoing_peak": 0.052332769210990025,
+        "passed": false
+      },
+      "difference_to_finest": {
+        "h": {
+          "relative_linf": 0.0,
+          "relative_l2": 0.0
+        },
+        "dt_h": {
+          "relative_linf": 0.0,
+          "relative_l2": 0.0
+        },
+        "dr_h": {
+          "relative_linf": 0.0,
+          "relative_l2": 0.0
+        },
+        "ingoing": {
+          "relative_linf": 0.0,
+          "relative_l2": 0.0
+        },
+        "phase_max_radians": 5.339483552774843e-17,
+        "amplitude_peak_normalized_linf": 0.0,
+        "outgoing_difference_over_ingoing_peak": 0.0,
+        "passed": true
+      }
+    }
+  ],
+  "note": "Kerr-subtracted m=+/-2 Fourier rings; relative errors normalized per ring to the finest wave peak, phase tested above10% peak; this profile check alone cannot exclude collocation aliasing",
+  "packet_constraints": {
+    "points": 485,
+    "mu": [
+      -1.0,
+      -0.95,
+      0.0,
+      0.95,
+      1.0
+    ],
+    "order": 6,
+    "steps": 0.005,
+    "exact_seed_floor": {
+      "count": 485,
+      "H_rms": 1.9926899064945755e-10,
+      "H_max": 5.436208112081977e-10,
+      "M_rms": 3.123362817335276e-17,
+      "M_max": 3.1264007697222817e-16,
+      "M_components_rms": [
+        1.9222123839861322e-17,
+        2.2040819661599752e-17,
+        4.1394959396428145e-18
+      ],
+      "M_components_max": [
+        2.237516713770995e-16,
+        1.8877706824278183e-16,
+        3.7933682214405387e-17
+      ],
+      "normalized_H_max": 0.05436208112081977,
+      "normalized_M_max": 3.1264007697222816e-08
+    },
+    "before": {
+      "count": 485,
+      "H_rms": 1.1931283058681602e-06,
+      "H_max": 8.524431949464185e-06,
+      "M_rms": 3.7627589012410314e-06,
+      "M_max": 2.1816984352238987e-05,
+      "M_components_rms": [
+        1.7660700182273792e-06,
+        3.1513696208715765e-06,
+        4.147222725114599e-07
+      ],
+      "M_components_max": [
+        8.575609629074459e-06,
+        1.90441220749973e-05,
+        1.9202866203568662e-06
+      ],
+      "normalized_H_max": 1.0,
+      "normalized_M_max": 1.0000000000000002
+    },
+    "after": {
+      "count": 485,
+      "H_rms": 6.718930323967248e-09,
+      "H_max": 6.358772255184654e-08,
+      "M_rms": 1.0106376692285429e-07,
+      "M_max": 6.857948633769966e-07,
+      "M_components_rms": [
+        5.721249158284544e-08,
+        7.86375708388756e-08,
+        1.7023748462558657e-08
+      ],
+      "M_components_max": [
+        5.080689558472088e-07,
+        6.240252849556976e-07,
+        1.647675748511033e-07
+      ],
+      "normalized_H_max": 0.9999999933583628,
+      "normalized_M_max": 0.9994388510473694
+    },
+    "physical_maximum_bound": 1e-08,
+    "absolute_bound_passed": false,
+    "after_by_mu": [
+      {
+        "count": 97,
+        "H_rms": 4.0113716014939134e-10,
+        "H_max": 1.988899102785211e-09,
+        "M_rms": 6.337513628843526e-11,
+        "M_max": 1.639946758477046e-10,
+        "M_components_rms": [
+          1.2286107767665962e-18,
+          9.237771004877288e-19,
+          5.985031453140094e-11
+        ],
+        "M_components_max": [
+          1.0271213163265962e-17,
+          6.216244663784398e-18,
+          1.5496796273625486e-10
+        ],
+        "normalized_H_max": 0.12720298693058535,
+        "normalized_M_max": 0.01639946758477046
+      },
+      {
+        "count": 97,
+        "H_rms": 4.893117474663296e-10,
+        "H_max": 1.7308632061800584e-09,
+        "M_rms": 2.3823470343884443e-08,
+        "M_max": 8.523602195326285e-08,
+        "M_components_rms": [
+          1.6594341848910722e-08,
+          1.555139148114428e-08,
+          1.4131566630448433e-09
+        ],
+        "M_components_max": [
+          6.958657974923285e-08,
+          6.73313625018957e-08,
+          5.302106171495093e-09
+        ],
+        "normalized_H_max": 0.028869495882369464,
+        "normalized_M_max": 0.9533951770753579
+      },
+      {
+        "count": 97,
+        "H_rms": 1.4605389866401832e-08,
+        "H_max": 6.358772255184654e-08,
+        "M_rms": 1.6695232695496571e-07,
+        "M_max": 6.857948633769966e-07,
+        "M_components_rms": [
+          7.458717711865667e-08,
+          1.4279113492922816e-07,
+          2.0677669886839024e-08
+        ],
+        "M_components_max": [
+          2.60643561393698e-07,
+          6.240252849556976e-07,
+          7.270781102851602e-08
+        ],
+        "normalized_H_max": 0.9999999933583628,
+        "normalized_M_max": 0.9955304386009088
+      },
+      {
+        "count": 97,
+        "H_rms": 2.8989485251896516e-09,
+        "H_max": 8.217763872362351e-09,
+        "M_rms": 1.5042544452335974e-07,
+        "M_max": 5.497580402515878e-07,
+        "M_components_rms": [
+          1.0260471136189326e-07,
+          1.0143068443927141e-07,
+          3.1915210731291e-08
+        ],
+        "M_components_max": [
+          5.080689558472088e-07,
+          2.3698085694085905e-07,
+          1.647675748511033e-07
+        ],
+        "normalized_H_max": 0.7842200176273988,
+        "normalized_M_max": 0.9994388510473694
+      },
+      {
+        "count": 97,
+        "H_rms": 1.8969635692019196e-09,
+        "H_max": 6.052716252849486e-09,
+        "M_rms": 9.845465063153935e-10,
+        "M_max": 3.081050651272704e-09,
+        "M_components_rms": [
+          9.793458413591346e-19,
+          7.086038498216419e-19,
+          9.448580825086863e-10
+        ],
+        "M_components_max": [
+          4.5984460537937325e-18,
+          1.9479901078328124e-18,
+          2.9978888295478786e-09
+        ],
+        "normalized_H_max": 0.6052716252849486,
+        "normalized_M_max": 0.30810506512727037
+      }
+    ],
+    "projection_reduces_both": true
+  },
+  "profile_differences_decrease": true,
+  "passed": false,
+  "profiles_sha256": "602b51e806cf2be62357519a7887b07e114f5f72f737ef43ae2144de211ec74c"
+}

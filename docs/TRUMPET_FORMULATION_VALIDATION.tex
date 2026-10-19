@@ -6,7 +6,7 @@
 \begin{document}
 \title{Spinning and Boosted Trumpet Initial Data:\\Formulation and Validation Status}
 \author{TwoPuncturesC and AthenaK integration}
-\date{18 October 2026 --- interim report}
+\date{19 October 2026 --- interim report}
 \begin{abstract}
 We implement quasi-isotropic (QI), $R_0=M$ trumpet and Liu wormhole seeds
 with portable AthenaK import. First Cartesian focus compatibility reduces
@@ -18,7 +18,7 @@ compatibility worsens the error and is rejected. Finest-grid AthenaK horizons
 pass angular, quadrature and interior-enclosure checks. Matched-count
 Bowen--York Hamiltonian RMS is near $10^{-10}$, at the observer calibration
 floor; failed native stopping gates are retained. Isolated Liu $\chi=0.99$
-controls pass; direct spherical Liu data now converge at $\chi=0.9999$. Lower-resolution QI data converge before the high-grid bulk issue appears. A perturbed isolated Liu $\chi=0.9999$ packet now passes a fixed three-grid radial/polar study and initial-time AthenaK horizon checks. Moderate trumpet and extreme binaries remain unqualified.
+controls pass; direct spherical Liu data now converge at $\chi=0.9999$. Lower-resolution QI data converge before the high-grid bulk issue appears. A perturbed isolated Liu $\chi=0.9999$ packet passes finite-observer and initial-time AthenaK horizon checks, but a subsequent physical-radial audit finds the original packet grid under-resolved. Moderate trumpet and extreme binaries remain unqualified.
 \end{abstract}
 \maketitle
 
@@ -917,6 +917,9 @@ are retained under \path{validation/trumpet/wave22/}.
 We next keep the same metric/time-derivative CTT construction and test one
 Liu hole with $M_0=1$ and $S_z/M_0^2=0.9999$. This is distinct from both
 the unperturbed analytic spherical control and the unresolved binary gates.
+\textbf{The first grid sequence below passes only the stated observer and
+horizon checks; the subsequent physical-radial audit finds its packet
+under-resolved.} Those original results are retained.
 For a Kerr seed and an $m=2$ prograde mode,
 \[
  m\Omega_H=\frac{\chi_0}{M_0(1+\sqrt{1-\chi_0^2})}
@@ -1027,6 +1030,132 @@ measurement of this nonaxisymmetric data. All evidence and reproducible
 commands are under \path{validation/trumpet/wave9999/}. This validates the
 stated finite-observer initial-data and initial-time horizon checks; neither
 superradiant amplification nor global constraint convergence is established.
+
+\section{Physical radial resolution of the near-extreme packet}
+The original packet study above is insufficient to qualify its waveform.
+Physical radius varies both prolate spectral coordinates, so a radial-node
+count or a smooth pointwise sample of the analytic free data can hide
+collocation under-resolution. We therefore interpolate the complex carrier
+$q(r)$ on the actual two-dimensional mapped Chebyshev grid, then compare
+$q$ and its physical radial derivative with independent analytic formulas.
+The audit uses nine physical polar rays and 513 radii from $8M_0$ through
+$41.7482M_0$, augmented by one-sided probes around the inactive focus.
+Errors are normalized to the carrier/derivative peak, not the Kerr metric
+or the pointwise value at a wave zero. Phase is tested where the carrier
+exceeds 10\% of its peak. Each error must be below $10^{-3}$, with phase
+in radians. These are finite-ray tests, not global tensor error bounds.
+
+The physical seed, packet, attenuation and nonlinear tolerance stay fixed.
+Only the numerical map changes: the inactive mass-zero focus moves from
+$z=-32M_0$ to $-16M_0$, and radial stretch changes from 0.2 to 1.
+Its typed basis is \path{modal_P_C2tauC4_focus_map_v9_r1_k2}; a checkpoint
+requires the matching producer and CPU reader.
+\begin{center}
+\begin{tabular}{rrrr}
+\toprule
+Grid & Carrier error & Radial derivative error & Core phase (rad)\\
+\midrule
+Original $160\times320\times16$ & $2.9462\,10^{-1}$ & $4.2871\,10^{-1}$ & $5.3248\,10^{-1}$\\
+Revised $384\times128\times16$ & $1.8988\,10^{-3}$ & $8.9282\,10^{-3}$ & $9.8529\,10^{-3}$\\
+Revised $480\times128\times16$ & $3.2587\,10^{-4}$ & $1.9214\,10^{-3}$ & $1.3762\,10^{-3}$\\
+Revised $576\times128\times16$ & $5.3187\,10^{-5}$ & $5.3669\,10^{-4}$ & $1.1221\,10^{-4}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Only the revised finest carrier passes all three criteria. A radial-only
+increase to $768\times64\times16$ with the original map fails badly:
+its physical derivative error is 8.64. Adequate polar resolution is needed
+even for a physical radial wave because of the prolate map.
+\begin{figure}[htbp]
+\includegraphics[width=\linewidth]{figures/wave9999-radial-resolution.png}
+\caption{Radial audit at unchanged physical free data. Upper panels:
+positive-axis carrier representation and maximum carrier errors over all
+rays; the proposed finest grid passes this value/first-derivative proxy.
+Lower panel: original saved solutions' ingoing-characteristic differences
+from the original $160\times320\times16$ reference, maximized over three
+polar angles and both conjugate modes, with each normalized to its reference
+wave peak. The outer packet fails the 0.1\% criterion. These differences
+are not continuum error bounds or results from a revised solved sequence.}
+\end{figure}
+
+The unconstrained scalar interpolant's second physical derivative is not
+convergent on the audited rays, even at 672 and 768 radial nodes.
+Those diagnostic failures are retained. This polynomial interpolant does
+not impose Cartesian focus compatibility; native free-data derivatives
+are evaluated analytically. Consequently the carrier pass above covers
+value, first derivative and phase only, and supplies no second-derivative
+or elliptic-source error bound. Independent physical constraints remain
+necessary before qualifying the solved initial data.
+
+A separate checkpoint diagnostic subtracts the Kerr background and samples
+$m=\pm2$ Fourier rings at 257 physical radii, three polar angles and 16 azimuths.
+It checks wave-normalized amplitude, phase, radial/time derivatives and
+$C_{\rm in,out}$ differences, with a finest packet-wide independent FD6
+constraint check at 97 radii on five rays, including both poles and
+$\cos\theta=\pm0.95,0$. Both physical constraint maxima must be below
+$10^{-8}M_0^{-2}$, and their RMS must decrease relative to the unsolved trial. The analytic input-mode oracle agrees within
+$5.8\,10^{-17}$. Smooth analytic seed samples alone do not qualify spectral
+resolution, and a nonconverged diagnostic checkpoint cannot qualify the
+solved wave. Original horizons do not transfer to a refined solution.
+
+Applying this check to all three original saved solutions shows decreasing
+wave differences, but insufficient resolution at the stated accuracy:
+\begin{center}
+\begin{tabular}{rrrr}
+\toprule
+Original $N_r$ pair & $\Delta h$ & $\Delta\dot h$ & $\Delta C_{\rm in}$\\
+\midrule
+$96\to128$ & $5.7272\,10^{-6}$ & $0.18743$ & $0.094617$\\
+$128\to160$ & $1.8718\,10^{-6}$ & $0.10471$ & $0.052333$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Here $N_\theta=2N_r$, $N_\phi=16$, and each entry is the maximum
+wave-peak-normalized difference over the six polar-angle/mode components.
+The finest phase difference is only $1.24\,10^{-5}$ radians, but the time
+derivative and ingoing characteristic fail the $10^{-3}$ criterion.
+A small metric difference and the single midpoint characteristic therefore
+do not establish resolution throughout the packet.
+
+At the original finest grid, the denser 485-point packet FD6 check gives
+raw RMS values $\|H\|=6.72\,10^{-9}$ and $\|M\|=1.01\,10^{-7}$,
+and maxima $6.36\,10^{-8}$ and $6.86\,10^{-7}$; both maxima fail the
+$10^{-8}$ bound. The unperturbed-seed observer calibration has maxima
+$5.44\,10^{-10}$ and $3.13\,10^{-16}$ at the same points and steps.
+No observer floor is subtracted. The original source formulation is checked
+against the complete checkpoint headers, allowing only grid and iteration/
+memory limits to vary. These diagnostics require no new original-case solves.
+
+The refined native study does not pass its first nonlinear stopping gate.
+At $384\times128\times16$, continuation from a retained diagnostic with the
+production modal inverse, GMRES restart 200 and up to 4,000 iterations per
+inner solve ends at scaled maximum residual $9.57\,10^{-11}$, above the
+unchanged $10^{-12}$ requirement. The first inner step reaches its original
+relative-$L^2$ target of 0.5; the next stops at 0.642 after 4,000 iterations.
+This attempt takes 4,516 Krylov iterations in total. Its 54-observer physical
+Hamiltonian RMS is $7.97\,10^{-10}$, but momentum RMS worsens from
+$3.90\,10^{-9}$ to $2.12\,10^{-8}$ despite the smaller native residual.
+These remain diagnostic states, not accepted initial data. A bounded LGMRES
+continuation and the existing spectral radial inverse also fail; the latter's
+polynomial control passes at $3.7\,10^{-14}$ but does not establish benefit
+for this physical case. Earlier failures and an interrupted loose-inner
+continuation are retained separately.
+
+Fourier localization of the retained scaled native residual places
+99.56\% of its squared $L^2$ norm in $m=0$--3. The $m=0,1,3$ maxima
+are at radii $0.294M_0$--$0.301M_0$, just outside the seed horizon;
+the $m=2$ maximum is at $0.1745M_0$, within the interior transition.
+This identifies a near-hole target for further operator/regularity diagnosis;
+it is not a physical-constraint bound or proof of the cause. The independently
+computed Fourier norm agrees with the nodal norm to $5.8\,10^{-15}$ relative.
+
+The three planned revised grids therefore have only carrier-audit results;
+they are not a completed three-resolution elliptic convergence sequence.
+No revised finest checkpoint is promoted to AthenaK, and no new horizon
+measurement is claimed. The original horizon measurements above remain
+measurements of their original, insufficiently qualified packet data.
+The refined solved-wave and horizon gates remain open. The evidence is
+under \path{validation/trumpet/wave9999-radial/}.
 
 \section{Reproducibility and remaining work}
 The native and consumer branches are \path{codex/hispid-trumpet} and

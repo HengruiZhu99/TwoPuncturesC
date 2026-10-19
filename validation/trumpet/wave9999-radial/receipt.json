@@ -1,0 +1,86 @@
+{
+  "schema": "hispid_wave_physical_radial_audit_v1",
+  "native_source_baseline": "12f89a69ea489abdf5b0a7ca349112e642824abb",
+  "native_source_sha256": {
+    "src/HiSpID_solver.cpp": "3f6f6cbd99ff1ae750e2692c8fcb07fc698788eaabbacb2b6ff684a390dc38d1",
+    "src/HiSpID_free_data.hpp": "b69730e503d99d6209c29b80d6ed96ed3fd582987d81ca1c9ac333304cd89fac",
+    "include/HiSpID.h": "00c0e3b695bd0c926629dfd7df15555b8f289a67df5cb2bf84071e9c61015392",
+    "CMakeLists.txt": "00e88306e606bdc8d2c96c5e3692405f9d8215e7883d2857e77d7d3459691c18"
+  },
+  "remote_root": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005",
+  "basis": "modal_P_C2tauC4_focus_map_v9_r1_k2",
+  "images": {
+    "mapped_cuda": "b7981e3a5c552cc302987913293d9c8cd40e60a5629fa9e8050be560a4272939",
+    "mapped_cpu_reader": "6143325d0b08e2c07bd33137dea618e8cedc3ac3203a8ef82493a63c00c61912",
+    "experimental_spectral_preconditioner_cuda": "2f20070c539a3327cf0aa1e0c1b664fdae242e078901d40f09975b66d9e1a2be"
+  },
+  "note": "The native C++ sources are unchanged. Numerical map and approximate-inverse compile options are recorded in build scripts; experimental preconditioner is not promoted. Failed and interrupted attempts do not transfer physical acceptance.",
+  "qualification": {
+    "original_dense_wave_check": "failed",
+    "revised_finest_carrier_value_first_derivative_phase": "passed",
+    "revised_first_native_grid": "failed",
+    "revised_three_resolution_elliptic_study": "not_completed_first_grid_failed",
+    "revised_finest_horizon": "not_run_native_gate_failed"
+  },
+  "original_profile_reader_sha256": "e3050628cbe3b90dcc618379d5b2e60f936fbef0810cf79ed86cbc0b3c16f98c",
+  "profile_driver_used_sha256": "7f94dd8cdc2047510e5dc64869c745f64d082a968ff533b979386749e9694690",
+  "profile_driver_current_sha256": "632d89d6bf03e3221f8f044532f4a2846f9082cfa2b140c54e41aea8515b414a",
+  "profile_driver_note": "Used-source patch removes only three additional configuration-inventory checks from the current driver; recovered source SHA is verified, all original checkpoint headers have identical formulation fields. Numerical sampling and thresholds are unchanged.",
+  "allocation": {
+    "job_id": "59975943",
+    "resource": "one A100, shared_interactive,32 allocated CPUs",
+    "released": true,
+    "release_confirmed": "squeue returned only its header after scancel"
+  },
+  "source_sha256": {
+    "validation/wave22_study.py": "17b5fa943bcd1fe365003983deab200a532c4cd5821c3b2030bb4f512de9f9a2",
+    "validation/wave22_carrier.py": "62f828ec6853fc2241f578d8f72832d2e585b9288f90ffc5cb4a49b7e78203ad",
+    "validation/wave22_physical_radial_audit.py": "522c6c78a4eaa809d7a19a5814409a55a8d14d30d4bfbf8232e21904a38b22e6",
+    "validation/wave22_radial_profiles.py": "632d89d6bf03e3221f8f044532f4a2846f9082cfa2b140c54e41aea8515b414a",
+    "validation/wave22_residual_modes.py": "86cf5bc99b24f80df3c2608ec1d94c93f5e171c5853be190418df5cf7bcd9f4a",
+    "validation/plot_wave22_radial.py": "2dc1262346c985469747b6341a6295ee5e06a5f09cf632c0808730dc5e77e27f"
+  },
+  "evidence_sha256": {
+    "README.md": "36cf7910e8b6ead3a2796f0163d643e63b2df172513598d6790a3e7d89c7b53f",
+    "build-mapped-libraries.sh": "c0360b68f2fcc04cb9ee137c0625492209c7653e59694cc6a01118b992da2282",
+    "build-spectral-preconditioner.log": "5cc384b170752f2d6b3bf0f7be0992897e451a41c76be2a6a99efafe2e798bd8",
+    "build-spectral-preconditioner.sh": "413f3522a8b14011a2a60e57bd1864ae3ab63ac83d1ea14c9cbe866ac6c45808",
+    "check-original-profiles.sh": "328775f4d94d2fd23cc9ef97b62a774f823c43bd7db59b83379bbae302751630",
+    "diagnostics-exit.json": "8f9e6a6d5ba2d41b69c8bba256df820fcdc428e866205d4b5c56b9f0f0d0f48e",
+    "failed-inexact-002.json": "f43ec91414a7e87c179230b16f8a643dea034e34e0fc6c6ce0755522753efb2d",
+    "failed-map-inner-002.json": "d3ef57028ed36f48b567eee659858994d76b124f2f5021b8ee9c920219c7f9a9",
+    "failed-map-inner-05.json": "567f2c8f28435e7f10beb8d9df408667af3caba70c551facd262bb7af5c3972a",
+    "failed-map-lgmres-01.json": "b688f3c031a8238c89c064c0a30c494b56b8087700a6fc75c989dc295778c673",
+    "failed-map-restart200.json": "27a83fdbe09dbea4865a0d15c20fc89544fa5379eae1e60c8d9fead732ec0f68",
+    "failed-map-restart200.log": "f22237d9a767b389a1a198c8ae6e732b789ba08ff7239311fa0bd28714b74c94",
+    "failed-map-spectral-preconditioner.json": "4fb810f67dbe1028826627a9efdf01e8c9ed063a2003a12b182ffb4a9df9e5e1",
+    "failed-map-spectral-preconditioner.log": "787cdf0fa939e1708eddeb64f883709eec529d3a8658bb82774f2b80283a5247",
+    "failed-solves-summary.json": "4c04386f3166b3b39c42fab43e85f836df0d6518e2d9924f75f65b8e992381a8",
+    "failed-tight-inner.json": "4ab0e01cb96f6819ff46494bf959d70d2501aa51d03a6f530e8c7c0656045d7e",
+    "interrupted-map-inner-09.log": "4ab580083fdf353214c4b149631d6692452e275c473c6e9c7d3b0cee543ac844",
+    "original-profile-headers.json": "609be1351b90973355af9ffb61ff13399aeba13118d3618d96b034a030106e1e",
+    "original-profiles.json": "9f245224ab8ab2613fa38b58b3da06bf2be0f390681cb3420958bf6d1a6ce87d",
+    "original-profiles.log": "9c765d0c1c201e1fa51e589dca1b648b866f024f06f5b09f0a8d470d8aaa959e",
+    "original-profiles.npz": "602b51e806cf2be62357519a7887b07e114f5f72f737ef43ae2144de211ec74c",
+    "physical-radial-audit.json": "d4298459eb63b6711f3dce8e245ab82ed2b7b09344f621a7a792c96cba2af6d3",
+    "planned-finest-checks.sh": "3b1e643ef35e3b71b59d67f39f79679c7087384d22d25c1781bfca0aff9ab413",
+    "profile-driver-used.patch": "b405d7ba2837551b4aec7513d5dedd333718d43d0f81a951e92e39de72d11ef2",
+    "profile-oracle-current.json": "8e2fd0c2f4ed74ed34d888f12f8ea19c96f7bc1e275c2a7baef4e776898b15cb",
+    "profile-oracle-perlmutter.json": "3371946eeecf169ade8f76f19d1968ad80a7063212a18dc814afcc08702d36f9",
+    "profile-oracle.json": "75e8a563fdd4c27fa8bf0177303c71ea6baf0b0396fa51cbea90b0b0524ac3c5",
+    "residual-mode-localization.json": "2d37e954bd7b02efd6c54512e96e72674edb4d31031106e7865bb45359d53702",
+    "residual-modes.json": "3cd9ce9f4303aaac8c7d9bc5b0347ba262c4e147168fe85f1c41eb0710a096d8",
+    "run-diagnostics.sh": "3e8ea91fe6ad08b8cb9952f264544877fcd6f29d50b86cbd29c25a4c044e618f",
+    "run-initial-map-control.sh": "0c2f681a96a17fdcca4e04060df5730d5a2f61a2a4ab5d1d7a94ebcf2233239d",
+    "run-inner-continuation.sh": "c3bb055f3868ba370478738a4b70f6101d483791107a6a8951f3e0b57f9ec0b3",
+    "run-spectral-preconditioner.sh": "8107f49f81db5f2a5cef4f43d95b57fe045af486e7bc109db629134ce8962186",
+    "run-study.sh": "6d0b40a28d107121611921661ce2cd26240aff174968af4d170d1d1da6f8b399",
+    "unconstrained-second-derivative-diagnostic.json": "844bd3bdda65a3bc73b22c4b0981c128378ed08ae0c133ed76ba447c121cdb43"
+  },
+  "report_artifact_sha256": {
+    "docs/TRUMPET_FORMULATION_VALIDATION.tex": "c2c65b9f5d8097f258804b5fc1ef912d379ea20fea6282e7408d496530e30731",
+    "docs/figures/wave9999-radial-resolution.png": "e6ee542acf81cc02d727907f551ade0e2356cd38dbaa537da46d210e959d6d85",
+    "docs/TRUMPET_IMPLEMENTATION.md": "305b3a74deecfadd455cf513165c7a7278515db4eded839fd7f7a1302d98ce24"
+  },
+  "original_horizon_receipt_sha256": "3771da3ee2e394d106541d58c56a08a160e533b964138b847d6f0fb947af77f9"
+}

@@ -1,0 +1,11 @@
+before {'count': 54, 'H_rms': 1.6975651281977693e-06, 'H_max': 5.729639693737589e-06, 'M_rms': 5.9595594057578096e-06, 'M_max': 1.6550548960926544e-05, 'M_components_rms': [3.812831418614744e-06, 3.7575292504296084e-06, 2.07307449749124e-06], 'M_components_max': [1.5057827625958963e-05, 1.5339054847665265e-05, 6.340850705799393e-06], 'normalized_H_max': 0.9999999996554547, 'normalized_M_max': 0.9992932710063943}
+setup 384 {'geometry_execution': 0, 'scalar_digits': 64, 'spectral_seconds': 0.23268273801939204, 'geometry_seconds': 64.79716559100558, 'coefficient_seconds': 0.0}
+HiSpID linear it=0 recurrence_relative=1.0000000000006144 (true residual checked by controller)
+HiSpID Newton trace it=0 residual_l2=7.6047405681400379e-09 step_linf=1.4499205839387035 linear_relative=0.8999420902585501 slope=-0.19010423787310277
+HiSpID Newton trial it=0 damping=1 residual_ratio=0.89994209020535487 directional_remainder=1.8791849450606398e-07 min_psi=1.0000000877736577 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1.000000000000618 (true residual checked by controller)
+HiSpID linear it=100 recurrence_relative=0.91385593020705969 (true residual checked by controller)
+HiSpID Newton trace it=1 residual_l2=6.8438261223614034e-09 step_linf=2.1120434222576505 linear_relative=0.89901834873425046 slope=-0.18353375839571856
+HiSpID Newton trial it=1 damping=1 residual_ratio=0.89901834783889079 directional_remainder=2.1578250337542371e-07 min_psi=1.0000000877736572 nonfinite=0
+HiSpID linear it=0 recurrence_relative=1.0000000000006752 (true residual checked by controller)
+HiSpID linear it=100 recurrence_relative=0.9503860699094927 (true residual checked by controller)

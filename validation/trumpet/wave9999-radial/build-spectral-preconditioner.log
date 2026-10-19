@@ -1,0 +1,1322 @@
+srun: Step created for StepId=59975943.4
+-- The C compiler identification is GNU 14.3.0
+-- The CXX compiler identification is GNU 14.3.0
+-- Cray Programming Environment 2.7.36 C
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /opt/cray/pe/craype/2.7.36/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /pscratch/sd/h/hzhu/codex-hispid-kokkos-20261002/kokkos/bin/nvcc_wrapper - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found GSL: /usr/include (found version "2.6") 
+-- Found CUDAToolkit: /opt/nvidia/hpc_sdk/Linux_x86_64/26.5/cuda/13.2/targets/x86_64-linux/include (found version "13.2.78") 
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5") found components: CXX 
+-- Enabled Kokkos devices: OPENMP;SERIAL;CUDA
+CMake Warning at /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/cmake_packages/Kokkos/KokkosConfigCommon.cmake:59 (message):
+  The installed Kokkos configuration does not support CXX extensions.
+  Forcing -DCMAKE_CXX_EXTENSIONS=Off
+Call Stack (most recent call first):
+  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-cuda/cmake_packages/Kokkos/KokkosConfig.cmake:44 (include)
+  CMakeLists.txt:124 (find_package)
+
+
+-- Configuring done (9.0s)
+-- Generating done (0.2s)
+-- Build files have been written to: /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-wave-radial-spectral-v1
+[ 33%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureExecution.c.o
+[ 33%] Building C object CMakeFiles/TwoPunctures.dir/src/PunctureKrylov.c.o
+[ 33%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_CoordTransf.c.o
+[ 46%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Equations.c.o
+[ 46%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_FuncAndJacobian.c.o
+[ 46%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Modal.c.o
+[ 60%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Newton.c.o
+[ 66%] Building C object CMakeFiles/TwoPunctures.dir/src/TwoPunctures.c.o
+[ 66%] Building C object CMakeFiles/TwoPunctures.dir/src/TP_Utilities.c.o
+[ 66%] Building CXX object CMakeFiles/TwoPunctures.dir/src/PunctureKokkos.cpp.o
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(178): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    std::vector<double> values{params_get_real("par_b")};
+                                               ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(207): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   int budget=params_get_int("TP_execution_memory_limit_mib");
+                             ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(256): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(256): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(264): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   if(!w||!v||!F||!u||v==u||v->size!=w->total||u->size!=w->total||params_get_int("do_residuum_debug_output"))return PK_INVALID;
+                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(274): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(274): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(300): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(300): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                               ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(178): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    std::vector<double> values{params_get_real("par_b")};
+                                               ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(207): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   int budget=params_get_int("TP_execution_memory_limit_mib");
+                             ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(256): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(256): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    puncture::initialize();PK_Options options{};options.method=params_get_int("TP_krylov_solver");options.restart=params_get_int("TP_krylov_restart");
+                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(264): warning #2464-D: conversion from a string literal to "char *" is deprecated
+   if(!w||!v||!F||!u||v==u||v->size!=w->total||u->size!=w->total||params_get_int("do_residuum_debug_output"))return PK_INVALID;
+                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(274): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(274): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    w->A.physical_fields(w->input);auto fields=w->A.fields,geo=w->geometry,out=w->rhs;double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                                                                                                                 ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(300): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                              ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/PunctureKokkos.cpp(300): warning #2464-D: conversion from a string literal to "char *" is deprecated
+    double mp=params_get_real("par_m_plus"),mm=params_get_real("par_m_minus");
+                                                               ^
+
+[ 73%] Linking CXX shared library libTwoPunctures.so
+[ 73%] Built target TwoPunctures
+[ 86%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_geometry.cpp.o
+[ 86%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_solver.cpp.o
+[ 93%] Building CXX object CMakeFiles/HiSpID.dir/src/HiSpID_setup_kokkos.cpp.o
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_solver.cpp(794): warning #177-D: variable "N" was declared but never referenced
+    if(!groups)return;const int N=a*b;
+                                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_types.hpp(16): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("point_norm") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             Real point_norm(const double *a){return std::sqrt((Real)a[0]*a[0]+(Real)a[1]*a[1]+(Real)a[2]*a[2]);}
+                                                                                     ^
+          detected during instantiation of "Real hispid::point_norm<Real>(const double *) [with Real=long double]" at line 12 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_types.hpp(16): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             Real point_norm(const double *a){return std::sqrt((Real)a[0]*a[0]+(Real)a[1]*a[1]+(Real)a[2]*a[2]);}
+                                                                                              ^
+          detected during instantiation of "Real hispid::point_norm<Real>(const double *) [with Real=long double]" at line 12 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("trumpet_seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                             ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("trumpet_seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                                         ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                      ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                                                  ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(15): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   Real boost=1/std::sqrt(1-v2),B[4][4]={};
+                ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(32): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real rp=m+std::sqrt(m*m-a*a),rm=a*a/rp,c=rp/4;
+                   ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(15): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   Real boost=1/std::sqrt(1-v2),B[4][4]={};
+                         ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(32): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real rp=m+std::sqrt(m*m-a*a),rm=a*a/rp,c=rp/4;
+                            ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(57): warning #20013-D: calling a constexpr __host__ function("exp") from a __host__ __device__ function("exp") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> exp(const JetT<Real>&a){Real v=std::exp(a.v);return unary(a,v,v,v);}
+                                                                                       ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::exp(const hispid::JetT<Real> &) [with Real=long double]" at line 254 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(57): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> exp(const JetT<Real>&a){Real v=std::exp(a.v);return unary(a,v,v,v);}
+                                                                                               ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::exp(const hispid::JetT<Real> &) [with Real=long double]" at line 254 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("exp") from a __host__ __device__ function("expm1") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                                         ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 254 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("expm1") from a __host__ __device__ function("expm1") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                                                                      ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 254 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(58): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                                                 ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 254 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(58): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
+                                                                                                                                ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::expm1(const hispid::JetT<Real> &) [with Real=long double]" at line 254 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(195): warning #20013-D: calling a constexpr __host__ function("acos") from a __host__ __device__ function("inner") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return (JetT<Real>(1)+tanh(tan(JetT<Real>(std::acos(Real(-1))/2)*(JetT<Real>(-1)+JetT<Real>(2)*z))))/JetT<Real>(2);
+                                             ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 257
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(59): warning #20013-D: calling a constexpr __host__ function("tan") from a __host__ __device__ function("tan") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
+                                                                                       ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tan(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 257 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(59): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
+                                                                                               ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tan(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 257 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(60): warning #20013-D: calling a constexpr __host__ function("tanh") from a __host__ __device__ function("tanh") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
+                                                                                        ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tanh(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 257 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(60): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
+                                                                                                 ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tanh(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 257 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(195): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return (JetT<Real>(1)+tanh(tan(JetT<Real>(std::acos(Real(-1))/2)*(JetT<Real>(-1)+JetT<Real>(2)*z))))/JetT<Real>(2);
+                                                      ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 257
+            instantiation of "int hispid::background_geometry(const HiSpID_Config &, const double *, hispid::BackgroundT<Real> &, __nv_bool, int) [with Real=long double]" at line 23 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry.cpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(195): warning #20013-D: calling a constexpr __host__ function("acos") from a __host__ __device__ function("inner") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return (JetT<Real>(1)+tanh(tan(JetT<Real>(std::acos(Real(-1))/2)*(JetT<Real>(-1)+JetT<Real>(2)*z))))/JetT<Real>(2);
+                                             ^
+          detected during instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(59): warning #20013-D: calling a constexpr __host__ function("tan") from a __host__ __device__ function("tan") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
+                                                                                       ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tan(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(59): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
+                                                                                               ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tan(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(60): warning #20013-D: calling a constexpr __host__ function("tanh") from a __host__ __device__ function("tanh") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
+                                                                                        ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tanh(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(60): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
+                                                                                                 ^
+          detected during:
+            instantiation of "hispid::JetT<Real> hispid::tanh(const hispid::JetT<Real> &) [with Real=long double]" at line 195 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(195): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return (JetT<Real>(1)+tanh(tan(JetT<Real>(std::acos(Real(-1))/2)*(JetT<Real>(-1)+JetT<Real>(2)*z))))/JetT<Real>(2);
+                                                      ^
+          detected during instantiation of "hispid::JetT<Real> hispid::inner(const hispid::JetT<Real> &, double, double) [with Real=long double]" at line 19 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(57): warning #20013-D: calling a constexpr __host__ function("exp") from a __host__ __device__ function("exp") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> exp(const JetT<Real>&a){Real v=std::exp(a.v);return unary(a,v,v,v);}
+                                                                                       ^
+          detected during instantiation of "hispid::JetT<Real> hispid::exp(const hispid::JetT<Real> &) [with Real=long double]" at line 22 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(57): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> exp(const JetT<Real>&a){Real v=std::exp(a.v);return unary(a,v,v,v);}
+                                                                                               ^
+          detected during instantiation of "hispid::JetT<Real> hispid::exp(const hispid::JetT<Real> &) [with Real=long double]" at line 22 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20013-D: calling a constexpr __host__ function("cos") from a __host__ __device__ function("cos") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> cos(const JetT<Real>&a){return unary(a,std::cos(a.v),-std::sin(a.v),-std::cos(a.v));}
+                                                                                               ^
+          detected during instantiation of "hispid::JetT<Real> hispid::cos(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("cos") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> cos(const JetT<Real>&a){return unary(a,std::cos(a.v),-std::sin(a.v),-std::cos(a.v));}
+                                                                                                              ^
+          detected during instantiation of "hispid::JetT<Real> hispid::cos(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20013-D: calling a constexpr __host__ function("cos") from a __host__ __device__ function("cos") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> cos(const JetT<Real>&a){return unary(a,std::cos(a.v),-std::sin(a.v),-std::cos(a.v));}
+                                                                                                                             ^
+          detected during instantiation of "hispid::JetT<Real> hispid::cos(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> cos(const JetT<Real>&a){return unary(a,std::cos(a.v),-std::sin(a.v),-std::cos(a.v));}
+                                                                                                       ^
+          detected during instantiation of "hispid::JetT<Real> hispid::cos(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> cos(const JetT<Real>&a){return unary(a,std::cos(a.v),-std::sin(a.v),-std::cos(a.v));}
+                                                                                                                      ^
+          detected during instantiation of "hispid::JetT<Real> hispid::cos(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> cos(const JetT<Real>&a){return unary(a,std::cos(a.v),-std::sin(a.v),-std::cos(a.v));}
+                                                                                                                                     ^
+          detected during instantiation of "hispid::JetT<Real> hispid::cos(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("sin") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> sin(const JetT<Real>&a){return unary(a,std::sin(a.v),std::cos(a.v),-std::sin(a.v));}
+                                                                                               ^
+          detected during instantiation of "hispid::JetT<Real> hispid::sin(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20013-D: calling a constexpr __host__ function("cos") from a __host__ __device__ function("sin") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> sin(const JetT<Real>&a){return unary(a,std::sin(a.v),std::cos(a.v),-std::sin(a.v));}
+                                                                                                             ^
+          detected during instantiation of "hispid::JetT<Real> hispid::sin(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("sin") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> sin(const JetT<Real>&a){return unary(a,std::sin(a.v),std::cos(a.v),-std::sin(a.v));}
+                                                                                                                            ^
+          detected during instantiation of "hispid::JetT<Real> hispid::sin(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> sin(const JetT<Real>&a){return unary(a,std::sin(a.v),std::cos(a.v),-std::sin(a.v));}
+                                                                                                       ^
+          detected during instantiation of "hispid::JetT<Real> hispid::sin(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> sin(const JetT<Real>&a){return unary(a,std::sin(a.v),std::cos(a.v),-std::sin(a.v));}
+                                                                                                                     ^
+          detected during instantiation of "hispid::JetT<Real> hispid::sin(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             JetT<Real> sin(const JetT<Real>&a){return unary(a,std::sin(a.v),std::cos(a.v),-std::sin(a.v));}
+                                                                                                                                    ^
+          detected during instantiation of "hispid::JetT<Real> hispid::sin(const hispid::JetT<Real> &) [with Real=long double]" at line 26 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_types.hpp(16): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("point_norm") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             Real point_norm(const double *a){return std::sqrt((Real)a[0]*a[0]+(Real)a[1]*a[1]+(Real)a[2]*a[2]);}
+                                                                                     ^
+          detected during instantiation of "Real hispid::point_norm<Real>(const double *) [with Real=long double]" at line 41 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_types.hpp(16): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+                                             Real point_norm(const double *a){return std::sqrt((Real)a[0]*a[0]+(Real)a[1]*a[1]+(Real)a[2]*a[2]);}
+                                                                                              ^
+          detected during instantiation of "Real hispid::point_norm<Real>(const double *) [with Real=long double]" at line 41 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("trumpet_seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                             ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("trumpet_seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                                         ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                      ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+    const Real a=smag/m, gap=std::sqrt(m*m-a*a), boost=1/std::sqrt(1-v2);
+                                                                  ^
+          detected during:
+            instantiation of "int hispid::trumpet_seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, Real *) [with Real=long double]" at line 9 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp
+            instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(15): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   Real boost=1/std::sqrt(1-v2),B[4][4]={};
+                ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(32): warning #20013-D: calling a constexpr __host__ function("sqrt") from a __host__ __device__ function("seed_geometry") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real rp=m+std::sqrt(m*m-a*a),rm=a*a/rp,c=rp/4;
+                   ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(15): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   Real boost=1/std::sqrt(1-v2),B[4][4]={};
+                         ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(32): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real rp=m+std::sqrt(m*m-a*a),rm=a*a/rp,c=rp/4;
+                            ^
+          detected during instantiation of "int hispid::seed_geometry(const HiSpID_Hole &, int, const double *, hispid::SeedT<Real> &, __nv_bool, int) [with Real=long double]" at line 62 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_free_data.hpp
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_types.hpp(16): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::point_norm<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(12): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(13): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(13): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(13): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(15): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(24): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(32): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(42): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(290): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(25): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::trumpet_seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::trumpet_seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(56): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(84): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(57): warning #20013-D: calling a constexpr __host__ function("std::exp(long double)") from a __host__ __device__ function("hispid::exp<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("std::exp(long double)") from a __host__ __device__ function("hispid::expm1<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(58): warning #20013-D: calling a constexpr __host__ function("std::expm1(long double)") from a __host__ __device__ function("hispid::expm1<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(194): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(194): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(195): warning #20013-D: calling a constexpr __host__ function("std::acos(long double)") from a __host__ __device__ function("hispid::inner<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(59): warning #20013-D: calling a constexpr __host__ function("std::tan(long double)") from a __host__ __device__ function("hispid::tan<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(60): warning #20013-D: calling a constexpr __host__ function("std::tanh(long double)") from a __host__ __device__ function("hispid::tanh<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(229): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(88): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(90): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(19): warning #20013-D: calling a constexpr __host__ function("acos") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real pi=std::acos(Real(-1)),ti=pi*(Real(i)+Real(.5))/Real(N),tj=pi*(Real(j)+Real(.5))/Real(N);
+                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                                   ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(21): warning #20013-D: calling a constexpr __host__ function("sin") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real d=(std::abs(i-j)%2?Real(-1):Real(1))*std::sin(tj)/(si*dx);
+                                                   ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(22): warning #20013-D: calling a constexpr __host__ function("cos") from a __host__ __device__ function("chebyshev_offdiagonal") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return order==1?d:Real(2)*d*(-std::cos(ti)/(Real(2)*si*si)-Real(1)/dx);
+                                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(19): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real pi=std::acos(Real(-1)),ti=pi*(Real(i)+Real(.5))/Real(N),tj=pi*(Real(j)+Real(.5))/Real(N);
+                          ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                 ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real si=std::sin(ti),dx=Real(2)*std::sin((ti+tj)/Real(2))*std::sin((ti-tj)/Real(2));
+                                                                           ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(21): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   const Real d=(std::abs(i-j)%2?Real(-1):Real(1))*std::sin(tj)/(si*dx);
+                                                           ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(22): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+   return order==1?d:Real(2)*d*(-std::cos(ti)/(Real(2)*si*si)-Real(1)/dx);
+                                         ^
+          detected during instantiation of "Real hispid::chebyshev_offdiagonal<Real>(int, int, int, int) [with Real=long double]" at line 29 of /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_radial_preconditioner.hpp
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_solver.cpp(69): warning #177-D: variable "<unnamed>::hi" was declared but never referenced
+  const int hi[6]={1,1,1,2,2,3},hj[6]={1,2,3,2,3,3};
+            ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_solver.cpp(69): warning #177-D: variable "<unnamed>::hj" was declared but never referenced
+  const int hi[6]={1,1,1,2,2,3},hj[6]={1,2,3,2,3,3};
+                                ^
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_solver.cpp(995): warning #177-D: function "<unnamed>::gmres" was declared but never referenced
+  bool gmres(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,std::vector<double>&x,double rtol,bool eager=false){
+       ^
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(56): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(194): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(194): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(195): warning #20013-D: calling a constexpr __host__ function("std::acos(long double)") from a __host__ __device__ function("hispid::inner<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(57): warning #20013-D: calling a constexpr __host__ function("std::exp(long double)") from a __host__ __device__ function("hispid::exp<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20013-D: calling a constexpr __host__ function("std::cos(long double)") from a __host__ __device__ function("hispid::cos<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::cos<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(62): warning #20013-D: calling a constexpr __host__ function("std::cos(long double)") from a __host__ __device__ function("hispid::cos<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::sin<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20013-D: calling a constexpr __host__ function("std::cos(long double)") from a __host__ __device__ function("hispid::sin<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(61): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::sin<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_types.hpp(16): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::point_norm<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(12): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(13): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(13): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(13): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(15): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(24): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(32): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(42): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(84): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(88): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(90): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(19): warning #20013-D: calling a constexpr __host__ function("std::acos(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(20): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(21): warning #20013-D: calling a constexpr __host__ function("std::sin(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_spectral.hpp(22): warning #20013-D: calling a constexpr __host__ function("std::cos(long double)") from a __host__ __device__ function("hispid::chebyshev_offdiagonal<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(59): warning #20013-D: calling a constexpr __host__ function("std::tan(long double)") from a __host__ __device__ function("hispid::tan<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_jets.hpp(60): warning #20013-D: calling a constexpr __host__ function("std::tanh(long double)") from a __host__ __device__ function("hispid::tanh<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(25): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::trumpet_seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(29): warning #20013-D: calling a constexpr __host__ function("std::sqrt(long double)") from a __host__ __device__ function("hispid::trumpet_seed_geometry<long double> ") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_trumpet.hpp(30): warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+Warning #20208-D: 'long double' is treated as 'double' in device code
+
+/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/source-wave-radial-map-v1/src/HiSpID_geometry_kernels.hpp(290): warning #20208-D: 'long double' is treated as 'double' in device code
+
+[100%] Linking CXX shared library libHiSpID.so
+[100%] Built target HiSpID
+[ 64%] Built target TwoPunctures
+[ 88%] Built target HiSpID
+[ 94%] Building CXX object CMakeFiles/test_hispid_radial_preconditioner.dir/tests/test_hispid_radial_preconditioner.cpp.o
+nvcc_wrapper has been given GNU extension standard flag -std=gnu++17 - reverting flag to -std=c++17
+[100%] Linking CXX executable test_hispid_radial_preconditioner
+[100%] Built target test_hispid_radial_preconditioner
+mapped polynomial radial operator worst scaled error=3.65731e-14
+2f20070c539a3327cf0aa1e0c1b664fdae242e078901d40f09975b66d9e1a2be  /pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/build-wave-radial-spectral-v1/libHiSpID.so

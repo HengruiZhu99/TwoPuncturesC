@@ -1,0 +1,5 @@
+{
+  "legacy_profile_exit": 1,
+  "residual_localization_exit": 0,
+  "purpose": "diagnostics, not acceptance of a refined solution"
+}

@@ -1,0 +1,11 @@
+--- a/validation/wave22_radial_profiles.py
++++ b/validation/wave22_radial_profiles.py
+@@ -92,7 +92,7 @@
+         if meta['acceptance']=='diagnostic':raise ValueError('nonconverged diagnostic checkpoint cannot qualify the solved wave')
+         if source_wave is not None and c.wave22.as_dict()!=source_wave:raise ValueError('different wave data')
+         source_wave=c.wave22.as_dict();w=c.wave22
+-        case=dict(conformal_choice=c.conformal_choice,inner_flatten=c.inner_flatten,attenuation_power=c.attenuation_power,holes=[[h.mass,*h.center,*h.spin,*h.velocity] for h in c.hole],inner_min=list(c.inner_min),inner_max=list(c.inner_max),omega=list(c.omega),far_radius=c.far_radius,tolerance=c.tolerance,seed_family=c.seed_family)
++        case=dict(holes=[[h.mass,*h.center,*h.spin,*h.velocity] for h in c.hole],inner_min=list(c.inner_min),inner_max=list(c.inner_max),omega=list(c.omega),far_radius=c.far_radius,tolerance=c.tolerance,seed_family=c.seed_family)
+         if source_case is not None and case!=source_case:raise ValueError('physical case or stopping tolerance changed')
+         source_case=case
+         if c.seed_family!='liu' or c.hole[0].mass!=1 or c.hole[1].mass!=0 or any(c.hole[0].velocity) or any(c.hole[0].center) or any(c.hole[0].spin[:2]) or not 0<c.hole[0].spin[2]<1:raise ValueError('centered mass-one stationary Liu hole with positive z spin required')

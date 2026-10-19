@@ -1,0 +1,151 @@
+{
+  "wave22": {
+    "propagation": 1,
+    "handedness": 1,
+    "amplitude": 0.001,
+    "omega": 0.9760972454792889,
+    "cycles": 4.0,
+    "r0": 12.0,
+    "time": 0.0,
+    "cutoff_min": 2.0,
+    "cutoff_max": 4.0
+  },
+  "criteria": {
+    "value_relative_linf": 0.001,
+    "dr_relative_linf": 0.001,
+    "dr2_relative_linf": 0.001,
+    "core_phase_radians": 0.001
+  },
+  "definition": "Complex carrier interpolated on the actual two-dimensional prolate grid; physical radial derivatives include both map coordinates; nine physical polar rays,513 radii plus one-sided probes around the inactive focus",
+  "limitations": "Carrier resolution test, not full tensor-coefficient or constraint error bound; excludes only the coordinate-degenerate focus itself and probes both sides",
+  "driver_sha256": "db5780540df0c65e20f76c83ac71a42f47194935cf9183b03a9fbd48ce14dc38",
+  "study_sha256": "2d1fce65a1fe3d8e00ce82747730c6439dc1dc10a6aac3b6519ddd43d57708b8",
+  "rows": [
+    {
+      "n": [
+        160,
+        320,
+        16
+      ],
+      "focus_separation": 32.0,
+      "radial_stretch": 0.2,
+      "query_count": 4653,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 0.29461659803701323,
+        "dr": 0.42871059133961287,
+        "dr2": 2.2277867838857657
+      },
+      "phase_max_radians_above_ten_percent": 0.5324804018912503,
+      "passed": false
+    },
+    {
+      "n": [
+        768,
+        64,
+        16
+      ],
+      "focus_separation": 32.0,
+      "radial_stretch": 0.2,
+      "query_count": 4653,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 0.1248855637611506,
+        "dr": 8.64422450771281,
+        "dr2": 3837.397183035501
+      },
+      "phase_max_radians_above_ten_percent": 0.31222991132156175,
+      "passed": false
+    },
+    {
+      "n": [
+        384,
+        128,
+        16
+      ],
+      "focus_separation": 16.0,
+      "radial_stretch": 1.0,
+      "query_count": 4653,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 0.0018987623470362069,
+        "dr": 0.008928151642737752,
+        "dr2": 5.932501776811019
+      },
+      "phase_max_radians_above_ten_percent": 0.009852863565444655,
+      "passed": false
+    },
+    {
+      "n": [
+        480,
+        128,
+        16
+      ],
+      "focus_separation": 16.0,
+      "radial_stretch": 1.0,
+      "query_count": 4653,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 0.00032586572415834044,
+        "dr": 0.0019214135322030235,
+        "dr2": 2.87302973541574
+      },
+      "phase_max_radians_above_ten_percent": 0.0013761796380098014,
+      "passed": false
+    },
+    {
+      "n": [
+        576,
+        128,
+        16
+      ],
+      "focus_separation": 16.0,
+      "radial_stretch": 1.0,
+      "query_count": 4653,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 5.31867851966568e-05,
+        "dr": 0.0005366886161344572,
+        "dr2": 2.3325944552401823
+      },
+      "phase_max_radians_above_ten_percent": 0.00011220602425383282,
+      "passed": false
+    },
+    {
+      "n": [
+        672,
+        128,
+        16
+      ],
+      "focus_separation": 16.0,
+      "radial_stretch": 1.0,
+      "query_count": 4653,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 1.7675813864521653e-05,
+        "dr": 0.0005519054955912165,
+        "dr2": 2.39874634950928
+      },
+      "phase_max_radians_above_ten_percent": 8.791492804177717e-05,
+      "passed": false
+    },
+    {
+      "n": [
+        768,
+        128,
+        16
+      ],
+      "focus_separation": 16.0,
+      "radial_stretch": 1.0,
+      "query_count": 4653,
+      "excluded_degenerate_points": 0,
+      "relative_linf": {
+        "value": 1.76796041159855e-05,
+        "dr": 0.0005538903132777317,
+        "dr2": 2.4073730121852592
+      },
+      "phase_max_radians_above_ten_percent": 8.70291074772535e-05,
+      "passed": false
+    }
+  ]
+}

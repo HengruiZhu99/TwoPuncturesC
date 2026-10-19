@@ -1,0 +1,293 @@
+{
+  "headers": [
+    {
+      "HISPID_CHECKPOINT": [
+        "3"
+      ],
+      "parameterization": [
+        "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2"
+      ],
+      "seed_family": [
+        "liu"
+      ],
+      "wave22": [
+        "1",
+        "1",
+        "0.001",
+        "0.97609724547928889",
+        "4",
+        "12",
+        "0",
+        "2",
+        "4"
+      ],
+      "library_sha256": [
+        "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1"
+      ],
+      "acceptance": [
+        "preliminary"
+      ],
+      "hole0": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0.99990000000000001",
+        "0",
+        "0",
+        "0"
+      ],
+      "hole1": [
+        "0",
+        "0",
+        "0",
+        "-32",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "n": [
+        "96",
+        "192",
+        "16"
+      ],
+      "conformal_choice": [
+        "1"
+      ],
+      "inner_flatten": [
+        "1"
+      ],
+      "omega": [
+        "0",
+        "0"
+      ],
+      "attenuation_power": [
+        "4"
+      ],
+      "inner_min": [
+        "0.10000000000000001",
+        "0"
+      ],
+      "inner_max": [
+        "0.20000000000000001",
+        "0"
+      ],
+      "far_radius": [
+        "0"
+      ],
+      "tolerance": [
+        "9.9999999999999998e-13"
+      ],
+      "max_newton": [
+        "12"
+      ],
+      "max_krylov": [
+        "1200"
+      ],
+      "krylov_restart": [
+        "100"
+      ],
+      "memory_limit_mib": [
+        "32768"
+      ]
+    },
+    {
+      "HISPID_CHECKPOINT": [
+        "3"
+      ],
+      "parameterization": [
+        "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2"
+      ],
+      "seed_family": [
+        "liu"
+      ],
+      "wave22": [
+        "1",
+        "1",
+        "0.001",
+        "0.97609724547928889",
+        "4",
+        "12",
+        "0",
+        "2",
+        "4"
+      ],
+      "library_sha256": [
+        "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1"
+      ],
+      "acceptance": [
+        "preliminary"
+      ],
+      "hole0": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0.99990000000000001",
+        "0",
+        "0",
+        "0"
+      ],
+      "hole1": [
+        "0",
+        "0",
+        "0",
+        "-32",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "n": [
+        "128",
+        "256",
+        "16"
+      ],
+      "conformal_choice": [
+        "1"
+      ],
+      "inner_flatten": [
+        "1"
+      ],
+      "omega": [
+        "0",
+        "0"
+      ],
+      "attenuation_power": [
+        "4"
+      ],
+      "inner_min": [
+        "0.10000000000000001",
+        "0"
+      ],
+      "inner_max": [
+        "0.20000000000000001",
+        "0"
+      ],
+      "far_radius": [
+        "0"
+      ],
+      "tolerance": [
+        "9.9999999999999998e-13"
+      ],
+      "max_newton": [
+        "12"
+      ],
+      "max_krylov": [
+        "1200"
+      ],
+      "krylov_restart": [
+        "100"
+      ],
+      "memory_limit_mib": [
+        "32768"
+      ]
+    },
+    {
+      "HISPID_CHECKPOINT": [
+        "3"
+      ],
+      "parameterization": [
+        "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2"
+      ],
+      "seed_family": [
+        "liu"
+      ],
+      "wave22": [
+        "1",
+        "1",
+        "0.001",
+        "0.97609724547928889",
+        "4",
+        "12",
+        "0",
+        "2",
+        "4"
+      ],
+      "library_sha256": [
+        "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1"
+      ],
+      "acceptance": [
+        "preliminary"
+      ],
+      "hole0": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0.99990000000000001",
+        "0",
+        "0",
+        "0"
+      ],
+      "hole1": [
+        "0",
+        "0",
+        "0",
+        "-32",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "n": [
+        "160",
+        "320",
+        "16"
+      ],
+      "conformal_choice": [
+        "1"
+      ],
+      "inner_flatten": [
+        "1"
+      ],
+      "omega": [
+        "0",
+        "0"
+      ],
+      "attenuation_power": [
+        "4"
+      ],
+      "inner_min": [
+        "0.10000000000000001",
+        "0"
+      ],
+      "inner_max": [
+        "0.20000000000000001",
+        "0"
+      ],
+      "far_radius": [
+        "0"
+      ],
+      "tolerance": [
+        "9.9999999999999998e-13"
+      ],
+      "max_newton": [
+        "12"
+      ],
+      "max_krylov": [
+        "1200"
+      ],
+      "krylov_restart": [
+        "100"
+      ],
+      "memory_limit_mib": [
+        "32768"
+      ]
+    }
+  ],
+  "fixed_formulation_except_grid_and_solver_limits": true
+}

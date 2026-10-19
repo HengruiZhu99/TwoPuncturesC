@@ -1,0 +1,77 @@
+{
+  "definition": "Locations of each Fourier mode maximum in the scaled native residual, not physical constraint maxima",
+  "n": [
+    384,
+    128,
+    16
+  ],
+  "focus_separation": 16,
+  "radial_stretch": 1,
+  "angular_stretch": 2,
+  "modes_0_through_3_fraction": 0.9956354902612117,
+  "rows": [
+    {
+      "m": 0,
+      "radius_from_active_hole": 0.2939671242723634,
+      "cylindrical_radius": 0.2939658308729021,
+      "lab_z": 0.0008720276184277509,
+      "fraction_squared_native_l2": 0.4126472325583272
+    },
+    {
+      "m": 1,
+      "radius_from_active_hole": 0.3007199869514636,
+      "cylindrical_radius": 0.2910522488594269,
+      "lab_z": 0.07563794673283297,
+      "fraction_squared_native_l2": 0.17301752518863728
+    },
+    {
+      "m": 2,
+      "radius_from_active_hole": 0.17451721028450073,
+      "cylindrical_radius": 0.1582836709720408,
+      "lab_z": 0.0735019468388387,
+      "fraction_squared_native_l2": 0.07688904131118922
+    },
+    {
+      "m": 3,
+      "radius_from_active_hole": 0.2939671242723634,
+      "cylindrical_radius": 0.2939658308729021,
+      "lab_z": 0.0008720276184277509,
+      "fraction_squared_native_l2": 0.33308169120305803
+    },
+    {
+      "m": 4,
+      "radius_from_active_hole": 15.999978625715048,
+      "cylindrical_radius": 0.0001537611257281903,
+      "lab_z": -15.999978624976219,
+      "fraction_squared_native_l2": 0.0021806621378051704
+    },
+    {
+      "m": 5,
+      "radius_from_active_hole": 13.192884209525737,
+      "cylindrical_radius": 10.229998524279338,
+      "lab_z": -8.330625664330146,
+      "fraction_squared_native_l2": 0.0016825815253517895
+    },
+    {
+      "m": 6,
+      "radius_from_active_hole": 10.212465347259567,
+      "cylindrical_radius": 8.731525822571193,
+      "lab_z": -5.296688142485821,
+      "fraction_squared_native_l2": 0.0005008612796554563
+    },
+    {
+      "m": 7,
+      "radius_from_active_hole": 17.638735475967003,
+      "cylindrical_radius": 14.989063004930804,
+      "lab_z": -9.298009433494444,
+      "fraction_squared_native_l2": 2.851842308245603e-07
+    },
+    {
+      "m": 8,
+      "radius_from_active_hole": 9.93032566697837,
+      "cylindrical_radius": 9.573411826046573,
+      "lab_z": -2.6383998675638605,
+      "fraction_squared_native_l2": 1.1961173948385657e-07
+    }
+  ]
+}

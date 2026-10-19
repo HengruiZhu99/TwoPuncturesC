@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "analytic_mode_linf": {
+    "metric": 5.66217555727071e-17,
+    "dt_metric": 4.343052407546222e-18,
+    "dr_metric": 7.843816816958104e-19
+  },
+  "library_sha256": "6143325d0b08e2c07bd33137dea618e8cedc3ac3203a8ef82493a63c00c61912",
+  "driver_sha256": "7f94dd8cdc2047510e5dc64869c745f64d082a968ff533b979386749e9694690"
+}
