@@ -48,6 +48,13 @@ def witness_points(config):
         rest_radius=.25*hole.mass*(1+np.sqrt(1-chi**2)) if family=='liu' else radius_factor*hole.mass*np.sqrt(1-chi**2)
         radius=rest_radius/np.sqrt(1+(directions@v)**2/(1-v@v))
         trials.extend(np.asarray(hole.center)+factor*radius[:,None]*directions for factor in (.8,1,1.2))
+    wave=getattr(config,'wave22',None)
+    if wave is not None:
+        hole=next(h for h in config.hole if h.mass>0)
+        length=2*np.pi*wave.cycles/abs(wave.omega)
+        radial=[wave.cutoff_min,.5*(wave.cutoff_min+wave.cutoff_max),wave.cutoff_max,
+                wave.r0,wave.r0+.5*length,wave.r0+length]
+        trials.extend(np.asarray(hole.center)+r*directions[:12] for r in radial)
     return np.ascontiguousarray(np.concatenate([base,*trials,100*directions,1000*directions]))
 
 

@@ -772,13 +772,145 @@ but evolution requires its own hyperbolic formulation and boundary treatment.
 Horizon-penetrating excision and either a finite outer boundary or a
 hyperboloidal asymptotic layer are separate choices. The current Liu wormhole
 slice and compactification to spatial infinity are not an evolution scheme.
-General perturbed Kerr free data and nonaxisymmetric modes remain future work.
+The new stationary Kerr free-data path below supplies nonaxisymmetric initial data; evolution remains separate work.
 For related hyperboloidal constructions see
 \href{https://arxiv.org/abs/0906.3342}{Zenginoglu and Tiglio (2009)}.
 Selected evidence and all figures are under
 \path{validation/trumpet/lower-resolution/}; large saved unknowns remain on
 Perlmutter. Native solves used one shared A100; the small spherical problems
 used CPU NumPy/SciPy. There was no backend benchmark sweep.
+
+\section{Metric and time-derivative free data}
+The existing four-field CTT system now accepts a physical metric perturbation
+$h_{ij}$ and its fixed-Cartesian-coordinate derivative $\dot h_{ij}$ about one
+stationary QI or Liu Kerr seed. The elliptic equations, Jacobian, modal
+preconditioner and CUDA solve are reused. Geometry setup uses the qualified
+host long-double path. With the reference Kerr lapse $\alpha_0$, shift
+$\beta_0^i$ and time-independent conformal factor $\psi_0$ held fixed, define
+\begin{align}
+ \gamma^{\rm free}_{ij}&=\gamma^0_{ij}+h_{ij},\\
+ K^{\rm free}_{ij}&=K^0_{ij}
+   -\frac{\dot h_{ij}-({\cal L}_{\beta_0}h)_{ij}}{2\alpha_0},\\
+ \widetilde\gamma_{ij}&=\gamma^{\rm free}_{ij}/\psi_0^4,\qquad
+ K=\gamma_{{\rm free}}^{ij}K^{\rm free}_{ij},\\
+ \widetilde M_{ij}&=\psi_0^2\left(K^{\rm free}_{ij}
+                          -\tfrac13\gamma^{\rm free}_{ij}K\right).
+\end{align}
+The trace uses the full perturbed inverse metric. Its curvature, source
+divergence and derivatives are recomputed; exact-vacuum Kerr identities are
+used only in the unperturbed region. This is a CTT projection with prescribed
+gauge, rather than a lapse/shift solve. In particular the supplied time
+derivative describes the trial free data: projection can change the physical
+metric time derivative reconstructed from the final $(\gamma,K)$.
+
+A per-context callback supplies symmetric Cartesian jets of $(h,\dot h)$.
+A native rotating electric $\ell=m=2$ packet ports the corrected seed from
+SpEC commit \path{6b55d93e51076dc75a006837e808f1182549bf64}.
+It uses a pole-regular Cartesian tensor projection and analytic second-order
+jets, including the fixed-coordinate time derivative. A stationary smooth
+cutoff makes the perturbation exactly zero near the throat. The native Kerr
+extrinsic curvature is retained there, avoiding division by its zero lapse.
+The implementation currently accepts one unboosted active hole, uses the
+existing three-dimensional two-focus map with the second hole disabled, and
+keeps a full three-dimensional correction. A new spherical evolution grid,
+boosted free-data gauge, arbitrary multipolar packet generator and scalar
+field are not implemented by this change.
+
+Portable packet checkpoints have explicit version~3 metadata and can be
+reconstructed by the corresponding AthenaK reader. Unmarked export of an
+arbitrary callback is rejected; an application must retain its own provider.
+Zero-amplitude recovery, independent seed/gauge oracles, a Jacobian check and
+one fixed physical constraint sequence are the focused validation set.
+No superradiant evolution or amplification measurement is implied.
+
+The fixed validation packet has $M=1$, seed $\chi=0.9$, amplitude
+$10^{-3}$, $\Omega=0.5$, one cycle, $r_0=6$, and cutoff radii $(2,4)$.
+Both cross/far attenuation are disabled; the interior operator transition
+is $(0.1,0.2)$. Only the inactive focus is moved from $z=-2$ to $z=-12$ to
+resolve the exterior packet more economically. Since that hole has zero
+mass, this changes the coordinate grid, not the physical free data or
+constraint equations. All three accepted study levels use the latter grid.
+Independent FD6 Cartesian constraints use the same 30 exterior points at
+radii $0.5$--$20$ with steps $\min(0.005,0.006r)$. These are unweighted
+point RMS values, not spatial-volume norms or the native stopping norm.
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+$N_r\times N_\theta\times N_\phi$ & $\|H\|_{\rm RMS}$ &
+$\|M\|_{\rm RMS}$ & Newton/Krylov & solve (s)\\
+\midrule
+$48\times96\times16$ & $2.2484\,10^{-7}$ & $1.1925\,10^{-6}$ & 3/27 & 0.425\\
+$64\times128\times16$ & $1.2553\,10^{-7}$ & $1.1422\,10^{-6}$ & 3/27 & 1.048\\
+$96\times192\times16$ & $4.0040\,10^{-8}$ & $5.2239\,10^{-7}$ & 3/28 & 2.869\\
+\bottomrule
+\end{tabular}
+\end{center}
+At matching $N_r=96$, moving the inactive focus reduces Hamiltonian and
+momentum RMS by factors $57.6$ and $10.5$. Host geometry setup at the finest
+level takes $23.7$ seconds and the recorded setup/solve/observer workflow
+$36.3$ seconds; the solve-only column does not describe total cost.
+The unsolved packet has RMS $(8.5884\,10^{-6},1.3546\,10^{-5})$, so projection
+reduces the finest norms by factors $214$ and $25.9$. The exact-seed observer
+floors are $9.48\,10^{-11}$ and $1.28\,10^{-12}$.
+The finest pointwise maxima are $1.04\,10^{-7}$ and $1.19\,10^{-6}$;
+this initial-data demonstration remains labeled preliminary.
+
+The native packet matches an independent spherical-basis implementation of
+the cited SpEC seed within $4.4\,10^{-19}$ absolute error, including poles and
+both propagation/handedness signs. Zero amplitude recovers the unperturbed
+sampler and residual bit for bit. Independent fixed-coordinate time,
+ADM gauge-map and Jacobian checks pass. At $r=10$, the physical metric's
+$\ell=m=2$ tensor projection survives the solve; its amplitude changes by
+about $0.023\%$, while the reconstructed time derivative's amplitude changes
+by about $13\%$. These are metric multipoles, not Weyl scalars or an energy
+flux. A more precise incoming-wave/scattering study must analyze the final
+radiative data rather than assume the trial time derivative is unchanged.
+\begin{figure}[htbp]
+\includegraphics[width=\linewidth]{figures/wave22-convergence.png}
+\caption{One fixed Liu Kerr plus electric packet. Dashed curves retain the
+underresolved smaller-coordinate-scale results. Solid curves use one fixed
+larger scale at three resolutions. The right panel shows physical tensor
+multipoles before/after constraint projection, without an evolution claim.}
+\end{figure}
+
+The exported finest solution passes a separate-process producer/CPU-reader
+comparison at 1,602 points, including the packet, throat and trial horizon
+regions: all nine exported fields, including metric derivatives, agree bit
+for bit. AthenaK then imports the same version~3 checkpoint and runs its
+horizon finder with $\ell_{\max}=8,12,16$ and a final angular-quadrature increase
+from 32 to 48. All searches pass the unchanged $10^{-7}$ expansion-RMS bound
+and enclose the modified interior ball. The final measurements are
+\[
+ A_H=36.08785490004055,\quad M_{\rm irr}=0.84731638814292,\quad
+ M_H=1.00000003473985,\quad \chi_{\rm coord}=0.89999993746827.
+\]
+Here $M_H$ is the Christodoulou mass from the measured area and coordinate
+rotation integral, not the total ADM mass of the wave-containing spacetime.
+The final expansion RMS is $7.34\,10^{-8}$. Coordinate spin is not an
+approximate-Killing-vector measurement for this nonaxisymmetric geometry.
+This is an actual finder search of solved perturbed data, rather than an
+integral on an assumed analytic sphere. The mesh import/evolution limit is
+zero time steps; no superradiant amplification or perturbed
+$\chi=0.9999$ validation is claimed.
+
+An additional deliberately incompatible warm start adds constants to the
+auxiliary nodal $P$ fields. It violates the homogeneous focus rows (a constant
+$m=0$ mode has a nonzero $-(m+1)P$ focus term) and fails Krylov convergence.
+The failed diagnostic is retained as \path{wave22/incompatible-start.json}.
+Arbitrary correction guesses are therefore not qualified; use the default
+zero correction, a compatible prolongation, or a guess satisfying the
+axis/focus conditions. This limitation is distinct from perturbing the
+physical free metric and its time derivative.
+
+A compatible nonzero start, $1.05$ times the saved correction, converges
+in two Newton and 17 Krylov iterations to the same sampled physical metric
+and extrinsic curvature within $7.6\,10^{-14}$. The auxiliary nodal-$P$
+maximum difference is $7.8\,10^{-7}$, so this is physical-field agreement at
+the declared observers, not bitwise equality of all auxiliary coefficients.
+Halving the independent FD6 steps changes pointwise Hamiltonian values by
+at most $1.15\,10^{-9}$ and momentum components by $1.40\,10^{-12}$, below
+the reported constraint errors. The complete evidence and one compact plot
+are retained under \path{validation/trumpet/wave22/}.
 
 \section{Reproducibility and remaining work}
 The native and consumer branches are \path{codex/hispid-trumpet} and

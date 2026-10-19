@@ -1,0 +1,87 @@
+{
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave22-map12-v1/n96.hispid",
+    "file_sha256": "4563efd29409e6019fd487b70f2dec41c46cc97ee372a1e35ff7e233b4e05716",
+    "source_library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+    "acceptance": "preliminary",
+    "parameterization": "modal_P_C2tauC4_focus_map_v9_r0.20000000000000001_k2",
+    "seed_family": "liu",
+    "format_version": 3
+  },
+  "library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 2,
+    "krylov_iterations": 1227,
+    "npoints": 294912,
+    "scaled_linf": [
+      1.255416663711228e-05,
+      1.2554163344713095e-06,
+      2.5108483876572146e-06,
+      3.766272904623913e-06
+    ],
+    "unscaled_linf": [
+      5234298.3520071,
+      523429.83522487397,
+      1046860.0288174006,
+      1570289.4773397504
+    ],
+    "seconds": 21.268155323,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "start_perturbation": [
+    1e-05,
+    1e-06,
+    -2e-06,
+    3e-06
+  ],
+  "final_field_difference": {
+    "gamma": 0.003892627656749914,
+    "Kij": 0.014727785709600892
+  },
+  "final_unknown_linf": 4877606.2555689085,
+  "independent_fd6": {
+    "count": 30,
+    "H_rms": 0.17275926974955877,
+    "H_max": 0.41081510769061175,
+    "M_rms": 0.046867835324008525,
+    "M_max": 0.18045271039807942,
+    "M_components_rms": [
+      0.021971248175448398,
+      0.03413234653608794,
+      0.01587206600999715
+    ],
+    "M_components_max": [
+      0.05823549691144136,
+      0.1444191265759012,
+      0.069691389001027
+    ],
+    "normalized_H_max": 1.0,
+    "normalized_M_max": 0.9999999560275856
+  },
+  "half_step_fd6": {
+    "count": 30,
+    "H_rms": 0.17275923724107722,
+    "H_max": 0.41081462084921044,
+    "M_rms": 0.04686783541646184,
+    "M_max": 0.18045271043419012,
+    "M_components_rms": [
+      0.021971248214435312,
+      0.03413234658126554,
+      0.01587206603503107
+    ],
+    "M_components_max": [
+      0.05823549693573628,
+      0.14441912659820327,
+      0.06969138901775228
+    ],
+    "normalized_H_max": 1.0,
+    "normalized_M_max": 0.9999999989334857
+  },
+  "observer_change": {
+    "H": 1.3510339275102368e-06,
+    "M": 5.541648531905011e-09
+  },
+  "passed": false
+}

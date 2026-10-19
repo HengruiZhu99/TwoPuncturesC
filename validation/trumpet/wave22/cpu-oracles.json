@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "oracle_absolute_linf": 4.336808689942018e-19,
+  "fixed_coordinate_time_error": 6.437558819349931e-15,
+  "zero_amplitude_bitwise": true,
+  "metric_addition_error": 3.9691165844481523e-16,
+  "adm_map_error": 5.89331643381652e-17,
+  "metric_gradient_error": 3.951653674422184e-12,
+  "arbitrary_frame_error": 4.0763291180023753e-16,
+  "jvp_relative_error": 1.1754288741066786e-09,
+  "checkpoint_roundtrip": true,
+  "library_sha256": "e3050628cbe3b90dcc618379d5b2e60f936fbef0810cf79ed86cbc0b3c16f98c"
+}

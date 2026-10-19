@@ -58,6 +58,8 @@ template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> exp(const JetT<Real>&a){R
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> expm1(const JetT<Real>&a){Real p=std::exp(a.v);return unary(a,std::expm1(a.v),p,p);}
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> tan(const JetT<Real>&a){Real v=std::tan(a.v),p=1+v*v;return unary(a,v,p,2*v*p);}
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> tanh(const JetT<Real>&a){Real v=std::tanh(a.v),p=1-v*v;return unary(a,v,p,-2*v*p);}
+template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> sin(const JetT<Real>&a){return unary(a,std::sin(a.v),std::cos(a.v),-std::sin(a.v));}
+template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> cos(const JetT<Real>&a){return unary(a,std::cos(a.v),-std::sin(a.v),-std::cos(a.v));}
 /* This differentiated jet is correct to FIRST order only. Used for K and
  * connection first derivatives; third spacetime derivatives are never used. */
 template<class Real> HISPID_GEOMETRY_INLINE JetT<Real> diff(const JetT<Real>&a,int k){JetT<Real> c(a.d[k]);for(int i=0;i<4;i++)c.d[i]=a.h[k][i];return c;}

@@ -1,4 +1,4 @@
-"""Portable, explicit-field HiSpID sampler checkpoint (text format version1).
+"""Portable, explicit-field HiSpID sampler checkpoints (versions 1--3; v3 includes wave22).
 
 This is a data interchange file, not a raw ctypes structure. Seventeen digit
 values preserve IEEE double unknowns. Library SHA and acceptance describe the
@@ -8,7 +8,7 @@ from pathlib import Path
 import hashlib
 import numpy as np
 import re
-from hispid import Config,seed_family_code
+from hispid import Config,Wave22,seed_family_code
 import ctypes as C
 
 PARAMETERIZATION='modal_P_C2prolate_mapped_v2'
@@ -31,7 +31,7 @@ def read_checkpoint(path):
     initial_sha=hashlib.sha256(path.read_bytes()).hexdigest()
     with path.open(encoding='ascii') as stream:
         magic=stream.readline().split()
-        if magic not in (['HISPID_CHECKPOINT','1'],['HISPID_CHECKPOINT','2']):
+        if magic not in (['HISPID_CHECKPOINT','1'],['HISPID_CHECKPOINT','2'],['HISPID_CHECKPOINT','3']):
             raise ValueError('unsupported checkpoint version')
         version=int(magic[1])
         header={}
@@ -44,9 +44,10 @@ def read_checkpoint(path):
             header[words[0]]=words[1:]
         else:raise ValueError('missing checkpoint unknowns')
         expected={'parameterization','library_sha256','acceptance','hole0','hole1'} | {name for name,_ in Config._fields_ if name!='hole'}
-        if version==2:expected.add('seed_family')
+        if version>=2:expected.add('seed_family')
+        if version==3:expected.add('wave22')
         family='qi'
-        if version==2:
+        if version>=2:
             if len(header.get('seed_family',[]))!=1:raise ValueError('missing seed family')
             family=header['seed_family'][0];seed_family_code(family)
         if set(header)!=expected:raise ValueError('checkpoint configuration inventory differs')
@@ -58,6 +59,13 @@ def read_checkpoint(path):
             raise ValueError('invalid checkpoint acceptance')
         _validate_parameterization(header['parameterization'][0])
         config=Config();config.seed_family=family
+        if version==3:
+            names=[name for name,_ in Wave22._fields_ if name!='struct_size']
+            numbers=list(map(float,header['wave22']))
+            if len(numbers)!=len(names) or not np.isfinite(numbers).all():raise ValueError('invalid wave22 checkpoint')
+            if numbers[0] not in (-1,1) or numbers[1] not in (-1,1):raise ValueError('invalid wave propagation/handedness')
+            numbers[:2]=[int(x) for x in numbers[:2]]
+            config.wave22=Wave22(**dict(zip(names,numbers)))
         for name,kind in Config._fields_:
             if name=='hole':
                 for h in range(2):
@@ -95,11 +103,12 @@ def read_checkpoint(path):
 
 def write_checkpoint(path,config,unknowns,library_sha256,acceptance,parameterization=PARAMETERIZATION,seed_family=None):
     _validate_parameterization(parameterization)
+    if getattr(config,'custom_free_data',False):raise ValueError('arbitrary callbacks require an application-specific checkpoint; cannot omit free data')
     configured=getattr(config,'seed_family','qi')
     if seed_family is not None and hasattr(config,'seed_family') and seed_family!=configured:
         raise ValueError('seed-family override conflicts with configuration metadata')
     family=configured if seed_family is None else seed_family
-    seed_family_code(family);version=1 if family=='qi' else 2
+    seed_family_code(family);wave=getattr(config,'wave22',None);version=3 if wave is not None else (1 if family=='qi' else 2)
     if len(library_sha256)!=64 or any(c not in '0123456789abcdef' for c in library_sha256):
         raise ValueError('invalid library SHA256')
     if acceptance not in ('analytic_seed','preliminary','strong','diagnostic'):
@@ -110,7 +119,8 @@ def write_checkpoint(path,config,unknowns,library_sha256,acceptance,parameteriza
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     with path.open('w',encoding='ascii',newline='\n') as out:
         out.write('HISPID_CHECKPOINT '+str(version)+'\nparameterization '+parameterization+'\n')
-        if version==2:out.write('seed_family '+family+'\n')
+        if version>=2:out.write('seed_family '+family+'\n')
+        if wave is not None:out.write('wave22 '+' '.join(format(x,'.17g') for x in wave.as_dict().values())+'\n')
         out.write('library_sha256 '+library_sha256+'\nacceptance '+acceptance+'\n')
         for name,_ in Config._fields_:
             value=getattr(config,name)

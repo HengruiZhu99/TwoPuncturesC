@@ -46,6 +46,41 @@ HiSpID_Data *HiSpID_create_with_seed_family(const HiSpID_Config *,int family,
                                           int execution,int geometry_execution,
                                           int sampler_only);
 int HiSpID_seed_family(const HiSpID_Data *);
+/* Optional physical free-data perturbation about ONE stationary QI/Liu Kerr
+ * hole. dt is at fixed lab Cartesian coordinates; the reference Kerr lapse,
+ * shift and time-independent conformal factor specify the ADM-to-CTT split.
+ * Each full symmetric tensor has nine jets, ordered
+ * [value,dx,dy,dz,dxx,dxy,dxz,dyy,dyz,dzz]. Only value/gradient of dgamma_dt
+ * are consumed. The callback must be reentrant, return 0 on success, and
+ * remain alive (including user state) until context destruction. It supplies
+ * DELTAS of the physical metric and its time derivative, not a Newton guess.
+ * It must vanish in a neighbourhood of the lapse-zero throat/puncture.
+ * Setup/sampling use host long-double geometry; the unchanged cached solve
+ * may use Kokkos. Existing configuration structs/constructors are unchanged. */
+typedef int (*HiSpID_FreeDataCallback)(const double xyz[3],double dgamma[90],
+                                      double dgamma_dt[90],void *user);
+typedef struct {int struct_size; HiSpID_FreeDataCallback evaluate; void *user;} HiSpID_FreeData;
+HiSpID_Data *HiSpID_create_with_free_data(const HiSpID_Config *,int family,
+                                         int execution,int sampler_only,
+                                         const HiSpID_FreeData *);
+/* Native rotating electric l=m=2 packet from SpEC commit 6b55d93e51.
+ * Lab z is the wave axis. Coordinates/time are in the same units as mass.
+ * A stationary C-infinity radial cutoff rises from zero at cutoff_min to
+ * one at cutoff_max. propagation=+1 ingoing/-1 outgoing; handedness=+1/-1.
+ * W=tanh(y)+tanh(length-y), y=r-r0+propagation*time,
+ * length=2*pi*cycles/abs(omega), phase=2*phi-handedness*(omega*y+pi/4).
+ * time is the slice time, not an evolution instruction. */
+typedef struct {
+ int struct_size,propagation,handedness;
+ double amplitude,omega,cycles,r0,time,cutoff_min,cutoff_max;
+} HiSpID_Wave22;
+HiSpID_Data *HiSpID_create_with_wave22(const HiSpID_Config *,int family,
+                                      int execution,int sampler_only,
+                                      const HiSpID_Wave22 *);
+/* Independent seed inspection: physical metric delta and fixed-coordinate
+ * time derivative, both including the stationary inner cutoff. */
+int HiSpID_wave22_sample(const HiSpID_Wave22 *,const double center[3],int count,
+                         const double *xyz,double *dgamma,double *dgamma_dt);
 int HiSpID_seed_with_family(const HiSpID_Hole *,int conformal_choice,int count,
                             const double *xyz,HiSpID_Point *,int execution,int family);
 int HiSpID_operators_with_seed_family(const HiSpID_Config *,const double xyz[3],

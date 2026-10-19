@@ -21,8 +21,11 @@ class ParallelObserver:
         return self
     def __exit__(self,*args):
         if self.pool:self.pool.shutdown(wait=True)
-    def __call__(self,xyz):
+    def __call__(self,xyz):return self._sample(xyz,False)
+    def with_derivatives(self,xyz):return self._sample(xyz,True)
+    def _sample(self,xyz,derivatives):
         xyz=np.ascontiguousarray(xyz,dtype=float).reshape(-1,3)
-        if self.pool is None or len(xyz)<self.threads:return self.solution.sample(xyz)
-        pieces=list(self.pool.map(self.solution.sample,np.array_split(xyz,self.threads)))
+        sample=self.solution.sample_with_derivatives if derivatives else self.solution.sample
+        if self.pool is None or len(xyz)<self.threads:return sample(xyz)
+        pieces=list(self.pool.map(sample,np.array_split(xyz,self.threads)))
         return {key:np.concatenate([part[key] for part in pieces]) for key in pieces[0]}

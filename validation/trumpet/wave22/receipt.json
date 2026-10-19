@@ -1,0 +1,80 @@
+{
+  "scope": "One stationary Liu Kerr plus rotating electric l=m=2 free-data packet; no evolution",
+  "native_branch": "codex/hispid-trumpet",
+  "athenak_branch": "codex/hispid-trumpet-pgen",
+  "resource": {
+    "job": "59971383",
+    "partition": "shared_interactive",
+    "nodes": 1,
+    "gpus": 1,
+    "cpus": 32,
+    "released": true
+  },
+  "production": {
+    "execution": "Kokkos CUDA",
+    "host_geometry": "long double,16 threads",
+    "host_sampler": "16 threads",
+    "producer_library_sha256": "e68f363afb23b73b2b4a35514778c41802df2ee5fc412b4b416247b214f05ef1",
+    "consumer_library_sha256": "e3050628cbe3b90dcc618379d5b2e60f936fbef0810cf79ed86cbc0b3c16f98c"
+  },
+  "passed": {
+    "seed_and_gauge_oracles": true,
+    "zero_amplitude_bitwise": true,
+    "fixed_three_resolution_H_decreases": true,
+    "fixed_three_resolution_M_decreases": true,
+    "admissible_start": true,
+    "separate_process_sampler": true,
+    "athenak_horizon": true
+  },
+  "limits": [
+    "one moderate-spin single-hole packet only",
+    "unweighted norms at30 fixed exterior points",
+    "incompatible constant-P warm start failed",
+    "no perturbed chi=0.9999 qualification",
+    "no evolution or superradiant amplification"
+  ],
+  "source_sha256": {
+    "src/HiSpID_solver.cpp": "3f6f6cbd99ff1ae750e2692c8fcb07fc698788eaabbacb2b6ff684a390dc38d1",
+    "src/HiSpID_free_data.hpp": "b69730e503d99d6209c29b80d6ed96ed3fd582987d81ca1c9ac333304cd89fac",
+    "include/HiSpID.h": "00c0e3b695bd0c926629dfd7df15555b8f289a67df5cb2bf84071e9c61015392"
+  },
+  "retained_remote": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005",
+  "evidence_sha256": {
+    "README.md": "6d444263eef36d1693814c454c729878d0accbaba9eed4bcd64c9b925a50162a",
+    "coarse.json": "3c2ec8d6e5c130ef4d7597dfee329ba2b478b32101533d672470b83211a0ccad",
+    "cpu-oracles.json": "45962488188d70375e51d04b24c847af4e3aa292b49fe05715d2df18859ffb75",
+    "cuda-oracles.json": "fb59855f88a5a554e409d05a975efa94887d6abd3679fd91f5c278dd7181fd35",
+    "final-check.json": "f180a6b200160238ad74b04333251b29f0f9f49ea6ab04704ff616e6eddede2e",
+    "finest.json": "4a992b822f5867199884facb6e2e09b760532119a832348a0a0826e92c9d6bd0",
+    "horizon-evidence/binary.json": "e1ecbadd28dc163a1eec7bbd2f7040459b2da3b05015521397751a82f19f6270",
+    "horizon-evidence/quadrature_l16_n48/binary.athinput": "a3945bb7a4dcefb0f3bf491f118afa97b0ae08f78a1485e40af13f36bdcf716b",
+    "horizon-evidence/quadrature_l16_n48/hispid.horizon_shape_0.txt": "05f92066d3ba802307b633bed636e2f5bae0f66ff353b7411e0819c0c65beb04",
+    "horizon-evidence/quadrature_l16_n48/hispid.horizon_summary_0.txt": "1eba7b4a9d0b89e2fc67797f950575c21b19aeff81d9fa1fecff348712053e0c",
+    "horizon-evidence/quadrature_l16_n48/hispid.horizon_verbose_0.txt": "afcda4ab52511c5e5bab856b8c609fb3ca1b714acc0e15b8ddbe6b101521a4af",
+    "horizon-evidence/quadrature_l16_n48/run.log": "5517068aa75ae7721ca61d06ee235557b1958a4aeffb15ccf2c122e762142f54",
+    "horizon-evidence/spectral_l12_n24/binary.athinput": "4ad35e86ba94f1833393081fbed3dc0e213c13212257b6d44199897cb0fb5e6c",
+    "horizon-evidence/spectral_l12_n24/hispid.horizon_shape_0.txt": "f07a058d67d38042eca2fe069457f4dc2558271af163002a865a08c7562c30d3",
+    "horizon-evidence/spectral_l12_n24/hispid.horizon_summary_0.txt": "871a23b44bfecbe38a10e929f908264a0dd8ee32f1605127fd6163459550199b",
+    "horizon-evidence/spectral_l12_n24/hispid.horizon_verbose_0.txt": "f9b690fa555a4c330cf888025ff3cf50db2eaae22d1fe616d2eeed588fd908a1",
+    "horizon-evidence/spectral_l12_n24/run.log": "26aa85496efc57f69ec4d82c93fb86fa0ab2d76559a962ff50979353535f58f4",
+    "horizon-evidence/spectral_l16_n32/binary.athinput": "08177b1747f3bf93cef2f2e48aacfb679c5a4d3b9409123b3aa7da919537d937",
+    "horizon-evidence/spectral_l16_n32/hispid.horizon_shape_0.txt": "03d2e559ecfc2b40d3f1197290d502c08432d821c21fd621ac5d95cc787503ca",
+    "horizon-evidence/spectral_l16_n32/hispid.horizon_summary_0.txt": "f1d316d113ae6ce2b77b90e91884c25278bc207fcb85488ef5b2e923c198c80f",
+    "horizon-evidence/spectral_l16_n32/hispid.horizon_verbose_0.txt": "2c02e42140b9f03c5e3612f74beb04de10bdf768c32237b73f4efc93a597108c",
+    "horizon-evidence/spectral_l16_n32/run.log": "e65eb0859528853134b3f1473a19f1ecfcbcc45ad8c9c7b851ef449aebe1cab1",
+    "horizon-evidence/spectral_l8_n16/binary.athinput": "e48f695c80710a8e58b30f635108202bf4907442c0d731f1aff1108f4e160b26",
+    "horizon-evidence/spectral_l8_n16/hispid.horizon_shape_0.txt": "dfad293dc49a7e5925095dad1d4bbab5774162d208cf84bc18f767be6aa267d9",
+    "horizon-evidence/spectral_l8_n16/hispid.horizon_summary_0.txt": "f3da6d44a67ef0ecf8dc07d8f20d5fd575ef8f533dc09abd56a9b548f7a3c14b",
+    "horizon-evidence/spectral_l8_n16/hispid.horizon_verbose_0.txt": "5fff8d1c7f19bffe257e05c9d7676bf41b5c389c8200fc00ba4e82cef3835419",
+    "horizon-evidence/spectral_l8_n16/run.log": "543d991616afe90ad6c87ef4b5eb05e27ae90057b7e01e20b4f5702ec5125c66",
+    "horizon-evidence.log": "78504ebf565c19145999bc39d64a6fe709456549dbbcfd4e63db4362e280a9cf",
+    "horizons.json": "e1ecbadd28dc163a1eec7bbd2f7040459b2da3b05015521397751a82f19f6270",
+    "incompatible-start.json": "dc92cd98e5aacddad5ad793bb1db6999a3b168313e69f460db38d41bb5381499",
+    "local-oracles.json": "25e77621edb8b73ea23128f8cd6a32932a5f7e06bff84a6dde1161b3ea2042dd",
+    "map12-study.json": "deb0eae0ee12b4ae5d56689f2815705b3434ac7bb8c1e0b1c2b61d17645c113b",
+    "map2-study.json": "90e4006c854f57cda0bcf8517ae692b3f287fdbd61339cc7601505f3ea2e6247",
+    "migration.json": "70e8e1521fb18406411772abc99978fed018749270421f5b94b2aaf5f9362bdc",
+    "resolved-prefix.json": "c1a27456d65d7d43224105ad39beab869c90906363d9bc7ad91a142c3a97f33a"
+  },
+  "athenak_commit": "f868a6baba69a60efc3216578b05e397d2fc7a60"
+}

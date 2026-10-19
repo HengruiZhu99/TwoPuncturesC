@@ -2539,3 +2539,63 @@ Liu wormhole slices and compactification toward spatial infinity cannot simply
 be assumed to provide those conditions. General perturbations also need
 angular modes, physical free-data specification and new constraint solves.
 No work on Lazarus/Teukolsky evolution is performed here.
+
+## Physical metric/time-derivative free-data interface (2026-10-18)
+
+`HiSpID_create_with_free_data` reuses the coupled CTT solver with a per-context,
+reentrant callback supplying physical lab Cartesian delta-metric and fixed-
+coordinate delta-metric time-derivative jets. The reference stationary Kerr
+lapse, shift and conformal factor define the ADM/CTT split. Metric Hessians
+and gdot gradients are required; no finite-difference cache construction is
+introduced. The callback remains alive until context destruction.
+
+`HiSpID_create_with_wave22` provides a native pole-regular electric l=m=2
+packet matching SpEC commit 6b55d93e51076dc75a006837e808f1182549bf64. A stationary
+smooth radial cutoff protects the throat. The supported reference is exactly
+one unboosted active QI/Liu hole; the existing full 3D two-focus map and four
+unknowns are retained. The disabled hole still defines a distinct map focus.
+All old ABI layouts/constructors retain their meaning and arithmetic.
+
+```python
+from hispid import Backend, Hole, Wave22
+b = Backend('/absolute/path/to/libHiSpID.so')
+c = b.config()
+c.hole[0] = Hole(1., center=(0,0,0), spin=(0,0,.9))
+c.hole[1] = Hole(0., center=(0,0,-12))
+c.seed_family = 'liu'
+c.n[:] = (96,192,16)
+c.memory_limit_mib = 32768
+c.tolerance = 1e-12
+c.max_newton, c.max_krylov, c.krylov_restart = 12, 1200, 100
+c.far_radius = 0
+c.omega[:] = (0,0)
+c.inner_min[:] = (.1,0)
+c.inner_max[:] = (.2,0)
+with b.create(c, execution='kokkos', wave=Wave22(amplitude=.001)) as s:
+    diagnostics = s.solve(krylov='gmres')
+    # Save this context's actual parameters with its nodal unknowns:
+    if diagnostics['converged']:
+        s.write_checkpoint('/absolute/path/to/packet.hispid')
+    # A nonconverged diagnostic remains sampleable for diagnosis.
+```
+
+Host long-double geometry remains the qualified setup stage. Its cache is
+uploaded to the unchanged production CUDA solve. Arbitrary Python callbacks
+acquire the GIL during setup/sampling; heavy production providers should use
+the native callback API or the built-in packet.
+
+Packet checkpoints use explicit version3, including family and nine wave
+parameters. The corresponding AthenaK reader reconstructs the same free data.
+Generic callbacks cannot be silently exported through the old checkpoint:
+applications must retain their own provider representation.
+
+The trial time derivative is not fixed physical gdot after projection. Rebuild
+gdot from the solved metric/K, lapse and shift to inspect its radiative modes.
+This feature supplies vacuum gravitational-wave initial data, not scalar-field
+data or a superradiant evolution/instability calculation.
+
+Cold starts and three-resolution results are under `validation/trumpet/wave22/`.
+The inactive focus at z=-12 improves packet resolution at fixed physical free
+data. A deliberately incompatible constant-P warm start fails; it violates
+the homogeneous focus rows. Use zero corrections, compatible prolongation,
+or an admissible correction guess. This failed diagnostic is retained.

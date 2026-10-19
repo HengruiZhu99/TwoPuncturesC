@@ -1,4 +1,5 @@
 #include "HiSpID_internal.hpp"
+#include "HiSpID_free_data.hpp"
 #include "HiSpID_cache_kernels.hpp"
 #include "HiSpID_axis.hpp"
 #include "HiSpID_galerkin.hpp"
@@ -297,6 +298,9 @@ struct HiSpID_Data {
  HiSpID_Config config,local;
  long double allocation_bound=0;
  int seed_family=HISPID_SEED_QI;
+ HiSpID_FreeData free_data{};
+ HiSpID_Wave22 wave{};
+ bool has_wave=false;
  double origin[3],frame[3][3],b;
  int npt,ntotal;
  std::vector<Cached> geometry;
@@ -331,6 +335,39 @@ puncture::ExecutionLock execution_lock(const HiSpID_Data*s){
  puncture::ExecutionLock lock(puncture::execution_mutex(),std::defer_lock);if(s&&s->device)lock.lock();return lock;
 }
 #endif
+// Both cache construction and off-grid sampling use exactly the same free data.
+void context_background(const HiSpID_Data&s,const double*x,hispid::Background&bg){
+ hispid::background(s.local,x,bg,s.seed_family);
+ if(!s.has_wave&&!s.free_data.evaluate)return;
+ double lab[3];for(int i=0;i<3;i++){lab[i]=s.origin[i];for(int j=0;j<3;j++)lab[i]+=s.frame[i][j]*x[j];}
+ hispid::Jet h[3][3],ht[3][3],local_h[3][3],local_ht[3][3];
+ if(s.has_wave){
+  int active=s.config.hole[0].mass>0?0:1;
+  hispid::wave22(s.wave,s.config.hole[active].center,lab,h,ht);
+ }else{
+  double jets[2][90]={};
+  if(s.free_data.evaluate(lab,jets[0],jets[1],s.free_data.user))throw std::runtime_error("free-data callback failed");
+  constexpr int a[6]={0,0,0,1,1,2},b[6]={0,1,2,1,2,2};
+  for(int t=0;t<2;t++)for(int i=0;i<3;i++)for(int j=0;j<3;j++){
+   const double*v=jets[t]+10*(3*i+j);hispid::Jet&q=t?ht[i][j]:h[i][j];
+   for(int d=0;d<10;d++)if(!std::isfinite(v[d])||v[d]!=jets[t][10*(3*j+i)+d])throw std::runtime_error("nonfinite or asymmetric free-data tensor jets");
+   q.v=v[0];for(int d=0;d<3;d++)q.d[d+1]=v[d+1];
+   for(int d=0;d<6;d++)q.h[a[d]+1][b[d]+1]=q.h[b[d]+1][a[d]+1]=v[d+4];
+  }
+ }
+ for(int i=0;i<3;i++)for(int j=0;j<3;j++)for(int a=0;a<3;a++)for(int b=0;b<3;b++){
+  const long double tensor=s.frame[a][i]*s.frame[b][j];
+  for(int t=0;t<2;t++){
+   const hispid::Jet&q=t?ht[a][b]:h[a][b];hispid::Jet&v=t?local_ht[i][j]:local_h[i][j];
+   v.v+=tensor*q.v;
+   for(int d=0;d<3;d++)for(int c=0;c<3;c++){
+    v.d[d+1]+=tensor*s.frame[c][d]*q.d[c+1];
+    for(int e=0;e<3;e++)for(int f=0;f<3;f++)v.h[d+1][e+1]+=tensor*s.frame[c][d]*s.frame[f][e]*q.h[c+1][f+1];
+   }
+  }
+ }
+ hispid::perturb_background(s.local,s.seed_family,x,local_h,local_ht,bg);
+}
 int pindex(const HiSpID_Data&s,int i,int j,int k){return i+s.local.n[0]*(j+s.local.n[1]*k);}
 void project_axisymmetry(const HiSpID_Data&s,double*v,bool unknowns){
  if(!s.axisymmetric)return;
@@ -1135,7 +1172,7 @@ const char *HiSpID_unknown_parameterization(){
 int HiSpID_collocation_maps(double*out){
  if(!out)return -1;out[0]=hispid::AxisDerivatives::radial_stretch;out[1]=hispid::AxisDerivatives::angular_stretch;return 0;
 }
-static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int execution=0,int geometry_execution=0,int family=HISPID_SEED_QI,bool operator_only=false){
+static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int execution=0,int geometry_execution=0,int family=HISPID_SEED_QI,bool operator_only=false,const HiSpID_FreeData*free_data=nullptr,const HiSpID_Wave22*wave=nullptr){
 #ifdef PUNCTURES_KOKKOS
  puncture::ExecutionLock execution_guard(puncture::execution_mutex(),std::defer_lock);if(execution)execution_guard.lock();
 #endif
@@ -1148,6 +1185,22 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  if(execution){hispid::last_error="library was built without Kokkos";return nullptr;}
 #endif
  if(!c||!hispid::valid(*c,sampler_only,operator_only)){hispid::last_error="invalid HiSpID configuration";return nullptr;}
+ if(free_data||wave){
+  if(geometry_execution||family==HISPID_SEED_TRUMPET_R0_M||c->far_radius!=0||
+     (c->hole[0].mass>0)==(c->hole[1].mass>0)){
+   hispid::last_error="free data require one stationary QI/Liu hole, far_radius=0, host geometry";return nullptr;
+  }
+  for(const auto&h:c->hole)for(double v:h.velocity)if(v!=0){hispid::last_error="free data require stationary Kerr gauge";return nullptr;}
+  if(free_data&&(free_data->struct_size!=sizeof(*free_data)||!free_data->evaluate)){hispid::last_error="invalid free-data provider";return nullptr;}
+  if(wave){
+   const int h=c->hole[0].mass>0?0:1;const auto&hole=c->hole[h];
+   const double a=hispid::point_norm<double>(hole.spin)/hole.mass;
+   const double throat=family==HISPID_SEED_LIU?(hole.mass+std::sqrt(hole.mass*hole.mass-a*a))/4:std::sqrt(hole.mass*hole.mass-a*a)/2;
+   if(!hispid::valid_wave22(*wave)||wave->cutoff_min<=std::max(throat,c->inner_max[h])){
+    hispid::last_error="invalid wave22 parameters or cutoff intersects Kerr throat/interior transition";return nullptr;
+   }
+  }
+ }
  if(HISPID_FOCUS_TAU&&!sampler_only&&!operator_only){
   // A nonzero far-reference correction W can itself be non-smooth at a
   // boosted/trumpet puncture. These homogeneous rows constrain P alone.
@@ -1206,6 +1259,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
  if(allocation_bound>(long double)c->memory_limit_mib*1024*1024){hispid::last_error="radial preconditioner allocation bound exceeds memory_limit_mib";return nullptr;}
  HiSpID_Data*s=nullptr;try{
   s=new HiSpID_Data;s->allocation_bound=allocation_bound;s->seed_family=family;s->config=s->local=*c;s->sampler_only=sampler_only;s->operator_only=operator_only;s->setup.geometry_execution=geometry_execution;
+  if(free_data)s->free_data=*free_data;if(wave){s->wave=*wave;s->has_wave=true;}
   if(geometry_execution)s->setup.scalar_digits=std::numeric_limits<double>::digits;
   double sep[3],len=0;for(int i=0;i<3;i++){s->origin[i]=.5*(c->hole[0].center[i]+c->hole[1].center[i]);sep[i]=c->hole[0].center[i]-c->hole[1].center[i];len+=sep[i]*sep[i];}
   len=std::sqrt(len);
@@ -1238,7 +1292,7 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
   s->setup.spectral_seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-setup_start).count();
   auto build_geometry=[&](int p){
    const int i=p%c->n[0],j=(p/c->n[0])%c->n[1],k=p/(c->n[0]*c->n[1]);
-   Fields f{};double x[3];transform(*s,i,j,k,f,x);hispid::Background bg;hispid::background(s->local,x,bg,s->seed_family);
+   Fields f{};double x[3];transform(*s,i,j,k,f,x);hispid::Background bg;context_background(*s,x,bg);
    cache(bg,s->geometry[p]);
    double sn=std::sin(Pih*(2*i+1)/c->n[0])*std::sin(Pih*(2*j+1)/c->n[1]);s->geometry[p].weight=std::pow(sn,HISPID_ROW_POWER);
    if constexpr(HISPID_INFINITY_EQUILIBRATION){
@@ -1272,6 +1326,23 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
    s->setup.geometry_seconds+=s->quadrature->setup.geometry_seconds;s->setup.spectral_seconds+=s->quadrature->setup.spectral_seconds;
   }
  }catch(const std::exception&e){hispid::last_error=e.what();HiSpID_destroy(s);return nullptr;}return s;
+}
+HiSpID_Data *HiSpID_create_with_free_data(const HiSpID_Config*c,int family,int execution,int sampler_only,const HiSpID_FreeData*f){
+ if(!f||(sampler_only!=0&&sampler_only!=1)){hispid::last_error="invalid free-data constructor arguments";return nullptr;}
+ return create_context(c,sampler_only,execution,0,family,false,f);
+}
+HiSpID_Data *HiSpID_create_with_wave22(const HiSpID_Config*c,int family,int execution,int sampler_only,const HiSpID_Wave22*w){
+ if(!w||(sampler_only!=0&&sampler_only!=1)){hispid::last_error="invalid wave22 constructor arguments";return nullptr;}
+ return create_context(c,sampler_only,execution,0,family,false,nullptr,w);
+}
+int HiSpID_wave22_sample(const HiSpID_Wave22*w,const double*center,int count,const double*xyz,double*h,double*ht){
+ if(!w||!center||count<0||!xyz||!h||!ht||!hispid::valid_wave22(*w))return -1;
+ for(int i=0;i<3;i++)if(!std::isfinite(center[i]))return -1;
+ for(int p=0;p<count;p++){
+  for(int i=0;i<3;i++)if(!std::isfinite(xyz[3*p+i]))return -1;
+  hispid::Jet a[3][3],b[3][3];hispid::wave22(*w,center,xyz+3*p,a,b);
+  for(int i=0;i<3;i++)for(int j=0;j<3;j++){h[9*p+3*i+j]=a[i][j].v;ht[9*p+3*i+j]=b[i][j].v;}
+ }return 0;
 }
 HiSpID_Data *HiSpID_create_with_seed_family(const HiSpID_Config*c,int family,int execution,int geometry_execution,int sampler_only){
  if(sampler_only!=0 && sampler_only!=1){hispid::last_error="invalid sampler mode";return nullptr;}
@@ -1386,6 +1457,7 @@ static int solve_context(HiSpID_Data*s,double fixed_forcing,int method=PK_GMRES)
 int HiSpID_solve(HiSpID_Data*s){return solve_context(s,0);}
 int HiSpID_set_axisymmetric(HiSpID_Data*s,int enabled){
  if(!s||s->sampler_only||(enabled!=0&&enabled!=1))return -1;
+ if(enabled&&(s->has_wave||s->free_data.evaluate)){hispid::last_error="custom free data require the full 3D solve";return -1;}
  if(enabled)for(const auto&h:s->local.hole){
   if(h.mass<=0)continue;
   for(double spin:h.spin)if(spin!=0){hispid::last_error="axisymmetric no-swirl solve requires zero spins";return -1;}
@@ -1499,7 +1571,7 @@ static int sample_with_derivatives(HiSpID_Data*s,int count,const double*xyz,HiSp
  if(!s||!xyz||!out||count<0)return -1;
  try{for(int p=0;p<count;p++){
   double x[3];if(local_xyz)std::copy(local_xyz+3*p,local_xyz+3*p+3,x);else to_local(*s,xyz+3*p,x);
-  hispid::Background bg;hispid::background(s->local,x,bg,s->seed_family);Fields f{};sample_fields(*s,x,f,ring);
+  hispid::Background bg;context_background(*s,x,bg);Fields f{};sample_fields(*s,x,f,ring);
   f[0][0]+=bg.far_correction.v;
   double psi=bg.psi.v+f[0][0];if(!(psi>0))throw std::runtime_error("nonpositive solved conformal factor");
   double L[3][3],gam[3][3],K[3][3],A[3][3];L_and_div(bg.metric,bg.inv,bg.C,f,L,nullptr);

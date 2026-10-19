@@ -26,6 +26,52 @@ class Config(C.Structure):
               ('tolerance',C.c_double),('max_newton',C.c_int),
               ('max_krylov',C.c_int),('krylov_restart',C.c_int),('memory_limit_mib',C.c_int)]
 
+class Wave22(C.Structure):
+    """SpEC rotating electric l=m=2 physical metric/time-derivative seed.
+
+    A stationary radial cutoff protects the Kerr throat. Lab z is the wave
+    axis. The native context copies these parameters; mutating this object
+    after construction does not change an existing solution.
+    """
+    _fields_=[('struct_size',C.c_int),('propagation',C.c_int),('handedness',C.c_int),
+              *[(name,C.c_double) for name in
+                ('amplitude','omega','cycles','r0','time','cutoff_min','cutoff_max')]]
+    def __init__(self,amplitude=1e-4,omega=.5,cycles=1.,r0=6.,time=0.,
+                 cutoff_min=2.,cutoff_max=4.,propagation=1,handedness=1):
+        super().__init__();self.struct_size=C.sizeof(self)
+        for name,_ in self._fields_:
+            if name!='struct_size':setattr(self,name,locals()[name])
+        numbers=[getattr(self,name) for name,_ in self._fields_ if name!='struct_size']
+        if (not np.isfinite(numbers).all() or propagation not in (-1,1) or handedness not in (-1,1)
+            or omega==0 or cycles<=0 or cutoff_min<=0 or cutoff_max<=cutoff_min
+            or not np.isfinite(2*np.pi*cycles/abs(omega))):raise ValueError('invalid wave22 parameters')
+    def as_dict(self):return {name:getattr(self,name) for name,_ in self._fields_ if name!='struct_size'}
+
+FreeDataCallback=C.CFUNCTYPE(C.c_int,C.POINTER(C.c_double),C.POINTER(C.c_double),C.POINTER(C.c_double),C.c_void_p)
+class FreeData(C.Structure):
+    """Reentrant host callback returning (delta_gamma, dt_delta_gamma) jets.
+
+    Each array has shape (3,3,10): value, dx,dy,dz,dxx,dxy,dxz,dyy,dyz,dzz.
+    Deltas are physical, lab Cartesian, symmetric, zero inside/near the
+    throat, and must satisfy asymptotically flat falloff at infinity.
+    Heavy providers should use the native C API; Python callbacks acquire the
+    GIL during host setup/sampling. The nonlinear solve can still use CUDA.
+    """
+    _fields_=[('struct_size',C.c_int),('evaluate',FreeDataCallback),('user',C.c_void_p)]
+    def __init__(self,evaluate):
+        super().__init__();self.struct_size=C.sizeof(self);self.last_exception=None
+        def callback(x,h,ht,user):
+            try:
+                a,b=evaluate(np.ctypeslib.as_array(x,shape=(3,)).copy())
+                for dest,value in ((h,a),(ht,b)):
+                    value=np.asarray(value,dtype=float)
+                    if value.shape!=(3,3,10):raise ValueError('free data require two arrays of shape (3,3,10)')
+                    np.ctypeslib.as_array(dest,shape=(90,))[:]=value.reshape(90)
+                return 0
+            except Exception as exc:
+                self.last_exception=exc;return -1
+        self._callback=FreeDataCallback(callback);self.evaluate=self._callback
+
 class Point(C.Structure):
     _fields_=[('gamma',D9),('Kij',D9),('psi',C.c_double),('conformal_metric',D9),
               ('Atilde',D9),('mean_curvature',C.c_double),
@@ -85,7 +131,10 @@ class Backend:
         for name,(ret,args) in api.items():
             f=getattr(self.lib,name);f.restype=ret;f.argtypes=args
         # Archived libraries remain loadable for explicit API migration checks.
-        optional={'HiSpID_preconditioner_description':(C.c_char_p,[C.c_void_p]),
+        optional={'HiSpID_create_with_free_data':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int,C.c_int,C.POINTER(FreeData)]),
+                  'HiSpID_create_with_wave22':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int,C.c_int,C.POINTER(Wave22)]),
+                  'HiSpID_wave22_sample':(C.c_int,[C.POINTER(Wave22),PTR,C.c_int,PTR,PTR,PTR]),
+                  'HiSpID_preconditioner_description':(C.c_char_p,[C.c_void_p]),
                   'HiSpID_create_with_seed_family':(C.c_void_p,[C.POINTER(Config),C.c_int,C.c_int,C.c_int,C.c_int]),
                   'HiSpID_seed_family':(C.c_int,[C.c_void_p]),
                   'HiSpID_seed_with_family':(C.c_int,[C.POINTER(Hole),C.c_int,C.c_int,PTR,C.POINTER(Point),C.c_int,C.c_int]),
@@ -177,11 +226,16 @@ class Backend:
         else:code=self.lib.HiSpID_operators(C.byref(config),ptr(x),ptr(j),ptr(out))
         if code:raise ValueError(self.error())
         return out
-    def create(self,config,execution='reference',geometry='host',seed_family=None):return Solution(self,config,execution=execution,geometry=geometry,seed_family=seed_family)
-    def create_sampler(self,config,seed_family=None):return Solution(self,config,sampler_only=True,seed_family=seed_family)
+    def wave22(self,wave,xyz,center=(0.,0.,0.)):
+        x=np.ascontiguousarray(xyz,dtype=float).reshape(-1,3);c=np.ascontiguousarray(center,dtype=float).reshape(3)
+        h=np.empty((len(x),3,3));ht=np.empty_like(h)
+        if self.lib.HiSpID_wave22_sample(C.byref(wave),ptr(c),len(x),ptr(x),ptr(h),ptr(ht)):raise ValueError('invalid wave22 sample')
+        return h,ht
+    def create(self,config,execution='reference',geometry='host',seed_family=None,free_data=None,wave=None):return Solution(self,config,execution=execution,geometry=geometry,seed_family=seed_family,free_data=free_data,wave=wave)
+    def create_sampler(self,config,seed_family=None,free_data=None,wave=None):return Solution(self,config,sampler_only=True,seed_family=seed_family,free_data=free_data,wave=wave)
 
 class Solution:
-    def __init__(self,backend,config,sampler_only=False,execution='reference',geometry='host',seed_family=None):
+    def __init__(self,backend,config,sampler_only=False,execution='reference',geometry='host',seed_family=None,free_data=None,wave=None):
         self.backend=backend;self.config=Config.from_buffer_copy(config)
         self.context=None
         configured=getattr(config,'seed_family','qi')
@@ -189,13 +243,27 @@ class Solution:
             raise ValueError('seed-family override conflicts with configuration metadata')
         self.seed_family=configured if seed_family is None else seed_family
         family=seed_family_code(self.seed_family);self.config.seed_family=self.seed_family
-        name='HiSpID_create_sampler' if sampler_only else 'HiSpID_create'
+        configured_wave=getattr(config,'wave22',None)
+        if wave is not None and configured_wave is not None and wave.as_dict()!=configured_wave.as_dict():raise ValueError('wave override conflicts with configuration metadata')
+        wave=configured_wave if wave is None else wave
+        if wave is not None and free_data is not None:raise ValueError('choose either a native packet or a custom free-data provider')
+        self.free_data=free_data
+        self.wave=Wave22(**wave.as_dict()) if wave is not None else None
+        if self.wave is not None:self.config.wave22=Wave22(**self.wave.as_dict())
+        if getattr(config,'custom_free_data',False) and free_data is None:raise ValueError('custom free-data configuration requires its provider')
+        if free_data is not None:self.config.custom_free_data=True
+        name='HiSpID_create_sampler'  if sampler_only else 'HiSpID_create'
         if not hasattr(backend.lib,name):raise ValueError('library does not support sampling-only contexts')
         from execution import select
         code=select(backend.lib,execution)
         if geometry not in ('host','execution'):raise ValueError('geometry must be host or execution')
         if sampler_only and (code or geometry!='host'):raise ValueError('sampling-only contexts use host geometry and CPU execution')
-        if family:
+        if wave is not None or free_data is not None:
+            if geometry!='host':raise ValueError('free data require host geometry setup')
+            factory='HiSpID_create_with_wave22' if wave is not None else 'HiSpID_create_with_free_data'
+            if not hasattr(backend.lib,factory):raise ValueError('library lacks custom free-data support')
+            self.context=getattr(backend.lib,factory)(C.byref(config),family,code,int(sampler_only),C.byref(self.wave if wave is not None else free_data))
+        elif family:
             if not hasattr(backend.lib,'HiSpID_create_with_seed_family'):raise ValueError('library lacks seed-family support')
             self.context=backend.lib.HiSpID_create_with_seed_family(C.byref(config),family,code,int(geometry=='execution'),int(sampler_only))
         elif geometry=='execution':
@@ -217,6 +285,13 @@ class Solution:
     def __del__(self):self.close()
     def _check(self):
         if not self.context:raise ValueError('closed HiSpID context')
+    def write_checkpoint(self,path,acceptance='preliminary'):
+        """Save this context's actual free-data metadata and unknowns together."""
+        self._check()
+        from checkpoint_export import write_checkpoint
+        if acceptance in ('preliminary','strong') and not self.diagnostics()['converged']:
+            raise ValueError('a converged solve is required; retain failed/unsolved fields as diagnostic')
+        return write_checkpoint(path,self.config,self.unknowns(),self.backend.library_sha256(),acceptance,self.backend.parameterization())
     def setup_statistics(self):
         self._check()
         if not hasattr(self.backend.lib,'HiSpID_setup_statistics'):return None
@@ -242,6 +317,8 @@ class Solution:
         self.resolved_options=dict(system='hispid',krylov=krylov or 'gmres',linear_rtol=linear_rtol,preconditioner='modal',execution=self.execution,geometry=self.geometry,seed_family=self.seed_family)
         if hasattr(self.backend.lib,'HiSpID_preconditioner_description'):
             self.resolved_options['preconditioner']=self.backend.lib.HiSpID_preconditioner_description(self.context).decode()
+        if self.wave is not None:self.resolved_options['wave22']=self.wave.as_dict()
+        elif self.free_data is not None:self.resolved_options['free_data']='callback'
         if axisymmetric:self.resolved_options['axisymmetric']=True
         self.resolved_options['native_verified']=False
         if hasattr(self.backend.lib,'HiSpID_resolved_solve_options'):
