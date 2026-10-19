@@ -115,3 +115,64 @@ configuration.
 
 Primary formulation:
 [Ansorg, Brügmann, and Tichy, gr-qc/0404056v2](https://arxiv.org/pdf/gr-qc/0404056v2).
+
+## Direct single-hole grids
+
+The optional `python/single_hole.py` uses Chebyshev roots in
+`A=r/(r+m/2)` and Gauss–Legendre points in `mu=cos(theta)`. Both axes are
+centered on the one physical hole, with no inactive focus or azimuthal copies.
+The implemented sector is axisymmetric: spin and boost/momentum lie along z.
+Install `python/requirements-single-hole.txt` in an isolated environment.
+
+```python
+from single_hole import BowenYorkSingleHole
+from hispid import Backend
+
+by = BowenYorkSingleHole(mass=1., spin=.2, momentum=0., nr=50, ntheta=50)
+diagnostics = by.solve()  # require diagnostics['converged']
+fields = by.sample([[1., .2, .3]])
+
+backend = Backend('/absolute/path/to/libHiSpID.so')
+kerr = backend.single_hole(chi=.9999, nr=192, ntheta=32, seed_family='liu')
+fields = kerr.sample([[1., .2, .3]])
+horizon = kerr.horizon()  # rest hole: known coordinate sphere, not a shape finder
+```
+
+The BY solver implements the unchanged physical Hamiltonian constraint, not
+the HiSpID coupled system. Its unknown is `V=u/(1-A)`, and its internal
+residual is the physical conformal equation multiplied by
+`(m/2)^2 A^2/(1-A)^3`. GMRES uses the separated flat operator as a
+preconditioner, factored once per Legendre mode. This stopping norm differs
+from the native binary norm; agreement is checked with physical tensors and
+an independent Cartesian constraint observer. `Backend('bowen_york', path)`
+also exposes this path through `.single_hole(...)`. No binary defaults,
+native layouts, equations or backend choices change.
+
+The Kerr path evaluates the native exact seed only when building its grid,
+then interpolates regularized spherical tensor components. Tensor parity
+factors enforce regularity on the axis. It supports QI and Liu charts,
+including a coaxial `velocity` argument; the spherical horizon diagnostic is
+restricted to rest holes. Returned `gamma` and `Kij` are physical Cartesian
+covariant tensors, and `psi=det(gamma)^(1/12)`. Nonpositive interpolants fail
+instead of being clipped. This is a genuine representation convergence test,
+not a sampler that simply calls the exact solution at every observation point.
+
+The direct BY solver and analytic Kerr representation are CPU NumPy/SciPy
+paths. A small two-dimensional problem does not require a new GPU port.
+Native binary production kernels and the existing AthenaK reader are unchanged.
+General perturbed Kerr free data, a non-axisymmetric spherical-harmonic sector,
+direct-grid checkpoint import and spectral time evolution are not implemented.
+Perturbing a Newton initial guess alone does not specify new physical free data.
+
+Reproduce the single-hole study with:
+
+```sh
+python validation/single_hole_study.py --library /absolute/path/to/libHiSpID.so \
+  --output /fresh/path/single-hole
+HISPID_TEST_LIBRARY=/absolute/path/to/libHiSpID.so python tests/test_single_hole.py
+```
+
+The retained evidence and figures are in `validation/trumpet/lower-resolution/`.
+The reference-norm replay reads saved binary unknowns without another solve.
+The original paper's single-hole parameters and reference orders are retained;
+Legendre angular collocation replaces its theta-Chebyshev discretization.

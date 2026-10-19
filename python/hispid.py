@@ -146,6 +146,14 @@ class Backend:
         return self.loaded_sha256
     def config(self):
         c=Config();self.lib.HiSpID_default_config(C.byref(c));return c
+    def single_hole(self, mass=1., chi=.99, nr=32, ntheta=24, seed_family='liu', velocity=0.):
+        """Direct coaxial Kerr spherical spectral sampler (optional SciPy dependency).
+
+        This represents an exact seed, independently of the binary CTT grid.
+        It does not solve constraints for perturbed single-hole free data.
+        """
+        from single_hole import KerrSingleHole
+        return KerrSingleHole(self, mass, chi, nr, ntheta, seed_family, velocity)
     def seed(self,hole,xyz,choice=1,execution='reference',seed_family='qi'):
         x=np.ascontiguousarray(xyz,dtype=float).reshape(-1,3);out=(Point*len(x))()
         from execution import select

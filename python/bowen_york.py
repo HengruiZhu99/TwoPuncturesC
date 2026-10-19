@@ -44,6 +44,10 @@ class Backend:
                     integer=dict(npoints_A=40,npoints_B=80,npoints_phi=16,Newton_maxit=24,
                                  give_bare_mass=1,use_external_initial_guess=0,grid_setup_method=1,verbose=0))
     def create(self,config):return Solution(self,config)
+    def single_hole(self, mass=1., spin=0., momentum=0., nr=32, ntheta=24):
+        """Direct axisymmetric spherical BY solver; optional SciPy dependency."""
+        from single_hole import BowenYorkSingleHole
+        return BowenYorkSingleHole(mass,spin,momentum,nr,ntheta)
     def library_sha256(self):
         if hashlib.sha256(self.path.read_bytes()).hexdigest()!=self.loaded_sha256:
             raise ValueError('native library file changed after loading; start a fresh process')

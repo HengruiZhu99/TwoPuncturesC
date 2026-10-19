@@ -51,6 +51,12 @@ moderate binary passes its preliminary enclosure checks.
 Both equation systems support selectable GMRES and BiCGStab through a shared
 linear engine. See [interfaces, preservation controls and measured limits](docs/KRYLOV_BACKENDS.md).
 
+An optional [direct spherical single-hole path](PHYSICAL_API.md#direct-single-hole-grids)
+solves axisymmetric Bowen–York data and represents analytic coaxial Kerr seeds
+without an inactive second focus. Its Liu-coordinate control converges at
+spin 0.9999. This CPU path requires `python/requirements-single-hole.txt`;
+it is separate from the native binary solver and is not an evolution code.
+
 ## Interface with GR-Athena++
 
 Use the `Makefile` here- as is.
