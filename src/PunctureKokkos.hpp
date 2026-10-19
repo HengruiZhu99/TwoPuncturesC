@@ -19,6 +19,9 @@ using Indices=Kokkos::View<int*,Exec>;
 using Host=Kokkos::View<const double*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
 using HostOut=Kokkos::View<double*,Kokkos::HostSpace,Kokkos::MemoryTraits<Kokkos::Unmanaged>>;
 using Range=Kokkos::RangePolicy<Exec>;
+// Host teams run independent moments across threads. A GPU-sized team can
+// exceed the entire OpenMP pool; retain 128 lanes on device backends.
+inline constexpr int reduction_team_size=Kokkos::SpaceAccessibility<Exec,Kokkos::HostSpace>::accessible?1:128;
 using Action=std::function<void(View,View)>;
 PunctureExecutionStats& statistics();
 std::recursive_mutex& execution_mutex();

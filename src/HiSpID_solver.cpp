@@ -205,7 +205,7 @@ struct HiKokkos {
   if(HISPID_FOCUS_TAU){
    auto fw=focus_weight,fd=focus_difference;const int N=na*nb;
    using Team=Kokkos::TeamPolicy<puncture::Exec>;using Member=Team::member_type;
-   Kokkos::parallel_for("focus regularity moments",Team(4*hispid::focus_rank*np,128),KOKKOS_LAMBDA(const Member&team){
+   Kokkos::parallel_for("focus regularity moments",Team(4*hispid::focus_rank*np,puncture::reduction_team_size),KOKKOS_LAMBDA(const Member&team){
     int task=team.league_rank(),v=task%4,k=(task/4)%np,side=task/(4*np),m=k<=np/2?k:k-np/2;
     if(m>4){Kokkos::single(Kokkos::PerTeam(team),[&](){fd(task)=0;});return;}
     puncture::ProjectionAccumulator sum;Kokkos::parallel_reduce(Kokkos::TeamThreadRange(team,N),[&](int p,puncture::ProjectionAccumulator&q){q.product(fw((hispid::focus_rank*m+side)*N+p),in(4*(p+N*k)+v));},Kokkos::Sum<puncture::ProjectionAccumulator>(sum));
@@ -806,7 +806,7 @@ struct FocusDevice {
   if(!groups)return;const int N=a*b,P=np,A=a,B=b;
   auto W=weight,R=response,S=inverse,G=moments,F=forward;auto mapping=map;
   using Team=Kokkos::TeamPolicy<puncture::Exec>;using Member=Team::member_type;
-  Kokkos::parallel_for("focus inverse moments",Team(4*hispid::focus_rank*P,128),KOKKOS_LAMBDA(const Member&team){
+  Kokkos::parallel_for("focus inverse moments",Team(4*hispid::focus_rank*P,puncture::reduction_team_size),KOKKOS_LAMBDA(const Member&team){
    int q=team.league_rank(),task=q/hispid::focus_rank,side=q%hispid::focus_rank,group=mapping(task),mode=task/4,v=task%4;if(group<0)return;
    puncture::ProjectionAccumulator value;Kokkos::parallel_reduce(Kokkos::TeamThreadRange(team,N),[&](int p,puncture::ProjectionAccumulator&sum){sum.product(W((hispid::focus_rank*group+side)*N+p),x(4*(p+N*mode)+v));},Kokkos::Sum<puncture::ProjectionAccumulator>(value));
    Kokkos::single(Kokkos::PerTeam(team),[&](){int row=hispid::focus_row(side,A,B);double source;
