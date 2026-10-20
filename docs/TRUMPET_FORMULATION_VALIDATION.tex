@@ -1403,6 +1403,46 @@ passes in seven outer steps. The fixed three-grid continuation now saves
 each accepted Newton update and uses each native-converged grid only as
 the next grid's initial guess. Its physical and horizon gates remain open.
 
+The next attempted update from this five-update checkpoint stalls again:
+the first vector block ends at true relative residual 0.99438 after 1,024
+inner iterations. That continuation was cancelled during its second
+outer application, before another accepted update; it is not a completed
+80-iteration failure. The saved five-update state remains the latest
+checkpoint. This distinguishes the demonstrated improvement for one
+linear system from robustness throughout the nonlinear solve.
+
+Replacing the axial diagonal of the approximate vector operator alone
+also fails the next step: six outer iterations, with 6,144 vector and
+6,144 scalar inner iterations, leave original-system relative residual
+0.94843. No Newton update is accepted in 1,357.85 seconds of native solve
+time. That isolated candidate is archived and reverted. A subsequent
+coupled axial--radial inverse passes the CUDA algebraic checks but still
+ends its first vector block at true relative residual 0.99287 after 1,024
+inner iterations. It was stopped after that block application and reverted,
+before any accepted Newton update or terminal outer residual; this is
+not a completed six-outer-iteration result. Neither candidate establishes
+physical convergence. A one-outer-step replay with the existing solver
+exports its small Krylov projection to distinguish resolvable weak modes
+from numerical conditioning before selecting another acceleration.
+
+That replay ends at full-system true relative residual 0.99318 after one
+outer iteration, with no accepted update. Its first 256-column inner
+projection is severely ill-conditioned: standard double-precision QR
+and SVD do not give consistent residual estimates. Replaying the recorded
+Hessenberg least-squares problem with 35 and 65 decimal digits agrees at
+relative residual 0.992615. Thus higher precision in this small problem
+alone cannot remove the stall, and its unreliable small singular vectors
+do not justify a deflation space. A direct modal-response diagnostic,
+without Krylov iteration, localizes strong amplification in the approximate
+inverse: for a unit momentum right-hand side, the $m=2,3,4$ correction
+groups produce original momentum-action norms of $2.65\times10^4$,
+$2.56\times10^6$, and $1.44\times10^8$, respectively. These are ordinary
+PDE rows, rather than boundary compatibility rows. The separately computed
+actions sum to the combined action with relative discrepancy
+$3.89\times10^{-16}$. This identifies a conditioning problem in the
+preconditioned response, but does not yet demonstrate its cause or remedy;
+no further Newton update or physical qualification has passed.
+
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations
 its original-system relative residual was 0.830, above its unchanged

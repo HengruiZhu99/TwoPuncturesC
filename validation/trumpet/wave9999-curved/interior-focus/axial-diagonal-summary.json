@@ -1,0 +1,15 @@
+{
+  "status": "completed bounded failure; no accepted Newton update",
+  "job": 60057063,
+  "initial_checkpoint_sha256": "c3132b0510ac766c5ccc31ac0e2a75cedf24ff6103cc9508457cbe4212acda7a",
+  "library_sha256": "08024bdb02bef47f175e8f9ef82e245e5239d73205912b9550155d745e3b8fb8",
+  "native_scaled_max": 2.2693787431880577e-10,
+  "original_linear_relative": 0.9484269856803732,
+  "outer_iterations": 6,
+  "vector_inner_iterations": 6144,
+  "scalar_inner_iterations": 6144,
+  "native_seconds": 1357.847034619,
+  "slurm_maxrss_kib": 10733796,
+  "source_status": "two-file diagonal-only experiment archived and reverted; V19 is a distinct candidate",
+  "qualification": "No native, three-grid or new horizon pass"
+}

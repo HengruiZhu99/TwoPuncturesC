@@ -1,0 +1,10 @@
+{
+  "job": 60056582,
+  "status": "cancelled during second outer preconditioner application, without a new Newton update",
+  "initial_checkpoint_sha256": "c3132b0510ac766c5ccc31ac0e2a75cedf24ff6103cc9508457cbe4212acda7a",
+  "first_vector_block_true_relative": 0.9943813702711121,
+  "second_vector_block_last_recurrence": 0.42169748946150926,
+  "second_scalar_block_last_recurrence": 0.9336401998625485,
+  "interpretation": "Incomplete trial, not an exhausted 80-outer-step result; full-system true norm not obtained. No revised-grid or horizon acceptance.",
+  "next": "Bounded full-axial-symbol preconditioner pilot from the identical five-update diagnostic checkpoint; physical formulation and tolerances unchanged."
+}

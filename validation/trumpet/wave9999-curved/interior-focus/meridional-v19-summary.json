@@ -1,0 +1,45 @@
+{
+  "baseline_commit": "309208d",
+  "status": "stopped after first completed block application; no accepted Newton update or terminal outer residual",
+  "source": {
+    "CMakeLists.txt": "dbbd679b88b05722054bebcd3c89cb8df4d610367e7110fddc87ed73af0fc05f",
+    "src/HiSpID_solver.cpp": "eab28bfe14f013a9fbef502a1f1ce80a8035ee1e5a165ec170ebb83475c489e5",
+    "src/HiSpID_meridional.hpp": "b7d6396ea4931eb2990301d79b21811d299f44e0ad545d803252e0eb847add9b",
+    "src/HiSpID_modal_block.hpp": "d3095fbe27335e6f36aade60062e82af7ada35c5c6d1883afd41b9ccff695364",
+    "src/HiSpID_modal_transfer.hpp": "b0f0202d905e07880eba94a844f9c852dbc202ffd16e9991c12195d06e28e92d",
+    "tests/test_hispid_meridional.cpp": "22b2ee8346c617a4b2ad704b4b0574d543ab0604000751c372255b4dd1025e6c",
+    "tests/test_hispid_constraint_block.cpp": "a92e5142f81ab2dbf698478276b3f7e70ce6e3a1d424d00c981d572c8b451249",
+    "validation/wave22_study.py": "6526f87a135564133572d11bcce2a32938e7cb95953b049474639c2f36e74901",
+    "validation/checkpointed_newton.py": "a95ba3325fb097f3afe82eb75950e747958b99c2a32eaa56168f0761062384d3"
+  },
+  "production": {
+    "source": "source-wave-curved-v19",
+    "build": "build-wave-curved-v19",
+    "pilot": "wave9999-meridional-pilot-v1",
+    "study": "wave9999-meridional-study-v1",
+    "post": "wave9999-meridional-final-v1",
+    "input_checkpoint_sha256": "c3132b0510ac766c5ccc31ac0e2a75cedf24ff6103cc9508457cbe4212acda7a",
+    "watcher": "continue-meridional-v1.sh",
+    "log": "run-meridional-v1.log",
+    "predecessor_job": 60057063,
+    "job": 60058420,
+    "library_sha256": "218226736225f213f199d9dd592a7229133c8cda151b5b575cf76f0f5e0e4ac4"
+  },
+  "cuda_controls": {
+    "cross_action_relative": 4.295190573207815e-13,
+    "independent_inverse_error": 8.881784197001252e-16,
+    "coupled_outer_iterations": 7,
+    "coupled_original_true_relative": 1.3193931858178357e-08,
+    "coupled_jet_relative": 2.5715666133250756e-08,
+    "coupled_seconds": 4.761023579005268,
+    "bridge_complement_relative": 5.443571895367312e-17
+  },
+  "physical_partial": {
+    "vector_iterations": 1024,
+    "vector_original_true_relative": 0.992866420722477,
+    "scalar_iterations": 89,
+    "scalar_original_true_relative": 0.09295903080158646,
+    "native_and_physical_qualification": false,
+    "interpretation": "No demonstrated remedy for the next-step stall; not a completed six-outer-step failure."
+  }
+}

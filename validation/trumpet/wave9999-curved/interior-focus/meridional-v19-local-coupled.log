@@ -1,0 +1,6 @@
+HiSpID meridional host factor seconds=0.93887854099739343 bound_bytes=121634816
+HiSpID linear it=0 recurrence_relative=1.000000000000026 (true residual checked by controller)
+HiSpID constraint blocks applications=1 vector_iterations=8 scalar_iterations=1 vector_incomplete=0 scalar_incomplete=0 last_vector_relative=0.080612240800102805 last_scalar_relative=0.00069505570386191816 inner_target=0.1 inner_limit=1024 restart=256 method=lgmres
+HiSpID constraint blocks applications=7 vector_iterations=109 scalar_iterations=29 vector_incomplete=0 scalar_incomplete=0 last_vector_relative=0.079424204638650048 last_scalar_relative=0.060863171177130318 inner_target=0.1 inner_limit=1024 restart=256 method=lgmres
+constraint-block coupled witness: passed=1 iterations=7 true_relative=1.3193931641284557e-08 field_relative=2.5715665745178886e-08 seconds=8.7224290419835597 focus_separation=1 preconditioner=constraint_block_upper_triangular_meridional
+meridional bridge restriction and complement witness: 5.4435718953672673e-17

@@ -1010,6 +1010,47 @@ struct ConstraintBlockInverse {
   std::fprintf(stderr,"HiSpID constraint blocks applications=%d vector_iterations=%d scalar_iterations=%d vector_incomplete=%d scalar_incomplete=%d last_vector_relative=%.17g last_scalar_relative=%.17g inner_target=0.1 inner_limit=%d restart=%d method=lgmres\n",applications,vector_iterations,scalar_iterations,vector_incomplete,scalar_incomplete,last_vector_relative,last_scalar_relative,limit,restart);std::fflush(stderr);
  }
 };
+// Diagnostic of the frozen first VECTOR-inner problem, not a solve.
+// Split modal unknowns, but measure actions in original momentum rows.
+void audit_modal_response(HiSpID_Data&s,puncture::View input,const puncture::Action&inverse){
+ if(s.quadrature)throw std::runtime_error("modal response diagnostic requires collocation execution");
+ const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],N=na*nb;
+ puncture::View b("modal audit vector RHS",s.ntotal),z("modal audit inverse",s.ntotal),part("modal audit split",s.ntotal),out("modal audit action",s.ntotal);
+ puncture::each(b,KOKKOS_LAMBDA(int q){b(q)=q%4?input(q):0.;});
+ const double norm=puncture::length(b);if(!(norm>0))throw std::runtime_error("empty modal audit vector RHS");
+ puncture::scale_copy(b,1/norm,b);inverse(b,z);s.preconditioner_applications++;
+ std::vector<double>rhs(s.ntotal),action(s.ntotal),combined(s.ntotal);std::vector<long double>sum(s.ntotal,0.);
+ puncture::download(b,rhs.data());
+ std::fprintf(stderr,"HiSpID modal response original_vector_rhs_l2=%.17g normalization=unit_vector_rhs groups=0,1,2,3,4,ge5\n",norm);
+ for(int group=0;group<6;group++){
+  puncture::each(part,KOKKOS_LAMBDA(int q){int slot=(q/4)/N,mode=slot<=np/2?slot:slot-np/2;part(q)=q%4&&(group<5?mode==group:mode>=5)?z(q):0.;});
+  device_apply(s,part,out);s.jvp_applications++;auto f=s.device->op.fields;double value2=0,gradient2=0;
+  Kokkos::parallel_reduce("modal audit physical value",puncture::Range(0,s.npt),KOKKOS_LAMBDA(int p,double&v){for(int c=1;c<4;c++)v+=f(40*p+10*c)*f(40*p+10*c);},value2);
+  Kokkos::parallel_reduce("modal audit physical gradient",puncture::Range(0,s.npt),KOKKOS_LAMBDA(int p,double&v){for(int c=1;c<4;c++)for(int d=1;d<4;d++)v+=f(40*p+10*c+d)*f(40*p+10*c+d);},gradient2);
+  puncture::download(out,action.data());for(int q=0;q<s.ntotal;q++)if(q%4)sum[q]+=action[q];
+  long double input2=0,ordinary2=0,tau2=0,focus2=0;double maximum=0;int mi=-1,mj=-1,mm=-1,mv=-1;
+  for(int slot=0;slot<np;slot++){
+   int mode=slot<=np/2?slot:slot-np/2;
+   for(int j=0;j<nb;j++)for(int i=0;i<na;i++)for(int v=1;v<4;v++){
+    long double bv=0,av=0;for(int k=0;k<np;k++){int q=4*(i+na*j+N*k)+v;double w=s.derivatives.forward[slot*np+k];bv+=(long double)w*rhs[q];av+=(long double)w*action[q];}
+    if(group<5?mode==group:mode>=5)input2+=bv*bv;
+    bool focus_row=false;if(HISPID_FOCUS_TAU&&mode<=4)for(int side=0;side<hispid::focus_rank;side++)if(i+na*j==hispid::focus_row(side,na,nb))focus_row=true;
+    const bool tau=HISPID_AXIS_TAU&&mode>=5&&(i==0||j==0||j==nb-1);
+    if(focus_row)focus2+=av*av;else if(tau)tau2+=av*av;else{
+     ordinary2+=av*av;if(std::abs(av)>maximum){maximum=std::abs(av);mi=i;mj=j;mm=mode;mv=v;}
+    }
+   }
+  }
+  double radius=std::numeric_limits<double>::quiet_NaN();
+  if(mi>=0){const double a=.5*(s.derivatives.coordinate[0][mi]+1),t=a*a,C=(1+t)/(1-t),B=s.derivatives.coordinate[1][mj],eta=-2*B/(1+B*B),rho2=s.b*s.b*(C*C-1)*(1-eta*eta);
+   int hole=s.local.hole[0].mass>0?0:1;double axial=s.b*C*eta-s.local.hole[hole].center[0];radius=std::sqrt(axial*axial+rho2);
+  }
+  std::fprintf(stderr,"HiSpID modal response group=%d rhs_group_l2=%.17g action_l2=%.17g pde_l2=%.17g focus_l2=%.17g tau_l2=%.17g physical_value_collocation_l2=%.17g physical_gradient_collocation_l2=%.17g pde_max=%.17g maximum_mode=%d maximum_component=%d maximum_i=%d maximum_j=%d maximum_radius=%.17g\n",group,double(std::sqrt(input2)),double(std::sqrt(ordinary2+focus2+tau2)),double(std::sqrt(ordinary2)),double(std::sqrt(focus2)),double(std::sqrt(tau2)),std::sqrt(value2),std::sqrt(gradient2),maximum,mm,mv,mi,mj,radius);std::fflush(stderr);
+ }
+ device_apply(s,z,out);s.jvp_applications++;puncture::download(out,combined.data());long double total=0,error=0;
+ for(int q=0;q<s.ntotal;q++)if(q%4){total+=(long double)combined[q]*combined[q];long double e=sum[q]-combined[q];error+=e*e;}
+ std::fprintf(stderr,"HiSpID modal response sum_action_l2=%.17g superposition_difference_l2=%.17g superposition_relative=%.17g jvp_count=7 krylov_iterations=0\n",double(std::sqrt(total)),double(std::sqrt(error)),double(std::sqrt(error/total)));std::fflush(stderr);
+}
 bool constraint_blocks_enabled(const HiSpID_Data&s,int method){
  return HISPID_CONSTRAINT_BLOCK_PRECONDITIONER&&s.device&&!s.quadrature&&method!=PK_BICGSTAB&&
   !(HISPID_LEFT_GMRES&&s.seed_family==HISPID_SEED_TRUMPET_R0_M&&method==PK_GMRES);
@@ -1031,6 +1072,11 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
   auto&Mstats=puncture::statistics();
   double begin=puncture::seconds();auto d=device_preconditioner(M);TauPolarDevice polar(M);FocusDevice focus(M);puncture::Exec().fence();Mstats.setup_seconds+=puncture::seconds()-begin;
   auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
+  const char*modal_audit=std::getenv("HISPID_PROBE_MODAL_RESPONSE");
+  if(modal_audit&&std::strcmp(modal_audit,"1")==0){
+   audit_modal_response(s,b,[&](auto in,auto out){d.apply(in,out);polar.apply(out,&d);focus.apply(in,out);project_axisymmetry(s,out,true);});
+   s.last_gmres_relative=1.;hispid::last_error="modal response diagnostic only; no Krylov solve attempted";return false;
+  }
   std::unique_ptr<ConstraintBlockInverse>blocks;
   if(constraint_blocks_enabled(s,method))blocks=std::make_unique<ConstraintBlockInverse>(s,[&](auto in,auto out){d.apply(in,out);polar.apply(out,&d);focus.apply(in,out);project_axisymmetry(s,out,true);});
   puncture::View relaxation_residual,relaxation_action,relaxation_correction,left_conditioned;

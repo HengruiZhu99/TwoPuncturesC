@@ -1,0 +1,22 @@
+{
+  "grid": [
+    576,
+    192,
+    16
+  ],
+  "inner_method": "lgmres",
+  "inner_restart": 256,
+  "inner_max_iterations": 1024,
+  "inner_original_relative_target": 0.1,
+  "outer_method": "gmres",
+  "outer_restart": 24,
+  "device_guarded_gib": 38.72584915161133,
+  "aggregate_gib": 95.38787460327148,
+  "note": "Conservative bound, not measured RAM. Fine coupled meridional LU/transfer stay on CPU; bridge and coefficient generation use GPU.",
+  "coupled_host_factor_bound_gib": 3.975830078125,
+  "host_job_memory_gib": 56,
+  "inner_augmentation_additional_device_gib": 0.27685546875,
+  "inner_augmentation_additional_host_gib": 0.11865234375,
+  "meridional_additional_device_gib": 0.02142333984375,
+  "host_memory_note": "Perlmutter shared queue limits 1 GPU / 32 CPUs to this request. V18 384x128x16 measured MaxRSS 10733796 KiB (~10.24 GiB); 1.5^3 extrapolation plus coupled factor is below 56 GiB but is not a measured finest-grid peak."
+}

@@ -1,0 +1,19 @@
+{
+  "scope": "Exact rounded recorded H only; no full operator/solution acceptance",
+  "results": [
+    {
+      "decimal_digits": 35,
+      "recurrence_relative": "0.99261472602101487806785734858591422",
+      "projected_actual_relative": "0.99261472602101487806797561007190596",
+      "coefficient_max": "0.037861362102831969961693151101849522",
+      "seconds": 0.073344916
+    },
+    {
+      "decimal_digits": 65,
+      "recurrence_relative": "0.99261472602101487806802554720829456482921839393168099472775811231",
+      "projected_actual_relative": "0.99261472602101487806802554720829456482921839393168088240181145582",
+      "coefficient_max": "0.037861362102831969962185930514365337148685635580125510556658456763",
+      "seconds": 0.09178616700000002
+    }
+  ]
+}
