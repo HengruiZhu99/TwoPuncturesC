@@ -1,0 +1,273 @@
+{
+  "relative_from_modal_norms": 0.10186491633337587,
+  "relative_from_original_controller": 0.10186491633337587,
+  "momentum_fraction_squared_l2": 0.999992070618942,
+  "high_mode_polar_tau_fraction_squared_l2": 6.184210391816065e-11,
+  "mode_fraction_squared_l2": [
+    0.2743815275477313,
+    0.2643860195426538,
+    0.2235874297072033,
+    0.1550895801681509,
+    0.05346288838943519,
+    0.024460199550308308,
+    0.00415484969306499,
+    0.00020305519091375128,
+    0.00027445021053830974
+  ],
+  "maximum_cpu_gpu_inverse_relative": 3.297618436667868e-13,
+  "rows": [
+    {
+      "mode": 0.0,
+      "component": 0.0,
+      "initial_l2": 1.4952027289376965e-10,
+      "remaining_l2": 2.191931633646995e-11,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 0.0,
+      "component": 1.0,
+      "initial_l2": 7.564201386034695e-09,
+      "remaining_l2": 5.015829990930279e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 0.0,
+      "component": 2.0,
+      "initial_l2": 4.523597600543223e-09,
+      "remaining_l2": 7.578109747764995e-10,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 0.0,
+      "component": 3.0,
+      "initial_l2": 7.72812330726001e-09,
+      "remaining_l2": 7.744925448244455e-10,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 1.0,
+      "component": 0.0,
+      "initial_l2": 6.944631532124406e-11,
+      "remaining_l2": 3.7121702833720195e-12,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 1.0,
+      "component": 1.0,
+      "initial_l2": 6.625757805314334e-09,
+      "remaining_l2": 8.484379624939124e-10,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 1.0,
+      "component": 2.0,
+      "initial_l2": 2.832733546442222e-08,
+      "remaining_l2": 3.4913371990402455e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 1.0,
+      "component": 3.0,
+      "initial_l2": 2.7881692585098218e-08,
+      "remaining_l2": 3.5305176165111624e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 2.0,
+      "component": 0.0,
+      "initial_l2": 6.311431520529989e-10,
+      "remaining_l2": 1.5394790972392787e-11,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 2.0,
+      "component": 1.0,
+      "initial_l2": 5.326792891239452e-08,
+      "remaining_l2": 4.3026685089798495e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 2.0,
+      "component": 2.0,
+      "initial_l2": 1.0212175684040394e-08,
+      "remaining_l2": 1.1781444672900474e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 2.0,
+      "component": 3.0,
+      "initial_l2": 1.4194854905724471e-08,
+      "remaining_l2": 1.247830388078526e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 3.0,
+      "component": 0.0,
+      "initial_l2": 3.0228673305763562e-12,
+      "remaining_l2": 1.6466210257282617e-12,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 3.0,
+      "component": 1.0,
+      "initial_l2": 1.308484932620793e-08,
+      "remaining_l2": 9.38003451727987e-10,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 3.0,
+      "component": 2.0,
+      "initial_l2": 3.144622196849191e-08,
+      "remaining_l2": 2.5090125899540294e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 3.0,
+      "component": 3.0,
+      "initial_l2": 3.259436161551925e-08,
+      "remaining_l2": 2.7765760680855298e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 4.0,
+      "component": 0.0,
+      "initial_l2": 5.928874889822573e-11,
+      "remaining_l2": 5.179614997409104e-12,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 4.0,
+      "component": 1.0,
+      "initial_l2": 3.513632606945101e-08,
+      "remaining_l2": 1.5965777183680736e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 4.0,
+      "component": 2.0,
+      "initial_l2": 1.1039019153892875e-08,
+      "remaining_l2": 1.091068766021753e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 4.0,
+      "component": 3.0,
+      "initial_l2": 9.37291878023599e-09,
+      "remaining_l2": 1.1796023144044676e-09,
+      "tau_l2": 0.0
+    },
+    {
+      "mode": 5.0,
+      "component": 0.0,
+      "initial_l2": 3.2271223555610276e-12,
+      "remaining_l2": 4.766865745981879e-13,
+      "tau_l2": 9.388674596688759e-27
+    },
+    {
+      "mode": 5.0,
+      "component": 1.0,
+      "initial_l2": 1.577913697261711e-08,
+      "remaining_l2": 5.727431897225667e-10,
+      "tau_l2": 1.0354462019490543e-16
+    },
+    {
+      "mode": 5.0,
+      "component": 2.0,
+      "initial_l2": 1.3865630101234785e-08,
+      "remaining_l2": 1.0060620022644104e-09,
+      "tau_l2": 8.950049666856736e-15
+    },
+    {
+      "mode": 5.0,
+      "component": 3.0,
+      "initial_l2": 1.3865605933282519e-08,
+      "remaining_l2": 1.0036516537076837e-09,
+      "tau_l2": 3.4996904214901498e-15
+    },
+    {
+      "mode": 6.0,
+      "component": 0.0,
+      "initial_l2": 8.041340124912653e-14,
+      "remaining_l2": 1.508416555409518e-14,
+      "tau_l2": 1.8697790191993267e-25
+    },
+    {
+      "mode": 6.0,
+      "component": 1.0,
+      "initial_l2": 1.3127227262549213e-13,
+      "remaining_l2": 4.7873583710412623e-11,
+      "tau_l2": 9.369678823773797e-21
+    },
+    {
+      "mode": 6.0,
+      "component": 2.0,
+      "initial_l2": 4.69209213776642e-09,
+      "remaining_l2": 4.5869209540138424e-10,
+      "tau_l2": 6.560556882366388e-14
+    },
+    {
+      "mode": 6.0,
+      "component": 3.0,
+      "initial_l2": 4.6920969410301405e-09,
+      "remaining_l2": 4.3134903802634947e-10,
+      "tau_l2": 3.922631239930601e-14
+    },
+    {
+      "mode": 7.0,
+      "component": 0.0,
+      "initial_l2": 5.3068506018365705e-15,
+      "remaining_l2": 2.3744663735521682e-14,
+      "tau_l2": 1.396913084299703e-26
+    },
+    {
+      "mode": 7.0,
+      "component": 1.0,
+      "initial_l2": 8.057967450642076e-14,
+      "remaining_l2": 1.316752835650101e-10,
+      "tau_l2": 1.0036629762557187e-20
+    },
+    {
+      "mode": 7.0,
+      "component": 2.0,
+      "initial_l2": 3.5236345848638435e-14,
+      "remaining_l2": 3.19045276341163e-11,
+      "tau_l2": 1.2019503721699116e-19
+    },
+    {
+      "mode": 7.0,
+      "component": 3.0,
+      "initial_l2": 3.523462204608587e-14,
+      "remaining_l2": 3.363752944162907e-11,
+      "tau_l2": 3.3541040137865854e-20
+    },
+    {
+      "mode": 8.0,
+      "component": 0.0,
+      "initial_l2": 2.5648803371151256e-14,
+      "remaining_l2": 2.0261906114706123e-14,
+      "tau_l2": 3.9754562857272774e-26
+    },
+    {
+      "mode": 8.0,
+      "component": 1.0,
+      "initial_l2": 7.612125095003055e-18,
+      "remaining_l2": 1.5967811594129665e-11,
+      "tau_l2": 6.921519249744564e-21
+    },
+    {
+      "mode": 8.0,
+      "component": 2.0,
+      "initial_l2": 2.155930614716351e-14,
+      "remaining_l2": 1.5956925685079627e-10,
+      "tau_l2": 5.812340454188007e-20
+    },
+    {
+      "mode": 8.0,
+      "component": 3.0,
+      "initial_l2": 3.143291182125981e-14,
+      "remaining_l2": 2.4948340126899758e-11,
+      "tau_l2": 2.400271408882782e-20
+    }
+  ],
+  "note": "Original fixed native weighted linear residual, not independent physical constraints; low-mode focus rows are not separated by V16."
+}

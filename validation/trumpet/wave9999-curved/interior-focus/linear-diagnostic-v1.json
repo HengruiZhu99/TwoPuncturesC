@@ -1,0 +1,43 @@
+{
+  "purpose": "bounded frozen physical linear diagnostic, not a converged solution",
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 10,
+    "npoints": 786432,
+    "scaled_linf": [
+      1.281068221016748e-11,
+      1.8594231874902487e-09,
+      1.70075859463905e-09,
+      1.8934877814962468e-09
+    ],
+    "unscaled_linf": [
+      8.201673773127085e-07,
+      5.431137709810841e-05,
+      0.0008766013820679505,
+      0.0010627539991867833
+    ],
+    "seconds": 327.192002953,
+    "status": 1,
+    "error": "iteration limit or true residual above target"
+  },
+  "history": [
+    [
+      0.0,
+      0.1,
+      0.10186491633337587,
+      10.0
+    ]
+  ],
+  "elapsed": 327.202285656007,
+  "source": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-retained-block-seed-v1/n384.hispid",
+    "file_sha256": "a66e1d57ebda086eb851fbe14c1c0a11c898827f5ecbb1be88967c2a850f4d18",
+    "source_library_sha256": "fa97396c525bc8663d2b65d0fa80320a2aa7f68c5dcf8627bcd28fbe32935e54",
+    "acceptance": "diagnostic",
+    "parameterization": "modal_P_C2tauC4_focus_map_v9_r16_k0.29999999999999999",
+    "seed_family": "liu",
+    "format_version": 3
+  },
+  "library_sha256": "fa97396c525bc8663d2b65d0fa80320a2aa7f68c5dcf8627bcd28fbe32935e54"
+}

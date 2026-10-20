@@ -1384,6 +1384,25 @@ The recovered four-update checkpoint has independent 54-point Hamiltonian
 and momentum RMS values $2.52\,10^{-9}$ and $2.39\,10^{-8}$, respectively.
 It remains diagnostic; no revised three-grid or horizon acceptance follows.
 
+A diagnostic of that same saved linear system assigns 99.9992\% of the
+remaining squared residual to the momentum equations. CPU and GPU inverse
+actions agree to relative $3.30\,10^{-13}$; high-mode polar replacement rows
+contribute only $6.18\,10^{-11}$ of the squared residual. These observations
+do not identify a GPU-specific defect. Replacing the single 256-step inner
+GMRES cycle by the existing augmented GMRES controller, with restart 256
+and limit 1,024, passes the stalled step: 490 vector and 3 scalar inner
+iterations give original-system relative residual 0.099067 in one outer
+iteration. The original 0.1 linear and $10^{-12}$ nonlinear targets are
+unchanged. A full Newton update is accepted in 88.37 seconds, excluding
+geometry setup; the native maximum drops from $1.89\,10^{-9}$ to
+$2.27\,10^{-10}$. This is linear-solver progress, not a native-converged grid.
+The 54-point momentum RMS rises from $2.39\,10^{-8}$ to $2.64\,10^{-8}$,
+while Hamiltonian RMS is $2.52\,10^{-9}$, so no physical improvement is
+inferred from the native norm alone. The coupled algebraic witness still
+passes in seven outer steps. The fixed three-grid continuation now saves
+each accepted Newton update and uses each native-converged grid only as
+the next grid's initial guess. Its physical and horizon gates remain open.
+
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations
 its original-system relative residual was 0.830, above its unchanged

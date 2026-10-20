@@ -1,0 +1,18 @@
+{
+  "grid": [
+    576,
+    192,
+    16
+  ],
+  "inner_method": "lgmres",
+  "inner_restart": 256,
+  "inner_max_iterations": 1024,
+  "inner_original_relative_target": 0.1,
+  "outer_method": "gmres",
+  "outer_restart": 24,
+  "device_guarded_gib": 38.70442581176758,
+  "aggregate_gib": 91.41204452514648,
+  "additional_device_gib": 0.27685546875,
+  "additional_host_gib": 0.11865234375,
+  "note": "Seven extra device vectors and three host-retained search vectors for at most three augmented directions. Existing conservative guard retained; no target relaxation."
+}

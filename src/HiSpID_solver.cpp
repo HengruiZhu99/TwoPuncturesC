@@ -957,7 +957,11 @@ struct ConstraintBlockInverse {
  puncture::View rhs,delta,action,input_full,output_full,packed_rhs,packed_solution;
  int applications=0,scalar_iterations=0,vector_iterations=0,scalar_incomplete=0,vector_incomplete=0;
  double last_scalar_relative=0,last_vector_relative=0;bool trace=false;
- static constexpr int limit=256,restart=256,workspace_bytes_per_point=208;
+ // A single short inner cycle can return the same deficient vector space
+ // on every outer application. Retain three previous-cycle corrections in
+ // the shared LGMRES controller; acceptance still uses the original block
+ // residual. The outer solve remains flexible for incomplete inner solves.
+ static constexpr int limit=1024,restart=256,augmentation=3,workspace_bytes_per_point=208;
  ConstraintBlockInverse(HiSpID_Data&s,puncture::Action M):data(s),inverse(std::move(M)),
   rhs("constraint block RHS",s.ntotal),delta("constraint block correction",s.ntotal),action("constraint block action",s.ntotal),
   input_full("block full input",s.ntotal),output_full("block full output",s.ntotal),
@@ -971,14 +975,21 @@ struct ConstraintBlockInverse {
  static void unpack(puncture::View packed,puncture::View full,bool scalar){
   puncture::each(full,KOKKOS_LAMBDA(int i){int v=i%4,p=i/4;full(i)=scalar?(v==0?packed(p):0.):(v?packed(3*p+v-1):0.);});
  }
+ struct Progress {double norm;bool scalar;int application;};
+ static void progress(void*context,int iteration,double residual,double,double,double){
+  if(iteration==0||iteration%restart)return;
+  const auto&p=*static_cast<Progress*>(context);
+  std::fprintf(stderr,"HiSpID inner block=%s application=%d it=%d recurrence_relative=%.17g (original true residual required)\n",
+   p.scalar?"scalar":"vector",p.application,iteration,residual/p.norm);std::fflush(stderr);
+ }
  void solve_block(puncture::View b,puncture::View x,bool scalar){
   const int n=(scalar?1:3)*data.npt;
   puncture::View bpack(packed_rhs.data(),n),xpack(packed_solution.data(),n);pack(b,bpack,scalar);
   const double norm=puncture::length(bpack);if(norm==0){puncture::zero(x);return;}
-  PK_Options options{PK_GMRES,limit,std::min(restart,n),1,0,0,.1*norm,nullptr,nullptr};PK_Result result{};
+  PK_Options options{PK_LGMRES,limit,std::min(restart,n),1,0,0,.1*norm,nullptr,nullptr};PK_Result result{};Progress monitor{norm,scalar,applications};
   const int status=puncture::solve(bpack,xpack,options,
    [&](auto in,auto out){unpack(in,input_full,scalar);device_apply(data,input_full,output_full);pack(output_full,out,scalar);},
-   [&](auto in,auto out){unpack(in,input_full,scalar);inverse(input_full,output_full);pack(output_full,out,scalar);},result,nullptr,nullptr,true);
+   [&](auto in,auto out){unpack(in,input_full,scalar);inverse(input_full,output_full);pack(output_full,out,scalar);},result,trace?progress:nullptr,&monitor,true);
   data.jvp_applications+=result.operator_calls;data.preconditioner_applications+=result.preconditioner_calls;
   (scalar?scalar_iterations:vector_iterations)+=result.iterations;
   (scalar?last_scalar_relative:last_vector_relative)=result.relative_residual;
@@ -996,7 +1007,7 @@ struct ConstraintBlockInverse {
  }
  unsigned long long bytes()const{return 8*(rhs.extent(0)+delta.extent(0)+action.extent(0)+input_full.extent(0)+output_full.extent(0)+packed_rhs.extent(0)+packed_solution.extent(0));}
  void report()const{
-  std::fprintf(stderr,"HiSpID constraint blocks applications=%d vector_iterations=%d scalar_iterations=%d vector_incomplete=%d scalar_incomplete=%d last_vector_relative=%.17g last_scalar_relative=%.17g inner_target=0.1 inner_limit=%d restart=%d\n",applications,vector_iterations,scalar_iterations,vector_incomplete,scalar_incomplete,last_vector_relative,last_scalar_relative,limit,restart);std::fflush(stderr);
+  std::fprintf(stderr,"HiSpID constraint blocks applications=%d vector_iterations=%d scalar_iterations=%d vector_incomplete=%d scalar_incomplete=%d last_vector_relative=%.17g last_scalar_relative=%.17g inner_target=0.1 inner_limit=%d restart=%d method=lgmres\n",applications,vector_iterations,scalar_iterations,vector_incomplete,scalar_incomplete,last_vector_relative,last_scalar_relative,limit,restart);std::fflush(stderr);
  }
 };
 bool constraint_blocks_enabled(const HiSpID_Data&s,int method){
@@ -1101,7 +1112,8 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
   std::vector<double>action(s.ntotal);jvp(s,x.data(),action.data());project_axisymmetry(s,action.data(),false);
   const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],stride=na*nb;
   for(int mode=0;mode<=np/2;mode++)for(int v=0;v<4;v++){
-   long double initial=0,remaining=0,boundary=0;
+   long double initial=0,remaining=0,boundary=0,focus_boundary=0;
+   double maximum=0;int maximum_i=-1,maximum_j=-1;
    for(int slot=0;slot<np;slot++)if((slot<=np/2?slot:slot-np/2)==mode)
     for(int j=0;j<nb;j++)for(int i=0;i<na;i++){
      long double bmode=0,rmode=0;
@@ -1110,10 +1122,13 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
       bmode+=(long double)w*rhs[q];rmode+=(long double)w*(rhs[q]-action[q]);
      }
      initial+=bmode*bmode;remaining+=rmode*rmode;
+     if(std::abs(rmode)>maximum){maximum=std::abs(rmode);maximum_i=i;maximum_j=j;}
+     if(HISPID_FOCUS_TAU&&mode<=4)for(int side=0;side<hispid::focus_rank;side++)
+      if(i+na*j==hispid::focus_row(side,na,nb))focus_boundary+=rmode*rmode;
      if(HISPID_AXIS_TAU&&mode>=5&&(i==0||j==0||j==nb-1))boundary+=rmode*rmode;
     }
-   std::fprintf(stderr,"HiSpID residual mode=%d component=%d initial_l2=%.17g remaining_l2=%.17g tau_l2=%.17g\n",
-      mode,v,double(std::sqrt(initial)),double(std::sqrt(remaining)),double(std::sqrt(boundary)));
+   std::fprintf(stderr,"HiSpID residual mode=%d component=%d initial_l2=%.17g remaining_l2=%.17g tau_l2=%.17g focus_l2=%.17g maximum=%.17g maximum_i=%d maximum_j=%d\n",
+      mode,v,double(std::sqrt(initial)),double(std::sqrt(remaining)),double(std::sqrt(boundary)),double(std::sqrt(focus_boundary)),maximum,maximum_i,maximum_j);
   }
   std::fprintf(stderr,"HiSpID action probe iterations=%d recurrence=%.17g true=%.17g relative=%.17g\n",
     result.iterations,result.recurrence_residual,result.true_residual,result.relative_residual);
@@ -1375,16 +1390,16 @@ static HiSpID_Data *create_context(const HiSpID_Config*c,bool sampler_only,int e
    // either Krylov basis is allocated. The solve holds two matrix banks,
    // the outer basis, and at most one packed inner-block basis at a time.
    // Reserve the additional LGMRES directions for any supported outer method.
-   const long double krylov=points*(32.L*(2*c->krylov_restart+16)+24.L*(ConstraintBlockInverse::restart+6)+ConstraintBlockInverse::workspace_bytes_per_point);
+   const long double krylov=points*(32.L*(2*c->krylov_restart+16)+24.L*(ConstraintBlockInverse::restart+6+2*ConstraintBlockInverse::augmentation+1)+ConstraintBlockInverse::workspace_bytes_per_point);
    device=fixed+radial*16+std::max(radial*8,krylov);
    if constexpr(Kokkos::SpaceAccessibility<puncture::Exec,Kokkos::HostSpace>::accessible)
-    device+=points*24.L*ConstraintBlockInverse::restart;
+    device+=points*24.L*(ConstraintBlockInverse::restart+ConstraintBlockInverse::augmentation);
   }
   // Retained CPU data, device data (or extra host copies for OpenMP), lazy
   // maximum Krylov basis, packed factor mirrors and LU/inverse overlap.
   long double small=0;for(int axis=0;axis<3;axis++)small+=16.L*c->n[axis]*c->n[axis];small+=32.L*c->n[2]*c->n[2]+160.L*c->n[0]*c->n[1];
   allocation_bound=cpu+device+radial*16+small+curved_bytes+
-   (HISPID_CONSTRAINT_BLOCK_PRECONDITIONER&&!operator_only&&!galerkin&&!Kokkos::SpaceAccessibility<puncture::Exec,Kokkos::HostSpace>::accessible?points*24.L*ConstraintBlockInverse::restart:0)+2*(hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+hispid::focus_border_bytes(c->n[0],c->n[1],c->n[2]))+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2];
+   (HISPID_CONSTRAINT_BLOCK_PRECONDITIONER&&!operator_only&&!galerkin&&!Kokkos::SpaceAccessibility<puncture::Exec,Kokkos::HostSpace>::accessible?points*24.L*(ConstraintBlockInverse::restart+ConstraintBlockInverse::augmentation):0)+2*(hispid::polar_border_bytes(c->n[0],c->n[1],c->n[2])+hispid::focus_border_bytes(c->n[0],c->n[1],c->n[2]))+HISPID_AXIS_TAU*64.L*(2*c->n[0]+c->n[1])*c->n[2];
   // Kokkos owns its Krylov basis on the execution space; there is no
   // simultaneous host PK_solve basis. Keep all host outer vectors above.
   if(HISPID_CURVED_MODAL_PRECONDITIONER&&!operator_only)device+=(2.L*sizeof(hispid::ModalSymbol)+32.L)*(c->n[2]/2+1)*c->n[0]*c->n[1];

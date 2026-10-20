@@ -1,0 +1,92 @@
+{
+  "status": "accepted one additional Newton update; native and physical convergence still unqualified",
+  "producer_sha256": "1eec375773a0fd8f287320b08972364e075441c35fb4b1c1623d48ceeff1a4b0",
+  "input_checkpoint_sha256": "a66e1d57ebda086eb851fbe14c1c0a11c898827f5ecbb1be88967c2a850f4d18",
+  "output_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-inner-augmentation-pilot-v1/n384.hispid",
+    "file_sha256": "c3132b0510ac766c5ccc31ac0e2a75cedf24ff6103cc9508457cbe4212acda7a",
+    "source_library_sha256": "1eec375773a0fd8f287320b08972364e075441c35fb4b1c1623d48ceeff1a4b0",
+    "acceptance": "diagnostic",
+    "seed_family": "liu",
+    "format_version": 3
+  },
+  "inner": {
+    "method": "lgmres",
+    "restart": 256,
+    "limit": 1024,
+    "vector_iterations": 490,
+    "scalar_iterations": 3,
+    "vector_true_relative": 0.09916483364583312
+  },
+  "outer": {
+    "iterations": 1,
+    "true_relative": 0.09906689597174227
+  },
+  "tolerances": {
+    "inner_true_relative": 0.1,
+    "outer_true_relative": 0.1,
+    "native_scaled_linf": 1e-12
+  },
+  "diagnostics": {
+    "converged": 0,
+    "newton_iterations": 1,
+    "krylov_iterations": 1,
+    "npoints": 786432,
+    "scaled_linf": [
+      3.4526206299874175e-12,
+      2.2693787431880577e-10,
+      1.672948928583119e-10,
+      1.8280692703714222e-10
+    ],
+    "unscaled_linf": [
+      7.208179955547126e-08,
+      0.01304991456343035,
+      11.623843500658765,
+      28.290805803765778
+    ],
+    "seconds": 88.373837429,
+    "status": 1,
+    "error": "Newton iteration limit"
+  },
+  "physical": {
+    "count": 54,
+    "H_rms": 2.5154115318024283e-09,
+    "H_max": 9.869129139784827e-09,
+    "M_rms": 2.643568561835283e-08,
+    "M_max": 1.046419527401237e-07,
+    "M_components_rms": [
+      1.0973044157856826e-08,
+      1.4271886742959816e-08,
+      9.81247754306954e-09
+    ],
+    "M_components_max": [
+      4.798631609871909e-08,
+      6.775262997514967e-08,
+      4.714173166763207e-08
+    ],
+    "normalized_H_max": 0.03471658683372302,
+    "normalized_M_max": 0.9999999870285058
+  },
+  "caveat": "54-point physical momentum RMS increases from 2.38727e-8 to 2.64357e-8; native residual progress alone is not physical convergence.",
+  "production_continuation": {
+    "job": 60056582,
+    "grids": [
+      [
+        384,
+        128,
+        16
+      ],
+      [
+        480,
+        160,
+        16
+      ],
+      [
+        576,
+        192,
+        16
+      ]
+    ],
+    "state": "launched; no result assumed"
+  }
+}
