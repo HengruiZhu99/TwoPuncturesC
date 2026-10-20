@@ -1,0 +1,9 @@
+{
+  "CMakeLists.txt": "d64ab8d40c6ef93348f005f788571261cea2eae90559689798b9dcd4ea633df7",
+  "src/HiSpID_solver.cpp": "a3fbd085ce47c8533c45f32c11dfdf8c7c5f3d1c228a32044c96ea74cdcaae1e",
+  "src/HiSpID_modal_block.hpp": "95c0391cb93b0cb1baa7f90bb1a7904f9369e70f5c24479249f92b9b24e8790e",
+  "src/HiSpID_modal_probe.hpp": "198f48ef35d366800259bde9cae38c528a8c1afb29a58d413884e7a5ab54c92b",
+  "src/HiSpID_polar_preconditioner.hpp": "a5bdfbe51ac2ee7042aeb783f4059c52e9da45798687044a8e5cac7f190a042c",
+  "tests/test_hispid_spectral_polar.cpp": "b29862afe33756b424f30712a0f23978a62483eefc5b16b59dab05e655338afd",
+  "tests/test_hispid_constraint_block.cpp": "86cbf6ef5ee30b58346e27df68a5311b207c744b1b0c3ae9d7c85a5cdb9bf380"
+}

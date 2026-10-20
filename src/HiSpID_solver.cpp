@@ -1012,7 +1012,7 @@ struct ConstraintBlockInverse {
 };
 // Diagnostic of the frozen first VECTOR-inner problem, not a solve.
 // Split modal unknowns, but measure actions in original momentum rows.
-void audit_modal_response(HiSpID_Data&s,puncture::View input,const puncture::Action&inverse){
+void audit_modal_response(HiSpID_Data&s,puncture::View input,const puncture::Action&inverse,const std::vector<double>&scales,puncture::View before_focus){
  if(s.quadrature)throw std::runtime_error("modal response diagnostic requires collocation execution");
  const int na=s.local.n[0],nb=s.local.n[1],np=s.local.n[2],N=na*nb;
  puncture::View b("modal audit vector RHS",s.ntotal),z("modal audit inverse",s.ntotal),part("modal audit split",s.ntotal),out("modal audit action",s.ntotal);
@@ -1021,6 +1021,17 @@ void audit_modal_response(HiSpID_Data&s,puncture::View input,const puncture::Act
  puncture::scale_copy(b,1/norm,b);inverse(b,z);s.preconditioner_applications++;
  std::vector<double>rhs(s.ntotal),action(s.ntotal),combined(s.ntotal);std::vector<long double>sum(s.ntotal,0.);
  puncture::download(b,rhs.data());
+ if(const char*prefix=std::getenv("HISPID_MODAL_RESPONSE_DUMP")){
+  std::vector<double>correction(s.ntotal);puncture::download(z,correction.data());
+  auto write=[&](const char*suffix,const std::vector<double>&values){
+   std::string path=std::string(prefix)+suffix;FILE*file=std::fopen(path.c_str(),"wbx");
+   if(!file)throw std::runtime_error("cannot create exclusive modal-response dump: "+path);
+   const size_t count=std::fwrite(values.data(),sizeof(double),values.size(),file);const int closed=std::fclose(file);
+   if(count!=values.size()||closed)throw std::runtime_error("incomplete modal-response dump: "+path);
+  };
+  write(".rhs.f64",rhs);write(".correction.f64",correction);write(".scale.f64",scales);
+  if(before_focus.extent(0)){puncture::download(before_focus,correction.data());write(".before-focus.f64",correction);}
+ }
  std::fprintf(stderr,"HiSpID modal response original_vector_rhs_l2=%.17g normalization=unit_vector_rhs groups=0,1,2,3,4,ge5\n",norm);
  for(int group=0;group<6;group++){
   puncture::each(part,KOKKOS_LAMBDA(int q){int slot=(q/4)/N,mode=slot<=np/2?slot:slot-np/2;part(q)=q%4&&(group<5?mode==group:mode>=5)?z(q):0.;});
@@ -1050,6 +1061,24 @@ void audit_modal_response(HiSpID_Data&s,puncture::View input,const puncture::Act
  device_apply(s,z,out);s.jvp_applications++;puncture::download(out,combined.data());long double total=0,error=0;
  for(int q=0;q<s.ntotal;q++)if(q%4){total+=(long double)combined[q]*combined[q];long double e=sum[q]-combined[q];error+=e*e;}
  std::fprintf(stderr,"HiSpID modal response sum_action_l2=%.17g superposition_difference_l2=%.17g superposition_relative=%.17g jvp_count=7 krylov_iterations=0\n",double(std::sqrt(total)),double(std::sqrt(error)),double(std::sqrt(error/total)));std::fflush(stderr);
+ if(before_focus.extent(0)){
+  std::vector<double>base(s.ntotal),border(s.ntotal);auto prior=before_focus;
+  for(int component=0;component<2;component++){
+   puncture::each(part,KOKKOS_LAMBDA(int q){int slot=(q/4)/N,mode=slot<=np/2?slot:slot-np/2;part(q)=q%4&&mode==4?(component?z(q)-prior(q):prior(q)):0.;});
+   device_apply(s,part,out);s.jvp_applications++;puncture::download(out,component?border.data():base.data());
+  }
+  long double aa=0,bb=0,ab=0,cc=0,af=0,bf=0,at=0,bt=0;
+  for(int slot=0;slot<np;slot++)for(int j=0;j<nb;j++)for(int i=0;i<na;i++)for(int v=1;v<4;v++){
+   int mode=slot<=np/2?slot:slot-np/2;long double av=0,bv=0;
+   for(int k=0;k<np;k++){int q=4*(i+na*j+N*k)+v;double w=s.derivatives.forward[slot*np+k];av+=(long double)w*base[q];bv+=(long double)w*border[q];}
+   bool boundary=false;if(HISPID_FOCUS_TAU&&mode<=4)for(int r=0;r<hispid::focus_rank;r++)if(i+na*j==hispid::focus_row(r,na,nb))boundary=true;
+   bool tau=HISPID_AXIS_TAU&&mode>=5&&(i==0||j==0||j==nb-1);
+   if(boundary){af+=av*av;bf+=bv*bv;}else if(tau){at+=av*av;bt+=bv*bv;}
+   else{aa+=av*av;bb+=bv*bv;ab+=av*bv;cc+=(av+bv)*(av+bv);}
+  }
+  std::fprintf(stderr,"HiSpID focus response mode=4 base_ordinary_l2=%.17g border_ordinary_l2=%.17g ordinary_dot=%.17g combined_ordinary_l2=%.17g base_focus_rows_l2=%.17g border_focus_rows_l2=%.17g base_tau_l2=%.17g border_tau_l2=%.17g extra_jvp_count=2\n",double(std::sqrt(aa)),double(std::sqrt(bb)),double(ab),double(std::sqrt(cc)),double(std::sqrt(af)),double(std::sqrt(bf)),double(std::sqrt(at)),double(std::sqrt(bt)));std::fflush(stderr);
+ }
+
 }
 bool constraint_blocks_enabled(const HiSpID_Data&s,int method){
  return HISPID_CONSTRAINT_BLOCK_PRECONDITIONER&&s.device&&!s.quadrature&&method!=PK_BICGSTAB&&
@@ -1074,7 +1103,17 @@ bool linear_solve(HiSpID_Data&s,const Sparse&M,const std::vector<double>&rhs,
   auto b=puncture::upload(rhs,"linear RHS");puncture::View solution("linear solution",s.ntotal);
   const char*modal_audit=std::getenv("HISPID_PROBE_MODAL_RESPONSE");
   if(modal_audit&&std::strcmp(modal_audit,"1")==0){
-   audit_modal_response(s,b,[&](auto in,auto out){d.apply(in,out);polar.apply(out,&d);focus.apply(in,out);project_axisymmetry(s,out,true);});
+   puncture::View before_focus;
+   const char*focus_audit=std::getenv("HISPID_PROBE_FOCUS_RESPONSE");
+   if(focus_audit&&std::strcmp(focus_audit,"1")==0){
+    if(!HISPID_FOCUS_TAU||s.local.n[2]/2<4)throw std::runtime_error("focus response audit requires focus rows and Fourier mode four");
+    before_focus=puncture::View("modal audit before focus",s.ntotal);
+    if(s.local.n[2]/2>=4){const auto&B=M.blocks[M.factor_group(4,1)];const int rank=hispid::focus_rank,N=s.local.n[0]*s.local.n[1];
+     for(int i=0;i<rank;i++)for(int j=0;j<rank;j++){long double value=0;for(int p=0;p<N;p++)value+=(long double)B.focus_endpoint[i*N+p]*B.focus_response[rank*p+j];
+      std::fprintf(stderr,"HiSpID focus Schur mode=4 row=%d col=%d value=%.17g inverse=%.17g\n",i,j,double(value),B.focus_inverse[rank*i+j]);}
+    }
+   }
+   audit_modal_response(s,b,[&](auto in,auto out){d.apply(in,out);polar.apply(out,&d);if(before_focus.extent(0)){puncture::copy(before_focus,out);project_axisymmetry(s,before_focus,true);}focus.apply(in,out);project_axisymmetry(s,out,true);},M.row_scale,before_focus);
    s.last_gmres_relative=1.;hispid::last_error="modal response diagnostic only; no Krylov solve attempted";return false;
   }
   std::unique_ptr<ConstraintBlockInverse>blocks;

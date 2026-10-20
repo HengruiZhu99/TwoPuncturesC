@@ -1,0 +1,18 @@
+{
+  "job": 60060245,
+  "producer_sha256": "a456017be0c401b59348462a4ba7ae0fa91b9c37e5b19f14f1ecd2b44139b6a2",
+  "status": "retired after failed diagnostic gate; no Krylov solve or accepted update",
+  "combined_action": 58493890.5790434,
+  "ratio_to_V20": 0.4071880858073915,
+  "superposition_relative": 3.9068713291274925e-16,
+  "cuda_coupled": {
+    "iterations": 7,
+    "true_relative": 2.1201016494739948e-08,
+    "field_relative": 1.2231821329678544e-07
+  },
+  "finest_extra_bound_gib": {
+    "device": 4.2,
+    "aggregate": 8.24
+  },
+  "interpretation": "Exact polar differentiation alone is insufficient; physical convergence is not improved or qualified. Source reverted; archive is only a retired experiment."
+}

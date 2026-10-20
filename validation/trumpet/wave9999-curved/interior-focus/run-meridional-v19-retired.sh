@@ -30,4 +30,3 @@ gate=$?
 set -e
 if [ "$gate" -ne 0 ]; then exit "$gate"; fi
 bash "$base/run-meridional-study-v1.sh"
-

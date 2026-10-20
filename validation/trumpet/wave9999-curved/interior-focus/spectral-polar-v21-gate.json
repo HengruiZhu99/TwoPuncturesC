@@ -1,0 +1,6 @@
+{
+  "passed": false,
+  "combined_action_ratio": 0.4071880858073915,
+  "scope": "Approximate-inverse diagnostic gate only; not physical acceptance",
+  "next": "stop: amplification not substantially improved"
+}

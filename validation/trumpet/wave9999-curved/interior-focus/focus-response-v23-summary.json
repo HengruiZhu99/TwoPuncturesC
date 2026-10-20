@@ -1,0 +1,55 @@
+{
+  "job_id": 60060905,
+  "producer_sha256": "30abd0019c3c48625f4a4699d2dc1a24eb72a4b41de0c487aaa15f8d8c0d4279",
+  "checkpoint_sha256": "c3132b0510ac766c5ccc31ac0e2a75cedf24ff6103cc9508457cbe4212acda7a",
+  "scope": "Frozen first vector RHS, one inverse and nine JVPs; no Krylov solve or accepted update",
+  "focus_response": {
+    "mode": 4.0,
+    "base_ordinary_l2": 143597441.14214113,
+    "border_ordinary_l2": 39457.35935699195,
+    "ordinary_dot": 4557367735232.5205,
+    "combined_ordinary_l2": 143629180.16518912,
+    "base_focus_rows_l2": 5127932.433222529,
+    "border_focus_rows_l2": 5127932.433249999,
+    "base_tau_l2": 6.095588974548572e-09,
+    "border_tau_l2": 6.204580473848039e-09,
+    "extra_jvp_count": 2.0
+  },
+  "focus_to_base_action_ratio": 0.0002747775938286724,
+  "schur": [
+    {
+      "mode": 4.0,
+      "row": 0.0,
+      "col": 0.0,
+      "value": 6.687684204346055e-07,
+      "inverse": 1495285.983434474
+    },
+    {
+      "mode": 4.0,
+      "row": 0.0,
+      "col": 1.0,
+      "value": -1.6474535887813005e-10,
+      "inverse": 299.21995147608914
+    },
+    {
+      "mode": 4.0,
+      "row": 1.0,
+      "col": 0.0,
+      "value": -1.511913847542892e-10,
+      "inverse": 274.60244778881406
+    },
+    {
+      "mode": 4.0,
+      "row": 1.0,
+      "col": 1.0,
+      "value": 8.232787444524243e-07,
+      "inverse": 1214655.4881659122
+    }
+  ],
+  "raw_files": {
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/frozen-focus-dump-v1/response.before-focus.f64": "bc8b495482765d16d32be6203b4edcd32388aa360db4b67433057a77de735e87",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/frozen-focus-dump-v1/response.correction.f64": "7e440e3238b0e098cf2635164e79cd1196290f4e38557f2a31966e04c581b0b1",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/frozen-focus-dump-v1/response.rhs.f64": "f3ab1f3eeddb09fd1ddf3893bbd4e22a42ef15e71feb432e475c00f5862c8e17",
+    "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/frozen-focus-dump-v1/response.scale.f64": "cdda84e68d242273ef5a2d8beb870efc5b9f0d5e8b74cbc01be45269bd6a0b6e"
+  }
+}

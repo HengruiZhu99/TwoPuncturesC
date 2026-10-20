@@ -1442,6 +1442,23 @@ actions sum to the combined action with relative discrepancy
 $3.89\times10^{-16}$. This identifies a conditioning problem in the
 preconditioned response, but does not yet demonstrate its cause or remedy;
 no further Newton update or physical qualification has passed.
+Replacing only the low-mode vector inverse's polar finite differences
+with exact spectral differentiation reduces the combined action by a
+factor of 2.46, to $5.85\times10^7$. That remains too large for the
+predeclared diagnostic gate; the candidate is stopped before any Krylov
+solve and reverted. Its algebraic controls pass, but they do not establish
+an improvement in the physical solve. Exact polar differentiation alone
+therefore does not resolve the observed amplification.
+The saved modal correction is concentrated at the outer radial grid edge:
+for $m=4$, more than $0.9999999999$ of its squared collocation norm lies
+in the last four radial rows. Its maximum occurs at radius
+$3.82\times10^6M$ and cylindrical radius $4.56\times10^4M$;
+this is an angular coordinate corner, rather than physical proximity to
+the axis. Separating the focus correction gives ordinary momentum action
+norms $1.4360\times10^8$ before that correction and
+$3.95\times10^4$ for the correction alone. Thus the base inverse already
+contains the dominant amplification. These are unit-right-hand-side
+linear diagnostics, not physical constraint norms or a converged solution.
 
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations

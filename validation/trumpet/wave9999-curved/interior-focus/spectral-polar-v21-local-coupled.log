@@ -1,0 +1,2 @@
+HiSpID spectral polar inverse modes=3 slots=4 setup_seconds=0.14061058301012963
+constraint-block coupled witness: passed=1 iterations=7 true_relative=1.4676683093733072e-08 field_relative=5.7827154693305654e-08 seconds=10.249267374980263 focus_separation=1 preconditioner=constraint_block_upper_triangular
