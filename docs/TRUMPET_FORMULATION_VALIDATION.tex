@@ -1370,13 +1370,19 @@ relative residual 0.10117 against target 0.1; it uses 10,240 vector and
 $1.89\,10^{-9}$ against $10^{-12}$. The complete native attempt takes
 1,218.92 seconds, excluding 61.53 seconds of seed-geometry setup.
 Thus stable storage alone does not fix the physical convergence problem.
-An unchanged-executable continuation is prepared with the existing
+An unchanged-executable continuation uses the existing
 augmented GMRES method and outer restart 24. Its conservative finest-grid
 bound, including the device guard and augmented directions, is
 38.96\,GiB on the GPU and 91.54\,GiB in aggregate, within the declared
 96\,GiB aggregate budget. This changes solver resources and recycling,
-not the physical formulation or acceptance thresholds. Its results are
-not yet available for this report.
+not the physical formulation or acceptance thresholds. This continuation
+reaches its two-hour allocation limit before accepting another Newton update.
+The last logged recurrence residual is 0.101071 after 140 outer iterations;
+there is no terminal original-system residual or new checkpoint. This is
+an interrupted attempt, not a completed failure at the 300-iteration budget.
+The recovered four-update checkpoint has independent 54-point Hamiltonian
+and momentum RMS values $2.52\,10^{-9}$ and $2.39\,10^{-8}$, respectively.
+It remains diagnostic; no revised three-grid or horizon acceptance follows.
 
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations

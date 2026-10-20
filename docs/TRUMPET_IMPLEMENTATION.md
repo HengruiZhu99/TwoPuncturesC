@@ -2771,3 +2771,7 @@ allocation bound including LGMRES headroom is 38.955 GiB guarded GPU /
 91.544 GiB aggregate, below the 96 GiB context budget. The completed pilot
 checkpoint is used only as an initial guess. SSH was lost before collecting
 the final checkpoint receipt and new allocation state; neither is assumed.
+
+
+### Recovered outer-24 continuation (20 October 2026)
+The detached V16 LGMRES(24) run, job 60009100, hit its two-hour allocation limit before its first new Newton update. Its last logged recurrence residual was 0.10107067270049126 at outer iteration 140; there is no terminal true-residual result. This is not a completed 300-step failure. No revised resolution or horizon gate passed. The saved four-update diagnostic checkpoint has SHA256 a66e1d57ebda086eb851fbe14c1c0a11c898827f5ecbb1be88967c2a850f4d18 and independently sampled 54-point H/M RMS 2.5239566021653973e-9 / 2.387272605330194e-8. The full receipt and compressed interrupted-run log are retained in wave9999-curved/interior-focus.

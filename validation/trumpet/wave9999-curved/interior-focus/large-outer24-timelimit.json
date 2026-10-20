@@ -1,0 +1,13 @@
+{
+  "status": "time_limit_before_first_newton_update",
+  "job_id": 60009100,
+  "last_logged_outer_iteration": 140,
+  "last_logged_recurrence_relative": 0.10107067270049126,
+  "required_true_relative": 0.1,
+  "converged": false,
+  "completed_new_resolution_levels": 0,
+  "finest_horizon_checked": false,
+  "producer_sha256": "fa97396c525bc8663d2b65d0fa80320a2aa7f68c5dcf8627bcd28fbe32935e54",
+  "checkpoint_initial_guess_sha256": "a66e1d57ebda086eb851fbe14c1c0a11c898827f5ecbb1be88967c2a850f4d18",
+  "note": "Interrupted at two-hour allocation limit, not a completed 300-iteration failure. Last log is recurrence only; no terminal original-system residual or new checkpoint returned."
+}
