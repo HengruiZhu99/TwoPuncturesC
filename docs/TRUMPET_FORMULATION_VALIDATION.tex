@@ -1488,6 +1488,18 @@ $2.51\times10^{-9}$ and $2.41\times10^{-8}$, respectively. This clears the
 algebraic stall but does not yet establish physical convergence; the fixed
 three-resolution study and finest-grid horizon check remain pending.
 
+The final guarded build reproduces that coarse solution exactly. Its
+$480\times160\times16$ continuation from the prolonged coarse field
+accepts four updates, reaching native maximum $2.91\times10^{-11}$,
+but the fifth solve again becomes costly: its first vector and scalar
+inner solves exhaust 1,024 iterations with true relative residuals
+1.041 and 0.776. The run is interrupted during the eighth outer
+application; no terminal full-system linear residual or further accepted
+update is claimed. The finest grid and new horizon search are not reached.
+A cold-start comparison at the same fine resolution is prepared to test
+initialization sensitivity, with the same physical formulation and
+acceptance norms. It has not run because renewed SSH access is required.
+
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations
 its original-system relative residual was 0.830, above its unchanged

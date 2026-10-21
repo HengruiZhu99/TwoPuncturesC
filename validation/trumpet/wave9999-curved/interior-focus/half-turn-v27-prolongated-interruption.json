@@ -1,0 +1,47 @@
+{
+  "job_id": 60062596,
+  "status": "deliberately_interrupted_during_fifth_Newton_solve",
+  "producer_sha256": "ddc17732c4b1f88f86acc8bc01ac6147d62cb5a2f6b2ca7450f97fef5443f38c",
+  "coarse_native_recheck": "passed with identical diagnostics and physical observer values",
+  "grid": [
+    480,
+    160,
+    16
+  ],
+  "accepted_Newton_updates": 4,
+  "last_saved_native_linf": 2.9087048115074018e-11,
+  "native_target": 1e-12,
+  "last_saved_checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-half-turn-study-v1/n480-progress.hispid",
+    "file_sha256": "7072231010149d4431723eaad1da21b3782f0e824ca17d5ae2a9443ced722d5a",
+    "source_library_sha256": "ddc17732c4b1f88f86acc8bc01ac6147d62cb5a2f6b2ca7450f97fef5443f38c",
+    "acceptance": "diagnostic",
+    "seed_family": "liu",
+    "format_version": 3
+  },
+  "accepted_update_seconds": 550.195551652,
+  "fifth_update": {
+    "first_vector_iterations": 1024,
+    "first_vector_true_relative": 1.0407832134026715,
+    "first_scalar_iterations": 1024,
+    "first_scalar_true_relative": 0.7756219398767102,
+    "inner_target": 0.1,
+    "interrupted_at": "eighth outer application, after vector1024 and while scalar iteration256 was running",
+    "last_vector_recurrence_relative": 0.657684850327631,
+    "last_scalar_recurrence_relative": 0.8359457495851375,
+    "terminal_original_full_linear_residual": null,
+    "accepted_update": false
+  },
+  "slurm": {
+    "state": "CANCELLED by user request through this task",
+    "elapsed": "01:13:36",
+    "step_MaxRSS_KiB": 18972352
+  },
+  "limitations": [
+    "Not a completed 80-outer-step result; original full terminal linear residual is unavailable.",
+    "Large modal-P or unscaled maxima alone do not establish physical deterioration; no final physical sample of the middle iterate was taken.",
+    "No finest-grid solve or new AthenaK horizon was attempted.",
+    "Full raw log remains in remote scratch; SSH expired before retrieval. The progress JSON was retrieved before cancellation."
+  ],
+  "next": "One cold-start fine-grid comparison with same immutable V27 producer, formulation and norms; predeclared cost cap6 outer/12Newton, no tolerance relaxation. Prepared locally but not uploaded/submitted because SSH authentication expired."
+}
