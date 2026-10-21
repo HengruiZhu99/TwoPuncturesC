@@ -1460,6 +1460,17 @@ $3.95\times10^4$ for the correction alone. Thus the base inverse already
 contains the dominant amplification. These are unit-right-hand-side
 linear diagnostics, not physical constraint norms or a converged solution.
 
+An outer-row damping of this inverse is rejected by the existing
+manufactured field-recovery check: its original linear residual is
+$7.13\times10^{-8}$ (target $10^{-7}$), but its relative field and
+first-derivative error is $2.89\times10^{-2}$ (target $10^{-4}$).
+It is reverted before a physical solve. A quadratic inverse-radius fit to
+the retained correction also fails held-out tail samples for modes
+$m=2,3,4$; no fitted checkpoint is used. These failures prevent treating
+small linear residuals or an assumed smooth tail as evidence of an
+accurate correction. The wave's nominal outer window transition is at
+$r=37.7482M$ with exponential tails; $24.8741M$ is its midpoint.
+
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations
 its original-system relative residual was 0.830, above its unchanged

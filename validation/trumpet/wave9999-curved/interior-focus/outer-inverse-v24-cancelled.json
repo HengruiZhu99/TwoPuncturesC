@@ -1,0 +1,7 @@
+{
+  "status": "cancelled_for_control_cost",
+  "elapsed": "03:21",
+  "scope": "Unchanged OpenMP6 manufactured coupled witness; no terminal true residual available; no GPU candidate run or physical solve",
+  "minimum_damping": 9.41284611754437e-19,
+  "reason": "More than 180 seconds without completion compared with preceding roughly 10-second controls; no improvement claim"
+}

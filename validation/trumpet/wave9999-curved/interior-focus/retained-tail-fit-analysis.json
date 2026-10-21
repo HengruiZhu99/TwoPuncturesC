@@ -1,0 +1,84 @@
+{
+  "scope": "Initial-guess tail model diagnostic only; no original checkpoint modification and no solve or acceptance",
+  "checkpoint_sha256": "c3132b0510ac766c5ccc31ac0e2a75cedf24ff6103cc9508457cbe4212acda7a",
+  "fit_band": [
+    256,
+    1024
+  ],
+  "degree": 2,
+  "train_indices": [
+    324,
+    326,
+    328,
+    330,
+    332,
+    334,
+    336,
+    338,
+    340,
+    342,
+    344,
+    346,
+    348,
+    350,
+    352
+  ],
+  "held_out_indices": [
+    325,
+    327,
+    329,
+    331,
+    333,
+    335,
+    337,
+    339,
+    341,
+    343,
+    345,
+    347,
+    349,
+    351,
+    353
+  ],
+  "design_condition": 88.64791526356292,
+  "criterion": "Every mode held-out relative P error <.01; this is not a physical convergence tolerance",
+  "rows": [
+    {
+      "mode": 1,
+      "held_out_relative": 0.0033344426368378437,
+      "held_out_maximum_error": 7.678179153045816e-08,
+      "held_out_maximum_value": 3.1277021215713844e-06,
+      "fitted_infinity_maximum": 7.348431734371953e-08,
+      "actual_outermost_maximum": 1.9201510693564026,
+      "passed": true
+    },
+    {
+      "mode": 2,
+      "held_out_relative": 1.5521877423419492,
+      "held_out_maximum_error": 1.4365805564060266e-06,
+      "held_out_maximum_value": 7.368266116868076e-07,
+      "fitted_infinity_maximum": 1.053473284518252e-06,
+      "actual_outermost_maximum": 43.451388935522225,
+      "passed": false
+    },
+    {
+      "mode": 3,
+      "held_out_relative": 1.9496612121282997,
+      "held_out_maximum_error": 4.6874001182328765e-06,
+      "held_out_maximum_value": 2.3912307217551134e-06,
+      "fitted_infinity_maximum": 3.2317231332239698e-06,
+      "actual_outermost_maximum": 58.077089789720404,
+      "passed": false
+    },
+    {
+      "mode": 4,
+      "held_out_relative": 1.9967884465605545,
+      "held_out_maximum_error": 3.260348846382817e-05,
+      "held_out_maximum_value": 1.650012023133474e-05,
+      "fitted_infinity_maximum": 2.1735088022613925e-05,
+      "actual_outermost_maximum": 308.65448165616425,
+      "passed": false
+    }
+  ],
+  "passed": false
+}

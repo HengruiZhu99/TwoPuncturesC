@@ -1,0 +1,105 @@
+{
+  "scope": "Hypothetical half-turn vector parity about internal x axis; requires free-data invariance validation. Read-only, no projection or solve. Offline RHS Fourier reconstruction caveat applies.",
+  "checkpoint_sha256": "c3132b0510ac766c5ccc31ac0e2a75cedf24ff6103cc9508457cbe4212acda7a",
+  "rows": [
+    {
+      "mode": 0,
+      "P": {
+        "l2": 0.004610768806071633,
+        "forbidden_fraction": 0.0023390165102916494
+      },
+      "rhs": {
+        "l2": 0.527366150028787,
+        "forbidden_fraction": 0.03416100830643204
+      }
+    },
+    {
+      "mode": 1,
+      "P": {
+        "l2": 3.519733234113493,
+        "forbidden_fraction": 0.00012335386963425118
+      },
+      "rhs": {
+        "l2": 0.5191471963627887,
+        "forbidden_fraction": 0.028497980757420265
+      }
+    },
+    {
+      "mode": 2,
+      "P": {
+        "l2": 62.529653118716574,
+        "forbidden_fraction": 0.9996725527575642
+      },
+      "rhs": {
+        "l2": 0.4709267587438439,
+        "forbidden_fraction": 0.12000036380528649
+      }
+    },
+    {
+      "mode": 3,
+      "P": {
+        "l2": 136.71029649163972,
+        "forbidden_fraction": 0.01629854179616809
+      },
+      "rhs": {
+        "l2": 0.3958304723622014,
+        "forbidden_fraction": 0.08337352587998487
+      }
+    },
+    {
+      "mode": 4,
+      "P": {
+        "l2": 489.7929699248739,
+        "forbidden_fraction": 0.7608766551951023
+      },
+      "rhs": {
+        "l2": 0.21379975077383176,
+        "forbidden_fraction": 0.49824194735407445
+      }
+    },
+    {
+      "mode": 5,
+      "P": {
+        "l2": 0.09855243722573014,
+        "forbidden_fraction": 7.286586650807614e-05
+      },
+      "rhs": {
+        "l2": 0.15297871224601506,
+        "forbidden_fraction": 0.2061036899104752
+      }
+    },
+    {
+      "mode": 6,
+      "P": {
+        "l2": 0.2940216147193446,
+        "forbidden_fraction": 0.9999999999999889
+      },
+      "rhs": {
+        "l2": 0.06931405602897243,
+        "forbidden_fraction": 0.999992851980278
+      }
+    },
+    {
+      "mode": 7,
+      "P": {
+        "l2": 3.079775241836351e-09,
+        "forbidden_fraction": 0.24789736865552
+      },
+      "rhs": {
+        "l2": 0.0001892373643097423,
+        "forbidden_fraction": 0.8976261419630921
+      }
+    },
+    {
+      "mode": 8,
+      "P": {
+        "l2": 1.812226922053739e-08,
+        "forbidden_fraction": 0.5562045598817066
+      },
+      "rhs": {
+        "l2": 0.000251705454678953,
+        "forbidden_fraction": 0.8307958550207125
+      }
+    }
+  ]
+}

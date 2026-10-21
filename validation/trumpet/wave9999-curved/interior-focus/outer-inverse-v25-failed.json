@@ -1,0 +1,13 @@
+{
+  "job_id": 60061511,
+  "producer_sha256": "9280d93516d2f4feefb933f556973ef4adf8883bdf21a12d04d8fc19688a3456",
+  "status": "failed_manufactured_field_gate",
+  "iterations": 16,
+  "true_relative": 7.131339470278649e-08,
+  "true_relative_limit": 1e-07,
+  "field_relative": 0.02886591537494992,
+  "field_limit": 0.0001,
+  "seconds": 93.07579040100245,
+  "scope": "Original coupled linear witness; no physical audit or nonlinear solve attempted",
+  "action": "retire candidate; original equations, gates and production preconditioner unchanged"
+}
