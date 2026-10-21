@@ -1,0 +1,39 @@
+{
+  "job_id": 60062182,
+  "native_converged": true,
+  "native_linf": 1.1883898564021263e-13,
+  "tolerance": 1e-12,
+  "original_linear_target": 0.1,
+  "newton_updates": 8,
+  "outer_iterations": 8,
+  "native_seconds": 231.867929451,
+  "checkpoint": {
+    "path": "/pscratch/sd/h/hzhu/codex-hispid-trumpet-20261005/wave9999-half-turn-pilot-v1/n384.hispid",
+    "file_sha256": "d87155c92a546e8860c96faa9f5f6b9988caf54b50c924000c11b4d916f53382",
+    "source_library_sha256": "b9517e9895f5f0a495e1656d73f2572a0806a6b4742705fbc5b983a715672bb6",
+    "acceptance": "preliminary",
+    "seed_family": "liu",
+    "format_version": 3
+  },
+  "physical": {
+    "count": 54,
+    "H_rms": 2.5122334855223085e-09,
+    "H_max": 9.796128455294428e-09,
+    "M_rms": 2.4109989590284485e-08,
+    "M_max": 1.019805522091891e-07,
+    "M_components_rms": [
+      9.106501524282572e-09,
+      1.55634290546287e-08,
+      5.814387531880871e-09
+    ],
+    "M_components_max": [
+      3.4676680036276566e-08,
+      7.246972238462131e-08,
+      2.7280108848210202e-08
+    ],
+    "normalized_H_max": 0.042663952199688764,
+    "normalized_M_max": 0.99999999311301
+  },
+  "status": "coarse native pass only; three-grid physical convergence and finest AthenaK horizon still pending",
+  "next_job_id": 60062596
+}

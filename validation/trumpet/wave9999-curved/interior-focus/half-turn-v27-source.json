@@ -1,0 +1,9 @@
+{
+  "commit": "914fac4",
+  "parent_source": "source-wave-curved-v26",
+  "files": {
+    "CMakeLists.txt": "e46710c67348b2bc521f4b2d3869013bf50e7bba69114c14fcb2f278762eb060",
+    "src/HiSpID_solver.cpp": "969c9b2eae1cde39131c1088e20e5554e9553665b0918ad060518c6d780cdc4e",
+    "tests/test_hispid_constraint_block.cpp": "1f23189141ca9666068afb675e9668fb043822dc23ff57196515ab5e07a1a19f"
+  }
+}

@@ -6,7 +6,7 @@
 \begin{document}
 \title{Spinning and Boosted Trumpet Initial Data:\\Formulation and Validation Status}
 \author{TwoPuncturesC and AthenaK integration}
-\date{19 October 2026 --- interim report}
+\date{20 October 2026 --- interim report}
 \begin{abstract}
 We implement quasi-isotropic (QI), $R_0=M$ trumpet and Liu wormhole seeds
 with portable AthenaK import. First Cartesian focus compatibility reduces
@@ -18,7 +18,7 @@ compatibility worsens the error and is rejected. Finest-grid AthenaK horizons
 pass angular, quadrature and interior-enclosure checks. Matched-count
 Bowen--York Hamiltonian RMS is near $10^{-10}$, at the observer calibration
 floor; failed native stopping gates are retained. Isolated Liu $\chi=0.99$
-controls pass; direct spherical Liu data now converge at $\chi=0.9999$. Lower-resolution QI data converge before the high-grid bulk issue appears. A perturbed isolated Liu $\chi=0.9999$ packet passes finite-observer and initial-time AthenaK horizon checks, but a subsequent physical-radial audit finds the original packet grid under-resolved. Moderate trumpet and extreme binaries remain unqualified.
+controls pass; direct spherical Liu data now converge at $\chi=0.9999$. Lower-resolution QI data converge before the high-grid bulk issue appears. A perturbed isolated Liu $\chi=0.9999$ packet passes finite-observer and initial-time AthenaK horizon checks, but a subsequent physical-radial audit finds the original packet grid under-resolved. On the revised radial grid, an exact half-turn unknown restriction clears the coarse native-solver stall while retaining full residual gates; physical three-grid and horizon qualification remain pending. Moderate trumpet and extreme binaries remain unqualified.
 \end{abstract}
 \maketitle
 
@@ -1478,9 +1478,15 @@ The aligned Kerr seed and the prescribed real $l=m=2$ TT wave have this
 symmetry. Full equations and original stopping norms remain unprojected.
 On the CUDA manufactured control, the recovered field and first-derivative
 relative error is $9.89\times10^{-8}$ and the original linear residual is
-$1.53\times10^{-8}$; both pass their unchanged gates. The cold physical
-pilot is pending. These algebraic results do not establish convergence
-of the perturbed hole.
+$1.53\times10^{-8}$; both pass their unchanged gates. The cold
+$384\times128\times16$ physical pilot subsequently passes the unchanged
+native maximum-residual target $10^{-12}$, reaching
+$1.19\times10^{-13}$ after eight Newton updates and 231.87 seconds of
+native solve time, including repeated factor setup between checkpointed
+updates. The independent 54-point Hamiltonian and momentum RMS values are
+$2.51\times10^{-9}$ and $2.41\times10^{-8}$, respectively. This clears the
+algebraic stall but does not yet establish physical convergence; the fixed
+three-resolution study and finest-grid horizon check remain pending.
 
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations
@@ -1490,8 +1496,9 @@ alone does not establish the production-grid fix. Evidence for the
 curved inverse is recorded separately under
 \path{validation/trumpet/wave9999-curved/}.
 
-The three planned revised grids therefore have only carrier-audit results;
-they are not a completed three-resolution elliptic convergence sequence.
+The revised grids are not yet a completed three-resolution elliptic
+convergence sequence: only the coarse half-turn solve has passed its native
+gate, in addition to the existing carrier audits.
 No revised finest checkpoint is promoted to AthenaK, and no new horizon
 measurement is claimed. The original horizon measurements above remain
 measurements of their original, insufficiently qualified packet data.
