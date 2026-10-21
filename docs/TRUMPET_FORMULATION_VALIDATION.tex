@@ -1471,6 +1471,17 @@ small linear residuals or an assumed smooth tail as evidence of an
 accurate correction. The wave's nominal outer window transition is at
 $r=37.7482M$ with exponential tails; $24.8741M$ is its midpoint.
 
+An optional half-turn symmetry restriction instead acts only on the
+unknown corrections: scalar and axial-vector components retain even
+azimuthal modes, and transverse-vector components retain odd modes.
+The aligned Kerr seed and the prescribed real $l=m=2$ TT wave have this
+symmetry. Full equations and original stopping norms remain unprojected.
+On the CUDA manufactured control, the recovered field and first-derivative
+relative error is $9.89\times10^{-8}$ and the original linear residual is
+$1.53\times10^{-8}$; both pass their unchanged gates. The cold physical
+pilot is pending. These algebraic results do not establish convergence
+of the perturbed hole.
+
 An earlier curved trial that retained only unmixed meridional derivatives
 still failed at $384\times128\times16$: after 1,200 GMRES iterations
 its original-system relative residual was 0.830, above its unchanged

@@ -1,0 +1,21 @@
+{
+  "job_id": 60061919,
+  "producer_sha256": "b9517e9895f5f0a495e1656d73f2572a0806a6b4742705fbc5b983a715672bb6",
+  "source_base": "source-wave-curved-v23",
+  "source_overlay": "half-turn-v26-source.tar.gz",
+  "backend": "Kokkos CUDA",
+  "TT_jet_covariance_relative": 0.0,
+  "unprojected_source_parity_relative": 1.8125260087355872e-16,
+  "full_Jacobian_parity_relative": 6.13557528645442e-17,
+  "manufactured_coupled": {
+    "outer_iterations": 7,
+    "original_true_relative": 1.5272101878973407e-08,
+    "field_and_first_derivative_relative": 9.893213493601896e-08,
+    "seconds": 0.9805216799941263,
+    "true_limit": 1e-07,
+    "field_limit": 0.0001,
+    "passed": true
+  },
+  "physical_run": "Not started in this allocation: old driver rejected --checkpoint-each-newton. Separate v2 launch uses the same hash-verified library with the compatible study-wave-curved-v17 driver.",
+  "qualification": "Algebraic control only; no physical convergence or horizon pass"
+}
